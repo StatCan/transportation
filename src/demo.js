@@ -29,6 +29,12 @@ var chart = d3.select(".data")
             return 0;
           }
           else return d[key] * 1.0/ 1000;
+        },
+        getText: function(d, key) {
+          if (typeof d[key] === 'string' || d[key] instanceof String) {
+            return d[key];
+          }
+          else return d[key] * 1.0/ 1000;
         }
       },
 
