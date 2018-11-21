@@ -1,0 +1,154 @@
+{
+  "fuelsales": [
+    { 
+      "year": 1993,
+      "gas": 33126,
+      "diesel": 23717,
+      "LPG": 0
+    },
+    { 
+      "year": 1994,
+      "gas": 37791,
+      "diesel": 31851,
+      "LPG": 0
+    },
+    { 
+      "year": 1995,
+      "gas": 37245,
+      "diesel": 43937,
+      "LPG": 0
+    },
+    { 
+      "year": 1996,
+      "gas": 35922,
+      "diesel": 52786,
+      "LPG": 0
+    },
+    { 
+      "year": 1997,
+      "gas": 35051,
+      "diesel": 47959,
+      "LPG": 0
+    },
+    { 
+      "year": 1998,
+      "gas": 42506,
+      "diesel": 96943,
+      "LPG": 0
+    },
+    { 
+      "year": 1999,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2000,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2001,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2002,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2003,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2004,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2005,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2006,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2007,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2008,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2009,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2010,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2011,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2012,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2013,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2014,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2015,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2016,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    },
+    { 
+      "year": 2017,
+      "gas": "terminated",
+      "diesel": "terminated",
+      "LPG": "terminated"
+    }
+  ]
+}
