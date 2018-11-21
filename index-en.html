@@ -56,7 +56,37 @@
 	<main role="main" property="mainContentOfPage" class="container">
 		<div class="birthplace">
 			<h1 property="name" id="wb-cont">Fuel sales for road motor vehicles, 1993–2017</h1>
-			<a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310006601" class="wb-inv wb-show-onfocus">Skip the interactive visual chart and move directly to the link to the data</a>			
+			<p>Info text about this dataset.</p>
+			<p>Select a 'Geographic region' to see the province or territory of your choice.</p>
+			<a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310006601" class="wb-inv wb-show-onfocus">Skip the interactive visual chart and move directly to the link to the data</a>
+
+			<form onsubmit="return false;">
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="groups">Geographic region:</label>
+							<select id="groups" class="form-control">
+								<option value="pt">Canada, all provinces and territories</option>
+								<option value="NL">Newfoundland and Labrador</option>
+								<option value="PE">Prince Edward Island</option>
+								<option value="NS">Nova Scotia</option>
+								<option value="NB">New Brunswick</option>
+								<option value="QC">Quebec</option>
+								<option value="ON">Ontario</option>
+								<option value="MB">Manitoba</option>
+								<option value="SK">Saskatchewan</option>
+								<option value="AB">Alberta</option>
+								<option value="BC">British Columbia</option>
+								<option value="YK">Yukon</option>
+								<option value="NT_NU">Northwest Territories including Nunavut</option>
+								<option value="NT">Northwest Territories</option>
+								<option value="NU">Nunavut</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</form>
+
 			
 			<div class="row data-group">
 				<div class="data col-md-6"></div>
