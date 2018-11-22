@@ -4,8 +4,7 @@
       "alt": "Historic and Estimated Worldwide Population Growth by Region",
       "x_label": "Year",
       "y_label": "Population (in Billions)",
-      "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
-      "datatableTitlePercent": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Percentage of the Planet)",
+      "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",      
       "gas": "Gas",
       "diesel": "Diesel",
       "LPG": "LPG"
