@@ -1,0 +1,109 @@
+{
+  "num_movements": [
+    { 
+      "year": 1997,
+      "local": 1683305,
+      "itinerant": 3313762
+    },
+    { 
+      "year": 1998,
+      "local": 1748582,
+      "itinerant": 3508537
+    },
+    { 
+      "year": 1999,
+      "local": 1764071,
+      "itinerant": 3563945
+    },
+    { 
+      "year": 2000,
+      "local": 1660331,
+      "itinerant": 3419199
+    },
+    { 
+      "year": 2001,
+      "local": 1668520,
+      "itinerant": 3316187
+    },
+    { 
+      "year": 2002,
+      "local": 1572686,
+      "itinerant": 3134465
+    },
+    { 
+      "year": 2003,
+      "local": 1404796,
+      "itinerant": 3093286
+    },
+    { 
+      "year": 2004,
+      "local": 1253252,
+      "itinerant": 3100661
+    },
+    { 
+      "year": 2005,
+      "local": 1224651,
+      "itinerant": 3123934
+    },
+    { 
+      "year": 2006,
+      "local": 1287169,
+      "itinerant": 3188275
+    },
+    { 
+      "year": 2007,
+      "local": 1591430,
+      "itinerant": 3341310
+    },
+    { 
+      "year": 2008,
+      "local": 1524623,
+      "itinerant": 3408983
+    },
+    { 
+      "year": 2009,
+      "local": 1390614,
+      "itinerant": 3291568
+    },
+    { 
+      "year": 2010,
+      "local": 1368284,
+      "itinerant": 3253660
+    },
+    { 
+      "year": 2011,
+      "local": 1274373,
+      "itinerant": 3184153
+    },
+    { 
+      "year": 2012,
+      "local": 1231302,
+      "itinerant": 3190872
+    },
+    { 
+      "year": 2013,
+      "local": 1213662,
+      "itinerant": 3157788
+    },
+    { 
+      "year": 2014,
+      "local": 1237298,
+      "itinerant": 3148100
+    },
+    { 
+      "year": 2015,
+      "local": 1225949,
+      "itinerant": 3177552
+    },
+    { 
+      "year": 2016,
+      "local": 1261785,
+      "itinerant": 3180731
+    },
+    { 
+      "year": 2017,
+      "local": 1238725,
+      "itinerant": 3236143
+    }
+  ]
+}
