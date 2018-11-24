@@ -44,8 +44,8 @@
 <script src="/wet-boew4b/js/ie8-wet-boew.min.js"></script>
 <![endif]-->
 
-<noscript><link rel="stylesheet" href="/wet-boew4b/css/noscript.min.css" /></noscript>
-<script src="//assets.adobedtm.com/caacec67651710193d2331efef325107c23a0145/satelliteLib-c2082deaf69c358c641c5eb20f94b615dd606662.js"></script>
+<!-- <noscript><link rel="stylesheet" href="/wet-boew4b/css/noscript.min.css" /></noscript> -->
+<!-- <script src="//assets.adobedtm.com/caacec67651710193d2331efef325107c23a0145/satelliteLib-c2082deaf69c358c641c5eb20f94b615dd606662.js"></script> -->
 
 <script>dataLayer1 = [];</script>
 <!-- CustomScriptsCSSStart -->
@@ -75,7 +75,6 @@
 
 <body vocab="http://schema.org/" typeof="WebPage">
 
-<!--stopindex-->
 
 ﻿<ul id="wb-tphp">
 <li class="wb-slc">
@@ -92,16 +91,14 @@
 <div class="row">
 <div class="col-md-12">
 <ul class="list-inline margin-bottom-none">
-<li><a lang="fr" href="
-index-fr.html
-">Fran&#231;ais</a></li>
+<li><a lang="fr" href="index-fr.html">Fran&#231;ais</a></li>
 </ul>
 </div>
 </div>
 </section>
 <div class="row">
 <div class="brand col-xs-8 col-sm-9 col-md-6">
-<a href="https://www.statcan.gc.ca/eng/start"><img src="/wet-boew4b/assets/sig-blk-en.svg" alt="Symbol of Statistics Canada"><span class="wb-inv">Government of Canada, Statistics Canada</span></a>
+<!-- <a href="https://www.statcan.gc.ca/eng/start"><img src="/wet-boew4b/assets/sig-blk-en.svg" alt="Symbol of Statistics Canada"><span class="wb-inv">Government of Canada, Statistics Canada</span></a> -->
 </div>
 <section class="wb-mb-links col-xs-4 col-sm-3 visible-sm visible-xs" id="wb-glb-mn">
 <h2>Search and menus</h2>
@@ -131,7 +128,7 @@ index-fr.html
 </div>
 </div>
 
-<nav role="navigation" id="wb-sm" class="wb-menu visible-md visible-lg" data-trgt="mb-pnl" data-ajax-replace="/wet-boew4b/ajax/sitemenu-en.html" typeof="SiteNavigationElement">
+<nav role="navigation" id="wb-sm" data-ajax-replace="https://wet-boew.github.io/themes-dist/GCWeb/ajax/sitemenu-en.html" data-trgt="mb-pnl" class="wb-menu visible-md visible-lg" typeof="SiteNavigationElement">
 	<div class="container nvbar">
 		<h2 class="wb-inv">Topics menu</h2>
 		<div class="row">
@@ -209,8 +206,12 @@ index-fr.html
 				</div>
 			</form>
 			<div class="row">
-				<div class="map col-md-6"></div>
-				<div class="data col-md-6"></div>
+				<div class="dashboard">
+					<div class="map col-md-6"></div>
+					<div class="data col-md-6">
+						<h2>Canada</h2>
+					</div>
+				</div>
 			</div>
 
            <p>Source: Sales of fuel used for road motor vehicles, annual (x 1,000)</p>
@@ -273,7 +274,7 @@ index-fr.html
 					<a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
 				</div>
 				<div class="col-xs-6 col-md-2 text-right">
-					<img src="/wet-boew4b/assets/wmms-blk.svg" alt="Symbol of the Government of Canada"><span class="wb-inv">Government of Canada</span>
+					<!-- <img src="/wet-boew4b/assets/wmms-blk.svg" alt="Symbol of the Government of Canada"><span class="wb-inv">Government of Canada</span> -->
 				</div>
 			</div>
 		</div>
@@ -285,8 +286,8 @@ index-fr.html
 
 
 <!--OFFLINE-->
-<!-- <script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/wet-boew.min.js"></script> -->
-<script src="wet-boew.min.js"></script>
+<script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/wet-boew.min.js"></script>
+<!-- <script src="wet-boew.min.js"></script> -->
 
 
 
@@ -299,12 +300,12 @@ index-fr.html
 <!--<script type="text/javascript">_satellite.pageBottom();</script>-->
 
 <!-- CustomScriptsJSStart -->
-	<script src="lib/i18next@7.1.3,d3js@4.7.4.js"></script>
 	<script src="lib/stc_visualization_components/utils.min.js"></script>
 	<script src="lib/stc_visualization_components/area.js"></script>
+	<script src="lib/stc_visualization_components/d3-canada-map.js"></script>
 	<script src="lib/statcan_sgc/sgc.min.js"></script>
-	<script src="src/d3-canada-map.js"></script>
 	<script src="src/demo.js"></script>
+
 
 <!-- CustomScriptsJSEnd -->
 
