@@ -1,11 +1,10 @@
 var map = d3.select(".dashboard .map")
 	.append("svg"),
 	heading = d3.select(".dashboard h2"),
-	// canada = window.getCanadaMap(map, {
-	canada = getCanadaMap(map)
+	canada = window.getCanadaMap(map, {})
 		.on("loaded", function() {
 			window.console.log("loaded");
-		});
+		})
 
 // setInterval(function() {
 // 	var provinces = Object.keys(canada.provinces),
