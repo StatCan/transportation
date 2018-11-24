@@ -12,7 +12,7 @@ var chart = d3.select(".data")
         title: i18next.t("datatableTitle", {ns: "area"})
       },
       filterData: function(data) {
-        return data.num_movements;
+        return data.fuelsales;
       },
       x: {
 
@@ -74,7 +74,7 @@ var chart = d3.select(".data")
           labelsToClear[i].innerHTML='';
       }
       if (!data[selected]) {
-        d3.json("data/" + selected + "_numMovements.json", function(err, filedata) {
+        d3.json("data/" + selected + "_FuelSales.json", function(err, filedata) {
           data[selected] = filedata;
           showData();
          });
