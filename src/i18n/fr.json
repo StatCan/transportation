@@ -6,9 +6,11 @@
       "y_label": "Population (en Milliards)",
       "datatableTitle": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en Milliards)",
       "datatableTitlePercent": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en pourcentage de la planète)",
-      "gas": "Itinerant",
-      "diesel": "Local",
-      "LPG": "LPG"
+      "gas": "Gas",
+      "diesel": "Diesel",
+      "LPG": "LPG",
+      "local": "Local",
+      "itinerant": "Itinerant"
     }
   }
 }

@@ -5,9 +5,11 @@
       "x_label": "Year",
       "y_label": "Population (in Billions)",
       "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",      
-      "gas": "Itinerant",
-      "diesel": "Local",
-      "LPG": "LPG"
+      "gas": "Gas",
+      "diesel": "Diesel",
+      "LPG": "LPG",
+      "local": "Local",
+      "itinerant": "Itinerant"
     }
   }
 }
