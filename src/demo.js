@@ -1,3 +1,6 @@
+data = {};
+selected = "CANADA";
+
 /* globals areaChart */
 var chart = d3.select(".data")
     .append("svg")
@@ -62,6 +65,58 @@ var chart = d3.select(".data")
       width: 900
     };
 
+  uiHandler = function(event) {
+    if (event.target.id === "groups"){
+      selected = document.getElementById("groups").value;
+      var labelsToClear = document.getElementsByClassName("area-label");
+      var i;
+      for (i = 0; i < labelsToClear.length; i++) {
+          labelsToClear[i].innerHTML='';
+      }
+      if (!data[selected]) {
+        d3.json("data/" + selected + "_FuelSales.json", function(err, filedata) {
+          data[selected] = filedata;
+          showData();
+         });
+     } else {
+       showData();
+     }
+    }
+  }
+
+  function showData() {
+    d3.select("#demo").select("g .data").text();
+    areaChart(chart, settings, data[selected]);
+  }
+
+  //
+//   data = {};
+// selected = "ca";
+
+// onInput = function() {
+//  selected = "nb"
+
+//  if (!data[selected]) {
+//    d3.json(selected + ".json", function(err, data) {
+//      showData();
+//    });
+//  } else {
+//    showData();
+//  }
+// }
+
+// showData() {
+//  areaChart(svg, settings, data[selected]);
+// }
+
+// d3.queue()
+//  .defer(d3.json, "ca.json")
+//  .await(funnction(err, caData) {
+//    data.ca = caData;
+//    showData();
+//  });
+ //
+
 i18n.load(["src/i18n"], function() {
   d3.queue()
     // .defer(d3.json, "data/worldpop.json")
@@ -69,4 +124,8 @@ i18n.load(["src/i18n"], function() {
     .await(function(error, data) {
       areaChart(chart, settings, data);
     });
+});
+
+$(document).on("input change", function(event) {
+  uiHandler(event);
 });
