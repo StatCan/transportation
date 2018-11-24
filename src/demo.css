@@ -18,3 +18,11 @@
 .LPG {
 	fill: #5DC1BE;
 }
+
+
+.canada-map path {
+	fill: #94a6b2;
+	stroke: #fff;
+	stroke-width: 0.03;
+	opacity: 1;
+}
