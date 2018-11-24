@@ -21,6 +21,7 @@ var map = d3.select(".dashboard .map")
 // }, 2000);
 
 
+
 function drawMap() {
 
   //Map reset button

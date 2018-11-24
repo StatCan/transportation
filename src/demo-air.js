@@ -74,7 +74,6 @@ var chart = d3.select(".data")
           labelsToClear[i].innerHTML='';
       }
       if (!data[selected]) {
-        console.log("selected: ", "data/" + selected + "_numMovements.json")
         d3.json("data/" + selected + "_numMovements.json", function(err, filedata) {
           data[selected] = filedata;
           showData();
