@@ -7,6 +7,7 @@
 	stroke: currentColor;
 }
 
+/*road dataset*/
 .gas {
 	fill: #EDDB7C;
 }
@@ -17,6 +18,15 @@
 
 .LPG {
 	fill: #5DC1BE;
+}
+
+/*air dataset*/
+.local {
+	fill: #EDDB7C;
+}
+
+.itinerant {
+	fill: #F6CF22;
 }
 
 

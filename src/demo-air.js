@@ -47,7 +47,6 @@ var chart = d3.select(".data")
           return d.key;
         },
         getKeys: function(object) {
-          console.log("object: ", object)
           var sett = this,
           keys = Object.keys(object[0]);
           keys.splice(keys.indexOf(id),1);
@@ -122,7 +121,7 @@ var chart = d3.select(".data")
 i18n.load(["src/i18n"], function() {
   d3.queue()
     // .defer(d3.json, "data/worldpop.json")
-    .defer(d3.json, "data/BC_FuelSales.json")
+    .defer(d3.json, "data/CANADA_numMovements.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
     });
