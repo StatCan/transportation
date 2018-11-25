@@ -111,6 +111,8 @@ var chart = d3.select(".data")
       data[selected] = filedata;
       showData();
     });
+    //dim the ON area chart
+    d3.select(".data").style("opacity", 0.5)
 
     //Add airport data on top
     d3.json("data/ON_YOW_numMovements.json", function(err, filedata) {
