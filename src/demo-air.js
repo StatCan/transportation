@@ -1,6 +1,5 @@
 data = {};
 selected = "CANADA";
-var demoHack=false;
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -106,27 +105,22 @@ var chart = d3.select(".data")
         labelsToClear[i].innerHTML='';
     }
 
-    //Load total data for province corresponding to selected airport
-    d3.json("data/ON_numMovements.json", function(err, filedata) {
-      selected = "ON";
-      data[selected] = filedata;
-      showData();
-    });
-    //dim the ON area chart
-    d3.selectAll(".data .area1").classed("inactive", true);
-    d3.selectAll(".data .area2").classed("inactive", true);
+    // //Load total data for province corresponding to selected airport
+    // d3.json("data/ON_numMovements.json", function(err, filedata) {
+    //   selected = "ON";
+    //   data[selected] = filedata;
+    //   showData();
+    // });
+    // //dim the ON area chart
+    // d3.selectAll(".data .area1").classed("inactive", true);
+    // d3.selectAll(".data .area2").classed("inactive", true);
 
     //Add airport data on top
-    demoHack=true;
-    d3.json("data/sum_ON_ONYOW_numMovements.json", function(err, filedata) {
+    d3.json("data/ON_YOW_numMovements.json", function(err, filedata) {
        selected = "ON_YOW";
        data[selected] = filedata;
 
-      var chartOverlay = d3.select("#demo")
-        .append("svg")
-          .attr("id", "airport");
-
-      areaChart(chartOverlay, settings, data[selected]);
+      showData();
       
     });
     console.log("data: ", data)

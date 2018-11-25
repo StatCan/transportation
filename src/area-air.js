@@ -78,19 +78,10 @@ this.areaChart = function(svg, settings, data) {
       y = rtnObj.y = d3.scaleLinear().range([innerHeight, 0]);
 
       x.domain(d3.extent(filteredData, sett.x.getValue.bind(sett)));
-      // y.domain([
-      //   0,
-      //   d3.max(filteredData, sett.y.getTotal.bind(sett))
-      // ]);
-
-     if (demoHack) {
-        y.domain([ 0, 1664.5680000000002 ]);          
-      } else {
-        y.domain([
-          0,
-          d3.max(filteredData, sett.y.getTotal.bind(sett))
-        ]);
-      }
+      y.domain([
+        0,
+        d3.max(filteredData, sett.y.getTotal.bind(sett))
+      ]);
 
       if (dataLayer.empty()) {
         dataLayer = chartInner.append("g")
