@@ -40,3 +40,7 @@
 .canada-map.zoomed path:not(.zoomed) {
 	opacity: 0.4;
 }
+
+.inactive {
+	opacity: 0.5;
+}
