@@ -31,6 +31,20 @@
        "NT": "Northwest Territories",
        "NU": "Nunavut"
     },
+    "regions": {
+       "ATR": "Atlantic Region",
+       "NL": "Newfoundland and Labrador",
+       "PE": "Prince Edward Island",
+       "NS": "Nova Scotia",
+       "NB": "New Brunswick",
+       "QC": "Quebec",
+       "ON": "Ontario",
+       "MB": "Manitoba",
+       "SK": "Saskatchewan",
+       "AB": "Alberta",
+       "BC": "British Columbia",
+       "YK": "Yukon"
+    },
     "airports": {
        "YOW": "Macdonald-Cartier International (YOW), Ottawa, ON"
     },

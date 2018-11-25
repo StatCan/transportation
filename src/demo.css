@@ -50,6 +50,22 @@
 
 }
 
+/*rail dataset*/
+#destChartTitle {
+	font-size: 15px;
+	fill: #212529;
+	stroke: none;
+}
+.ATR {
+	fill: #4D5D6C;
+}
+.ON {
+	fill: #CECECE;
+}
+.BC {
+	fill: #FEC04F;
+}
+
 
 
 /*map*/
