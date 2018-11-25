@@ -123,7 +123,10 @@ var chart = d3.select(".data")
     // Graph dimension
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
         width = 430 - margin.left - margin.right,
-        height = 430 - margin.top - margin.bottom
+        height = 430 - margin.top - margin.bottom;
+    console.log("height: ", height)
+
+    var pad = 20, left_pad = 100;
 
     // Create the svg area
     var svg = d3.select("#my_dataviz")
@@ -134,33 +137,33 @@ var chart = d3.select(".data")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var corrdata = [];
-    d3.csv("data/data_correlogram.csv", function(error, rows) {
+    d3.csv("data/data_correlogram_test.csv", function(error, rows) {
+    //d3.csv("data/data_correlogram.csv", function(error, rows) {
+      console.log("rows: ", rows)
 
-      // Going from wide to long format      
       rows.forEach(function(d) {
-        var x = d[""];
-        delete d[""];
-        for (prop in d) {
-          var y = prop,
-            value = d[prop];
-          corrdata.push({
-            x: x,
-            y: y,
-            value: +value
-          });
-        }
-      });
+      var x = d[""];
+      delete d[""];
+      for (prop in d) {
+        var y = prop,
+          value = d[prop];
+        corrdata.push({//HUOM
+          x: y, 
+          y: x,
+          value: +value
+        });
+      }
+    });
 
-    
-    console.log("corr data: ", corrdata)
+   
 
-    // List of all variables and number of them
+    // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
     var num = Math.sqrt(corrdata.length)
 
     // Create a color scale
     var color = d3.scaleLinear()
-      .domain([-1, 0, 1])
+      .domain([1, 5, 10])
       .range(["#B22222", "#fff", "#000080"]);
 
     // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
@@ -172,11 +175,20 @@ var chart = d3.select(".data")
     var x = d3.scalePoint()
       .range([0, width])
       .domain(domain)
+    // var x = d3.scalePoint()
+    //     .domain([1997,2000])
+    //     .range([0, width]);
 
     // Y scale
-    var y = d3.scalePoint()
-      .range([0, height])
-      .domain(domain)
+    // var y = d3.scalePoint()
+      // .range([0, height])
+      // .domain(domain);
+    var  y = d3.scaleLinear()
+          .domain([1, 20])
+          .range([0, height]);
+
+    console.log("x(1997)= ", x(1997))
+    console.log("y(8)= ", y(8))
 
     // Create one 'g' element for each cell of the correlogram
     var cor = svg.attr("class", "rankplot")
@@ -186,26 +198,33 @@ var chart = d3.select(".data")
       .append("g")
         .attr("class", "cor")
         .attr("transform", function(d) {
-          return "translate(" + x(d.x) + "," + y(d.y) + ")";
+          // return "translate(" + x(d.x) + "," + y(d.y) + ")";
+          return "translate(" + x(d.x) + "," + y(d.value) + ")";
           });
+
     // Up right part: add circles
     cor
-      .filter(function(d){
-        var ypos = domain.indexOf(d.y);
-        var xpos = domain.indexOf(d.x);
-        return true;
-        // if (xpos <= ypos) { return false } else { return true}
-      })
+      // .filter(function(d){
+      //   console.log("d: ", d)
+      //   console.log("d.y: ", d.y)
+      //   console.log("d.value: ", d.value)
+      //   console.log("d.x: ", d.x)
+      //   // var ypos = domain.indexOf(d.y);
+      //   var ypos = domain.indexOf(d.value);
+      //   var xpos = domain.indexOf(d.x);
+      //   console.log("ypos: ", ypos)
+      //   console.log("xpos: ", xpos)
+      //   return true;
+      //   // if (xpos <= ypos) { return false } else { return true}
+      // })
       .append("circle")
-        .attr("r", function(d){ return size(Math.abs(d.value)) })
-        .style("fill", function(d){
-          if (d.x === d.y) {
-            return "#000";
-          } else {
-            return color(d.value);
-          }
-        })
-        .style("opacity", 0.8)
+    //     .attr("r", function(d){ return size(Math.abs(d.value)) })
+          .attr("r", function(d){ return 10; })
+        .style("fill", function(d){          
+            // return color(d.value);
+            return "red";
+          })
+    //     .style("opacity", 0.8)
 
     }) //end d3.csv
   
