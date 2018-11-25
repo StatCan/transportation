@@ -114,19 +114,15 @@ var chart = d3.select(".data")
   }
 
   function showRank(selected) {
-    console.log("selected showRank: ", selected)
     //change area chart title to match selected province
     d3.select(".rank h4").text("Airport rank for " + i18next.t(selected, {ns: "airports"}));
 
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
-    var margin = {top: 20, right: 20, bottom: 20, left: 20},
+    var margin = {top: 20, right: 20, bottom: 20, left: 90},
         width = 1100 - margin.left - margin.right,
         height = 430 - margin.top - margin.bottom;
-    console.log("height: ", height)
-
-    var pad = 20, left_pad = 100;
 
     // Create the svg area
     var svg = d3.select("#my_dataviz")
@@ -137,9 +133,7 @@ var chart = d3.select(".data")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var corrdata = [];
-    d3.csv("data/data_correlogram_test.csv", function(error, rows) {
-    //d3.csv("data/data_correlogram.csv", function(error, rows) {
-      console.log("rows: ", rows)
+    d3.csv("data/rankdata_YOW.csv", function(error, rows) {
 
       rows.forEach(function(d) {
       var x = d[""];
@@ -168,9 +162,6 @@ var chart = d3.select(".data")
     var size = d3.scaleSqrt()
       .domain([0, 1])
       .range([0, 5]);
-    console.log("size(5): ", size(5))
-    console.log("size(8): ", size(8))
-    console.log("size(15): ", size(15))
 
     // X scale
     // var x = d3.scalePoint()
@@ -195,16 +186,11 @@ var chart = d3.select(".data")
       .enter()
       .append("g")
         .attr("class", "cor")
-        .attr("transform", function(d,i) {
-          console.log("i: ", i)
-          console.log("d: ", d)
-          console.log("x(d.x): ", x(d.x))
-          console.log("d.value: ", d.value)
-          console.log("y(d.value): ", y(d.value))
+        .attr("transform", function(d) {
           var ycoord;
-          if (d.y === "tot") ycoord = 40;
-          else if (d.y === "it") ycoord = 40 + 80;
-          else if (d.y === "loc") ycoord = 40 + 2*80;
+          if (d.y === "total") ycoord = 40;
+          else if (d.y === "itinerant") ycoord = 40 + 80;
+          else if (d.y === "local") ycoord = 40 + 2*80;
           // return "translate(" + x(d.x) + "," + y(d.y) + ")";
           // return "translate(" + x(d.x) + "," + y(d.value) + ")";
           return "translate(" + x(d.x) + "," + ycoord + ")";
@@ -214,16 +200,13 @@ var chart = d3.select(".data")
     cor
       .append("circle")
           .attr("class", function(d) {
-            console.log("class d: ", d.y)
             return "rank_" + d.y;
           })
           .attr("r", function(d){
             return size(Math.abs(d.value));
           })
           .style("fill", function(d){
-
               // return color(d.value);
-              //return "red";
             });
     //label columns by year
     cor.append("text")
@@ -235,7 +218,20 @@ var chart = d3.select(".data")
         })
         .attr("class", "rank_yr")
         .text(function(d,i){
-          if (d.y === "tot") return d.x;
+          if (d.y === "total") return d.x;
+        });
+
+    //label rows by movt type
+    cor.append("text")
+        .attr("dx", function(d){
+          return -85;
+        })
+        .attr("dy", function(d){
+          return 4;
+        })
+        .attr("class", "rank_type")
+        .text(function(d,i){
+          if (d.x === "1997") return i18next.t(d.y, {ns: "area"});
         });
 
     }) //end d3.csv

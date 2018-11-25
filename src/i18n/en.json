@@ -10,6 +10,7 @@
       "LPG": "LPG",
       "local": "Local",
       "itinerant": "Itinerant",
+      "total": "Total",
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },
