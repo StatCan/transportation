@@ -224,8 +224,19 @@ var chart = d3.select(".data")
 
               // return color(d.value);
               //return "red";
-            })
-    //     .style("opacity", 0.8)
+            });
+    //label columns by year
+    cor.append("text")
+        .attr("dx", function(d){
+          return -18;
+        })
+        .attr("dy", function(d){
+          return -30;
+        })
+        .attr("class", "rank_yr")
+        .text(function(d,i){
+          if (d.y === "tot") return d.x;
+        });
 
     }) //end d3.csv
   
