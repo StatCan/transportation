@@ -119,7 +119,7 @@ var chart = d3.select(".data")
     d3.select(".rank h4").text("Airport rank for " + i18next.t(selected, {ns: "airports"}));
 
 
-    //https://www.d3-graph-gallery.com/graph/correlogram_basic.html
+    //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
         width = 430 - margin.left - margin.right,
@@ -155,8 +155,6 @@ var chart = d3.select(".data")
       }
     });
 
-   
-
     // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
     var num = Math.sqrt(corrdata.length)
@@ -175,12 +173,12 @@ var chart = d3.select(".data")
     console.log("size(15): ", size(15))
 
     // X scale
-    var x = d3.scalePoint()
-      .range([0, width])
-      .domain(domain)
     // var x = d3.scalePoint()
-    //     .domain([1997,2000])
-    //     .range([0, width]);
+    //   .range([0, width])
+    //   .domain(domain)
+    var x = d3.scaleLinear()
+        .domain([1997,2017])
+        .range([0, 3*width]);
 
     // Y scale
     // var y = d3.scalePoint()
@@ -188,10 +186,7 @@ var chart = d3.select(".data")
       // .domain(domain);
     var  y = d3.scaleLinear()
           .domain([1, 20])
-          .range([0, height]);
-
-    console.log("x(1997)= ", x(1997))
-    console.log("y(8)= ", y(8))
+          .range([0, height/1.2]);
 
     // Create one 'g' element for each cell of the correlogram
     var cor = svg.attr("class", "rankplot")
@@ -200,32 +195,29 @@ var chart = d3.select(".data")
       .enter()
       .append("g")
         .attr("class", "cor")
-        .attr("transform", function(d) {
+        .attr("transform", function(d,i) {
+          console.log("i: ", i)
+          console.log("d: ", d)
+          console.log("x(d.x): ", x(d.x))
+          console.log("d.value: ", d.value)
+          console.log("y(d.value): ", y(d.value))
+          var ycoord;
+          if (d.y === "tot") ycoord = 85;
+          else if (d.y === "it") ycoord = 85 + 80;
+          else if (d.y === "loc") ycoord = 85 + 2*80;
           // return "translate(" + x(d.x) + "," + y(d.y) + ")";
-          return "translate(" + x(d.x) + "," + y(d.value) + ")";
+          // return "translate(" + x(d.x) + "," + y(d.value) + ")";
+          return "translate(" + x(d.x) + "," + ycoord + ")";
           });
 
-    // Up right part: add circles
+    // add circles
     cor
-      // .filter(function(d){
-      //   console.log("d: ", d)
-      //   console.log("d.y: ", d.y)
-      //   console.log("d.value: ", d.value)
-      //   console.log("d.x: ", d.x)
-      //   // var ypos = domain.indexOf(d.y);
-      //   var ypos = domain.indexOf(d.value);
-      //   var xpos = domain.indexOf(d.x);
-      //   console.log("ypos: ", ypos)
-      //   console.log("xpos: ", xpos)
-      //   return true;
-      //   // if (xpos <= ypos) { return false } else { return true}
-      // })
       .append("circle")
-    //     .attr("r", function(d){ return size(Math.abs(d.value)) })
+          .attr("class", function(d) {
+            console.log("class d: ", d.y)
+            return "rank_" + d.y;
+          })
           .attr("r", function(d){
-            console.log("d for size: ", d)
-            console.log("d.value for size: ", d.value)
-            // return 10;
             return size(Math.abs(d.value));
           })
           .style("fill", function(d){
