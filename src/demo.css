@@ -43,6 +43,12 @@
 	stroke: #CECECE;
 	font-size: 16px;
 }
+.rank_value {
+	fill: white;
+  	stroke: none;
+	font-size: 14px;
+
+}
 
 
 

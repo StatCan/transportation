@@ -234,6 +234,20 @@ var chart = d3.select(".data")
           if (d.x === "1997") return i18next.t(d.y, {ns: "area"});
         });
 
+    //label circle by value
+    cor.append("text")
+        .attr("dx", function(d){
+          if (d.y === "local") return -9;
+          else return -5;
+        })
+        .attr("dy", function(d){
+          return 4;
+        })
+        .attr("class", "rank_value")
+        .text(function(d,i){
+          return d.value;
+        });
+
     }) //end d3.csv
   
 
