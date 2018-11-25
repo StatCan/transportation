@@ -259,7 +259,7 @@ var chart = d3.select(".data")
 i18n.load(["src/i18n"], function() {
   d3.queue()
     // .defer(d3.json, "data/worldpop.json")
-    .defer(d3.json, "data/rail_freshveg_origATR_ON_BC_destQC.json")
+    .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
     });
