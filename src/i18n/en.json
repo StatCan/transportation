@@ -9,7 +9,9 @@
       "diesel": "Diesel",
       "LPG": "LPG",
       "local": "Local",
-      "itinerant": "Itinerant"     
+      "itinerant": "Itinerant",
+      "Remaining_itinerant": "Itinerant - Rest of province",
+      "Remaining_local": "Local - Rest of province"
     },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",

@@ -28,6 +28,15 @@
 .itinerant {
 	fill: #F6CF22;
 }
+.Remaining_itinerant {
+	fill: #F6CF22;
+	opacity: 0.3;
+}
+.Remaining_local {
+	fill: #5DC1BE;
+	opacity: 0.2;
+}
+
 
 
 .canada-map path {

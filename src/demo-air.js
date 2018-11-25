@@ -116,7 +116,7 @@ var chart = d3.select(".data")
     // d3.selectAll(".data .area2").classed("inactive", true);
 
     //Add airport data on top
-    d3.json("data/ON_YOW_numMovements.json", function(err, filedata) {
+    d3.json("data/combo_ON_ONYOW_numMovements.json", function(err, filedata) {
        selected = "ON_YOW";
        data[selected] = filedata;
 
