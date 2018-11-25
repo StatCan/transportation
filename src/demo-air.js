@@ -122,7 +122,7 @@ var chart = d3.select(".data")
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
-        width = 430 - margin.left - margin.right,
+        width = 1100 - margin.left - margin.right,
         height = 430 - margin.top - margin.bottom;
     console.log("height: ", height)
 
@@ -178,7 +178,7 @@ var chart = d3.select(".data")
     //   .domain(domain)
     var x = d3.scaleLinear()
         .domain([1997,2017])
-        .range([0, 3*width]);
+        .range([0, width/1.1]);
 
     // Y scale
     // var y = d3.scalePoint()
@@ -202,9 +202,9 @@ var chart = d3.select(".data")
           console.log("d.value: ", d.value)
           console.log("y(d.value): ", y(d.value))
           var ycoord;
-          if (d.y === "tot") ycoord = 85;
-          else if (d.y === "it") ycoord = 85 + 80;
-          else if (d.y === "loc") ycoord = 85 + 2*80;
+          if (d.y === "tot") ycoord = 40;
+          else if (d.y === "it") ycoord = 40 + 80;
+          else if (d.y === "loc") ycoord = 40 + 2*80;
           // return "translate(" + x(d.x) + "," + y(d.y) + ")";
           // return "translate(" + x(d.x) + "," + y(d.value) + ")";
           return "translate(" + x(d.x) + "," + ycoord + ")";
