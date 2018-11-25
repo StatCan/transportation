@@ -1,0 +1,109 @@
+{
+  "numMov": [
+    { 
+      "year": 1997,
+      "local": 46744,
+      "itinerant": 0
+    },
+    { 
+      "year": 1998,
+      "local": 45833,
+      "itinerant": 0
+    },
+    { 
+      "year": 1999,
+      "local": 44944,
+      "itinerant": 0
+    },
+    { 
+      "year": 2000,
+      "local": 43398,
+      "itinerant": 0
+    },
+    { 
+      "year": 2001,
+      "local": 44455,
+      "itinerant": 0
+    },
+    { 
+      "year": 2002,
+      "local": 41318,
+      "itinerant": 0
+    },
+    { 
+      "year": 2003,
+      "local": 33870,
+      "itinerant": 0
+    },
+    { 
+      "year": 2004,
+      "local": 34941,
+      "itinerant": 0
+    },
+    { 
+      "year": 2005,
+      "local": 32044,
+      "itinerant": 0
+    },
+    { 
+      "year": 2006,
+      "local": 32458,
+      "itinerant": 0
+    },
+    { 
+      "year": 2007,
+      "local": 43449,
+      "itinerant": 0
+    },
+    { 
+      "year": 2008,
+      "local": 38312,
+      "itinerant": 0
+    },
+    { 
+      "year": 2009,
+      "local": 39429,
+      "itinerant": 0
+    },
+    { 
+      "year": 2010,
+      "local": 39020,
+      "itinerant": 0
+    },
+    { 
+      "year": 2011,
+      "local": 37406,
+      "itinerant": 0
+    },
+    { 
+      "year": 2012,
+      "local": 29735,
+      "itinerant": 0
+    },
+    { 
+      "year": 2013,
+      "local": 40856,
+      "itinerant": 0
+    },
+    { 
+      "year": 2014,
+      "local": 35712,
+      "itinerant": 0
+    },
+    { 
+      "year": 2015,
+      "local": 35164,
+      "itinerant": 0
+    },
+    { 
+      "year": 2016,
+      "local": 36840,
+      "itinerant": 0
+    },
+    { 
+      "year": 2017,
+      "local": 35258,
+      "itinerant": 0
+    }
+  ]
+}

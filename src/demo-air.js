@@ -118,7 +118,7 @@ var chart = d3.select(".data")
 
     //Add airport data on top
     demoHack=true;
-    d3.json("data/ON_YOW_numMovements.json", function(err, filedata) {
+    d3.json("data/sum_ON_ONYOW_numMovements.json", function(err, filedata) {
        selected = "ON_YOW";
        data[selected] = filedata;
 

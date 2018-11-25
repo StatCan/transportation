@@ -28,6 +28,10 @@
 .itinerant {
 	fill: #F6CF22;
 }
+.fake {
+	fill: red;
+	opacity: 0.4;
+}
 
 
 .canada-map path {
