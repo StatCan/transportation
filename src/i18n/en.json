@@ -29,6 +29,9 @@
        "NT_NU": "Northwest Territories including Nunavut",
        "NT": "Northwest Territories",
        "NU": "Nunavut"
+    },
+    "airports": {
+       "YOW": "Macdonald-Cartier International (YOW), Ottawa, ON"
     }
   }
 }

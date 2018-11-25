@@ -36,9 +36,14 @@
 	fill: #5DC1BE;
 	opacity: 0.2;
 }
+.rank_bubble {
+	fill: #5DC1BE;
+	opacity: 0.2;
+}
 
 
 
+/*map*/
 .canada-map path {
 	fill: #94a6b2;
 	stroke: #fff;
@@ -48,8 +53,4 @@
 
 .canada-map.zoomed path:not(.zoomed) {
 	opacity: 0.4;
-}
-
-.inactive {
-	opacity: 0.5;
 }

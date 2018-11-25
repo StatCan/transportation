@@ -107,6 +107,18 @@ var chart = d3.select(".data")
       showData();
       
     });
+
+    //show airport rank
+    selectedAirport = "YOW";
+    showRank(selectedAirport);
+  }
+
+  function showRank(selected) {
+    console.log("selected showRank: ", selected)
+    //change area chart title to match selected province
+    d3.select(".rank h4").text("Airport rank for " + i18next.t(selected, {ns: "airports"}));
+
+
   }
 
 i18n.load(["src/i18n"], function() {
