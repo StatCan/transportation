@@ -169,7 +169,10 @@ var chart = d3.select(".data")
     // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
     var size = d3.scaleSqrt()
       .domain([0, 1])
-      .range([0, 9]);
+      .range([0, 5]);
+    console.log("size(5): ", size(5))
+    console.log("size(8): ", size(8))
+    console.log("size(15): ", size(15))
 
     // X scale
     var x = d3.scalePoint()
@@ -219,11 +222,17 @@ var chart = d3.select(".data")
       // })
       .append("circle")
     //     .attr("r", function(d){ return size(Math.abs(d.value)) })
-          .attr("r", function(d){ return 10; })
-        .style("fill", function(d){          
-            // return color(d.value);
-            return "red";
+          .attr("r", function(d){
+            console.log("d for size: ", d)
+            console.log("d.value for size: ", d.value)
+            // return 10;
+            return size(Math.abs(d.value));
           })
+          .style("fill", function(d){
+
+              // return color(d.value);
+              return "red";
+            })
     //     .style("opacity", 0.8)
 
     }) //end d3.csv
