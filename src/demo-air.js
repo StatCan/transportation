@@ -12,7 +12,6 @@ var chart = d3.select(".data")
         title: i18next.t("datatableTitle", {ns: "area"})
       },
       filterData: function(data) {
-        console.log("data in filterData: ", data)
         return data.numMov;
       },
       x: {
@@ -93,11 +92,6 @@ var chart = d3.select(".data")
   }
 
   function showAirport() {
-    console.log("showAirport")
-
-
-    console.log("settings: ", settings)
-
     //clear area labels
     var labelsToClear = document.getElementsByClassName("area-label");
     var i;
@@ -105,17 +99,7 @@ var chart = d3.select(".data")
         labelsToClear[i].innerHTML='';
     }
 
-    // //Load total data for province corresponding to selected airport
-    // d3.json("data/ON_numMovements.json", function(err, filedata) {
-    //   selected = "ON";
-    //   data[selected] = filedata;
-    //   showData();
-    // });
-    // //dim the ON area chart
-    // d3.selectAll(".data .area1").classed("inactive", true);
-    // d3.selectAll(".data .area2").classed("inactive", true);
-
-    //Add airport data on top
+    //Load airport data containing remaining provincial totals
     d3.json("data/combo_ON_ONYOW_numMovements.json", function(err, filedata) {
        selected = "ON_YOW";
        data[selected] = filedata;
@@ -123,38 +107,7 @@ var chart = d3.select(".data")
       showData();
       
     });
-    console.log("data: ", data)
-
-    
   }
-
-  //
-//   data = {};
-// selected = "ca";
-
-// onInput = function() {
-//  selected = "nb"
-
-//  if (!data[selected]) {
-//    d3.json(selected + ".json", function(err, data) {
-//      showData();
-//    });
-//  } else {
-//    showData();
-//  }
-// }
-
-// showData() {
-//  areaChart(svg, settings, data[selected]);
-// }
-
-// d3.queue()
-//  .defer(d3.json, "ca.json")
-//  .await(funnction(err, caData) {
-//    data.ca = caData;
-//    showData();
-//  });
- //
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
