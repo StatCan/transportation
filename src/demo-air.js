@@ -12,6 +12,7 @@ var chart = d3.select(".data")
         title: i18next.t("datatableTitle", {ns: "area"})
       },
       filterData: function(data) {
+        console.log("data in filterData: ", data)
         return data.numMov;
       },
       x: {
@@ -88,10 +89,44 @@ var chart = d3.select(".data")
     //change area chart title to match selected province
     d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
 
-    //clear area labels on chart
-    d3.select("#demo").select("g .data").text();
-    
     areaChart(chart, settings, data[selected]);
+  }
+
+  function showAirport() {
+    console.log("showAirport")
+
+
+    console.log("settings: ", settings)
+
+    //clear area labels
+    var labelsToClear = document.getElementsByClassName("area-label");
+    var i;
+    for (i = 0; i < labelsToClear.length; i++) {
+        labelsToClear[i].innerHTML='';
+    }
+
+    //Load total data for province corresponding to selected airport
+    d3.json("data/ON_numMovements.json", function(err, filedata) {
+      selected = "ON";
+      data[selected] = filedata;
+      showData();
+    });
+
+    //Add airport data on top
+    d3.json("data/ON_YOW_numMovements.json", function(err, filedata) {
+       selected = "ON_YOW";
+       data[selected] = filedata;
+
+      var chartOverlay = d3.select("#demo")
+        .append("svg")
+          .attr("id", "airport");
+
+      areaChart(chartOverlay, settings, data[selected]);
+      
+    });
+    console.log("data: ", data)
+
+    
   }
 
   //

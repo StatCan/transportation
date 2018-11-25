@@ -11,6 +11,24 @@
       "LPG": "LPG",
       "local": "Local",
       "itinerant": "Itinerant"
+    },
+     "provinces": {
+       "CANADA": "Canada, all provinces and territories",
+       "NL": "Newfoundland and Labrador",
+       "PE": "Prince Edward Island",
+       "NS": "Nova Scotia",
+       "NB": "New Brunswick",
+       "QC": "Quebec",
+       "ON": "Ontario",
+       "MB": "Manitoba",
+       "SK": "Saskatchewan",
+       "AB": "Alberta",
+       "BC": "British Columbia",
+       "YK": "Yukon",
+       "NT_NU": "Northwest Territories including Nunavut",
+       "NT": "Northwest Territories",
+       "NU": "Nunavut"
     }
+  }
   }
 }

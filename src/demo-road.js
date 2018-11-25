@@ -1,4 +1,4 @@
-data = {};
+fdata = {};
 selected = "CANADA";
 
 /* globals areaChart */
@@ -88,8 +88,6 @@ var chart = d3.select(".data")
     //change area chart title to match selected province
     d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
 
-    //clear area labels on chart
-    d3.select("#demo").select("g .data").text();
     areaChart(chart, settings, data[selected]);
   }
 
