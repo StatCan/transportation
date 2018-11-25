@@ -1,4 +1,4 @@
-fdata = {};
+data = {};
 selected = "CANADA";
 
 /* globals areaChart */
@@ -73,6 +73,7 @@ var chart = d3.select(".data")
       for (i = 0; i < labelsToClear.length; i++) {
           labelsToClear[i].innerHTML='';
       }
+      console.log("selected: ", selected)
       if (!data[selected]) {
         d3.json("data/" + selected + "_FuelSales.json", function(err, filedata) {
           data[selected] = filedata;
