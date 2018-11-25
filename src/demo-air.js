@@ -223,7 +223,7 @@ var chart = d3.select(".data")
           .style("fill", function(d){
 
               // return color(d.value);
-              return "red";
+              //return "red";
             })
     //     .style("opacity", 0.8)
 
