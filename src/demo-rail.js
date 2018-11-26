@@ -85,9 +85,6 @@ var chart = d3.select(".data")
   }
 
   function showData() {
-    //change area chart title to match selected province
-    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
-
     areaChart(chart, settings, data[selected]);
   }
 
