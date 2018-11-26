@@ -179,7 +179,39 @@
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label for="groups">year:</label>
+							<select id="year" class="form-control">
+								<option value="2001">2001</option>
+								<option value="2002">2002</option>
+								<option value="2003">2003</option>
+								<option value="2004">2004</option>
+								<option value="2005">2005</option>
+								<option value="2006">2006</option>
+								<option value="2007">2007</option>
+								<option value="2008">2008</option>
+								<option value="2009">2009</option>
+								<option value="2010">2010</option>
+								<option value="2011">2011</option>
+								<option value="2012">2012</option>
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="groups">Destination:</label>
+							<select id="groups" class="form-control">
+								<option value="QC">Quebec</option>
+								<option value="MB">Manitoba</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-5">
 						<div class="form-group">
 							<label for="groups">Commodity:</label>
 							<select id="commodities" class="form-control">
@@ -190,15 +222,6 @@
 								<option value="freshfruit">Fresh, chilled or dried fruit and nuts</option>
 								<option value="colza">Colza seeds (canola)</option>
 								<option value="oilseeds">Other oil seeds and nuts, other agricultural products</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-5">
-						<div class="form-group">
-							<label for="groups">Destination:</label>
-							<select id="groups" class="form-control">
-								<option value="QC">Quebec</option>
-								<option value="MB">Manitoba</option>
 							</select>
 						</div>
 					</div>
