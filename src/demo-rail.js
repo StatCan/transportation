@@ -258,16 +258,18 @@ var chart = d3.select(".data")
           .style('fill', function (d, i) {
               if(i === 0){
                 return "#96A8B2";
-              } else {
-                return "#024571";
-              }
+              } 
+              // else {
+              //   return "#024571";
+              // }
           })
           .style('stroke', function (d, i) {
               if(i === 0){
                 return "#96A8B2";
-              } else {
-                return "#024571";
-              }
+              } 
+              // else {
+              //   return "#024571";
+              // }
           });
       groups.exit().remove();
 
