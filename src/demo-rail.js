@@ -174,10 +174,12 @@ var chart = d3.select(".data")
             console.log("y(d.value): ", y(d.value))
           }
          
-          var ycoord;
-          if (d.y === "wheat") ycoord = 40;
-          else if (d.y === "cereal") ycoord = 40 + 80;
-          else if (d.y === "freshveg") ycoord = 40 + 2*80;
+          var ycoord, y0, delta;
+          y0 = 40;
+          delta = 35;
+          if (d.y === "wheat") ycoord = y0;
+          else if (d.y === "cereal") ycoord = y0 + delta;
+          else if (d.y === "freshveg") ycoord = y0 + 2*delta;
           // return "translate(" + x(d.x) + "," + y(d.y) + ")";
           // return "translate(" + x(d.x) + "," + y(d.value) + ")";
           return "translate(" + x(d.x) + "," + ycoord + ")";
@@ -226,9 +228,7 @@ var chart = d3.select(".data")
     //label circle by value
     cor.append("text")
         .attr("dx", function(d){
-          // if (d.y === "wheat") return -9;
-          // else return -5;
-          return -18;
+          return -2;
         })
         .attr("dy", function(d){
           return 4;

@@ -66,15 +66,17 @@
 	fill: #FEC04F;
 }
 .comm_yr {
-	stroke: #CECECE;
+	fill: #666666;
+  	stroke: none;
 	font-size: 16px;
 }
 .comm_type {
-	stroke: #CECECE;
+	fill: #666666;
+  	stroke: none;
 	font-size: 14px;
 }
 .comm_value {
-	fill: #16181b;
+	fill: #666666;
   	stroke: none;
 	font-size: 14px;
 
