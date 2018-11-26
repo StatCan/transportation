@@ -74,7 +74,7 @@ var chart = d3.select(".data")
           labelsToClear[i].innerHTML='';
       }
       if (!data[selected]) {
-        d3.json("data/" + selected + "_numMovements.json", function(err, filedata) {
+        d3.json("data/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
           data[selected] = filedata;
           showData();
          });
