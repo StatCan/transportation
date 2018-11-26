@@ -97,7 +97,7 @@ var chart = d3.select(".data")
     // Graph dimension
     var margin = {top: 20, right: 20, bottom: 20, left: 110},
         width = 1200 - margin.left - margin.right,
-        height = 430 - margin.top - margin.bottom;
+        height = 1500 - margin.top - margin.bottom;
 
     // Create the svg area
     var svg = d3.select("#commgrid")
@@ -135,9 +135,10 @@ var chart = d3.select(".data")
     //   .range(["#B22222", "#fff", "#000080"]);
 
     // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
+    // var size = d3.scaleSqrt()
     var size = d3.scaleSqrt()
       .domain([0, 1])
-      .range([0, 0.3]);
+      .range([0, .1]);
     console.log("size: ", size(1000))
     console.log("size: ", size(3000))
 
@@ -168,20 +169,24 @@ var chart = d3.select(".data")
         .attr("class", "cor")
         .attr("transform", function(d, i) {
           if (i===0) {
-            console.log("d: ", d)
-            console.log("d.y: ", d.y)
-            console.log("x(d.x): ", x(d.x))
-            console.log("y(d.value): ", y(d.value))
+            comm0 = d.y;
+            idx = 0;
           }
          
+
           var ycoord, y0, delta;
           y0 = 40;
           delta = 35;
-          if (d.y === "wheat") ycoord = y0;
-          else if (d.y === "cereal") ycoord = y0 + delta;
-          else if (d.y === "freshveg") ycoord = y0 + 2*delta;
-          // return "translate(" + x(d.x) + "," + y(d.y) + ")";
-          // return "translate(" + x(d.x) + "," + y(d.value) + ")";
+          if (d.y === comm0) {
+            
+          } else {
+            comm0 = d.y;
+            if (i%16 === 0) idx++;  //only increment idx when i is divisible by 16 (the number of years)
+            console.log("idx: ", idx)
+          }
+          console.log("comm0: ", comm0)
+          ycoord = y0 + idx*delta;
+
           return "translate(" + x(d.x) + "," + ycoord + ")";
           });
 
@@ -194,6 +199,7 @@ var chart = d3.select(".data")
           })
           .attr("r", function(d){
             return size(Math.abs(d.value));
+            // return size(Math.log( Math.abs(d.value)) );
           })
           .style("fill", function(d){
               // return color(d.value);
@@ -243,147 +249,6 @@ var chart = d3.select(".data")
 
 
   }
-
-
-  function showRank(selected) {
-   
-
-    //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
-    // Graph dimension
-    var margin = {top: 20, right: 20, bottom: 20, left: 90},
-        width = 1100 - margin.left - margin.right,
-        height = 430 - margin.top - margin.bottom;
-
-    // Create the svg area
-    var svg = d3.select("#my_dataviz")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    var corrdata = [];
-    d3.csv("data/rankdata_YOW.csv", function(error, rows) {
-
-      rows.forEach(function(d) {
-      var x = d[""];
-      delete d[""];
-      for (prop in d) {
-        var y = prop,
-          value = d[prop];
-        corrdata.push({//HUOM
-          x: y, 
-          y: x,
-          value: +value
-        });
-      }
-    });
-
-    // // List of all variables and number of them
-    var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
-    var num = Math.sqrt(corrdata.length)
-
-    // Create a color scale
-    var color = d3.scaleLinear()
-      .domain([1, 5, 10])
-      .range(["#B22222", "#fff", "#000080"]);
-
-    // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
-    var size = d3.scaleSqrt()
-      .domain([0, 1])
-      .range([0, 5]);
-
-    // X scale
-    // var x = d3.scalePoint()
-    //   .range([0, width])
-    //   .domain(domain)
-    var x = d3.scaleLinear()
-        .domain([1997,2017])
-        .range([0, width/1.1]);
-
-    // Y scale
-    // var y = d3.scalePoint()
-      // .range([0, height])
-      // .domain(domain);
-    var  y = d3.scaleLinear()
-          .domain([1, 20])
-          .range([0, height/1.2]);
-
-    // Create one 'g' element for each cell of the correlogram
-    var cor = svg.attr("class", "rankplot")
-        .selectAll(".cor")
-      .data(corrdata)
-      .enter()
-      .append("g")
-        .attr("class", "cor")
-        .attr("transform", function(d) {
-          var ycoord;
-          if (d.y === "total") ycoord = 40;
-          else if (d.y === "itinerant") ycoord = 40 + 80;
-          else if (d.y === "local") ycoord = 40 + 2*80;
-          // return "translate(" + x(d.x) + "," + y(d.y) + ")";
-          // return "translate(" + x(d.x) + "," + y(d.value) + ")";
-          return "translate(" + x(d.x) + "," + ycoord + ")";
-          });
-
-    // add circles
-    cor
-      .append("circle")
-          .attr("class", function(d) {
-            return "rank_" + d.y;
-          })
-          .attr("r", function(d){
-            return size(Math.abs(d.value));
-          })
-          .style("fill", function(d){
-              // return color(d.value);
-            });
-    //label columns by year
-    cor.append("text")
-        .attr("dx", function(d){
-          return -18;
-        })
-        .attr("dy", function(d){
-          return -30;
-        })
-        .attr("class", "rank_yr")
-        .text(function(d,i){
-          if (d.y === "total") return d.x;
-        });
-
-    //label rows by movt type
-    cor.append("text")
-        .attr("dx", function(d){
-          return -85;
-        })
-        .attr("dy", function(d){
-          return 4;
-        })
-        .attr("class", "rank_type")
-        .text(function(d,i){
-          if (d.x === "1997") return i18next.t(d.y, {ns: "area"});
-        });
-
-    //label circle by value
-    cor.append("text")
-        .attr("dx", function(d){
-          if (d.y === "local") return -9;
-          else return -5;
-        })
-        .attr("dy", function(d){
-          return 4;
-        })
-        .attr("class", "rank_value")
-        .text(function(d,i){
-          return d.value;
-        });
-
-    }) //end d3.csv
-  
-
-  }
-
-
 
 
 i18n.load(["src/i18n"], function() {
