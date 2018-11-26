@@ -94,13 +94,13 @@ var chart = d3.select(".data")
       hours,
       minVal,
       maxVal,
-      w = 400,
-      h = 400,
+      w = 700,
+      h = 700,
       vizPadding = {
           top: 10,
-          right: 0,
+          right: 50,
           bottom: 15,
-          left: 100
+          left: 50
       },
       radius,
       radiusLength,
@@ -124,7 +124,8 @@ var chart = d3.select(".data")
 
         hours = [];
 
-        for (i = 0; i < 24; i += 1) {
+        numCommodities = 64
+        for (i = 0; i < numCommodities; i += 1) {
             series[0][i] = randomFromTo(0,20);
             series[1][i] = randomFromTo(5,15);
             hours[i] = i; //in case we want to do different formatting
@@ -200,7 +201,9 @@ var chart = d3.select(".data")
       circleAxes = vizBody.selectAll('.circle-ticks')
           .data(radialTicks)
           .enter().append('svg:g')
-          .attr("class", "circle-ticks");
+          .attr("class", "circle-ticks")
+          .style("fill", "#3d3d3d")
+          .style("font-size", "14px");
 
       circleAxes.append("svg:circle")
           .attr("r", function (d, i) {
@@ -234,6 +237,8 @@ var chart = d3.select(".data")
       lineAxes.append('svg:text')
           .text(String)
           .attr("text-anchor", "middle")
+          .style("fill", "#3d3d3d")
+          .style("font-size", "14px")
           .attr("transform", function (d, i) {
               return (i / hours.length * 360) < 180 ? null : "rotate(180)";
           });
@@ -252,16 +257,16 @@ var chart = d3.select(".data")
           .attr('class', 'series')
           .style('fill', function (d, i) {
               if(i === 0){
-                return "green";
+                return "#96A8B2";
               } else {
-                return "blue";
+                return "#024571";
               }
           })
           .style('stroke', function (d, i) {
               if(i === 0){
-                return "green";
+                return "#96A8B2";
               } else {
-                return "blue";
+                return "#024571";
               }
           });
       groups.exit().remove();
@@ -276,10 +281,10 @@ var chart = d3.select(".data")
                   return 0;
               })
               .angle(function (d, i) {
-                  if (i === 24) {
+                  if (i === numCommodities) {
                       i = 0;
                   } //close the line
-                  return (i / 24) * 2 * Math.PI;
+                  return (i / numCommodities) * 2 * Math.PI;
               }))
           .style("stroke-width", 3)
           .style("fill", "none");
@@ -290,10 +295,10 @@ var chart = d3.select(".data")
               return radius(d);
           })
           .angle(function (d, i) {
-              if (i === 24) {
+              if (i === numCommodities) {
                   i = 0;
               } //close the line
-              return (i / 24) * 2 * Math.PI;
+              return (i / numCommodities) * 2 * Math.PI;
           }));
     }
 
