@@ -65,12 +65,16 @@
 .BC {
 	fill: #FEC04F;
 }
-.comm_yr, .comm_type {
+.comm_yr {
 	stroke: #CECECE;
 	font-size: 16px;
 }
+.comm_type {
+	stroke: #CECECE;
+	font-size: 14px;
+}
 .comm_value {
-	fill: white;
+	fill: #16181b;
   	stroke: none;
 	font-size: 14px;
 
@@ -83,6 +87,10 @@
 }
 .comm_freshveg {
 	fill:  #F6CF22;
+}
+.comm_gen {
+	fill:  #CECECE;
+	stroke: #909294;
 }
 
 

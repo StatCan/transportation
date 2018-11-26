@@ -95,7 +95,7 @@ var chart = d3.select(".data")
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
-    var margin = {top: 20, right: 20, bottom: 20, left: 90},
+    var margin = {top: 20, right: 20, bottom: 20, left: 110},
         width = 1200 - margin.left - margin.right,
         height = 430 - margin.top - margin.bottom;
 
@@ -187,7 +187,8 @@ var chart = d3.select(".data")
     cor
       .append("circle")
           .attr("class", function(d) {
-            return "comm_" + d.y;
+            // return "comm_" + d.y;
+            return "comm_gen";
           })
           .attr("r", function(d){
             return size(Math.abs(d.value));
@@ -195,6 +196,7 @@ var chart = d3.select(".data")
           .style("fill", function(d){
               // return color(d.value);
             });
+
     //label columns by year
     cor.append("text")
         .attr("dx", function(d){
@@ -208,32 +210,33 @@ var chart = d3.select(".data")
           if (d.y === "wheat") return d.x;
         });
 
-    // //label rows by movt type
-    // cor.append("text")
-    //     .attr("dx", function(d){
-    //       return -85;
-    //     })
-    //     .attr("dy", function(d){
-    //       return 4;
-    //     })
-    //     .attr("class", "rank_type")
-    //     .text(function(d,i){
-    //       if (d.x === "1997") return i18next.t(d.y, {ns: "area"});
-    //     });
+    //label rows by movt type
+    cor.append("text")
+        .attr("dx", function(d){
+          return -105;
+        })
+        .attr("dy", function(d){
+          return 4;
+        })
+        .attr("class", "comm_type")
+        .text(function(d,i){
+          if (d.x === "2001") return d.y;
+        });
 
-    // //label circle by value
-    // cor.append("text")
-    //     .attr("dx", function(d){
-    //       if (d.y === "local") return -9;
-    //       else return -5;
-    //     })
-    //     .attr("dy", function(d){
-    //       return 4;
-    //     })
-    //     .attr("class", "rank_value")
-    //     .text(function(d,i){
-    //       return d.value;
-    //     });
+    //label circle by value
+    cor.append("text")
+        .attr("dx", function(d){
+          // if (d.y === "wheat") return -9;
+          // else return -5;
+          return -18;
+        })
+        .attr("dy", function(d){
+          return 4;
+        })
+        .attr("class", "comm_value")
+        .text(function(d,i){
+          if (d.value === 0) return d.value;
+        });
 
     }) //end d3.csv
   
