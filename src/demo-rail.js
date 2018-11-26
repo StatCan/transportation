@@ -78,9 +78,9 @@ var chart = d3.select(".data")
           data[selected] = filedata;
           showData();
          });
-     } else {
+      } else {
        showData();
-     }
+      }
     }
   }
 
@@ -88,32 +88,162 @@ var chart = d3.select(".data")
     areaChart(chart, settings, data[selected]);
   }
 
-  function showAirport() {
-    //clear area labels
-    var labelsToClear = document.getElementsByClassName("area-label");
-    var i;
-    for (i = 0; i < labelsToClear.length; i++) {
-        labelsToClear[i].innerHTML='';
-    }
+  function showComm() {
+     //change area chart title to match selected province
+    d3.select(".commval h4").text("2016 tonnages for all commodities. Origin " + i18next.t("ATR", {ns: "regions"})
+              + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
-    //Load airport data containing remaining provincial totals
-    d3.json("data/combo_ON_ONYOW_numMovements.json", function(err, filedata) {
-       selected = "ON_YOW";
-       data[selected] = filedata;
+    //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
+    // Graph dimension
+    var margin = {top: 20, right: 20, bottom: 20, left: 90},
+        width = 1200 - margin.left - margin.right,
+        height = 430 - margin.top - margin.bottom;
 
-      showData();
-      
+    // Create the svg area
+    var svg = d3.select("#commgrid")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var corrdata = [];
+    d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
+
+      rows.forEach(function(d) {
+      var x = d[""];
+      delete d[""];
+      for (prop in d) {
+        var y = prop,
+          value = d[prop];
+        corrdata.push({//HUOM
+          x: y, 
+          y: x,
+          value: +value
+        });
+      }
     });
+    console.log("corrdata: ", corrdata)
 
-    //show airport rank
-    selectedAirport = "YOW";
-    showRank(selectedAirport);
+    // // List of all variables and number of them
+    var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
+    var num = Math.sqrt(corrdata.length)
+
+    // Create a color scale
+    // var color = d3.scaleLinear()
+    //   .domain([1, 5, 10])
+    //   .range(["#B22222", "#fff", "#000080"]);
+
+    // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
+    var size = d3.scaleSqrt()
+      .domain([0, 1])
+      .range([0, 0.3]);
+    console.log("size: ", size(1000))
+    console.log("size: ", size(3000))
+
+    // X scale
+    // var x = d3.scalePoint()
+    //   .range([0, width])
+    //   .domain(domain)
+    var x = d3.scaleLinear()
+        .domain([2001,2016])
+        .range([0, width/1.1]);
+
+    // Y scale
+    // var y = d3.scalePoint()
+      // .range([0, height])
+      // .domain(domain);
+    var  y = d3.scaleLinear()
+          .domain([1, 5000])
+          .range([0, height/1.5]);
+     console.log("y scale: ", y(1000))
+    console.log("y scale: ", y(3000))
+
+    // Create one 'g' element for each cell of the correlogram
+    var cor = svg.attr("class", "rankplot")
+        .selectAll(".cor")
+      .data(corrdata)
+      .enter()
+      .append("g")
+        .attr("class", "cor")
+        .attr("transform", function(d, i) {
+          if (i===0) {
+            console.log("d: ", d)
+            console.log("d.y: ", d.y)
+            console.log("x(d.x): ", x(d.x))
+            console.log("y(d.value): ", y(d.value))
+          }
+         
+          var ycoord;
+          if (d.y === "wheat") ycoord = 40;
+          else if (d.y === "cereal") ycoord = 40 + 80;
+          else if (d.y === "freshveg") ycoord = 40 + 2*80;
+          // return "translate(" + x(d.x) + "," + y(d.y) + ")";
+          // return "translate(" + x(d.x) + "," + y(d.value) + ")";
+          return "translate(" + x(d.x) + "," + ycoord + ")";
+          });
+
+    // add circles
+    cor
+      .append("circle")
+          .attr("class", function(d) {
+            return "comm_" + d.y;
+          })
+          .attr("r", function(d){
+            return size(Math.abs(d.value));
+          })
+          .style("fill", function(d){
+              // return color(d.value);
+            });
+    //label columns by year
+    cor.append("text")
+        .attr("dx", function(d){
+          return -18;
+        })
+        .attr("dy", function(d){
+          return -30;
+        })
+        .attr("class", "comm_yr")
+        .text(function(d,i){
+          if (d.y === "wheat") return d.x;
+        });
+
+    // //label rows by movt type
+    // cor.append("text")
+    //     .attr("dx", function(d){
+    //       return -85;
+    //     })
+    //     .attr("dy", function(d){
+    //       return 4;
+    //     })
+    //     .attr("class", "rank_type")
+    //     .text(function(d,i){
+    //       if (d.x === "1997") return i18next.t(d.y, {ns: "area"});
+    //     });
+
+    // //label circle by value
+    // cor.append("text")
+    //     .attr("dx", function(d){
+    //       if (d.y === "local") return -9;
+    //       else return -5;
+    //     })
+    //     .attr("dy", function(d){
+    //       return 4;
+    //     })
+    //     .attr("class", "rank_value")
+    //     .text(function(d,i){
+    //       return d.value;
+    //     });
+
+    }) //end d3.csv
+  
+
+
   }
 
-  function showRank(selected) {
-    //change area chart title to match selected province
-    d3.select(".rank h4").text("Airport rank for " + i18next.t(selected, {ns: "airports"}));
 
+  function showRank(selected) {
+   
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
@@ -259,6 +389,7 @@ i18n.load(["src/i18n"], function() {
     .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
+      showComm();
     });
 });
 
