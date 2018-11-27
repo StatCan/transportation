@@ -310,7 +310,7 @@ var chart = d3.select(".data")
 
   function showComm() {
      //change area chart title to match selected province
-    d3.select(".commval h4").text("2016 tonnages for all commodities. Origin " + i18next.t("ATR", {ns: "regions"})
+    d3.select(".commval h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
