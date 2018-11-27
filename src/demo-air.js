@@ -4,7 +4,6 @@ selected = "CANADA";
 /* canada map */
 var map = d3.select(".dashboard .map")
   .append("svg"),
-  pathGenerator = 
   heading = d3.select(".dashboard h4"),
   canada = window.getCanadaMap(map, {})
     .on("loaded", function() {
