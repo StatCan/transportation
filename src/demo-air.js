@@ -13,7 +13,8 @@ var map = d3.select(".dashboard .map")
             console.log("airports: ", airports)
 
             var airportGroup = map.append("g");
-            var path = d3.geoPath().projection(mapObj.settings.projection);
+            var path = d3.geoPath().projection(mapObj.settings.projection)
+                        .pointRadius(2);
 
             airportPoints = airportGroup.selectAll("path")
                 .data(airports.features)
@@ -24,7 +25,7 @@ var map = d3.select(".dashboard .map")
                 })
                 .attr("class", "airport")
                 //.attr("r", 50)
-                .style("fill", "#000A3D")
+                .style("fill", "#7E0C33")
                  .on("mouseover", function (d) {
                     //change area chart title to match selected province
                 d3.select(".dashboard h4").text(i18next.t("ON" + " and contribution from airport YYZ", {ns: "provinces"}));
