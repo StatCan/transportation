@@ -312,7 +312,7 @@ var chart = d3.select(".data")
 
   function showComm() {
      //change area chart title to match selected province
-    d3.select("#commval h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
+    d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
@@ -336,6 +336,7 @@ var chart = d3.select(".data")
       var x = d[""];
       delete d[""];
       for (prop in d) {
+        console.log("d: ", d)
         var y = prop,
           value = d[prop];
         corrdata.push({//HUOM
@@ -345,7 +346,7 @@ var chart = d3.select(".data")
         });
       }
     });
-    // console.log("corrdata: ", corrdata)
+    console.log("corrdata: ", corrdata)
 
     // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
