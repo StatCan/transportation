@@ -24,8 +24,8 @@ var map = d3.select(".dashboard .map")
                   return "airport" + d.id;
                 })
                 .attr("class", "airport")
-                .attr("r", 10)
-                .style("fill", "red")
+                //.attr("r", 50)
+                .style("fill", "#000A3D")
                  .on("mouseover", function (d) {
                     //change area chart title to match selected province
                 d3.select(".dashboard h4").text(i18next.t("ON" + " and contribution from airport YYZ", {ns: "provinces"}));
