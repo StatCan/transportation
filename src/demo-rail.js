@@ -477,8 +477,8 @@ i18n.load(["src/i18n"], function() {
     .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
-      //showComm();
-      showRadar();
+      showComm();
+      //showRadar();
     });
 });
 
