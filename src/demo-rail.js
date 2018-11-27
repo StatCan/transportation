@@ -82,6 +82,8 @@ var chart = d3.select(".data")
        showData();
       }
     }
+
+   
   }
 
   function showData() {
@@ -310,7 +312,7 @@ var chart = d3.select(".data")
 
   function showComm() {
      //change area chart title to match selected province
-    d3.select(".commval h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
+    d3.select("#commval h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
@@ -343,7 +345,7 @@ var chart = d3.select(".data")
         });
       }
     });
-    console.log("corrdata: ", corrdata)
+    // console.log("corrdata: ", corrdata)
 
     // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
@@ -359,8 +361,8 @@ var chart = d3.select(".data")
     var size = d3.scaleSqrt()
       .domain([0, 1])
       .range([0, .1]);
-    console.log("size: ", size(1000))
-    console.log("size: ", size(3000))
+    // console.log("size: ", size(1000))
+    // console.log("size: ", size(3000))
 
     // X scale
     // var x = d3.scalePoint()
@@ -377,8 +379,8 @@ var chart = d3.select(".data")
     var  y = d3.scaleLinear()
           .domain([1, 5000])
           .range([0, height/1.5]);
-     console.log("y scale: ", y(1000))
-    console.log("y scale: ", y(3000))
+    // console.log("y scale: ", y(1000))
+    // console.log("y scale: ", y(3000))
 
     // Create one 'g' element for each cell of the correlogram
     var cor = svg.attr("class", "rankplot")
@@ -402,9 +404,7 @@ var chart = d3.select(".data")
           } else {
             comm0 = d.y;
             if (i%16 === 0) idx++;  //only increment idx when i is divisible by 16 (the number of years)
-            console.log("idx: ", idx)
           }
-          console.log("comm0: ", comm0)
           ycoord = y0 + idx*delta;
 
           return "translate(" + x(d.x) + "," + ycoord + ")";
@@ -477,8 +477,16 @@ i18n.load(["src/i18n"], function() {
     .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
-      showComm();
-      //showRadar();
+
+      d3.select("#seeComm")
+        .on("mouseover", function() {
+          console.log("seeComm")
+          d3.select(this).style("cursor", "pointer");
+          showComm();
+          //showRadar();
+        });
+
+      
     });
 });
 
