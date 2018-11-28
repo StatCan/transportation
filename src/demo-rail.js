@@ -1,6 +1,6 @@
 data = {};
 selected = "CANADA";
-var corrdata = [];
+var rawCommData = [];
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -330,30 +330,28 @@ var chart = d3.select(".data")
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    //var corrdata = [];
+    //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
 
-      var maxComm = -999;
-      var count = 0;
       rows.forEach(function(d) {
-        console.log("count: ", count)
         var x = d[""];
         delete d[""];
         for (prop in d) {
           //console.log("d: ", d)
           var y = prop,
             value = d[prop];
-          corrdata.push({//HUOM
+          rawCommData.push({//HUOM
             x: y, 
             y: x,
             value: +value
           });
         }
-        count++;
       });
+
+      var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
     
     //https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
-    //corrdata.sort((a,b) => (a.value < b.value) ? 1 : ((b.value < a.value) ? -1 : 0));
+    //rawCommData.sort((a,b) => (a.value < b.value) ? 1 : ((b.value < a.value) ? -1 : 0));
     // function compare(a,b) {
     //   if (a.value < b.value)
     //     return 1;
@@ -361,20 +359,30 @@ var chart = d3.select(".data")
     //     return -1;
     //   return 0;
     // }
-    // corrdata.sort(compare);
-    corrdata.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0)); 
+    // rawCommData.sort(compare);
+    rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
 
     
     //Commodities in descending order of yr 2016 value
-    rankedComm = corrdata.filter(item => item.x === '2016').map(item => item.y);
-    console.log("rankedComm: ", rankedComm)
+    rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
+    console.log("rankedCommNames: ", rankedCommNames)
+
+    var rankedCommData = [];
+    for (idx = 0; idx < rankedCommNames.length; idx++) {
+      for (jdx = 0; jdx < years.length; jdx++) {
+        var thisVal = rawCommData.filter(item => item.x === years[jdx] && 
+                      item.y === rankedCommNames[idx]).map(item => item.value)[0];
+        rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
+      }
+
+    }
+    console.log("rankedCommData: ", rankedCommData)
 
 
-    console.log("corrdata after: ", corrdata)
 
     // // List of all variables and number of them
-    var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
-    var num = Math.sqrt(corrdata.length)
+    var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
+    var num = Math.sqrt(rankedCommData.length)
 
     // Create a color scale
     // var color = d3.scaleLinear()
@@ -410,7 +418,7 @@ var chart = d3.select(".data")
     // Create one 'g' element for each cell of the correlogram
     var cor = svg.attr("class", "rankplot")
         .selectAll(".cor")
-      .data(corrdata)
+      .data(rankedCommData)
       .enter()
       .append("g")
         .attr("class", "cor")
