@@ -1,5 +1,6 @@
 data = {};
 selected = "CANADA";
+var corrdata = [];
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -329,24 +330,47 @@ var chart = d3.select(".data")
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var corrdata = [];
+    //var corrdata = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
 
+      var maxComm = -999;
+      var count = 0;
       rows.forEach(function(d) {
-      var x = d[""];
-      delete d[""];
-      for (prop in d) {
-        console.log("d: ", d)
-        var y = prop,
-          value = d[prop];
-        corrdata.push({//HUOM
-          x: y, 
-          y: x,
-          value: +value
-        });
-      }
-    });
-    console.log("corrdata: ", corrdata)
+        console.log("count: ", count)
+        var x = d[""];
+        delete d[""];
+        for (prop in d) {
+          //console.log("d: ", d)
+          var y = prop,
+            value = d[prop];
+          corrdata.push({//HUOM
+            x: y, 
+            y: x,
+            value: +value
+          });
+        }
+        count++;
+      });
+    
+    //https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
+    //corrdata.sort((a,b) => (a.value < b.value) ? 1 : ((b.value < a.value) ? -1 : 0));
+    // function compare(a,b) {
+    //   if (a.value < b.value)
+    //     return 1;
+    //   if (a.value > b.value)
+    //     return -1;
+    //   return 0;
+    // }
+    // corrdata.sort(compare);
+    corrdata.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0)); 
+
+    
+    //Commodities in descending order of yr 2016 value
+    rankedComm = corrdata.filter(item => item.x === '2016').map(item => item.y);
+    console.log("rankedComm: ", rankedComm)
+
+
+    console.log("corrdata after: ", corrdata)
 
     // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
@@ -479,13 +503,9 @@ i18n.load(["src/i18n"], function() {
     .await(function(error, data) {
       areaChart(chart, settings, data);
 
-      d3.select("#seeComm")
-        .on("mouseover", function() {
-          console.log("seeComm")
-          d3.select(this).style("cursor", "pointer");
-          showComm();
-          //showRadar();
-        });
+      showComm(); //display sorted commodity bubble table
+          
+      //showRadar();
 
       
     });
