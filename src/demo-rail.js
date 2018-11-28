@@ -468,7 +468,7 @@ var chart = d3.select(".data")
         })
         .attr("class", "comm_yr")
         .text(function(d,i){
-          if (d.y === "wheat") return d.x;
+          if (d.y === rankedCommNames[0]) return d.x;
         });
 
     //label rows by movt type
