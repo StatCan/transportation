@@ -1,6 +1,5 @@
 data = {};
 selected = "CANADA";
-var rawCommData = [];
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -332,7 +331,7 @@ var chart = d3.select(".data")
 
     //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
-
+      var rawCommData = [];
       rows.forEach(function(d) {
         var x = d[""];
         delete d[""];
@@ -349,158 +348,129 @@ var chart = d3.select(".data")
       });
 
       var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
-    
-    //https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
-    //rawCommData.sort((a,b) => (a.value < b.value) ? 1 : ((b.value < a.value) ? -1 : 0));
-    // function compare(a,b) {
-    //   if (a.value < b.value)
-    //     return 1;
-    //   if (a.value > b.value)
-    //     return -1;
-    //   return 0;
-    // }
-    // rawCommData.sort(compare);
-    rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+      rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
 
     
-    //Commodities in descending order of yr 2016 value
-    rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
-    console.log("rankedCommNames: ", rankedCommNames)
+      //Commodities in descending order of yr 2016 value
+      rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
+      console.log("rankedCommNames: ", rankedCommNames)
 
-    var rankedCommData = [];
-    for (idx = 0; idx < rankedCommNames.length; idx++) {
-      for (jdx = 0; jdx < years.length; jdx++) {
-        var thisVal = rawCommData.filter(item => item.x === years[jdx] && 
-                      item.y === rankedCommNames[idx]).map(item => item.value)[0];
-        rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
+      var rankedCommData = [];
+      for (idx = 0; idx < rankedCommNames.length; idx++) {
+        for (jdx = 0; jdx < years.length; jdx++) {
+          var thisVal = rawCommData.filter(item => item.x === years[jdx] && 
+                        item.y === rankedCommNames[idx]).map(item => item.value)[0];
+          rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
+        }
+
       }
+    
+      // List of all variables and number of them
+      var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
+      var num = Math.sqrt(rankedCommData.length)
 
-    }
-    console.log("rankedCommData: ", rankedCommData)
+      // Create a color scale
+      // var color = d3.scaleLinear()
+      //   .domain([1, 5, 10])
+      //   .range(["#B22222", "#fff", "#000080"]);
 
+      // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
+      var size = d3.scaleSqrt()
+        .domain([0, 1])
+        .range([0, .1]);
 
+      // X scale
+      var x = d3.scaleLinear()
+          .domain([2001,2016])
+          .range([0, width/1.1]);
 
-    // // List of all variables and number of them
-    var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
-    var num = Math.sqrt(rankedCommData.length)
+      // Y scale
+      var  y = d3.scaleLinear()
+            .domain([1, 5000])
+            .range([0, height/1.5]);
 
-    // Create a color scale
-    // var color = d3.scaleLinear()
-    //   .domain([1, 5, 10])
-    //   .range(["#B22222", "#fff", "#000080"]);
+      // Create one 'g' element for each cell of the correlogram
+      var cor = svg.attr("class", "rankplot")
+          .selectAll(".cor")
+        .data(rankedCommData)
+        .enter()
+        .append("g")
+          .attr("class", "cor")
+          .attr("transform", function(d, i) {
+            if (i===0) {
+              comm0 = d.y;
+              idx = 0;
+            }
+           
 
-    // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
-    // var size = d3.scaleSqrt()
-    var size = d3.scaleSqrt()
-      .domain([0, 1])
-      .range([0, .1]);
-    // console.log("size: ", size(1000))
-    // console.log("size: ", size(3000))
+            var ycoord, y0, delta;
+            y0 = 40;
+            delta = 35;
+            if (d.y === comm0) {
+              
+            } else {
+              comm0 = d.y;
+              if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
+            }
+            ycoord = y0 + idx*delta;
 
-    // X scale
-    // var x = d3.scalePoint()
-    //   .range([0, width])
-    //   .domain(domain)
-    var x = d3.scaleLinear()
-        .domain([2001,2016])
-        .range([0, width/1.1]);
-
-    // Y scale
-    // var y = d3.scalePoint()
-      // .range([0, height])
-      // .domain(domain);
-    var  y = d3.scaleLinear()
-          .domain([1, 5000])
-          .range([0, height/1.5]);
-    // console.log("y scale: ", y(1000))
-    // console.log("y scale: ", y(3000))
-
-    // Create one 'g' element for each cell of the correlogram
-    var cor = svg.attr("class", "rankplot")
-        .selectAll(".cor")
-      .data(rankedCommData)
-      .enter()
-      .append("g")
-        .attr("class", "cor")
-        .attr("transform", function(d, i) {
-          if (i===0) {
-            comm0 = d.y;
-            idx = 0;
-          }
-         
-
-          var ycoord, y0, delta;
-          y0 = 40;
-          delta = 35;
-          if (d.y === comm0) {
-            
-          } else {
-            comm0 = d.y;
-            if (i%16 === 0) idx++;  //only increment idx when i is divisible by 16 (the number of years)
-          }
-          ycoord = y0 + idx*delta;
-
-          return "translate(" + x(d.x) + "," + ycoord + ")";
-          });
-
-    // add circles
-    cor
-      .append("circle")
-          .attr("class", function(d) {
-            // return "comm_" + d.y;
-            return "comm_gen";
-          })
-          .attr("r", function(d){
-            return size(Math.abs(d.value));
-            // return size(Math.log( Math.abs(d.value)) );
-          })
-          .style("fill", function(d){
-              // return color(d.value);
+            return "translate(" + x(d.x) + "," + ycoord + ")";
             });
 
-    //label columns by year
-    cor.append("text")
-        .attr("dx", function(d){
-          return -18;
-        })
-        .attr("dy", function(d){
-          return -30;
-        })
-        .attr("class", "comm_yr")
-        .text(function(d,i){
-          if (d.y === rankedCommNames[0]) return d.x;
-        });
+      // add circles
+      cor
+        .append("circle")
+            .attr("class", function(d) {
+              return "comm_gen";
+            })
+            .attr("r", function(d){
+              return size(Math.abs(d.value));
+              // return size(Math.log( Math.abs(d.value)) );
+            })
+            .style("fill", function(d){
+                // return color(d.value);
+              });
 
-    //label rows by movt type
-    cor.append("text")
-        .attr("dx", function(d){
-          return -105;
-        })
-        .attr("dy", function(d){
-          return 4;
-        })
-        .attr("class", "comm_type")
-        .text(function(d,i){
-          if (d.x === "2001") return d.y;
-        });
+      //label columns by year
+      cor.append("text")
+          .attr("dx", function(d){
+            return -18;
+          })
+          .attr("dy", function(d){
+            return -30;
+          })
+          .attr("class", "comm_yr")
+          .text(function(d,i){
+            if (d.y === rankedCommNames[0]) return d.x;
+          });
 
-    //label circle by value
-    cor.append("text")
-        .attr("dx", function(d){
-          return -2;
-        })
-        .attr("dy", function(d){
-          return 4;
-        })
-        .attr("class", "comm_value")
-        .text(function(d,i){
-          if (d.value === 0) return d.value;
-        });
+      //label rows by movt type
+      cor.append("text")
+          .attr("dx", function(d){
+            return -105;
+          })
+          .attr("dy", function(d){
+            return 4;
+          })
+          .attr("class", "comm_type")
+          .text(function(d,i){
+            if (d.x === "2001") return d.y;
+          });
+
+      //label circle by value
+      cor.append("text")
+          .attr("dx", function(d){
+            return -2;
+          })
+          .attr("dy", function(d){
+            return 4;
+          })
+          .attr("class", "comm_value")
+          .text(function(d,i){
+            if (d.value === 0) return d.value;
+          });
 
     }) //end d3.csv
-  
-
-
   }
 
 
