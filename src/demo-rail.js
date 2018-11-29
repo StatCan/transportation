@@ -317,7 +317,7 @@ var chart = d3.select(".data")
 
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
-    var margin = {top: 20, right: 20, bottom: 20, left: 110},
+    var margin = {top: 20, right: 0, bottom: 20, left: 150},
         width = 1200 - margin.left - margin.right,
         height = 1500 - margin.top - margin.bottom;
 
@@ -434,7 +434,7 @@ var chart = d3.select(".data")
       //label columns by year
       cor.append("text")
           .attr("dx", function(d){
-            return -18;
+            return -20;
           })
           .attr("dy", function(d){
             return -30;
@@ -444,10 +444,10 @@ var chart = d3.select(".data")
             if (d.y === rankedCommNames[0]) return d.x;
           });
 
-      //label rows by movt type
+      //label rows by commdity name
       cor.append("text")
           .attr("dx", function(d){
-            return -105;
+            return -150;
           })
           .attr("dy", function(d){
             return 4;
