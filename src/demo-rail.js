@@ -2,6 +2,7 @@ data = {};
 selected = "CANADA";
 var rankedCommData = []; //temp
 var rankedCommNames; //temp
+var count = 0;
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -360,13 +361,11 @@ var chart = d3.select(".data")
 
       // //Save sorted commodities in array
       // var sortedCommArray = filterYear.map(item => item.y);
+      // console.log("sortedCommArray: ", sortedCommArray)
 
-      // console.log("rawCommData: ", rawCommData)
+      // //sort rawCommData according to string order in sortedCommArray
+      // //??????????
       
-      // result = sortedCommArray.sort(function(a, b){  
-      //   return rawCommData.indexOf(a) - rawCommData.indexOf(b);
-      // });
-
       var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
       rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
       // console.log("sorted Comm: ", rawCommData)    
@@ -383,6 +382,9 @@ var chart = d3.select(".data")
         }
 
       }
+
+      //Slice the data to diplay n commodities at a time
+
 
       var displayData = [];
       displayData = rankedCommData.filter(item => rankedCommNames.slice(0,5).indexOf(item.y) != -1);
@@ -416,90 +418,174 @@ var chart = d3.select(".data")
       console.log("maxVal: ", maxVal)
       console.log("size: ",size(maxVal))
 
-      // Create one 'g' element for each cell of the correlogram
-      var cor = svg.attr("class", "rankplot")
-          .selectAll(".cor")
-        // .data(rankedCommData)
-        .data(displayData)
-        .enter()
-        .append("g")
-          .attr("class", "cor")
-          .attr("transform", function(d, i) {
-            if (i===0) {
-              comm0 = d.y;
-              idx = 0;
-            }
+      drawBubbles(svg, displayData, years, x, y, size, maxVal)
 
-            var ycoord, y0, delta;
-            y0 = 40;
-            delta = 2*size(maxVal);  //35;
-            if (d.y === comm0) {
+      // // Create one 'g' element for each cell of the correlogram
+      // var cor = svg.attr("class", "rankplot")
+      //     .selectAll(".cor")
+      //   // .data(rankedCommData)
+      //   .data(displayData)
+      //   .enter()
+      //   .append("g")
+      //     .attr("class", "cor")
+      //     .attr("transform", function(d, i) {
+      //       if (i===0) {
+      //         comm0 = d.y;
+      //         idx = 0;
+      //       }
+
+      //       var ycoord, y0, delta;
+      //       y0 = 40;
+      //       delta = 2*size(maxVal);  //35;
+      //       if (d.y === comm0) {
               
-            } else {
-              comm0 = d.y;
-              if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
-            }
-            ycoord = y0 + idx*delta;
+      //       } else {
+      //         comm0 = d.y;
+      //         if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
+      //       }
+      //       ycoord = y0 + idx*delta;
 
-            return "translate(" + x(d.x) + "," + ycoord + ")";
-            });
+      //       return "translate(" + x(d.x) + "," + ycoord + ")";
+      //       });
 
-      // add circles
-      cor
-        .append("circle")
-            .attr("class", function(d) {
-              return "comm_gen";
-            })
-            .attr("r", function(d){
-              return size(Math.abs(d.value));
-              // return size(Math.log( Math.abs(d.value)) );
-            })
-            .style("fill", function(d){
-                // return color(d.value);
-              });
+      // // add circles
+      // cor
+      //   .append("circle")
+      //       .attr("class", function(d) {
+      //         return "comm_gen";
+      //       })
+      //       .attr("r", function(d){
+      //         return size(Math.abs(d.value));
+      //         // return size(Math.log( Math.abs(d.value)) );
+      //       })
+      //       .style("fill", function(d){
+      //           // return color(d.value);
+      //         });
 
-      //label columns by year
-      cor.append("text")
-          .attr("dx", function(d){
-            return -20;
-          })
-          .attr("dy", function(d){
-            return -30;
-          })
-          .attr("class", "comm_yr")
-          .text(function(d,i){
-            if (d.y === rankedCommNames[0]) return d.x;
-          });
+      // //label columns by year
+      // cor.append("text")
+      //     .attr("dx", function(d){
+      //       return -20;
+      //     })
+      //     .attr("dy", function(d){
+      //       return -30;
+      //     })
+      //     .attr("class", "comm_yr")
+      //     .text(function(d,i){
+      //       if (d.y === rankedCommNames[0]) return d.x;
+      //     });
 
-      //label rows by commdity name
-      cor.append("text")
-          .attr("dx", function(d){
-            return -150;
-          })
-          .attr("dy", function(d){
-            return 4;
-          })
-          .attr("class", "comm_type")
-          .text(function(d,i){
-            if (d.x === "2001") return d.y;
-          });
+      // //label rows by commdity name
+      // cor.append("text")
+      //     .attr("dx", function(d){
+      //       return -150;
+      //     })
+      //     .attr("dy", function(d){
+      //       return 4;
+      //     })
+      //     .attr("class", "comm_type")
+      //     .text(function(d,i){
+      //       if (d.x === "2001") return d.y;
+      //     });
 
-      //label circle by value
-      cor.append("text")
-          .attr("dx", function(d){
-            return -2;
-          })
-          .attr("dy", function(d){
-            return 4;
-          })
-          .attr("class", "comm_value")
-          .text(function(d,i){
-            if (d.value === 0) return d.value;
-          });
+      // //label circle by value
+      // cor.append("text")
+      //     .attr("dx", function(d){
+      //       return -2;
+      //     })
+      //     .attr("dy", function(d){
+      //       return 4;
+      //     })
+      //     .attr("class", "comm_value")
+      //     .text(function(d,i){
+      //       if (d.value === 0) return d.value;
+      //     });
 
     }) //end d3.csv
   }
 
+function drawBubbles(svg, displayData, years, x, y, size, maxVal) {
+   // Create one 'g' element for each cell of the correlogram
+  var cor = svg.attr("class", "rankplot")
+      .selectAll(".cor")
+    // .data(rankedCommData)
+    .data(displayData)
+    .enter()
+    .append("g")
+      .attr("class", "cor")
+      .attr("transform", function(d, i) {
+        if (i===0) {
+          comm0 = d.y;
+          idx = 0;
+        }
+
+        var ycoord, y0, delta;
+        y0 = 40;
+        delta = 2*size(maxVal);  //35;
+        if (d.y === comm0) {
+          
+        } else {
+          comm0 = d.y;
+          if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
+        }
+        ycoord = y0 + idx*delta;
+
+        return "translate(" + x(d.x) + "," + ycoord + ")";
+        });
+
+  // add circles
+  cor
+    .append("circle")
+        .attr("class", function(d) {
+          return "comm_gen";
+        })
+        .attr("r", function(d){
+          return size(Math.abs(d.value));
+          // return size(Math.log( Math.abs(d.value)) );
+        })
+        .style("fill", function(d){
+            // return color(d.value);
+          });
+
+  //label columns by year
+  cor.append("text")
+      .attr("dx", function(d){
+        return -20;
+      })
+      .attr("dy", function(d){
+        return -30;
+      })
+      .attr("class", "comm_yr")
+      .text(function(d,i){
+        if (d.y === rankedCommNames[0]) return d.x;
+      });
+
+  //label rows by commdity name
+  cor.append("text")
+      .attr("dx", function(d){
+        return -150;
+      })
+      .attr("dy", function(d){
+        return 4;
+      })
+      .attr("class", "comm_type")
+      .text(function(d,i){
+        if (d.x === "2001") return d.y;
+      });
+
+  //label circle by value
+  cor.append("text")
+      .attr("dx", function(d){
+        return -2;
+      })
+      .attr("dy", function(d){
+        return 4;
+      })
+      .attr("class", "comm_value")
+      .text(function(d,i){
+        if (d.value === 0) return d.value;
+      });
+} //.drawBubbles
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
@@ -509,6 +595,21 @@ i18n.load(["src/i18n"], function() {
       areaChart(chart, settings, data);
 
       showComm(); //display sorted commodity bubble table
+
+      d3.select("#nextButton")
+        .on("click", function() { 
+          console.log("click ", count)
+          count++;       
+
+          //Display next set of commodities
+          displayData = rankedCommData.filter(item => rankedCommNames.slice(5,11).indexOf(item.y) != -1);
+          console.log("displayData: ", displayData)
+
+          var svg;
+          svg = d3.select("#commgrid").select("svg .cor");
+
+
+        })
           
       //showRadar();
 
