@@ -132,7 +132,7 @@ var chart = d3.select(".data")
 
         hours = [];
 
-        numCommodities = 64
+        var numCommodities = 64
         for (i = 0; i < numCommodities; i += 1) {
             series[0][i] = randomFromTo(0,20);
             series[1][i] = randomFromTo(5,15);
@@ -321,8 +321,6 @@ var chart = d3.select(".data")
     d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
-    
-
     //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
       var rawCommData = [];
@@ -363,7 +361,7 @@ var chart = d3.select(".data")
       // console.log("sorted Comm: ", rawCommData)    
       //Commodities in descending order of yr 2016 value
       rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
-      // console.log("rankedCommNames: ", rankedCommNames)
+      // console.log("rankedCommNames: ", rankedCommNames)      
 
       // var rankedCommData = [];
       for (idx = 0; idx < rankedCommNames.length; idx++) {
@@ -385,25 +383,50 @@ var chart = d3.select(".data")
   }
 
 function drawBubbles(rankedCommData, years, maxVal, count) {
-  if (count > 0) d3.select("#commgrid").select("svg").remove(); //clear for next display
+  console.log("count in drawBubbles: ", count)
+  //---------------------------------------
+  //diplay-related
+  var numPerPage = 5; //number of commodities to display per page
+  var numCommodities = rankedCommNames.length;
+  var numPages = Math.ceil(numCommodities/numPerPage)
+  var s0, s1;
 
+  console.log("numPages: ", numPages)
+  console.log("numCommodities: ", numCommodities)
+
+  if (count > 0) d3.select("#commgrid").select("svg").remove(); //clear for next display
+  if (count >= numPages) {
+    d3.select("#nextButton").text("Reset");
+    count = numPages -1;
+    s0 = count*numPerPage;
+    s1 = (count + 1) * numPerPage;
+  } else {
+    s0 = count*numPerPage;
+    s1 = (count + 1) * numPerPage;
+
+  }
+
+   
+  
+
+  //---------------------------------------
   //svg params
   //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
-    // Graph dimension
-    var margin = {top: 20, right: 0, bottom: 20, left: 150},
-        width = 1200 - margin.left - margin.right,
-        height = 1500 - margin.top - margin.bottom;
+  // Graph dimension
+  var margin = {top: 20, right: 0, bottom: 20, left: 150},
+      width = 1200 - margin.left - margin.right,
+      height = 1500 - margin.top - margin.bottom;
 
-    // Create the svg area
-    var svg = d3.select("#commgrid")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  // Create the svg area
+  var svg = d3.select("#commgrid")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  //---------------------------------------
   //bubble table params
-  var num = 5; //number of commodities to display per page
 
   // Create a color scale
   // var color = d3.scaleLinear()
@@ -444,16 +467,16 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
         .domain([1, 5000])
         .range([0, height/1.5]);
 
-  console.log("count: ", count)
-  var s0 = count*num;
-  var s1 = (count + 1) * num;
-
+ 
+  //---------------------------------------
   //Slice the data to diplay n commodities at a time
   var displayData = [];
   displayData = rankedCommData.filter(item => rankedCommNames.slice(s0,s1).indexOf(item.y) != -1);
   console.log("displayData: ", displayData)
 
 
+  //---------------------------------------
+  //Diplay slice
   // Create one 'g' element for each cell of the correlogram
   var cor = svg.attr("class", "rankplot")
       .selectAll(".cor")
