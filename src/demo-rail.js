@@ -1,5 +1,7 @@
 data = {};
 selected = "CANADA";
+var rankedCommData = []; //temp
+var rankedCommNames; //temp
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -315,6 +317,8 @@ var chart = d3.select(".data")
     d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
+    var num = 5; //number of commodities to display per page
+
     //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
     // Graph dimension
     var margin = {top: 20, right: 0, bottom: 20, left: 150},
@@ -370,7 +374,7 @@ var chart = d3.select(".data")
       rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
       // console.log("rankedCommNames: ", rankedCommNames)
 
-      var rankedCommData = [];
+      // var rankedCommData = [];
       for (idx = 0; idx < rankedCommNames.length; idx++) {
         for (jdx = 0; jdx < years.length; jdx++) {
           var thisVal = rawCommData.filter(item => item.x === years[jdx] && 
@@ -379,6 +383,10 @@ var chart = d3.select(".data")
         }
 
       }
+
+      var displayData = [];
+      displayData = rankedCommData.filter(item => rankedCommNames.slice(0,5).indexOf(item.y) != -1);
+      console.log("displayData: ", displayData)
     
       // List of all variables and number of them
       var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
@@ -411,7 +419,8 @@ var chart = d3.select(".data")
       // Create one 'g' element for each cell of the correlogram
       var cor = svg.attr("class", "rankplot")
           .selectAll(".cor")
-        .data(rankedCommData)
+        // .data(rankedCommData)
+        .data(displayData)
         .enter()
         .append("g")
           .attr("class", "cor")
