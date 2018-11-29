@@ -95,6 +95,16 @@
 	stroke: #909294;
 }
 
+#nextButton {
+	position: relative;
+  	top: -43px;
+  	left: 1000px;
+  	border: 1px solid #CECECE;
+}
+.btn:hover {
+	background-color: #CECECE;
+}
+
 
 
 /*map*/
