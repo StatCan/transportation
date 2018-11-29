@@ -349,6 +349,8 @@ var chart = d3.select(".data")
 
       var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
       rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+      console.log("sorted Comm: ", rawCommData)
+
 
     
       //Commodities in descending order of yr 2016 value
@@ -389,6 +391,10 @@ var chart = d3.select(".data")
             .domain([1, 5000])
             .range([0, height/1.5]);
 
+      var maxVal = rawCommData[0].value;
+      console.log("maxVal: ", maxVal)
+      console.log("size: ",size(maxVal))
+
       // Create one 'g' element for each cell of the correlogram
       var cor = svg.attr("class", "rankplot")
           .selectAll(".cor")
@@ -401,11 +407,10 @@ var chart = d3.select(".data")
               comm0 = d.y;
               idx = 0;
             }
-           
 
             var ycoord, y0, delta;
             y0 = 40;
-            delta = 35;
+            delta = 2*size(maxVal);  //35;
             if (d.y === comm0) {
               
             } else {
