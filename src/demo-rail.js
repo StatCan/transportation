@@ -1,8 +1,11 @@
 data = {};
 selected = "CANADA";
-var rankedCommData = []; //temp
-var rankedCommNames; //temp
+
+//global variables for drawBubbles fn
+var rankedCommData = [];
 var count = 0;
+var displayData, years, maxVal;
+var rankedCommNames; //temp
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -318,21 +321,7 @@ var chart = d3.select(".data")
     d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
               + ", Destination " + i18next.t("QC", {ns: "regions"}));
 
-    var num = 5; //number of commodities to display per page
-
-    //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
-    // Graph dimension
-    var margin = {top: 20, right: 0, bottom: 20, left: 150},
-        width = 1200 - margin.left - margin.right,
-        height = 1500 - margin.top - margin.bottom;
-
-    // Create the svg area
-    var svg = d3.select("#commgrid")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
 
     //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
@@ -366,8 +355,11 @@ var chart = d3.select(".data")
       // //sort rawCommData according to string order in sortedCommArray
       // //??????????
       
-      var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
+      years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
       rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+      maxVal = rawCommData[0].value;
+      console.log("maxVal: ", maxVal)
+
       // console.log("sorted Comm: ", rawCommData)    
       //Commodities in descending order of yr 2016 value
       rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
@@ -382,130 +374,87 @@ var chart = d3.select(".data")
         }
 
       }
-
-      //Slice the data to diplay n commodities at a time
-
-
-      var displayData = [];
-      displayData = rankedCommData.filter(item => rankedCommNames.slice(0,5).indexOf(item.y) != -1);
-      console.log("displayData: ", displayData)
-    
+ 
       // List of all variables and number of them
       var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
       var num = Math.sqrt(rankedCommData.length)
 
-      // Create a color scale
-      // var color = d3.scaleLinear()
-      //   .domain([1, 5, 10])
-      //   .range(["#B22222", "#fff", "#000080"]);
-
-      // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
-      var size = d3.scaleSqrt()
-        .domain([0, 1])
-        .range([0, .1]);
-
-      // X scale
-      var x = d3.scaleLinear()
-          .domain([2001,2016])
-          .range([0, width/1.1]);
-
-      // Y scale
-      var  y = d3.scaleLinear()
-            .domain([1, 5000])
-            .range([0, height/1.5]);
-
-      var maxVal = rawCommData[0].value;
-      console.log("maxVal: ", maxVal)
-      console.log("size: ",size(maxVal))
-
-      drawBubbles(svg, displayData, years, x, y, size, maxVal)
-
-      // // Create one 'g' element for each cell of the correlogram
-      // var cor = svg.attr("class", "rankplot")
-      //     .selectAll(".cor")
-      //   // .data(rankedCommData)
-      //   .data(displayData)
-      //   .enter()
-      //   .append("g")
-      //     .attr("class", "cor")
-      //     .attr("transform", function(d, i) {
-      //       if (i===0) {
-      //         comm0 = d.y;
-      //         idx = 0;
-      //       }
-
-      //       var ycoord, y0, delta;
-      //       y0 = 40;
-      //       delta = 2*size(maxVal);  //35;
-      //       if (d.y === comm0) {
-              
-      //       } else {
-      //         comm0 = d.y;
-      //         if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
-      //       }
-      //       ycoord = y0 + idx*delta;
-
-      //       return "translate(" + x(d.x) + "," + ycoord + ")";
-      //       });
-
-      // // add circles
-      // cor
-      //   .append("circle")
-      //       .attr("class", function(d) {
-      //         return "comm_gen";
-      //       })
-      //       .attr("r", function(d){
-      //         return size(Math.abs(d.value));
-      //         // return size(Math.log( Math.abs(d.value)) );
-      //       })
-      //       .style("fill", function(d){
-      //           // return color(d.value);
-      //         });
-
-      // //label columns by year
-      // cor.append("text")
-      //     .attr("dx", function(d){
-      //       return -20;
-      //     })
-      //     .attr("dy", function(d){
-      //       return -30;
-      //     })
-      //     .attr("class", "comm_yr")
-      //     .text(function(d,i){
-      //       if (d.y === rankedCommNames[0]) return d.x;
-      //     });
-
-      // //label rows by commdity name
-      // cor.append("text")
-      //     .attr("dx", function(d){
-      //       return -150;
-      //     })
-      //     .attr("dy", function(d){
-      //       return 4;
-      //     })
-      //     .attr("class", "comm_type")
-      //     .text(function(d,i){
-      //       if (d.x === "2001") return d.y;
-      //     });
-
-      // //label circle by value
-      // cor.append("text")
-      //     .attr("dx", function(d){
-      //       return -2;
-      //     })
-      //     .attr("dy", function(d){
-      //       return 4;
-      //     })
-      //     .attr("class", "comm_value")
-      //     .text(function(d,i){
-      //       if (d.value === 0) return d.value;
-      //     });
+      drawBubbles(rankedCommData, years, maxVal, count)
 
     }) //end d3.csv
   }
 
-function drawBubbles(svg, displayData, years, x, y, size, maxVal) {
-   // Create one 'g' element for each cell of the correlogram
+function drawBubbles(rankedCommData, years, maxVal, count) {
+  if (count > 0) d3.select("#commgrid").select("svg").remove(); //clear for next display
+
+  //svg params
+  //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
+    // Graph dimension
+    var margin = {top: 20, right: 0, bottom: 20, left: 150},
+        width = 1200 - margin.left - margin.right,
+        height = 1500 - margin.top - margin.bottom;
+
+    // Create the svg area
+    var svg = d3.select("#commgrid")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  //bubble table params
+  var num = 5; //number of commodities to display per page
+
+  // Create a color scale
+  // var color = d3.scaleLinear()
+  //   .domain([1, 5, 10])
+  //   .range(["#B22222", "#fff", "#000080"]);
+
+  // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
+  var size = d3.scaleSqrt()
+    .domain([0, 1])
+    .range([0, .1]);
+
+  // X scale
+  var x = d3.scaleLinear()
+      .domain([2001,2016])
+      .range([0, width/1.1]);
+
+  // Y scale
+  var  y = d3.scaleLinear()
+        .domain([1, 5000])
+        .range([0, height/1.5]);
+
+  // var color = d3.scaleLinear()
+  //   .domain([1, 5, 10])
+  //   .range(["#B22222", "#fff", "#000080"]);
+
+  // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
+  var size = d3.scaleSqrt()
+    .domain([0, 1])
+    .range([0, .1]);
+
+  // X scale
+  var x = d3.scaleLinear()
+      .domain([2001,2016])
+      .range([0, width/1.1]);
+
+  // Y scale
+  var  y = d3.scaleLinear()
+        .domain([1, 5000])
+        .range([0, height/1.5]);
+
+  console.log("count: ", count)
+  var s0 = count*num;
+  var s1 = (count + 1) * num;
+
+  //Slice the data to diplay n commodities at a time
+  var displayData = [];
+  displayData = rankedCommData.filter(item => rankedCommNames.slice(s0,s1).indexOf(item.y) != -1);
+  console.log("displayData: ", displayData)
+
+
+  // Create one 'g' element for each cell of the correlogram
   var cor = svg.attr("class", "rankplot")
       .selectAll(".cor")
     // .data(rankedCommData)
@@ -597,16 +546,16 @@ i18n.load(["src/i18n"], function() {
       showComm(); //display sorted commodity bubble table
 
       d3.select("#nextButton")
-        .on("click", function() { 
+        .on("click", function() {
+          count++; 
           console.log("click ", count)
-          count++;       
+                
 
           //Display next set of commodities
           displayData = rankedCommData.filter(item => rankedCommNames.slice(5,11).indexOf(item.y) != -1);
-          console.log("displayData: ", displayData)
+          console.log("displayData: ", displayData)      
 
-          var svg;
-          svg = d3.select("#commgrid").select("svg .cor");
+          drawBubbles(rankedCommData, years, maxVal, count);
 
 
         })
