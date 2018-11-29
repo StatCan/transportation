@@ -347,15 +347,28 @@ var chart = d3.select(".data")
         }
       });
 
+      // //Extract data for only year 2016
+      // var filterYear = rawCommData.filter(item => item.x === "2016");
+      
+      // //Sort these 2016 values
+      // filterYear.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+      // console.log("filterYear: ", filterYear)
+
+      // //Save sorted commodities in array
+      // var sortedCommArray = filterYear.map(item => item.y);
+
+      // console.log("rawCommData: ", rawCommData)
+      
+      // result = sortedCommArray.sort(function(a, b){  
+      //   return rawCommData.indexOf(a) - rawCommData.indexOf(b);
+      // });
+
       var years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
       rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
-      console.log("sorted Comm: ", rawCommData)
-
-
-    
+      // console.log("sorted Comm: ", rawCommData)    
       //Commodities in descending order of yr 2016 value
       rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
-      console.log("rankedCommNames: ", rankedCommNames)
+      // console.log("rankedCommNames: ", rankedCommNames)
 
       var rankedCommData = [];
       for (idx = 0; idx < rankedCommNames.length; idx++) {
