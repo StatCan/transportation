@@ -316,10 +316,12 @@ var chart = d3.select(".data")
 
   }
 
-  function showComm() {
-     //change area chart title to match selected province
-    d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume in 2016: " + i18next.t("ATR", {ns: "regions"})
-              + " to " + i18next.t("QC", {ns: "regions"}));
+  function showComm() {    
+    //change area chart title to match selected province
+    d3.select(".commTable h4")
+      .text("Annual tonnages for all commodities, sorted by volume in 2016: " + 
+              i18next.t("ATR", {ns: "regions"}) +
+              " to " + i18next.t("QC", {ns: "regions"}));
 
     //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
@@ -391,21 +393,25 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   var numPages = Math.ceil(numCommodities/numPerPage)
   var s0, s1;
 
+  //Page counter display
+  d3.select("#pageNum")
+    .text(`Page  ${count + 1}/${numPages}`);
+
   console.log("numPages: ", numPages)
   console.log("numCommodities: ", numCommodities)
 
   d3.select("#commgrid").select("svg").remove(); //clear for next display
-    if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
-    else d3.select("#nextButton").classed("inactive", false);
-    s0 = count*numPerPage;
-    s1 = (count + 1) * numPerPage;
+  if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
+  else d3.select("#nextButton").classed("inactive", false);
+  s0 = count*numPerPage;
+  s1 = (count + 1) * numPerPage;
 
   //---------------------------------------
   //svg params
   //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
   // Graph dimension
   var margin = {top: 20, right: 0, bottom: 20, left: 150},
-      width = 1200 - margin.left - margin.right,
+      width = 1230 - margin.left - margin.right,
       height = 370 - margin.top - margin.bottom;
 
   // Create the svg area
