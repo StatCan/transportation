@@ -395,13 +395,10 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   console.log("numCommodities: ", numCommodities)
 
   d3.select("#commgrid").select("svg").remove(); //clear for next display
-  if (count >= numPages) {
-    d3.select("#nextButton").classed("inactive", true);
-  } else {
+    if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
+    else d3.select("#nextButton").classed("inactive", false);
     s0 = count*numPerPage;
     s1 = (count + 1) * numPerPage;
-  }
-
 
   //---------------------------------------
   //svg params
