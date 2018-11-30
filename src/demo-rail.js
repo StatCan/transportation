@@ -358,7 +358,6 @@ var chart = d3.select(".data")
       years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
       rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
       maxVal = rawCommData[0].value;
-      console.log("maxVal: ", maxVal)
 
       // console.log("sorted Comm: ", rawCommData)    
       //Commodities in descending order of yr 2016 value
@@ -385,20 +384,16 @@ var chart = d3.select(".data")
   }
 
 function drawBubbles(rankedCommData, years, maxVal, count) {
-  console.log("count in drawBubbles: ", count)
   //---------------------------------------
   //diplay-related
   var numPerPage = 5; //number of commodities to display per page
   var numCommodities = rankedCommNames.length;
-  var numPages = Math.ceil(numCommodities/numPerPage)
+  var numPages = Math.ceil(numCommodities/numPerPage);
   var s0, s1;
 
   //Page counter display
   d3.select("#pageNum")
     .text(`Page  ${count + 1}/${numPages}`);
-
-  console.log("numPages: ", numPages)
-  console.log("numCommodities: ", numCommodities)
 
   d3.select("#commgrid").select("svg").remove(); //clear for next display
   if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
@@ -469,8 +464,6 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   //Slice the data to diplay n commodities at a time
   var displayData = [];
   displayData = rankedCommData.filter(item => rankedCommNames.slice(s0,s1).indexOf(item.y) != -1);
-  console.log("displayData: ", displayData)
-
 
   //---------------------------------------
   //Diplay slice
@@ -558,7 +551,6 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
-    // .defer(d3.json, "data/worldpop.json")
     .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
@@ -571,23 +563,16 @@ i18n.load(["src/i18n"], function() {
       d3.select("#nextButton")
         .on("click", function() {
           count++;
-          console.log("count: ", count)
           count === 0 ? d3.select("#prevButton").classed("inactive", true) :
                         d3.select("#prevButton").classed("inactive", false);
-          
-          console.log("count in eventListener ", count) 
-
           drawBubbles(rankedCommData, years, maxVal, count);
-
       })
 
       d3.select("#prevButton")
         .on("click", function() {
-          count--;
-          console.log("prev: ", count)
+          count--;          
           count === 0 ? d3.select("#prevButton").classed("inactive", true) :
                         d3.select("#prevButton").classed("inactive", false);
-
           drawBubbles(rankedCommData, years, maxVal, count);
       })
           
