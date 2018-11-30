@@ -106,9 +106,12 @@
   	left: 970px;
   	border: 1px solid #CECECE;
 }
-.btn:hover {
-	background-color: #CECECE;
-	color: #333333;
+.inactive {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.active {
+	pointer-events: auto;
 }
 
 

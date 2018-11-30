@@ -396,10 +396,7 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
 
   if (count > 0) d3.select("#commgrid").select("svg").remove(); //clear for next display
   if (count >= numPages) {
-    d3.select("#nextButton").text("Reset");
-    count = numPages -1;
-    s0 = count*numPerPage;
-    s1 = (count + 1) * numPerPage;
+    d3.select("#nextButton").classed("inactive", true);
   } else {
     s0 = count*numPerPage;
     s1 = (count + 1) * numPerPage;
@@ -566,9 +563,16 @@ i18n.load(["src/i18n"], function() {
 
       showComm(); //display sorted commodity bubble table
 
+
+      d3.select("#prevButton").classed("inactive", true);
+
       d3.select("#nextButton")
         .on("click", function() {
-          count++; 
+          count++;
+          console.log("count: ", count)
+          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                        d3.select("#prevButton").classed("inactive", false);
+          
           console.log("click ", count)
                 
 
