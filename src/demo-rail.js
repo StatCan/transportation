@@ -406,8 +406,6 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
 
   }
 
-   
-  
 
   //---------------------------------------
   //svg params
@@ -529,7 +527,7 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
       })
       .attr("class", "comm_yr")
       .text(function(d,i){
-        if (d.y === rankedCommNames[0]) return d.x;
+        if (d.y === rankedCommNames[s0]) return d.x;
       });
 
   //label rows by commdity name
