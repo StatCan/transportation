@@ -88,7 +88,8 @@ function showRank(selected) {
       height = 430 - margin.top - margin.bottom;
 
   // Create the svg area
-  var svg = d3.select("#my_dataviz")
+  d3.select("#bubbleTable").select("svg").remove(); //clear for next display
+  var svg = d3.select("#bubbleTable")
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
