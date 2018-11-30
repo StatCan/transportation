@@ -94,11 +94,16 @@
 	fill:  #CECECE;
 	stroke: #909294;
 }
-
+#prevButton {
+	position: relative;
+  	top: -43px;
+  	left: 960px;
+  	border: 1px solid #CECECE;
+}
 #nextButton {
 	position: relative;
   	top: -43px;
-  	left: 1000px;
+  	left: 970px;
   	border: 1px solid #CECECE;
 }
 .btn:hover {

@@ -318,8 +318,8 @@ var chart = d3.select(".data")
 
   function showComm() {
      //change area chart title to match selected province
-    d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
-              + ", Destination " + i18next.t("QC", {ns: "regions"}));
+    d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume in 2016: " + i18next.t("ATR", {ns: "regions"})
+              + " to " + i18next.t("QC", {ns: "regions"}));
 
     //var rawCommData = [];
     d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
