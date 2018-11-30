@@ -11,19 +11,16 @@ let selected = "CANADA";
 
 /* canada map */
 let heading = d3.select(".dashboard h4"),
-canada = window.getCanadaMap(map).on("loaded", function() {
-  console.log("here: ", this)
+canada = window.getCanadaMap(map).on("loaded", function() { 
   let mapObj = this;
   d3.json("geojson/testairport.geojson", function(error, airports) {
-    console.log(airports)
     if (error) throw error;
-    console.log("airports: ", airports)
 
     var airportGroup = map.append("g");
     var path = d3.geoPath().projection(mapObj.settings.projection)
                 .pointRadius(2);
 
-    airportPoints = airportGroup.selectAll("path")
+    let airportPoints = airportGroup.selectAll("path")
         .data(airports.features)
         .enter().append('path')
         .attr('d', path)
@@ -34,10 +31,10 @@ canada = window.getCanadaMap(map).on("loaded", function() {
         //.attr("r", 50)
         .style("fill", "#7E0C33")
          .on("mouseover", function (d) {
-            //change area chart title to match selected province
-        d3.select(".dashboard h4").text(i18next.t("ON" + " and contribution from airport YYZ", {ns: "provinces"}));
-
-        showAirport();
+          //change area chart title to match selected province
+          d3.select(".dashboard h4")
+            .text(i18next.t("ON" + " and contribution from airport YYZ", {ns: "provinces"}));
+          showAirport();
         });
   });
 });
@@ -76,7 +73,7 @@ function showAirport() {
   });
 
   //show airport rank
-  selectedAirport = "YOW";
+  let selectedAirport = "YOW";
   showRank(selectedAirport);
 }
 
@@ -99,7 +96,8 @@ function showRank(selected) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var corrdata = [];
-  d3.csv("data/rankdata_YOW.csv", function(error, rows) {
+  d3.csv("data/air/rankdata_YOW.csv", function(error, rows) {
+    let prop;
     rows.forEach(function(d) {
       var x = d[""];
       delete d[""];
