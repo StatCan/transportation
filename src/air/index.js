@@ -1,4 +1,5 @@
 import settings from "./settings.js";
+import settings_bubbleTable from "./settings_bubbleTable.js";
 
 let map = d3.select(".dashboard .map")
   .append("svg");
@@ -6,9 +7,17 @@ let chart = d3.select(".data")
     .append("svg")
       .attr("id", "svg_areaChart");
 
+//for currently-working bubble table of airport ranks
 let rankChart = d3.select(".data")
     .append("svg")
       .attr("id", "svg_rankChart");
+
+//!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//for bubble table of airport ranks made by resuable component
+let testChart = d3.select(".data")
+    .append("svg")
+      .attr("id", "svg_testChart");
+//!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let data = {};
 let selected = "CANADA"; //default region for areaChart
@@ -87,18 +96,20 @@ function showAirport(selected_prov, selected_airpt) {
   });
 
   //show airport rank
-  //showRank(selected_airpt);
+  showRank(selected_airpt);
 
   //****WHEN bubbleTable.js IS DEVELOPED****
+  //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!rank_data[selected_airpt]) {
     return d3.json(`data/air/rankdata_${selected_airpt}.json`, (aptData) => {
       rank_data[selected_airpt] = aptData;
       console.log("call bubbleTable for: ", selected_airpt)
       console.log("rank_data: ", rank_data)
-      //bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+      bubbleTable(testChart, settings_bubbleTable, rank_data[selected_airpt]);
     });
   }
-  //bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+  //bubbleTable(testChart, settings_bubbleTable, rank_data[selected_airpt]);
+  //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 function showRank(selected_airpt) {
@@ -136,6 +147,8 @@ function showRank(selected_airpt) {
         });
       }
     });
+
+    console.log("corrdata: ", corrdata)
 
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
     var num = Math.sqrt(corrdata.length)

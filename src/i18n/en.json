@@ -46,7 +46,8 @@
        "YK": "Yukon"
     },
     "airports": {
-       "YOW": "Macdonald-Cartier International (YOW), Ottawa, ON"
+      "alt": "Airport rank",
+      "YOW": "Macdonald-Cartier International (YOW), Ottawa, ON"
     },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",
