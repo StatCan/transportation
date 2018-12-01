@@ -120,7 +120,7 @@ function showRank(selected_airpt) {
   // Graph dimension
   var margin = {top: 20, right: 20, bottom: 20, left: 90},
       width = 1100 - margin.left - margin.right,
-      height = 430 - margin.top - margin.bottom;
+      height = 300 - margin.top - margin.bottom;
 
   // Create the svg area
   d3.select("#svg_rankChart").select("svg").remove(); //clear for next display
