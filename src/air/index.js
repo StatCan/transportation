@@ -54,11 +54,11 @@ function uiHandler(event) {
   if (event.target.id === "groups"){
     selected = document.getElementById("groups").value; //clear any previous airport title
     d3.select(".dashboard h4").text("")
-    showData();
+    showAreaData();
   }
 }
 
-function showData() {
+function showAreaData() {
   let showChart = () => {
     areaChart(chart, settings, data[selected]);
   }
@@ -83,7 +83,7 @@ function showAirport(selected_prov, selected_airpt) {
   d3.json(fname, function(err, filedata) {
      selected = `${selected_prov}_${selected_airpt}`; //"ON_YYZ";
      data[selected] = filedata;
-    showData();
+    showAreaData();
   });
 
   //show airport rank
@@ -230,5 +230,5 @@ function showRank(selected_airpt) {
 
 }
 
-i18n.load(["src/i18n"], showData);
+i18n.load(["src/i18n"], showAreaData);
 $(document).on("change", uiHandler);
