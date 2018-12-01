@@ -147,6 +147,7 @@ function showRank(selected_airpt) {
       }
     });
 
+    console.log("==========================================================")
     console.log("corrdata: ", corrdata)
 
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
@@ -179,7 +180,7 @@ function showRank(selected_airpt) {
           .range([0, height/1.2]);
 
     // Create one 'g' element for each cell of the correlogram
-    var cor = svg.attr("class", "rankplot")
+    var cor = svg   //.attr("class", "rankplot")
       .selectAll(".cor")
       .data(corrdata)
       .enter()
