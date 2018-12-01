@@ -6,8 +6,13 @@ let chart = d3.select(".data")
     .append("svg")
       .attr("id", "svg_areaChart");
 
+let bubbleTable = d3.select(".data")
+    .append("svg")
+      .attr("id", "svg_bubbleTable");
+
 let data = {};
-let selected = "CANADA";
+let selected = "CANADA"; //default region for areaChart
+let selected_airpt;
 
 /* canada map */
 let heading = d3.select(".dashboard h4"),
@@ -31,17 +36,20 @@ canada = window.getCanadaMap(map).on("loaded", function() {
         //.attr("r", 50)
         .style("fill", "#7E0C33")
          .on("mouseover", function (d) {
-          //change area chart title to match selected province
-          d3.select(".dashboard h4")
-            .text(i18next.t("ON" + " and contribution from airport YYZ", {ns: "provinces"}));
-          showAirport();
+            console.log("d: ", d)
+            selected_airpt = d.id;
+            //change area chart title to match selected province
+            d3.select(".dashboard h4")
+              .text(`${d.province} and contribution from airport ${selected_airpt}`);
+            showAirport();
         });
   });
 });
 
 function uiHandler(event) {
   if (event.target.id === "groups"){
-    selected = document.getElementById("groups").value;
+    selected = document.getElementById("groups").value; //clear any previous airport title
+    d3.select(".dashboard h4").text()
     showData();
   }
 }
@@ -50,8 +58,10 @@ function showData() {
   let showChart = () => {
     areaChart(chart, settings, data[selected]);
   }
-  //change area chart title to match selected province
-  d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
+  //change area chart title to match selected province  
+  if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
+    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
+  }
 
   if (!data[selected]) {
     return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {

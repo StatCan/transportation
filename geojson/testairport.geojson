@@ -3,11 +3,11 @@
 "features": 
 	[
 
-	 {"geometry": {"type": "Point", "coordinates": [-78.85, 42.9]}, 
-	 "type": "Feature", 
-	 "properties": {
-	 	"airport": "YYZ"}, 
-	 	"id": "YYZ"
+	 {
+		 "geometry": {"type": "Point", "coordinates": [-78.85, 42.9]}, 
+		 "type": "Feature", 
+		 "id": "YYZ",
+		 "province": "ON"
 	 }
 
 	]
