@@ -4,7 +4,7 @@ let map = d3.select(".dashboard .map")
   .append("svg");
 let chart = d3.select(".data")
     .append("svg")
-      .attr("id", "demo");
+      .attr("id", "svg_areaChart");
 
 let data = {};
 let selected = "CANADA";
