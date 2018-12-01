@@ -88,6 +88,17 @@ function showAirport(selected_prov, selected_airpt) {
 
   //show airport rank
   showRank(selected_airpt);
+
+  //****WHEN bubbleTable.js IS DEVELOPED****
+  if (!rank_data[selected_airpt]) {
+    return d3.csv(`data/air/rankdata_${selected_airpt}.csv`, (aptData) => {
+      rank_data[selected_airpt] = aptData;
+      console.log("call bubbleTable for: ", selected_airpt)
+      console.log("rank_data: ", rank_data)
+      //bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+    });
+  }
+  //bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
 }
 
 function showRank(selected_airpt) {
