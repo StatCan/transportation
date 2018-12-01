@@ -92,9 +92,9 @@ function showAirport(selected_prov, selected_airpt) {
   showRank(selected_airpt);
 }
 
-function showRank(selected) {
+function showRank(selected_airpt) {
   //change area chart title to match selected province
-  d3.select(".rank h4").text("Airport rank for " + i18next.t(selected, {ns: "airports"}));
+  d3.select(".rank h4").text("Airport rank for " + i18next.t(selected_airpt, {ns: "airports"}));
 
   //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
   // Graph dimension
@@ -112,7 +112,7 @@ function showRank(selected) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var corrdata = [];
-  d3.csv("data/air/rankdata_YOW.csv", function(error, rows) {
+  d3.csv(`data/air/rankdata_${selected_airpt}.csv`, function(error, rows) {
     let prop;
     rows.forEach(function(d) {
       var x = d[""];
@@ -128,7 +128,6 @@ function showRank(selected) {
       }
     });
 
-    // // List of all variables and number of them
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
     var num = Math.sqrt(corrdata.length)
 
