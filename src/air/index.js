@@ -12,7 +12,10 @@ let bubbleTable = d3.select(".data")
 
 let data = {};
 let selected = "CANADA"; //default region for areaChart
-let selected_airpt;
+
+let selected_airpt,
+    selected_prov;
+let rank_data = {};
 
 /* canada map */
 let heading = d3.select(".dashboard h4"),
@@ -38,10 +41,11 @@ canada = window.getCanadaMap(map).on("loaded", function() {
          .on("mouseover", function (d) {
             console.log("d: ", d)
             selected_airpt = d.id;
+            selected_prov = d.province;
             //change area chart title to match selected province
             d3.select(".dashboard h4")
-              .text(`${d.province} and contribution from airport ${selected_airpt}`);
-            showAirport();
+              .text(`${selected_prov} and contribution from airport ${selected_airpt}`);
+            showAirport(selected_prov, selected_airpt);
         });
   });
 });
@@ -72,19 +76,20 @@ function showData() {
   showChart();
 }
 
-function showAirport() {
-  //Load airport data containing remaining provincial totals
-  d3.json("data/air/combo_ON_ONYOW_numMovements.json", function(err, filedata) {
-     selected = "ON_YOW";
-     data[selected] = filedata;
+function showAirport(selected_prov, selected_airpt) {
+  let fname = `data/air/combo_${selected_prov}_${selected_airpt}_numMovements.json`;
+  console.log("data here: ", data)
+  console.log("selected: ", selected)
 
+  //Load airport data containing remaining provincial totals
+  d3.json(fname, function(err, filedata) {
+     selected = `${selected_prov}_${selected_airpt}`; //"ON_YYZ";
+     data[selected] = filedata;
     showData();
-    
   });
 
   //show airport rank
-  let selectedAirport = "YOW";
-  showRank(selectedAirport);
+  showRank(selected_airpt);
 }
 
 function showRank(selected) {
