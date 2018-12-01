@@ -6,9 +6,9 @@ let chart = d3.select(".data")
     .append("svg")
       .attr("id", "svg_areaChart");
 
-let bubbleTable = d3.select(".data")
+let rankChart = d3.select(".data")
     .append("svg")
-      .attr("id", "svg_bubbleTable");
+      .attr("id", "svg_rankChart");
 
 let data = {};
 let selected = "CANADA"; //default region for areaChart
@@ -78,8 +78,6 @@ function showData() {
 
 function showAirport(selected_prov, selected_airpt) {
   let fname = `data/air/combo_${selected_prov}_${selected_airpt}_numMovements.json`;
-  console.log("data here: ", data)
-  console.log("selected: ", selected)
 
   //Load airport data containing remaining provincial totals
   d3.json(fname, function(err, filedata) {
@@ -103,8 +101,8 @@ function showRank(selected_airpt) {
       height = 430 - margin.top - margin.bottom;
 
   // Create the svg area
-  d3.select("#bubbleTable").select("svg").remove(); //clear for next display
-  var svg = d3.select("#bubbleTable")
+  d3.select("#rankChart").select("svg").remove(); //clear for next display
+  var svg = d3.select("#rankChart")
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
