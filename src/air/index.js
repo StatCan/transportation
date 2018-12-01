@@ -8,13 +8,13 @@ let chart = d3.select(".data")
       .attr("id", "svg_areaChart");
 
 //for currently-working bubble table of airport ranks
-let rankChart = d3.select(".data")
+let rankChart = d3.select(".rankdata")
     .append("svg")
       .attr("id", "svg_rankChart");
 
 //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //for bubble table of airport ranks made by resuable component
-let testChart = d3.select(".data")
+let testChart = d3.select(".testrankdata")
     .append("svg")
       .attr("id", "svg_testChart");
 //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -123,9 +123,8 @@ function showRank(selected_airpt) {
       height = 430 - margin.top - margin.bottom;
 
   // Create the svg area
-  d3.select("#rankChart").select("svg").remove(); //clear for next display
-  var svg = d3.select("#rankChart")
-    .append("svg")
+  d3.select("#svg_rankChart").select("svg").remove(); //clear for next display
+  var svg = d3.select("#svg_rankChart")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
