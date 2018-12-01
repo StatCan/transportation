@@ -1,8 +1,5 @@
 export default {
   alt: i18next.t("alt", {ns: "area"}),
-  datatable: {
-    title: i18next.t("datatableTitle", {ns: "area"})
-  },
   filterData: function(data) {
     return data.numMov;
   },

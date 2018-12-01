@@ -49,7 +49,7 @@ canada = window.getCanadaMap(map).on("loaded", function() {
 function uiHandler(event) {
   if (event.target.id === "groups"){
     selected = document.getElementById("groups").value; //clear any previous airport title
-    d3.select(".dashboard h4").text()
+    d3.select(".dashboard h4").text("")
     showData();
   }
 }
