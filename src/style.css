@@ -40,7 +40,8 @@
 	fill:  #024571;
 }
 .rank_yr, .rank_type {
-	stroke: #CECECE;
+	fill: #96A8B2;
+	stroke: none;
 	font-size: 16px;
 }
 .rank_value {
