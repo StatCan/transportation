@@ -101,6 +101,7 @@ function showAirport(selected_prov, selected_airpt) {
   //****WHEN bubbleTable.js IS DEVELOPED****
   //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!rank_data[selected_airpt]) {
+    console.log("file: ", `data/air/rankdata_${selected_airpt}.json`)
     return d3.json(`data/air/rankdata_${selected_airpt}.json`, (aptData) => {
       rank_data[selected_airpt] = aptData;
       console.log("call bubbleTable for: ", selected_airpt)
