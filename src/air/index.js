@@ -14,9 +14,13 @@ let rankChart = d3.select(".rankdata")
 
 //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //for bubble table of airport ranks made by resuable component
-let testChart = d3.select(".testrankdata")
-    .append("svg")
-      .attr("id", "svg_testChart");
+// let testChart = d3.select(".testrankdata")
+//     .append("svg")
+//       .attr("id", "svg_testChart");
+
+let testChart = d3.select("#rankTable")  //.select(".data")
+        .append("svg")
+        .attr("id", "svg_testChart");
 //!!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let data = {};
@@ -28,7 +32,7 @@ let rank_data = {};
 
 /* canada map */
 let heading = d3.select(".dashboard h4"),
-canada = window.getCanadaMap(map).on("loaded", function() { 
+canada = window.getCanadaMap(map).on("loaded", function() {
   let mapObj = this;
   d3.json("geojson/testairport.geojson", function(error, airports) {
     if (error) throw error;
@@ -71,7 +75,7 @@ function showAreaData() {
   let showChart = () => {
     areaChart(chart, settings, data[selected]);
   }
-  //change area chart title to match selected province  
+  //change area chart title to match selected province
   if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
     d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
   }
@@ -141,7 +145,7 @@ function showRank(selected_airpt) {
         var y = prop,
           value = d[prop];
         corrdata.push({//HUOM
-          x: y, 
+          x: y,
           y: x,
           value: +value
         });
