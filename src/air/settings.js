@@ -51,5 +51,6 @@ export default {
       return i18next.t(d.key, {ns: "area"});
     }
   },
+  datatable: false,
   width: 900
 }

@@ -1,10 +1,31 @@
 export default {
   alt: i18next.t("alt", {ns: "airports"}),
   filterData: function(data) {
-    return data.rank;
+    let obj = {};
+    data.rank.map((d) => {
+      let keys = Object.keys(d);
+      keys.splice(keys.indexOf("year"),1);
+
+      for (let key of keys) {
+        if (!obj[key]) {
+          obj[key] = [];
+        }
+
+        obj[key].push({
+          year: d.year,
+          rank: d[key]
+        });
+      }
+    });
+
+    return Object.keys(obj).map(function(k) {
+      return {
+        id: k,
+        dataPoints: obj[k]
+      }
+    });
   },
   x: {
-
     getValue: function(d) {
       return new Date(d.year + "-01");
     },
@@ -15,39 +36,23 @@ export default {
 
   y: {
     label: i18next.t("y_label", {ns: "area"}),
-    getValue: function(d, key) {
-      if (typeof d[key] === 'string' || d[key] instanceof String) {
-        return 0;
-      }
-      else return d[key];
+    getValue: function(d) {
+      return d.rank;
     },
     getText: function(d, key) {
-      if (typeof d[key] === 'string' || d[key] instanceof String) {
-        return d[key];
-      }
-      else return d[key];
+      return d.rank;
     }
   },
 
   z: {
-    label: i18next.t("z_label", {ns: "area"}),
     getId: function(d) {
-      return d.key;
-    },
-    getKeys: function(object) {
-      var sett = this,
-      keys = Object.keys(object[0]);
-      keys.splice(keys.indexOf("year"),1);
-      if (keys.indexOf(sett.y.totalProperty) !== -1) {
-        keys.splice(keys.indexOf(sett.y.totalProperty),1);
-      }
-      return keys;
+      return d.id;
     },
     getClass: function(d) {
       return this.z.getId.apply(this, arguments);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "area"});
+      return i18next.t(d.id, {ns: "area"});
     }
   },
   width: 990
