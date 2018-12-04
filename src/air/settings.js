@@ -17,16 +17,14 @@ export default {
   y: {
     label: i18next.t("y_label", {ns: "area"}),
     getValue: function(d, key) {
-      if (typeof d[key] === 'string' || d[key] instanceof String) {
+      if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
-      }
-      else return d[key] * 1.0/ 1000;
+      } else return d[key] * 1.0/ 1000;
     },
     getText: function(d, key) {
-      if (typeof d[key] === 'string' || d[key] instanceof String) {
+      if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
-      }
-      else return d[key] * 1.0/ 1000;
+      } else return d[key] * 1.0/ 1000;
     }
   },
 
@@ -36,16 +34,16 @@ export default {
       return d.key;
     },
     getKeys: function(object) {
-      var sett = this,
-      keys = Object.keys(object[0]);
-      keys.splice(keys.indexOf("year"),1);
+      const sett = this;
+      const keys = Object.keys(object[0]);
+      keys.splice(keys.indexOf("year"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
-        keys.splice(keys.indexOf(sett.y.totalProperty),1);
+        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
       return keys;
     },
-    getClass: function(d) {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getText: function(d) {
       return i18next.t(d.key, {ns: "area"});
@@ -53,4 +51,4 @@ export default {
   },
   datatable: false,
   width: 900
-}
+};

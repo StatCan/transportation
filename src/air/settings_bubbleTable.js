@@ -1,12 +1,12 @@
 export default {
   alt: i18next.t("alt", {ns: "airports"}),
   filterData: function(data) {
-    let obj = {};
+    const obj = {};
     data.rank.map((d) => {
-      let keys = Object.keys(d);
-      keys.splice(keys.indexOf("year"),1);
+      const keys = Object.keys(d);
+      keys.splice(keys.indexOf("year"), 1);
 
-      for (let key of keys) {
+      for (const key of keys) {
         if (!obj[key]) {
           obj[key] = [];
         }
@@ -22,7 +22,7 @@ export default {
       return {
         id: k,
         dataPoints: obj[k]
-      }
+      };
     });
   },
   // x: {
@@ -47,20 +47,20 @@ export default {
   //   }
   // },
 
-  z: { //Object { id: "total", dataPoints: (21) […] }, and similarly for id: local, id: itin
+  z: { // Object { id: "total", dataPoints: (21) […] }, and similarly for id: local, id: itin
     getId: function(d) {
-      console.log("d in z: ", d)
+      console.log("d in z: ", d);
       return d.id;
     },
-    getClass: function(d) {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getText: function(d) {
       return i18next.t(d.id, {ns: "area"});
     },
     getDataPoints: function(d) {
-       return d.dataPoints;
-     },
+      return d.dataPoints;
+    },
   },
   width: 990
-}
+};

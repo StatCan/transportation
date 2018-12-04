@@ -1,0 +1,40 @@
+{
+   "env": {
+       "es6": true,
+       "browser": true
+   },
+   "globals": {
+     "d3": true,
+     "i18next": true,
+     "i18n": true,
+     "getCanadaMap": true,
+     "areaChart": true,
+     "bubbleTable": true,
+     "$": true,
+   },
+   "extends": ["eslint:recommended", "google"],
+   "parserOptions": {
+       "ecmaVersion": 2018,
+       "sourceType": "module"
+   },
+   "rules": {
+       "linebreak-style": [
+           "error",
+           "unix"
+       ],
+       "quotes": [
+           "error",
+           "double"
+       ],
+       "semi": [
+           "error",
+           "always"
+       ],
+       "no-tabs": 0,
+       "curly": 0,
+       "comma-dangle": 0,
+       "max-len": 0,
+       "require-jsdoc": 0,
+       "no-invalid-this": 1
+   }
+}
