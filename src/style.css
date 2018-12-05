@@ -50,6 +50,10 @@
 	font-size: 14px;
 
 }
+.domain {
+	display: none;
+}
+
 
 /*rail dataset*/
 #destChartTitle {
