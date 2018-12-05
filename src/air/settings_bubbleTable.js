@@ -1,4 +1,5 @@
 export default {
+  aspectRatio: 990 / 260,
   alt: i18next.t("alt", {ns: "airports"}),
   filterData: function(data) {
     const obj = {};
@@ -40,7 +41,6 @@ export default {
   },
   z: { // Object { id: "total", dataPoints: (21) […] }, and similarly for id: local, id: itin
     getId: function(d) {
-      console.log("d in z: ", d);
       return d.id;
     },
     getClass: function(...args) {
