@@ -35,9 +35,7 @@ export default {
     }
   },
   r: {
-    getRange: function() {
-      return [20, 1];
-    },
+    ascending: true, // if true, bubble size increases with rank
     getValue: function(d) {
       return d.rank;
     }
