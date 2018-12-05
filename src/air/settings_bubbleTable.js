@@ -29,11 +29,14 @@ export default {
   x: {
     getValue: function(d) {
       return d.year;
+    },
+    getText: function(d) {
+      return d.year;
     }
   },
   r: {
-    getDomain: function() {
-      return [0, 5];
+    getRange: function() {
+      return [20, 1];
     },
     getValue: function(d) {
       return d.rank;

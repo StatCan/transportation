@@ -76,7 +76,6 @@ function showAirport() {
   // ****WHEN bubbleTable.js IS DEVELOPED****
   // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!rankData[selectedAirpt]) {
-    console.log(`file: data/air/rankdata_${selectedAirpt}.json`);
     return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
       rankData[selectedAirpt] = aptData;
       bubbleTable(testChart, settingsBubbleTable, rankData[selectedAirpt]);

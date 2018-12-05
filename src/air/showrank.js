@@ -34,9 +34,6 @@ export function showRank(selectedAirpt) {
       }
     });
 
-    console.log("==========================================================")
-    console.log("corrdata: ", corrdata)
-
     var domain = d3.set(corrdata.map(function(d) { return d.x })).values()
     var num = Math.sqrt(corrdata.length)
 
