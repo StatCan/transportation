@@ -36,6 +36,7 @@ export default {
   },
   r: {
     ascending: true, // if true, bubble size increases with rank
+    minSizeZero: false, // rank can never be zero so minSizeZero must be false
     getValue: function(d) {
       return d.rank;
     }
