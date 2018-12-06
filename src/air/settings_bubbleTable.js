@@ -1,5 +1,5 @@
 export default {
-  aspectRatio: 990 / 260,
+  aspectRatio: 19 / 3,
   alt: i18next.t("alt", {ns: "airports"}),
   filterData: function(data) {
     const obj = {};
@@ -11,7 +11,6 @@ export default {
         if (!obj[key]) {
           obj[key] = [];
         }
-
         obj[key].push({
           year: d.year,
           rank: d[key]
@@ -35,8 +34,7 @@ export default {
     }
   },
   r: {
-    ascending: true, // if true, bubble size increases with rank
-    minSizeZero: false, // rank can never be zero so minSizeZero must be false
+    inverselyProportional: true, // if true, bubble size increases with rank
     getValue: function(d) {
       return d.rank;
     }

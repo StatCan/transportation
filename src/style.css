@@ -36,8 +36,8 @@
 	fill: #5DC1BE;
 	opacity: 0.2;
 }
-.total {
-	fill:  #024571;
+.total, .rank_total {
+	fill: #C1D699;
 }
 .rank_yr, .rank_type {
 	fill: #96A8B2;
@@ -45,7 +45,7 @@
 	font-size: 16px;
 }
 .rank_value {
-	fill: white;
+	fill: black;
   stroke: none;
 	font-size: 14px;
 
@@ -66,6 +66,12 @@
 	fill: #96A8B2;
 	stroke: none;
 	font-size: 14px;
+}
+.bubble-text {
+	fill: black;
+  stroke: none;
+	font-size: 14px;
+	text-anchor: middle;
 }
 
 /*rail dataset*/
@@ -147,8 +153,4 @@
 	stroke: #fff;
 	stroke-width: 0.03;
 	opacity: 1;
-}
-
-.canada-map.zoomed path:not(.zoomed) {
-	opacity: 0.4;
 }
