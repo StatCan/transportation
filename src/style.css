@@ -53,7 +53,15 @@
 .domain {
 	display: none;
 }
-
+.tick text {
+	fill: #96A8B2;
+	stroke: none;
+	font-size: 16px;
+	font-family: "Noto Sans", sans-serif;
+}
+.tick line {
+	stroke: none;
+}
 
 /*rail dataset*/
 #destChartTitle {
