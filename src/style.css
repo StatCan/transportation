@@ -56,11 +56,16 @@
 .tick text {
 	fill: #96A8B2;
 	stroke: none;
-	font-size: 16px;
+	font-size: 14px;
 	font-family: "Noto Sans", sans-serif;
 }
 .tick line {
 	stroke: none;
+}
+.bubble-row-text {
+	fill: #96A8B2;
+	stroke: none;
+	font-size: 14px;
 }
 
 /*rail dataset*/
