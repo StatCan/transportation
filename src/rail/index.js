@@ -2,10 +2,10 @@ import settings from "./settings.js";
 import settingsBubbleTable from "./settings_bubbleTable.js";
 
 /* globals areaChart */
-const chart = d3.select(".dashboard .data")
+const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChart");
-const commTable =d3.select(".commTable .data")
+const commTable =d3.select(".data .commTable")
     .append("svg")
     .attr("id", "svg_commChart");
 
@@ -23,13 +23,8 @@ let rankedCommNames; // temp
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
-    const labelsToClear = document.getElementsByClassName("area-label");
-    let i;
-    for (i = 0; i < labelsToClear.length; i++) {
-      labelsToClear[i].innerHTML = "";
-    }
     if (!data[selected]) {
-      d3.json("data/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
+      d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
         showArea();
       });
@@ -51,7 +46,7 @@ function showComm() {
             " to " + i18next.t("QC", {ns: "regions"}));
 
   // var rawCommData = [];
-  d3.csv("data/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
+  d3.csv("data/rail/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
     const rawCommData = [];
     rows.forEach(function(d) {
       const x = d[""];
@@ -251,31 +246,32 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
       });
 } // .drawBubbles
 
-i18n.load(["src/i18n"], function() {
-  d3.queue()
-      .defer(d3.json, "data/rail_meat_origATR_ON_BC_destQC.json")
-      .await(function(error, data) {
-        areaChart(chart, settings, data);
-        showComm(); // display sorted commodity bubble table
-        d3.select("#prevButton").classed("inactive", true);
-        d3.select("#nextButton")
-            .on("click", function() {
-              count++;
-              count === 0 ? d3.select("#prevButton").classed("inactive", true) :
-                      d3.select("#prevButton").classed("inactive", false);
-              drawBubbles(rankedCommData, years, maxVal, count);
-            });
+// i18n.load(["src/i18n"], function() {
+//   console.log("here")
+//   d3.queue()
+//       .defer(d3.json, "data/rail/rail_meat_origATR_ON_BC_destQC.json")
+//       .await(function(error, data) {
+//         console.log("call areaChart")
+//         areaChart(chart, settings, data);
+//         showComm(); // display sorted commodity bubble table
+//         d3.select("#prevButton").classed("inactive", true);
+//         d3.select("#nextButton")
+//             .on("click", function() {
+//               count++;
+//               count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+//                       d3.select("#prevButton").classed("inactive", false);
+//               drawBubbles(rankedCommData, years, maxVal, count);
+//             });
+//
+//         d3.select("#prevButton")
+//             .on("click", function() {
+//               count--;
+//               count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+//                       d3.select("#prevButton").classed("inactive", false);
+//               drawBubbles(rankedCommData, years, maxVal, count);
+//             });
+//       });
+// });
 
-        d3.select("#prevButton")
-            .on("click", function() {
-              count--;
-              count === 0 ? d3.select("#prevButton").classed("inactive", true) :
-                      d3.select("#prevButton").classed("inactive", false);
-              drawBubbles(rankedCommData, years, maxVal, count);
-            });
-      });
-});
-
-$(document).on("input change", function(event) {
-  uiHandler(event);
-});
+i18n.load(["src/i18n"], showAreaDataxxx);
+$(document).on("change", uiHandler);
