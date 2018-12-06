@@ -8,10 +8,10 @@ export default {
   },
   x: {
     getValue: function(d) {
-      return new Date(d[id] + "-01");
+      return new Date(d.year + "-01");
     },
     getText: function(d) {
-      return d[id];
+      return d.year;
     },
     ticks: 7
   },
@@ -40,7 +40,7 @@ export default {
     getKeys: function(object) {
       var sett = this,
       keys = Object.keys(object[0]);
-      keys.splice(keys.indexOf(id),1);
+      keys.splice(keys.indexOf("year"),1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty),1);
       }

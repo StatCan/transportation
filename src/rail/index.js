@@ -1,13 +1,13 @@
 import settings from "./settings.js";
 import settingsBubbleTable from "./settings_bubbleTable.js";
 
-const map = d3.select(".dashboard .map")
-    .append("svg");
 /* globals areaChart */
-const chart = d3.select(".data")
+const chart = d3.select(".dashboard .data")
     .append("svg")
     .attr("id", "svg_areaChart");
-const id = "year";
+const commTable =d3.select(".commTable .data")
+    .append("svg")
+    .attr("id", "svg_commChart");
 
 const data = {};
 let selected = "CANADA";
@@ -275,8 +275,6 @@ i18n.load(["src/i18n"], function() {
             });
       });
 });
-
-getCanadaMap(map);
 
 $(document).on("input change", function(event) {
   uiHandler(event);

@@ -49,7 +49,7 @@
 
 <script>dataLayer1 = [];</script>
 <!-- CustomScriptsCSSStart -->
-<link rel="stylesheet" href="src/demo.css">
+<link rel="stylesheet" href="src/style.css">
 <style>
 .legend li{
 	list-style:none;
@@ -229,23 +229,24 @@
 			<div class="row">
 				<div class="dashboard">
 					<div class="map col-md-6"></div>
-					<div class="data col-md-6" id="destChartTitle">
+					<div class="data col-md-6">
 						<p>Tonnage for selected destination from all provincial and territorial origins</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="commTable data col-md-12">
-					<h4></h4>
-					<button id="prevButton" type="button" class="btn btn-secondary">Previous</button>
-					<button id="nextButton" type="button" class="btn btn-secondary">Next</button>
+				<div class="dashboard">
+					<div class="commTable col-md-12">
+						<h4></h4>
+						<button id="prevButton" type="button" class="btn btn-secondary">Previous</button>
+						<button id="nextButton" type="button" class="btn btn-secondary">Next</button>
+					</div>
 				</div>
 			</div>
 			<div class="row"><div id="pageNum"></div></div>
 			<div class="row"><div id="commgrid"></div></div>
 
-
-           <p>Source: Rail industry origin and destination of transported commodities</p>
+      <p>Source: Rail industry origin and destination of transported commodities</p>
 
 
 <!-- End chart -->
@@ -338,6 +339,7 @@
 <script src="lib/stc_visualization_components/utils.min.js"></script>
 <script src="lib/stc_visualization_components/area.min.js"></script>
 <script src="lib/d3-canada-map.js"></script>
+<script src="src/d3-canada-map-demo.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
 <script type="module" src="src/rail/index.js"></script>
 
