@@ -3,21 +3,25 @@
     {
       "year": 1997,
       "total": 8,
+      "itinerant": 6,
       "local": 13
     },
     {
       "year": 1998,
       "total": 7,
+      "itinerant": 5,
       "local": 14
     },
     {
       "year": 1999,
       "total": 6,
+      "itinerant": 5,
       "local": 15
     },
     {
       "year": 2000,
       "total": 6,
+      "itinerant": 5,
       "local": 18
     },
     {
