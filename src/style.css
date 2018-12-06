@@ -21,11 +21,10 @@
 }
 
 /*air dataset*/
-.local, .rank_local {
+.local {
 	fill: #5DC1BE;
 }
-
-.itinerant, .rank_itinerant {
+.itinerant {
 	fill: #F6CF22;
 }
 .Remaining_itinerant {
@@ -36,19 +35,8 @@
 	fill: #5DC1BE;
 	opacity: 0.2;
 }
-.total, .rank_total {
+.total {
 	fill: #C1D699;
-}
-.rank_yr, .rank_type {
-	fill: #96A8B2;
-	stroke: none;
-	font-size: 16px;
-}
-.rank_value {
-	fill: black;
-  stroke: none;
-	font-size: 14px;
-
 }
 .domain {
 	display: none;
