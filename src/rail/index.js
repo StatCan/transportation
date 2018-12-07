@@ -1,4 +1,4 @@
-let data = {};
+const data = {};
 let selected = "CANADA";
 
 const map = d3.select(".dashboard .map")
@@ -6,11 +6,12 @@ const map = d3.select(".dashboard .map")
 
 getCanadaMap(map); // .on("loaded", function() {});
 
-//global variables for drawBubbles fn
-var rankedCommData = [];
-var count = 0;
-var displayData, years, maxVal;
-var rankedCommNames; //temp
+// global variables for drawBubbles fn
+const rankedCommData = [];
+let count = 0;
+let years;
+let maxVal;
+let rankedCommNames; // temp
 
 /* globals areaChart */
 var chart = d3.select(".data")
