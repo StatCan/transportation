@@ -1,6 +1,10 @@
 data = {};
 selected = "CANADA";
 
+const map = d3.select(".dashboard .map")
+    .append("svg");
+getCanadaMap(map); // .on("loaded", function() {});
+
 /* globals areaChart */
 var chart = d3.select(".data")
     .append("svg")
@@ -68,14 +72,9 @@ var chart = d3.select(".data")
   uiHandler = function(event) {
     if (event.target.id === "groups"){
       selected = document.getElementById("groups").value;
-      var labelsToClear = document.getElementsByClassName("area-label");
-      var i;
-      for (i = 0; i < labelsToClear.length; i++) {
-          labelsToClear[i].innerHTML='';
-      }
       console.log("selected: ", selected)
       if (!data[selected]) {
-        d3.json("data/" + selected + "_FuelSales.json", function(err, filedata) {
+        d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
           data[selected] = filedata;
           showData();
          });
@@ -123,7 +122,7 @@ var chart = d3.select(".data")
 i18n.load(["src/i18n"], function() {
   d3.queue()
     // .defer(d3.json, "data/worldpop.json")
-    .defer(d3.json, "data/BC_FuelSales.json")
+    .defer(d3.json, "data/road/BC_FuelSales.json")
     .await(function(error, data) {
       areaChart(chart, settings, data);
     });
