@@ -82,11 +82,6 @@ var chart = d3.select(".data")
   uiHandler = function(event) {
     if (event.target.id === "groups"){
       selected = document.getElementById("groups").value;
-      var labelsToClear = document.getElementsByClassName("area-label");
-      var i;
-      for (i = 0; i < labelsToClear.length; i++) {
-          labelsToClear[i].innerHTML='';
-      }
       if (!data[selected]) {
         d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
           data[selected] = filedata;
