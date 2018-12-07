@@ -5,7 +5,49 @@ let selected = "CANADA";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
-getCanadaMap(map); // .on("loaded", function() {});
+getCanadaMap(map).on("loaded", function() {
+  d3.select(".dashboard .map").selectAll("path").style("stroke", "black")
+
+  const fakeTotDict = {
+    "BC": 4935834,
+    "AB": 6368800,
+    "SK": 1730149,
+    "MB": 1614445,
+    "ON": 16669930,
+    "QC": 8820509,
+    "NB": 1128764,
+    "NS": 1252000,
+    "PE": 216552,
+    "NL": 749758,
+    "NT": 42568,
+    "NU": 15507,
+    "YK": 72077
+  };
+
+  let totArr = [];
+  for (var key in fakeTotDict) {
+    totArr.push(fakeTotDict[key])
+  }
+
+  // https://d3js.org/colorbrewer.v1.js
+  const colourArray= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+
+  totArr.sort(function(a, b){return a-b});
+
+  const dimExtent = d3.extent(totArr);
+
+  // colour map to take data value and map it to the colour of the level bin it belongs to
+  const colourMap = d3.scaleLinear()
+      .domain([dimExtent[0], dimExtent[1]])
+      .range(colourArray);
+
+  for (let key in fakeTotDict) {
+    if (fakeTotDict.hasOwnProperty(key)) {
+      d3.select(".dashboard .map")
+          .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+    }
+  }
+}); // end map
 
 /* globals areaChart */
 const chart = d3.select(".data")
