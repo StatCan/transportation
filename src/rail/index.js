@@ -97,114 +97,111 @@ function showData() {
   areaChart(chart, settings, data[selected]);
 }
 
-  function showComm() {
-    //change area chart title to match selected province
-    d3.select(".commTable h4")
-      .text("Annual tonnages for all commodities, sorted by volume in 2016: " +
-              i18next.t("ATR", {ns: "regions"}) +
-              " to " + i18next.t("QC", {ns: "regions"}));
+function showComm() {
+  //change area chart title to match selected province
+  d3.select(".commTable h4")
+    .text("Annual tonnages for all commodities, sorted by volume in 2016: " +
+            i18next.t("ATR", {ns: "regions"}) +
+            " to " + i18next.t("QC", {ns: "regions"}));
 
-    //var rawCommData = [];
-    d3.csv("data/rail/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
-      var rawCommData = [];
-      rows.forEach(function(d) {
-        var x = d[""];
-        delete d[""];
-        for (prop in d) {
-          //console.log("d: ", d)
-          var y = prop,
-            value = d[prop];
-          rawCommData.push({//HUOM
-            x: y,
-            y: x,
-            value: +value
-          });
-        }
-      });
+  //var rawCommData = [];
+  d3.csv("data/rail/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
+    var rawCommData = [];
+    rows.forEach(function(d) {
+      var x = d[""];
+      delete d[""];
+      for (prop in d) {
+        //console.log("d: ", d)
+        var y = prop,
+          value = d[prop];
+        rawCommData.push({//HUOM
+          x: y,
+          y: x,
+          value: +value
+        });
+      }
+    });
 
-      // //Extract data for only year 2016
-      // var filterYear = rawCommData.filter(item => item.x === "2016");
+    // //Extract data for only year 2016
+    // var filterYear = rawCommData.filter(item => item.x === "2016");
 
-      // //Sort these 2016 values
-      // filterYear.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
-      // console.log("filterYear: ", filterYear)
+    // //Sort these 2016 values
+    // filterYear.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+    // console.log("filterYear: ", filterYear)
 
-      // //Save sorted commodities in array
-      // var sortedCommArray = filterYear.map(item => item.y);
-      // console.log("sortedCommArray: ", sortedCommArray)
+    // //Save sorted commodities in array
+    // var sortedCommArray = filterYear.map(item => item.y);
+    // console.log("sortedCommArray: ", sortedCommArray)
 
-      // //sort rawCommData according to string order in sortedCommArray
-      // //??????????
+    // //sort rawCommData according to string order in sortedCommArray
+    // //??????????
 
-      years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
-      rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
-      maxVal = rawCommData[0].value;
-      console.log("maxVal: ", maxVal)
+    years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
+    rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+    maxVal = rawCommData[0].value;
+    console.log("maxVal: ", maxVal)
 
-      // console.log("sorted Comm: ", rawCommData)
-      //Commodities in descending order of yr 2016 value
-      rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
-      // console.log("rankedCommNames: ", rankedCommNames)
+    // console.log("sorted Comm: ", rawCommData)
+    //Commodities in descending order of yr 2016 value
+    rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
+    // console.log("rankedCommNames: ", rankedCommNames)
 
-      // var rankedCommData = [];
-      for (idx = 0; idx < rankedCommNames.length; idx++) {
-        for (jdx = 0; jdx < years.length; jdx++) {
-          var thisVal = rawCommData.filter(item => item.x === years[jdx] &&
-                        item.y === rankedCommNames[idx]).map(item => item.value)[0];
-          rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
-        }
-
+    // var rankedCommData = [];
+    for (idx = 0; idx < rankedCommNames.length; idx++) {
+      for (jdx = 0; jdx < years.length; jdx++) {
+        var thisVal = rawCommData.filter(item => item.x === years[jdx] &&
+                      item.y === rankedCommNames[idx]).map(item => item.value)[0];
+        rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
       }
 
-      // List of all variables and number of them
-      var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
-      var num = Math.sqrt(rankedCommData.length)
+    }
 
-      drawBubbles(rankedCommData, years, maxVal, count)
+    // List of all variables and number of them
+    var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
+    var num = Math.sqrt(rankedCommData.length)
 
-    }) //end d3.csv
-  }
+    drawBubbles(rankedCommData, years, maxVal, count)
+
+  }) //end d3.csv
+}
 
 function drawBubbles(rankedCommData, years, maxVal, count) {
-  console.log("count in drawBubbles: ", count)
-  //---------------------------------------
-  //diplay-related
+  console.log("count in drawBubbles: ", count);
+  // ---------------------------------------
+  // diplay-related
   var numPerPage = 5; //number of commodities to display per page
   var numCommodities = rankedCommNames.length;
   var numPages = Math.ceil(numCommodities/numPerPage)
   var s0, s1;
 
-  //Page counter display
+  // Page counter display
   d3.select("#pageNum")
-    .text(`Page  ${count + 1}/${numPages}`);
+      .text(`Page ${count + 1}/${numPages}`);
 
-  console.log("numPages: ", numPages)
-  console.log("numCommodities: ", numCommodities)
-
-  d3.select("#commgrid").select("svg").remove(); //clear for next display
+  d3.select("#commgrid").select("svg").remove(); // clear for next display
   if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
   else d3.select("#nextButton").classed("inactive", false);
   s0 = count*numPerPage;
   s1 = (count + 1) * numPerPage;
 
-  //---------------------------------------
-  //svg params
-  //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
+  // ---------------------------------------
+  // svg params
+  // Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
   // Graph dimension
-  var margin = {top: 20, right: 0, bottom: 20, left: 150},
-      width = 1230 - margin.left - margin.right,
-      height = 370 - margin.top - margin.bottom;
+  const margin = {top: 20, right: 0, bottom: 20, left: 150};
+  const width = 1230 - margin.left - margin.right;
+  const height = 370 - margin.top - margin.bottom;
 
   // Create the svg area
-  var svg = d3.select("#commgrid")
-    .append("svg")
+  const svg = d3.select("#commgrid")
+      .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-    .append("g")
+      .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  //---------------------------------------
-  //bubble table params
+  // ---------------------------------------
+  // bubble table params
 
   // Create a color scale
   // var color = d3.scaleLinear()
@@ -212,56 +209,38 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   //   .range(["#B22222", "#fff", "#000080"]);
 
   // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
-  var size = d3.scaleSqrt()
-    .domain([0, 1])
-    .range([0, .1]);
+  const size = d3.scaleSqrt()
+      .domain([0, 1])
+      .range([0, .1]);
 
   // X scale
-  var x = d3.scaleLinear()
-      .domain([2001,2016])
+  const x = d3.scaleLinear()
+      .domain([2001, 2016])
       .range([0, width/1.1]);
 
   // Y scale
-  var  y = d3.scaleLinear()
-        .domain([1, 5000])
-        .range([0, height/1.5]);
+  const y = d3.scaleLinear()
+      .domain([1, 5000])
+      .range([0, height/1.5]);
 
   // var color = d3.scaleLinear()
   //   .domain([1, 5, 10])
   //   .range(["#B22222", "#fff", "#000080"]);
 
-  // Create a size scale for bubbles on top right. Watch out: must be a rootscale!
-  var size = d3.scaleSqrt()
-    .domain([0, 1])
-    .range([0, .1]);
+  // ---------------------------------------
+  // Slice the data to diplay n commodities at a time
+  let displayData = [];
+  displayData = rankedCommData.filter((item) => rankedCommNames.slice(s0, s1).indexOf(item.y) != -1);
+  console.log("displayData: ", displayData);
 
-  // X scale
-  var x = d3.scaleLinear()
-      .domain([2001,2016])
-      .range([0, width/1.1]);
-
-  // Y scale
-  var  y = d3.scaleLinear()
-        .domain([1, 5000])
-        .range([0, height/1.5]);
-
-
-  //---------------------------------------
-  //Slice the data to diplay n commodities at a time
-  var displayData = [];
-  displayData = rankedCommData.filter(item => rankedCommNames.slice(s0,s1).indexOf(item.y) != -1);
-  console.log("displayData: ", displayData)
-
-
-  //---------------------------------------
-  //Diplay slice
+  // ---------------------------------------
+  // Diplay slice
   // Create one 'g' element for each cell of the correlogram
-  var cor = svg.attr("class", "rankplot")
+  const cor = svg.attr("class", "rankplot")
       .selectAll(".cor")
-    // .data(rankedCommData)
-    .data(displayData)
-    .enter()
-    .append("g")
+      .data(displayData)
+      .enter()
+      .append("g")
       .attr("class", "cor")
       .attr("transform", function(d, i) {
         if (i===0) {
