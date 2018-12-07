@@ -167,10 +167,9 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   console.log("count in drawBubbles: ", count);
   // ---------------------------------------
   // diplay-related
-  var numPerPage = 5; //number of commodities to display per page
-  var numCommodities = rankedCommNames.length;
-  var numPages = Math.ceil(numCommodities/numPerPage)
-  var s0, s1;
+  const numPerPage = 5; // number of commodities to display per page
+  const numCommodities = rankedCommNames.length;
+  const numPages = Math.ceil(numCommodities/numPerPage);
 
   // Page counter display
   d3.select("#pageNum")
@@ -179,8 +178,8 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   d3.select("#commgrid").select("svg").remove(); // clear for next display
   if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
   else d3.select("#nextButton").classed("inactive", false);
-  s0 = count*numPerPage;
-  s1 = (count + 1) * numPerPage;
+  const s0 = count*numPerPage;
+  const s1 = (count + 1) * numPerPage;
 
   // ---------------------------------------
   // svg params
@@ -215,11 +214,6 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   const x = d3.scaleLinear()
       .domain([2001, 2016])
       .range([0, width/1.1]);
-
-  // Y scale
-  const y = d3.scaleLinear()
-      .domain([1, 5000])
-      .range([0, height/1.5]);
 
   // var color = d3.scaleLinear()
   //   .domain([1, 5, 10])
