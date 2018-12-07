@@ -1,13 +1,10 @@
-data = {};
-selected = "CANADA";
+let data = {};
+let selected = "CANADA";
 
-var map = d3.select(".dashboard .map")
-	.append("svg"),
-	heading = d3.select(".dashboard h4"),
-	canada = window.getCanadaMap(map, {})
-		.on("loaded", function() {
-			window.console.log("loaded");
-})
+const map = d3.select(".dashboard .map")
+    .append("svg");
+
+getCanadaMap(map); // .on("loaded", function() {});
 
 //global variables for drawBubbles fn
 var rankedCommData = [];
