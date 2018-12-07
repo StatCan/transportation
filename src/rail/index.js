@@ -77,21 +77,19 @@ var chart = d3.select(".data")
       width: 900
     };
 
-  uiHandler = function(event) {
-    if (event.target.id === "groups"){
-      selected = document.getElementById("groups").value;
-      if (!data[selected]) {
-        d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
-          data[selected] = filedata;
-          showData();
-         });
-      } else {
-       showData();
-      }
+function uiHandler(event) {
+  if (event.target.id === "groups") {
+    selected = document.getElementById("groups").value;
+    if (!data[selected]) {
+      d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
+        data[selected] = filedata;
+        showData();
+      });
+    } else {
+      showData();
     }
-
-
   }
+}
 
 function showData() {
   areaChart(chart, settings, data[selected]);
@@ -236,6 +234,8 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   // ---------------------------------------
   // Diplay slice
   // Create one 'g' element for each cell of the correlogram
+  let comm0; let idx;
+  let y0; let ycoord; let delta;
   const cor = svg.attr("class", "rankplot")
       .selectAll(".cor")
       .data(displayData)
@@ -247,116 +247,95 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
           comm0 = d.y;
           idx = 0;
         }
-
-        var ycoord, y0, delta;
         y0 = 40;
-        delta = 2*size(maxVal);  //35;
-        if (d.y === comm0) {
-
-        } else {
+        delta = 2*size(maxVal); // 35;
+        if (d.y !== comm0) {
           comm0 = d.y;
-          if (i%years.length === 0) idx++;  //only increment idx when i is divisible by the number of years
+          if (i%years.length === 0) idx++; // only increment idx when i is divisible by the number of years
         }
         ycoord = y0 + idx*delta;
 
         return "translate(" + x(d.x) + "," + ycoord + ")";
-        });
+      });
 
   // add circles
   cor
-    .append("circle")
-        .attr("class", function(d) {
-          return "comm_gen";
-        })
-        .attr("r", function(d){
-          return size(Math.abs(d.value));
-          // return size(Math.log( Math.abs(d.value)) );
-        })
-        .style("fill", function(d){
-            // return color(d.value);
-          });
+      .append("circle")
+      .attr("class", function(d) {
+        return "comm_gen";
+      })
+      .attr("r", function(d) {
+        return size(Math.abs(d.value));
+        // return size(Math.log( Math.abs(d.value)) );
+      });
 
-  //label columns by year
+  // label columns by year
   cor.append("text")
-      .attr("dx", function(d){
+      .attr("dx", function(d) {
         return -20;
       })
-      .attr("dy", function(d){
+      .attr("dy", function(d) {
         return -30;
       })
       .attr("class", "comm_yr")
-      .text(function(d,i){
+      .text(function(d) {
         if (d.y === rankedCommNames[s0]) return d.x;
       });
 
-  //label rows by commdity name
+  // label rows by commdity name
   cor.append("text")
-      .attr("dx", function(d){
+      .attr("dx", function(d) {
         return -150;
       })
-      .attr("dy", function(d){
+      .attr("dy", function(d) {
         return 4;
       })
       .attr("class", "comm_type")
-      .text(function(d,i){
+      .text(function(d) {
         if (d.x === "2001") return d.y;
       });
 
-  //label circle by value
+  // label circle by value
   cor.append("text")
-      .attr("dx", function(d){
+      .attr("dx", function(d) {
         return -2;
       })
-      .attr("dy", function(d){
+      .attr("dy", function(d) {
         return 4;
       })
       .attr("class", "comm_value")
-      .text(function(d,i){
+      .text(function(d) {
         if (d.value === 0) return d.value;
       });
-} //.drawBubbles
+} // .drawBubbles
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
-    // .defer(d3.json, "data/worldpop.json")
-    .defer(d3.json, "data/rail/rail_meat_origATR_ON_BC_destQC.json")
-    .await(function(error, data) {
-      areaChart(chart, settings, data);
+      .defer(d3.json, "data/rail/rail_meat_origATR_ON_BC_destQC.json")
+      .await(function(error, data) {
+        areaChart(chart, settings, data);
+        showComm(); // display sorted commodity bubble table
 
-      showComm(); //display sorted commodity bubble table
+        d3.select("#prevButton").classed("inactive", true);
 
-
-      d3.select("#prevButton").classed("inactive", true);
-
-      d3.select("#nextButton")
-        .on("click", function() {
-          count++;
-          console.log("count: ", count)
-          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+        d3.select("#nextButton")
+            .on("click", function() {
+              count++;
+              count === 0 ? d3.select("#prevButton").classed("inactive", true) :
                         d3.select("#prevButton").classed("inactive", false);
 
-          console.log("count in eventListener ", count)
+              drawBubbles(rankedCommData, years, maxVal, count);
+            });
 
-          drawBubbles(rankedCommData, years, maxVal, count);
+        d3.select("#prevButton")
+            .on("click", function() {
+              count--;
+              count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                            d3.select("#prevButton").classed("inactive", false);
 
-      })
-
-      d3.select("#prevButton")
-        .on("click", function() {
-          count--;
-          console.log("prev: ", count)
-          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
-                        d3.select("#prevButton").classed("inactive", false);
-
-          drawBubbles(rankedCommData, years, maxVal, count);
-      })
-
-      //showRadar();
-
-
-    });
+              drawBubbles(rankedCommData, years, maxVal, count);
+            });
+      });
 });
 
-$(document).on("input change", function(event) {
-  uiHandler(event);
-});
+$(document).on("change", uiHandler);
