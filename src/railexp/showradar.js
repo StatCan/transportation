@@ -19,13 +19,13 @@ function showRadar() {
       hours,
       minVal,
       maxVal,
-      w = 360,
-      h = 360,
+      w = 330,
+      h = 330,
       vizPadding = {
-          top: 10,
-          right: 50,
-          bottom: 15,
-          left: 50
+          top: 0,
+          right: 15,
+          bottom: 0,
+          left: 15
       },
       radius,
       radiusLength,
@@ -129,7 +129,7 @@ function showRadar() {
           .enter().append('svg:g')
           .attr("class", "circle-ticks")
           .style("fill", "#3d3d3d")
-          .style("font-size", "14px")
+          .style("font-size", "12px")
           .style("text-anchor", "left");
 
       circleAxes.append("svg:circle")
@@ -169,7 +169,7 @@ function showRadar() {
           })
           .attr("text-anchor", "middle")
           .style("fill", "#3d3d3d")
-          .style("font-size", "14px")
+          .style("font-size", "12px")
           .attr("transform", function (d, i) {
               return (i / hours.length * 360) < 180 ? null : "rotate(180)";
           });

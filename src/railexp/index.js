@@ -4,7 +4,13 @@ let selected = "CANADA";
 const map = d3.select(".dashboard .map")
     .append("svg");
 
-getCanadaMap(map); // .on("loaded", function() {});
+getCanadaMap(map).on("loaded", function() {
+  // highlight Atlantic region when landing on page
+  d3.select(".dashboard .map").select(".NB").style("fill", "#33850a"); // #cc0047
+  d3.select(".dashboard .map").select(".NS").style("fill", "#33850a");
+  d3.select(".dashboard .map").select(".NL").style("fill", "#33850a");
+  d3.select(".dashboard .map").select(".PE").style("fill", "#33850a");
+});
 
 // global variables for drawBubbles fn
 const rankedCommData = [];
