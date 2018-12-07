@@ -1,12 +1,6 @@
 data = {};
 selected = "CANADA";
 
-//global variables for drawBubbles fn
-var rankedCommData = [];
-var count = 0;
-var displayData, years, maxVal;
-var rankedCommNames; //temp
-
 var map = d3.select(".dashboard .map")
 	.append("svg"),
 	heading = d3.select(".dashboard h4"),
@@ -14,6 +8,12 @@ var map = d3.select(".dashboard .map")
 		.on("loaded", function() {
 			window.console.log("loaded");
 })
+
+//global variables for drawBubbles fn
+var rankedCommData = [];
+var count = 0;
+var displayData, years, maxVal;
+var rankedCommNames; //temp
 
 /* globals areaChart */
 var chart = d3.select(".data")
@@ -325,9 +325,11 @@ var chart = d3.select(".data")
   }
 
   function showComm() {
-     //change area chart title to match selected province
-    d3.select(".commTable h4").text("Annual tonnages for all commodities, sorted by volume. Origin " + i18next.t("ATR", {ns: "regions"})
-              + ", Destination " + i18next.t("QC", {ns: "regions"}));
+    //change area chart title to match selected province
+    d3.select(".commTable h4")
+      .text("Annual tonnages for all commodities, sorted by volume in 2016: " +
+              i18next.t("ATR", {ns: "regions"}) +
+              " to " + i18next.t("QC", {ns: "regions"}));
 
     //var rawCommData = [];
     d3.csv("data/rail/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
@@ -399,30 +401,26 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   var numPages = Math.ceil(numCommodities/numPerPage)
   var s0, s1;
 
+  //Page counter display
+  d3.select("#pageNum")
+    .text(`Page  ${count + 1}/${numPages}`);
+
   console.log("numPages: ", numPages)
   console.log("numCommodities: ", numCommodities)
 
-  if (count > 0) d3.select("#commgrid").select("svg").remove(); //clear for next display
-  if (count >= numPages) {
-    d3.select("#nextButton").text("Reset");
-    count = numPages -1;
-    s0 = count*numPerPage;
-    s1 = (count + 1) * numPerPage;
-  } else {
-    s0 = count*numPerPage;
-    s1 = (count + 1) * numPerPage;
-
-  }
-
-
+  d3.select("#commgrid").select("svg").remove(); //clear for next display
+  if (count >= numPages - 1) d3.select("#nextButton").classed("inactive", true);
+  else d3.select("#nextButton").classed("inactive", false);
+  s0 = count*numPerPage;
+  s1 = (count + 1) * numPerPage;
 
   //---------------------------------------
   //svg params
   //Adapted from: https://www.d3-graph-gallery.com/graph/correlogram_basic.html
   // Graph dimension
   var margin = {top: 20, right: 0, bottom: 20, left: 150},
-      width = 1200 - margin.left - margin.right,
-      height = 1500 - margin.top - margin.bottom;
+      width = 1230 - margin.left - margin.right,
+      height = 370 - margin.top - margin.bottom;
 
   // Create the svg area
   var svg = d3.select("#commgrid")
@@ -536,7 +534,7 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
       })
       .attr("class", "comm_yr")
       .text(function(d,i){
-        if (d.y === rankedCommNames[0]) return d.x;
+        if (d.y === rankedCommNames[s0]) return d.x;
       });
 
   //label rows by commdity name
@@ -575,20 +573,31 @@ i18n.load(["src/i18n"], function() {
 
       showComm(); //display sorted commodity bubble table
 
+
+      d3.select("#prevButton").classed("inactive", true);
+
       d3.select("#nextButton")
         .on("click", function() {
           count++;
-          console.log("click ", count)
+          console.log("count: ", count)
+          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                        d3.select("#prevButton").classed("inactive", false);
 
-
-          //Display next set of commodities
-          displayData = rankedCommData.filter(item => rankedCommNames.slice(5,11).indexOf(item.y) != -1);
-          console.log("displayData: ", displayData)
+          console.log("count in eventListener ", count)
 
           drawBubbles(rankedCommData, years, maxVal, count);
 
+      })
 
-        })
+      d3.select("#prevButton")
+        .on("click", function() {
+          count--;
+          console.log("prev: ", count)
+          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                        d3.select("#prevButton").classed("inactive", false);
+
+          drawBubbles(rankedCommData, years, maxVal, count);
+      })
 
       //showRadar();
 
