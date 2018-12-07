@@ -68,6 +68,49 @@ function showAirport() {
 }
 
 getCanadaMap(map).on("loaded", function() {
+  //TEMPORARY
+  d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
+  const fakeTotDict = {
+    "BC": 1131,
+    "AB": 630,
+    "SK": 149,
+    "MB": 225,
+    "ON": 1233,
+    "QC": 621,
+    "NB": 231,
+    "NS": 84,
+    "PE": 0,
+    "NL": 87,
+    "NT": 51,
+    "NU": 0,
+    "YK": 32
+  };
+  let totArr = [];
+  for (var key in fakeTotDict) {
+    totArr.push(fakeTotDict[key])
+  }
+
+  // https://d3js.org/colorbrewer.v1.js
+  const colourArray= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+
+  totArr.sort(function(a, b){return a-b});
+
+  const dimExtent = d3.extent(totArr);
+
+  // colour map to take data value and map it to the colour of the level bin it belongs to
+  const colourMap = d3.scaleLinear()
+      .domain([dimExtent[0], dimExtent[1]])
+      .range(colourArray);
+
+  for (let key in fakeTotDict) {
+    if (fakeTotDict.hasOwnProperty(key)) {
+      d3.select(".dashboard .map")
+          .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+    }
+  }
+
+  //END TEMPORARY
+
   d3.json("geojson/testairport.geojson", (error, airports) => {
     if (error) throw error;
 
