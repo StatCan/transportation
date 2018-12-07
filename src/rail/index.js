@@ -69,6 +69,7 @@ const settings = {
       return i18next.t(d.key, {ns: "regions"});
     }
   },
+  datatable: false,
   width: 900
 };
 
