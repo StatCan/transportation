@@ -69,20 +69,20 @@ var chart = d3.select(".data")
       width: 900
     };
 
-  uiHandler = function(event) {
-    if (event.target.id === "groups"){
-      selected = document.getElementById("groups").value;
-      console.log("selected: ", selected)
-      if (!data[selected]) {
-        d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
-          data[selected] = filedata;
-          showData();
-         });
-     } else {
-       showData();
-     }
-    }
+function uiHandler(event) {
+  if (event.target.id === "groups"){
+    selected = document.getElementById("groups").value;
+    console.log("selected: ", selected)
+    if (!data[selected]) {
+      d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
+        data[selected] = filedata;
+        showData();
+       });
+   } else {
+     showData();
+   }
   }
+}
 
   function showData() {
     //change area chart title to match selected province
@@ -128,6 +128,4 @@ i18n.load(["src/i18n"], function() {
     });
 });
 
-$(document).on("input change", function(event) {
-  uiHandler(event);
-});
+$(document).on("change", uiHandler);
