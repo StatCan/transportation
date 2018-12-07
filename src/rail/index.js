@@ -14,68 +14,63 @@ let maxVal;
 let rankedCommNames; // temp
 
 /* globals areaChart */
-var chart = d3.select(".data")
+const chart = d3.select(".data")
     .append("svg")
-      .attr("id", "demo"),
-  id = "year",
-  settings = {
-      alt: i18next.t("alt", {ns: "area"}),
-      datatable: {
-        title: i18next.t("datatableTitle", {ns: "area"})
-      },
-      filterData: function(data) {
-        return data.tonnage;
-      },
-      x: {
-
-        getValue: function(d) {
-          return new Date(d[id] + "-01");
-        },
-        getText: function(d) {
-          return d[id];
-        },
-        ticks: 7
-      },
-
-      y: {
-        label: i18next.t("y_label", {ns: "area"}),
-        getValue: function(d, key) {
-          if (typeof d[key] === 'string' || d[key] instanceof String) {
-            return 0;
-          }
-          else return d[key] * 1.0/ 1000;
-        },
-        getText: function(d, key) {
-          if (typeof d[key] === 'string' || d[key] instanceof String) {
-            return d[key];
-          }
-          else return d[key] * 1.0/ 1000;
-        }
-      },
-
-      z: {
-        label: i18next.t("z_label", {ns: "area"}),
-        getId: function(d) {
-          return d.key;
-        },
-        getKeys: function(object) {
-          var sett = this,
-          keys = Object.keys(object[0]);
-          keys.splice(keys.indexOf(id),1);
-          if (keys.indexOf(sett.y.totalProperty) !== -1) {
-            keys.splice(keys.indexOf(sett.y.totalProperty),1);
-          }
-          return keys;
-        },
-        getClass: function(d) {
-          return this.z.getId.apply(this, arguments);
-        },
-        getText: function(d) {
-          return i18next.t(d.key, {ns: "regions"});
-        }
-      },
-      width: 900
-    };
+    .attr("id", "demo");
+const id = "year";
+const settings = {
+  alt: i18next.t("alt", {ns: "area"}),
+  datatable: {
+    title: i18next.t("datatableTitle", {ns: "area"})
+  },
+  filterData: function(data) {
+    return data.tonnage;
+  },
+  x: {
+    getValue: function(d) {
+      return new Date(d[id] + "-01");
+    },
+    getText: function(d) {
+      return d[id];
+    },
+    ticks: 7
+  },
+  y: {
+    label: i18next.t("y_label", {ns: "area"}),
+    getValue: function(d, key) {
+      if (typeof d[key] === "string" || d[key] instanceof String) {
+        return 0;
+      } else return d[key] * 1.0/ 1000;
+    },
+    getText: function(d, key) {
+      if (typeof d[key] === "string" || d[key] instanceof String) {
+        return d[key];
+      } else return d[key] * 1.0/ 1000;
+    }
+  },
+  z: {
+    label: i18next.t("z_label", {ns: "area"}),
+    getId: function(d) {
+      return d.key;
+    },
+    getKeys: function(object) {
+      const sett = this;
+      const keys = Object.keys(object[0]);
+      keys.splice(keys.indexOf(id), 1);
+      if (keys.indexOf(sett.y.totalProperty) !== -1) {
+        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+      }
+      return keys;
+    },
+    getClass: function(d) {
+      return this.z.getId.apply(this, arguments);
+    },
+    getText: function(d) {
+      return i18next.t(d.key, {ns: "regions"});
+    }
+  },
+  width: 900
+};
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -96,23 +91,22 @@ function showData() {
 }
 
 function showComm() {
-  //change area chart title to match selected province
+  // change area chart title to match selected province
   d3.select(".commTable h4")
-    .text("Annual tonnages for all commodities, sorted by volume in 2016: " +
+      .text("Annual tonnages for all commodities, sorted by volume in 2016: " +
             i18next.t("ATR", {ns: "regions"}) +
             " to " + i18next.t("QC", {ns: "regions"}));
 
-  //var rawCommData = [];
+  // var rawCommData = [];
   d3.csv("data/rail/test_commdata_origATR_destQC_SUBSET.csv", function(error, rows) {
-    var rawCommData = [];
+    const rawCommData = [];
     rows.forEach(function(d) {
-      var x = d[""];
+      const x = d[""];
       delete d[""];
       for (prop in d) {
-        //console.log("d: ", d)
-        var y = prop,
+        const y = prop,
           value = d[prop];
-        rawCommData.push({//HUOM
+        rawCommData.push({
           x: y,
           y: x,
           value: +value
@@ -134,37 +128,34 @@ function showComm() {
     // //sort rawCommData according to string order in sortedCommArray
     // //??????????
 
-    years = rawCommData.filter(item => item.y === 'wheat').map(item => item.x);
-    rawCommData.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
+    years = rawCommData.filter((item) => item.y === "wheat").map((item) => item.x);
+    rawCommData.sort((a, b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
     maxVal = rawCommData[0].value;
-    console.log("maxVal: ", maxVal)
+    console.log("maxVal: ", maxVal);
 
     // console.log("sorted Comm: ", rawCommData)
-    //Commodities in descending order of yr 2016 value
-    rankedCommNames = rawCommData.filter(item => item.x === '2016').map(item => item.y);
+    // Commodities in descending order of yr 2016 value
+    rankedCommNames = rawCommData.filter((item) => item.x === "2016").map((item) => item.y);
     // console.log("rankedCommNames: ", rankedCommNames)
 
     // var rankedCommData = [];
-    for (idx = 0; idx < rankedCommNames.length; idx++) {
-      for (jdx = 0; jdx < years.length; jdx++) {
-        var thisVal = rawCommData.filter(item => item.x === years[jdx] &&
-                      item.y === rankedCommNames[idx]).map(item => item.value)[0];
+    for (let idx = 0; idx < rankedCommNames.length; idx++) {
+      for (let jdx = 0; jdx < years.length; jdx++) {
+        const thisVal = rawCommData.filter((item) => item.x === years[jdx] &&
+                      item.y === rankedCommNames[idx]).map((item) => item.value)[0];
         rankedCommData.push( {"x": years[jdx], "y": rankedCommNames[idx], "value": thisVal} );
       }
-
     }
 
-    // List of all variables and number of them
-    var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
-    var num = Math.sqrt(rankedCommData.length)
+    // // List of all variables and number of them
+    // var domain = d3.set(rankedCommData.map(function(d) { return d.x })).values()
+    // var num = Math.sqrt(rankedCommData.length)
 
-    drawBubbles(rankedCommData, years, maxVal, count)
-
-  }) //end d3.csv
+    drawBubbles(rankedCommData, years, maxVal, count);
+  }); // end d3.csv
 }
 
 function drawBubbles(rankedCommData, years, maxVal, count) {
-  console.log("count in drawBubbles: ", count);
   // ---------------------------------------
   // diplay-related
   const numPerPage = 5; // number of commodities to display per page
