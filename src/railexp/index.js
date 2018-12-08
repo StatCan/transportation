@@ -304,8 +304,31 @@ i18n.load(["src/i18n"], function() {
 
         // display annual tonnages
         areaChart(origChart, settings, data);
-        // d3.select("#annualOrig")
-        //   .text("Atlantic region as origin to:");
+        // areaChart tooltip
+        var tooltip = d3.select("#lineChart")
+            .append("div")
+            .attr("class", "tip")
+            .style("position", "absolute")
+            .style("z-index", "20")
+            .style("visibility", "hidden")
+            .style("top", 40 + "px");
+        // user interaction with the layers
+        origChart.selectAll(".data")
+          .selectAll("path.area")
+          .on("mouseover", function(d, i) {
+            console.log("hello d: ", d)
+            console.log("area i: ", i)
+            console.log("this: ", this)
+            var idx = i + 1;
+
+            d3.selectAll(".area:not(.area" + idx + ")")
+              .style("opacity", 0.5);
+
+           
+
+          });
+ 
+
 
         // display sorted commodity bubble table
         showComm(); 
