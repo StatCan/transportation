@@ -69,14 +69,42 @@
 	stroke: none;
 }
 .ATR {
-	fill: #4D5D6C;
+	fill: #c51b7d;
+}
+.QC {
+	fill: #de77ae;
 }
 .ON {
-	fill: #CECECE;
+	fill: #f1b6da;
+}
+.MB {
+	fill: #fde0ef;
+}
+.SK {
+	fill: #fde0ef;
+}
+.AB {
+	fill: #e6f5d0;
 }
 .BC {
-	fill: #FEC04F;
+	fill: #b8e186;
 }
+.US {
+	fill: #7fbc41;
+}
+.USMX {
+	fill: #4d9221;
+}
+.USMX {
+	fill: #737373;
+}
+.active {
+opacity: 1.0 !important;
+}
+.inactive {
+opacity: 0.2 !important;
+}
+
 .comm_yr {
 	fill: #666666;
   	stroke: none;

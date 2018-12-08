@@ -3,6 +3,12 @@ import settings from "./stackedAreaSettings.js";
 const data = {};
 let selected = "QC";
 
+// ---------------------------------------------------------------------
+// region colours:
+// '#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854','#ffd92f','#e5c494','#b3b3b3']
+// colour-blind safe:
+// ['#c51b7d','#de77ae','#f1b6da','#fde0ef','#e6f5d0','#b8e186','#7fbc41','#4d9221']
+
 // const map = d3.select(".dashboard .map")
 //     .append("svg");
 
@@ -316,16 +322,17 @@ i18n.load(["src/i18n"], function() {
         origChart.selectAll(".data")
           .selectAll("path.area")
           .on("mouseover", function(d, i) {
-            console.log("hello d: ", d)
-            console.log("area i: ", i)
-            console.log("this: ", this)
             var idx = i + 1;
 
-            d3.selectAll(".area:not(.area" + idx + ")")
-              .style("opacity", 0.5);
+            d3.selectAll(".area:not(.area" + idx + ")").classed("inactive", true);
+            
 
            
 
+          })
+          .on("mouseout", function(d, i) {
+          d3.selectAll(".area").classed("inactive", false);
+                
           });
  
 
