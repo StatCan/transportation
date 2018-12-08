@@ -1,4 +1,5 @@
 export default {
+  aspectRatio: 15 / 3,
   alt: i18next.t("alt", {ns: "area"}),
   filterData: function(data) {
     return data.tonnage;
