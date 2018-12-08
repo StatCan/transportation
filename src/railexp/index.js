@@ -1,3 +1,5 @@
+import settings from "./stackedAreaSettings.js";
+
 const data = {};
 let selected = "CANADA";
 
@@ -57,6 +59,10 @@ lineDest
       .attr("y", 10)
       .text("destination");
               
+// ---------------------------------------------------------------------
+/* globals areaChart */
+const origChart = d3.select("#annualOrig")
+    .append("svg");
 
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
@@ -98,7 +104,7 @@ function showComm() {
     rows.forEach(function(d) {
       const x = d[""];
       delete d[""];
-      for (prop in d) {
+      for (var prop in d) {
         const y = prop,
           value = d[prop];
         rawCommData.push({
