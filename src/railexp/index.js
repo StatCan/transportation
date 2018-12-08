@@ -1,17 +1,64 @@
 const data = {};
 let selected = "CANADA";
 
-const map = d3.select(".dashboard .map")
-    .append("svg");
+// const map = d3.select(".dashboard .map")
+//     .append("svg");
 
-getCanadaMap(map).on("loaded", function() {
-  // highlight Atlantic region when landing on page
-  d3.select(".dashboard .map").select(".NB").style("fill", "#33850a"); // #cc0047
-  d3.select(".dashboard .map").select(".NS").style("fill", "#33850a");
-  d3.select(".dashboard .map").select(".NL").style("fill", "#33850a");
-  d3.select(".dashboard .map").select(".PE").style("fill", "#33850a");
-});
+// getCanadaMap(map).on("loaded", function() {
+//   // highlight Atlantic region when landing on page
+//   d3.select(".dashboard .map").select(".NB").style("fill", "#33850a"); // #cc0047
+//   d3.select(".dashboard .map").select(".NS").style("fill", "#33850a");
+//   d3.select(".dashboard .map").select(".NL").style("fill", "#33850a");
+//   d3.select(".dashboard .map").select(".PE").style("fill", "#33850a");
+// });
 
+// ---------------------------------------------------------------------
+// radarChart legend
+var margin = {top: 0, right: 0, bottom: 0, left: 0};
+var w = 380 - margin.left - margin.right,
+    h = 40 - margin.top - margin.bottom;
+
+var rlegendSVG = d3.select("#rLegend")
+            .append('svg:svg')
+            .attr('width', w)
+            .attr('height', h)
+            .style("vertical-align", "middle");
+// Draw destination legend line
+var lineOrig = rlegendSVG.append('g');
+lineOrig
+      .append("line")
+      .attr("class", "orig")
+      .attr("x1", 5)
+      .attr("y1", 7)
+      .attr("x2", 50)
+      .attr("y2", 7);
+      
+lineOrig
+      .append("text")
+      .attr("class", "rLegendLine")
+      // .style("fill","#565656")
+      .attr("x", 60)
+      .attr("y", 11)
+      .text("origin");
+
+var lineDest = rlegendSVG.append('g');
+lineDest
+      .append("line")
+      .attr("class", "dest")
+      .attr("x1", 150) //5
+      .attr("y1", 7)
+      .attr("x2", 195) //50
+      .attr("y2", 7);
+lineDest
+      .append("text")
+      .attr("class", "rLegendLine")
+      // .style("fill","#565656")
+      .attr("x", 210)
+      .attr("y", 10)
+      .text("destination");
+              
+
+// ---------------------------------------------------------------------
 // global variables for drawBubbles fn
 const rankedCommData = [];
 let count = 0;

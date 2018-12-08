@@ -132,7 +132,19 @@
 	position: relative;
 	top: -32px;
 }
-
+/*expt rail dataset*/
+.dest {
+	stroke: #cc0047;
+	stroke-width: 4;
+}
+.orig {
+	stroke: #38808a;
+	stroke-width: 4;
+}
+.rLegendLine {
+	stroke:; none;
+    font-size: 14px;
+}
 
 
 /*map*/
