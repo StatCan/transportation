@@ -1,7 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 
 const data = {};
-let selected = "CANADA";
+let selected = "QC";
 
 // const map = d3.select(".dashboard .map")
 //     .append("svg");
@@ -74,21 +74,21 @@ let rankedCommNames; // temp
 
 
 function uiHandler(event) {
-  if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value;
+  if (event.target.id === "region") {
+    selected = document.getElementById("region").value;
     if (!data[selected]) {
       d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
-        showData();
+        showArea();
       });
     } else {
-      showData();
+      showArea();
     }
   }
 }
 
-function showData() {
-  areaChart(chart, settings, data[selected]);
+function showArea() {
+  areaChart(origChart, settings, data[selected]);
 }
 
 function showComm() {
@@ -299,8 +299,16 @@ i18n.load(["src/i18n"], function() {
   d3.queue()
       .defer(d3.json, "data/rail/rail_meat_origATR_ON_BC_destQC.json")
       .await(function(error, data) {
+        // display total regional tonnages
         showRadar();
-        showComm(); // display sorted commodity bubble table
+
+        // display annual tonnages
+        areaChart(origChart, settings, data);
+        // d3.select("#annualOrig")
+        //   .text("Atlantic region as origin to:");
+
+        // display sorted commodity bubble table
+        showComm(); 
 
         d3.select("#prevButton").classed("inactive", true);
 
