@@ -141,8 +141,14 @@ var vertical = d3.select("#annualTimeseries")
       .style("top", "10px")
       .style("bottom", "30px")
       .style("left", "0px")
-      .style("background", "black");
-
+      .style("background", "#ccc");
+//TEMPORARY HACK UNTIL CAN OBTAIN AREACHART XSCALE
+const mousex_dict = {
+  56: 2002,
+  167: 2004,
+  280: 2006
+}
+console.log("mousex dict [56]: ", mousex_dict[56])
 // ---------------------------------------------------------------------
 /* globals areaChart */
 const origChart = d3.select("#destTimeseries")
@@ -259,6 +265,8 @@ i18n.load(["src/i18n"], function() {
   d3.queue()
       .defer(d3.json, "data/rail/rail_meat_origATR_all_dest.json")
       .await(function(error, data) {
+        var mousex;
+
         // display total regional tonnages
         showRadar();
 
@@ -272,8 +280,12 @@ i18n.load(["src/i18n"], function() {
           .on("mouseover", function(d, i) {
             var idx = i + 1;
             d3.selectAll(".area:not(.area" + idx + ")").classed("inactive", true);
+            console.log("d3 select: ", d3.select(".area" + idx))
 
-            //Tooltip                  
+            //Tooltip
+            console.log("d here: ", d);
+            console.log("mousex in tooltip: ", mousex);
+
             div.transition()
               .style("opacity", .9)
               div.html("something")
@@ -285,14 +297,14 @@ i18n.load(["src/i18n"], function() {
             //tooltip
             div.transition().style("opacity", 0);                
           });
-        // select the areaChart itself
+        // select the areaChart itself for the vertical line
         d3.select("#annualTimeseries")
           .on("mousemove", function(){
-             var mousex = d3.mouse(this);
+             mousex = d3.mouse(this);
              mousex = mousex[0] + 5;
              vertical.style("left", mousex + "px" )})
           .on("mouseover", function(){
-             var mousex = d3.mouse(this);
+             mousex = d3.mouse(this);
              mousex = mousex[0] + 5;
              vertical.style("left", mousex + "px")});
 
