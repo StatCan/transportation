@@ -5,6 +5,8 @@ let selected = "ATR";
 let selected_comm = "meat";
 let comm_reg = "meat_for_QC";
 
+const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"];
+
 // ---------------------------------------------------------------------
 // region colours:
 // '#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854','#ffd92f','#e5c494','#b3b3b3']
@@ -66,7 +68,51 @@ lineDest
       .attr("x", 210)
       .attr("y", 10)
       .text("destination");
-              
+
+// ---------------------------------------------------------------------
+// areaChart legend
+var margin_area = {top: 0, right: 0, bottom: 0, left: 0};
+var w_area = 750 - margin_area.left - margin_area.right,
+    h_area = 40 - margin_area.top - margin_area.bottom;
+
+var arealegendSVG = d3.select("#areaLegend")
+            .append('svg:svg')
+            .attr('width', w_area)
+            .attr('height', h_area)
+            .style("vertical-align", "middle");
+
+var rects = arealegendSVG.selectAll('rect')
+          .data(regions)
+          .enter()
+          .append('g');
+
+
+var rect_dim = 15;
+var appendedRects = rects.append("rect")
+      .attr("class", function(d) {
+        return d;
+      })
+      .attr("width", rect_dim)
+      .attr("height", rect_dim)
+       .attr("y", 5)
+      .attr("x", function (d, i) {
+        return i * 100;
+      });
+
+rects
+  .append("text")
+  // .attr("class", "rLegendLine")
+  .attr("class", function(d) {
+    return "rLegendLine rect-" + d;
+  })
+  .attr("x", function (d, i) {
+    return 20 + i * 100;
+  })
+  .attr("y", 15)
+  .text(function(d) {
+    return d;
+  });
+
 // ---------------------------------------------------------------------
 /* globals areaChart */
 const origChart = d3.select("#annualOrig")
@@ -91,12 +137,6 @@ function uiHandler(event) {
   }
   comm_reg = selected_comm + "_for_" + selected;
 
-  console.log("comm: ", selected_comm)
-  console.log("region: ", selected)
-  console.log("comm_reg: ", comm_reg)
-  console.log("data: ", data)
-
-
     if (!data[comm_reg]) {
       // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
         d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, filedata) {
@@ -113,6 +153,7 @@ function uiHandler(event) {
 
 function showArea() {
   areaChart(origChart, settings, data[comm_reg]);
+  d3.selectAll(".area-label").style("display", "none");
 }
 
 function showComm() {
@@ -328,6 +369,8 @@ i18n.load(["src/i18n"], function() {
 
         // display annual tonnages
         areaChart(origChart, settings, data);
+        d3.selectAll(".area-label").style("display", "none");
+
         // areaChart tooltip
         var tooltip = d3.select("#lineChart")
             .append("div")
@@ -343,6 +386,20 @@ i18n.load(["src/i18n"], function() {
             var idx = i + 1;
 
             d3.selectAll(".area:not(.area" + idx + ")").classed("inactive", true);
+           
+            // console.log("this: ", d3.select(this).attr("class").split(/\s+/)[2])
+            // console.log("select this: ", d3.select(this))
+            // console.log("select this: ", d3.select(this).attr("class"))
+            // var this_region = d3.select(this).attr("class").split(/\s+/)[2];
+
+            // d3.selectAll("rect:not(." + this_region + ")")
+            //   .classed("inactive", true);
+
+            // d3.selectAll("text:not(." + this_region + ")")
+            //   .classed("inactive", true);
+            // d3.selectAll("g").filter(function(d) { return this.id.match(/foo/).length > 0; });
+
+
             
 
            
