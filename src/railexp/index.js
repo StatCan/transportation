@@ -7,6 +7,11 @@ let comm_reg = "meat_for_QC";
 
 const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"];
 
+var formatNumber = d3.format(",") ; // d3.format(".2f");
+var format = function(d) {
+  return formatNumber(d);
+};
+
 // ---------------------------------------------------------------------
 // const map = d3.select(".dashboard .map")
 //     .append("svg");
@@ -144,14 +149,25 @@ var vertical = d3.select("#annualTimeseries")
       .style("background", "#ccc");
 //TEMPORARY HACK UNTIL CAN OBTAIN AREACHART XSCALE
 const mousex_dict = {
-  56: 2002,
-  167: 2004,
-  280: 2006
+  106: 2002,
+  // 126: 2003,
+  199: 2004,
+  // 205: 2005,
+  292: 2006,
+  // 286: 2007,
+  382: 2008,
+  // 360: 2009,
+  481: 2010,
+  // 438: 2011,
+  568: 2012,
+  // 507: 2013,
+  684: 2014,
+  // 548: 2015,
+  620: 2016 
 }
-console.log("mousex dict [56]: ", mousex_dict[56])
 // ---------------------------------------------------------------------
 /* globals areaChart */
-const origChart = d3.select("#destTimeseries")
+const areaChartAllDest = d3.select("#destTimeseries")
     .append("svg");
 
 // ---------------------------------------------------------------------
@@ -164,7 +180,6 @@ let rankedCommNames; // temp
 
 // ---------------------------------------------------------------------
 function uiHandler(event) {
-  console.log("event: ", event.target.id)
   if (event.target.id === "commodity") {
     selected_comm = document.getElementById("commodity").value;
   }
@@ -176,9 +191,7 @@ function uiHandler(event) {
     if (!data[comm_reg]) {
       // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
         d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, filedata) {
-          console.log("fname: ", "rail_" + selected_comm + "_orig" + selected + "_all_dest.json")
         data[comm_reg] = filedata;
-        console.log("data after d3json: ", data)
         showArea();
       });
     } else {
@@ -189,7 +202,7 @@ function uiHandler(event) {
 
 // ---------------------------------------------------------------------
 function showArea() {
-  areaChart(origChart, settings, data[comm_reg]);
+  areaChart(areaChartAllDest, settings, data[comm_reg]);
   d3.selectAll(".area-label").style("display", "none");
 }
 
@@ -266,29 +279,51 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/rail_meat_origATR_all_dest.json")
       .await(function(error, data) {
         var mousex;
+        var year;
 
         // display total regional tonnages
         showRadar();
 
         // display annual tonnages
-        areaChart(origChart, settings, data);
+        areaChart(areaChartAllDest, settings, data);
         d3.selectAll(".area-label").style("display", "none");
 
         // select layers of the areaChart
-        origChart.selectAll(".data")
+        areaChartAllDest.selectAll(".data")
           .selectAll("path.area")
           .on("mouseover", function(d, i) {
             var idx = i + 1;
             d3.selectAll(".area:not(.area" + idx + ")").classed("inactive", true);
-            console.log("d3 select: ", d3.select(".area" + idx))
 
             //Tooltip
-            console.log("d here: ", d);
-            console.log("mousex in tooltip: ", mousex);
+            
+            // console.log("mousex in tooltip: ", mousex);
+            var region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
+            const xarr = Object.keys(mousex_dict);
+            for (let idx = 0; idx < xarr.length; idx++) {
+              if (xarr[idx] > mousex) {
+                year = mousex_dict[xarr[idx]];
+                break;
+              }
+            }
+            // console.log("year: ", year);
+            // console.log("region: ", region);
+            const value = d.filter((item) => item.data.year === year)[0].data[region];
+            // console.log("value: ", value);
 
             div.transition()
               .style("opacity", .9)
-              div.html("something")
+              // div.html(region)
+              div.html(
+                  "<b>" + year + "</b>"+ "<br><br>" +
+                  "<table>" +
+                    "<tr>" + 
+                      "<td>" + region + ": </td>" +
+                    "<td><b>" + format(value) + " "  + " </td>" +
+                    "<td>" + " " + " . tons" + "</td>" +
+                    "</tr>" +
+                  "</table>"
+              )
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY) + "px");
           })
