@@ -84,7 +84,7 @@ var rects = arealegendSVG.selectAll('rect')
 var rect_dim = 15;
 var appendedRects = rects.append("rect")
       .attr("class", function(d) {
-        return d;
+        return "rect " + d;
       })
       .attr("width", rect_dim)
       .attr("height", rect_dim)
@@ -106,6 +106,20 @@ rects
   .text(function(d) {
     return d;
   });
+
+rects
+  .on("mouseover", function(d) {
+    var selectedClass = d3.select(this)._groups[0][0].__data__;
+
+    // highlight selected class in legend and timeseries chart
+    d3.selectAll(".area:not( ." + selectedClass + ")").classed("inactive-region", true);
+    d3.selectAll(".rect:not(." + selectedClass + ")").classed("inactive-region", true);
+  })
+  .on("mouseout", function(d) {
+    // restore opacity
+    d3.selectAll(".area").classed("inactive-region", false);
+    d3.selectAll(".rect").classed("inactive-region", false);
+  })
 
 // ---------------------------------------------------------------------
 /* globals areaChart */

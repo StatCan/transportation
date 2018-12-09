@@ -98,11 +98,8 @@
 .USMX {
 	fill: #737373;
 }
-.active {
-opacity: 1.0 !important;
-}
-.inactive {
-opacity: 0.2 !important;
+.inactive-region {
+opacity: 0.1 !important;
 }
 
 .comm_yr {
