@@ -47,7 +47,7 @@ lineOrig
       
 lineOrig
       .append("text")
-      .attr("class", "rLegendLine")
+      .attr("class", "legendText")
       // .style("fill","#565656")
       .attr("x", 60)
       .attr("y", 11)
@@ -63,7 +63,7 @@ lineDest
       .attr("y2", 7);
 lineDest
       .append("text")
-      .attr("class", "rLegendLine")
+      .attr("class", "legendText")
       // .style("fill","#565656")
       .attr("x", 210)
       .attr("y", 10)
@@ -101,9 +101,9 @@ var appendedRects = rects.append("rect")
 
 rects
   .append("text")
-  // .attr("class", "rLegendLine")
+  // .attr("class", "legendText")
   .attr("class", function(d) {
-    return "rLegendLine rect-" + d;
+    return "legendText rect-" + d;
   })
   .attr("x", function (d, i) {
     return 20 + i * 100;
@@ -115,7 +115,7 @@ rects
 
 // ---------------------------------------------------------------------
 /* globals areaChart */
-const origChart = d3.select("#annualOrig")
+const origChart = d3.select("#destTimeseries")
     .append("svg");
 
 // ---------------------------------------------------------------------
@@ -372,14 +372,15 @@ i18n.load(["src/i18n"], function() {
         d3.selectAll(".area-label").style("display", "none");
 
         // areaChart tooltip
-        var tooltip = d3.select("#lineChart")
+        var tooltip = d3.select("#annualTimeseries")
             .append("div")
             .attr("class", "tip")
             .style("position", "absolute")
             .style("z-index", "20")
             .style("visibility", "hidden")
             .style("top", 40 + "px");
-        // user interaction with the layers
+
+        
         origChart.selectAll(".data")
           .selectAll("path.area")
           .on("mouseover", function(d, i) {
@@ -400,7 +401,10 @@ i18n.load(["src/i18n"], function() {
             // d3.selectAll("g").filter(function(d) { return this.id.match(/foo/).length > 0; });
 
 
-            
+            tooltip
+                .style("left", tipX(mousex) +"px")
+                .html("something")
+                .style("visibility", "visible");
 
            
 
