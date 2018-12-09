@@ -81,7 +81,6 @@ var rects = arealegendSVG.selectAll('rect')
           .enter()
           .append('g');
 
-
 var rect_dim = 15;
 var appendedRects = rects.append("rect")
       .attr("class", function(d) {
@@ -121,7 +120,7 @@ let years;
 let maxVal;
 let rankedCommNames; // temp
 
-
+// ---------------------------------------------------------------------
 function uiHandler(event) {
   console.log("event: ", event.target.id)
   if (event.target.id === "commodity") {
@@ -146,11 +145,13 @@ function uiHandler(event) {
   // }
 }
 
+// ---------------------------------------------------------------------
 function showArea() {
   areaChart(origChart, settings, data[comm_reg]);
   d3.selectAll(".area-label").style("display", "none");
 }
 
+// ---------------------------------------------------------------------
 function showComm() {
   // change area chart title to match selected province
   d3.select(".commTable h4")
@@ -216,7 +217,8 @@ function showComm() {
   }); // end d3.csv
 }
 
-
+// ---------------------------------------------------------------------
+// Landing page displays
 i18n.load(["src/i18n"], function() {
   d3.queue()
       .defer(d3.json, "data/rail/rail_meat_origATR_all_dest.json")
