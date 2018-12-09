@@ -320,7 +320,7 @@ i18n.load(["src/i18n"], function() {
                     "<tr>" + 
                       "<td>" + region + ": </td>" +
                     "<td><b>" + format(value) + " "  + " </td>" +
-                    "<td>" + " " + " . tons" + "</td>" +
+                    "<td>" + " " + " . Mtons" + "</td>" +
                     "</tr>" +
                   "</table>"
               )
