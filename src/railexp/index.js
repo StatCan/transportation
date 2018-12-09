@@ -1,7 +1,9 @@
 import settings from "./stackedAreaSettings.js";
 
 const data = {};
-let selected = "QC";
+let selected = "ATR";
+let selected_comm = "meat";
+let comm_reg = "meat_for_QC";
 
 // ---------------------------------------------------------------------
 // region colours:
@@ -80,21 +82,37 @@ let rankedCommNames; // temp
 
 
 function uiHandler(event) {
+  console.log("event: ", event.target.id)
+  if (event.target.id === "commodity") {
+    selected_comm = document.getElementById("commodity").value;
+  }
   if (event.target.id === "region") {
     selected = document.getElementById("region").value;
-    if (!data[selected]) {
-      d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
-        data[selected] = filedata;
+  }
+  comm_reg = selected_comm + "_for_" + selected;
+
+  console.log("comm: ", selected_comm)
+  console.log("region: ", selected)
+  console.log("comm_reg: ", comm_reg)
+  console.log("data: ", data)
+
+
+    if (!data[comm_reg]) {
+      // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
+        d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, filedata) {
+          console.log("fname: ", "rail_" + selected_comm + "_orig" + selected + "_all_dest.json")
+        data[comm_reg] = filedata;
+        console.log("data after d3json: ", data)
         showArea();
       });
     } else {
       showArea();
     }
-  }
+  // }
 }
 
 function showArea() {
-  areaChart(origChart, settings, data[selected]);
+  areaChart(origChart, settings, data[comm_reg]);
 }
 
 function showComm() {
@@ -303,7 +321,7 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
-      .defer(d3.json, "data/rail/rail_meat_origATR_ON_BC_destQC.json")
+      .defer(d3.json, "data/rail/rail_meat_origATR_all_dest.json")
       .await(function(error, data) {
         // display total regional tonnages
         showRadar();
