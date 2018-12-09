@@ -114,11 +114,13 @@ rects
     // highlight selected class in legend and timeseries chart
     d3.selectAll(".area:not( ." + selectedClass + ")").classed("inactive-region", true);
     d3.selectAll(".rect:not(." + selectedClass + ")").classed("inactive-region", true);
+    d3.selectAll("text.legendText:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
   })
   .on("mouseout", function(d) {
     // restore opacity
     d3.selectAll(".area").classed("inactive-region", false);
     d3.selectAll(".rect").classed("inactive-region", false);
+    d3.selectAll("text.legendText").classed("inactive-region", false);
   })
 
 // ---------------------------------------------------------------------
