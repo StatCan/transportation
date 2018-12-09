@@ -66,7 +66,7 @@ lineDest
 
 // ---------------------------------------------------------------------
 // areaChart legend
-var margin_area = {top: 0, right: 0, bottom: 0, left: 0};
+var margin_area = {top: 0, right: 0, bottom: 0, left: 50};
 var w_area = 750 - margin_area.left - margin_area.right,
     h_area = 40 - margin_area.top - margin_area.bottom;
 
@@ -90,7 +90,7 @@ var appendedRects = rects.append("rect")
       .attr("height", rect_dim)
        .attr("y", 5)
       .attr("x", function (d, i) {
-        return i * 100;
+        return margin_area.left + i * 100;
       });
 
 rects
@@ -100,7 +100,7 @@ rects
     return "legendText rect-" + d;
   })
   .attr("x", function (d, i) {
-    return 20 + i * 100;
+    return margin_area.left + 20 + i * 100;
   })
   .attr("y", 15)
   .text(function(d) {
