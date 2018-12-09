@@ -292,98 +292,105 @@ function showComm() {
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
-  d3.queue()
-  .defer(d3.json, "data/rail/rail_meat_origATR_all_dest.json")
-  .await(function(error, data) {
+ // display total regional tonnages
+  showRadar();
+
+  d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
+    data[comm_from_reg] = fileorig;
+    console.log("data as ORIG: ", data)
     var mousex;
     var year;
 
-    // display total regional tonnages
-    showRadar();
+    // Read in chosen region as DESTINATION
+    d3.json("data/rail/rail_" + selected_comm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
+      console.log("filedest: ", "rail_" + selected_comm + "_all_orig_to_" + selected + ".json")
+      data[comm_to_reg] = filedest;
+      console.log("data as DEST: ", data) 
 
-    // display annual tonnages for comm_from_reg and comm_to_reg
-    areaChart(areaChartFromRegion, settings, data);
-    areaChart(areaChartToRegion, settings, data[comm_to_reg]);
-    d3.selectAll(".area-label").style("display", "none");
+      // display annual tonnages for comm_from_reg and comm_to_reg
+      areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
+      areaChart(areaChartToRegion, settings, data[comm_to_reg]);
+      d3.selectAll(".area-label").style("display", "none");
 
-    // select layers of the areaChart
-    areaChartFromRegion.selectAll(".data")
-      .selectAll("path.area")
-      .on("mouseover", function(d, i) {
-        var idx = i + 1;
-        d3.selectAll(".area:not(.area" + idx + ")").classed("inactive-region", true);
+      // select layers of the areaChart
+      areaChartFromRegion.selectAll(".data")
+        .selectAll("path.area")
+        .on("mouseover", function(d, i) {
+          var idx = i + 1;
+          d3.selectAll(".area:not(.area" + idx + ")").classed("inactive-region", true);
 
-        //Tooltip
-        
-        // console.log("mousex in tooltip: ", mousex);
-        var region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
-        const xarr = Object.keys(mousex_dict);
-        for (let idx = 0; idx < xarr.length; idx++) {
-          if (xarr[idx] > mousex) {
-            year = mousex_dict[xarr[idx]];
-            break;
+          //Tooltip
+          
+          // console.log("mousex in tooltip: ", mousex);
+          var region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
+          const xarr = Object.keys(mousex_dict);
+          for (let idx = 0; idx < xarr.length; idx++) {
+            if (xarr[idx] > mousex) {
+              year = mousex_dict[xarr[idx]];
+              break;
+            }
           }
-        }
-        // console.log("year: ", year);
-        // console.log("region: ", region);
-        const value = d.filter((item) => item.data.year === year)[0].data[region];
-        // console.log("value: ", value);
+          // console.log("year: ", year);
+          // console.log("region: ", region);
+          const value = d.filter((item) => item.data.year === year)[0].data[region];
+          // console.log("value: ", value);
 
-        div.transition()
-          .style("opacity", .9)
-          // div.html(region)
-          div.html(
-              "<b>" + year + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" + 
-                  "<td>" + region + ": </td>" +
-                "<td><b>" + format(value) + " "  + " </td>" +
-                "<td>" + " " + " . Mtons" + "</td>" +
-                "</tr>" +
-              "</table>"
-          )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY) + "px");
-      })
-      .on("mouseout", function(d, i) {
-        d3.selectAll(".area").classed("inactive-region", false);
-        //tooltip
-        div.transition().style("opacity", 0);                
-      });
-    // select the areaChart itself for the vertical line
-    d3.select("#annualTimeseries")
-      .on("mousemove", function(){
-         mousex = d3.mouse(this);
-         mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px" )})
-      .on("mouseover", function(){
-         mousex = d3.mouse(this);
-         mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px")});
-
-
-    // display sorted commodity bubble table
-    showComm(); 
-
-    d3.select("#prevButton").classed("inactive", true);
-
-    d3.select("#nextButton")
-        .on("click", function() {
-          count++;
-          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
-                    d3.select("#prevButton").classed("inactive", false);
-
-          drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count);
+          div.transition()
+            .style("opacity", .9)
+            // div.html(region)
+            div.html(
+                "<b>" + year + "</b>"+ "<br><br>" +
+                "<table>" +
+                  "<tr>" + 
+                    "<td>" + region + ": </td>" +
+                  "<td><b>" + format(value) + " "  + " </td>" +
+                  "<td>" + " " + " . Mtons" + "</td>" +
+                  "</tr>" +
+                "</table>"
+            )
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px");
+        })
+        .on("mouseout", function(d, i) {
+          d3.selectAll(".area").classed("inactive-region", false);
+          //tooltip
+          div.transition().style("opacity", 0);                
         });
+      // select the areaChart itself for the vertical line
+      d3.select("#annualTimeseries")
+        .on("mousemove", function(){
+           mousex = d3.mouse(this);
+           mousex = mousex[0] + 5;
+           vertical.style("left", mousex + "px" )})
+        .on("mouseover", function(){
+           mousex = d3.mouse(this);
+           mousex = mousex[0] + 5;
+           vertical.style("left", mousex + "px")});
 
-    d3.select("#prevButton")
-        .on("click", function() {
-          count--;
-          count === 0 ? d3.select("#prevButton").classed("inactive", true) :
-                        d3.select("#prevButton").classed("inactive", false);
 
-          drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count);
-        });
+      // display sorted commodity bubble table
+      showComm(); 
+
+      d3.select("#prevButton").classed("inactive", true);
+
+      d3.select("#nextButton")
+          .on("click", function() {
+            count++;
+            count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                      d3.select("#prevButton").classed("inactive", false);
+
+            drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count);
+          });
+
+      d3.select("#prevButton")
+          .on("click", function() {
+            count--;
+            count === 0 ? d3.select("#prevButton").classed("inactive", true) :
+                          d3.select("#prevButton").classed("inactive", false);
+
+            drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count);
+          });
+    });
   });
 });
 
