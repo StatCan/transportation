@@ -247,13 +247,14 @@ i18n.load(["src/i18n"], function() {
         d3.selectAll(".area-label").style("display", "none");
 
         // areaChart tooltip
-        var tooltip = d3.select("#annualTimeseries")
+        var div = d3.select("body")
             .append("div")
-            .attr("class", "tip")
-            .style("position", "absolute")
-            .style("z-index", "20")
-            .style("visibility", "hidden")
-            .style("top", 40 + "px");
+            .attr("class", "tooltip")
+            // .style("position", "absolute")
+            // .style("z-index", "20")
+            .style("opacity", 0);
+            // .style("visibility", "hidden");
+            // .style("top", 40 + "px");
 
         
         origChart.selectAll(".data")
@@ -276,16 +277,26 @@ i18n.load(["src/i18n"], function() {
             // d3.selectAll("g").filter(function(d) { return this.id.match(/foo/).length > 0; });
 
 
-            tooltip
-                .style("left", tipX(mousex) +"px")
-                .html("something")
-                .style("visibility", "visible");
+            // tooltip
+            //     .style("left", tipX(mousex) +"px")
+            //     .html("something")
+            //     .style("visibility", "visible");
+            //Tooltip                  
+            div.transition()
+              .style("opacity", .9)
+              div.html("something")
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY) + "px");
+              //.style("visibility", "visible");
 
            
 
           })
           .on("mouseout", function(d, i) {
-          d3.selectAll(".area").classed("inactive", false);
+            d3.selectAll(".area").classed("inactive", false);
+
+            //tooltip
+            div.transition().style("opacity", 0);
                 
           });
  
