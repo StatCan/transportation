@@ -124,6 +124,26 @@ rects
   })
 
 // ---------------------------------------------------------------------
+// areaChart tooltip
+var div = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+// vertical line to help orient the user while exploring the streams
+var vertical = d3.select("#annualTimeseries")
+      .append("div")
+      .attr("class", "remove")
+      .style("position", "absolute")
+      .style("z-index", "19")
+      .style("width", "2px")
+      .style("height", "320px")
+      .style("top", "10px")
+      .style("bottom", "30px")
+      .style("left", "0px")
+      .style("background", "black");
+
+// ---------------------------------------------------------------------
 /* globals areaChart */
 const origChart = d3.select("#destTimeseries")
     .append("svg");
@@ -246,60 +266,35 @@ i18n.load(["src/i18n"], function() {
         areaChart(origChart, settings, data);
         d3.selectAll(".area-label").style("display", "none");
 
-        // areaChart tooltip
-        var div = d3.select("body")
-            .append("div")
-            .attr("class", "tooltip")
-            // .style("position", "absolute")
-            // .style("z-index", "20")
-            .style("opacity", 0);
-            // .style("visibility", "hidden");
-            // .style("top", 40 + "px");
-
-        
+        // select layers of the areaChart
         origChart.selectAll(".data")
           .selectAll("path.area")
           .on("mouseover", function(d, i) {
             var idx = i + 1;
-
             d3.selectAll(".area:not(.area" + idx + ")").classed("inactive", true);
-           
-            // console.log("this: ", d3.select(this).attr("class").split(/\s+/)[2])
-            // console.log("select this: ", d3.select(this))
-            // console.log("select this: ", d3.select(this).attr("class"))
-            // var this_region = d3.select(this).attr("class").split(/\s+/)[2];
 
-            // d3.selectAll("rect:not(." + this_region + ")")
-            //   .classed("inactive", true);
-
-            // d3.selectAll("text:not(." + this_region + ")")
-            //   .classed("inactive", true);
-            // d3.selectAll("g").filter(function(d) { return this.id.match(/foo/).length > 0; });
-
-
-            // tooltip
-            //     .style("left", tipX(mousex) +"px")
-            //     .html("something")
-            //     .style("visibility", "visible");
             //Tooltip                  
             div.transition()
               .style("opacity", .9)
               div.html("something")
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY) + "px");
-              //.style("visibility", "visible");
-
-           
-
           })
           .on("mouseout", function(d, i) {
             d3.selectAll(".area").classed("inactive", false);
-
             //tooltip
-            div.transition().style("opacity", 0);
-                
+            div.transition().style("opacity", 0);                
           });
- 
+        // select the areaChart itself
+        d3.select("#annualTimeseries")
+          .on("mousemove", function(){
+             var mousex = d3.mouse(this);
+             mousex = mousex[0] + 5;
+             vertical.style("left", mousex + "px" )})
+          .on("mouseover", function(){
+             var mousex = d3.mouse(this);
+             mousex = mousex[0] + 5;
+             vertical.style("left", mousex + "px")});
 
 
         // display sorted commodity bubble table
