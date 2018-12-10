@@ -143,7 +143,7 @@ var vertical = d3.select("#annualTimeseries")
       .style("position", "absolute")
       .style("z-index", "19")
       .style("width", "2px")
-      .style("height", "320px")
+      .style("height", "345px")
       .style("top", "10px")
       .style("bottom", "30px")
       .style("left", "0px")
@@ -221,6 +221,12 @@ function showArea() {
   areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
   areaChart(areaChartToRegion, settings, data[comm_to_reg]);
   d3.selectAll(".area-label").style("display", "none");
+
+  // chart titles
+  d3.select("#destTimeseriesTitle")
+    .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
+  d3.select("#origTimeseriesTitle")
+    .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
 }
 
 // ---------------------------------------------------------------------
@@ -311,6 +317,12 @@ i18n.load(["src/i18n"], function() {
       areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
       areaChart(areaChartToRegion, settings, data[comm_to_reg]);
       d3.selectAll(".area-label").style("display", "none");
+
+      // chart titles
+      d3.select("#destTimeseriesTitle")
+        .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
+      d3.select("#origTimeseriesTitle")
+        .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
 
       // select layers of the areaChart
       areaChartFromRegion.selectAll(".data")
