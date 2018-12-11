@@ -126,7 +126,6 @@ getCanadaMap(map).on("loaded", function() {
           return "airport" + d.id;
         })
         .attr("class", "airport")
-        .style("fill", "#7E0C33")
         .on("mouseover", (d) => {
           selectedAirpt = d.id;
           selectedProv = d.province;
