@@ -45,7 +45,7 @@ lineOrig
       .attr("y1", 7)
       .attr("x2", 50)
       .attr("y2", 7);
-      
+
 lineOrig
       .append("text")
       .attr("class", "legendText")
@@ -103,7 +103,7 @@ rects
   .append("text")
   // .attr("class", "legendText")
   .attr("class", function(d) {
-    return "legendText rect-" + d;
+    return "legendText forAreaChart rect-" + d;
   })
   .attr("x", function (d, i) {
     return margin_area.left + 20 + i * 100;
@@ -120,7 +120,8 @@ rects
     // highlight selected class in legend and timeseries chart
     d3.selectAll(".area:not( ." + selectedClass + ")").classed("inactive-region", true);
     d3.selectAll(".rect:not(." + selectedClass + ")").classed("inactive-region", true);
-    d3.selectAll("text.legendText:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
+    // d3.selectAll("text.legendText:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
+    d3.selectAll("text.forAreaChart:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
   })
   .on("mouseout", function(d) {
     // restore opacity
@@ -164,7 +165,7 @@ const mousex_dict = {
   // 507: 2013,
   684: 2014,
   // 548: 2015,
-  620: 2016 
+  620: 2016
 }
 // ---------------------------------------------------------------------
 /* globals areaChart */
@@ -311,7 +312,7 @@ i18n.load(["src/i18n"], function() {
     d3.json("data/rail/rail_" + selected_comm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
       console.log("filedest: ", "rail_" + selected_comm + "_all_orig_to_" + selected + ".json")
       data[comm_to_reg] = filedest;
-      console.log("data as DEST: ", data) 
+      console.log("data as DEST: ", data)
 
       // display annual tonnages for comm_from_reg and comm_to_reg
       areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
@@ -332,7 +333,7 @@ i18n.load(["src/i18n"], function() {
           d3.selectAll(".area:not(.area" + idx + ")").classed("inactive-region", true);
 
           //Tooltip
-          
+
           // console.log("mousex in tooltip: ", mousex);
           var region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
           const xarr = Object.keys(mousex_dict);
@@ -353,7 +354,7 @@ i18n.load(["src/i18n"], function() {
             div.html(
                 "<b>" + year + "</b>"+ "<br><br>" +
                 "<table>" +
-                  "<tr>" + 
+                  "<tr>" +
                     "<td>" + region + ": </td>" +
                   "<td><b>" + format(value) + " "  + " </td>" +
                   "<td>" + " " + " . Mtons" + "</td>" +
@@ -366,7 +367,7 @@ i18n.load(["src/i18n"], function() {
         .on("mouseout", function(d, i) {
           d3.selectAll(".area").classed("inactive-region", false);
           //tooltip
-          div.transition().style("opacity", 0);                
+          div.transition().style("opacity", 0);
         });
       // select the areaChart itself for the vertical line
       d3.select("#annualTimeseries")
@@ -381,7 +382,7 @@ i18n.load(["src/i18n"], function() {
 
 
       // display sorted commodity bubble table
-      showComm(); 
+      showComm();
 
       d3.select("#prevButton").classed("inactive", true);
 
