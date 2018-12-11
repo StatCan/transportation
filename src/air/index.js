@@ -67,74 +67,99 @@ function showAirport() {
   bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
 }
 
-getCanadaMap(map).on("loaded", function() {
-  //TEMPORARY
-  d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
-  const fakeTotDict = {
-    "BC": 1131,
-    "AB": 630,
-    "SK": 149,
-    "MB": 225,
-    "ON": 1233,
-    "QC": 621,
-    "NB": 231,
-    "NS": 84,
-    "PE": 0,
-    "NL": 87,
-    "NT": 51,
-    "NU": 0,
-    "YK": 32
-  };
-  let totArr = [];
-  for (var key in fakeTotDict) {
-    totArr.push(fakeTotDict[key])
-  }
+const canadaMap = getCanadaMap(map)
+    .on("loaded", function() {
+    // TEMPORARY
+      d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
+      const fakeTotDict = {
+        "BC": 1131,
+        "AB": 630,
+        "SK": 149,
+        "MB": 225,
+        "ON": 1233,
+        "QC": 621,
+        "NB": 231,
+        "NS": 84,
+        "PE": 0,
+        "NL": 87,
+        "NT": 51,
+        "NU": 0,
+        "YK": 32
+      };
+      const totArr = [];
+      for (let key in fakeTotDict) {
+        totArr.push(fakeTotDict[key])
+      }
 
-  // https://d3js.org/colorbrewer.v1.js
-  const colourArray= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+      // https://d3js.org/colorbrewer.v1.js
+      const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
-  totArr.sort(function(a, b){return a-b});
+      totArr.sort(function(a, b) {
+        return a - b;
+      });
 
-  const dimExtent = d3.extent(totArr);
+      // colour map to take data value and map it to the colour of the level bin it belongs to
+      const dimExtent = d3.extent(totArr);
+      const colourMap = d3.scaleLinear()
+          .domain([dimExtent[0], dimExtent[1]])
+          .range(colourArray);
 
-  // colour map to take data value and map it to the colour of the level bin it belongs to
-  const colourMap = d3.scaleLinear()
-      .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray);
+      for (const key in fakeTotDict) {
+        if (fakeTotDict.hasOwnProperty(key)) {
+          d3.select(".dashboard .map")
+              .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+        }
+      }
+      // END TEMPORARY
 
-  for (let key in fakeTotDict) {
-    if (fakeTotDict.hasOwnProperty(key)) {
-      d3.select(".dashboard .map")
-          .select("." + key).style("fill", colourMap(fakeTotDict[key]));
-    }
-  }
+      d3.json("geojson/testairport.geojson", (error, airports) => {
+        if (error) throw error;
 
-  //END TEMPORARY
+        const airportGroup = map.append("g");
+        const path = d3.geoPath().projection(this.settings.projection)
+            .pointRadius(2);
 
-  d3.json("geojson/testairport.geojson", (error, airports) => {
-    if (error) throw error;
+        airportGroup.selectAll("path")
+            .data(airports.features)
+            .enter().append("path")
+            .attr("d", path)
+            .attr("id", (d, i) => {
+              return "airport" + d.id;
+            })
+            .attr("class", "airport")
+            .on("mouseover", (d) => {
+              selectedAirpt = d.id;
+              selectedProv = d.province;
+              // change area chart title to match selected province
+              heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
+              showAirport();
+            });
+      });
+    })
+    .on("zoom", function(province) {
+      let text = "Canada";
+      province = "ON";
 
-    const airportGroup = map.append("g");
-    const path = d3.geoPath().projection(this.settings.projection)
-        .pointRadius(2);
+      if (province) {
+        switch (province) {
+          case "ON":
+            text = "Ontario";
+            break;
+        }
+      }
+      heading.text(text);
+      window.console.log("Zoom:" + text);
+    });
 
-    airportGroup.selectAll("path")
-        .data(airports.features)
-        .enter().append("path")
-        .attr("d", path)
-        .attr("id", (d, i) => {
-          return "airport" + d.id;
-        })
-        .attr("class", "airport")
-        .on("mouseover", (d) => {
-          selectedAirpt = d.id;
-          selectedProv = d.province;
-          // change area chart title to match selected province
-          heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
-          showAirport();
-        });
-  });
+map.on("mouseover", () => {
+  console.log("map mouseover: ", this);
+  canadaMap.zoom("ON");
 });
+
+// d3.select(".canada-map")
+//     .on("mouseover", () => {
+//       console.log("select mouseover: ", this);
+//     });
 
 i18n.load(["src/i18n"], showAreaData);
 $(document).on("change", uiHandler);
