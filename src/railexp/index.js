@@ -2,14 +2,14 @@ import settings from "./stackedAreaSettings.js";
 
 const data = {};
 let selected = "ATR";
-let selected_comm = "meat";
-let comm_from_reg = selected_comm + "_from_" + selected;
-let comm_to_reg = selected_comm + "_to_" + selected;
+let selectedComm = "meat";
+let commFromRegion = selectedComm + "_from_" + selected;
+let commToRegion = selectedComm + "_to_" + selected;
 
 const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"];
 
-var formatNumber = d3.format(",") ; // d3.format(".2f");
-var format = function(d) {
+const formatNumber = d3.format(","); // d3.format(".2f");
+const format = function(d) {
   return formatNumber(d);
 };
 
@@ -27,130 +27,127 @@ var format = function(d) {
 
 // ---------------------------------------------------------------------
 // radarChart legend
-var margin = {top: 0, right: 0, bottom: 0, left: 0};
-var w = 380 - margin.left - margin.right,
-    h = 40 - margin.top - margin.bottom;
+const margin = {top: 0, right: 0, bottom: 0, left: 0};
+const w = 380 - margin.left - margin.right;
+const    h = 40 - margin.top - margin.bottom;
 
-var rlegendSVG = d3.select("#rLegend")
-            .append('svg:svg')
-            .attr('width', w)
-            .attr('height', h)
-            .style("vertical-align", "middle");
+const rlegendSVG = d3.select("#rLegend")
+    .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+    .style("vertical-align", "middle");
 // Draw destination legend line
-var lineOrig = rlegendSVG.append('g');
+const lineOrig = rlegendSVG.append('g');
 lineOrig
-      .append("line")
-      .attr("class", "orig")
-      .attr("x1", 5)
-      .attr("y1", 7)
-      .attr("x2", 50)
-      .attr("y2", 7);
+    .append("line")
+    .attr("class", "orig")
+    .attr("x1", 5)
+    .attr("y1", 7)
+    .attr("x2", 50)
+    .attr("y2", 7);
 
 lineOrig
-      .append("text")
-      .attr("class", "legendText")
-      // .style("fill","#565656")
-      .attr("x", 60)
-      .attr("y", 11)
-      .text("origin");
+    .append("text")
+    .attr("class", "legendText")
+    // .style("fill","#565656")
+    .attr("x", 60)
+    .attr("y", 11)
+    .text("origin");
 
-var lineDest = rlegendSVG.append('g');
+const lineDest = rlegendSVG.append("g");
 lineDest
-      .append("line")
-      .attr("class", "dest")
-      .attr("x1", 150) //5
-      .attr("y1", 7)
-      .attr("x2", 195) //50
-      .attr("y2", 7);
+    .append("line")
+    .attr("class", "dest")
+    .attr("x1", 150) // 5
+    .attr("y1", 7)
+    .attr("x2", 195) // 50
+    .attr("y2", 7);
 lineDest
-      .append("text")
-      .attr("class", "legendText")
-      // .style("fill","#565656")
-      .attr("x", 210)
-      .attr("y", 10)
-      .text("destination");
+    .append("text")
+    .attr("class", "legendText")
+    .attr("x", 210)
+    .attr("y", 10)
+    .text("destination");
 
 // ---------------------------------------------------------------------
 // areaChart legend
-var margin_area = {top: 0, right: 0, bottom: 0, left: 50};
-var w_area = 750 - margin_area.left - margin_area.right,
-    h_area = 40 - margin_area.top - margin_area.bottom;
+const marginAreaSVG = {top: 0, right: 0, bottom: 0, left: 50};
+const widthAreaSVG = 750 - marginAreaSVG.left - marginAreaSVG.right;
+const heightAreaSVG = 40 - marginAreaSVG.top - marginAreaSVG.bottom;
 
-var arealegendSVG = d3.select("#areaLegend")
-            .append('svg:svg')
-            .attr('width', w_area)
-            .attr('height', h_area)
-            .style("vertical-align", "middle");
+const arealegendSVG = d3.select("#areaLegend")
+    .append("svg:svg")
+    .attr("width", widthAreaSVG)
+    .attr("height", heightAreaSVG)
+    .style("vertical-align", "middle");
 
-var rects = arealegendSVG.selectAll('rect')
-          .data(regions)
-          .enter()
-          .append('g');
+const rects = arealegendSVG.selectAll("rect")
+    .data(regions)
+    .enter()
+    .append("g");
 
-var rect_dim = 15;
-var appendedRects = rects.append("rect")
-      .attr("class", function(d) {
-        return "rect " + d;
-      })
-      .attr("width", rect_dim)
-      .attr("height", rect_dim)
-       .attr("y", 5)
-      .attr("x", function (d, i) {
-        return margin_area.left + i * 100;
-      });
-
-rects
-  .append("text")
-  // .attr("class", "legendText")
-  .attr("class", function(d) {
-    return "legendText forAreaChart rect-" + d;
-  })
-  .attr("x", function (d, i) {
-    return margin_area.left + 20 + i * 100;
-  })
-  .attr("y", 15)
-  .text(function(d) {
-    return d;
-  });
+const rectDim = 15;
+rects.append("rect")
+    .attr("class", function(d) {
+      return "rect " + d;
+    })
+    .attr("width", rectDim)
+    .attr("height", rectDim)
+    .attr("y", 5)
+    .attr("x", function(d, i) {
+      return marginAreaSVG.left + i * 100;
+    });
 
 rects
-  .on("mouseover", function(d) {
-    var selectedClass = d3.select(this)._groups[0][0].__data__;
+    .append("text")
+    .attr("class", function(d) {
+      return "legendText forAreaChart rect-" + d;
+    })
+    .attr("x", function(d, i) {
+      return marginAreaSVG.left + 20 + i * 100;
+    })
+    .attr("y", 15)
+    .text(function(d) {
+      return d;
+    });
 
-    // highlight selected class in legend and timeseries chart
-    d3.selectAll(".area:not( ." + selectedClass + ")").classed("inactive-region", true);
-    d3.selectAll(".rect:not(." + selectedClass + ")").classed("inactive-region", true);
-    // d3.selectAll("text.legendText:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
-    d3.selectAll("text.forAreaChart:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
-  })
-  .on("mouseout", function(d) {
-    // restore opacity
-    d3.selectAll(".area").classed("inactive-region", false);
-    d3.selectAll(".rect").classed("inactive-region", false);
-    d3.selectAll("text.legendText").classed("inactive-region", false);
-  })
+rects
+    .on("mouseover", function(d) {
+      const selectedClass = d3.select(this)._groups[0][0].__data__;
+
+      // highlight selected class in legend and timeseries chart
+      d3.selectAll(".area:not( ." + selectedClass + ")").classed("inactive-region", true);
+      d3.selectAll(".rect:not(." + selectedClass + ")").classed("inactive-region", true);
+      d3.selectAll("text.forAreaChart:not(.rect-" + selectedClass + ")").classed("inactive-region", true);
+    })
+    .on("mouseout", function(d) {
+      // restore opacity
+      d3.selectAll(".area").classed("inactive-region", false);
+      d3.selectAll(".rect").classed("inactive-region", false);
+      d3.selectAll("text.legendText").classed("inactive-region", false);
+    });
 
 // ---------------------------------------------------------------------
 // areaChart tooltip
-var div = d3.select("body")
+const div = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
 // vertical line to help orient the user while exploring the streams
-var vertical = d3.select("#annualTimeseries")
-      .append("div")
-      .attr("class", "remove")
-      .style("position", "absolute")
-      .style("z-index", "19")
-      .style("width", "2px")
-      .style("height", "345px")
-      .style("top", "10px")
-      .style("bottom", "30px")
-      .style("left", "0px")
-      .style("background", "#ccc");
-//TEMPORARY HACK UNTIL CAN OBTAIN AREACHART XSCALE
-const mousex_dict = {
+const vertical = d3.select("#annualTimeseries")
+    .append("div")
+    .attr("class", "remove")
+    .style("position", "absolute")
+    .style("z-index", "19")
+    .style("width", "2px")
+    .style("height", "345px")
+    .style("top", "10px")
+    .style("bottom", "30px")
+    .style("left", "0px")
+    .style("background", "#ccc");
+// TEMPORARY HACK UNTIL CAN OBTAIN AREACHART XSCALE
+const mousexDict = {
   106: 2002,
   // 126: 2003,
   199: 2004,
@@ -166,7 +163,7 @@ const mousex_dict = {
   684: 2014,
   // 548: 2015,
   620: 2016
-}
+};
 // ---------------------------------------------------------------------
 /* globals areaChart */
 const areaChartFromRegion = d3.select("#destTimeseries")
@@ -185,49 +182,48 @@ let rankedCommNames; // temp
 // ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
-    selected_comm = document.getElementById("commodity").value;
+    selectedComm = document.getElementById("commodity").value;
   }
   if (event.target.id === "region") {
     selected = document.getElementById("region").value;
   }
-  comm_from_reg = selected_comm + "_from_" + selected;
-  comm_to_reg = selected_comm + "_to_" + selected;
-  console.log("comm_from_reg: ", comm_from_reg)
-  console.log("comm_to_reg: ", comm_to_reg)
+  commFromRegion = selectedComm + "_from_" + selected;
+  commToRegion = selectedComm + "_to_" + selected;
+  console.log("commFromRegion: ", commFromRegion);
+  console.log("commToRegion: ", commToRegion);
 
-    if (!data[comm_from_reg]) {
-      // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
-        // Read in chosen region as ORIGIN
-        d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
-          data[comm_from_reg] = fileorig;
-          console.log("data as ORIG: ", data)
+  if (!data[commFromRegion]) {
+    // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
+    // Read in chosen region as ORIGIN
+    d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
+      data[commFromRegion] = fileorig;
+      console.log("data as ORIG: ", data);
 
-          // Read in chosen region as DESTINATION
-          d3.json("data/rail/rail_" + selected_comm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
-            console.log("filedest: ", "rail_" + selected_comm + "_all_orig_to_" + selected + ".json")
-            data[comm_to_reg] = filedest;
-            console.log("data as DEST: ", data)
+      // Read in chosen region as DESTINATION
+      d3.json("data/rail/rail_" + selectedComm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
+        console.log("filedest: ", "rail_" + selectedComm + "_all_orig_to_" + selected + ".json");
+        data[commToRegion] = filedest;
+        console.log("data as DEST: ", data);
 
-          showArea();
-        });
+        showArea();
       });
-    } else {
-      showArea();
-    }
-  // }
+    });
+  } else {
+    showArea();
+  }
 }
 
 // ---------------------------------------------------------------------
 function showArea() {
-  areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
-  areaChart(areaChartToRegion, settings, data[comm_to_reg]);
+  areaChart(areaChartFromRegion, settings, data[commFromRegion]);
+  areaChart(areaChartToRegion, settings, data[commToRegion]);
   d3.selectAll(".area-label").style("display", "none");
 
   // chart titles
   d3.select("#destTimeseriesTitle")
-    .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
+      .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
   d3.select("#origTimeseriesTitle")
-    .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
+      .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
 }
 
 // ---------------------------------------------------------------------
@@ -302,83 +298,80 @@ i18n.load(["src/i18n"], function() {
  // display total regional tonnages
   showRadar();
 
-  d3.json("data/rail/rail_" + selected_comm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
-    data[comm_from_reg] = fileorig;
-    console.log("data as ORIG: ", data)
-    var mousex;
-    var year;
+  d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
+    data[commFromRegion] = fileorig;
+    console.log("data as ORIG: ", data);
+    let mousex;
+    let year;
 
     // Read in chosen region as DESTINATION
-    d3.json("data/rail/rail_" + selected_comm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
-      console.log("filedest: ", "rail_" + selected_comm + "_all_orig_to_" + selected + ".json")
-      data[comm_to_reg] = filedest;
-      console.log("data as DEST: ", data)
+    d3.json("data/rail/rail_" + selectedComm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
+      console.log("filedest: ", "rail_" + selectedComm + "_all_orig_to_" + selected + ".json");
+      data[commToRegion] = filedest;
+      console.log("data as DEST: ", data);
 
-      // display annual tonnages for comm_from_reg and comm_to_reg
-      areaChart(areaChartFromRegion, settings, data[comm_from_reg]);
-      areaChart(areaChartToRegion, settings, data[comm_to_reg]);
+      // display annual tonnages for commFromRegion and commToRegion
+      areaChart(areaChartFromRegion, settings, data[commFromRegion]);
+      areaChart(areaChartToRegion, settings, data[commToRegion]);
       d3.selectAll(".area-label").style("display", "none");
 
       // chart titles
       d3.select("#destTimeseriesTitle")
-        .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
+          .text("From " + i18next.t(selected, {ns: "regions"}) + ", all destinations");
       d3.select("#origTimeseriesTitle")
-        .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
+          .text("To " + i18next.t(selected, {ns: "regions"}) + ", all origins");
 
       // select layers of the areaChart
       areaChartFromRegion.selectAll(".data")
-        .selectAll("path.area")
-        .on("mouseover", function(d, i) {
-          var idx = i + 1;
-          d3.selectAll(".area:not(.area" + idx + ")").classed("inactive-region", true);
+          .selectAll("path.area")
+          .on("mouseover", function(d, i) {
+            const idx = i + 1;
+            d3.selectAll(".area:not(.area" + idx + ")").classed("inactive-region", true);
 
-          //Tooltip
-
-          // console.log("mousex in tooltip: ", mousex);
-          var region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
-          const xarr = Object.keys(mousex_dict);
-          for (let idx = 0; idx < xarr.length; idx++) {
-            if (xarr[idx] > mousex) {
-              year = mousex_dict[xarr[idx]];
-              break;
+            // Tooltip
+            const region = d3.select(".area" + idx).attr("class").split("area area" + idx + " ")[1];
+            const xarr = Object.keys(mousexDict);
+            for (let idx = 0; idx < xarr.length; idx++) {
+              if (xarr[idx] > mousex) {
+                year = mousexDict[xarr[idx]];
+                break;
+              }
             }
-          }
-          // console.log("year: ", year);
-          // console.log("region: ", region);
-          const value = d.filter((item) => item.data.year === year)[0].data[region];
-          // console.log("value: ", value);
 
-          div.transition()
-            .style("opacity", .9)
-            // div.html(region)
+            const value = d.filter((item) => item.data.year === year)[0].data[region];
+
+            div.transition()
+                .style("opacity", .9);
             div.html(
                 "<b>" + year + "</b>"+ "<br><br>" +
                 "<table>" +
                   "<tr>" +
                     "<td>" + region + ": </td>" +
-                  "<td><b>" + format(value) + " "  + " </td>" +
+                  "<td><b>" + format(value) + " " + " </td>" +
                   "<td>" + " " + " . Mtons" + "</td>" +
                   "</tr>" +
                 "</table>"
             )
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) + "px");
-        })
-        .on("mouseout", function(d, i) {
-          d3.selectAll(".area").classed("inactive-region", false);
-          //tooltip
-          div.transition().style("opacity", 0);
-        });
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY) + "px");
+          })
+          .on("mouseout", function(d, i) {
+            d3.selectAll(".area").classed("inactive-region", false);
+            // tooltip
+            div.transition().style("opacity", 0);
+          });
       // select the areaChart itself for the vertical line
       d3.select("#annualTimeseries")
-        .on("mousemove", function(){
-           mousex = d3.mouse(this);
-           mousex = mousex[0] + 5;
-           vertical.style("left", mousex + "px" )})
-        .on("mouseover", function(){
-           mousex = d3.mouse(this);
-           mousex = mousex[0] + 5;
-           vertical.style("left", mousex + "px")});
+          .on("mousemove", function() {
+            mousex = d3.mouse(this);
+            mousex = mousex[0] + 5;
+            vertical.style("left", mousex + "px" );
+          })
+          .on("mouseover", function() {
+            mousex = d3.mouse(this);
+            mousex = mousex[0] + 5;
+            vertical.style("left", mousex + "px");
+          });
 
 
       // display sorted commodity bubble table

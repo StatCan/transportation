@@ -35,6 +35,7 @@
        "comma-dangle": 0,
        "max-len": 0,
        "require-jsdoc": 0,
-       "no-invalid-this": 1
+       "no-invalid-this": 1,
+       'no-console': 'off'
    }
 }
