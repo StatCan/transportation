@@ -140,21 +140,6 @@ const canadaMap = getCanadaMap(map)
               showAirport();
             });
       });
-    })
-    .on("zoom", function(province) {
-      // console.log("d3.event.scale: ", d3.event)
-      let text = "Canada";
-      province = "ON";
-
-      if (province) {
-        switch (province) {
-          case "ON":
-            text = "Ontario";
-            break;
-        }
-      }
-      heading.text(text);
-      window.console.log("Zoom:" + text);
     });
 
 map.on("click", () => {
