@@ -67,6 +67,11 @@ function showAirport() {
   bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
 }
 
+// For map circles
+let path;
+const defaultPointRadius = 2;
+const defaultStrokeWidth = 0.5;
+
 const canadaMap = getCanadaMap(map)
     .on("loaded", function() {
     // TEMPORARY
@@ -116,8 +121,8 @@ const canadaMap = getCanadaMap(map)
         if (error) throw error;
 
         const airportGroup = map.append("g");
-        const path = d3.geoPath().projection(this.settings.projection)
-            .pointRadius(2);
+        path = d3.geoPath().projection(this.settings.projection)
+            .pointRadius(defaultPointRadius);
 
         airportGroup.selectAll("path")
             .data(airports.features)
@@ -137,6 +142,7 @@ const canadaMap = getCanadaMap(map)
       });
     })
     .on("zoom", function(province) {
+      // console.log("d3.event.scale: ", d3.event)
       let text = "Canada";
       province = "ON";
 
@@ -151,12 +157,28 @@ const canadaMap = getCanadaMap(map)
       window.console.log("Zoom:" + text);
     });
 
-map.on("click", (e) => {
+map.on("click", () => {
+  const transition = d3.transition().duration(1000);
   const classes = d3.event.target.classList;
 
-  if (classes[1] === "zoomed") {
+  if (classes[1] === "zoomed" || (classes.length === 0)) {
+    // return circles to original size
+    path.pointRadius(function(d, i) {
+      return defaultPointRadius;
+    });
+    d3.transition(transition).selectAll(".airport")
+        .style("stroke-width", defaultStrokeWidth)
+        .attr("d", path);
     return canadaMap.zoom();
   }
+  path.pointRadius(function(d, i) {
+    return 0.5;
+  });
+  // console.log("path: ", path.pointRadius());
+  d3.transition(transition).selectAll(".airport")
+      .style("stroke-width", 0.1)
+      .attr("d", path);
+
   canadaMap.zoom(classes[0]);
 });
 

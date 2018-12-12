@@ -26,6 +26,11 @@
 	stroke: #ccc;
 	stroke-width: 0.5px;
 }
+.airportZoomed {
+	fill: #7E0C33;
+	stroke: #ccc;
+  stroke-width: 0.1px;
+}
 .local {
 	fill: #5DC1BE;
 }
