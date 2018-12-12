@@ -151,15 +151,14 @@ const canadaMap = getCanadaMap(map)
       window.console.log("Zoom:" + text);
     });
 
-map.on("mouseover", () => {
-  console.log("map mouseover: ", this);
-  canadaMap.zoom("ON");
-});
+map.on("click", (e) => {
+  const classes = d3.event.target.classList;
 
-// d3.select(".canada-map")
-//     .on("mouseover", () => {
-//       console.log("select mouseover: ", this);
-//     });
+  if (classes[1] === "zoomed") {
+    return canadaMap.zoom();
+  }
+  canadaMap.zoom(classes[0]);
+});
 
 i18n.load(["src/i18n"], showAreaData);
 $(document).on("change", uiHandler);
