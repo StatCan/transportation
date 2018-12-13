@@ -29,7 +29,7 @@ function showRadar() {
       },
       radius,
       radiusLength,
-      ruleColor = "#CCC",
+      ruleColor = "rgb(75, 75, 75)",
       numCommodities = 10;
 
       loadData();
@@ -52,8 +52,8 @@ function showRadar() {
 
         // var numCommodities = 64;
         for (i = 0; i < numCommodities; i += 1) {
-            series[0][i] = randomFromTo(0,20);
-            series[1][i] = randomFromTo(5,15);
+            series[0][i] = randomFromTo(0,20); // ORIGIN
+            series[1][i] = randomFromTo(5,15);  // DESTINATION
             hours[i] = i; //in case we want to do different formatting
         }
 
@@ -133,7 +133,7 @@ function showRadar() {
           .style("text-anchor", "left");
 
       circleAxes.append("svg:circle")
-          .attr("r", function (d, i) {
+          .attr("r", function(d, i) {
               return radius(d);
           })
           .attr("class", "circle")
@@ -143,7 +143,7 @@ function showRadar() {
 
       circleAxes.append("svg:text")
           .attr("text-anchor", "middle")
-          .attr("dy", function (d) {
+          .attr("dy", function(d) {
               return -1 * radius(d);
           })
           .text(String);
@@ -185,29 +185,21 @@ function showRadar() {
       groups = vizBody.selectAll('.series')
           .data(series);
       groups.enter().append("svg:g")
-          .attr('class', 'series')
-          .style('fill', function (d, i) {
-              if(i === 0){
-                return "#38808a";
-              }
-              else {
-                return "#cc0047";
-              }
+          // .attr('class', 'series')
+          .attr('class', function(d, i) {
+            if (i === 0) return "series seriesOrig";
+            else if (i === 1) return "series seriesDest";
           })
-          .style('stroke', function (d, i) {
-              if(i === 0){
-                return "#38808a";
-              }
-              else {
-                return "#cc0047";
-              }
-          });
       groups.exit().remove();
 
       // lines = groups.append('svg:path')
       // lines = groups.enter().append('svg:path')
       lines = d3.selectAll(".series").append("svg:path")
-          .attr("class", "line")
+          // .attr("class", "line")
+          .attr("class", function(d, i) {
+            if (i === 0) return "lineOrig";
+            else if (i === 1) return "lineDest";
+          })
           // .attr("d", d3.svg.line.radial()
           .attr("d", d3.radialLine()
               .radius(function (d) {
@@ -219,8 +211,7 @@ function showRadar() {
                   } //close the line
                   return (i / numCommodities) * 2 * Math.PI;
               }))
-          .style("stroke-width", 3)
-          .style("fill", "none");
+          .style("stroke-width", 3);
 
       // lines.attr("d", d3.svg.line.radial()
       lines.attr("d", d3.radialLine()

@@ -168,18 +168,6 @@
 	top: -32px;
 }
 /*expt rail dataset*/
-.dest {
-	stroke: #cc0047;
-	stroke-width: 4;
-}
-.orig {
-	stroke: #38808a;
-	stroke-width: 4;
-}
-.legendText {
-	stroke:; none;
-    font-size: 14px;
-}
 div.tooltip {
 	position: absolute;
 	padding: 5px;
@@ -191,6 +179,27 @@ div.tooltip {
 	border-width: 2px;
 	border-color: #000;
 	border-radius: 8px;
+}
+/* radar */
+.orig {
+	stroke: rgb(5, 143, 188);
+	stroke-width: 4;
+}
+.dest {
+	stroke: rgb(204, 0, 71);
+	stroke-width: 4;
+}
+.legendText {
+	stroke: none;
+  font-size: 14px;
+}
+.lineDest, .seriesDest {
+	fill: rgba(254, 195, 195, 0.7);
+	stroke: rgb(204, 0, 71);
+}
+.lineOrig, .seriesOrig {
+	fill: rgba(169, 203, 255, 0.7);
+	stroke: rgb(5, 143, 188);
 }
 
 /*map*/
