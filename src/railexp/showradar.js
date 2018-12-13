@@ -171,7 +171,9 @@ function showRadar() {
           .style("fill", "#3d3d3d")
           .style("font-size", "12px")
           .attr("transform", function (d, i) {
-              return (i / hours.length * 360) < 180 ? null : "rotate(180)";
+              // return (i / hours.length * 360) < 180 ? null : "rotate(180)";
+              return (i / hours.length * 360) < 180 ? "translate(0, -5)" :
+              "rotate(180)translate(0, -5)";
           });
     }
 
