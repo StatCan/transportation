@@ -21,7 +21,7 @@ getCanadaMap(map).on("loaded", function() {
     "NL": 749758,
     "NT": 42568,
     "NU": 15507,
-    "YK": 72077
+    "YT": 72077
   };
 
   let totArr = [];
@@ -54,27 +54,33 @@ map.on("mouseover", () => {
 
   d3.select(".dashboard .map")
       .select("." + classes[0])
-      // .classed("roadMapClassed", true);
-      .style("stroke", "#467B8D")
-      .style("stroke-width", 0.5);
+      .classed("roadMapHighlight", true);
 }).on("mouseout", () => {
-  d3.select(".map")
-      .selectAll("path")
-      .style("stroke", "black")
-      .style("stroke-width", 0.03);
+  if (selected) {
+    d3.select(".map")
+        .selectAll("path:not(." + selected + ")")
+        .classed("roadMapHighlight", false);
+  } else {
+    d3.select(".map")
+        .selectAll("path")
+        .classed("roadMapHighlight", false);
+  }
 });
 map.on("click", () => {
+  // clear any previous clicks
+  d3.select(".map")
+      .selectAll("path")
+      .classed("roadMapHighlight", false);
+
   const classes = d3.event.target.classList;
   selected = classes[0];
-  if (selected === "YK") selected = "YT";
 
   d3.select(".dashboard .map")
       .select("." + classes[0])
-      // .classed("roadMapClassed", true);
-      .style("stroke", "#467B8D")
-      .style("stroke-width", 0.5);
+      .classed("roadMapHighlight", true);
 
   // Display selected region in stacked area chart
+  // if (selected === "YK") selected = "YT";
   if (!data[selected]) {
     d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
       data[selected] = filedata;
