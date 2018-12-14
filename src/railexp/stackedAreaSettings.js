@@ -11,7 +11,7 @@ export default {
     getText: function(d) {
       return d.year;
     },
-    ticks: 7
+    ticks: 10
   },
 
   y: {
@@ -25,7 +25,8 @@ export default {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
       } else return d[key] * 1.0/ 1000;
-    }
+    },
+    ticks: 2
   },
   z: {
     label: i18next.t("z_label", {ns: "area"}),

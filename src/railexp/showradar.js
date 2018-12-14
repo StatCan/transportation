@@ -127,10 +127,11 @@ function showRadar() {
       circleAxes = vizBody.selectAll('.circle-ticks')
           .data(radialTicks)
           .enter().append('svg:g')
-          .attr("class", "circle-ticks")
-          .style("fill", "#3d3d3d")
-          .style("font-size", "12px")
-          .style("text-anchor", "left");
+          .attr("class", "circle-ticks");
+
+      circleAxes.style("fill", "#3d3d3d")
+        .style("font-size", "12px")
+        .style("text-anchor", "left");
 
       circleAxes.append("svg:circle")
           .attr("r", function(d, i) {
@@ -169,6 +170,7 @@ function showRadar() {
           })
           .attr("text-anchor", "middle")
           .style("fill", "#3d3d3d")
+          .style("font-weight", "bold")
           .style("font-size", "12px")
           .attr("transform", function (d, i) {
               // return (i / hours.length * 360) < 180 ? null : "rotate(180)";
@@ -177,7 +179,7 @@ function showRadar() {
           });
     }
 
-    function draw  () {
+    function draw () {
       var groups,
           lines,
           linesToUpdate;
