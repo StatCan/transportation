@@ -18,8 +18,8 @@
 	fill: #5DC1BE;
 }
 .roadMapClassed {
-	stroke: #33850a;
-	stroke-width: 0.5;
+	stroke: #467B8D !important;
+	stroke-width: 0.5 !important;
 }
 
 /*air dataset*/
