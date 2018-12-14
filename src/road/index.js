@@ -24,15 +24,17 @@ getCanadaMap(map).on("loaded", function() {
     "YT": 72077
   };
 
-  let totArr = [];
+  const totArr = [];
   for (var key in fakeTotDict) {
     totArr.push(fakeTotDict[key])
   }
 
   // https://d3js.org/colorbrewer.v1.js
-  const colourArray= ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
-  totArr.sort(function(a, b){return a-b});
+  totArr.sort(function(a, b) {
+    return a-b;
+  });
 
   const dimExtent = d3.extent(totArr);
 
@@ -41,7 +43,7 @@ getCanadaMap(map).on("loaded", function() {
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
-  for (let key in fakeTotDict) {
+  for (const key in fakeTotDict) {
     if (fakeTotDict.hasOwnProperty(key)) {
       d3.select(".dashboard .map")
           .select("." + key).style("fill", colourMap(fakeTotDict[key]));
@@ -80,7 +82,6 @@ map.on("click", () => {
       .classed("roadMapHighlight", true);
 
   // Display selected region in stacked area chart
-  // if (selected === "YK") selected = "YT";
   if (!data[selected]) {
     d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
       data[selected] = filedata;
@@ -89,7 +90,6 @@ map.on("click", () => {
   } else {
     showData();
   }
-
   // update region displayed in dropdown menu
   d3.select("#groups")._groups[0][0].value = selected;
 });
@@ -100,10 +100,8 @@ const chart = d3.select(".data")
     .attr("id", "demo");
 
 function uiHandler(event) {
-  console.log("event: ", event)
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
-    console.log("selected: ", selected)
     if (!data[selected]) {
       d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
         data[selected] = filedata;
