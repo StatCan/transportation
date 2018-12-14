@@ -56,7 +56,13 @@
 .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 16px;
+	font-size: 18px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 20px;
 	font-family: "Noto Sans", sans-serif;
 }
 .tick line {

@@ -1,11 +1,11 @@
-import settings from "./settings.js";
+import settings from "./stackedAreaSettings.js";
 import settingsBubbleTable from "./settings_bubbleTable.js";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
 const chart = d3.select(".data")
     .append("svg")
-    .attr("id", "svg_areaChart");
+    .attr("id", "svg_areaChartAir");
 const rankChart = d3.select("#rankTable") // .select(".data")
     .append("svg")
     .attr("id", "svg_rankChart");
@@ -35,7 +35,7 @@ function showAreaData() {
   };
   // change area chart title to match selected province
   if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
-    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
+    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}) + " (x 1,000)");
   }
 
   if (!data[selected]) {
