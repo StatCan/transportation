@@ -65,11 +65,8 @@ map.on("mouseover", () => {
 });
 map.on("click", () => {
   const classes = d3.event.target.classList;
-  console.log("on click: ", classes[0]);
   selected = classes[0];
   if (selected === "YK") selected = "YT";
-  console.log("selected: ", selected);
-  console.log("data: ", data);
 
   d3.select(".dashboard .map")
       .select("." + classes[0])
@@ -87,8 +84,8 @@ map.on("click", () => {
     showData();
   }
 
-  // update form menu
-  console.log("menu", document.getElementById("groups").value);
+  // update region displayed in dropdown menu
+  d3.select("#groups")._groups[0][0].value = selected;
 });
 
 /* globals areaChart */
