@@ -1,4 +1,4 @@
-import settings from "./settings.js";
+import settings from "./stackedAreaSettings.js";
 
 const data = {};
 let selected = "CANADA";

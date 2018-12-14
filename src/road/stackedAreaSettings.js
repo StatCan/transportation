@@ -1,5 +1,8 @@
 export default {
   alt: i18next.t("alt", {ns: "area"}),
+  margin: {
+    left: 80
+  },
   filterData: function(data) {
     return data.fuelsales;
   },
@@ -47,5 +50,5 @@ export default {
     }
   },
   datatable: false,
-  width: 900
+  width: 850
 };
