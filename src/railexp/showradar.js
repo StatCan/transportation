@@ -29,14 +29,15 @@ function showRadar() {
       },
       radius,
       radiusLength,
-      ruleColor = "rgb(75, 75, 75)",
+      ruleColor = "#777",  // "rgb(75, 75, 75)",
       numCommodities = 10;
 
       loadData();
       buildBase();
       setScales();
-      addAxes();
       draw();
+      addAxes();
+      // draw();
 
       function loadData() {
         var randomFromTo = function randomFromTo(from, to){
