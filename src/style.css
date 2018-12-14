@@ -11,13 +11,15 @@
 .gas {
 	fill: #EDDB7C;
 }
-
 .diesel {
 	fill: #F6CF22;
 }
-
 .LPG {
 	fill: #5DC1BE;
+}
+.roadMapClassed {
+	stroke: #33850a;
+	stroke-width: 0.5;
 }
 
 /*air dataset*/

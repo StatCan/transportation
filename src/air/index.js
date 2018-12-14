@@ -69,7 +69,7 @@ function showAirport() {
 
 // For map circles
 let path;
-const defaultPointRadius = 2;
+const defaultPointRadius = 1.5;
 const defaultStrokeWidth = 0.5;
 
 const canadaMap = getCanadaMap(map)
