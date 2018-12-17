@@ -1,0 +1,109 @@
+{
+  "numMov": [
+    { 
+      "year": 1997,
+      "domestic": 1683305,
+      "transborder": 3313762
+    },
+    { 
+      "year": 1998,
+      "domestic": 1748582,
+      "transborder": 3508537
+    },
+    { 
+      "year": 1999,
+      "domestic": 1764071,
+      "transborder": 3563945
+    },
+    { 
+      "year": 2000,
+      "domestic": 1660331,
+      "transborder": 3419199
+    },
+    { 
+      "year": 2001,
+      "domestic": 1668520,
+      "transborder": 3316187
+    },
+    { 
+      "year": 2002,
+      "domestic": 1572686,
+      "transborder": 3134465
+    },
+    { 
+      "year": 2003,
+      "domestic": 1404796,
+      "transborder": 3093286
+    },
+    { 
+      "year": 2004,
+      "domestic": 1253252,
+      "transborder": 3100661
+    },
+    { 
+      "year": 2005,
+      "domestic": 1224651,
+      "transborder": 3123934
+    },
+    { 
+      "year": 2006,
+      "domestic": 1287169,
+      "transborder": 3188275
+    },
+    { 
+      "year": 2007,
+      "domestic": 1591430,
+      "transborder": 3341310
+    },
+    { 
+      "year": 2008,
+      "domestic": 1524623,
+      "transborder": 3408983
+    },
+    { 
+      "year": 2009,
+      "domestic": 1390614,
+      "transborder": 3291568
+    },
+    { 
+      "year": 2010,
+      "domestic": 1368284,
+      "transborder": 3253660
+    },
+    { 
+      "year": 2011,
+      "domestic": 1274373,
+      "transborder": 3184153
+    },
+    { 
+      "year": 2012,
+      "domestic": 1231302,
+      "transborder": 3190872
+    },
+    { 
+      "year": 2013,
+      "domestic": 1213662,
+      "transborder": 3157788
+    },
+    { 
+      "year": 2014,
+      "domestic": 1237298,
+      "transborder": 3148100
+    },
+    { 
+      "year": 2015,
+      "domestic": 1225949,
+      "transborder": 3177552
+    },
+    { 
+      "year": 2016,
+      "domestic": 1261785,
+      "transborder": 3180731
+    },
+    { 
+      "year": 2017,
+      "domestic": 1238725,
+      "transborder": 3236143
+    }
+  ]
+}

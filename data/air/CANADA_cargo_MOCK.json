@@ -1,0 +1,44 @@
+{
+  "numMov": [
+    { 
+      "year": 2010,
+      "domestic": 1368284,
+      "transborder": 3253660
+    },
+    { 
+      "year": 2011,
+      "domestic": 1274373,
+      "transborder": 3184153
+    },
+    { 
+      "year": 2012,
+      "domestic": 1231302,
+      "transborder": 3190872
+    },
+    { 
+      "year": 2013,
+      "domestic": 1213662,
+      "transborder": 3157788
+    },
+    { 
+      "year": 2014,
+      "domestic": 1237298,
+      "transborder": 3148100
+    },
+    { 
+      "year": 2015,
+      "domestic": 1225949,
+      "transborder": 3177552
+    },
+    { 
+      "year": 2016,
+      "domestic": 1261785,
+      "transborder": 3180731
+    },
+    { 
+      "year": 2017,
+      "domestic": 1238725,
+      "transborder": 3236143
+    }
+  ]
+}

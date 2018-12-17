@@ -11,6 +11,8 @@
       "local": "Local",
       "itinerant": "Itinerant",
       "total": "Total",
+      "domestic": "Domestic",
+      "transborder": "Trans-border",
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },

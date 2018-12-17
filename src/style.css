@@ -33,10 +33,10 @@
 	stroke: #ccc;
   stroke-width: 0.1px;
 }
-.local {
+.local, .domestic {
 	fill: #5DC1BE;
 }
-.itinerant {
+.itinerant, .transborder {
 	fill: #F6CF22;
 }
 .Remaining_itinerant {

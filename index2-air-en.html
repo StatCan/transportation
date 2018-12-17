@@ -177,7 +177,7 @@
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-5">
 						<label for="groups_yr">Year</label>
 						<select id="year" class="form-control">
 							<option value="2017">2017</option>
@@ -203,7 +203,7 @@
 							<option value="1997">1997</option>
 						</select>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-7">
 						<div class="form-group">
 							<label for="groups">Geographic region:</label>
 							<select id="groups" class="form-control">
@@ -220,12 +220,21 @@
 			</form>
 			<div class="row">
 				<div class="dashboard">
-					<div class="map col-md-4"></div>
-					<div class="data col-md-8">
-            <div class="row">
-              <h4>Canada</h4>
-              <div class="data col-md-6" id="Q1"></div>
-              <div class="data col-md-6" id="Q2"></div>
+					<div class="map col-md-5"></div>
+					<div class="data col-md-7">
+            <div class="row">              
+              <div class="data col-md-6" id="Q1">
+              	<h4>Passengers (x 1,000)</h4>
+          	  </div>
+              <div class="data col-md-6" id="Q2">
+              	<h4>Cargo (x 1,000)</h4>
+              </div>
+              <div class="data col-md-6" id="Q3">
+              	<h4>Flights (x 1,000)</h4>
+              </div>
+              <div class="data col-md-6" id="Q4">
+              	<h4>Flights (x 1,000)</h4>
+              </div>
             </div>
 					</div>
 				</div>

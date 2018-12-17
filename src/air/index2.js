@@ -6,12 +6,17 @@ const map = d3.select(".dashboard .map")
 const chart = d3.select("#Q1")
     .append("svg")
     .attr("id", "svg_areaChartAir");
+const cargoChart = d3.select("#Q2")
+    .append("svg")
+    .attr("id", "svg_cargoChart");
+
 const rankChart = d3.select("#rankTable") // .select(".data")
     .append("svg")
     .attr("id", "svg_rankChart");
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const data = {};
+const cargoData = {};
 let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
@@ -19,12 +24,12 @@ let selectedProv;
 const rankData = {};
 
 /* canada map */
-const heading = d3.select(".dashboard h4");
+// const heading = d3.select(".dashboard h4");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value; // clear any previous airport title
-    d3.select(".dashboard h4").text("");
+    // d3.select(".dashboard h4").text("");
     showAreaData();
   }
 }
@@ -33,15 +38,21 @@ function showAreaData() {
   const showChart = () => {
     areaChart(chart, settings, data[selected]);
   };
-  // change area chart title to match selected province
-  if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
-    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}) + " (x 1,000)");
-  }
+  // // change area chart title to match selected province
+  // if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
+  //   d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}) + " (x 1,000)");
+  // }
 
   if (!data[selected]) {
-    return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
+    // return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
+    d3.json(`data/air/${selected}_passengers_MOCK.json`, (ptData) => {
       data[selected] = ptData;
+      console.log("data here: ", data)
       showChart();
+      d3.json("data/air/CANADA_cargo_MOCK.json", (cargo) => {
+        cargoData[selected] = cargo;
+        areaChart(cargoChart, settings, cargoData[selected]);
+      });
     });
   }
   showChart();
@@ -136,7 +147,7 @@ const canadaMap = getCanadaMap(map)
               selectedAirpt = d.id;
               selectedProv = d.province;
               // change area chart title to match selected province
-              heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
+              // heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
               showAirport();
             });
       });
