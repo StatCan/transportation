@@ -22,7 +22,7 @@ function showRadar() {
       w = 330,
       h = 330,
       vizPadding = {
-          top: 0,
+          top: 50,
           right: 15,
           bottom: 0,
           left: 15
