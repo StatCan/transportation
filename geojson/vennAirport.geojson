@@ -1,5 +1,4 @@
 {"type": "FeatureCollection",
-
   "features": [
     {
       "geometry": {
@@ -12,7 +11,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YKZ "
+        "id": "YKZ"
       }
     },
     {
@@ -26,7 +25,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YQB "
+        "id": "YQB"
       }
     },
     {
@@ -40,7 +39,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YEG "
+        "id": "YEG"
       }
     },
     {
@@ -54,7 +53,7 @@
       "type": "Feature",
       "properties": {
         "province": "MB",
-        "id": "YWG "
+        "id": "YWG"
       }
     },
     {
@@ -68,7 +67,7 @@
       "type": "Feature",
       "properties": {
         "province": "SK",
-        "id": "YQR "
+        "id": "YQR"
       }
     },
     {
@@ -82,7 +81,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YMX "
+        "id": "YMX"
       }
     },
     {
@@ -96,7 +95,7 @@
       "type": "Feature",
       "properties": {
         "province": "NB",
-        "id": "YQM "
+        "id": "YQM"
       }
     },
     {
@@ -110,7 +109,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YYJ "
+        "id": "YYJ"
       }
     },
     {
@@ -124,7 +123,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YZF "
+        "id": "YZF"
       }
     },
     {
@@ -138,7 +137,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YYB "
+        "id": "YYB"
       }
     },
     {
@@ -152,7 +151,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YQT "
+        "id": "YQT"
       }
     },
     {
@@ -166,7 +165,7 @@
       "type": "Feature",
       "properties": {
         "province": "NL",
-        "id": "YQX "
+        "id": "YQX"
       }
     },
     {
@@ -180,7 +179,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YXX "
+        "id": "YXX"
       }
     },
     {
@@ -194,7 +193,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YYC "
+        "id": "YYC"
       }
     },
     {
@@ -208,7 +207,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YUL "
+        "id": "YUL"
       }
     },
     {
@@ -222,7 +221,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YKF "
+        "id": "YKF"
       }
     },
     {
@@ -236,7 +235,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YLW "
+        "id": "YLW"
       }
     },
     {
@@ -250,7 +249,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YHM "
+        "id": "YHM"
       }
     },
     {
@@ -278,7 +277,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YXS "
+        "id": "YXS"
       }
     },
     {
@@ -292,7 +291,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YXU "
+        "id": "YXU"
       }
     },
     {
@@ -306,7 +305,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YVR "
+        "id": "YVR"
       }
     },
     {
@@ -320,7 +319,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YZV "
+        "id": "YZV"
       }
     },
     {
@@ -334,7 +333,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YPK "
+        "id": "YPK"
       }
     },
     {
@@ -348,7 +347,7 @@
       "type": "Feature",
       "properties": {
         "province": "YT",
-        "id": "YXY "
+        "id": "YXY"
       }
     },
     {
@@ -362,7 +361,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YQG "
+        "id": "YQG"
       }
     },
     {
@@ -376,7 +375,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YHU "
+        "id": "YHU"
       }
     },
     {
@@ -390,7 +389,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YOW "
+        "id": "YOW"
       }
     },
     {
@@ -404,7 +403,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YTZ "
+        "id": "YTZ"
       }
     },
     {
@@ -418,7 +417,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YZU "
+        "id": "YZU"
       }
     },
     {
@@ -432,7 +431,7 @@
       "type": "Feature",
       "properties": {
         "province": "NU",
-        "id": "YRB "
+        "id": "YRB"
       }
     },
     {
@@ -446,7 +445,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YXC "
+        "id": "YXC"
       }
     },
     {
@@ -460,7 +459,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YPE "
+        "id": "YPE"
       }
     },
     {
@@ -474,7 +473,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YPR "
+        "id": "YPR"
       }
     },
     {
@@ -488,7 +487,7 @@
       "type": "Feature",
       "properties": {
         "province": "NL",
-        "id": "YWK "
+        "id": "YWK"
       }
     },
     {
@@ -502,7 +501,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YHY "
+        "id": "YHY"
       }
     },
     {
@@ -516,7 +515,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YXT "
+        "id": "YXT"
       }
     },
     {
@@ -530,7 +529,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YQK "
+        "id": "YQK"
       }
     },
     {
@@ -544,7 +543,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YGR "
+        "id": "YGR"
       }
     },
     {
@@ -558,7 +557,7 @@
       "type": "Feature",
       "properties": {
         "province": "NL",
-        "id": "YDF "
+        "id": "YDF"
       }
     },
     {
@@ -572,7 +571,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YCD "
+        "id": "YCD"
       }
     },
     {
@@ -586,7 +585,7 @@
       "type": "Feature",
       "properties": {
         "province": "NS",
-        "id": "YQY "
+        "id": "YQY"
       }
     },
     {
@@ -600,7 +599,7 @@
       "type": "Feature",
       "properties": {
         "province": "NB",
-        "id": "YFC "
+        "id": "YFC"
       }
     },
     {
@@ -614,7 +613,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YYE "
+        "id": "YYE"
       }
     },
     {
@@ -628,7 +627,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YVQ "
+        "id": "YVQ"
       }
     },
     {
@@ -642,7 +641,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YGK "
+        "id": "YGK"
       }
     },
     {
@@ -656,7 +655,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YOJ "
+        "id": "YOJ"
       }
     },
     {
@@ -670,7 +669,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YFS "
+        "id": "YFS"
       }
     },
     {
@@ -684,7 +683,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YYF "
+        "id": "YYF"
       }
     },
     {
@@ -698,7 +697,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YVO "
+        "id": "YVO"
       }
     },
     {
@@ -712,7 +711,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YGL "
+        "id": "YGL"
       }
     },
     {
@@ -726,7 +725,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YSM "
+        "id": "YSM"
       }
     },
     {
@@ -740,7 +739,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YTS "
+        "id": "YTS"
       }
     },
     {
@@ -754,7 +753,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YSB "
+        "id": "YSB"
       }
     },
     {
@@ -768,7 +767,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YQU "
+        "id": "YQU"
       }
     },
     {
@@ -782,7 +781,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YMM "
+        "id": "YMM"
       }
     },
     {
@@ -796,7 +795,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YQF "
+        "id": "YQF"
       }
     },
     {
@@ -810,7 +809,7 @@
       "type": "Feature",
       "properties": {
         "province": "MB",
-        "id": "YTH "
+        "id": "YTH"
       }
     },
     {
@@ -824,7 +823,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YBL "
+        "id": "YBL"
       }
     },
     {
@@ -838,7 +837,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YZT "
+        "id": "YZT"
       }
     },
     {
@@ -852,7 +851,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YUY "
+        "id": "YUY"
       }
     },
     {
@@ -866,7 +865,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YKL "
+        "id": "YKL"
       }
     },
     {
@@ -880,7 +879,7 @@
       "type": "Feature",
       "properties": {
         "province": "NU",
-        "id": "YFB "
+        "id": "YFB"
       }
     },
     {
@@ -894,7 +893,7 @@
       "type": "Feature",
       "properties": {
         "province": "SK",
-        "id": "YVC "
+        "id": "YVC"
       }
     },
     {
@@ -908,7 +907,7 @@
       "type": "Feature",
       "properties": {
         "province": "MB",
-        "id": "YYQ "
+        "id": "YYQ"
       }
     },
     {
@@ -922,7 +921,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YGW "
+        "id": "YGW"
       }
     },
     {
@@ -936,7 +935,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YDQ "
+        "id": "YDQ"
       }
     },
     {
@@ -950,7 +949,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YYY "
+        "id": "YYY"
       }
     },
     {
@@ -964,7 +963,7 @@
       "type": "Feature",
       "properties": {
         "province": "NT",
-        "id": "YEV "
+        "id": "YEV"
       }
     },
     {
@@ -978,7 +977,7 @@
       "type": "Feature",
       "properties": {
         "province": "PE",
-        "id": "YYG "
+        "id": "YYG"
       }
     },
     {
@@ -992,7 +991,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YQL "
+        "id": "YQL"
       }
     },
     {
@@ -1006,7 +1005,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YWL "
+        "id": "YWL"
       }
     },
     {
@@ -1020,7 +1019,7 @@
       "type": "Feature",
       "properties": {
         "province": "NU",
-        "id": "YRT "
+        "id": "YRT"
       }
     },
     {
@@ -1034,7 +1033,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YCG "
+        "id": "YCG"
       }
     },
     {
@@ -1048,7 +1047,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YGP "
+        "id": "YGP"
       }
     },
     {
@@ -1062,7 +1061,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YYD "
+        "id": "YYD"
       }
     },
     {
@@ -1076,7 +1075,7 @@
       "type": "Feature",
       "properties": {
         "province": "NB",
-        "id": "YSJ "
+        "id": "YSJ"
       }
     },
     {
@@ -1090,7 +1089,7 @@
       "type": "Feature",
       "properties": {
         "province": "ON",
-        "id": "YXL "
+        "id": "YXL"
       }
     },
     {
@@ -1104,7 +1103,7 @@
       "type": "Feature",
       "properties": {
         "province": "BC",
-        "id": "YKA "
+        "id": "YKA"
       }
     },
     {
@@ -1118,7 +1117,7 @@
       "type": "Feature",
       "properties": {
         "province": "SK",
-        "id": "YPA "
+        "id": "YPA"
       }
     },
     {
@@ -1132,7 +1131,7 @@
       "type": "Feature",
       "properties": {
         "province": "MB",
-        "id": "YBR "
+        "id": "YBR"
       }
     },
     {
@@ -1146,7 +1145,7 @@
       "type": "Feature",
       "properties": {
         "province": "AB",
-        "id": "YLL "
+        "id": "YLL"
       }
     },
     {
@@ -1160,7 +1159,7 @@
       "type": "Feature",
       "properties": {
         "province": "QC",
-        "id": "YVP "
+        "id": "YVP"
       }
     }
   ]

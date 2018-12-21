@@ -130,12 +130,12 @@ const canadaMap = getCanadaMap(map)
             .enter().append("path")
             .attr("d", path)
             .attr("id", (d, i) => {
-              return "airport" + d.id;
+              return "airport" + d.properties.id;
             })
             .attr("class", "airport")
             .on("mouseover", (d) => {
-              selectedAirpt = d.id;
-              selectedProv = d.province;
+              selectedAirpt = d.properties.id;
+              selectedProv = d.properties.province;
               // change area chart title to match selected province
               heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
               showAirport();
