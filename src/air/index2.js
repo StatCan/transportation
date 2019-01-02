@@ -128,7 +128,8 @@ const canadaMap = getCanadaMap(map)
       }
       // END TEMPORARY
 
-      d3.json("geojson/testairport.geojson", (error, airports) => {
+      // d3.json("geojson/testairport.geojson", (error, airports) => {
+      d3.json("geojson/vennAirport_96.geojson", (error, airports) => {
         if (error) throw error;
 
         const airportGroup = map.append("g");
