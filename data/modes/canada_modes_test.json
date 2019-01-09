@@ -1,0 +1,15 @@
+{
+"nodes": [
+{"name": "intl"},
+{"name": "USres"},
+{"name": "nonUS"},
+{"name": "cdnFromUS"},
+{"name": "cdnFromOther"}
+],
+"links": [
+{"source": "intl", "target": "USres", "value": "174.00"},
+{"source": "intl", "target": "nonUS", "value": "53.00"},
+{"source": "intl", "target": "cdnFromUS", "value": "551.00"},
+{"source": "intl", "target": "cdnFromOther", "value": "72.00"}
+]
+}
