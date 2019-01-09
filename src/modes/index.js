@@ -10,7 +10,7 @@ const margin = {
 };
 
 const width = 460 - margin.left - margin.right;
-const height = 500 - margin.top - margin.bottom;
+const height = 800 - margin.top - margin.bottom;
 
 const sankeyChart = d3.select(".data")
     .append("svg")
@@ -30,6 +30,7 @@ function uiHandler(event) {
     selected = document.getElementById("groups").value;
     if (!data[selected]) {
       d3.json("data/modes/" + selected + "_modes.json", function(err, filedata) {
+        console.log("filedata: ", filedata)
         data[selected] = filedata;
         showData();
       });
@@ -47,6 +48,7 @@ i18n.load(["src/i18n"], function() {
   d3.queue()
       .defer(d3.json, "data/modes/canada_modes.json")
       .await(function(error, data) {
+        console.log("data: ", data)
         makeSankey(sankeyChart, width, height, sankey, data);
       });
 });

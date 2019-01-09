@@ -1,4 +1,18 @@
 function makeSankey(sankeyChart, width, height, sankey, graph) {
+  const levelDict = {
+  // level 1
+    "intl": "level1",
+    // level 2
+    "USres": "level2",
+    "nonUS": "level2",
+    "cdnFromUS": "level2",
+    "cdnFromOther": "level2",
+    // level 3
+    "USres_land": "level3",
+    "USres_air": "level3",
+    "USres_marine": "level3",
+    "USres_land": "level3",
+  };
 
   const colourDict = {
   // level 1
@@ -7,7 +21,23 @@ function makeSankey(sankeyChart, width, height, sankey, graph) {
     "USres": "#CC982A",
     "nonUS": "#928941",
     "cdnFromUS": "#FFDC68",
-    "cdnFromOther": "#FAB491"
+    "cdnFromOther": "#FAB491",
+    // level 3
+    "USres_land": "#CC982A",
+    "USres_air": "#CC982A",
+    "USres_marine": "#CC982A",
+
+    "nonUS_land": "#928941",
+    "nonUS_air": "#928941",
+    "nonUS_marine": "#928941",
+
+    "cdnFromUS_land": "#FFDC68",
+    "cdnFromUS_air": "#FFDC68",
+    "cdnFromUS_marine": "#FFDC68",
+
+    "cdnFromOther_land": "#FAB491",
+    "cdnFromOther_air": "#FAB491",
+    "cdnFromOther_marine": "#FAB491"
   };
 
   console.log("width: ", width);
@@ -25,6 +55,7 @@ function makeSankey(sankeyChart, width, height, sankey, graph) {
       nodeMap[x.name] = x;
     });
     graph.links = graph.links.map(function(x) {
+      console.log("x: ", x)
       return {
         source: nodeMap[x.source],
         target: nodeMap[x.target],
@@ -74,26 +105,40 @@ function makeSankey(sankeyChart, width, height, sankey, graph) {
         .data(graph.nodes)
         .enter().append("g")
         .attr("class", function(d) {
-          return "node regions";
+          if (!d.y) {
+            return "notDY";
+          } else {
+            return "node";
+          }
         })
         .attr("transform", function(d) {
           // col_xcoord.push(d.x); //x-coord of each Sankey col
-          if (!d.y) console.log("NaN d.y: ", d)
+          if (!d.y) {
+            console.log("NaN d: ", d);
+            console.log("NaN d.y: ", d.y)
+          }
           return "translate(" + d.x + "," + d.y + ")";
         })
         .style("cursor", function(d) {
           return "crosshair";
-        });
+        })
+        .call(d3.drag() //moves nodes with mouse drag
+          // .origin(function(d) {
+          //   return d;
+          // })
+          .on("drag", dragmove)
+       );
 
     // apend rects to the nodes
     node.append("rect")
         .attr("height", function(d) {
-          console.log("height d.y: ", d.y);
+          if (d.y == 0) {
+            console.log("height d.y: ", d);
+          }
           return d.dy;
         })
         .attr("width", sankey.nodeWidth())
         .style("fill", function(d, idx) {
-          console.log(d.name);
           return colourDict[d.name];
         })
         .style("stroke-width", "2px")
@@ -116,5 +161,19 @@ function makeSankey(sankeyChart, width, height, sankey, graph) {
         })
         .attr("x", 6 + sankey.nodeWidth())
         .attr("text-anchor", "start");
+
+      // the function for moving the nodes
+      function dragmove(d) {
+        d3.select(this).attr("transform",
+          "translate(" + (
+            d.x
+          ) + "," + (
+            d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+          ) + ")");
+
+        //move the attached links
+        sankey.relayout();
+        link.attr("d", path);
+      }
   } // end make()
 } // end makeSankey()
