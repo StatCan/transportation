@@ -1,15 +1,31 @@
 // function makeSankey(sankeyChart, width, height, sankey, graph) {
-export default function(svg, graph) {
+function makeSankey(svg, graph) {
   const defaults = {
-    aspectRatio: 16 / 9,
-    width: 1000,
-    margin: {
-      top: 0,
-      right: 0,
-      bottom: 60,
-      left: 0
-    }
   };
+
+const mergedSettings = extend(true, {}, defaults, settings);
+const outerWidth = mergedSettings.width;
+const outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio);
+const innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right;
+let chartInner = svg.select("g.margin-offset");
+let dataLayer = chartInner.select(".data");
+
+
+  const levelDict = {
+  // level 1
+    "intl": "level1",
+    // level 2
+    "USres": "level2",
+    "nonUS": "level2",
+    "cdnFromUS": "level2",
+    "cdnFromOther": "level2",
+    // level 3
+    "USres_land": "level3",
+    "USres_air": "level3",
+    "USres_marine": "level3",
+    "USres_land": "level3",
+  };
+
   const colourDict = {
   // level 1
     "intl": "#607890",
@@ -36,23 +52,15 @@ export default function(svg, graph) {
     "cdnFromOther_marine": "#FAB491"
   };
 
-  const mergedSettings = defaults;
-  const outerWidth = mergedSettings.width;
-  const outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio);
-  const innerHeight = mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
-  const innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right;
-  let chartInner = svg.select("g.margin-offset");
-  let dataLayer = chartInner.select(".data");
-
-  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
-
   const sankey = d3.sankey()
-      .nodeWidth(10)
+      .nodeWidth(20)
       .nodePadding(10)
-      .size([innerWidth, innerHeight]); // [width, height]
+      // .size([width, height]);
+      .size([innerWidth, innerHeight]);
 
   // set the sankey diagram properties
   const path = sankey.link();
+  make(graph);
 
   function make(graph) {
     const nodeMap = {};
@@ -60,7 +68,7 @@ export default function(svg, graph) {
       nodeMap[x.name] = x;
     });
     graph.links = graph.links.map(function(x) {
-      // console.log("x: ", x);
+      console.log("x: ", x)
       return {
         source: nodeMap[x.source],
         target: nodeMap[x.target],
@@ -68,20 +76,21 @@ export default function(svg, graph) {
       };
     });
 
-    // graph.nodes.sort(function(a, b) {
-    //   return d3.descending(a.value, b.value);
-    // });
+    graph.nodes.sort(function(a, b) {
+      return d3.descending(a.value, b.value);
+    });
 
     sankey
         .nodes(graph.nodes)
         .links(graph.links)
-        .layout(10);
+        .layout(32);
 
-    if (dataLayer.empty()) {
-      dataLayer = chartInner.append("g")
-          .attr("class", "data");
-    }
-    const link = dataLayer.selectAll(".link")
+    // tooltip div
+    const div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    const link = sankeyChart.append("g").selectAll(".link")
         .data(graph.links)
         .enter().append("path")
         .attr("class", function(d, i) {
@@ -96,16 +105,16 @@ export default function(svg, graph) {
         })
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
+        })
+        .sort(function(a, b) {
+          return b.dy - a.dy;
         });
-        // .sort(function(a, b) {
-        //   return b.dy - a.dy;
+        // .style("stroke", function(d) {
+        //   return "#E8E8E8"; // colourDict[d.source.name];
         // });
-    // .style("stroke", function(d) {
-    //   return "#E8E8E8"; // colourDict[d.source.name];
-    // });
 
     // add in the nodes
-    const node = svg.append("g").selectAll(".node")
+    const node = sankeyChart.append("g").selectAll(".node")
         .data(graph.nodes)
         .enter().append("g")
         .attr("class", function(d) {
@@ -126,12 +135,12 @@ export default function(svg, graph) {
         .style("cursor", function(d) {
           return "crosshair";
         })
-        .call(d3.drag() // moves nodes with mouse drag
-        // .origin(function(d) {
-        //   return d;
-        // })
-            .on("drag", dragmove)
-        );
+        .call(d3.drag() //moves nodes with mouse drag
+          // .origin(function(d) {
+          //   return d;
+          // })
+          .on("drag", dragmove)
+       );
 
     // apend rects to the nodes
     node.append("rect")
@@ -156,43 +165,28 @@ export default function(svg, graph) {
         })
         .attr("dy", ".35em")
         .attr("text-anchor", "end")
-        .attr("font-size", "10px")
         .attr("transform", null)
         .text(function(d) {
           return d.name;
         })
         .filter(function(d) {
-          return d.x < innerWidth / 2;
+          return d.x < width / 2;
         })
         .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start")
-        .attr("font-size", "10px");
+        .attr("text-anchor", "start");
 
-    // the function for moving the nodes
-    function dragmove(d) {
-      d3.select(this).attr("transform",
+      // the function for moving the nodes
+      function dragmove(d) {
+        d3.select(this).attr("transform",
           "translate(" + (
             d.x
           ) + "," + (
-            d.y = Math.max(0, Math.min(innerHeight - d.dy, d3.event.y))
+            d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
           ) + ")");
-      // move the attached links
-      sankey.relayout();
-      link.attr("d", path);
-    }
-  } // end make(graph)()
 
-  svg
-    .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .attr("role", "img")
-    .attr("aria-label", mergedSettings.altText);
-
-  if (chartInner.empty()) {
-    chartInner = svg.append("g")
-      .attr("class", "margin-offset")
-      .attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
-  }
-
-  make(graph);
+        //move the attached links
+        sankey.relayout();
+        link.attr("d", path);
+      }
+  } // end make()
 } // end makeSankey()
