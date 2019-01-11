@@ -1,81 +1,58 @@
 import settings from "./stackedAreaSettings.js";
-import settingsBubbleTable from "./settings_bubbleTable.js";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
-const chart = d3.select("#Q1")
+const regionChart = d3.select("#Q1")
     .append("svg")
-    .attr("id", "svg_areaChartAir");
-const cargoChart = d3.select("#Q2")
+    .attr("id", "svg_areaChartRegion");
+const airportChart = d3.select("#Q2")
     .append("svg")
-    .attr("id", "svg_cargoChart");
-
-const rankChart = d3.select("#rankTable") // .select(".data")
-    .append("svg")
-    .attr("id", "svg_rankChart");
+    .attr("id", "svg_areaChartAirport");
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const data = {};
-const cargoData = {};
+const airportData = {};
 let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
 let selectedProv;
-const rankData = {};
-
-/* canada map */
-// const heading = d3.select(".dashboard h4");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value; // clear any previous airport title
-    // d3.select(".dashboard h4").text("");
+    selected = document.getElementById("groups").value;
     showAreaData();
   }
 }
 
 function showAreaData() {
   const showChart = () => {
-    areaChart(chart, settings, data[selected]);
+    areaChart(regionChart, settings, data[selected]);
   };
-  // // change area chart title to match selected province
-  // if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
-  //   d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}) + " (x 1,000)");
-  // }
-
+  console.log("data[selected]: ", !data[selected])
   if (!data[selected]) {
     // return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
     d3.json(`data/air/${selected}_passengers_MOCK.json`, (ptData) => {
       data[selected] = ptData;
-      console.log("data here: ", data)
       showChart();
-      d3.json("data/air/CANADA_cargo_MOCK.json", (cargo) => {
-        cargoData[selected] = cargo;
-        areaChart(cargoChart, settings, cargoData[selected]);
-      });
     });
   }
   showChart();
 }
 
 function showAirport() {
-  const fname = `data/air/combo_${selectedProv}_${selectedAirpt}_numMovements.json`;
+  // const fname = `data/air/combo_${selectedProv}_${selectedAirpt}_numMovements.json`;
+  const fname = "data/air/CANADA_passengers_planed_MOCK.json";
 
   // Load airport data containing remaining provincial totals
-  d3.json(fname, function(err, filedata) {
-    selected = `${selectedProv}_${selectedAirpt}`; // "ON_YYZ";
-    data[selected] = filedata;
-    showAreaData();
+  d3.json(fname, function(err, airport) {
+    // selected = `${selectedProv}_${selectedAirpt}`; // "ON_YYZ";
+    airportData[selected] = airport;
+    d3.select("#Q2").select(".areaChartTitle")
+        .text(`Passengers enplaned/deplaned at ${selectedAirpt} (x 1,000)`);
+    areaChart(airportChart, settings, airportData[selected]);
   });
 
-  // call re-useable component bubbleTable
-  if (!rankData[selectedAirpt]) {
-    return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
-      rankData[selectedAirpt] = aptData;
-      bubbleTable(rankChart, settingsBubbleTable, rankData[selectedAirpt]);
-    });
-  }
-  bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+  // call airportData
 }
 
 // For map circles
@@ -145,7 +122,7 @@ const canadaMap = getCanadaMap(map)
             })
             .attr("class", "airport")
             .on("mouseover", (d) => {
-              selectedAirpt = d.id;
+              selectedAirpt = d.properties.id;
               selectedProv = d.province;
               // change area chart title to match selected province
               // heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);

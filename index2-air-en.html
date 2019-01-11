@@ -154,7 +154,7 @@
 	<li><a href="http://www.statcan.gc.ca/eng/start">Home</a></li>
 	<li><a href="/census-recensement/index-eng.cfm">Census Program</a></li>
     <li><a href="/census-recensement/2016/dp-pd/index-eng.cfm">Data products, 2016 Census</a></li>
-	<li>Aircraft movements, by class of operation, airports with NAV CANADA towers, 1997–2017</li>
+	<li>Passenger and Aircraft Movements</li>
 </ol>
 
 ﻿</div>
@@ -165,14 +165,9 @@
 <main role="main" property="mainContentOfPage" class="container">
 
 <div class="scatter">
-<h1 property="name" id="wb-cont">Aircraft movements, by class of operation, airports with NAV CANADA towers, 1997–2017</h1>
+<h1 property="name" id="wb-cont">Air passenger traffic at Canadian airports, annual</h1>
 
 <!--startindex-->
-<div class="row mrgn-bttm-sm">
-    <div class="col-md-6"><p><span class="wetlabel label-primary"><strong>Release date:</strong> Mar 31, 2019</span></p></div>
-    <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
-</div>
-
 			<p>Info text about this dataset.</p>
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
@@ -203,9 +198,9 @@
 							<option value="1997">1997</option>
 						</select>
 					</div>
-					<div class="col-md-7">
+					<div class="col-md-5">
 						<div class="form-group">
-							<label for="groups">Geographic region:</label>
+							<label for="groups">Geographic region</label>
 							<select id="groups" class="form-control">
 								<option value="CANADA">Total Canadian airports</option>
 								<option value="NL">Newfoundland and Labrador</option>
@@ -221,34 +216,20 @@
 			<div class="row">
 				<div class="dashboard">
 					<div class="map col-md-5"></div>
-					<div class="data col-md-7">
-            <div class="row">              
-              <div class="data col-md-6" id="Q1">
-              	<h4>Passengers (x 1,000)</h4>
+					<div class="data col-md-5">
+            <div class="row">
+              <div class="data" id="Q1">
+              	<div class="areaChartTitle">Passengers by sector (x 1,000)</div>
           	  </div>
-              <div class="data col-md-6" id="Q2">
-              	<h4>Cargo (x 1,000)</h4>
-              </div>
-              <div class="data col-md-6" id="Q3">
-              	<h4>Flights (x 1,000)</h4>
-              </div>
-              <div class="data col-md-6" id="Q4">
-              	<h4>Flights (x 1,000)</h4>
+              <div class="data" id="Q2">
+              	<div class="areaChartTitle"></div>
               </div>
             </div>
 					</div>
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="dashboard">
-					<div id="rankTable" class="data col-md-12">
-						<h4></h4>
-					</div>
-				</div>
-			</div>
-
-           <p>Source: Aircraft movements, by class of operation, airports with NAV CANADA towers, annual</p>
+      <p>Source: Air passenger traffic at Canadian airports, annual</p>
 
 
 <!-- End chart -->
@@ -334,7 +315,6 @@
 <!-- CustomScriptsJSStart -->
 	<script src="lib/stc_visualization_components/utils.min.js"></script>
 	<script src="lib/stc_visualization_components/area.min.js"></script>
-	<script src="lib/bubbleTable.js"></script>
 	<script src="lib/d3-canada-map.js"></script>
 	<script src="lib/statcan_sgc/sgc.min.js"></script>
 	<script type="module" src="src/air/index2.js"></script>

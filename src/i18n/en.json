@@ -12,7 +12,10 @@
       "itinerant": "Itinerant",
       "total": "Total",
       "domestic": "Domestic",
-      "transborder": "Trans-border",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned",
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },

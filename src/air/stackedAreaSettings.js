@@ -43,7 +43,6 @@ export default {
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
-      console.log("keys: ", keys)
       return keys;
       //return keys.sort();
       //return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
@@ -56,5 +55,5 @@ export default {
     }
   },
   datatable: false,
-  width: 900
+  width: 400
 };

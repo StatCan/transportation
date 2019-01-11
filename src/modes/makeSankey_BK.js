@@ -3,12 +3,13 @@ export default function(svg, graph) {
   const defaults = {
     // aspectRatio: 16 / 9,
     // width: 1000,
-    aspectRatio: 1/1,
+    aspectRatio: 1.5/1,
+    width: 3000,
     margin: {
-      top: 25,
-      right: 20,
-      bottom: 120,
-      left: 50
+      top: 0,
+      right: 0,
+      bottom: 60,
+      left: 0
     }
   };
   const colourDict = {
@@ -51,6 +52,12 @@ export default function(svg, graph) {
       .nodeWidth(20)
       .nodePadding(10)
       .size([innerWidth, innerHeight]); // [width, height]
+      // .nodeSort(function(nodeA, nodeB) {
+      //   console.log("nodeA: ", nodeA)
+      //   if (nodeA.target.name < nodeB.target.name) return -1;
+      //   if (nodeA.target.name > nodeB.target.name) return 1;
+      //   return 0;
+      // });
 
   // set the sankey diagram properties
   const path = sankey.link();
@@ -82,7 +89,7 @@ export default function(svg, graph) {
       dataLayer = chartInner.append("g")
           .attr("class", "data");
     }
-    const link = svg.selectAll(".link")
+    const link = dataLayer.selectAll(".link")
         .data(graph.links)
         .enter().append("path")
         .attr("class", function(d, i) {

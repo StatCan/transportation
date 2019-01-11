@@ -34,10 +34,19 @@
   stroke-width: 0.1px;
 }
 .local, .domestic {
-	fill: #5DC1BE;
+	fill: #F6CF22;
 }
 .itinerant, .transborder {
-	fill: #F6CF22;
+	fill: #C9DF61;
+}
+.international {
+  fill: #83C3F2;
+}
+.deplaned {
+	fill: #b4dce7;
+}
+.enplaned {
+	fill: #bec87f;
 }
 .Remaining_itinerant {
 	fill: #F6CF22;
@@ -46,6 +55,13 @@
 .Remaining_local {
 	fill: #5DC1BE;
 	opacity: 0.2;
+}
+.area-label {
+	font-size: 10px;
+}
+.areaChartTitle {
+	font-size: 14px;
+	font-weight: bold;
 }
 .total {
 	fill: #C1D699;
@@ -56,7 +72,7 @@
 .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 18px;
+	font-size: 10px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svg_areaChartAir .tick text {
