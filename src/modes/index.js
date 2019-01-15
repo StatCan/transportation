@@ -39,7 +39,7 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/modes/canada_modes.json")
       .await(function(error, data) {
         console.log("data: ", data)
-        makeSankey(sankeyChart, data);
+        makeSankey("#sankeyGraph", data);
       });
 });
 
