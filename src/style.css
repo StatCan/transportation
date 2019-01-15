@@ -257,6 +257,23 @@ rect.female {
 }
 
 /*modes dataset*/
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+}
+
 .link {
-	stroke: #E8E8E8;
+  fill: none;
+  stroke: #E8E8E8;
+  stroke-opacity: .2;
+}
+
+.link:hover {
+  stroke-opacity: .5;
 }
