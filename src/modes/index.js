@@ -3,9 +3,9 @@ const data = {};
 let selected = "CANADA";
 
 // set the dimensions and margins of the graph
-const margin = {top: 10, right: 10, bottom: 10, left: 10};
+const margin = {top: 50, right: 10, bottom: 50, left: 10};
 const width = 700 - margin.left - margin.right;
-const height = 300 - margin.top - margin.bottom;
+const height = 550 - margin.top - margin.bottom;
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -28,7 +28,7 @@ function showData() {
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
-      .defer(d3.json, "data/modes/canada_modes.json")
+      .defer(d3.json, "data/modes/canada_modes_flux.json")
       .await(function(error, data) {
         console.log("data: ", data)
         makeSankey("#sankeyGraph", data, width);

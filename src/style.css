@@ -270,8 +270,8 @@ rect.female {
 
 .link {
   fill: none;
-  stroke: #E8E8E8;
-  stroke-opacity: .2;
+  stroke: #999;
+  stroke-opacity: .3;
 }
 
 .link:hover {
