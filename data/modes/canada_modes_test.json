@@ -1,6 +1,6 @@
 {
 "nodes": [
-{"node":0,"name": "Intl"},
+{"node":0,"name": "intl"},
 {"node":1,"name": "USres"},
 {"node":2,"name": "nonUS"},
 {"node":3,"name": "cdnFromUS"},
@@ -15,7 +15,15 @@
 {"node":12,"name": "cdnFromUS_marine"},
 {"node":13,"name": "cdnFromUS_land"},
 {"node":14,"name": "cdnFromOther_air"},
-{"node":15,"name": "cdnFromOther_marine"}
+{"node":15,"name": "cdnFromOther_marine"},
+{"node":16,"name": "USres_car"},
+{"node":17,"name": "USres_bus"},
+{"node":18,"name": "USres_train"},
+{"node":19,"name": "USres_other"},
+{"node":20,"name": "cdnFromUS_car"},
+{"node":21,"name": "cdnFromUS_bus"},
+{"node":22,"name": "cdnFromUS_train"},
+{"node":23,"name": "cdnFromUS_other"}
 ],
 "links": [
 {"source": 0, "target": 1, "value": 179.40},
@@ -32,6 +40,14 @@
 {"source": 3, "target": 12, "value": 1.11},
 {"source": 3, "target": 13, "value": 274.22},
 {"source": 4, "target": 14, "value": 77.17},
-{"source": 4, "target": 15, "value": 0.05}
+{"source": 4, "target": 15, "value": 0.05},
+{"source": 7, "target": 16, "value": 118.19},
+{"source": 7, "target": 17, "value": 6.94},
+{"source": 7, "target": 18, "value": 1.01},
+{"source": 7, "target": 19, "value": 2.99},
+{"source": 13, "target": 20, "value": 263.76},
+{"source": 13, "target": 21, "value": 7.80},
+{"source": 13, "target": 22, "value": 0.60},
+{"source": 13, "target": 23, "value": 2.06}
 ]
 }

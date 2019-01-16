@@ -266,6 +266,7 @@ rect.female {
 .node text {
   pointer-events: none;
   text-shadow: 0 1px 0 #fff;
+	font-size: 12px;
 }
 
 .link {

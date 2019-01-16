@@ -3,9 +3,9 @@ const data = {};
 let selected = "CANADA";
 
 // set the dimensions and margins of the graph
-const margin = {top: 50, right: 10, bottom: 50, left: 10};
-const width = 700 - margin.left - margin.right;
-const height = 550 - margin.top - margin.bottom;
+const margin = {top: 50, right: 10, bottom: 50, left: 150};
+const width = 1100 - margin.left - margin.right;
+const height = 650 - margin.top - margin.bottom;
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
