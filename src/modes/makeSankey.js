@@ -72,7 +72,7 @@ function makeSankey(svgID, graph) {
   var path = sankey.link();
 
   // load the data
-  d3.json("data/modes/canada_modes_test.json", function(error, graph) {
+  d3.json("data/modes/canada_modes_test_all.json", function(error, graph) {
     console.log("width: ", width)
 
     sankey
@@ -86,8 +86,11 @@ function makeSankey(svgID, graph) {
         .enter().append("path")
         .attr("class", "link")
         .attr("d", path)
-        .style("stroke-width", function(d) {
+        .style("stroke-width", function(d) {          
           return Math.max(1, d.dy);
+        })
+        .style("opacity", function(d) {
+          if (d.value === 0) return 0;
         })
         .sort(function(a, b) {
           return b.dy - a.dy;
@@ -120,11 +123,12 @@ function makeSankey(svgID, graph) {
     // add the rectangles for the nodes
     node.append("rect")
         .attr("height", function(d) {
-          return d.dy;
+          return d.dy;          
         })
         .attr("width", sankey.nodeWidth())
         .style("fill", function(d) {
-          return d.color = colourDict[d.name]; // color(d.name.replace(/ .*/, ""));
+          return d.color = colourDict[d.name];
+          // return d.color = color(d.name.replace(/ .*/, ""));
         })
         .style("stroke", function(d) {
           return d3.rgb(d.color).darker(2);
@@ -144,7 +148,8 @@ function makeSankey(svgID, graph) {
         .attr("text-anchor", "end")
         .attr("transform", null)
         .text(function(d) {
-          return i18next.t(d.name, {ns: "modes"});
+          // return i18next.t(d.name, {ns: "modes"});
+          if (d.value != 0) return d.name;
         })
         .filter(function(d) {
           return d.x < width / 2;
