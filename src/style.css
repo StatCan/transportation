@@ -257,6 +257,18 @@ rect.female {
 }
 
 /*modes dataset*/
+div.tooltipMode {
+  position: absolute;
+  padding: 5px;
+  text-align: left;
+  font: 12px sans-serif;
+  color: #000;
+  background: #AAA;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #000;
+  border-radius: 4px;
+}
 .node rect {
   cursor: move;
   fill-opacity: .9;

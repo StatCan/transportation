@@ -22,6 +22,8 @@ export default function(svg, graph) {console.log({...graph});
 mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
+  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
+
   const formatNumber = d3.format(",.0f"); // zero decimal places
   const format = function(d) {
     return formatNumber(d);
@@ -30,8 +32,13 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       .duration(1000);
 
   const idFn = function(d, i) {
-    let id = "link" + i;
-    return id;
+    let cl = "link " + d.source.name + "_to_" + d.target.name;
+    // let cl = "area area" + (i + 1);
+    // if (sett.z && sett.z.getClass && typeof sett.z.getClass === "function") {
+    //   cl += " " + sett.z.getClass.call(sett, d);
+    // }
+    // console.log("cl: ", cl)
+    return cl;
   };
 
   // Set the sankey diagram properties
@@ -50,6 +57,11 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
         .links(graph.links)
         .layout(32);
 
+    // tooltip div
+    const div = d3.select("body").append("div")
+        .attr("class", "tooltipMode")
+        .style("opacity", 0);
+
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
           .attr("class", "data");
@@ -60,12 +72,12 @@ console.log(graph);
     // add in the links
     const link = dataLayer.append("g").attr("class", "links")
         .selectAll(".link")
-        .data(graph.links);
+        .data(graph.links, idFn);
 
     link.enter()
         .append("path")
         .attr("class", "link")
-        .attr("id", idFn)
+        .attr("class", idFn)
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
@@ -87,6 +99,28 @@ console.log(graph);
           return d.source.name + "_to_" +
                   d.target.name + "\n" + format(d.value);
         });
+
+    // add link tooltip
+    link.on("mouseover", function(d) {
+      console.log("mouseover link")
+      // Reduce opacity of all but link that is moused over
+      d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
+      // Tooltip
+      const sourceName = d.source.name;
+      div.transition()
+          .style("opacity", .9);
+      div.html(
+          "<b>" + sourceName + "</b>"+ "<br><br>" +
+            "<table>" +
+              "<tr>" +
+              "<td>" + d.target.name + " flux: </td>" +
+                "<td><b>" + format(d.value) + "</td>" +
+              "</tr>" +
+            "</table>"
+      )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+    });
 
     link.exit().remove();
 
