@@ -1,11 +1,10 @@
-// import makeSankey from './makeSankey.js'
-const data = {};
+import makeSankey from "./makeSankey.js";
 let selected = "CANADA";
+let data;
 
-// set the dimensions and margins of the graph
-const margin = {top: 50, right: 10, bottom: 50, left: 150};
-const width = 1100 - margin.left - margin.right;
-const height = 850 - margin.top - margin.bottom;
+const sankeyChart = d3.select("#sankeyGraph")
+    .append("svg")
+    .attr("id", "svg_sankeyChart");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -29,9 +28,9 @@ function showData() {
 i18n.load(["src/i18n"], function() {
   d3.queue()
       .defer(d3.json, "data/modes/canada_modes_test.json")
-      .await(function(error, data) {
-        console.log("data: ", data)
-        makeSankey("#sankeyGraph", data);
+      .await(function(error, json) {
+        data = json;
+        makeSankey(sankeyChart, data);
       });
 });
 
