@@ -72,7 +72,7 @@ function makeSankey(svgID, graph) {
   var path = sankey.link();
 
   // load the data
-  d3.json("data/modes/canada_modes_test_all.json", function(error, graph) {
+  d3.json("data/modes/canada_modes_test.json", function(error, graph) {
     console.log("width: ", width)
 
     sankey
