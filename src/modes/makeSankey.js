@@ -26,6 +26,13 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
   const format = function(d) {
     return formatNumber(d);
   };
+  const transition = d3.transition()
+      .duration(1000);
+
+  const idFn = function(d, i) {
+    let id = "link" + i;
+    return id;
+  };
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
@@ -55,8 +62,10 @@ console.log(graph);
         .selectAll(".link")
         .data(graph.links);
 
-    link.enter().append("path")
+    link.enter()
+        .append("path")
         .attr("class", "link")
+        .attr("id", idFn)
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
@@ -67,6 +76,10 @@ console.log(graph);
         .sort(function(a, b) {
           return b.dy - a.dy;
         });
+
+    link
+        .transition(transition)
+        .attr("d", path);
 
     // add the link titles
     link.append("title")
