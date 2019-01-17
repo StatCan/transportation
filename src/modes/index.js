@@ -1,4 +1,5 @@
 import makeSankey from "./makeSankey.js";
+
 let selected = "CANADA";
 let data;
 

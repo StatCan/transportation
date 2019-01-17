@@ -1,4 +1,3 @@
-// function makeSankey(svgID, graph) {
 const defaults = {
   aspectRatio: 16 / 9,
   width: 1100,
@@ -64,14 +63,6 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
     return formatNumber(d);
   };
 
-  // append the svg object to the body of the page
-  // var svg = d3.select(svgID).append("svg")
-  //     .attr("width", width + margin.left + margin.right)
-  //     .attr("height", height + margin.top + margin.bottom)
-  //   .append("g")
-  //     .attr("transform",
-  //           "translate(" + margin.left + "," + margin.top + ")");
-
   // Set the sankey diagram properties
   const sankey = d3.sankey()
       .nodeWidth(36)
@@ -94,7 +85,8 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
     }
 console.log(graph)
     // add in the links
-    const link = dataLayer.append("g").selectAll(".link")
+    const link = dataLayer.append("g").attr("class", "links")
+        .selectAll(".link")
         .data(graph.links)
         .enter().append("path")
         .attr("class", "link")
@@ -117,10 +109,14 @@ console.log(graph)
         });
 
     // add in the nodes
-    const node = dataLayer.append("g").selectAll(".node")
+    const node = dataLayer.append("g").attr("class", "nodes")
+        .selectAll(".node")
         .data(graph.nodes)
         .enter().append("g")
-        .attr("class", "node")
+        // .attr("class", "node")
+        .attr("class", function(d) {
+          return "node" + " " + d.name;
+        })
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
         })
@@ -140,11 +136,11 @@ console.log(graph)
         })
         .attr("width", sankey.nodeWidth())
         .style("fill", function(d) {
-          return d.color = colourDict[d.name];
-          // return d.color = color(d.name.replace(/ .*/, ""));
+          return colourDict[d.name];
         })
         .style("stroke", function(d) {
-          return d3.rgb(d.color).darker(2);
+          let this_fill = d3.select("." + d.name).select("rect").style("fill");
+          return d3.rgb(this_fill).darker(2);
         })
         .append("title")
         .text(function(d) {

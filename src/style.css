@@ -278,3 +278,19 @@ rect.female {
 .link:hover {
   stroke-opacity: .5;
 }
+/* node rect colours */
+.node .intl rect {
+  fill: #607890;
+}
+.node .USres {
+	fill: #CC982A;
+	}
+.node .nonUS {
+	fill: #928941;
+	}
+.node .cdnFromUS {
+	fill: #FFDC68;
+	}
+.node .cdnFromOther {
+	fill: #FAB491;
+	}
