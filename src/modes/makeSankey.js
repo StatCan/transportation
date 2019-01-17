@@ -10,42 +10,6 @@ const defaults = {
 };
 
 export default function(svg, graph) {console.log({...graph});
-  const colourDict = {
-  // level 1
-    "intl": "#607890",
-    // level 2
-    "USres": "#CC982A",
-    "nonUS": "#928941",
-    "cdnFromUS": "#FFDC68",
-    "cdnFromOther": "#FAB491",
-    // level 3
-    "USres_land": "#CC982A",
-    "USres_air": "#CC982A",
-    "USres_marine": "#CC982A",
-    // level 4 of level 3 USres
-    "USres_car": "#CC982A",
-    "USres_bus": "#CC982A",
-    "USres_train": "#CC982A",
-    "USres_other": "#CC982A",
-
-    "nonUS_land": "#928941",
-    "nonUS_air": "#928941",
-    "nonUS_marine": "#928941",
-
-    "cdnFromUS_land": "#FFDC68",
-    "cdnFromUS_air": "#FFDC68",
-    "cdnFromUS_marine": "#FFDC68",
-    // level 4 of level 3 cdnFromUS
-    "cdnFromUS_car": "#FFDC68",
-    "cdnFromUS_bus": "#FFDC68",
-    "cdnFromUS_train": "#FFDC68",
-    "cdnFromUS_other": "#FFDC68",
-
-    "cdnFromOther_land": "#FAB491",
-    "cdnFromOther_air": "#FAB491",
-    "cdnFromOther_marine": "#FAB491"
-  };
-
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -83,12 +47,15 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       dataLayer = chartInner.append("g")
           .attr("class", "data");
     }
-console.log(graph)
+
+console.log(graph);
+
     // add in the links
     const link = dataLayer.append("g").attr("class", "links")
         .selectAll(".link")
-        .data(graph.links)
-        .enter().append("path")
+        .data(graph.links);
+
+    link.enter().append("path")
         .attr("class", "link")
         .attr("d", path)
         .style("stroke-width", function(d) {
@@ -108,12 +75,13 @@ console.log(graph)
                   d.target.name + "\n" + format(d.value);
         });
 
+    link.exit().remove();
+
     // add in the nodes
     const node = dataLayer.append("g").attr("class", "nodes")
         .selectAll(".node")
         .data(graph.nodes)
         .enter().append("g")
-        // .attr("class", "node")
         .attr("class", function(d) {
           return "node" + " " + d.name;
         })
@@ -135,9 +103,6 @@ console.log(graph)
           return d.dy;
         })
         .attr("width", sankey.nodeWidth())
-        .style("fill", function(d) {
-          return colourDict[d.name];
-        })
         .style("stroke", function(d) {
           let this_fill = d3.select("." + d.name).select("rect").style("fill");
           return d3.rgb(this_fill).darker(2);
@@ -157,14 +122,15 @@ console.log(graph)
         .attr("text-anchor", "end")
         .attr("transform", null)
         .text(function(d) {
-          // return i18next.t(d.name, {ns: "modes"});
-          if (d.value != 0) return d.name;
+          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
         })
         .filter(function(d) {
           return d.x < innerWidth / 2;
         })
         .attr("x", 6 + sankey.nodeWidth())
         .attr("text-anchor", "start");
+
+    // node.exit().remove();
 
     // the function for moving the nodes
     function dragmove(d) {
