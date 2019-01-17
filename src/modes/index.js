@@ -28,10 +28,10 @@ function showData() {
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
-      .defer(d3.json, "data/modes/canada_modes_flux.json")
+      .defer(d3.json, "data/modes/canada_modes_test.json")
       .await(function(error, data) {
         console.log("data: ", data)
-        makeSankey("#sankeyGraph", data, width);
+        makeSankey("#sankeyGraph", data);
       });
 });
 

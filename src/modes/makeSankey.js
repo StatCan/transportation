@@ -70,10 +70,10 @@ function makeSankey(svgID, graph) {
       .size([width, height]);
 
   var path = sankey.link();
+  make(graph);
 
-  // load the data
   // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
-  d3.json("data/modes/ON_modes_test.json", function(error, graph) {
+  function make(graph) {
     console.log("width: ", width)
 
     sankey
@@ -87,7 +87,7 @@ function makeSankey(svgID, graph) {
         .enter().append("path")
         .attr("class", "link")
         .attr("d", path)
-        .style("stroke-width", function(d) {          
+        .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
         })
         .style("opacity", function(d) {
@@ -124,7 +124,7 @@ function makeSankey(svgID, graph) {
     // add the rectangles for the nodes
     node.append("rect")
         .attr("height", function(d) {
-          return d.dy;          
+          return d.dy;
         })
         .attr("width", sankey.nodeWidth())
         .style("fill", function(d) {
@@ -170,5 +170,5 @@ function makeSankey(svgID, graph) {
       sankey.relayout();
       link.attr("d", path);
     }
-  });
+  } // end make()
 } // end makeSankey()
