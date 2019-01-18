@@ -20,6 +20,7 @@ export default {
   },
   x: {
     label: i18next.t("x_label", {ns: "line"}),
+    ticks: 10,
     getValue: function(d) {
       console.log("x d: ", d)
       return new Date(d.year + "-01");
@@ -31,6 +32,7 @@ export default {
 
   y: {
     label: i18next.t("y_label", {ns: "line"}),
+    ticks: 3,
     getValue: function(d) {
       return d.value * 1.0 / 1;
     },

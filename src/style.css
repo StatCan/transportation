@@ -107,6 +107,16 @@
 .dline2 {
 	stroke: #FF7F00;
 }
+.line-label {
+	font-size: 9px;
+	fill: #69757c;
+}
+.tick text {
+	font-size: 9px;
+}
+path  {
+  stroke: red;
+}
 
 /*rail dataset*/
 #destChartTitle {
