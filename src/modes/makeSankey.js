@@ -91,34 +91,32 @@ console.log(graph);
         .sort(function(a, b) {
           return b.dy - a.dy;
         })
-      .on("mouseover", function(d) {
-        // Reduce opacity of all but link that is moused over
-        d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
-        // Tooltip
-        const sourceName = d.source.name;
-        div.transition()
-            .style("opacity", .9);
-        div.html(
-            "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
+        .on("mouseover", function(d) {
+          // Reduce opacity of all but link that is moused over
+          d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
+          // Tooltip
+          const sourceName = d.source.name;
+          div.transition()
+              .style("opacity", .9);
+          div.html(
+              "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
               "<table>" +
                 "<tr>" +
                 "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
                   "<td><b>" + format(d.value*1e4) + "</td>" +
                 "</tr>" +
               "</table>"
-        )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+          )
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+        })
+        .on("mouseout", function(d) {
+        // Restore opacity
+          d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 1);
 
-      })
-      .on("mouseout", function(d) {   
-
-        //Restore opacity
-        d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 1);
-
-        div.transition()
-          .style("opacity", 0);
-      });
+          div.transition()
+              .style("opacity", 0);
+        });
 
     link
         .transition(transition)
@@ -152,50 +150,50 @@ console.log(graph);
               this.parentNode.appendChild(this);
             })
             .on("drag", dragmove));
-        
-        node.on("mouseover", function(d) {
 
-        //   //Make all links inactive
-        //   d3.selectAll(".link").classed("inactive", true);
+    node.on("mouseover", function(d) {
 
-        //   //Remove inactive class to selected links and make them active
-        //   if (d.sourceLinks.length > 0) { //rect acts as a source to next rect
-        //     console.log("fromLink: ", d.name)
-        //     var fromLink = d3.selectAll(".from" + d.name);
-        //     fromLink.classed("inactive", !fromLink.classed("inactive"));
+      // Make all links inactive
+      //   d3.selectAll(".link").classed("inactive", true);
 
-        //     fromLink.classed("active", true);
-        //   }
+      //   //Remove inactive class to selected links and make them active
+      //   if (d.sourceLinks.length > 0) { //rect acts as a source to next rect
+      //     console.log("fromLink: ", d.name)
+      //     var fromLink = d3.selectAll(".from" + d.name);
+      //     fromLink.classed("inactive", !fromLink.classed("inactive"));
 
-        //   if (d.targetLinks.length > 0) { //rect acts as a target from previous rect
-        //     var toLink = d3.selectAll(".to" + d.name);
-        //     toLink.classed("inactive", !toLink.classed("inactive"));
+      //     fromLink.classed("active", true);
+      //   }
 
-        //     toLink.classed("active", true);
-        //   }
+      //   if (d.targetLinks.length > 0) { //rect acts as a target from previous rect
+      //     var toLink = d3.selectAll(".to" + d.name);
+      //     toLink.classed("inactive", !toLink.classed("inactive"));
 
-          div.transition()
-            .style("opacity", .9);
-            div.html(
-              "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
+      //     toLink.classed("active", true);
+      //   }
+
+      div.transition()
+          .style("opacity", .9);
+      div.html(
+          "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
               "<table>" +
-                "<tr>" + 
+                "<tr>" +
                 "<td> Total: </td>" +
-                  "<td><b>" + format(d.value*1e4)  + "</td>" +
+                  "<td><b>" + format(d.value*1e4) + "</td>" +
                   "<td>" + " " + "</td>" +
                 "</tr>" +
               "</table>"
-            )
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY - tooltipShiftY) + "px");
-        })
+      )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+    })
         .on("mouseout", function(d) {
         //   //Remove active and inactive classes added on mouseover
         //   d3.selectAll(".inactive").classed("inactive", false);
         //   d3.selectAll(".active").classed("active", false);
 
           div.transition()
-            .style("opacity", 0);
+              .style("opacity", 0);
         });
 
     // add the rectangles for the nodes
@@ -205,8 +203,8 @@ console.log(graph);
         })
         .attr("width", sankey.nodeWidth())
         .style("stroke", function(d) {
-          let this_fill = d3.select("." + d.name).select("rect").style("fill");
-          return d3.rgb(this_fill).darker(2);
+          const thisFill = d3.select("." + d.name).select("rect").style("fill");
+          return d3.rgb(thisFill).darker(2);
         })
         .append("title")
         .text(function(d) {
