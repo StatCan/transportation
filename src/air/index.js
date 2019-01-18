@@ -54,7 +54,6 @@ function showAirport() {
     // return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
     return d3.json(fname, (aptData) => {
       lineData[selectedAirpt] = aptData;
-      console.log("call lineChart")
       lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
     });
   }

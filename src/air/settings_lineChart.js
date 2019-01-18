@@ -22,7 +22,6 @@ export default {
     label: i18next.t("x_label", {ns: "line"}),
     ticks: 10,
     getValue: function(d) {
-      console.log("x d: ", d)
       return new Date(d.year + "-01");
     },
     getText: function(d) {
