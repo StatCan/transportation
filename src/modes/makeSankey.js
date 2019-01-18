@@ -31,7 +31,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
   const transition = d3.transition()
       .duration(1000);
 
-  const idFn = function(d, i) {
+  const classFn = function(d, i) {
     let cl = "link " + d.source.name + "_to_" + d.target.name;
     // let cl = "area area" + (i + 1);
     // if (sett.z && sett.z.getClass && typeof sett.z.getClass === "function") {
@@ -59,7 +59,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
 
     // tooltip div
     const div = d3.select("body").append("div")
-        .attr("class", "tooltipMode")
+        .attr("class", "tooltip")
         .style("opacity", 0);
 
     if (dataLayer.empty()) {
@@ -72,12 +72,15 @@ console.log(graph);
     // add in the links
     const link = dataLayer.append("g").attr("class", "links")
         .selectAll(".link")
-        .data(graph.links, idFn);
+        .data(graph.links, classFn);
 
     link.enter()
         .append("path")
         .attr("class", "link")
-        .attr("class", idFn)
+        .attr("class", classFn)
+        .attr("id", function(d, i) {
+          return "link" + i;
+        })
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
@@ -87,7 +90,35 @@ console.log(graph);
         })
         .sort(function(a, b) {
           return b.dy - a.dy;
-        });
+        })
+      .on("mouseover", function(d) {
+        // Reduce opacity of all but link that is moused over
+        d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
+        // Tooltip
+        const sourceName = d.source.name;
+        div.transition()
+            .style("opacity", .9);
+        div.html(
+            "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
+                  "<td><b>" + format(d.value*1e4) + "</td>" +
+                "</tr>" +
+              "</table>"
+        )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+
+      })
+      .on("mouseout", function(d) {   
+
+        //Restore opacity
+        d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 1);
+
+        div.transition()
+          .style("opacity", 0);
+      });
 
     link
         .transition(transition)
@@ -99,28 +130,6 @@ console.log(graph);
           return d.source.name + "_to_" +
                   d.target.name + "\n" + format(d.value);
         });
-
-    // add link tooltip
-    link.on("mouseover", function(d) {
-      console.log("mouseover link")
-      // Reduce opacity of all but link that is moused over
-      d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
-      // Tooltip
-      const sourceName = d.source.name;
-      div.transition()
-          .style("opacity", .9);
-      div.html(
-          "<b>" + sourceName + "</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" +
-              "<td>" + d.target.name + " flux: </td>" +
-                "<td><b>" + format(d.value) + "</td>" +
-              "</tr>" +
-            "</table>"
-      )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
-    });
 
     link.exit().remove();
 
@@ -143,6 +152,51 @@ console.log(graph);
               this.parentNode.appendChild(this);
             })
             .on("drag", dragmove));
+        
+        node.on("mouseover", function(d) {
+
+        //   //Make all links inactive
+        //   d3.selectAll(".link").classed("inactive", true);
+
+        //   //Remove inactive class to selected links and make them active
+        //   if (d.sourceLinks.length > 0) { //rect acts as a source to next rect
+        //     console.log("fromLink: ", d.name)
+        //     var fromLink = d3.selectAll(".from" + d.name);
+        //     fromLink.classed("inactive", !fromLink.classed("inactive"));
+
+        //     fromLink.classed("active", true);
+        //   }
+
+        //   if (d.targetLinks.length > 0) { //rect acts as a target from previous rect
+        //     var toLink = d3.selectAll(".to" + d.name);
+        //     toLink.classed("inactive", !toLink.classed("inactive"));
+
+        //     toLink.classed("active", true);
+        //   }
+
+          div.transition()
+            .style("opacity", .9);
+            div.html(
+              "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
+              "<table>" +
+                "<tr>" + 
+                "<td> Total: </td>" +
+                  "<td><b>" + format(d.value*1e4)  + "</td>" +
+                  "<td>" + " " + "</td>" +
+                "</tr>" +
+              "</table>"
+            )
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+        })
+        .on("mouseout", function(d) {
+        //   //Remove active and inactive classes added on mouseover
+        //   d3.selectAll(".inactive").classed("inactive", false);
+        //   d3.selectAll(".active").classed("active", false);
+
+          div.transition()
+            .style("opacity", 0);
+        });
 
     // add the rectangles for the nodes
     node.append("rect")
