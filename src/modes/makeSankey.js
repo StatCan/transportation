@@ -70,7 +70,9 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
 console.log(graph);
 
     // add in the links
-    const link = dataLayer.append("g").attr("class", "links")
+    const link = dataLayer
+        .append("g")
+        .attr("class", "links")
         .selectAll(".link")
         .data(graph.links, classFn);
 

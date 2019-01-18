@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import lineSettings from "./settings_lineChart.js";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -7,7 +8,7 @@ const regionChart = d3.select("#Q1")
     .attr("id", "svg_areaChartRegion");
 const airportChart = d3.select("#Q2")
     .append("svg")
-    .attr("id", "svg_areaChartAirport");
+    .attr("id", "svg_lineChartAirport");
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const data = {};
@@ -49,7 +50,9 @@ function showAirport() {
     airportData[selected] = airport;
     d3.select("#Q2").select(".areaChartTitle")
         .text(`Passengers enplaned/deplaned at ${selectedAirpt} (x 1,000)`);
-    areaChart(airportChart, settings, airportData[selected]);
+
+    console.log("airportData: ", airportData[selected]);
+    lineChart(airportChart, lineSettings, airportData[selected]);
   });
 
   // call airportData
@@ -157,4 +160,5 @@ map.on("click", () => {
 });
 
 i18n.load(["src/i18n"], showAreaData);
+
 $(document).on("change", uiHandler);

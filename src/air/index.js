@@ -1,14 +1,15 @@
 import settings from "./stackedAreaSettings.js";
-import settingsBubbleTable from "./settings_bubbleTable.js";
+import settingsLineChart from "./settings_lineChart.js";
+// import settingsLineChart from "./settings_bubbleTable.js";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
-const rankChart = d3.select("#rankTable") // .select(".data")
+const chart2 = d3.select("#lineChart") // .select(".data")
     .append("svg")
-    .attr("id", "svg_rankChart");
+    .attr("id", "svg_lineChart");
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const data = {};
@@ -16,7 +17,7 @@ let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
 let selectedProv;
-const rankData = {};
+const lineData = {};
 
 /* canada map */
 const heading = d3.select(".dashboard h4");
@@ -48,23 +49,16 @@ function showAreaData() {
 }
 
 function showAirport() {
-  const fname = `data/air/combo_${selectedProv}_${selectedAirpt}_numMovements.json`;
-
-  // Load airport data containing remaining provincial totals
-  d3.json(fname, function(err, filedata) {
-    selected = `${selectedProv}_${selectedAirpt}`; // "ON_YYZ";
-    data[selected] = filedata;
-    showAreaData();
-  });
-
-  // call re-useable component bubbleTable
-  if (!rankData[selectedAirpt]) {
-    return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
-      rankData[selectedAirpt] = aptData;
-      bubbleTable(rankChart, settingsBubbleTable, rankData[selectedAirpt]);
+  if (!lineData[selectedAirpt]) {
+    const fname = "data/air/CANADA_passengers_enplaned_MOCK.json";
+    // return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
+    return d3.json(fname, (aptData) => {
+      lineData[selectedAirpt] = aptData;
+      console.log("call lineChart")
+      lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
     });
   }
-  bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+  lineChart(chart2, settingsLineChart, lineData[selected_airpt]);
 }
 
 // For map circles
@@ -117,9 +111,7 @@ const canadaMap = getCanadaMap(map)
       }
       // END TEMPORARY
 
-      // d3.json("geojson/testairport.geojson", (error, airports) => {
-      // d3.json("geojson/vennAirport.geojson", (error, airports) => {
-      d3.json("geojson/vennAirport_96.geojson", (error, airports) => {
+      d3.json("geojson/vennAirport.geojson", (error, airports) => {
         if (error) throw error;
 
         const airportGroup = map.append("g");

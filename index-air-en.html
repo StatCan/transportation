@@ -146,14 +146,17 @@
 <main role="main" property="mainContentOfPage" class="container">
 
 <div class="scatter">
-<h1 property="name" id="wb-cont">Aircraft movements, by class of operation, airports with NAV CANADA towers, 1997–2017</h1>
+<h1 property="name" id="wb-cont">Air passenger traffic at Canadian airports, annual</h1>
 
 <!--startindex-->
 <div class="row mrgn-bttm-sm">
     <div class="col-md-6"><p><span class="wetlabel label-primary"><strong>Release date:</strong> Mar 31, 2019</span></p></div>
 </div>
 
-			<p>Info text about this dataset.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices enim vel magna pellentesque volutpat.
+				Donec sagittis, tortor nec ullamcorper elementum, arcu libero aliquam nulla, et facilisis quam tellus id ante.
+				Fusce ultrices lorem at metus viverra convallis. Nullam fermentum, leo sed porttitor congue, augue ipsum semper
+				massa, sit amet dignissim risus ante non turpis. Mauris et erat ut arcu blandit cursus quis ac dolor.</p>
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
 				<div class="row">
@@ -178,9 +181,6 @@
 							<option value="2002">2002</option>
 							<option value="2001">2001</option>
 							<option value="2000">2000</option>
-							<option value="1999">1999</option>
-							<option value="1998">1998</option>
-							<option value="1997">1997</option>
 						</select>
 					</div>
 					<div class="col-md-5">
@@ -209,13 +209,15 @@
 
 			<div class="row">
 				<div class="dashboard">
-					<div id="rankTable" class="data col-md-12">
+					<div id="lineChart" class="data col-md-12">
 						<h4></h4>
 					</div>
 				</div>
 			</div>
 
-           <p>Source: Aircraft movements, by class of operation, airports with NAV CANADA towers, annual</p>
+ 		  <p>Source:
+			<a href="https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=231002530" target="_blank">Table 23-10-0253-01</a>
+						Air passenger traffic at Canadian airports, annual</p>
 
 
 <!-- End chart -->
@@ -301,6 +303,7 @@
 <!-- CustomScriptsJSStart -->
 	<script src="lib/stc_visualization_components/utils.min.js"></script>
 	<script src="lib/stc_visualization_components/area.min.js"></script>
+  <script src="lib/stc_visualization_components/line.min.js"></script>
 	<!--<script src="lib/bubbleTable.js"></script>-->
 	<script src="lib/d3-canada-map.js"></script>
 	<script src="lib/statcan_sgc/sgc.min.js"></script>

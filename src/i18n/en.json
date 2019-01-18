@@ -1,7 +1,7 @@
 {
   "en": {
     "area": {
-      "alt": "Historic and Estimated Worldwide Population Growth by Region",
+      "alt": "Air passenger traffic at Canadian airports, annual",
       "x_label": "Year",
       "y_label": "Population (in Billions)",
       "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
@@ -51,10 +51,21 @@
        "YK": "Yukon"
     },
     "airports": {
-      "alt": "Airport rank",
+      "alt": "Air passenger traffic at Canadian airports, annual",
       "YOW": "Macdonald-Cartier International (YOW), Ottawa, Ontario",
       "YYZ": "Lester B. Pearson International (YYZ), Toronto, Ontario",
       "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario"
+    },
+    "line": {
+      "alt": "Air passenger traffic at Canadian airports, annual",
+      "x_label": "Year",
+      "y_label": "Number of passengers (in millions???)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
     },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",
