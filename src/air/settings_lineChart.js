@@ -1,26 +1,22 @@
 export default {
   alt: i18next.t("alt", {ns: "line"}),
+  aspectRatio: 19 / 3,
   filterData: function(data) {
-    console.log(data.numMov);
     const root = data.numMov;
-    const keys = [ "enplaned" ];
-
-    const val = root.filter( (item) => item.enplaned).map((item) => item.enplaned)
-    const yr = root.filter( (item) => item.year).map((item) => item.year)
-    console.log("val: ", val)
-    console.log("yr: ", yr)
-
-    return keys.map(function(key) {
+    const keys = Object.keys(root[0]).slice(1);
+    const rtn = keys.map((d) => {
       return {
-        id: key,
-        values: root.map(function(value, index) {
+        id: d,
+        data: root.map((p) => {
           return {
-            year: yr[index],
-            enplaned: val[index]
+            year: p.year,
+            value: p[d]
           };
         })
       };
     });
+
+    return rtn;
   },
   x: {
     label: i18next.t("x_label", {ns: "line"}),
@@ -36,10 +32,10 @@ export default {
   y: {
     label: i18next.t("y_label", {ns: "line"}),
     getValue: function(d) {
-      return d.enplaned * 1.0 / 1000000;
+      return d.value * 1.0 / 1;
     },
     getText: function(d) {
-      return d.enplaned;
+      return d.value;
     }
   },
 
@@ -57,12 +53,12 @@ export default {
       return this.z.getId.apply(this, arguments);
     },
     getDataPoints: function(d) {
-      return d.values;
+      return d.data;
     },
     getText: function(d) {
       return i18next.t(d.id, {ns: "line"});
     }
   },
   datatable: false,
-  width: 900
+  width: 600
 };

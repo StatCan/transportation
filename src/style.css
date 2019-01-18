@@ -42,12 +42,6 @@
 .international {
   fill: #83C3F2;
 }
-.deplaned {
-	fill: #b4dce7;
-}
-.enplaned {
-	fill: #bec87f;
-}
 .Remaining_itinerant {
 	fill: #F6CF22;
 	opacity: 0.3;
@@ -94,6 +88,24 @@
   stroke: none;
 	font-size: 14px;
 	text-anchor: middle;
+}
+/* line chart for air */
+.line svg text {
+	fill: currentColor;
+}
+.line svg .tick line,
+.line svg .domain {
+	stroke: currentColor;
+}
+.dline {
+	stroke: #000;
+	stroke-width: 1.5;
+}
+.dline1 {
+	stroke: #1A75B5;
+}
+.dline2 {
+	stroke: #FF7F00;
 }
 
 /*rail dataset*/

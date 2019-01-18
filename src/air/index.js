@@ -50,7 +50,7 @@ function showAreaData() {
 
 function showAirport() {
   if (!lineData[selectedAirpt]) {
-    const fname = "data/air/CANADA_passengers_enplaned_MOCK.json";
+    const fname = "data/air/CANADA_passengers_planed_MOCK.json";
     // return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
     return d3.json(fname, (aptData) => {
       lineData[selectedAirpt] = aptData;
