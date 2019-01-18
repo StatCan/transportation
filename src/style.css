@@ -91,31 +91,40 @@
 }
 /* line chart for air */
 .line svg text {
-	fill: currentColor;
+	fill: black;
 }
 .line svg .tick line,
 .line svg .domain {
-	stroke: currentColor;
+	stroke: black;
 }
 .dline {
 	stroke: #000;
 	stroke-width: 1.5;
 }
 .dline1 {
-	stroke: #1A75B5;
+	stroke: #024571;
 }
 .dline2 {
-	stroke: #FF7F00;
+	stroke: #5DC1BE;
 }
 .line-label {
 	font-size: 9px;
-	fill: #69757c;
+	fill: #555;
 }
 .tick text {
 	font-size: 9px;
 }
-path  {
-  stroke: red;
+/* #svg_areaChartAir .axis path  {
+  stroke: #69757c;
+} */
+.domain {
+	display: inline;
+}
+#svg_lineChart .axis path  {
+  stroke: #aaa;
+}
+#svg_lineChart .axis .tick line {
+  stroke: #aaa;
 }
 
 /*rail dataset*/
