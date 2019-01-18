@@ -9,7 +9,7 @@ const defaults = {
   }
 };
 
-export default function(svg, graph) {console.log({...graph});
+export default function(svg, graph) {
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -31,13 +31,13 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
   const transition = d3.transition()
       .duration(1000);
 
-  const classFn = function(d, i) {
-    let cl = "link " + d.source.name + "_to_" + d.target.name;
-    // let cl = "area area" + (i + 1);
-    // if (sett.z && sett.z.getClass && typeof sett.z.getClass === "function") {
-    //   cl += " " + sett.z.getClass.call(sett, d);
-    // }
-    // console.log("cl: ", cl)
+  const linksClassFn = function(d, i) {
+    const cl = "link " + d.source.name + "_to_" + d.target.name;
+    return cl;
+  };
+
+  const nodesClassFn = function(d, i) {
+    const cl = "node " + d.name;
     return cl;
   };
 
@@ -49,8 +49,6 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
 
   var path = sankey.link();
 
-
-  // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
   function make(graph) {
     sankey
         .nodes(graph.nodes)
@@ -67,19 +65,21 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
           .attr("class", "data");
     }
 
-console.log(graph);
+    let linksGroup = dataLayer.select(".links");
+    if (linksGroup.empty()) {
+      linksGroup = dataLayer
+          .append("g")
+          .attr("class", "links");
+    }
 
     // add in the links
-    const link = dataLayer
-        .append("g")
-        .attr("class", "links")
-        .selectAll(".link")
-        .data(graph.links, classFn);
+    const link = linksGroup.selectAll(".link")
+        .data(graph.links, linksClassFn);
 
     link.enter()
         .append("path")
         .attr("class", "link")
-        .attr("class", classFn)
+        .attr("class", linksClassFn)
         .attr("id", function(d, i) {
           return "link" + i;
         })
@@ -105,7 +105,7 @@ console.log(graph);
               "<table>" +
                 "<tr>" +
                 "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                  "<td><b>" + format(d.value*1e4) + "</td>" +
+                  "<td><b>" + format(d.value) + "</td>" +
                 "</tr>" +
               "</table>"
           )
@@ -133,11 +133,18 @@ console.log(graph);
 
     link.exit().remove();
 
+    let nodesGroup = dataLayer.select(".nodes");
+    if (nodesGroup.empty()) {
+      nodesGroup = dataLayer
+          .append("g")
+          .attr("class", "nodes");
+    }
+
     // add in the nodes
-    const node = dataLayer.append("g").attr("class", "nodes")
-        .selectAll(".node")
-        .data(graph.nodes)
-        .enter().append("g")
+    const node = nodesGroup.selectAll(".node")
+        .data(graph.nodes, nodesClassFn);
+
+    const nodeCreate = node.enter().append("g")
         .attr("class", function(d) {
           return "node" + " " + d.name;
         })
@@ -153,27 +160,77 @@ console.log(graph);
             })
             .on("drag", dragmove));
 
-    node.on("mouseover", function(d) {
+    // add the rectangles for the nodes
+    nodeCreate.append("rect")
+        .attr("height", function(d) {
+          return d.dy;
+        })
+        .attr("width", sankey.nodeWidth())
+        .style("stroke", function(d) {
+          const thisFill = d3.select("." + d.name).select("rect").style("fill");
+          return d3.rgb(thisFill).darker(2);
+        });
 
-      // Make all links inactive
-      //   d3.selectAll(".link").classed("inactive", true);
+    // add in the title for the nodes
+    nodeCreate.append("text")
+        .attr("x", (d) => {
+          if (d.x < innerWidth / 2) {
+            return 6 + sankey.nodeWidth();
+          }
 
-      //   //Remove inactive class to selected links and make them active
-      //   if (d.sourceLinks.length > 0) { //rect acts as a source to next rect
-      //     console.log("fromLink: ", d.name)
-      //     var fromLink = d3.selectAll(".from" + d.name);
-      //     fromLink.classed("inactive", !fromLink.classed("inactive"));
+          return -6;
+        })
+        .attr("y", function(d) {
+          return d.dy / 2;
+        })
+        .attr("dy", ".35em")
+        .attr("text-anchor", (d) => {
+          if (d.x < innerWidth / 2) {
+            return "start";
+          }
 
-      //     fromLink.classed("active", true);
-      //   }
+          return "end";
+        })
+        .text(function(d) {
+          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
+        });
 
-      //   if (d.targetLinks.length > 0) { //rect acts as a target from previous rect
-      //     var toLink = d3.selectAll(".to" + d.name);
-      //     toLink.classed("inactive", !toLink.classed("inactive"));
+    const nodeUpdate = node
+        .transition(transition)
+        .attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")";
+        });
 
-      //     toLink.classed("active", true);
-      //   }
+    nodeUpdate.select("rect")
+        .attr("height", function(d) {
+          return d.dy;
+        })
+        .attr("width", sankey.nodeWidth());
 
+    nodeUpdate.select("text")
+        .attr("x", (d) => {
+          if (d.x < innerWidth / 2) {
+            return 6 + sankey.nodeWidth();
+          }
+
+          return -6;
+        })
+        .attr("y", function(d) {
+          return d.dy / 2;
+        })
+        .attr("dy", ".35em")
+        .attr("text-anchor", (d) => {
+          if (d.x < innerWidth / 2) {
+            return "start";
+          }
+
+          return "end";
+        })
+        .text(function(d) {
+          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
+        });
+
+    nodeCreate.on("mouseover", function(d) {
       div.transition()
           .style("opacity", .9);
       div.html(
@@ -181,7 +238,7 @@ console.log(graph);
               "<table>" +
                 "<tr>" +
                 "<td> Total: </td>" +
-                  "<td><b>" + format(d.value*1e4) + "</td>" +
+                  "<td><b>" + format(d.value) + "</td>" +
                   "<td>" + " " + "</td>" +
                 "</tr>" +
               "</table>"
@@ -190,48 +247,11 @@ console.log(graph);
           .style("top", (d3.event.pageY - tooltipShiftY) + "px");
     })
         .on("mouseout", function(d) {
-        //   //Remove active and inactive classes added on mouseover
-        //   d3.selectAll(".inactive").classed("inactive", false);
-        //   d3.selectAll(".active").classed("active", false);
-
           div.transition()
               .style("opacity", 0);
         });
 
-    // add the rectangles for the nodes
-    node.append("rect")
-        .attr("height", function(d) {
-          return d.dy;
-        })
-        .attr("width", sankey.nodeWidth())
-        .style("stroke", function(d) {
-          const thisFill = d3.select("." + d.name).select("rect").style("fill");
-          return d3.rgb(thisFill).darker(2);
-        })
-        .append("title")
-        .text(function(d) {
-          return d.name + "\n" + format(d.value);
-        });
-
-    // add in the title for the nodes
-    node.append("text")
-        .attr("x", -6)
-        .attr("y", function(d) {
-          return d.dy / 2;
-        })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .attr("transform", null)
-        .text(function(d) {
-          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
-        })
-        .filter(function(d) {
-          return d.x < innerWidth / 2;
-        })
-        .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start");
-
-    // node.exit().remove();
+    node.exit().remove();
 
     // the function for moving the nodes
     function dragmove(d) {
