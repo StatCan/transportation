@@ -8,11 +8,15 @@ export default {
     left: 50
   },
   filterData: function(data) {
+    console.log("filterData data: ", data)
     const root = data.numMov;
-    const keys = Object.keys(root[0]).slice(1);
+    console.log("code: ", root[0].code)
+    const code = root[0].code;
+    const keys = Object.keys(root[0]).slice(2); // exclude first two keys
     const rtn = keys.map((d) => {
       return {
         id: d,
+        code: code,
         data: root.map((p) => {
           return {
             year: p.year,
@@ -22,10 +26,16 @@ export default {
       };
     });
 
+    console.log("rtn: ", rtn)
     return rtn;
   },
   x: {
     label: i18next.t("x_label", {ns: "line"}),
+    getCode: function(d) {
+      console.log("d in x: ", d);
+      // return d.code;
+      return d.code;
+    },
     getLabel: function() {
       return i18next.t("x_label", {ns: "line"});
     },
@@ -54,10 +64,8 @@ export default {
 
   z: {
     label: i18next.t("z_label", {ns: "line"}),
-    getTitle: function() {
-      return i18next.t("z_title", {ns: "line"});
-    },
     getId: function(d) {
+      console.log("d here: ", d);
       return d.id;
     },
     getKeys: function(d) {
