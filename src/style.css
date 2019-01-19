@@ -114,9 +114,6 @@
 .tick text {
 	font-size: 9px;
 }
-/* #svg_areaChartAir .axis path  {
-  stroke: #69757c;
-} */
 .domain {
 	display: inline;
 }
@@ -256,28 +253,6 @@ div.tooltip {
 	fill: rgba(169, 203, 255, 0.7);
 	stroke: rgb(5, 143, 188);
 }
-/* pyramid */
-.axis {
-  shape-rendering: crispEdges;
-}
-.axis .domain {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1px;
-}
-.axis line {
-  stroke: #000;
-}
-rect.male {
-  fill: #3388EE;
-}
-rect.female {
-  fill: #EEAACC;
-}
-.handle {
-  stroke: #000;
-  fill: #ccc;
-}
 
 /*map*/
 .canada-map path {
@@ -324,64 +299,64 @@ rect.female {
 	}
 .cdnFromOther rect {
 	fill: #FAB491;
-	}
-	.USres_land rect {
+}
+.USres_land rect {
+	fill: #CC982A;
+}
+.USres_air rect {
+	fill: #CC982A;
+}
+.USres_marine rect {
+	fill: #CC982A;
+}
+.USres_car rect {
+	fill: #CC982A;
+}
+.USres_bus rect {
+	fill: #CC982A;
+}
+.USres_train rect {
+	fill: #CC982A;
+}
+.USres_other rect {
 		fill: #CC982A;
-	}
-	.USres_air rect {
-		fill: #CC982A;
-	}
-	.USres_marine rect {
-		fill: #CC982A;
-	}
-	.USres_car rect {
-		fill: #CC982A;
-	}
-	.USres_bus rect {
-		fill: #CC982A;
-	}
-	.USres_train rect {
-		fill: #CC982A;
-	}
-	.USres_other rect {
-			fill: #CC982A;
-	}
-	.nonUS_land rect {
-		fill: #928941;
-	}
-	.nonUS_air rect {
-		fill: #928941;
-	}
-	.nonUS_marine rect {
-		fill: #928941;
-	}
- .cdnFromUS_land rect {
+}
+.nonUS_land rect {
+	fill: #928941;
+}
+.nonUS_air rect {
+	fill: #928941;
+}
+.nonUS_marine rect {
+	fill: #928941;
+}
+.cdnFromUS_land rect {
+ fill: #FFDC68;
+}
+.cdnFromUS_air rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_marine rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_car rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_bus rect {
 	 fill: #FFDC68;
-	}
-	.cdnFromUS_air rect {
-		fill: #FFDC68;
-	}
-	.cdnFromUS_marine rect {
-		fill: #FFDC68;
-	}
-	.cdnFromUS_car rect {
-		fill: #FFDC68;
-	}
-	.cdnFromUS_bus rect {
-		 fill: #FFDC68;
-	}
-	.cdnFromUS_train rect {
-		fill: #FFDC68;
-	}
-	.cdnFromUS_other rect {
-		fill: #FFDC68;
-	}
-  .cdnFromOther_land rect {
-		fill: #FAB491;
-	}
-	.cdnFromOther_air rect {
-		fill: #FAB491;
-	}
-	.cdnFromOther_marine rect {
-		fill: #FAB491;
-	}
+}
+.cdnFromUS_train rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_other rect {
+	fill: #FFDC68;
+}
+.cdnFromOther_land rect {
+	fill: #FAB491;
+}
+.cdnFromOther_air rect {
+	fill: #FAB491;
+}
+.cdnFromOther_marine rect {
+	fill: #FAB491;
+}
