@@ -54,12 +54,15 @@
       "alt": "Air passenger traffic at Canadian airports, annual",
       "YOW": "Macdonald-Cartier International (YOW), Ottawa, Ontario",
       "YYZ": "Lester B. Pearson International (YYZ), Toronto, Ontario",
-      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario"
+      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario",
+      "YQG": "Windsor International (YQG), Windsor, Ontario",
+      "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
     },
     "line": {
       "alt": "Air passenger traffic at Canadian airports, annual",
-      "x_label": "Years",
-      "y_label": "Number of passengers",
+      "x_label": "Year",
+      "y_label": "Number of passengers (x 1000)",
+      "z_title": "Airport",
       "total": "Total",
       "domestic": "Domestic",
       "international": "International",

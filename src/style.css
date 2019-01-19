@@ -107,7 +107,7 @@
 .dline2 {
 	stroke: #5DC1BE;
 }
-.line-label {
+.line-label, .chart-label {
 	font-size: 9px;
 	fill: #555;
 }
@@ -122,6 +122,10 @@
 }
 #svg_lineChart .axis .tick line {
   stroke: #aaa;
+}
+#svg_lineChart .lineChartTitle {
+  font-size: 10px;
+  fill: #555;
 }
 
 /*rail dataset*/

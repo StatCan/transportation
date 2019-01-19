@@ -1,0 +1,94 @@
+{
+  "numMov": [
+    {
+      "year": 2000,
+      "enplaned": 1660331,
+      "deplaned": 3419199
+    },
+    {
+      "year": 2001,
+      "enplaned": 1668520,
+      "deplaned": 3316187
+    },
+    {
+      "year": 2002,
+      "enplaned": 1572686,
+      "deplaned": 3134465
+    },
+    {
+      "year": 2003,
+      "enplaned": 1404796,
+      "deplaned": 3093286
+    },
+    {
+      "year": 2004,
+      "enplaned": 1253252,
+      "deplaned": 3100661
+    },
+    {
+      "year": 2005,
+      "enplaned": 1224651,
+      "deplaned": 3123934
+    },
+    {
+      "year": 2006,
+      "enplaned": 1287169,
+      "deplaned": 3188275
+    },
+    {
+      "year": 2007,
+      "enplaned": 1591430,
+      "deplaned": 3341310
+    },
+    {
+      "year": 2008,
+      "enplaned": 1524623,
+      "deplaned": 3408983
+    },
+    {
+      "year": 2009,
+      "enplaned": 1390614,
+      "deplaned": 3291568
+    },
+    {
+      "year": 2010,
+      "enplaned": 1368284,
+      "deplaned": 3253660
+    },
+    {
+      "year": 2011,
+      "enplaned": 1274373,
+      "deplaned": 3184153
+    },
+    {
+      "year": 2012,
+      "enplaned": 1231302,
+      "deplaned": 3190872
+    },
+    {
+      "year": 2013,
+      "enplaned": 1213662,
+      "deplaned": 3157788
+    },
+    {
+      "year": 2014,
+      "enplaned": 1237298,
+      "deplaned": 3148100
+    },
+    {
+      "year": 2015,
+      "enplaned": 1225949,
+      "deplaned": 3177552
+    },
+    {
+      "year": 2016,
+      "enplaned": 1261785,
+      "deplaned": 3180731
+    },
+    {
+      "year": 2017,
+      "enplaned": 1238725,
+      "deplaned": 3236143
+    }
+  ]
+}

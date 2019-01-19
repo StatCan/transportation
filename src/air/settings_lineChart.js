@@ -1,6 +1,12 @@
 export default {
   alt: i18next.t("alt", {ns: "line"}),
   aspectRatio: 19 / 3,
+    margin: {
+    top: 15,
+    right: 10,
+    bottom: 50,
+    left: 50
+  },
   filterData: function(data) {
     const root = data.numMov;
     const keys = Object.keys(root[0]).slice(1);
@@ -39,7 +45,7 @@ export default {
     },
     ticks: 3,
     getValue: function(d) {
-      return d.value * 1.0 / 1;
+      return d.value * 1.0 / 1000;
     },
     getText: function(d) {
       return d.value;
@@ -48,6 +54,9 @@ export default {
 
   z: {
     label: i18next.t("z_label", {ns: "line"}),
+    getTitle: function() {
+      return i18next.t("z_title", {ns: "line"});
+    },
     getId: function(d) {
       return d.id;
     },
