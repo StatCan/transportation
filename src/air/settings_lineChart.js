@@ -2,21 +2,18 @@ export default {
   alt: i18next.t("alt", {ns: "line"}),
   aspectRatio: 19 / 3,
     margin: {
-    top: 15,
+    top: 20,
     right: 10,
     bottom: 50,
     left: 50
   },
   filterData: function(data) {
-    console.log("filterData data: ", data)
     const root = data.numMov;
-    console.log("code: ", root[0].code)
-    const code = root[0].code;
-    const keys = Object.keys(root[0]).slice(2); // exclude first two keys
+    // keys for labels to identify lines
+    const keys = Object.keys(root[0]).slice(1); // exclude first key (year is for x-axis, not line labels)
     const rtn = keys.map((d) => {
       return {
         id: d,
-        code: code,
         data: root.map((p) => {
           return {
             year: p.year,
@@ -31,11 +28,6 @@ export default {
   },
   x: {
     label: i18next.t("x_label", {ns: "line"}),
-    getCode: function(d) {
-      console.log("d in x: ", d);
-      // return d.code;
-      return d.code;
-    },
     getLabel: function() {
       return i18next.t("x_label", {ns: "line"});
     },
@@ -65,7 +57,6 @@ export default {
   z: {
     label: i18next.t("z_label", {ns: "line"}),
     getId: function(d) {
-      console.log("d here: ", d);
       return d.id;
     },
     getKeys: function(d) {

@@ -126,6 +126,7 @@
 #svg_lineChart .lineChartTitle {
   font-size: 10px;
   fill: #555;
+  font-weight: bold;
 }
 
 /*rail dataset*/

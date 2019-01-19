@@ -47,20 +47,25 @@ function showAirport() {
   console.log("fn showAirport! ", selectedAirpt);
   console.log("lineData: ", lineData);
   if (!lineData[selectedAirpt]) {
-    console.log("new airport! ", lineData)
     const fname = `data/air/${selectedAirpt}_passengers_planed_MOCK.json`;    
     return d3.json(fname, (aptData) => {
       if (aptData) {
         lineData[selectedAirpt] = aptData;
         lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
+        // line chart title
+        d3.select("#svg_lineChart")
+          .select(".lineChartTitle")
+          .text(i18next.t(selectedAirpt, {ns: "airports"}));
       }
       // lineData[selectedAirpt] = aptData;
       // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
     });
   }
-  // console.log("selectedAirpt: ", selectedAirpt);
-  // console.log("lineData: ", lineData)
   lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
+  // line chart title
+  d3.select("#svg_lineChart")
+    .select(".lineChartTitle")
+    .text(i18next.t(selectedAirpt, {ns: "airports"}));
 }
 
 // For map circles

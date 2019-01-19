@@ -62,7 +62,6 @@
       "alt": "Air passenger traffic at Canadian airports, annual",
       "x_label": "Year",
       "y_label": "Number of passengers (x 1000)",
-      "z_title": "Airport",
       "total": "Total",
       "domestic": "Domestic",
       "international": "International",
