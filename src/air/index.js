@@ -43,7 +43,6 @@ function showAreaData() {
 }
 
 function showAirport() {
-  console.log("fn showAirport! ", selectedAirpt);
   if (!lineData[selectedAirpt]) {
     const fname = `data/air/${selectedAirpt}_passengers_planed.json`;
     return d3.json(fname, (aptData) => {
@@ -121,7 +120,6 @@ const canadaMap = getCanadaMap(map)
       // d3.json("geojson/vennAirport.geojson", (error, airports) => {
       d3.json("geojson/vennAirport_with_dataFlag.geojson", (error, airports) => {
         if (error) throw error;
-        console.log(airports)
 
         const airportGroup = map.append("g");
         path = d3.geoPath().projection(this.settings.projection)
@@ -141,7 +139,10 @@ const canadaMap = getCanadaMap(map)
               selectedAirpt = d.properties.id;
               selectedProv = d.properties.province;
               if (d.properties.hasPlanedData !== "noYears") {
-                showAirport();
+                if (d.properties.id === "YQT" || d.properties.id === "YQG") { // TEMPORARY!!!
+                  showAirport();
+                }
+                // showAirport();
               }
             });
       });
@@ -172,7 +173,7 @@ map.on("click", () => {
   canadaMap.zoom(classes[0]);
 });
 
-i18n.load(["src/i18n"], ()  => {
+i18n.load(["src/i18n"], () => {
   settingsAirport.x.label = i18next.t("x_label", {ns: "line"}),
   settingsAirport.y.label = i18next.t("y_label", {ns: "line"}),
   showAreaData();
