@@ -10,10 +10,8 @@ export default {
   filterData: function(data) {
     return data.numMov;
   },
+
   x: {
-    getLabel: function() {
-      return i18next.t("x_label", {ns: "areaAirport"});
-    },
     getValue: function(d) {
       return new Date(d.year + "-01");
     },
@@ -24,10 +22,6 @@ export default {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "areaAirport"}),
-    getLabel: function() {
-      return i18next.t("y_label", {ns: "areaAirport"});
-    },
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
@@ -42,7 +36,6 @@ export default {
   },
 
   z: {
-    label: i18next.t("z_label", {ns: "areaAirport"}),
     getId: function(d) {
       return d.key;
     },
