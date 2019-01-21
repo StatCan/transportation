@@ -1,0 +1,34 @@
+{
+  "fr": {
+    "area": {
+      "alt": "Accroissement de la population mondiale historique et estimée par région",
+      "x_label": "Année",
+      "y_label": "Population (en Milliards)",
+      "datatableTitle": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en Milliards)",
+      "datatableTitlePercent": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en pourcentage de la planète)",
+      "gas": "Gas",
+      "diesel": "Diesel",
+      "LPG": "LPG",
+      "local": "Local",
+      "itinerant": "Itinerant"
+    },
+     "provinces": {
+       "CANADA": "Canada, all provinces and territories",
+       "NL": "Newfoundland and Labrador",
+       "PE": "Prince Edward Island",
+       "NS": "Nova Scotia",
+       "NB": "New Brunswick",
+       "QC": "Quebec",
+       "ON": "Ontario",
+       "MB": "Manitoba",
+       "SK": "Saskatchewan",
+       "AB": "Alberta",
+       "BC": "British Columbia",
+       "YK": "Yukon",
+       "NT_NU": "Northwest Territories including Nunavut",
+       "NT": "Northwest Territories",
+       "NU": "Nunavut"
+    }
+  }
+  }
+}

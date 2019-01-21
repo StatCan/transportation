@@ -1,0 +1,154 @@
+{
+  "fuelsales": [
+    { 
+      "year": 1993,
+      "gas": 3869461,
+      "diesel": 989618,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1994,
+      "gas": 4082964,
+      "diesel": 1080544,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1995,
+      "gas": 4134983,
+      "diesel": 1126368,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1996,
+      "gas": 4172348,
+      "diesel": 1173583,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1997,
+      "gas": 4251691,
+      "diesel": 1203370,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1998,
+      "gas": 4400672,
+      "diesel": 1173724,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 1999,
+      "gas": 4489276,
+      "diesel": 1208936,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2000,
+      "gas": 4406399,
+      "diesel": 1370074,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2001,
+      "gas": 4460565,
+      "diesel": 1329901,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2002,
+      "gas": 4532446,
+      "diesel": 1418915,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2003,
+      "gas": 4512548,
+      "diesel": 1515135,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2004,
+      "gas": 4543450,
+      "diesel": 1647352,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2005,
+      "gas": 4507834,
+      "diesel": 1681135,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2006,
+      "gas": 4524469,
+      "diesel": 1721635,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2007,
+      "gas": 4554406,
+      "diesel": 1796611,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2008,
+      "gas": 4467255,
+      "diesel": 1714031,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2009,
+      "gas": 4536112,
+      "diesel": 1647876,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2010,
+      "gas": 4560666,
+      "diesel": 1838578,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2011,
+      "gas": 4537496,
+      "diesel": 2221338,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2012,
+      "gas": 4348707,
+      "diesel": 1761637,
+      "LPG": "na_current_period"
+    },
+    { 
+      "year": 2013,
+      "gas": 4336807,
+      "diesel": 2145516,
+      "LPG": 196681
+    },
+    { 
+      "year": 2014,
+      "gas": 4422297,
+      "diesel": 1922523,
+      "LPG": 343060
+    },
+    { 
+      "year": 2015,
+      "gas": 4656988,
+      "diesel": 1852896,
+      "LPG": 320829
+    },
+    { 
+      "year": 2016,
+      "gas": 4893207,
+      "diesel": 1837722,
+      "LPG": 278136
+    },
+    { 
+      "year": 2017,
+      "gas": 4935834,
+      "diesel": 1910156,
+      "LPG": 85669
+    }
+  ]
+}

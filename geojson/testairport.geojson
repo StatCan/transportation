@@ -1,0 +1,32 @@
+{"type": "FeatureCollection",
+
+"features":
+	[
+
+	 {
+		 "geometry": {"type": "Point", "coordinates": [-75.667222, 45.3225]},
+		 "type": "Feature",
+		 "id": "YOW",
+		 "province": "ON"
+	 },
+	 {
+		"geometry": {"type": "Point", "coordinates": [-79.630556, 43.676667]},
+		"type": "Feature",
+		"id": "YYZ",
+		"province": "ON"
+	},
+	{
+	 "geometry": {"type": "Point", "coordinates": [-79.396111, 43.628333]},
+	 "type": "Feature",
+	 "id": "YTZ",
+	 "province": "ON"
+ },
+ {
+	"geometry": {"type": "Point", "coordinates": [-79.368611, 43.860833]},
+	"type": "Feature",
+	"id": "YKZ",
+	"province": "ON"
+ }
+
+	]
+}

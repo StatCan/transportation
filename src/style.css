@@ -1,0 +1,406 @@
+.area svg text {
+	fill: currentColor;
+}
+
+.area svg .tick line,
+.area svg .domain {
+	stroke: currentColor;
+}
+
+/*road dataset*/
+.gas {
+	fill: #EDDB7C;
+}
+.diesel {
+	fill: #F6CF22;
+}
+.LPG {
+	fill: #5DC1BE;
+}
+.roadMapHighlight {
+	stroke: #467B8D !important;
+	stroke-width: 0.5 !important;
+}
+
+/*air dataset*/
+/* classes for airport circle fill */
+.allYears {
+	fill: #008E09;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.noYears {
+	fill: #F63700;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+.lastSevenYears {
+	fill: #FFBF00;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.lastSixYears {
+	fill: #004853;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.lastFiveYears {
+	fill: #00B9BD;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.mix {
+	fill: #7D0000;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+/*.airport {
+	fill: #7E0C33;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}*/
+.airportZoomed {
+	fill: #7E0C33;
+	stroke: #ccc;
+  stroke-width: 0.1px;
+}
+.local, .domestic {
+	fill: #F6CF22;
+}
+.itinerant, .transborder {
+	fill: #a6611a;
+  opacity: 0.6;
+}
+.international {
+  fill: #83C3F2;
+}
+.areaChartTitle {
+	font-size: 14px;
+	font-weight: bold;
+}
+.total {
+	fill: #C1D699;
+}
+.domain {
+	display: none;
+}
+.tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 10px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 12px;
+	font-family: "Noto Sans", sans-serif;
+}
+.tick line {
+	stroke: none;
+}
+/* line chart for air */
+.line svg text {
+	fill: black;
+}
+.line svg .tick line,
+.line svg .domain {
+	stroke: black;
+}
+#svg_lineChart .area  {
+  opacity: 0.5;
+}
+#svg_lineChart .area2  {
+  fill: #024571;
+}
+#svg_lineChart .area1  {
+  fill: #5DC1BE;
+}
+#svg_lineChart .chart-label {
+	font-size: 5px;
+	fill: #555;
+}
+#svg_lineChart .tick text {
+	font-size: 5px;
+}
+#svg_lineChart .area-label {
+	font-size: 5px;
+	fill: #555;
+}
+.line-label, .chart-label {
+	font-size: 9px;
+	fill: #555;
+}
+.area-label {
+	font-size: 12px;
+	fill: #555;
+}
+
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 10px;
+	fill: #555;
+}
+.tick text {
+	font-size: 8px;
+}
+.domain {
+	display: inline;
+}
+#svg_lineChart .axis path  {
+  stroke: #aaa;
+}
+#svg_lineChart .axis .tick line {
+  stroke: #aaa;
+}
+#svg_lineChart .airptChartTitle {
+  font-size: 7px;
+  fill: #555;
+  font-weight: bold;
+}
+
+/*rail dataset*/
+#destChartTitle {
+	font-size: 15px;
+	fill: #212529;
+	stroke: none;
+}
+.ATR {
+	fill: #e5c494;
+}
+.QC {
+	fill: #ffd92f;;
+}
+.ON {
+	fill: #a6d854;
+}
+.MB {
+	fill: #e78ac3;
+}
+.SK {
+	fill: #8da0cb;
+}
+.AB {
+	fill: #fc8d62;
+}
+.BC {
+	fill: #66c2a5;
+}
+.US {
+	fill: #7fbc41;
+}
+.USMX {
+	fill: #4d9221;
+}
+.USMX {
+	fill: #737373;
+}
+.inactive-region {
+	opacity: 0.1 !important;
+}
+
+.comm_yr {
+	fill: #666666;
+  	stroke: none;
+	font-size: 16px;
+}
+.comm_type {
+	fill: #666666;
+  	stroke: none;
+	font-size: 14px;
+}
+.comm_value {
+	fill: #666666;
+  	stroke: none;
+	font-size: 14px;
+
+}
+.comm_wheat {
+	fill:  #024571;
+}
+.comm_cereal {
+	fill:  #5DC1BE;
+}
+.comm_freshveg {
+	fill:  #F6CF22;
+}
+.comm_gen {
+	fill:  #CECECE;
+	stroke: #909294;
+}
+#prevButton {
+	position: relative;
+  	top: -43px;
+  	left: 960px;
+  	border: 1px solid #CECECE;
+}
+#nextButton {
+	position: relative;
+  	top: -43px;
+  	left: 970px;
+  	border: 1px solid #CECECE;
+}
+.inactive {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.active {
+	pointer-events: auto;
+}
+#pageNum {
+	font-size: 14px;
+	text-align: right;
+	padding-right: 35px;
+	position: relative;
+	top: -32px;
+}
+/*expt rail dataset*/
+div.tooltip {
+	position: absolute;
+	padding: 5px;
+	text-align: left;
+	font: 12px sans-serif;
+	color: #000;
+	background: #AAA;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000;
+	border-radius: 8px;
+}
+/* radar */
+.orig {
+	stroke: rgb(5, 143, 188);
+	stroke-width: 4;
+}
+.dest {
+	stroke: rgb(204, 0, 71);
+	stroke-width: 4;
+}
+.legendText {
+	stroke: none;
+  font-size: 14px;
+}
+.lineDest, .seriesDest {
+	fill: rgba(254, 195, 195, 0.7);
+	stroke: rgb(204, 0, 71);
+}
+.lineOrig, .seriesOrig {
+	fill: rgba(169, 203, 255, 0.7);
+	stroke: rgb(5, 143, 188);
+}
+
+/*map*/
+.canada-map path {
+	fill: #94a6b2;
+	stroke: #fff;
+	stroke-width: 0.03;
+	opacity: 1;
+}
+
+/*modes dataset*/
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+	font-size: 12px;
+}
+
+.link {
+  fill: none;
+  stroke: #999;
+  stroke-opacity: .3;
+}
+
+.link:hover {
+  stroke-opacity: .5;
+}
+/* node rect colours */
+.intl rect {
+  fill: #607890;
+}
+.USres rect {
+	fill: #CC982A;
+	}
+.nonUS rect {
+	fill: #928941;
+	}
+.cdnFromUS rect {
+	fill: #FFDC68;
+	}
+.cdnFromOther rect {
+	fill: #FAB491;
+}
+.USres_land rect {
+	fill: #CC982A;
+}
+.USres_air rect {
+	fill: #CC982A;
+}
+.USres_marine rect {
+	fill: #CC982A;
+}
+.USres_car rect {
+	fill: #CC982A;
+}
+.USres_bus rect {
+	fill: #CC982A;
+}
+.USres_train rect {
+	fill: #CC982A;
+}
+.USres_other rect {
+		fill: #CC982A;
+}
+.nonUS_land rect {
+	fill: #928941;
+}
+.nonUS_air rect {
+	fill: #928941;
+}
+.nonUS_marine rect {
+	fill: #928941;
+}
+.cdnFromUS_land rect {
+ fill: #FFDC68;
+}
+.cdnFromUS_air rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_marine rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_car rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_bus rect {
+	 fill: #FFDC68;
+}
+.cdnFromUS_train rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_other rect {
+	fill: #FFDC68;
+}
+.cdnFromOther_land rect {
+	fill: #FAB491;
+}
+.cdnFromOther_air rect {
+	fill: #FAB491;
+}
+.cdnFromOther_marine rect {
+	fill: #FAB491;
+}
