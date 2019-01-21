@@ -118,8 +118,10 @@ const canadaMap = getCanadaMap(map)
       }
       // END TEMPORARY
 
-      d3.json("geojson/vennAirport.geojson", (error, airports) => {
+      // d3.json("geojson/vennAirport.geojson", (error, airports) => {
+      d3.json("geojson/vennAirport_with_dataFlag.geojson", (error, airports) => {
         if (error) throw error;
+        console.log(airports)
 
         const airportGroup = map.append("g");
         path = d3.geoPath().projection(this.settings.projection)
@@ -132,7 +134,9 @@ const canadaMap = getCanadaMap(map)
             .attr("id", (d, i) => {
               return "airport" + d.properties.id;
             })
-            .attr("class", "airport")
+            .attr("class", (d, i) => {
+              return d.properties.hasPlanedData;
+            })            
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
               selectedProv = d.properties.province;

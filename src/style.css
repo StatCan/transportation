@@ -23,11 +23,42 @@
 }
 
 /*air dataset*/
-.airport {
-	fill: #7E0C33;
+/* classes for airport circle fill */
+.allYears {
+	fill: #008E09;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}  
+.noYears {
+	fill: #F63700;
 	stroke: #ccc;
 	stroke-width: 0.5px;
 }
+.lastSevenYears {
+	fill: #FFBF00;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+.lastSixYears {
+	fill: #004853;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+.lastFiveYears {
+	fill: #00B9BD;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+.mix {
+	fill: #7D0000;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+/*.airport {
+	fill: #7E0C33;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}*/
 .airportZoomed {
 	fill: #7E0C33;
 	stroke: #ccc;
