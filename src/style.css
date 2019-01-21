@@ -28,6 +28,7 @@
 	fill: #008E09;
 	stroke: #ccc;
 	stroke-width: 0.5px;
+	cursor: pointer;
 }
 .noYears {
 	fill: #F63700;
@@ -38,16 +39,19 @@
 	fill: #FFBF00;
 	stroke: #ccc;
 	stroke-width: 0.5px;
+	cursor: pointer;
 }
 .lastSixYears {
 	fill: #004853;
 	stroke: #ccc;
 	stroke-width: 0.5px;
+	cursor: pointer;
 }
 .lastFiveYears {
 	fill: #00B9BD;
 	stroke: #ccc;
 	stroke-width: 0.5px;
+	cursor: pointer;
 }
 .mix {
 	fill: #7D0000;
