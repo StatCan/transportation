@@ -1,16 +1,18 @@
 export default {
-  alt: i18next.t("alt", {ns: "area"}),
+  alt: i18next.t("alt", {ns: "areaAirport"}),
+  aspectRatio: 19 / 5,
   margin: {
     top: 20,
+    right: 10,
     bottom: 50,
-    left: 80
+    left: 50
   },
   filterData: function(data) {
     return data.numMov;
   },
   x: {
     getLabel: function() {
-      return i18next.t("x_label", {ns: "area"});
+      return i18next.t("x_label", {ns: "areaAirport"});
     },
     getValue: function(d) {
       return new Date(d.year + "-01");
@@ -18,13 +20,13 @@ export default {
     getText: function(d) {
       return d.year;
     },
-    ticks: 7
+    ticks: 10
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "area"}),
+    label: i18next.t("y_label", {ns: "areaAirport"}),
     getLabel: function() {
-      return i18next.t("y_label", {ns: "area"});
+      return i18next.t("y_label", {ns: "areaAirport"});
     },
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
@@ -36,11 +38,11 @@ export default {
         return d[key];
       } else return d[key] * 1.0/ 1000;
     },
-    ticks: 5
+    ticks: 3
   },
 
   z: {
-    label: i18next.t("z_label", {ns: "area"}),
+    label: i18next.t("z_label", {ns: "areaAirport"}),
     getId: function(d) {
       return d.key;
     },
@@ -52,14 +54,12 @@ export default {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
       return keys;
-      //return keys.sort();
-      //return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "area"});
+      return i18next.t(d.key, {ns: "areaAirport"});
     }
   },
   datatable: false,

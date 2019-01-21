@@ -1,9 +1,9 @@
 {
   "en": {
     "area": {
-      "alt": "Historic and Estimated Worldwide Population Growth by Region",
+      "alt": "Air passenger traffic at Canadian airports, annual",
       "x_label": "Year",
-      "y_label": "Population (in Billions)",
+      "y_label": "Number of passengers (x 1000)",
       "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
       "gas": "Gas",
       "diesel": "Diesel",
@@ -12,7 +12,10 @@
       "itinerant": "Itinerant",
       "total": "Total",
       "domestic": "Domestic",
-      "transborder": "Trans-border",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned",
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },
@@ -48,10 +51,34 @@
        "YK": "Yukon"
     },
     "airports": {
-      "alt": "Airport rank",
+      "alt": "Air passenger traffic at Canadian airports, annual",
       "YOW": "Macdonald-Cartier International (YOW), Ottawa, Ontario",
       "YYZ": "Lester B. Pearson International (YYZ), Toronto, Ontario",
-      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario"
+      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario",
+      "YQG": "Windsor International (YQG), Windsor, Ontario",
+      "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
+    },
+    "line": {
+      "alt": "Air passenger traffic at Canadian airports, annual",
+      "x_label": "Year",
+      "y_label": "Number of passengers (x 1000)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
+    },
+    "areaAirport": {
+      "alt": "Air passenger traffic at Canadian airports, annual",
+      "x_label": "Year",
+      "y_label": "Number of passengers (x 1000)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
     },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",
@@ -119,6 +146,33 @@
       "poolcartraffic": "Pool car traffic of freight forwarder and ship associated",
       "mixedloads": "Mixed loads or unidentified freight",
       "partialcarload": "Less-than-carload shipments"
+    },
+    "modes": {
+      "intl": "International travellers",
+      "USres": "US residents",
+      "nonUS": "non-US residents",
+      "cdnFromUS": "Canadians via US",
+      "cdnFromOther": "Canadians via other",
+      "USres_air": "Air",
+      "USres_marine": "Marine",
+      "USres_land": "Land",
+      "nonUS_air": "Air",
+      "nonUS_marine": "Marine",
+      "nonUS_land": "Land",
+      "cdnFromUS_air": "Air",
+      "cdnFromUS_marine": "Marine",
+      "cdnFromUS_land": "Land",
+      "cdnFromOther_air": "Air",
+      "cdnFromOther_marine": "Marine",
+      "cdnFromOther_land": "Land",
+      "USres_car": "Automobile",
+      "USres_bus": "Bus",
+      "USres_train": "Train",
+      "USres_other": "Other",
+      "cdnFromUS_car": "Automobile",
+      "cdnFromUS_bus": "Bus",
+      "cdnFromUS_train": "Train",
+      "cdnFromUS_other": "Other"
     }
   }
 }

@@ -23,29 +23,63 @@
 }
 
 /*air dataset*/
-.airport {
-	fill: #7E0C33;
+/* classes for airport circle fill */
+.allYears {
+	fill: #008E09;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.noYears {
+	fill: #F63700;
 	stroke: #ccc;
 	stroke-width: 0.5px;
 }
+.lastSevenYears {
+	fill: #FFBF00;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.lastSixYears {
+	fill: #004853;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.lastFiveYears {
+	fill: #00B9BD;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+	cursor: pointer;
+}
+.mix {
+	fill: #7D0000;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}
+/*.airport {
+	fill: #7E0C33;
+	stroke: #ccc;
+	stroke-width: 0.5px;
+}*/
 .airportZoomed {
 	fill: #7E0C33;
 	stroke: #ccc;
   stroke-width: 0.1px;
 }
 .local, .domestic {
-	fill: #5DC1BE;
+	fill: #F6CF22;
 }
 .itinerant, .transborder {
-	fill: #F6CF22;
+	fill: #C9DF61;
 }
-.Remaining_itinerant {
-	fill: #F6CF22;
-	opacity: 0.3;
+.international {
+  fill: #83C3F2;
 }
-.Remaining_local {
-	fill: #5DC1BE;
-	opacity: 0.2;
+.areaChartTitle {
+	font-size: 14px;
+	font-weight: bold;
 }
 .total {
 	fill: #C1D699;
@@ -56,28 +90,81 @@
 .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 18px;
+	font-size: 10px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svg_areaChartAir .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 20px;
+	font-size: 12px;
 	font-family: "Noto Sans", sans-serif;
 }
 .tick line {
 	stroke: none;
 }
-.bubble-row-text {
-	fill: #96A8B2;
-	stroke: none;
-	font-size: 14px;
-}
-.bubble-text {
+/* line chart for air */
+.line svg text {
 	fill: black;
-  stroke: none;
-	font-size: 14px;
-	text-anchor: middle;
+}
+.line svg .tick line,
+.line svg .domain {
+	stroke: black;
+}
+#svg_lineChart .area  {
+  opacity: 0.5;
+}
+#svg_lineChart .area2  {
+  fill: #024571;
+}
+#svg_lineChart .area1  {
+  fill: #5DC1BE;
+}
+#svg_lineChart .chart-label {
+	font-size: 5px;
+	fill: #555;
+}
+#svg_lineChart .tick text {
+	font-size: 5px;
+}
+#svg_lineChart .area-label {
+	font-size: 5px;
+	fill: #555;
+}
+.line-label, .chart-label {
+	font-size: 9px;
+	fill: #555;
+}
+.area-label {
+	font-size: 12px;
+	fill: #555;
+}
+
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 10px;
+	fill: #555;
+}
+.tick text {
+	font-size: 8px;
+}
+.domain {
+	display: inline;
+}
+#svg_lineChart .axis path  {
+  stroke: #aaa;
+}
+#svg_lineChart .axis .tick line {
+  stroke: #aaa;
+}
+#svg_lineChart .airptChartTitle {
+  font-size: 7px;
+  fill: #555;
+  font-weight: bold;
 }
 
 /*rail dataset*/
@@ -216,4 +303,103 @@ div.tooltip {
 	stroke: #fff;
 	stroke-width: 0.03;
 	opacity: 1;
+}
+
+/*modes dataset*/
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+	font-size: 12px;
+}
+
+.link {
+  fill: none;
+  stroke: #999;
+  stroke-opacity: .3;
+}
+
+.link:hover {
+  stroke-opacity: .5;
+}
+/* node rect colours */
+.intl rect {
+  fill: #607890;
+}
+.USres rect {
+	fill: #CC982A;
+	}
+.nonUS rect {
+	fill: #928941;
+	}
+.cdnFromUS rect {
+	fill: #FFDC68;
+	}
+.cdnFromOther rect {
+	fill: #FAB491;
+}
+.USres_land rect {
+	fill: #CC982A;
+}
+.USres_air rect {
+	fill: #CC982A;
+}
+.USres_marine rect {
+	fill: #CC982A;
+}
+.USres_car rect {
+	fill: #CC982A;
+}
+.USres_bus rect {
+	fill: #CC982A;
+}
+.USres_train rect {
+	fill: #CC982A;
+}
+.USres_other rect {
+		fill: #CC982A;
+}
+.nonUS_land rect {
+	fill: #928941;
+}
+.nonUS_air rect {
+	fill: #928941;
+}
+.nonUS_marine rect {
+	fill: #928941;
+}
+.cdnFromUS_land rect {
+ fill: #FFDC68;
+}
+.cdnFromUS_air rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_marine rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_car rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_bus rect {
+	 fill: #FFDC68;
+}
+.cdnFromUS_train rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_other rect {
+	fill: #FFDC68;
+}
+.cdnFromOther_land rect {
+	fill: #FAB491;
+}
+.cdnFromOther_air rect {
+	fill: #FAB491;
+}
+.cdnFromOther_marine rect {
+	fill: #FAB491;
 }

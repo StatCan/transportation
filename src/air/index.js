@@ -1,14 +1,14 @@
 import settings from "./stackedAreaSettings.js";
-import settingsBubbleTable from "./settings_bubbleTable.js";
+import settingsAirport from "./stackedAreaSettingsAirports.js";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
-const rankChart = d3.select("#rankTable") // .select(".data")
+const chart2 = d3.select("#lineChart") // .select(".data")
     .append("svg")
-    .attr("id", "svg_rankChart");
+    .attr("id", "svg_lineChart");
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const data = {};
@@ -16,15 +16,14 @@ let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
 let selectedProv;
-const rankData = {};
+const lineData = {};
 
 /* canada map */
-const heading = d3.select(".dashboard h4");
+const heading = d3.select("#lineChart").select("h4");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value; // clear any previous airport title
-    d3.select(".dashboard h4").text("");
+    selected = document.getElementById("groups").value;
     showAreaData();
   }
 }
@@ -33,10 +32,6 @@ function showAreaData() {
   const showChart = () => {
     areaChart(chart, settings, data[selected]);
   };
-  // change area chart title to match selected province
-  if (d3.select(".dashboard h4").text().indexOf("contribution from airport") === -1) {
-    d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}) + " (x 1,000)");
-  }
 
   if (!data[selected]) {
     return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
@@ -48,23 +43,28 @@ function showAreaData() {
 }
 
 function showAirport() {
-  const fname = `data/air/combo_${selectedProv}_${selectedAirpt}_numMovements.json`;
-
-  // Load airport data containing remaining provincial totals
-  d3.json(fname, function(err, filedata) {
-    selected = `${selectedProv}_${selectedAirpt}`; // "ON_YYZ";
-    data[selected] = filedata;
-    showAreaData();
-  });
-
-  // call re-useable component bubbleTable
-  if (!rankData[selectedAirpt]) {
-    return d3.json(`data/air/rankdata_${selectedAirpt}.json`, (aptData) => {
-      rankData[selectedAirpt] = aptData;
-      bubbleTable(rankChart, settingsBubbleTable, rankData[selectedAirpt]);
+  if (!lineData[selectedAirpt]) {
+    const fname = `data/air/${selectedAirpt}_passengers_planed.json`;
+    return d3.json(fname, (aptData) => {
+      if (aptData) {
+        lineData[selectedAirpt] = aptData;
+        // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
+        areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
+        // line chart title
+        d3.select("#svg_lineChart")
+            .select(".airptChartTitle")
+            .text(i18next.t(selectedAirpt, {ns: "airports"}));
+      }
+      // lineData[selectedAirpt] = aptData;
+      // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
     });
   }
-  bubbleTable(rankChart, settings_bubbleTable, rank_data[selected_airpt]);
+  // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
+  areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
+  // line chart title
+  d3.select("#svg_lineChart")
+      .select(".airptChartTitle")
+      .text(i18next.t(selectedAirpt, {ns: "airports"}));
 }
 
 // For map circles
@@ -117,8 +117,8 @@ const canadaMap = getCanadaMap(map)
       }
       // END TEMPORARY
 
-      // d3.json("geojson/testairport.geojson", (error, airports) => {
-      d3.json("geojson/vennAirport.geojson", (error, airports) => {
+      // d3.json("geojson/vennAirport.geojson", (error, airports) => {
+      d3.json("geojson/vennAirport_with_dataFlag.geojson", (error, airports) => {
         if (error) throw error;
 
         const airportGroup = map.append("g");
@@ -132,13 +132,18 @@ const canadaMap = getCanadaMap(map)
             .attr("id", (d, i) => {
               return "airport" + d.properties.id;
             })
-            .attr("class", "airport")
+            .attr("class", (d, i) => {
+              return d.properties.hasPlanedData;
+            })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
               selectedProv = d.properties.province;
-              // change area chart title to match selected province
-              heading.text(`${selectedProv} and contribution from airport ${selectedAirpt}`);
-              showAirport();
+              if (d.properties.hasPlanedData !== "noYears") {
+                if (d.properties.id === "YQT" || d.properties.id === "YQG") { // TEMPORARY!!!
+                  showAirport();
+                }
+                // showAirport();
+              }
             });
       });
     });
@@ -168,5 +173,9 @@ map.on("click", () => {
   canadaMap.zoom(classes[0]);
 });
 
-i18n.load(["src/i18n"], showAreaData);
+i18n.load(["src/i18n"], () => {
+  settingsAirport.x.label = i18next.t("x_label", {ns: "line"}),
+  settingsAirport.y.label = i18next.t("y_label", {ns: "line"}),
+  showAreaData();
+});
 $(document).on("change", uiHandler);
