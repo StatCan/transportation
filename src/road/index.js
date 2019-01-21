@@ -8,7 +8,7 @@ const map = d3.select(".dashboard .map")
 getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
-  const fakeTotDict = {
+  const totalDict = {
     "BC": 4935834,
     "AB": 6368800,
     "SK": 1730149,
@@ -25,8 +25,8 @@ getCanadaMap(map).on("loaded", function() {
   };
 
   const totArr = [];
-  for (var key in fakeTotDict) {
-    totArr.push(fakeTotDict[key])
+  for (var key in totalDict) {
+    totArr.push(totalDict[key])
   }
 
   // https://d3js.org/colorbrewer.v1.js
@@ -43,10 +43,10 @@ getCanadaMap(map).on("loaded", function() {
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
-  for (const key in fakeTotDict) {
-    if (fakeTotDict.hasOwnProperty(key)) {
+  for (const key in totalDict) {
+    if (totalDict.hasOwnProperty(key)) {
       d3.select(".dashboard .map")
-          .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+          .select("." + key).style("fill", colourMap(totalDict[key]));
     }
   }
 }); // end map
@@ -83,7 +83,7 @@ map.on("click", () => {
 
   // Display selected region in stacked area chart
   if (!data[selected]) {
-    d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
+    d3.json("data/road/" + selected + ".json", function(err, filedata) {
       data[selected] = filedata;
       showData();
     });
@@ -103,7 +103,7 @@ function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
     if (!data[selected]) {
-      d3.json("data/road/" + selected + "_FuelSales.json", function(err, filedata) {
+      d3.json("data/road/" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
         showData();
       });
@@ -123,7 +123,7 @@ i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
   d3.queue()
-      .defer(d3.json, "data/road/CANADA_FuelSales.json")
+      .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, data) {
         areaChart(chart, settings, data);
       });

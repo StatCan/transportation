@@ -3,15 +3,16 @@ export default {
   margin: {
     left: 80
   },
+  //creates variable d
   filterData: function(data) {
-    return data.fuelsales;
+    return data;
   },
   x: {
     getValue: function(d) {
-      return new Date(d.year + "-01");
+      return new Date(d.date + "-01");
     },
     getText: function(d) {
-      return d.year;
+      return d.date;
     },
     ticks: 7
   },
@@ -21,6 +22,20 @@ export default {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
       } else return d[key] * 1.0/ 1000;
+    },
+    getTotal: function(d, index, data) {
+      var total; var keys; var sett = this;
+      if (!d[sett.y.totalProperty]) {
+        keys = sett.z.getKeys.call(sett, data);
+        total = 0;
+        //skipped date value here slice later
+        for(var k = 0; k < keys.length; k++) {
+          total += sett.y.getValue.call(sett, d, keys[k], data);
+        }
+        d[sett.y.totalProperty] = total;
+      }
+
+      return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
@@ -36,7 +51,7 @@ export default {
     getKeys: function(object) {
       const sett = this;
       const keys = Object.keys(object[0]);
-      keys.splice(keys.indexOf("year"), 1);
+      keys.splice(keys.indexOf("date"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
