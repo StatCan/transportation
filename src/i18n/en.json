@@ -19,6 +19,14 @@
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },
+    "roadArea": {
+      "alt": "Fuel sales for road motor vehicles, annual",
+      "x_label": "Year",
+      "y_label": "Sales (x 1000)",      
+      "gas": "Gas",
+      "diesel": "Diesel",
+      "LPG": "LPG"
+    },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",
        "NL": "Newfoundland and Labrador",
@@ -57,17 +65,6 @@
       "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario",
       "YQG": "Windsor International (YQG), Windsor, Ontario",
       "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
-    },
-    "line": {
-      "alt": "Air passenger traffic at Canadian airports, annual",
-      "x_label": "Year",
-      "y_label": "Number of passengers (x 1000)",
-      "total": "Total",
-      "domestic": "Domestic",
-      "international": "International",
-      "transborder": "Transborder",
-      "enplaned": "Enplaned",
-      "deplaned": "Deplaned"
     },
     "areaAirport": {
       "alt": "Air passenger traffic at Canadian airports, annual",

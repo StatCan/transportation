@@ -119,7 +119,9 @@ function showData() {
   areaChart(chart, settings, data[selected]);
 }
 
-i18n.load(["src/i18n"], function() {
+i18n.load(["src/i18n"], () => {
+  settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
+  settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
   d3.queue()
       .defer(d3.json, "data/road/CANADA_FuelSales.json")
       .await(function(error, data) {
