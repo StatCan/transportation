@@ -28,7 +28,8 @@ export default {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
       } else return d[key] * 1.0/ 1000;
-    }
+    },
+    ticks: 5
   },
 
   z: {

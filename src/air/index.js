@@ -44,10 +44,9 @@ function showAreaData() {
 }
 
 function showAirport() {
-  console.log("fn showAirport! ", selectedAirpt);
-  console.log("lineData: ", lineData);
+  console.log("fn showAirport! ", selectedAirpt);  
   if (!lineData[selectedAirpt]) {
-    const fname = `data/air/${selectedAirpt}_passengers_planed_MOCK.json`;    
+    const fname = `data/air/${selectedAirpt}_passengers_planed_MOCK.json`;
     return d3.json(fname, (aptData) => {
       if (aptData) {
         lineData[selectedAirpt] = aptData;

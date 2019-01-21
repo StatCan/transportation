@@ -81,9 +81,6 @@
 	fill: #5DC1BE;
 	opacity: 0.2;
 }
-.area-label {
-	font-size: 10px;
-}
 .areaChartTitle {
 	font-size: 14px;
 	font-weight: bold;
@@ -103,7 +100,7 @@
 #svg_areaChartAir .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 20px;
+	font-size: 12px;
 	font-family: "Noto Sans", sans-serif;
 }
 .tick line {
@@ -141,6 +138,16 @@
 .line-label, .chart-label {
 	font-size: 9px;
 	fill: #555;
+}
+.area-label {
+	font-size: 12px;
+	fill: #555;
+}
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
 }
 .tick text {
 	font-size: 9px;
