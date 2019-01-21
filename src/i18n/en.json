@@ -3,7 +3,7 @@
     "area": {
       "alt": "Air passenger traffic at Canadian airports, annual",
       "x_label": "Year",
-      "y_label": "Population (in Billions)",
+      "y_label": "Number of passengers (x 1000)",
       "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
       "gas": "Gas",
       "diesel": "Diesel",

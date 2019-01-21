@@ -73,14 +73,6 @@
 .international {
   fill: #83C3F2;
 }
-.Remaining_itinerant {
-	fill: #F6CF22;
-	opacity: 0.3;
-}
-.Remaining_local {
-	fill: #5DC1BE;
-	opacity: 0.2;
-}
 .areaChartTitle {
 	font-size: 14px;
 	font-weight: bold;
@@ -105,17 +97,6 @@
 }
 .tick line {
 	stroke: none;
-}
-.bubble-row-text {
-	fill: #96A8B2;
-	stroke: none;
-	font-size: 14px;
-}
-.bubble-text {
-	fill: black;
-  stroke: none;
-	font-size: 14px;
-	text-anchor: middle;
 }
 /* line chart for air */
 .line svg text {
@@ -148,6 +129,10 @@
 }
 #svg_areaChartAir .axis .tick line {
   stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 11px;
+	fill: #555;
 }
 .tick text {
 	font-size: 9px;

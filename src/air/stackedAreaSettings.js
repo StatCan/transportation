@@ -1,13 +1,17 @@
 export default {
   alt: i18next.t("alt", {ns: "area"}),
   margin: {
+    top: 20,
+    bottom: 50,
     left: 80
   },
   filterData: function(data) {
     return data.numMov;
   },
   x: {
-
+    getLabel: function() {
+      return i18next.t("x_label", {ns: "area"});
+    },
     getValue: function(d) {
       return new Date(d.year + "-01");
     },
@@ -19,6 +23,9 @@ export default {
 
   y: {
     label: i18next.t("y_label", {ns: "area"}),
+    getLabel: function() {
+      return i18next.t("y_label", {ns: "area"});
+    },
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;

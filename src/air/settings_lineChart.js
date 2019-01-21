@@ -22,8 +22,6 @@ export default {
         })
       };
     });
-
-    console.log("rtn: ", rtn)
     return rtn;
   },
   x: {
