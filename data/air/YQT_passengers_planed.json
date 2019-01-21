@@ -1,0 +1,44 @@
+{
+  "numMov": [
+    {
+      "year": 2010,
+      "enplaned": 331320,
+      "deplaned": 329088
+    },
+    {
+      "year": 2011,
+      "enplaned": 347896,
+      "deplaned": 340940
+    },
+    {
+      "year": 2012,
+      "enplaned": 364528,
+      "deplaned": 360831
+    },
+    {
+      "year": 2013,
+      "enplaned": 372585,
+      "deplaned": 369607
+    },
+    {
+      "year": 2014,
+      "enplaned": 370228,
+      "deplaned": 368800
+    },
+    {
+      "year": 2015,
+      "enplaned": 365855,
+      "deplaned": 366350
+    },
+    {
+      "year": 2016,
+      "enplaned": 380581,
+      "deplaned": 380301
+    },
+    {
+      "year": 2017,
+      "enplaned": 382910,
+      "deplaned": 380373
+    }
+  ]
+}

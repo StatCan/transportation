@@ -1,6 +1,6 @@
 export default {
   alt: i18next.t("alt", {ns: "line"}),
-  aspectRatio: 19 / 3,
+  aspectRatio: 19 / 5,
     margin: {
     top: 20,
     right: 10,
@@ -22,13 +22,10 @@ export default {
         })
       };
     });
+    // console.log(rtn)
     return rtn;
   },
   x: {
-    label: i18next.t("x_label", {ns: "line"}),
-    getLabel: function() {
-      return i18next.t("x_label", {ns: "line"});
-    },
     ticks: 10,
     getValue: function(d) {
       return new Date(d.year + "-01");
@@ -39,10 +36,6 @@ export default {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "line"}),
-    getLabel: function() {
-      return i18next.t("y_label", {ns: "line"});
-    },
     ticks: 3,
     getValue: function(d) {
       return d.value * 1.0 / 1000;

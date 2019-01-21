@@ -69,6 +69,17 @@
       "enplaned": "Enplaned",
       "deplaned": "Deplaned"
     },
+    "areaAirport": {
+      "alt": "Air passenger traffic at Canadian airports, annual",
+      "x_label": "Year",
+      "y_label": "Number of passengers (x 1000)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "international": "International",
+      "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
+    },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",
       "wheat": "Wheat",

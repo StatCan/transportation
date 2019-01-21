@@ -28,7 +28,7 @@
 	fill: #008E09;
 	stroke: #ccc;
 	stroke-width: 0.5px;
-}  
+}
 .noYears {
 	fill: #F63700;
 	stroke: #ccc;
@@ -106,15 +106,25 @@
 .line svg .domain {
 	stroke: black;
 }
-.dline {
-	stroke: #000;
-	stroke-width: 1.5;
+#svg_lineChart .area  {
+  opacity: 0.5;
 }
-.dline1 {
-	stroke: #024571;
+#svg_lineChart .area2  {
+  fill: #024571;
 }
-.dline2 {
-	stroke: #5DC1BE;
+#svg_lineChart .area1  {
+  fill: #5DC1BE;
+}
+#svg_lineChart .chart-label {
+	font-size: 5px;
+	fill: #555;
+}
+#svg_lineChart .tick text {
+	font-size: 5px;
+}
+#svg_lineChart .area-label {
+	font-size: 5px;
+	fill: #555;
 }
 .line-label, .chart-label {
 	font-size: 9px;
@@ -124,6 +134,7 @@
 	font-size: 12px;
 	fill: #555;
 }
+
 #svg_areaChartAir .axis path  {
   stroke: #aaa;
 }
@@ -131,11 +142,11 @@
   stroke: #aaa;
 }
 #svg_areaChartAir .chart-label {
-	font-size: 11px;
+	font-size: 10px;
 	fill: #555;
 }
 .tick text {
-	font-size: 9px;
+	font-size: 8px;
 }
 .domain {
 	display: inline;
@@ -146,8 +157,8 @@
 #svg_lineChart .axis .tick line {
   stroke: #aaa;
 }
-#svg_lineChart .lineChartTitle {
-  font-size: 10px;
+#svg_lineChart .airptChartTitle {
+  font-size: 7px;
   fill: #555;
   font-weight: bold;
 }
