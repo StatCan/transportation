@@ -174,8 +174,10 @@ map.on("click", () => {
 });
 
 i18n.load(["src/i18n"], () => {
-  settingsAirport.x.label = i18next.t("x_label", {ns: "line"}),
-  settingsAirport.y.label = i18next.t("y_label", {ns: "line"}),
+  settings.x.label = i18next.t("x_label", {ns: "area"}),
+  settings.y.label = i18next.t("y_label", {ns: "area"}),
+  settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
+  settingsAirport.y.label = i18next.t("y_label", {ns: "areaAirport"}),
   showAreaData();
 });
 $(document).on("change", uiHandler);
