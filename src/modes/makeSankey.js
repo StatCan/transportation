@@ -150,15 +150,15 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
         })
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
-        })
-        .call(d3.drag()
-            .subject(function(d) {
-              return d;
-            })
-            .on("start", function() {
-              this.parentNode.appendChild(this);
-            })
-            .on("drag", dragmove));
+        });
+        // .call(d3.drag()
+        //     .subject(function(d) {
+        //       return d;
+        //     })
+        //     .on("start", function() {
+        //       this.parentNode.appendChild(this);
+        //     })
+        //     .on("drag", dragmove));
 
     // add the rectangles for the nodes
     nodeCreate.append("rect")
