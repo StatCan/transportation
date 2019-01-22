@@ -121,14 +121,14 @@
   fill: #5DC1BE;
 }
 #svg_lineChart .chart-label {
-	font-size: 5px;
+	font-size: 7px;
 	fill: #555;
 }
 #svg_lineChart .tick text {
 	font-size: 5px;
 }
 #svg_lineChart .area-label {
-	font-size: 5px;
+	font-size: 7px;
 	fill: #555;
 }
 .line-label, .chart-label {
@@ -163,7 +163,7 @@
   stroke: #aaa;
 }
 #svg_lineChart .airptChartTitle {
-  font-size: 7px;
+  font-size: 8px;
   fill: #555;
   font-weight: bold;
 }
