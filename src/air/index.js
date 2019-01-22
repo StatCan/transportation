@@ -133,7 +133,7 @@ const canadaMap = getCanadaMap(map)
               return "airport" + d.properties.id;
             })
             .attr("class", (d, i) => {
-              return d.properties.hasPlanedData;
+              return "airport " + d.properties.hasPlanedData;
             })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
@@ -152,25 +152,27 @@ map.on("click", () => {
   const transition = d3.transition().duration(1000);
   const classes = d3.event.target.classList;
 
-  if (classes[1] === "zoomed" || (classes.length === 0)) {
-    // return circles to original size
+  if (classes[0] !== "airport") { // to avoid zooming airport cirlces
+    if (classes[1] === "zoomed" || (classes.length === 0)) {
+      // return circles to original size
+      path.pointRadius(function(d, i) {
+        return defaultPointRadius;
+      });
+      d3.transition(transition).selectAll(".airport")
+          .style("stroke-width", defaultStrokeWidth)
+          .attr("d", path);
+      return canadaMap.zoom();
+    }
     path.pointRadius(function(d, i) {
-      return defaultPointRadius;
+      return 0.5;
     });
+    // console.log("path: ", path.pointRadius());
     d3.transition(transition).selectAll(".airport")
-        .style("stroke-width", defaultStrokeWidth)
+        .style("stroke-width", 0.1)
         .attr("d", path);
-    return canadaMap.zoom();
-  }
-  path.pointRadius(function(d, i) {
-    return 0.5;
-  });
-  // console.log("path: ", path.pointRadius());
-  d3.transition(transition).selectAll(".airport")
-      .style("stroke-width", 0.1)
-      .attr("d", path);
 
-  canadaMap.zoom(classes[0]);
+    canadaMap.zoom(classes[0]);
+  }
 });
 
 i18n.load(["src/i18n"], () => {
