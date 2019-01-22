@@ -32,6 +32,7 @@ getCanadaMap(map).on("loaded", function() {
 
   // https://d3js.org/colorbrewer.v1.js
   const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  mapColourScaleFn(colourArray);
 
   totArr.sort(function(a, b) {
     return a-b;
