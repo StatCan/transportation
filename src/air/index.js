@@ -132,8 +132,26 @@ const canadaMap = getCanadaMap(map)
             .attr("id", (d, i) => {
               return "airport" + d.properties.id;
             })
-            .attr("class", (d, i) => {
-              return d.properties.hasPlanedData;
+            // .attr("class", (d, i) => {
+            //   return d.properties.hasPlanedData;
+            // })
+            .attr("class", "airport")
+            .attr("fill", (d) => {
+              if (d.properties.hasPlanedData === "noYears") {
+                return "#F63700";
+              } else if (d.properties.hasPlanedData === "allYears") {
+                return "#008E09";
+              } else if (d.properties.hasPlanedData === "lastSevenYears") {
+                return "#FFBF00";
+              } else if (d.properties.hasPlanedData === "lastSixYears") {
+                return "#004853";
+              } else if (d.properties.hasPlanedData === "lastFiveYears") {
+                return "#00B9BD";
+              } else if (d.properties.hasPlanedData === "mix") {
+                return "#7D0000";
+              }
+              return "#7E0C33";
+
             })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
