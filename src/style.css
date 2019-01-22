@@ -12,7 +12,7 @@
 	fill: #EDDB7C;
 }
 .diesel {
-	fill: #a82adb;
+	fill: #F99691;
 }
 .lpg {
 	fill: #5DC1BE;
@@ -20,6 +20,32 @@
 .roadMapHighlight {
 	stroke: #467B8D !important;
 	stroke-width: 0.5 !important;
+}
+#svgFuel .area-label {
+	font-size: 20px;
+	fill: #555;
+}
+#svgFuel .chart-label {
+	font-size: 20px;
+	fill: #69757c;
+}
+#svgFuel .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svgFuel .axis .tick line {
+  stroke: #aaa;
+	stroke-width: 2px;
+}
+#svgFuel .axis path  {
+  stroke: #aaa;
+	stroke-width: 2px;
+}
+#mapColourScale rect {
+	stroke: #555;
+	opacity: 0.5;
 }
 
 /*air dataset*/

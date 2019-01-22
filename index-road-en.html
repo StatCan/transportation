@@ -16,7 +16,7 @@
 	<!--[if gte IE 9 | !IE ]><!-->
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
 	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
-	<link rel="stylesheet" href="src/demo.css">
+	<link rel="stylesheet" href="src/style.css">
 	<!--<![endif]-->
 	<!--[if lt IE 9]>
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
@@ -137,7 +137,7 @@
 	<li><a href="http://www.statcan.gc.ca/eng/start">Home</a></li>
 	<li><a href="/census-recensement/index-eng.cfm">Census Program</a></li>
     <li><a href="/census-recensement/2016/dp-pd/index-eng.cfm">Data products, 2016 Census</a></li>
-	<li>Fuel sales for road motor vehicles, 1993–2017</li>
+	<li>Sales of fuel used for road motor vehicles, annual (x 1,000)</li>
 </ol>
 
 ﻿</div>
@@ -148,7 +148,7 @@
 <main role="main" property="mainContentOfPage" class="container">
 
 <div class="scatter">
-<h1 property="name" id="wb-cont">Fuel sales for road motor vehicles, 1993–2017</h1>
+<h1 property="name" id="wb-cont">Sales of fuel used for road motor vehicles, annual (x 1,000)</h1>
 
 <!--startindex-->
 <div class="row mrgn-bttm-sm">
@@ -164,7 +164,7 @@
 						<label for="groups_yr">Year</label>
 						<select id="year" class="form-control">
 							<option value="2017">2017</option>
-							<option value="2016">2016</option>
+							<!--<option value="2016">2016</option>
 							<option value="2015">2015</option>
 							<option value="2014">2014</option>
 							<option value="2013">2013</option>
@@ -187,7 +187,7 @@
 							<option value="1996">1996</option>
 							<option value="1995">1995</option>
 							<option value="1994">1994</option>
-							<option value="1993">1993</option>
+							<option value="1993">1993</option>-->
 						</select>
 					</div>
 					<div class="col-md-5">
@@ -206,7 +206,7 @@
 								<option value="AB">Alberta</option>
 								<option value="BC">British Columbia</option>
 								<option value="YT">Yukon</option>
-								<option value="NT_incl_NU">Northwest Territories including Nunavut</option>
+								<option value="NT_NU">Northwest Territories including Nunavut</option>
 								<option value="NT">Northwest Territories</option>
 								<option value="NU">Nunavut</option>
 							</select>
@@ -217,13 +217,22 @@
 			<div class="row">
 				<div class="dashboard">
 					<div class="map col-md-6"></div>
-					<div class="data col-md-6">
-						<h4>Canada</h4>
-					</div>
+					<div class="data col-md-6"></div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					 <div id="mapColourScale">
+							<svg></svg>
+					 </div>
+			  </div>
+		 </div>
 
-           <p>Source: Sales of fuel used for road motor vehicles, annual (x 1,000)</p>
+		 <div class="row">
+     	<p>Source:
+		 		<a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310006601" target="_blank">Table 23-10-0066-01</a>
+						Sales of fuel used for road motor vehicles, annual (x 1,000)</p>
+		</div>
 
 
 <!-- End chart -->
@@ -318,6 +327,7 @@
 	<script src="lib/d3-canada-map.js"></script>
 	<script src="lib/statcan_sgc/sgc.min.js"></script>
 	<script type="module" src="src/road/index.js"></script>
+	<script src="src/road/mapColourScaleFn.js"></script>
 
 <!-- CustomScriptsJSEnd -->
 
