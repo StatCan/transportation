@@ -1,7 +1,9 @@
 export default {
-  alt: i18next.t("alt", {ns: "area"}),
+  alt: i18next.t("alt", {ns: "roadArea"}),
   margin: {
-    left: 80
+    top: 50,
+    left: 80,
+    bottom: 50
   },
   //creates variable d
   filterData: function(data) {
@@ -17,7 +19,7 @@ export default {
     ticks: 7
   },
   y: {
-    label: i18next.t("y_label", {ns: "area"}),
+    label: i18next.t("y_label", {ns: "roadArea"}),
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
@@ -41,10 +43,11 @@ export default {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
       } else return d[key] * 1.0/ 1000;
-    }
+    },
+    ticks: 5
   },
   z: {
-    label: i18next.t("z_label", {ns: "area"}),
+    label: i18next.t("z_label", {ns: "roadArea"}),
     getId: function(d) {
       return d.key;
     },
@@ -61,7 +64,7 @@ export default {
       return this.z.getId.apply(this, arguments);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "area"});
+      return i18next.t(d.key, {ns: "roadArea"});
     }
   },
   datatable: false,

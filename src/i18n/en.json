@@ -22,10 +22,10 @@
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
       "x_label": "Year",
-      "y_label": "Sales (x 1000)",      
+      "y_label": "Sales (x 1000)",
       "gas": "Gas",
       "diesel": "Diesel",
-      "LPG": "LPG"
+      "lpg": "LPG"
     },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",

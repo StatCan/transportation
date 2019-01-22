@@ -2,6 +2,7 @@ import settings from "./stackedAreaSettings.js";
 
 const data = {};
 let selected = "CANADA";
+const xaxisLabeldy = "2.5em";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -97,7 +98,7 @@ map.on("click", () => {
 /* globals areaChart */
 const chart = d3.select(".data")
     .append("svg")
-    .attr("id", "demo");
+    .attr("id", "svgFuel");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -117,6 +118,7 @@ function showData() {
   // change area chart title to match selected province
   d3.select(".dashboard h4").text(i18next.t(selected, {ns: "provinces"}));
   areaChart(chart, settings, data[selected]);
+  d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
 }
 
 i18n.load(["src/i18n"], () => {
@@ -126,6 +128,7 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, data) {
         areaChart(chart, settings, data);
+        d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
       });
 });
 
