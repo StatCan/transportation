@@ -1,7 +1,10 @@
 import settings from "./stackedAreaSettings.js";
 
 const data = {};
+const mapData = {};
 let selected = "CANADA";
+let selectedYear = 2017;
+const units = "$";
 const xaxisLabeldy = "2.5em";
 
 const map = d3.select(".dashboard .map")
@@ -9,47 +12,14 @@ const map = d3.select(".dashboard .map")
 getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
-  const totalDict = {
-    "BC": 4935834,
-    "AB": 6368800,
-    "SK": 1730149,
-    "MB": 1614445,
-    "ON": 16669930,
-    "QC": 8820509,
-    "NB": 1128764,
-    "NS": 1252000,
-    "PE": 216552,
-    "NL": 749758,
-    "NT": 42568,
-    "NU": 15507,
-    "YT": 72077
-  };
-
-  const totArr = [];
-  for (var key in totalDict) {
-    totArr.push(totalDict[key])
-  }
-
-  // https://d3js.org/colorbrewer.v1.js
-  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-  mapColourScaleFn(colourArray);
-
-  totArr.sort(function(a, b) {
-    return a-b;
-  });
-
-  const dimExtent = d3.extent(totArr);
-
-  // colour map to take data value and map it to the colour of the level bin it belongs to
-  const colourMap = d3.scaleLinear()
-      .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray);
-
-  for (const key in totalDict) {
-    if (totalDict.hasOwnProperty(key)) {
-      d3.select(".dashboard .map")
-          .select("." + key).style("fill", colourMap(totalDict[key]));
-    }
+  // Read map data
+  if (!mapData[selectedYear]) {
+    d3.json("data/road/" + selected + ".json", function(err, filedata) {
+      mapData[selectedYear] = filedata;
+      showChloropleth();
+    });
+  } else {
+    showChloropleth();
   }
 }); // end map
 
@@ -113,6 +83,57 @@ function uiHandler(event) {
       showData();
     }
   }
+  if (event.target.id === "year") {
+    selectedYear = document.getElementById("year").value;
+    console.log("selectedYear: ", selectedYear);
+  }
+}
+
+function showChloropleth() {
+  const totalDict = {
+    "BC": 4935834,
+    "AB": 6368800,
+    "SK": 1730149,
+    "MB": 1614445,
+    "ON": 16669930,
+    "QC": 8820509,
+    "NB": 1128764,
+    "NS": 1252000,
+    "PE": 216552,
+    "NL": 749758,
+    "NT": 42568,
+    "NU": 15507,
+    "YT": 72077
+  };
+
+  const totArr = [];
+  for (var key in totalDict) {
+    totArr.push(totalDict[key])
+  }
+
+  // https://d3js.org/colorbrewer.v1.js
+  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+
+  totArr.sort(function(a, b) {
+    return a-b;
+  });
+
+  const dimExtent = d3.extent(totArr);
+
+  // colour map to take data value and map it to the colour of the level bin it belongs to
+  const colourMap = d3.scaleLinear()
+      .domain([dimExtent[0], dimExtent[1]])
+      .range(colourArray);
+
+  for (const key in totalDict) {
+    if (totalDict.hasOwnProperty(key)) {
+      d3.select(".dashboard .map")
+          .select("." + key).style("fill", colourMap(totalDict[key]));
+    }
+  }
+
+  // colour bar scale
+  mapColourScaleFn(colourArray, dimExtent, units);
 }
 
 function showData() {

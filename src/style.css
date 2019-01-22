@@ -43,6 +43,10 @@
   stroke: #aaa;
 	stroke-width: 2px;
 }
+#mapColourScale rect {
+	stroke: #555;
+	opacity: 0.5;
+}
 
 /*air dataset*/
 /* classes for airport circle fill */
