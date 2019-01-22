@@ -132,26 +132,8 @@ const canadaMap = getCanadaMap(map)
             .attr("id", (d, i) => {
               return "airport" + d.properties.id;
             })
-            // .attr("class", (d, i) => {
-            //   return d.properties.hasPlanedData;
-            // })
-            .attr("class", "airport")
-            .attr("fill", (d) => {
-              if (d.properties.hasPlanedData === "noYears") {
-                return "#F63700";
-              } else if (d.properties.hasPlanedData === "allYears") {
-                return "#008E09";
-              } else if (d.properties.hasPlanedData === "lastSevenYears") {
-                return "#FFBF00";
-              } else if (d.properties.hasPlanedData === "lastSixYears") {
-                return "#004853";
-              } else if (d.properties.hasPlanedData === "lastFiveYears") {
-                return "#00B9BD";
-              } else if (d.properties.hasPlanedData === "mix") {
-                return "#7D0000";
-              }
-              return "#7E0C33";
-
+            .attr("class", (d, i) => {
+              return "airport " + d.properties.hasPlanedData;
             })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
@@ -170,25 +152,27 @@ map.on("click", () => {
   const transition = d3.transition().duration(1000);
   const classes = d3.event.target.classList;
 
-  if (classes[1] === "zoomed" || (classes.length === 0)) {
-    // return circles to original size
+  if (classes[0] !== "airport") { // to avoid zooming airport cirlces
+    if (classes[1] === "zoomed" || (classes.length === 0)) {
+      // return circles to original size
+      path.pointRadius(function(d, i) {
+        return defaultPointRadius;
+      });
+      d3.transition(transition).selectAll(".airport")
+          .style("stroke-width", defaultStrokeWidth)
+          .attr("d", path);
+      return canadaMap.zoom();
+    }
     path.pointRadius(function(d, i) {
-      return defaultPointRadius;
+      return 0.5;
     });
+    // console.log("path: ", path.pointRadius());
     d3.transition(transition).selectAll(".airport")
-        .style("stroke-width", defaultStrokeWidth)
+        .style("stroke-width", 0.1)
         .attr("d", path);
-    return canadaMap.zoom();
-  }
-  path.pointRadius(function(d, i) {
-    return 0.5;
-  });
-  // console.log("path: ", path.pointRadius());
-  d3.transition(transition).selectAll(".airport")
-      .style("stroke-width", 0.1)
-      .attr("d", path);
 
-  canadaMap.zoom(classes[0]);
+    canadaMap.zoom(classes[0]);
+  }
 });
 
 i18n.load(["src/i18n"], () => {
