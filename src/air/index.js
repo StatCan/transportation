@@ -34,7 +34,7 @@ function showAreaData() {
   };
 
   if (!data[selected]) {
-    return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
+    return d3.json(`data/air/${selected}_passengers_MOCK.json`, (ptData) => {
       data[selected] = ptData;
       showChart();
     });
