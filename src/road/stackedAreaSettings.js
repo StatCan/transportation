@@ -5,7 +5,7 @@ export default {
     left: 80,
     bottom: 50
   },
-  //creates variable d
+  // creates variable d
   filterData: function(data) {
     return data;
   },
@@ -26,12 +26,14 @@ export default {
       } else return d[key] * 1.0/ 1000;
     },
     getTotal: function(d, index, data) {
-      var total; var keys; var sett = this;
+      let total;
+      let keys;
+      const sett = this;
       if (!d[sett.y.totalProperty]) {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
-        //skipped date value here slice later
-        for(var k = 0; k < keys.length; k++) {
+        // skipped date value here slice later
+        for (let k = 0; k < keys.length; k++) {
           total += sett.y.getValue.call(sett, d, keys[k], data);
         }
         d[sett.y.totalProperty] = total;
@@ -60,8 +62,8 @@ export default {
       }
       return keys;
     },
-    getClass: function(d) {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getText: function(d) {
       return i18next.t(d.key, {ns: "roadArea"});

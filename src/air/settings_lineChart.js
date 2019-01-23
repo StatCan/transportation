@@ -54,8 +54,8 @@ export default {
       keys.splice(keys.indexOf("keys"), 1);
       return keys;
     },
-    getClass: function() {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
       return d.data;

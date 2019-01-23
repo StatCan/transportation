@@ -59,14 +59,13 @@ const settings = {
       }
       return keys;
     },
-    getClass: function(d) {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getText: function(d) {
       return i18next.t(d.key, {ns: "regions"});
     }
   },
-  datatable: false,
   width: 900
 };
 
@@ -101,9 +100,9 @@ function showComm() {
     rows.forEach(function(d) {
       const x = d[""];
       delete d[""];
-      for (prop in d) {
-        const y = prop,
-          value = d[prop];
+      for (const prop of d) {
+        const y = prop;
+        const value = d[prop];
         rawCommData.push({
           x: y,
           y: x,

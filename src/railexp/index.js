@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import drawBubbles from "./drawbubbles.js";
 
 const data = {};
 let selected = "ATR";
@@ -223,9 +224,9 @@ function showComm() {
     rows.forEach(function(d) {
       const x = d[""];
       delete d[""];
-      for (var prop in d) {
-        const y = prop,
-          value = d[prop];
+      for (const prop of d) {
+        const y = prop;
+        const value = d[prop];
         rawCommData.push({
           x: y,
           y: x,
