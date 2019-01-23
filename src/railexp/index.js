@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import drawBubbles from "./drawbubbles.js";
 
 const data = {};
 let selected = "ATR";
@@ -29,7 +30,7 @@ const format = function(d) {
 // radarChart legend
 const margin = {top: 0, right: 0, bottom: 0, left: 0};
 const w = 380 - margin.left - margin.right;
-const    h = 40 - margin.top - margin.bottom;
+const h = 40 - margin.top - margin.bottom;
 
 const rlegendSVG = d3.select("#rLegend")
     .append("svg:svg")
@@ -37,7 +38,7 @@ const rlegendSVG = d3.select("#rLegend")
     .attr("height", h)
     .style("vertical-align", "middle");
 // Draw destination legend line
-const lineOrig = rlegendSVG.append('g');
+const lineOrig = rlegendSVG.append("g");
 lineOrig
     .append("line")
     .attr("class", "orig")
@@ -240,9 +241,9 @@ function showComm() {
     rows.forEach(function(d) {
       const x = d[""];
       delete d[""];
-      for (var prop in d) {
-        const y = prop,
-          value = d[prop];
+      for (const prop of d) {
+        const y = prop;
+        const value = d[prop];
         rawCommData.push({
           x: y,
           y: x,
@@ -295,8 +296,8 @@ function showComm() {
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
- // display total regional tonnages
-  showRadar();
+  // display total regional tonnages
+  // showRadar();
 
   d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
     data[commFromRegion] = fileorig;

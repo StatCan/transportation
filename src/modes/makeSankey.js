@@ -19,7 +19,7 @@ export default function(svg, graph) {
   let chartInner = svg.select("g.margin-offset");
   let dataLayer = chartInner.select(".data");
 
-mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
+  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
   const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
@@ -47,7 +47,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       .nodePadding(40)
       .size([innerWidth, innerHeight]);
 
-  var path = sankey.link();
+  const path = sankey.link();
 
   function make(graph) {
     sankey
@@ -151,14 +151,14 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
         });
-        // .call(d3.drag()
-        //     .subject(function(d) {
-        //       return d;
-        //     })
-        //     .on("start", function() {
-        //       this.parentNode.appendChild(this);
-        //     })
-        //     .on("drag", dragmove));
+      /* .call(d3.drag()
+           .subject(function(d) {
+             return d;
+           })
+           .on("start", function() {
+             this.parentNode.appendChild(this);
+           })
+           .on("drag", dragmove)); */
 
     // add the rectangles for the nodes
     nodeCreate.append("rect")
@@ -254,7 +254,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
     node.exit().remove();
 
     // the function for moving the nodes
-    function dragmove(d) {
+    /* function dragmove(d) {
       d3.select(this)
           .attr("transform",
               "translate("
@@ -264,7 +264,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
                  ) + ")");
       sankey.relayout();
       link.attr("d", path);
-    }
+    }*/
   } // end make()
 
   svg

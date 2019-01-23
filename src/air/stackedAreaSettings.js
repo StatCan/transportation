@@ -52,8 +52,8 @@ export default {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
       return keys;
-      //return keys.sort();
-      //return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
+      // return keys.sort();
+      // return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);

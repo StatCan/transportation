@@ -11,12 +11,12 @@ function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
     if (!data[selected]) {
-      console.log("selected: ", selected)
+      console.log("selected: ", selected);
       d3.json("data/modes/" + selected + "_modes.json", function(err, filedata) {
         data[selected] = filedata;
-        console.log("data/modes/" + selected + "_modes.json")
-        console.log("filedata: ", filedata)
-        console.log(data)
+        console.log("data/modes/" + selected + "_modes.json");
+        console.log("filedata: ", filedata);
+        console.log(data);
         showData();
       });
     } else {

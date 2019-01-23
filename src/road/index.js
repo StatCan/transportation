@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import mapColourScaleFn from "./mapColourScaleFn.js";
 
 const data = {};
 const mapData = {};
@@ -111,8 +112,8 @@ function showChloropleth() {
   };
 
   const totArr = [];
-  for (var key in totalDict) {
-    totArr.push(totalDict[key])
+  for (const key of totalDict) {
+    totArr.push(totalDict[key]);
   }
 
   // https://d3js.org/colorbrewer.v1.js

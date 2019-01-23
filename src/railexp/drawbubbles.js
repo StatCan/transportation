@@ -1,4 +1,4 @@
-function drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count) {
+export default function(rankedCommData, rankedCommNames, years, maxVal, count) {
   // ---------------------------------------
   // diplay-related
   const numPerPage = 5; // number of commodities to display per page

@@ -15,11 +15,9 @@ const data = {};
 let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
-let selectedProv;
 const lineData = {};
 
 /* canada map */
-const heading = d3.select("#lineChart").select("h4");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -92,8 +90,8 @@ const canadaMap = getCanadaMap(map)
         "YK": 32
       };
       const totArr = [];
-      for (let key in fakeTotDict) {
-        totArr.push(fakeTotDict[key])
+      for (const key of fakeTotDict) {
+        totArr.push(fakeTotDict[key]);
       }
 
       // https://d3js.org/colorbrewer.v1.js
@@ -137,7 +135,6 @@ const canadaMap = getCanadaMap(map)
             })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
-              selectedProv = d.properties.province;
               if (d.properties.hasPlanedData !== "noYears") {
                 if (d.properties.id === "YQT" || d.properties.id === "YQG") { // TEMPORARY!!!
                   showAirport();
