@@ -57,7 +57,6 @@ function drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count) {
   // Slice the data to diplay n commodities at a time
   let displayData = [];
   displayData = rankedCommData.filter((item) => rankedCommNames.slice(s0, s1).indexOf(item.y) != -1);
-  console.log("displayData: ", displayData);
 
   // ---------------------------------------
   // Diplay slice
