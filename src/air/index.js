@@ -74,7 +74,7 @@ const canadaMap = getCanadaMap(map)
     .on("loaded", function() {
     // TEMPORARY
       d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
-      const fakeTotDict = {
+      const totalDict = {
         "BC": 1131,
         "AB": 630,
         "SK": 149,
@@ -90,8 +90,8 @@ const canadaMap = getCanadaMap(map)
         "YK": 32
       };
       const totArr = [];
-      for (const key of fakeTotDict) {
-        totArr.push(fakeTotDict[key]);
+      for (const sales of Object.keys(totalDict)) {
+        totArr.push(totalDict[sales]);
       }
 
       // https://d3js.org/colorbrewer.v1.js
@@ -107,10 +107,10 @@ const canadaMap = getCanadaMap(map)
           .domain([dimExtent[0], dimExtent[1]])
           .range(colourArray);
 
-      for (const key in fakeTotDict) {
-        if (fakeTotDict.hasOwnProperty(key)) {
+      for (const key in totalDict) {
+        if (totalDict.hasOwnProperty(key)) {
           d3.select(".dashboard .map")
-              .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+              .select("." + key).style("fill", colourMap(totalDict[key]));
         }
       }
       // END TEMPORARY
