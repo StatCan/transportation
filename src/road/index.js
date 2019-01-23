@@ -3,7 +3,7 @@ import settings from "./stackedAreaSettings.js";
 const data = {};
 const mapData = {};
 let selected = "CANADA";
-let selectedYear = 2017;
+let selectedYear = "2017";
 const units = "$";
 const xaxisLabeldy = "2.5em";
 
@@ -13,13 +13,16 @@ getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
   // Read map data
+  console.log("selectedYear: ", selectedYear);
   if (!mapData[selectedYear]) {
-    d3.json("data/road/" + selected + ".json", function(err, filedata) {
+    console.log("!mapData")
+    d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
       mapData[selectedYear] = filedata;
-      showChloropleth();
+      console.log("mapData[sel]: ", mapData[selectedYear])
     });
+    showChloropleth(mapData[selectedYear]);
   } else {
-    showChloropleth();
+    showChloropleth(mapData[selectedYear]);
   }
 }); // end map
 
@@ -89,11 +92,23 @@ function uiHandler(event) {
   }
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    console.log("selectedYear: ", selectedYear);
+    console.log("selectedYear in eventHandler: ", selectedYear);
+    if (!mapData[selectedYear]) {
+      d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
+        mapData[selectedYear] = filedata;
+        showChloropleth(mapData[selectedYear]);
+      });
+    } else {
+      showChloropleth(mapData[selectedYear]);
+    }
   }
 }
 
-function showChloropleth() {
+function showChloropleth(data) {
+  console.log("mapData in chloro: ", data);
+  console.log("selectedYear", selectedYear);
+  // console.log("mapData[selectedYear]: ", mapData[selectedYear])
+
   const totalDict = {
     "BC": 6931659,
     "AB": 10274500,
@@ -141,6 +156,8 @@ function showChloropleth() {
 }
 
 function showData() {
+  console.log("data in showData: ", data)
+  console.log("data[selected] in showData: ", data[selected])
   areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
 }

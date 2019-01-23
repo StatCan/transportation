@@ -5,7 +5,7 @@ export default {
     left: 80,
     bottom: 50
   },
-  //creates variable d
+  // creates variable d
   filterData: function(data) {
     return data;
   },
@@ -30,7 +30,6 @@ export default {
       if (!d[sett.y.totalProperty]) {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
-        //skipped date value here slice later
         for(var k = 0; k < keys.length; k++) {
           total += sett.y.getValue.call(sett, d, keys[k], data);
         }
