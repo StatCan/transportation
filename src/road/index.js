@@ -14,7 +14,6 @@ getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
   // Read map data
-  console.log("selectedYear: ", selectedYear);
   if (!mapData[selectedYear]) {
     d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
       mapData[selectedYear] = filedata;
@@ -91,7 +90,6 @@ function uiHandler(event) {
   }
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    console.log("selectedYear in eventHandler: ", selectedYear);
     if (!mapData[selectedYear]) {
       d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
         mapData[selectedYear] = filedata;
@@ -103,48 +101,31 @@ function uiHandler(event) {
   }
 }
 
-function showChloropleth() {
-  // TEMPORARY UNTIL WE HAVE THE DATA FILES
-  const totalDict = {
-    "BC": 6931659,
-    "AB": 10274500,
-    "SK": 3239294,
-    "MB": 2484063,
-    "ON": 22195686,
-    "QC": 11862943,
-    "NB": 1612933,
-    "NS": 1668092,
-    "PE": 264135,
-    "NL": 1097819,
-    "NT": 180499,
-    "NU": 38501,
-    "YT": 126956
-  };
+function showChloropleth(data) {
+  const thisData = data[0];
+  let dimExtent = [];
+  let totArray = [];
 
-  const totArr = [];
-  for (const sales of Object.keys(totalDict)) {
-    totArr.push(totalDict[sales]);
-  }
-  // END TEMPORARY
+  totArray = Object.values(thisData);
 
   // https://d3js.org/colorbrewer.v1.js
   const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
-  totArr.sort(function(a, b) {
+  totArray.sort(function(a, b) {
     return a-b;
   });
 
-  const dimExtent = d3.extent(totArr);
+  dimExtent = d3.extent(totArray);
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
   const colourMap = d3.scaleLinear()
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
-  for (const key in totalDict) {
-    if (totalDict.hasOwnProperty(key)) {
+  for (const key in thisData) {
+    if (thisData.hasOwnProperty(key)) {
       d3.select(".dashboard .map")
-          .select("." + key).style("fill", colourMap(totalDict[key]));
+          .select("." + key).style("fill", colourMap(thisData[key]));
     }
   }
 
@@ -153,8 +134,6 @@ function showChloropleth() {
 }
 
 function showData() {
-  console.log("data in showData: ", data)
-  console.log("data[selected] in showData: ", data[selected])
   areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
 }
