@@ -94,6 +94,26 @@
 	stroke: #ccc;
   stroke-width: 0.1px;
 } */
+#svg_areaChartAir .area-label {
+	font-size: 12px;
+	fill: #3D3D3D;
+}
+#svg_areaChartAir .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 12px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 12px;
+	fill: #555;
+}
 .local, .domestic {
 	fill: #F6CF22;
 }
@@ -122,12 +142,6 @@
 	fill: #69757c;
 	stroke: none;
 	font-size: 10px;
-	font-family: "Noto Sans", sans-serif;
-}
-#svg_areaChartAir .tick text {
-	fill: #69757c;
-	stroke: none;
-	font-size: 12px;
 	font-family: "Noto Sans", sans-serif;
 }
 .tick line {
@@ -172,16 +186,6 @@
 	fill: #555;
 }
 
-#svg_areaChartAir .axis path  {
-  stroke: #aaa;
-}
-#svg_areaChartAir .axis .tick line {
-  stroke: #aaa;
-}
-#svg_areaChartAir .chart-label {
-	font-size: 10px;
-	fill: #555;
-}
 .tick text {
 	font-size: 8px;
 }
