@@ -63,5 +63,6 @@ export default {
     }
   },
   datatable: false,
+  transition: true,
   width: 400
 };

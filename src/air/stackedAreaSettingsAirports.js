@@ -56,5 +56,6 @@ export default {
     }
   },
   datatable: false,
+  transition: false,
   width: 500
 };
