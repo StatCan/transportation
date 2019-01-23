@@ -95,6 +95,7 @@ function uiHandler(event) {
 }
 
 function showChloropleth() {
+  // TEMPORARY UNTIL WE HAVE THE DATA FILES
   const totalDict = {
     "BC": 6931659,
     "AB": 10274500,
@@ -112,9 +113,10 @@ function showChloropleth() {
   };
 
   const totArr = [];
-  for (const key of totalDict) {
-    totArr.push(totalDict[key]);
+  for (const sales of Object.keys(totalDict)) {
+    totArr.push(totalDict[sales]);
   }
+  // END TEMPORARY
 
   // https://d3js.org/colorbrewer.v1.js
   const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
