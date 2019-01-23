@@ -52,37 +52,37 @@
 /* classes for airport circle fill */
 .allYears {
 	fill: #008E09;
-	stroke: #636363;
-	stroke-width: 0.2px;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .noYears {
 	fill: gray;
-	/* stroke: #ccc;
-	stroke-width: 0.5px; */
+	stroke: black;
+	stroke-width: 0.3px;
 }
 .lastSevenYears {
 	fill: #008E09;
-	stroke: #636363;
-	stroke-width: 0.2px;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastSixYears {
 	fill: #008E09;
-	stroke: #636363;
-	stroke-width: 0.2px;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastFiveYears {
 	fill: #008E09;
-	stroke: #636363;
-	stroke-width: 0.2px;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .mix {
 	fill: gray;
-	/* stroke: black;
-	stroke-width: 0.5px; */
+	stroke: black;
+	stroke-width: 0.3px;
 }
 .airport {
 	/* stroke: black;
