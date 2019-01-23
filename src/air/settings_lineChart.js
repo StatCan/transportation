@@ -22,7 +22,6 @@ export default {
         })
       };
     });
-    // console.log(rtn)
     return rtn;
   },
   x: {

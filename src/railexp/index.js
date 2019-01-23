@@ -15,18 +15,6 @@ const format = function(d) {
 };
 
 // ---------------------------------------------------------------------
-// const map = d3.select(".dashboard .map")
-//     .append("svg");
-
-// getCanadaMap(map).on("loaded", function() {
-//   // highlight Atlantic region when landing on page
-//   d3.select(".dashboard .map").select(".NB").style("fill", "#33850a");
-//   d3.select(".dashboard .map").select(".NS").style("fill", "#33850a");
-//   d3.select(".dashboard .map").select(".NL").style("fill", "#33850a");
-//   d3.select(".dashboard .map").select(".PE").style("fill", "#33850a");
-// });
-
-// ---------------------------------------------------------------------
 // radarChart legend
 const margin = {top: 0, right: 0, bottom: 0, left: 0};
 const w = 380 - margin.left - margin.right;
@@ -190,21 +178,16 @@ function uiHandler(event) {
   }
   commFromRegion = selectedComm + "_from_" + selected;
   commToRegion = selectedComm + "_to_" + selected;
-  console.log("commFromRegion: ", commFromRegion);
-  console.log("commToRegion: ", commToRegion);
 
   if (!data[commFromRegion]) {
     // d3.json("data/rail/rail_meat_origATR_ON_BC_dest" + selected + ".json", function(err, filedata) {
     // Read in chosen region as ORIGIN
     d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
       data[commFromRegion] = fileorig;
-      console.log("data as ORIG: ", data);
 
       // Read in chosen region as DESTINATION
       d3.json("data/rail/rail_" + selectedComm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
-        console.log("filedest: ", "rail_" + selectedComm + "_all_orig_to_" + selected + ".json");
         data[commToRegion] = filedest;
-        console.log("data as DEST: ", data);
 
         showArea();
       });
@@ -257,11 +240,9 @@ function showComm() {
 
     // //Sort these 2016 values
     // filterYear.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
-    // console.log("filterYear: ", filterYear)
 
     // //Save sorted commodities in array
     // var sortedCommArray = filterYear.map(item => item.y);
-    // console.log("sortedCommArray: ", sortedCommArray)
 
     // //sort rawCommData according to string order in sortedCommArray
     // //??????????
@@ -269,12 +250,9 @@ function showComm() {
     years = rawCommData.filter((item) => item.y === "wheat").map((item) => item.x);
     rawCommData.sort((a, b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
     maxVal = rawCommData[0].value;
-    console.log("maxVal: ", maxVal);
 
-    // console.log("sorted Comm: ", rawCommData)
     // Commodities in descending order of yr 2016 value
     rankedCommNames = rawCommData.filter((item) => item.x === "2016").map((item) => item.y);
-    // console.log("rankedCommNames: ", rankedCommNames)
 
     // var rankedCommData = [];
     for (let idx = 0; idx < rankedCommNames.length; idx++) {
@@ -297,19 +275,16 @@ function showComm() {
 // Landing page displays
 i18n.load(["src/i18n"], function() {
   // display total regional tonnages
-  // showRadar();
+  showRadar();
 
   d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
     data[commFromRegion] = fileorig;
-    console.log("data as ORIG: ", data);
     let mousex;
     let year;
 
     // Read in chosen region as DESTINATION
     d3.json("data/rail/rail_" + selectedComm + "_all_orig_to_" + selected + ".json", function(err, filedest) {
-      console.log("filedest: ", "rail_" + selectedComm + "_all_orig_to_" + selected + ".json");
       data[commToRegion] = filedest;
-      console.log("data as DEST: ", data);
 
       // display annual tonnages for commFromRegion and commToRegion
       areaChart(areaChartFromRegion, settings, data[commFromRegion]);

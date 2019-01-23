@@ -33,7 +33,6 @@ export default function(colourArray, dimExtent, units) {
       });
 
   // define rect text labels (calculate cbValues)
-  console.log("dimExtent: ", dimExtent);
   let delta = ( dimExtent[1] - dimExtent[0] )/ colourArray.length;
   const cbValues=[];
   for (let idx=0; idx < colourArray.length; idx++) {

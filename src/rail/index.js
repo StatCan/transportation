@@ -20,9 +20,6 @@ const chart = d3.select(".data")
 const id = "year";
 const settings = {
   alt: i18next.t("alt", {ns: "area"}),
-  datatable: {
-    title: i18next.t("datatableTitle", {ns: "area"})
-  },
   filterData: function(data) {
     return data.tonnage;
   },
@@ -119,11 +116,9 @@ function showComm() {
 
     // //Sort these 2016 values
     // filterYear.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
-    // console.log("filterYear: ", filterYear)
 
     // //Save sorted commodities in array
     // var sortedCommArray = filterYear.map(item => item.y);
-    // console.log("sortedCommArray: ", sortedCommArray)
 
     // //sort rawCommData according to string order in sortedCommArray
     // //??????????
@@ -131,12 +126,9 @@ function showComm() {
     years = rawCommData.filter((item) => item.y === "wheat").map((item) => item.x);
     rawCommData.sort((a, b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0));
     maxVal = rawCommData[0].value;
-    console.log("maxVal: ", maxVal);
 
-    // console.log("sorted Comm: ", rawCommData)
     // Commodities in descending order of yr 2016 value
     rankedCommNames = rawCommData.filter((item) => item.x === "2016").map((item) => item.y);
-    // console.log("rankedCommNames: ", rankedCommNames)
 
     // var rankedCommData = [];
     for (let idx = 0; idx < rankedCommNames.length; idx++) {
@@ -214,7 +206,6 @@ function drawBubbles(rankedCommData, years, maxVal, count) {
   // Slice the data to diplay n commodities at a time
   let displayData = [];
   displayData = rankedCommData.filter((item) => rankedCommNames.slice(s0, s1).indexOf(item.y) != -1);
-  console.log("displayData: ", displayData);
 
   // ---------------------------------------
   // Diplay slice
