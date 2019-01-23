@@ -74,6 +74,10 @@ const chart = d3.select(".data")
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
+
+    // clear any map region that is highlighted
+    d3.select(".map").selectAll("path").classed("roadMapHighlight", false);
+
     if (!data[selected]) {
       d3.json("data/road/" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
