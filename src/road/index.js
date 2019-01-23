@@ -16,12 +16,10 @@ getCanadaMap(map).on("loaded", function() {
   // Read map data
   console.log("selectedYear: ", selectedYear);
   if (!mapData[selectedYear]) {
-    console.log("!mapData")
     d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
       mapData[selectedYear] = filedata;
-      console.log("mapData[sel]: ", mapData[selectedYear])
+      showChloropleth(mapData[selectedYear]);
     });
-    showChloropleth(mapData[selectedYear]);
   } else {
     showChloropleth(mapData[selectedYear]);
   }
