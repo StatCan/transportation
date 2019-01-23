@@ -15,12 +15,10 @@ getCanadaMap(map).on("loaded", function() {
   // Read map data
   console.log("selectedYear: ", selectedYear);
   if (!mapData[selectedYear]) {
-    console.log("!mapData")
     d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
       mapData[selectedYear] = filedata;
-      console.log("mapData[sel]: ", mapData[selectedYear])
+      showChloropleth(mapData[selectedYear]);
     });
-    showChloropleth(mapData[selectedYear]);
   } else {
     showChloropleth(mapData[selectedYear]);
   }
@@ -105,7 +103,10 @@ function uiHandler(event) {
 }
 
 function showChloropleth(data) {
+  let this_data = data[0];
   console.log("mapData in chloro: ", data);
+  console.log("mapData[0] in chloro: ", data[0]);
+  console.log("mapData in chloro: ", Object.keys(data[0]));
   console.log("selectedYear", selectedYear);
   // console.log("mapData[selectedYear]: ", mapData[selectedYear])
 
@@ -129,6 +130,7 @@ function showChloropleth(data) {
   for (var key in totalDict) {
     totArr.push(totalDict[key])
   }
+  console.log("totArr: ", totArr);
 
   // https://d3js.org/colorbrewer.v1.js
   const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
