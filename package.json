@@ -9,7 +9,7 @@
     "build": "npm run test && npm run copy && npx rollup -c && npm run uglify",
     "uglify": "npx uglifyjs-folder dist --each --output dist",
     "test": "npm run test-lint",
-    "test-lint": "npx eslint . --ignore-pattern 'node_modules/*' --ignore-pattern 'dist/*'",
+    "test-lint": "npx eslint .",
     "prebuild": "npm run clean",
     "prepare": "npm run build"
   },
