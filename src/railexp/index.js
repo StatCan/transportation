@@ -275,7 +275,7 @@ function showComm() {
 // Landing page displays
 i18n.load(["src/i18n"], function() {
   // display total regional tonnages
-  showRadar();
+  // showRadar();
 
   d3.json("data/rail/rail_" + selectedComm + "_orig" + selected + "_all_dest.json", function(err, fileorig) {
     data[commFromRegion] = fileorig;

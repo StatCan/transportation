@@ -2,20 +2,8 @@
 module.exports = {
   "presets": [
     ["@babel/env", {
-      "useBuiltIns": "usage",
-      "debug": true
+      "useBuiltIns": "usage"
     }],
   ],
-  "env": {
-    "node": {
-      "presets": [
-        ["@babel/env", {
-          "targets": {"node": 8},
-          "useBuiltIns": "usage",
-          "debug": true
-        }],
-      ],
-    }
-  },
   "plugins": ["@babel/plugin-proposal-object-rest-spread"]
 };
