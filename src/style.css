@@ -145,21 +145,23 @@
   opacity: 0.5;
 }
 #svg_lineChart .area2  {
-  fill: #024571;
+  fill: #046D8B;
+	opacity: 0.7;
 }
 #svg_lineChart .area1  {
-  fill: #5DC1BE;
+  fill: #D4C098;
+	opacity: 1;
 }
 #svg_lineChart .chart-label {
-	font-size: 7px;
+	font-size: 8px;
 	fill: #555;
 }
 #svg_lineChart .tick text {
-	font-size: 5px;
+	font-size: 8px;
 }
 #svg_lineChart .area-label {
 	font-size: 7px;
-	fill: #555;
+	fill: #333333;
 }
 .line-label, .chart-label {
 	font-size: 9px;
