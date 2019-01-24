@@ -7,6 +7,7 @@ let selected = "CANADA";
 let selectedYear = "2017";
 const units = "$";
 const xaxisLabeldy = "2.5em";
+const mapScaleLabel = "Total Sales (" + units + ")";
 
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -130,7 +131,7 @@ function showChloropleth(data) {
   }
 
   // colour bar scale
-  mapColourScaleFn(colourArray, dimExtent, units);
+  mapColourScaleFn(colourArray, dimExtent, mapScaleLabel);
 }
 
 function showData() {
