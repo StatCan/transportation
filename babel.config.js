@@ -5,5 +5,9 @@ module.exports = {
       "useBuiltIns": "usage"
     }],
   ],
-  "plugins": ["@babel/plugin-proposal-object-rest-spread"]
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"],
+  "ignore": [
+    /core-js/,
+    /@babel\/runtime/
+  ]
 };
