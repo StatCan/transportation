@@ -1,5 +1,5 @@
 import settings from "./stackedAreaSettings.js";
-import mapColourScaleFn from "./mapColourScaleFn.js";
+import mapColourScaleFn from "../../lib/mapColourScaleFn.js";
 
 const data = {};
 const mapData = {};
