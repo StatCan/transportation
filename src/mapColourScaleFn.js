@@ -1,4 +1,5 @@
-function mapColourScaleFn(colourArray, dimExtent, units) {
+// function mapColourScaleFn(colourArray, dimExtent, units) {
+export default function(colourArray, dimExtent, scaleLabel) {
   const rectDim = 20;
   const formatComma = d3.format(",");
 
@@ -26,7 +27,7 @@ function mapColourScaleFn(colourArray, dimExtent, units) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 70 + i * 115;
+        return 160 + i * 90;
       })
       .attr("fill", function(d, i) {
         return colourArray[i];
@@ -42,10 +43,7 @@ function mapColourScaleFn(colourArray, dimExtent, units) {
   }
 
   // add text node to rect g
-  rects.append("text")
-      .style("fill", "#565656")
-      .style("stroke", "none")
-      .style("font-size", "11px");
+  rects.append("text");
 
   // Display text in text node
   let updateText;
@@ -54,16 +52,22 @@ function mapColourScaleFn(colourArray, dimExtent, units) {
       .text(function(i, j) {
         const firstValue = cbValues[1];
         const nextValues = cbValues[j];
-        if (j === 0) updateText = "< " + units + formatComma(firstValue);
-        else updateText = "> " + units + formatComma(nextValues);
+        if (j === 0) updateText = "< " + formatComma(firstValue / 1000);
+        else updateText = "> " + formatComma(nextValues / 1000);
         return updateText;
       })
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = [3, 118, 233, 343, 458];
-        return xpos[i]; // (70 + i * 115) - 65;
+        const xpos = [112, 202, 293, 375, 466];
+        return xpos[i];
       })
       .style("display", function() {
         return "inline";
       });
+
+  // Text label for scale bar
+  svgCB.append("g").append("text")
+      .attr("y", 18)
+      .attr("x", 0)
+      .text(scaleLabel);
 }

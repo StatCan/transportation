@@ -1,7 +1,7 @@
 export default {
   alt: i18next.t("alt", {ns: "line"}),
   aspectRatio: 19 / 5,
-    margin: {
+  margin: {
     top: 20,
     right: 10,
     bottom: 50,
@@ -22,7 +22,6 @@ export default {
         })
       };
     });
-    // console.log(rtn)
     return rtn;
   },
   x: {
@@ -55,8 +54,8 @@ export default {
       keys.splice(keys.indexOf("keys"), 1);
       return keys;
     },
-    getClass: function() {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
       return d.data;

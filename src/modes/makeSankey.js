@@ -1,5 +1,6 @@
+// function makeSankey(svgID, graph) {
 const defaults = {
-  aspectRatio: 16 / 9,
+  aspectRatio: 16 / 12,
   width: 1100,
   margin: {
     top: 10,
@@ -9,7 +10,43 @@ const defaults = {
   }
 };
 
-export default function(svg, graph) {
+export default function(svg, graph) {console.log({...graph});
+  const colourDict = {
+  // level 1
+    "intl": "#607890",
+    // level 2
+    "USres": "#CC982A",
+    "nonUS": "#928941",
+    "cdnFromUS": "#FFDC68",
+    "cdnFromOther": "#FAB491",
+    // level 3
+    "USres_land": "#CC982A",
+    "USres_air": "#CC982A",
+    "USres_marine": "#CC982A",
+    // level 4 of level 3 USres
+    "USres_car": "#CC982A",
+    "USres_bus": "#CC982A",
+    "USres_train": "#CC982A",
+    "USres_other": "#CC982A",
+
+    "nonUS_land": "#928941",
+    "nonUS_air": "#928941",
+    "nonUS_marine": "#928941",
+
+    "cdnFromUS_land": "#FFDC68",
+    "cdnFromUS_air": "#FFDC68",
+    "cdnFromUS_marine": "#FFDC68",
+    // level 4 of level 3 cdnFromUS
+    "cdnFromUS_car": "#FFDC68",
+    "cdnFromUS_bus": "#FFDC68",
+    "cdnFromUS_train": "#FFDC68",
+    "cdnFromUS_other": "#FFDC68",
+
+    "cdnFromOther_land": "#FAB491",
+    "cdnFromOther_air": "#FAB491",
+    "cdnFromOther_marine": "#FAB491"
+  };
+
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -22,24 +59,18 @@ export default function(svg, graph) {
 mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
-  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
-
   const formatNumber = d3.format(",.0f"); // zero decimal places
   const format = function(d) {
     return formatNumber(d);
   };
-  const transition = d3.transition()
-      .duration(1000);
 
-  const linksClassFn = function(d, i) {
-    const cl = "link " + d.source.name + "_to_" + d.target.name;
-    return cl;
-  };
-
-  const nodesClassFn = function(d, i) {
-    const cl = "node " + d.name;
-    return cl;
-  };
+  // append the svg object to the body of the page
+  // var svg = d3.select(svgID).append("svg")
+  //     .attr("width", width + margin.left + margin.right)
+  //     .attr("height", height + margin.top + margin.bottom)
+  //   .append("g")
+  //     .attr("transform",
+  //           "translate(" + margin.left + "," + margin.top + ")");
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
@@ -49,40 +80,24 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
 
   var path = sankey.link();
 
+
+  // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
   function make(graph) {
     sankey
         .nodes(graph.nodes)
         .links(graph.links)
         .layout(32);
 
-    // tooltip div
-    const div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
           .attr("class", "data");
     }
-
-    let linksGroup = dataLayer.select(".links");
-    if (linksGroup.empty()) {
-      linksGroup = dataLayer
-          .append("g")
-          .attr("class", "links");
-    }
-
+console.log(graph)
     // add in the links
-    const link = linksGroup.selectAll(".link")
-        .data(graph.links, linksClassFn);
-
-    link.enter()
-        .append("path")
+    const link = dataLayer.append("g").selectAll(".link")
+        .data(graph.links)
+        .enter().append("path")
         .attr("class", "link")
-        .attr("class", linksClassFn)
-        .attr("id", function(d, i) {
-          return "link" + i;
-        })
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
@@ -92,37 +107,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
         })
         .sort(function(a, b) {
           return b.dy - a.dy;
-        })
-        .on("mouseover", function(d) {
-          // Reduce opacity of all but link that is moused over
-          d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 0.5);
-          // Tooltip
-          const sourceName = d.source.name;
-          div.transition()
-              .style("opacity", .9);
-          div.html(
-              "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                  "<td><b>" + format(d.value) + "</td>" +
-                "</tr>" +
-              "</table>"
-          )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
-        })
-        .on("mouseout", function(d) {
-        // Restore opacity
-          d3.selectAll(".link:not(#" + this.id + ")").style("opacity", 1);
-
-          div.transition()
-              .style("opacity", 0);
         });
-
-    link
-        .transition(transition)
-        .attr("d", path);
 
     // add the link titles
     link.append("title")
@@ -131,127 +116,59 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
                   d.target.name + "\n" + format(d.value);
         });
 
-    link.exit().remove();
-
-    let nodesGroup = dataLayer.select(".nodes");
-    if (nodesGroup.empty()) {
-      nodesGroup = dataLayer
-          .append("g")
-          .attr("class", "nodes");
-    }
-
     // add in the nodes
-    const node = nodesGroup.selectAll(".node")
-        .data(graph.nodes, nodesClassFn);
-
-    const nodeCreate = node.enter().append("g")
-        .attr("class", function(d) {
-          return "node" + " " + d.name;
-        })
+    const node = dataLayer.append("g").selectAll(".node")
+        .data(graph.nodes)
+        .enter().append("g")
+        .attr("class", "node")
         .attr("transform", function(d) {
           return "translate(" + d.x + "," + d.y + ")";
-        });
-        // .call(d3.drag()
-        //     .subject(function(d) {
-        //       return d;
-        //     })
-        //     .on("start", function() {
-        //       this.parentNode.appendChild(this);
-        //     })
-        //     .on("drag", dragmove));
+        })
+        .call(d3.drag()
+            .subject(function(d) {
+              return d;
+            })
+            .on("start", function() {
+              this.parentNode.appendChild(this);
+            })
+            .on("drag", dragmove));
 
     // add the rectangles for the nodes
-    nodeCreate.append("rect")
+    node.append("rect")
         .attr("height", function(d) {
           return d.dy;
         })
         .attr("width", sankey.nodeWidth())
+        .style("fill", function(d) {
+          return d.color = colourDict[d.name];
+          // return d.color = color(d.name.replace(/ .*/, ""));
+        })
         .style("stroke", function(d) {
-          const thisFill = d3.select("." + d.name).select("rect").style("fill");
-          return d3.rgb(thisFill).darker(2);
+          return d3.rgb(d.color).darker(2);
+        })
+        .append("title")
+        .text(function(d) {
+          return d.name + "\n" + format(d.value);
         });
 
     // add in the title for the nodes
-    nodeCreate.append("text")
-        .attr("x", (d) => {
-          if (d.x < innerWidth / 2) {
-            return 6 + sankey.nodeWidth();
-          }
-
-          return -6;
-        })
+    node.append("text")
+        .attr("x", -6)
         .attr("y", function(d) {
           return d.dy / 2;
         })
         .attr("dy", ".35em")
-        .attr("text-anchor", (d) => {
-          if (d.x < innerWidth / 2) {
-            return "start";
-          }
-
-          return "end";
-        })
+        .attr("text-anchor", "end")
+        .attr("transform", null)
         .text(function(d) {
-          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
-        });
-
-    const nodeUpdate = node
-        .transition(transition)
-        .attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
-
-    nodeUpdate.select("rect")
-        .attr("height", function(d) {
-          return d.dy;
+          // return i18next.t(d.name, {ns: "modes"});
+          if (d.value != 0) return d.name;
         })
-        .attr("width", sankey.nodeWidth());
-
-    nodeUpdate.select("text")
-        .attr("x", (d) => {
-          if (d.x < innerWidth / 2) {
-            return 6 + sankey.nodeWidth();
-          }
-
-          return -6;
+        .filter(function(d) {
+          return d.x < innerWidth / 2;
         })
-        .attr("y", function(d) {
-          return d.dy / 2;
-        })
-        .attr("dy", ".35em")
-        .attr("text-anchor", (d) => {
-          if (d.x < innerWidth / 2) {
-            return "start";
-          }
-
-          return "end";
-        })
-        .text(function(d) {
-          if (d.value !== 0) return i18next.t(d.name, {ns: "modes"});
-        });
-
-    nodeCreate.on("mouseover", function(d) {
-      div.transition()
-          .style("opacity", .9);
-      div.html(
-          "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                "<td> Total: </td>" +
-                  "<td><b>" + format(d.value) + "</td>" +
-                  "<td>" + " " + "</td>" +
-                "</tr>" +
-              "</table>"
-      )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - tooltipShiftY) + "px");
-    })
-        .on("mouseout", function(d) {
-          div.transition()
-              .style("opacity", 0);
-        });
-
-    node.exit().remove();
+        .attr("x", 6 + sankey.nodeWidth())
+        .attr("text-anchor", "start");
 
     // the function for moving the nodes
     function dragmove(d) {

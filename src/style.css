@@ -43,9 +43,10 @@
   stroke: #aaa;
 	stroke-width: 2px;
 }
-#mapColourScale rect {
-	stroke: #555;
-	opacity: 0.5;
+#mapColourScale text {
+	fill: #565656;
+	stroke: "none";
+	font-size: 13px;
 }
 
 /*air dataset*/

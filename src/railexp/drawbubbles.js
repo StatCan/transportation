@@ -1,4 +1,4 @@
-function drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count) {
+export default function(rankedCommData, rankedCommNames, years, maxVal, count) {
   // ---------------------------------------
   // diplay-related
   const numPerPage = 5; // number of commodities to display per page
@@ -57,7 +57,6 @@ function drawBubbles(rankedCommData, rankedCommNames, years, maxVal, count) {
   // Slice the data to diplay n commodities at a time
   let displayData = [];
   displayData = rankedCommData.filter((item) => rankedCommNames.slice(s0, s1).indexOf(item.y) != -1);
-  console.log("displayData: ", displayData);
 
   // ---------------------------------------
   // Diplay slice
