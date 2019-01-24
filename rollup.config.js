@@ -13,7 +13,7 @@ for (const section of ["air", "modes", "rail", "railexp", "road"]) {
   entrypoints.push({
     input: `src/${section}/index.js`,
     output: {
-      file: `dist/${section}.js`,
+      file: `dist/src/${section}.js`,
       format: "iife"
     },
     plugins
