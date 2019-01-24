@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "copy": "cp -r src/i18n dist/",
-    "build": "npm run test && npm run copy && npx rollup -c && npm run uglify",
+    "copy": "cp -r data geojson lib dist/ && rsync -rm --verbose --exclude '*.js' src dist/",
+    "build": "npm run test && npx rollup -c && npm run uglify && npm run copy",
     "uglify": "npx uglifyjs-folder dist --each --output dist",
     "test": "npm run test-lint",
     "test-lint": "npx eslint .",
