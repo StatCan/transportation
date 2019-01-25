@@ -1,11 +1,6 @@
 const data = {};
 let selected = "CANADA";
 
-const map = d3.select(".dashboard .map")
-    .append("svg");
-
-getCanadaMap(map); // .on("loaded", function() {});
-
 /* globals areaChart */
 const chart = d3.select(".data")
     .append("svg")
