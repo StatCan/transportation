@@ -10,7 +10,7 @@ const defaults = {
   }
 };
 
-export default function(svg, graph) {console.log({...graph});
+export default function(svg, graph) {
   const colourDict = {
   // level 1
     "intl": "#607890",
@@ -92,7 +92,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       dataLayer = chartInner.append("g")
           .attr("class", "data");
     }
-console.log(graph)
+
     // add in the links
     const link = dataLayer.append("g").selectAll(".link")
         .data(graph.links)
