@@ -1,6 +1,6 @@
 // function makeSankey(svgID, graph) {
 const defaults = {
-  aspectRatio: 16 / 12,
+  aspectRatio: 16 / 14,
   width: 1100,
   margin: {
     top: 10,
@@ -189,6 +189,19 @@ console.log(graph)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("role", "img")
       .attr("aria-label", mergedSettings.altText);
+
+  const border=1;
+  const bordercolor='black';
+  const borderPath = svg.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("height", outerHeight)
+      .attr("width", outerWidth)
+      .style("stroke", bordercolor)
+      .style("fill", "none")
+      .style("stroke-width", border);
+  console.log("innerHeight: ", innerHeight)
+  console.log("outerHeight: ", outerHeight)
 
   if (chartInner.empty()) {
     chartInner = svg.append("g")
