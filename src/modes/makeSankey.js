@@ -56,7 +56,7 @@ export default function(svg, graph) {
   let chartInner = svg.select("g.margin-offset");
   let dataLayer = chartInner.select(".data");
 
-mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
+  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
   const formatNumber = d3.format(",.0f"); // zero decimal places
@@ -78,7 +78,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       .nodePadding(40)
       .size([innerWidth, innerHeight]);
 
-  var path = sankey.link();
+  const path = sankey.link();
 
 
   // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
