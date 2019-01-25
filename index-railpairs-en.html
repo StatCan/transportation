@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
 	<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
 	wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-	<title>Income by percentiles, 2011 Census</title>
+	<title>Rail industry commodities</title>
 	<meta content="width=device-width,initial-scale=1" name="viewport">
 	<!-- Meta data -->
 	<meta name="description" content="">
@@ -156,7 +156,7 @@
     <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
 </div>
 
-			<p>Info text about this dataset.</p>
+    <p>Trip origin and destination pairs for a selected region and selected commodity.</p>
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
 				<div class="row">
@@ -225,8 +225,9 @@
 			<div class="row"><div id="pageNum"></div></div>
 			<div class="row"><div id="commgrid"></div></div>
 
-
-           <p>Source: Rail industry origin and destination of transported commodities</p>
+     <p>Source:
+		 		<a href="https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=2310006201" target="_blank">Table 23-10-0062-01</a>
+						Source: Rail industry origin and destination of transported commodities</p>
 
 
 <!-- End chart -->
@@ -320,7 +321,7 @@
 <script src="lib/stc_visualization_components/area.js"></script>
 <script src="lib/d3-canada-map.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
-<script src="src/rail/index.js"></script>
+<script src="src/railpairs/index.js"></script>
 
 
 
