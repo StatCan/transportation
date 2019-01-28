@@ -3,7 +3,7 @@
 module.exports = {
   files: "dist/*.html",
   from: [
-    "type=\"module\"",
+    / type="module"/g,
     /(.*)\/index.js/g
   ],
   to: [
