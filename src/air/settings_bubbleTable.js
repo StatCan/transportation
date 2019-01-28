@@ -27,7 +27,8 @@ export default {
   },
   x: {
     getValue: function(d) {
-      return d.year;
+      // return d.year;
+      return new Date(d.year + "-01");
     },
     getText: function(d) {
       return d.year;

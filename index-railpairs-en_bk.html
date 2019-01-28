@@ -156,7 +156,7 @@
     <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
 </div>
 
-			<p>Trip origin and destination pairs for a selected region and selected commodity.</p>
+			<p>Info text about this dataset.</p>
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 			<form onSubmit="return false;">
 				<div class="row">
@@ -198,15 +198,23 @@
 			</div>
 			<div class="row">
 				<div class="dashboard">
-					<div class="data col-md-12" id="tonnageDivId">
+					<div class="data col-md-12" id="tonnagePairs">
 						<div class="row">
 							<div class="legendText col-md-6" id="pair1"></div>
               <div class="legendText col-md-6" id="pair2"></div>
 						</div>
 						<div class="row">
-
+              <div class="legendText col-md-6" id="pair3"></div>
+              <div class="legendText col-md-6" id="pair4"></div>
 						</div>
-
+            <div class="row">
+              <div class="legendText col-md-6" id="pair5"></div>
+              <div class="legendText col-md-6" id="pair6"></div>
+						</div>
+            <div class="row">
+              <div class="legendText col-md-6" id="pair7"></div>
+              <div class="legendText col-md-6" id="pair8"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -313,7 +321,7 @@
 <script src="lib/stc_visualization_components/utils.min.js"></script>
 <script src="lib/stc_visualization_components/area.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
-<script type="module" src="src/railpairs/index.js"></script>
+<script type="module" src="src/rail/index.js"></script>
 
 
 
