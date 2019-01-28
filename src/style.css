@@ -47,53 +47,72 @@
 	stroke: #555;
 	opacity: 0.5;
 }
+#mapColourScale text {
+	fill: #565656;
+	stroke: "none";
+	font-size: 13px;
+}
 
 /*air dataset*/
 /* classes for airport circle fill */
 .allYears {
 	fill: #008E09;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .noYears {
-	fill: #F63700;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	fill: gray;
+	stroke: black;
+	stroke-width: 0.3px;
 }
 .lastSevenYears {
-	fill: #FFBF00;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	fill: #008E09;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastSixYears {
-	fill: #004853;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	fill: #008E09;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastFiveYears {
-	fill: #00B9BD;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	fill: #008E09;
+	stroke: black;
+	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .mix {
-	fill: #7D0000;
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	fill: gray;
+	stroke: black;
+	stroke-width: 0.3px;
 }
 .airport {
-	/* fill: #7E0C33; */
-	stroke: #ccc;
-	stroke-width: 0.5px;
+	/* stroke: black;
+	stroke-width: 0.5px; */
 }
-/* .airportZoomed {
-	fill: #7E0C33;
-	stroke: #ccc;
-  stroke-width: 0.1px;
-} */
+#svg_areaChartAir .area-label {
+	font-size: 12px;
+	fill: #3D3D3D;
+}
+#svg_areaChartAir .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 12px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 12px;
+	fill: #555;
+}
 .local, .domestic {
 	fill: #F6CF22;
 }
@@ -124,12 +143,6 @@
 	font-size: 10px;
 	font-family: "Noto Sans", sans-serif;
 }
-#svg_areaChartAir .tick text {
-	fill: #69757c;
-	stroke: none;
-	font-size: 12px;
-	font-family: "Noto Sans", sans-serif;
-}
 .tick line {
 	stroke: none;
 }
@@ -145,21 +158,23 @@
   opacity: 0.5;
 }
 #svg_lineChart .area2  {
-  fill: #024571;
+  fill: #046D8B;
+	opacity: 0.7;
 }
 #svg_lineChart .area1  {
-  fill: #5DC1BE;
+  fill: #D4C098;
+	opacity: 1;
 }
 #svg_lineChart .chart-label {
-	font-size: 7px;
+	font-size: 8px;
 	fill: #555;
 }
 #svg_lineChart .tick text {
-	font-size: 5px;
+	font-size: 8px;
 }
 #svg_lineChart .area-label {
 	font-size: 7px;
-	fill: #555;
+	fill: #333333;
 }
 .line-label, .chart-label {
 	font-size: 9px;
@@ -170,16 +185,6 @@
 	fill: #555;
 }
 
-#svg_areaChartAir .axis path  {
-  stroke: #aaa;
-}
-#svg_areaChartAir .axis .tick line {
-  stroke: #aaa;
-}
-#svg_areaChartAir .chart-label {
-	font-size: 10px;
-	fill: #555;
-}
 .tick text {
 	font-size: 8px;
 }
