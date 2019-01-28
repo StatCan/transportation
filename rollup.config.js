@@ -9,7 +9,7 @@ const plugins = [
 ];
 const entrypoints = [];
 
-for (const section of ["air", "modes", "rail", "railexp", "road"]) {
+for (const section of ["air", "modes", "rail", "railexp", "road", "railpairs"]) {
   entrypoints.push({
     input: `src/${section}/index.js`,
     output: {

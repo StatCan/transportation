@@ -1,6 +1,6 @@
 // function makeSankey(svgID, graph) {
 const defaults = {
-  aspectRatio: 16 / 12,
+  aspectRatio: 16 / 14,
   width: 1100,
   margin: {
     top: 10,
@@ -10,7 +10,7 @@ const defaults = {
   }
 };
 
-export default function(svg, graph) {console.log({...graph});
+export default function(svg, graph) {
   const colourDict = {
   // level 1
     "intl": "#607890",
@@ -56,7 +56,7 @@ export default function(svg, graph) {console.log({...graph});
   let chartInner = svg.select("g.margin-offset");
   let dataLayer = chartInner.select(".data");
 
-mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
+  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
   const formatNumber = d3.format(",.0f"); // zero decimal places
@@ -78,7 +78,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       .nodePadding(40)
       .size([innerWidth, innerHeight]);
 
-  var path = sankey.link();
+  const path = sankey.link();
 
 
   // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
@@ -92,7 +92,7 @@ mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSet
       dataLayer = chartInner.append("g")
           .attr("class", "data");
     }
-console.log(graph)
+
     // add in the links
     const link = dataLayer.append("g").selectAll(".link")
         .data(graph.links)
@@ -196,5 +196,6 @@ console.log(graph)
         .attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
   }
 
+  d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
   make(graph);
 } // end makeSankey()

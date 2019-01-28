@@ -175,7 +175,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="groups_region">Region</label>
+							<label for="groups_region">Region of interest</label>
 							<select id="region" class="form-control">
 								<option value="ATR">Atlantic region</option>
 								<!--<option value="QC">Quebec</option>-->
@@ -194,28 +194,31 @@
 			</form>
 			<div class="row">
 				<div class="col-md-8">
-					<p>Annual tonnages (x 1,000)</p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="dashboard">
-					<div class="data col-md-12" id="annualTimeseries">
+					<div class="data col-md-12" id="tonnagePairs">
 						<div class="row">
-							<div class="legendText" id="destTimeseriesTitle"></div>
-							<div class="legendText col-md-12" id="destTimeseries"></div>
+							<div class="legendText col-md-6" id="pair1"></div>
+              <div class="legendText col-md-6" id="pair2"></div>
 						</div>
 						<div class="row">
-							<div class="legendText" id="origTimeseriesTitle"></div>
-							<div class="legendText col-md-12" id="origTimeseries"></div>
+              <div class="legendText col-md-6" id="pair3"></div>
+              <div class="legendText col-md-6" id="pair4"></div>
 						</div>
-
+            <div class="row">
+              <div class="legendText col-md-6" id="pair5"></div>
+              <div class="legendText col-md-6" id="pair6"></div>
+						</div>
+            <div class="row">
+              <div class="legendText col-md-6" id="pair7"></div>
+              <div class="legendText col-md-6" id="pair8"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div id="areaLegend" class="col-md-8">
-				</div>
-			</div>
+
 			<div class="row">
 				<div class="commTable data col-md-12">
 					<h4></h4>
