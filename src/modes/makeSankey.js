@@ -196,5 +196,6 @@ export default function(svg, graph) {
         .attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
   }
 
+  d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
   make(graph);
 } // end makeSankey()
