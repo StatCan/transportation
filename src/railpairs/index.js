@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import createLegend from "./createLegend.js";
 // import drawBubbles from "./drawbubbles.js";
 
 const data = {};
@@ -81,13 +82,11 @@ i18n.load(["src/i18n"], function() {
 
   d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function(err, json1) {
     data[selectedRegion] = json1;
-    console.log("json1: ", json1);
     const numYears = json1.length;
 
     for (let idx = 0; idx < remainingRegions.length; idx++) {
       const thisReg = remainingRegions[idx];
       d3.json("data/rail/" + selectedComm + "_" + thisReg + ".json", function(err, json2) {
-        console.log("thisReg: ", thisReg);
         data[thisReg] = json2;
 
         // Construct data object pair to send to stacked area chart
@@ -99,25 +98,32 @@ i18n.load(["src/i18n"], function() {
             [thisReg + "to" + selectedRegion]: data[thisReg][idx][selectedRegion]
           });
         }
-        console.log("arrPair: ", arrPair);
 
         // send to areaChart
         if (idx == 0) {
           areaChart(chartPair1, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend1");
         } else if (idx == 1) {
           areaChart(chartPair2, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend2");
         } else if (idx == 2) {
           areaChart(chartPair3, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend3");
         } else if (idx == 3) {
           areaChart(chartPair4, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend4");
         } else if (idx == 4) {
           areaChart(chartPair5, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend5");
         } else if (idx == 5) {
           areaChart(chartPair6, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend6");
         } else if (idx == 6) {
           areaChart(chartPair7, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend7");
         } else if (idx == 7) {
           areaChart(chartPair8, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend8");
         }
       }); // inner d3.json
     } // for loop

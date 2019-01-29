@@ -1,15 +1,16 @@
 export default {
-  aspectRatio: 15 / 3,
+  aspectRatio: 15 / 4,
   alt: i18next.t("alt", {ns: "railArea"}),
   margin: {
     top: 50,
     left: 80,
-    bottom: 50
+    bottom: 70
   },
   filterData: function(data) {
     return data;
   },
   x: {
+    label: i18next.t("x_label", {ns: "railArea"}),
     getValue: function(d) {
       return new Date(d.year + "-01");
     },
