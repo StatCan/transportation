@@ -17,9 +17,11 @@ const format = function(d) {
 // ---------------------------------------------------------------------
 /* globals areaChart */
 const chartPair1 = d3.select("#pair1")
-    .append("svg");
+    .append("svg")
+    .attr("id", "svg_pair1");
 const chartPair2 = d3.select("#pair2")
-    .append("svg");
+    .append("svg")
+    .attr("id", "svg_pair2");
 
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
@@ -59,8 +61,9 @@ function showArea() {
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
-  // display total regional tonnages
-  // showRadar();
+  settings.x.label = i18next.t("x_label", {ns: "railArea"}),
+  settings.y.label = i18next.t("y_label", {ns: "railArea"}),
+
   d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function(err, json1) {
     data[selectedRegion] = json1;
     console.log("json1: ", json1);

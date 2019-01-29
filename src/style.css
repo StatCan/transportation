@@ -214,6 +214,10 @@
 #tonnageDivId .tick text {
 	font-size: 20px;
 }
+#svg_pair1 .chart-label {
+	font-size: 20px;
+	fill: #555;
+}
 
 #destChartTitle {
 	font-size: 15px;
