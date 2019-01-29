@@ -204,31 +204,59 @@
 }
 
 /*rail dataset*/
+.ABtoAB, .ABtoATR, .ABtoBC, .ABtoMB, .ABtoON, .ABtoQC, .ABtoSK, .ABtoUSMEX {
+	fill: #655643;
+}
 .ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
 	fill: #EDDB7C;
 }
+.BCtoAB, .BCtoATR, .BCtoBC, .BCtoMB, .BCtoON, .BCtoQC, .BCtoSK, .BCtoUSMEX {
+	fill: #1B676B;
+}
 .MBtoATR, .MBtoAB, .MBtoBC, .MBtoMB, .MBtoON, .MBtoQC, .MBtoSK, .MBtoUSMEX {
-	fill: #93A42A;
+	fill: #005596;
 }
 .ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
-	fill: #F99691;
+	fill: #BF4D28;
 }
 .QCtoATR, .QCtoAB, .QCtoBC, .QCtoMB, .QCtoON, .QCtoQC, .QCtoSK, .QCtoUSMEX {
-	fill: #83C3F2;
+	fill: #87244C;
+}
+.SKtoATR, .SKtoAB, .SKtoBC, .SKtoMB, .SKtoON, .SKtoQC, .SKtoSK, .SKtoUSMEX {
+	fill: #FC913A;
 }
 
 /* x-axis tick labels (years) */
 #tonnageDivId .tick text {
 	font-size: 20px;
 }
-/* y-axis label (Tonnage) */
+/* y-axis label (Tonnage)
+Show only for top 2 charts
+*/
 #tonnageDivId .chart-label {
-	font-size: 20px;
-	fill: #555;
+  font-size: 20px;
+  fill: #555;
 }
 #svg_pair3 .chart-label {
-	opacity: 0;
+  opacity: 0;
 }
+#svg_pair4 .chart-label {
+  opacity: 0;
+}
+#svg_pair5 .chart-label {
+  opacity: 0;
+}
+#svg_pair6 .chart-label {
+  opacity: 0;
+}
+#svg_pair7 .chart-label {
+  opacity: 0;
+}
+#svg_pair8 .chart-label {
+  opacity: 0;
+}
+
+
 
 #destChartTitle {
 	font-size: 15px;

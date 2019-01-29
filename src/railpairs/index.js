@@ -6,7 +6,7 @@ let selectedRegion = "ATR";
 let selectedComm = "meat";
 
 // const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"]; // plus USMEX
-const regions = ["ATR", "ON", "QC", "MB"];
+const regions = ["ATR", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
 // const formatNumber = d3.format(","); // d3.format(".2f");
@@ -25,6 +25,21 @@ const chartPair2 = d3.select("#pair2")
 const chartPair3 = d3.select("#pair3")
     .append("svg")
     .attr("id", "svg_pair3");
+const chartPair4 = d3.select("#pair4")
+    .append("svg")
+    .attr("id", "svg_pair4");
+const chartPair5 = d3.select("#pair5")
+    .append("svg")
+    .attr("id", "svg_pair5");
+const chartPair6 = d3.select("#pair6")
+    .append("svg")
+    .attr("id", "svg_pair6");
+const chartPair7 = d3.select("#pair7")
+    .append("svg")
+    .attr("id", "svg_pair7");
+const chartPair8 = d3.select("#pair8")
+    .append("svg")
+    .attr("id", "svg_pair8");
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
 // const rankedCommData = [];
@@ -93,6 +108,16 @@ i18n.load(["src/i18n"], function() {
           areaChart(chartPair2, settings, arrPair);
         } else if (idx == 2) {
           areaChart(chartPair3, settings, arrPair);
+        } else if (idx == 3) {
+          areaChart(chartPair4, settings, arrPair);
+        } else if (idx == 4) {
+          areaChart(chartPair5, settings, arrPair);
+        } else if (idx == 5) {
+          areaChart(chartPair6, settings, arrPair);
+        } else if (idx == 6) {
+          areaChart(chartPair7, settings, arrPair);
+        } else if (idx == 7) {
+          areaChart(chartPair8, settings, arrPair);
         }
       }); // inner d3.json
     } // for loop
