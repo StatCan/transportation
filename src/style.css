@@ -204,6 +204,13 @@
 }
 
 /*rail dataset*/
+.ATRtoON {
+	fill: #EDDB7C;
+}
+.ONtoATR {
+	fill: #F99691;
+}
+
 #destChartTitle {
 	font-size: 15px;
 	fill: #212529;

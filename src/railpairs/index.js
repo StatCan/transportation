@@ -63,40 +63,28 @@ i18n.load(["src/i18n"], function() {
   // showRadar();
   d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function(err, json1) {
     data[selectedRegion] = json1;
+    console.log("json1: ", json1);
+    const numYears = json1.length;
 
     for (let idx = 0; idx < remainingRegions.length; idx++) {
       let thisReg = remainingRegions[idx]; // ON
-      d3.json("data/rail/" + selectedComm + "_" + thisReg + ".json", function(err, json) {
-        data[thisReg] = json;
+      d3.json("data/rail/" + selectedComm + "_" + thisReg + ".json", function(err, json2) {
         console.log("thisReg: ", thisReg);
+        data[thisReg] = json2;
 
-        console.log("data[selectedRegion]: ", data[selectedRegion]);
-        console.log("data[thisReg]: ",data[thisReg]);
-        // Take thisReg out of data[selectedRegion]
-
-        // const obj = {};
-        // data[selectedRegion].map((d) => {
-        //   const keys = Object.keys(d);
-        //   keys.splice(keys.indexOf(thisReg), 1);
-        //
-        //   const count = 0;
-        //   for (const key of keys) {
-        //     if (!obj[key]) {
-        //       obj[key] = [];
-        //     }
-        //     obj[count].push({
-        //       year: d.year,
-        //       key: d[key]
-        //     });
-        //   }
-        // });
-
-
-
-        // Take selectedRegion out of data[thisReg]
+        // Construct data object pair to send to stacked area chart
+        const arrPair = [];
+        for (let idx = 0; idx < numYears; idx++) {
+          arrPair.push({
+              year: data[thisReg][idx].year,
+              [selectedRegion + "to" + thisReg]: data[selectedRegion][idx][thisReg],
+              [thisReg + "to" + selectedRegion]: data[thisReg][idx][selectedRegion]
+          });
+        }
+        console.log("arrPair: ", arrPair);
 
         // display annual tonnages for selectedRegion and commToRegion
-        areaChart(chartPair1, settings, data[selectedRegion]);
+        areaChart(chartPair1, settings, arrPair);
 
       }); // inner d3.json
     } // if
