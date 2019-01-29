@@ -197,13 +197,86 @@
 #svg_lineChart .axis .tick line {
   stroke: #aaa;
 }
-#svg_lineChart .airptChartTitle {
+#svg_lineChart .areaChartTitle {
   font-size: 8px;
   fill: #555;
   font-weight: bold;
 }
 
 /*rail dataset*/
+.ABto, .ABtoAB, .ABtoATR, .ABtoBC, .ABtoMB, .ABtoON, .ABtoQC, .ABtoSK, .ABtoUSMEX {
+	fill: #655643;
+}
+.ATRto, .ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
+	fill: #EDDB7C;
+}
+.BCto, .BCtoAB, .BCtoATR, .BCtoBC, .BCtoMB, .BCtoON, .BCtoQC, .BCtoSK, .BCtoUSMEX {
+	fill: #1B676B;
+}
+.MBto, .MBtoATR, .MBtoAB, .MBtoBC, .MBtoMB, .MBtoON, .MBtoQC, .MBtoSK, .MBtoUSMEX {
+	fill: #005596;
+}
+.ONto, .ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
+	fill: #BF4D28;
+}
+.QCto, .QCtoATR, .QCtoAB, .QCtoBC, .QCtoMB, .QCtoON, .QCtoQC, .QCtoSK, .QCtoUSMEX {
+	fill: #87244C;
+}
+.SKto, .SKtoATR, .SKtoAB, .SKtoBC, .SKtoMB, .SKtoON, .SKtoQC, .SKtoSK, .SKtoUSMEX {
+	fill: #FC913A;
+}
+
+.legendTextRail text {
+  font-size: 13px;
+  fill: #555;
+}
+#tonnageDivId .area-label {
+  opacity: 0;
+}
+
+/* x-axis tick labels (years) */
+#tonnageDivId .tick text {
+	font-size: 20px;
+}
+/* y-axis label (Tonnage)
+Show only for top 2 charts
+*/
+#tonnageDivId .chart-label {
+  font-size: 20px;
+  fill: #555;
+}
+#svg_pair3 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair4 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair5 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair6 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair7 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair8 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair1 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair2 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair3 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair4 .x.axis .chart-label {
+  opacity: 0;
+}
+
+
 #destChartTitle {
 	font-size: 15px;
 	fill: #212529;

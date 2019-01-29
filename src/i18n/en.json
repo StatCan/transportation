@@ -27,6 +27,11 @@
       "diesel": "Diesel",
       "lpg": "LPG"
     },
+    "railArea": {
+      "alt": "Rail industry origin and destination of transported commodities, annual",
+      "x_label": "Year",
+      "y_label": "Tonnage"
+    },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",
        "NL": "Newfoundland and Labrador",
