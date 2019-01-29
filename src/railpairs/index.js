@@ -83,11 +83,11 @@ i18n.load(["src/i18n"], function() {
         }
         console.log("arrPair: ", arrPair);
 
-        // display annual tonnages for selectedRegion and commToRegion
+        // display annual tonnages for selectedRegion and thisReg pairs
         areaChart(chartPair1, settings, arrPair);
 
       }); // inner d3.json
-    } // if
+    } // for loop
   }); // outer d3.json
 
 

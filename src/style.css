@@ -197,7 +197,7 @@
 #svg_lineChart .axis .tick line {
   stroke: #aaa;
 }
-#svg_lineChart .airptChartTitle {
+#svg_lineChart .areaChartTitle {
   font-size: 8px;
   fill: #555;
   font-weight: bold;
@@ -209,6 +209,10 @@
 }
 .ONtoATR {
 	fill: #F99691;
+}
+
+#tonnageDivId .tick text {
+	font-size: 20px;
 }
 
 #destChartTitle {

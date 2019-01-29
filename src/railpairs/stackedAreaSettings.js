@@ -1,6 +1,11 @@
 export default {
   aspectRatio: 15 / 3,
   alt: i18next.t("alt", {ns: "area"}),
+  margin: {
+    top: 50,
+    left: 80,
+    bottom: 50
+  },
   filterData: function(data) {
     return data;
   },
@@ -19,12 +24,12 @@ export default {
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key]; // * 1.0 / 1000;
     },
     getText: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key]; // * 1.0/ 1000;
     },
     ticks: 2
   },
