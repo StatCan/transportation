@@ -1,17 +1,23 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
-import {name} from "./package.json";
 
-export default {
-  input: "src/index.js",
-  output: {
-    file: `dist/${name}.js`,
-    format: "iife"
-  },
-  plugins: [
-    resolve(),
-    commonjs(),
-    babel()
-  ]
-};
+const plugins = [
+  resolve(),
+  commonjs(),
+  babel()
+];
+const entrypoints = [];
+
+for (const section of ["air", "modes", "rail", "railexp", "road", "railpairs"]) {
+  entrypoints.push({
+    input: `src/${section}/index.js`,
+    output: {
+      file: `dist/src/${section}.js`,
+      format: "iife"
+    },
+    plugins
+  });
+}
+
+export default entrypoints;

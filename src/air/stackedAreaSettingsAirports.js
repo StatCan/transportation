@@ -1,6 +1,6 @@
 export default {
   alt: i18next.t("alt", {ns: "areaAirport"}),
-  aspectRatio: 19 / 5,
+  aspectRatio: 16/4,
   margin: {
     top: 20,
     right: 10,
@@ -56,5 +56,6 @@ export default {
     }
   },
   datatable: false,
-  width: 400
+  transition: false,
+  width: 500
 };

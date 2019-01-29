@@ -15,11 +15,9 @@ const data = {};
 let selected = "CANADA"; // default region for areaChart
 
 let selectedAirpt;
-let selectedProv;
 const lineData = {};
 
 /* canada map */
-const heading = d3.select("#lineChart").select("h4");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -34,7 +32,7 @@ function showAreaData() {
   };
 
   if (!data[selected]) {
-    return d3.json(`data/air/${selected}_numMovements.json`, (ptData) => {
+    return d3.json(`data/air/${selected}_passengers_MOCK.json`, (ptData) => {
       data[selected] = ptData;
       showChart();
     });
@@ -76,7 +74,7 @@ const canadaMap = getCanadaMap(map)
     .on("loaded", function() {
     // TEMPORARY
       d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
-      const fakeTotDict = {
+      const totalDict = {
         "BC": 1131,
         "AB": 630,
         "SK": 149,
@@ -92,8 +90,8 @@ const canadaMap = getCanadaMap(map)
         "YK": 32
       };
       const totArr = [];
-      for (let key in fakeTotDict) {
-        totArr.push(fakeTotDict[key])
+      for (const sales of Object.keys(totalDict)) {
+        totArr.push(totalDict[sales]);
       }
 
       // https://d3js.org/colorbrewer.v1.js
@@ -109,10 +107,10 @@ const canadaMap = getCanadaMap(map)
           .domain([dimExtent[0], dimExtent[1]])
           .range(colourArray);
 
-      for (const key in fakeTotDict) {
-        if (fakeTotDict.hasOwnProperty(key)) {
+      for (const key in totalDict) {
+        if (totalDict.hasOwnProperty(key)) {
           d3.select(".dashboard .map")
-              .select("." + key).style("fill", colourMap(fakeTotDict[key]));
+              .select("." + key).style("fill", colourMap(totalDict[key]));
         }
       }
       // END TEMPORARY
@@ -133,11 +131,10 @@ const canadaMap = getCanadaMap(map)
               return "airport" + d.properties.id;
             })
             .attr("class", (d, i) => {
-              return d.properties.hasPlanedData;
+              return "airport " + d.properties.hasPlanedData;
             })
             .on("mouseover", (d) => {
               selectedAirpt = d.properties.id;
-              selectedProv = d.properties.province;
               if (d.properties.hasPlanedData !== "noYears") {
                 if (d.properties.id === "YQT" || d.properties.id === "YQG") { // TEMPORARY!!!
                   showAirport();
@@ -152,25 +149,27 @@ map.on("click", () => {
   const transition = d3.transition().duration(1000);
   const classes = d3.event.target.classList;
 
-  if (classes[1] === "zoomed" || (classes.length === 0)) {
-    // return circles to original size
+  if (classes[0] !== "airport") { // to avoid zooming airport cirlces
+    if (classes[1] === "zoomed" || (classes.length === 0)) {
+      // return circles to original size
+      path.pointRadius(function(d, i) {
+        return defaultPointRadius;
+      });
+      d3.transition(transition).selectAll(".airport")
+          .style("stroke-width", defaultStrokeWidth)
+          .attr("d", path);
+      return canadaMap.zoom();
+    }
     path.pointRadius(function(d, i) {
-      return defaultPointRadius;
+      return 0.5;
     });
+    // console.log("path: ", path.pointRadius());
     d3.transition(transition).selectAll(".airport")
-        .style("stroke-width", defaultStrokeWidth)
+        .style("stroke-width", 0.1)
         .attr("d", path);
-    return canadaMap.zoom();
-  }
-  path.pointRadius(function(d, i) {
-    return 0.5;
-  });
-  // console.log("path: ", path.pointRadius());
-  d3.transition(transition).selectAll(".airport")
-      .style("stroke-width", 0.1)
-      .attr("d", path);
 
-  canadaMap.zoom(classes[0]);
+    canadaMap.zoom(classes[0]);
+  }
 });
 
 i18n.load(["src/i18n"], () => {

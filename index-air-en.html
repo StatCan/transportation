@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
 	<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
 	wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-	<title>Income by percentiles, 2011 Census</title>
+	<title>Passenger Movements</title>
 	<meta content="width=device-width,initial-scale=1" name="viewport">
 	<!-- Meta data -->
 	<meta name="description" content="">
@@ -16,7 +16,7 @@
 	<!--[if gte IE 9 | !IE ]><!-->
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
 	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
-	<link rel="stylesheet" href="src/demo.css">
+
 	<!--<![endif]-->
 	<!--[if lt IE 9]>
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
@@ -188,29 +188,58 @@
 							<label for="groups">Geographic region:</label>
 							<select id="groups" class="form-control">
 								<option value="CANADA">Total Canadian airports</option>
-								<option value="NL">Newfoundland and Labrador</option>
-								<option value="NS">Nova Scotia</option>
+								<!--<option value="NL">Newfoundland and Labrador</option>-->
+								<!--<option value="NS">Nova Scotia</option>-->
 								<option value="NB">New Brunswick</option>
-								<option value="QC">Quebec</option>
-								<option value="ON">Ontario</option>
+								<!--<option value="QC">Quebec</option>-->
+								<!--<option value="ON">Ontario</option>-->
 							</select>
 						</div>
 					</div>
 				</div>
 			</form>
-			<div class="row">
+
+			<!--<div class="row">
 				<div class="dashboard">
 					<div class="map col-md-6"></div>
 					<div class="data col-md-6">
 					</div>
 				</div>
-			</div>
+			</div>-->
 
 			<div class="row">
 				<div class="dashboard">
-					<div id="lineChart" class="data col-md-12">
+					<div class="map col-md-6"></div>
+					<div class="data col-md-6">
+						<div class="row">
+							 <div class="col-md-6">
+									 <div>
+				            	<br/>
+				            	<br/>
+										</div>
+							 </div>
+					 </div>
+					 <div class="row">
+							<div class="data col-md-6">
+							</div>
+					</div>
+				</div>
+			</div>
+		 </div>
+
+
+
+
+
+
+
+			<div class="row">
+				<div class="dashboard">
+					<div class="map col-md-1"></div>
+					<div id="lineChart" class="data col-md-10">
 						<h4></h4>
 					</div>
+					<div class="map col-md-1"></div>
 				</div>
 			</div>
 
