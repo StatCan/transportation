@@ -207,16 +207,27 @@
 .ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
 	fill: #EDDB7C;
 }
+.MBtoATR, .MBtoAB, .MBtoBC, .MBtoMB, .MBtoON, .MBtoQC, .MBtoSK, .MBtoUSMEX {
+	fill: #93A42A;
+}
 .ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
 	fill: #F99691;
 }
+.QCtoATR, .QCtoAB, .QCtoBC, .QCtoMB, .QCtoON, .QCtoQC, .QCtoSK, .QCtoUSMEX {
+	fill: #83C3F2;
+}
 
+/* x-axis tick labels (years) */
 #tonnageDivId .tick text {
 	font-size: 20px;
 }
-#svg_pair1 .chart-label {
+/* y-axis label (Tonnage) */
+#tonnageDivId .chart-label {
 	font-size: 20px;
 	fill: #555;
+}
+#svg_pair3 .chart-label {
+	opacity: 0;
 }
 
 #destChartTitle {

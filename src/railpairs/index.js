@@ -6,7 +6,7 @@ let selectedRegion = "ATR";
 let selectedComm = "meat";
 
 // const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"]; // plus USMEX
-const regions = ["ATR", "ON"];
+const regions = ["ATR", "ON", "QC", "MB"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
 // const formatNumber = d3.format(","); // d3.format(".2f");
@@ -19,10 +19,12 @@ const remainingRegions = regions.filter((item) => item !== selectedRegion);
 const chartPair1 = d3.select("#pair1")
     .append("svg")
     .attr("id", "svg_pair1");
-// const chartPair2 = d3.select("#pair2")
-//     .append("svg")
-//     .attr("id", "svg_pair2");
-
+const chartPair2 = d3.select("#pair2")
+    .append("svg")
+    .attr("id", "svg_pair2");
+const chartPair3 = d3.select("#pair3")
+    .append("svg")
+    .attr("id", "svg_pair3");
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
 // const rankedCommData = [];
@@ -84,8 +86,14 @@ i18n.load(["src/i18n"], function() {
         }
         console.log("arrPair: ", arrPair);
 
-        // display annual tonnages for selectedRegion and thisReg pairs
-        areaChart(chartPair1, settings, arrPair);
+        // send to areaChart
+        if (idx == 0) {
+          areaChart(chartPair1, settings, arrPair);
+        } else if (idx == 1) {
+          areaChart(chartPair2, settings, arrPair);
+        } else if (idx == 2) {
+          areaChart(chartPair3, settings, arrPair);
+        }
       }); // inner d3.json
     } // for loop
   }); // outer d3.json
