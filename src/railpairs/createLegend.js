@@ -3,7 +3,7 @@ export default function(regPairs, legendID) {
 
   // initialize SVG for legend rects, their g and text nodes
   const margin = {top: 0, right: 0, bottom: 0, left: 63};
-  const width = 600 - margin.left - margin.right;
+  const width = 300 - margin.left - margin.right;
   const height = 30 - margin.top - margin.bottom;
 
   // Rect SVG defined in index.html
@@ -12,7 +12,8 @@ export default function(regPairs, legendID) {
       .attr("width", width)
       .attr("height", height)
       .style("vertical-align", "middle")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + 345 + "," + (-150) + ")");
 
   // Create the g nodes
   const rects = svg.selectAll("rect")
@@ -26,7 +27,7 @@ export default function(regPairs, legendID) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 0 + i * 200;
+        return 0 + i * 130;
       })
       .attr("class", function(d, i) {
         return regPairs[i] + "to";
@@ -39,14 +40,12 @@ export default function(regPairs, legendID) {
   d3.select(legendID)
       .selectAll("text")
       .text(function(d, i) {
-        console.log(regPairs);
-        console.log("leg d: ", d);
         return i === 0 ? regPairs[0] + " to " + regPairs[1] :
         regPairs[1] + " to " + regPairs[0];
       })
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = [25, 225];
+        const xpos = [25, 155];
         return xpos[i];
       })
       .style("display", function() {
