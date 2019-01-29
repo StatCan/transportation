@@ -5,31 +5,31 @@ const data = {};
 let selectedRegion = "ATR";
 let selectedComm = "meat";
 
-// const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"];
+// const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"]; // plus USMEX
 const regions = ["ATR", "ON"];
-const remainingRegions = regions.filter(item => item !== selectedRegion);
+const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
-const formatNumber = d3.format(","); // d3.format(".2f");
-const format = function(d) {
-  return formatNumber(d);
-};
+// const formatNumber = d3.format(","); // d3.format(".2f");
+// const format = function(d) {
+//   return formatNumber(d);
+// };
 
 // ---------------------------------------------------------------------
 /* globals areaChart */
 const chartPair1 = d3.select("#pair1")
     .append("svg")
     .attr("id", "svg_pair1");
-const chartPair2 = d3.select("#pair2")
-    .append("svg")
-    .attr("id", "svg_pair2");
+// const chartPair2 = d3.select("#pair2")
+//     .append("svg")
+//     .attr("id", "svg_pair2");
 
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
-const rankedCommData = [];
-let count = 0;
-let years;
-let maxVal;
-let rankedCommNames; // temp
+// const rankedCommData = [];
+// let count = 0;
+// let years;
+// let maxVal;
+// let rankedCommNames; // temp
 
 // ---------------------------------------------------------------------
 function uiHandler(event) {
@@ -39,8 +39,6 @@ function uiHandler(event) {
   if (event.target.id === "region") {
     selectedRegion= document.getElementById("region").value;
   }
-  selectedRegion = selectedComm + "_from_" + selected;
-  commToRegion = selectedComm + "_to_" + selected;
 
   if (!data[selectedRegion]) {
     // Read in chosen region as ORIGIN
@@ -70,7 +68,7 @@ i18n.load(["src/i18n"], function() {
     const numYears = json1.length;
 
     for (let idx = 0; idx < remainingRegions.length; idx++) {
-      let thisReg = remainingRegions[idx]; // ON
+      const thisReg = remainingRegions[idx];
       d3.json("data/rail/" + selectedComm + "_" + thisReg + ".json", function(err, json2) {
         console.log("thisReg: ", thisReg);
         data[thisReg] = json2;
@@ -79,21 +77,18 @@ i18n.load(["src/i18n"], function() {
         const arrPair = [];
         for (let idx = 0; idx < numYears; idx++) {
           arrPair.push({
-              year: data[thisReg][idx].year,
-              [selectedRegion + "to" + thisReg]: data[selectedRegion][idx][thisReg],
-              [thisReg + "to" + selectedRegion]: data[thisReg][idx][selectedRegion]
+            year: data[thisReg][idx].year,
+            [selectedRegion + "to" + thisReg]: data[selectedRegion][idx][thisReg],
+            [thisReg + "to" + selectedRegion]: data[thisReg][idx][selectedRegion]
           });
         }
         console.log("arrPair: ", arrPair);
 
         // display annual tonnages for selectedRegion and thisReg pairs
         areaChart(chartPair1, settings, arrPair);
-
       }); // inner d3.json
     } // for loop
   }); // outer d3.json
-
-
 });
 
 $(document).on("change", uiHandler);

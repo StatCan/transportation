@@ -204,10 +204,10 @@
 }
 
 /*rail dataset*/
-.ATRtoON {
+.ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
 	fill: #EDDB7C;
 }
-.ONtoATR {
+.ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
 	fill: #F99691;
 }
 
