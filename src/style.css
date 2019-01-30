@@ -324,12 +324,19 @@ Show only for top 2 charts
 }
 .comm_value {
 	fill: #666666;
-  	stroke: none;
+  stroke: none;
 	font-size: 14px;
 
 }
 .bubble-row-text, .bubble-text {
+  font-size: 10px;
+}
+.bubble-col {
   font-size: 12px;
+}
+.bubble-col .tick text {
+  font-size: 12px;
+  fill: #333;
 }
 .wheat circle {
 	fill:  #024571;

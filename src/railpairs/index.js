@@ -83,8 +83,6 @@ function showComm(region) {
 
   // Read commodities file for selected region
   d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
-  // d3.json("data/rail/rankdata_YOW.json", function(err, json) {
-    console.log(json);
     bubbleTable(commTable, settBubble, json);
   });
 }

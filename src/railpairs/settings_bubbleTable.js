@@ -12,7 +12,6 @@ export default {
     const format = function(d) {
       return formatNumber(d);
     };
-    console.log("data in sett: ", data);
     const obj = {};
     data.map((d) => {
       const keys = Object.keys(d);
@@ -28,7 +27,6 @@ export default {
         });
       }
     });
-    console.log("obj: ", obj);
 
     return Object.keys(obj).map(function(k) {
       return {
