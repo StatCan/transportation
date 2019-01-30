@@ -1,7 +1,6 @@
 import settings from "./stackedAreaSettings.js";
 import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
-// import drawBubbles from "./drawbubbles.js";
 
 const data = {};
 let selectedRegion = "ATR";
@@ -77,9 +76,9 @@ function showArea() {
   areaChart(chartPair1, settings, data[selectedRegion]);
 }
 function showComm(region) {
-  const thisReg = i18next.t(region, {ns: "railRegions"});
+  // const thisReg = i18next.t(region, {ns: "railRegions"});
   // const thisText = `Commodities originating from ${thisReg}, total tonnage (millions) for all destinations`;
-  const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities"
+  const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
   d3.select("#commTableTitle")
       .text(thisText);
 
@@ -140,13 +139,13 @@ i18n.load(["src/i18n"], function() {
         } else if (idx == 5) {
           areaChart(chartPair6, settings, arrPair);
           createLegend([selectedRegion, thisReg], "#legend6");
-        } else if (idx == 6) {
-          areaChart(chartPair7, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend7");
-        } else if (idx == 7) {
-          areaChart(chartPair8, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend8");
-        }
+        } // else if (idx == 6) {
+        //   areaChart(chartPair7, settings, arrPair);
+        //   createLegend([selectedRegion, thisReg], "#legend7");
+        // } else if (idx == 7) {
+        //   areaChart(chartPair8, settings, arrPair);
+        //   createLegend([selectedRegion, thisReg], "#legend8");
+        // }
       }); // inner d3.json
     } // for loop
   }); // outer d3.json
