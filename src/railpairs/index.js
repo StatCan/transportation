@@ -43,12 +43,15 @@ const chartPair6 = d3.select("#pair6")
 //     .append("svg")
 //     .attr("id", "svg_pair8");
 // ---------------------------------------------------------------------
-// global variables for drawBubbles fn
+// global variables for commodities bubble table
 // const rankedCommData = [];
 // let count = 0;
 // let years;
 // let maxVal;
 // let rankedCommNames; // temp
+const commTable = d3.select("#commgrid")
+    .append("svg")
+    .attr("id", "svg_commgrid");
 
 // ---------------------------------------------------------------------
 function uiHandler(event) {
@@ -76,7 +79,14 @@ function showArea() {
 function showComm(region) {
   const thisReg = i18next.t(region, {ns: "railRegions"});
   d3.select("#commTableTitle")
-      .text(`Commodities originating from ${thisReg}`);
+      .text(`Commodities originating from ${thisReg}, total tonnage (millions) for all destinations`);
+
+  // Read commodities file for selected region
+  d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
+  // d3.json("data/rail/rankdata_YOW.json", function(err, json) {
+    console.log(json);
+    bubbleTable(commTable, settBubble, json);
+  });
 }
 
 // ---------------------------------------------------------------------
@@ -84,6 +94,7 @@ function showComm(region) {
 i18n.load(["src/i18n"], function() {
   settings.x.label = i18next.t("x_label", {ns: "railArea"}),
   settings.y.label = i18next.t("y_label", {ns: "railArea"}),
+  // settBubble.z.getText = i18next.t("y_label", {ns: "commodities"}),
 
   d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function(err, json1) {
     data[selectedRegion] = json1;

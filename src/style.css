@@ -328,28 +328,33 @@ Show only for top 2 charts
 	font-size: 14px;
 
 }
-.comm_wheat {
+.bubble-row-text, .bubble-text {
+  font-size: 12px;
+}
+.wheat circle {
 	fill:  #024571;
 }
-.comm_cereal {
+.iron circle {
 	fill:  #5DC1BE;
 }
-.comm_freshveg {
+.coal circle {
 	fill:  #F6CF22;
 }
-.comm_gen {
-	fill:  #CECECE;
-	stroke: #909294;
+.potash circle {
+	fill:  #555;
+}
+.mixedloads circle {
+	fill:  #BF4D28;
 }
 #prevButton {
 	position: relative;
-  	top: -43px;
+  	top: -3px;
   	left: 960px;
   	border: 1px solid #CECECE;
 }
 #nextButton {
 	position: relative;
-  	top: -43px;
+  	top: -3px;
   	left: 970px;
   	border: 1px solid #CECECE;
 }
