@@ -124,10 +124,10 @@ i18n.load(["src/i18n"], function() {
         if (idx == 0) {
           lineChart(chartPair1, settings, arrPair);
           createLegend([selectedRegion, thisReg], "#legend1");
-        } // else if (idx == 1) {
-        //   lineChart(chartPair2, settings, arrPair);
-        //   createLegend([selectedRegion, thisReg], "#legend2");
-        // } else if (idx == 2) {
+        } else if (idx == 1) {
+          lineChart(chartPair2, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend2");
+        } // else if (idx == 2) {
         //   lineChart(chartPair3, settings, arrPair);
         //   createLegend([selectedRegion, thisReg], "#legend3");
         // } else if (idx == 3) {
