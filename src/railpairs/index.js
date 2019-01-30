@@ -105,19 +105,19 @@ i18n.load(["src/i18n"], function() {
           createLegend([selectedRegion, thisReg], "#legend1");
         } else if (idx == 1) {
           areaChart(chartPair2, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend2");
+          createLegend([selectedRegion, thisReg], "#legend2");
         } else if (idx == 2) {
           areaChart(chartPair3, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend3");
+          createLegend([selectedRegion, thisReg], "#legend3");
         } else if (idx == 3) {
           areaChart(chartPair4, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend4");
+          createLegend([selectedRegion, thisReg], "#legend4");
         } else if (idx == 4) {
           areaChart(chartPair5, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend5");
+          createLegend([selectedRegion, thisReg], "#legend5");
         } else if (idx == 5) {
           areaChart(chartPair6, settings, arrPair);
-          // createLegend([selectedRegion, thisReg], "#legend6");
+          createLegend([selectedRegion, thisReg], "#legend6");
         } else if (idx == 6) {
           areaChart(chartPair7, settings, arrPair);
           // createLegend([selectedRegion, thisReg], "#legend7");

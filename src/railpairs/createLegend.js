@@ -13,7 +13,7 @@ export default function(regPairs, legendID) {
       .attr("height", height)
       .style("vertical-align", "middle")
       // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      .attr("transform", "translate(" + 345 + "," + (-150) + ")");
+      .attr("transform", "translate(" + 345 + "," + (30) + ")");
 
   // Create the g nodes
   const rects = svg.selectAll("rect")
