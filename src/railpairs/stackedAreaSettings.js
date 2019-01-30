@@ -1,10 +1,16 @@
 export default {
-  aspectRatio: 15 / 3,
-  alt: i18next.t("alt", {ns: "area"}),
+  aspectRatio: 15 / 4,
+  alt: i18next.t("alt", {ns: "railArea"}),
+  margin: {
+    top: 50,
+    left: 80,
+    bottom: 70
+  },
   filterData: function(data) {
     return data;
   },
   x: {
+    label: i18next.t("x_label", {ns: "railArea"}),
     getValue: function(d) {
       return new Date(d.year + "-01");
     },
@@ -15,21 +21,21 @@ export default {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "area"}),
+    label: i18next.t("y_label", {ns: "railArea"}),
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key]; // * 1.0 / 1000;
     },
     getText: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key]; // * 1.0/ 1000;
     },
     ticks: 2
   },
   z: {
-    label: i18next.t("z_label", {ns: "area"}),
+    label: i18next.t("z_label", {ns: "railArea"}),
     getId: function(d) {
       return d.key;
     },
@@ -46,7 +52,7 @@ export default {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "area"});
+      return i18next.t(d.key, {ns: "railArea"});
     }
   },
   datatable: false,

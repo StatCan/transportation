@@ -1,4 +1,3 @@
-// function mapColourScaleFn(colourArray, dimExtent, units) {
 export default function(colourArray, dimExtent, scaleLabel) {
   const rectDim = 20;
   const formatComma = d3.format(",");

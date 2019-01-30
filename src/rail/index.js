@@ -118,11 +118,11 @@ const areaChartToRegion = d3.select("#origTimeseries")
 
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
-const rankedCommData = [];
+// const rankedCommData = [];
 let count = 0;
-let years;
-let maxVal;
-let rankedCommNames; // temp
+// let years;
+// let maxVal;
+// let rankedCommNames; // temp
 
 // ---------------------------------------------------------------------
 function uiHandler(event) {
