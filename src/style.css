@@ -334,6 +334,9 @@ Show only for top 2 charts
 .bubble-col {
   font-size: 12px;
 }
+.bubble-col .tick {
+  text-anchor: start;
+}
 .bubble-col .tick text {
   font-size: 12px;
   fill: #333;
