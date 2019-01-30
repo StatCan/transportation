@@ -8,10 +8,6 @@ export default {
   },
   alt: i18next.t("alt", {ns: "commodities"}),
   filterData: function(data) {
-    const formatNumber = d3.format(".0f"); // d3.format(".2f");
-    const format = function(d) {
-      return formatNumber(d);
-    };
     const obj = {};
     data.map((d) => {
       const keys = Object.keys(d);
@@ -23,7 +19,7 @@ export default {
         }
         obj[key].push({
           year: d.year,
-          value: format(d[key] * 1.0 / 1e6)
+          value: d[key] // format(d[key] * 1.0 / 1e6)
         });
       }
     });

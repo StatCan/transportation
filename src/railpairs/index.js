@@ -78,11 +78,15 @@ function showArea() {
 }
 function showComm(region) {
   const thisReg = i18next.t(region, {ns: "railRegions"});
+  // const thisText = `Commodities originating from ${thisReg}, total tonnage (millions) for all destinations`;
+  const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities"
   d3.select("#commTableTitle")
-      .text(`Commodities originating from ${thisReg}, total tonnage (millions) for all destinations`);
+      .text(thisText);
 
   // Read commodities file for selected region
-  d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
+  // d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
+  // d3.json("data/rail/commdata_QC.json", function(err, json) {
+  d3.json("data/rail/commdata_allOrig_allDest.json", function(err, json) {
     bubbleTable(commTable, settBubble, json);
   });
 }
