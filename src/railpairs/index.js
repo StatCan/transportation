@@ -87,8 +87,12 @@ function showComm(region) {
   // d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
   // d3.json("data/rail/commdata_QC.json", function(err, json) {
   d3.json("data/rail/commdata_allOrig_allDest.json", function(err, json) {
+    sortComm(json);
     bubbleTable(commTable, settBubble, json);
   });
+}
+function sortComm(data) {
+  console.log("sort the data!");
 }
 
 // ---------------------------------------------------------------------
