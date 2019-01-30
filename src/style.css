@@ -203,7 +203,7 @@
 .ABto, .ABtoAB, .ABtoATR, .ABtoBC, .ABtoMB, .ABtoON, .ABtoQC, .ABtoSK, .ABtoUSMEX {
 	fill: #655643;
 }
-.ATRto, .ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
+.area.ATRto, .ATRtoAB, .ATRtoATR, .ATRtoBC, .ATRtoMB, .area.ATRtoON, .ATRtoQC, .ATRtoSK, .ATRtoUSMEX {
 	fill: #EDDB7C;
 }
 .BCto, .BCtoAB, .BCtoATR, .BCtoBC, .BCtoMB, .BCtoON, .BCtoQC, .BCtoSK, .BCtoUSMEX {
@@ -212,7 +212,7 @@
 .MBto, .MBtoATR, .MBtoAB, .MBtoBC, .MBtoMB, .MBtoON, .MBtoQC, .MBtoSK, .MBtoUSMEX {
 	fill: #005596;
 }
-.ONto, .ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
+.area.ONto, .area.ONtoATR, .ONtoAB, .ONtoBC, .ONtoMB, .ONtoON, .ONtoQC, .ONtoSK, .ONtoUSMEX {
 	fill: #BF4D28;
 }
 .QCto, .QCtoATR, .QCtoAB, .QCtoBC, .QCtoMB, .QCtoON, .QCtoQC, .QCtoSK, .QCtoUSMEX {
@@ -221,6 +221,20 @@
 .SKto, .SKtoATR, .SKtoAB, .SKtoBC, .SKtoMB, .SKtoON, .SKtoQC, .SKtoSK, .SKtoUSMEX {
 	fill: #FC913A;
 }
+/* LINES */
+.dline.ONtoATR, .legendLine.ONto {
+	stroke: #BF4D28;
+  stroke-width: 2px;
+}
+.dline.ATRtoON, .legendLine.ATRto {
+	stroke: #BF4D28;
+  stroke-width: 2px;
+  stroke-dasharray: 2px;
+}
+#tonnageDivId .line-label {
+  opacity: 0;
+}
+/* END LINES */
 
 .legendTextRail text {
   font-size: 13px;
