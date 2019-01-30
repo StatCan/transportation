@@ -4,7 +4,7 @@ export default {
     top: 30,
     right: 0,
     bottom: 0,
-    left: 60
+    left: 120
   },
   alt: i18next.t("alt", {ns: "commodities"}),
   filterData: function(data) {
@@ -24,7 +24,7 @@ export default {
         }
         obj[key].push({
           year: d.year,
-          value: format(d[key] * 1.0 / 1e6)
+          value: d[key] // format(d[key] * 1.0 / 1e6)
         });
       }
     });
@@ -39,11 +39,9 @@ export default {
   },
   x: {
     getValue: function(d) {
-      // return d.year;
-      return new Date(d.year + "-01");
+      return d.year;
     },
     getText: function(d) {
-      console.log("d in x: ", d)
       return d.year;
     }
   },
@@ -67,5 +65,5 @@ export default {
       return d.dataPoints;
     },
   },
-  width: 990
+  width: 900
 };
