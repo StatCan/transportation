@@ -23,7 +23,7 @@ export default {
         }
         obj[key].push({
           year: d.year,
-          value: d[key] // format(d[key] * 1.0 / 1e6)
+          value: format(d[key] * 1.0 / 1e6)
         });
       }
     });

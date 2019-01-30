@@ -330,12 +330,13 @@ Show only for top 2 charts
 }
 .bubble-row-text, .bubble-text {
   font-size: 10px;
+  text-anchor: middle;
 }
 .bubble-col {
   font-size: 12px;
 }
 .bubble-col .tick {
-  text-anchor: start;
+  text-anchor: middle;
 }
 .bubble-col .tick text {
   font-size: 12px;
