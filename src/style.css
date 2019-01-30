@@ -273,10 +273,10 @@ Show only for top 2 charts
 }
 
 
-#destChartTitle {
-	font-size: 15px;
-	fill: #212529;
-	stroke: none;
+#commTableTitle {
+	font-size: 20px;
+	color: #333;
+  font-weight: bold;
 }
 .ATR {
 	fill: #e5c494;

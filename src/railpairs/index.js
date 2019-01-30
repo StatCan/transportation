@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
 // import drawBubbles from "./drawbubbles.js";
 
@@ -6,7 +7,7 @@ const data = {};
 let selectedRegion = "ATR";
 let selectedComm = "meat";
 
-// const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"]; // plus USMEX
+// const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC", "USMEX"];
 const regions = ["ATR", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
@@ -35,12 +36,12 @@ const chartPair5 = d3.select("#pair5")
 const chartPair6 = d3.select("#pair6")
     .append("svg")
     .attr("id", "svg_pair6");
-const chartPair7 = d3.select("#pair7")
-    .append("svg")
-    .attr("id", "svg_pair7");
-const chartPair8 = d3.select("#pair8")
-    .append("svg")
-    .attr("id", "svg_pair8");
+// const chartPair7 = d3.select("#pair7")
+//     .append("svg")
+//     .attr("id", "svg_pair7");
+// const chartPair8 = d3.select("#pair8")
+//     .append("svg")
+//     .attr("id", "svg_pair8");
 // ---------------------------------------------------------------------
 // global variables for drawBubbles fn
 // const rankedCommData = [];
@@ -72,7 +73,11 @@ function uiHandler(event) {
 function showArea() {
   areaChart(chartPair1, settings, data[selectedRegion]);
 }
-
+function showComm(region) {
+  const thisReg = i18next.t(region, {ns: "railRegions"});
+  d3.select("#commTableTitle")
+      .text(`Commodities originating from ${thisReg}`);
+}
 
 // ---------------------------------------------------------------------
 // Landing page displays
@@ -128,6 +133,8 @@ i18n.load(["src/i18n"], function() {
       }); // inner d3.json
     } // for loop
   }); // outer d3.json
+
+  showComm(selectedRegion);
 });
 
 $(document).on("change", uiHandler);
