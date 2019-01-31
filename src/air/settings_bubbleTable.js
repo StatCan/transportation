@@ -5,14 +5,14 @@ export default {
     const obj = {};
     data.rank.map((d) => {
       const keys = Object.keys(d);
-      keys.splice(keys.indexOf("year"), 1);
+      keys.splice(keys.indexOf("date"), 1);
 
       for (const key of keys) {
         if (!obj[key]) {
           obj[key] = [];
         }
         obj[key].push({
-          year: d.year,
+          date: d.date,
           rank: d[key]
         });
       }
@@ -27,10 +27,10 @@ export default {
   },
   x: {
     getValue: function(d) {
-      return d.year;
+      return new Date(d.date + "-01");
     },
     getText: function(d) {
-      return d.year;
+      return d.date;
     }
   },
   r: {

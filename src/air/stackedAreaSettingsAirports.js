@@ -8,29 +8,28 @@ export default {
     left: 50
   },
   filterData: function(data) {
-    return data.numMov;
+      return data;
   },
-
   x: {
     getValue: function(d) {
-      return new Date(d.year + "-01");
+      return new Date(d.date + "-01");
     },
     getText: function(d) {
-      return d.year;
+      return d.date;
     },
     ticks: 10
   },
 
   y: {
     getValue: function(d, key) {
-      if (typeof d[key] === "string" || d[key] instanceof String) {
+      if (d[key]=== "x" || d[key]=== "..") {
         return 0;
-      } else return d[key] * 1.0/ 1000;
+      } else return Number(d[key]) * 1.0/ 1000;
     },
     getText: function(d, key) {
-      if (typeof d[key] === "string" || d[key] instanceof String) {
+      if (d[key]=== "x" || d[key]=== "..") {
         return d[key];
-      } else return d[key] * 1.0/ 1000;
+      } else return Number(d[key]) * 1.0/ 1000;
     },
     ticks: 3
   },
@@ -42,7 +41,7 @@ export default {
     getKeys: function(object) {
       const sett = this;
       const keys = Object.keys(object[0]);
-      keys.splice(keys.indexOf("year"), 1);
+      keys.splice(keys.indexOf("date"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }

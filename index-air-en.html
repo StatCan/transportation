@@ -16,7 +16,6 @@
 	<!--[if gte IE 9 | !IE ]><!-->
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
 	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
-
 	<!--<![endif]-->
 	<!--[if lt IE 9]>
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
@@ -162,7 +161,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<label for="groups_yr">Year</label>
-						<select id="year" class="form-control">
+						<select id="yearSelector" class="form-control">
 							<option value="2017">2017</option>
 							<option value="2016">2016</option>
 							<option value="2015">2015</option>
@@ -171,16 +170,6 @@
 							<option value="2012">2012</option>
 							<option value="2011">2011</option>
 							<option value="2010">2010</option>
-							<option value="2009">2009</option>
-							<option value="2008">2008</option>
-							<option value="2007">2007</option>
-							<option value="2006">2006</option>
-							<option value="2005">2005</option>
-							<option value="2004">2004</option>
-							<option value="2003">2003</option>
-							<option value="2002">2002</option>
-							<option value="2001">2001</option>
-							<option value="2000">2000</option>
 						</select>
 					</div>
 					<div class="col-md-5">
@@ -188,11 +177,19 @@
 							<label for="groups">Geographic region:</label>
 							<select id="groups" class="form-control">
 								<option value="CANADA">Total Canadian airports</option>
-								<!--<option value="NL">Newfoundland and Labrador</option>-->
-								<!--<option value="NS">Nova Scotia</option>-->
+								<option value="NL">Newfoundland and Labrador</option>
+								<option value="PE">Prince Edward Island</option>
+								<option value="NS">Nova Scotia</option>
 								<option value="NB">New Brunswick</option>
-								<!--<option value="QC">Quebec</option>-->
-								<!--<option value="ON">Ontario</option>-->
+								<option value="QC">Quebec</option>
+								<option value="ON">Ontario</option>
+								<option value="MB">Manitoba</option>
+								<option value="SK">Saskatchewan</option>
+								<option value="AB">Alberta</option>
+								<option value="BC">British Columbia</option>
+								<option value="YK">Yukon</option>
+								<option value="NT">Northwest Territories</option>
+								<option value="NU">Nunavut</option>
 							</select>
 						</div>
 					</div>

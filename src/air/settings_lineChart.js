@@ -8,15 +8,15 @@ export default {
     left: 50
   },
   filterData: function(data) {
-    const root = data.numMov;
+    const root = data;
     // keys for labels to identify lines
-    const keys = Object.keys(root[0]).slice(1); // exclude first key (year is for x-axis, not line labels)
+    const keys = Object.keys(root[0]).slice(1); // exclude first key (date is for x-axis, not line labels)
     const rtn = keys.map((d) => {
       return {
         id: d,
         data: root.map((p) => {
           return {
-            year: p.year,
+            date: p.date,
             value: p[d]
           };
         })
@@ -27,10 +27,10 @@ export default {
   x: {
     ticks: 10,
     getValue: function(d) {
-      return new Date(d.year + "-01");
+      return new Date(d.date + "-01");
     },
     getText: function(d) {
-      return d.year;
+      return d.date;
     }
   },
 
