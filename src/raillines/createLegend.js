@@ -1,6 +1,4 @@
 export default function(regPairs, legendID) {
-  const rectDim = 20;
-
   // initialize SVG for legend lines, their g and text nodes
   const margin = {top: 0, right: 0, bottom: 0, left: 63};
   const width = 300 - margin.left - margin.right;

@@ -20,4 +20,14 @@ for (const section of ["air", "modes", "rail", "railexp", "road", "railpairs"]) 
   });
 }
 
+entrypoints.push({
+  input: "src/bubbleTable.js",
+  output: {
+    name: "bubbleTable",
+    file: "dist/src/bubbleTable.js",
+    format: "iife"
+  },
+  plugins
+});
+
 export default entrypoints;
