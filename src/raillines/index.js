@@ -127,19 +127,19 @@ i18n.load(["src/i18n"], function() {
         } else if (idx == 1) {
           lineChart(chartPair2, settings, arrPair);
           createLegend([selectedRegion, thisReg], "#legend2");
-        } // else if (idx == 2) {
-        //   lineChart(chartPair3, settings, arrPair);
-        //   createLegend([selectedRegion, thisReg], "#legend3");
-        // } else if (idx == 3) {
-        //   lineChart(chartPair4, settings, arrPair);
-        //   createLegend([selectedRegion, thisReg], "#legend4");
-        // } else if (idx == 4) {
-        //   lineChart(chartPair5, settings, arrPair);
-        //   createLegend([selectedRegion, thisReg], "#legend5");
-        // } else if (idx == 5) {
-        //   lineChart(chartPair6, settings, arrPair);
-        //   createLegend([selectedRegion, thisReg], "#legend6");
-        // }
+        } else if (idx == 2) {
+          lineChart(chartPair3, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend3");
+        } else if (idx == 3) {
+          lineChart(chartPair4, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend4");
+        } else if (idx == 4) {
+          lineChart(chartPair5, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend5");
+        } else if (idx == 5) {
+          lineChart(chartPair6, settings, arrPair);
+          createLegend([selectedRegion, thisReg], "#legend6");
+        }
       }); // inner d3.json
     } // for loop
   }); // outer d3.json
