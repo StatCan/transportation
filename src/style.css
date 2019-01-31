@@ -128,17 +128,16 @@ table, th, td {
 }
 .local, .domestic {
 	fill: #F6CF22;
+	opacity: 0.6;
 }
-.itinerant {
+
+.itinerant, .trans_border {
 	fill: #a6611a;
   opacity: 0.6;
 }
-.transborder {
-	fill: #C9DF61;
-  opacity: 0.6;
-}
-.international {
+.other_intl {
   fill: #83C3F2;
+	opacity: 0.6;
 }
 .areaChartTitle {
 	font-size: 14px;
