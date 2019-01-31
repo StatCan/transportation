@@ -1,0 +1,58 @@
+[
+    {
+      "year": 2010,
+      "wheat": 90,
+      "iron": 20908995,
+      "coal": 463072,
+      "potash": 648902,
+      "mixedloads": 747855
+    },
+    {
+      "year": 2011,
+      "wheat": 590,
+      "iron": 23312468,
+      "coal": 70543,
+      "potash": 690367,
+      "mixedloads": 716115
+    },
+    {
+      "year": 2012,
+      "wheat": 0,
+      "iron": 24049331,
+      "coal": 0,
+      "potash": 669653,
+      "mixedloads": 768444
+    },
+    {
+      "year": 2013,
+      "wheat": 2632,
+      "iron": 19200840,
+      "coal": 0,
+      "potash": 658186,
+      "mixedloads": 839235
+    },
+    {
+      "year": 2014,
+      "wheat": 282,
+      "iron": 14993810,
+      "coal": 0,
+      "potash": 563291,
+      "mixedloads": 830083
+    },
+    {
+      "year": 2015,
+      "wheat": 25,
+      "iron": 17879738,
+      "coal": 0,
+      "potash": 639539,
+      "mixedloads": 923267
+    },
+    {
+      "year": 2016,
+      "wheat": 0,
+      "iron": 16561792,
+      "coal": 0,
+      "potash": 8580,
+      "mixedloads": 1126176
+    }
+]

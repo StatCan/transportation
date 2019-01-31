@@ -32,6 +32,16 @@
       "x_label": "Year",
       "y_label": "Tonnage"
     },
+    "railRegions": {
+       "ATR": "Atlantic Region",
+       "QC": "Quebec",
+       "ON": "Ontario",
+       "MB": "Manitoba",
+       "SK": "Saskatchewan",
+       "AB": "Alberta",
+       "BC": "British Columbia",
+       "USMEX": "US and Mexico"
+    },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",
        "NL": "Newfoundland and Labrador",
