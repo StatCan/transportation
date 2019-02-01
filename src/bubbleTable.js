@@ -66,7 +66,7 @@ const defaults = {
   width: 990
 };
 
-export default function(svg, settings, data) {
+const bubbleTable = window.bubbleTable = function(svg, settings, data) {
   const mergedSettings = extend(true, {}, defaults, settings);
   const outerWidth = mergedSettings.width;
   const outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio);
@@ -261,4 +261,6 @@ export default function(svg, settings, data) {
   }
 
   return rtnObj;
-}
+};
+
+export default bubbleTable;
