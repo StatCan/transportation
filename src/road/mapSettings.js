@@ -7,7 +7,7 @@ export default {
   },
   // creates variable d
   filterData: function(data) {
-    return data;
+    return data; // array of objects
   },
   x: {
     getValue: function(d) {
@@ -52,7 +52,7 @@ export default {
     },
     getKeys: function(object) {
       const sett = this;
-      const keys = Object.keys(object);
+      const keys = Object.keys(object[0]);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
@@ -66,5 +66,5 @@ export default {
     }
   },
   datatable: true,
-  width: 850
+  width: 200
 };
