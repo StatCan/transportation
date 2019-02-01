@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import mapSettings from "./mapSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 
 const data = {};
@@ -9,14 +10,23 @@ const units = "$";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total Sales (" + units + ")";
 
+/* globals areaChart */
+const chart = d3.select(".data")
+    .append("svg")
+    .attr("id", "svgFuel");
+
+/* globals map */
 const map = d3.select(".dashboard .map")
     .append("svg");
+
 getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
   // Read map data
   if (!mapData[selectedYear]) {
     d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
+    // d3.json("data/road/canada_fuelSales_allyears.json", function(err, filedata) {
+      // console.log("filedata: ", filedata);
       mapData[selectedYear] = filedata;
       showChloropleth(mapData[selectedYear]);
     });
@@ -68,11 +78,6 @@ map.on("click", () => {
   d3.select("#groups")._groups[0][0].value = selected;
 });
 
-/* globals areaChart */
-const chart = d3.select(".data")
-    .append("svg")
-    .attr("id", "svgFuel");
-
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
@@ -103,7 +108,9 @@ function uiHandler(event) {
 }
 
 function showChloropleth(data) {
+  // console.log("data in showChloropleth: ", data);
   const thisData = data[0];
+  // console.log("thisData in showChloropleth: ", thisData);
   let dimExtent = [];
   let totArray = [];
 
@@ -132,6 +139,7 @@ function showChloropleth(data) {
 
   // colour bar scale
   mapColourScaleFn(colourArray, dimExtent, mapScaleLabel);
+  drawMapTable(map, mapSettings, thisData);
 }
 
 function showData() {
