@@ -24,7 +24,7 @@ export default {
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key] * 1.0/ 1e4;
     },
     getTotal: function(d, index, data) {
       let total;
@@ -44,7 +44,7 @@ export default {
     getText: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return d[key];
-      } else return d[key] * 1.0/ 1000;
+      } else return d[key] * 1.0/ 1e4;
     },
     ticks: 5
   },

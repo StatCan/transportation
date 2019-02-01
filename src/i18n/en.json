@@ -22,7 +22,7 @@
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
       "x_label": "Year",
-      "y_label": "Sales (x 1000)",
+      "y_label": "Sales (x 10,000,000)",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "LPG"
