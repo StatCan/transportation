@@ -21,12 +21,13 @@ const map = d3.select(".dashboard .map")
 getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
-  // Read map data
+  // Read map data (total fuel sales in each region for each year in ref period)
   if (!mapData[selectedYear]) {
-    d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
-    // d3.json("data/road/canada_fuelSales_allyears.json", function(err, filedata) {
-      console.log("filedata: ", filedata);
-      mapData[selectedYear] = filedata;
+    d3.json("data/road/canada_fuelSales_allyears.json", function(err, filedata) {
+      // Extract data for selected year from obj and save in array format
+      const thisTotalArray = [];
+      thisTotalArray.push(filedata[selectedYear]);
+      mapData[selectedYear] = thisTotalArray;
       showChloropleth(mapData[selectedYear]);
     });
   } else {
