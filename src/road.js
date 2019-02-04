@@ -776,6 +776,94 @@
 	  width: 850
 	};
 
+	var mapSettings = {
+	  alt: i18next.t("alt", {
+	    ns: "roadArea"
+	  }),
+	  margin: {
+	    top: 50,
+	    left: 80,
+	    bottom: 50
+	  },
+	  // creates variable d
+	  filterData: function filterData(data) {
+	    return data; // array of objects
+	  },
+	  x: {
+	    getValue: function getValue(d) {
+	      return new Date(d.date + "-01");
+	    },
+	    getText: function getText(d) {
+	      return d.date;
+	    }
+	  },
+	  y: {
+	    label: i18next.t("y_label", {
+	      ns: "roadArea"
+	    }),
+	    getValue: function getValue(d, key) {
+	      if (typeof d[key] === "string" || d[key] instanceof String) {
+	        return 0;
+	      } else return d[key] * 1.0 / 1e4;
+	    },
+	    getTotal: function getTotal(d, index, data) {
+	      var total;
+	      var keys;
+	      var sett = this;
+
+	      if (!d[sett.y.totalProperty]) {
+	        keys = sett.z.getKeys.call(sett, data);
+	        total = 0;
+
+	        for (var k = 0; k < keys.length; k++) {
+	          total += sett.y.getValue.call(sett, d, keys[k], data);
+	        }
+
+	        d[sett.y.totalProperty] = total;
+	      }
+
+	      return d[sett.y.totalProperty];
+	    },
+	    getText: function getText(d, key) {
+	      if (typeof d[key] === "string" || d[key] instanceof String) {
+	        return d[key];
+	      } else return d[key] * 1.0 / 1e4;
+	    }
+	  },
+	  z: {
+	    label: i18next.t("z_label", {
+	      ns: "roadArea"
+	    }),
+	    getId: function getId(d) {
+	      return d.key;
+	    },
+	    getKeys: function getKeys(object) {
+	      var sett = this;
+	      var keys = Object.keys(object[0]);
+
+	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
+	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+	      }
+
+	      return keys;
+	    },
+	    getClass: function getClass() {
+	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      return this.z.getId.apply(this, args);
+	    },
+	    getText: function getText(d) {
+	      return i18next.t(d.key, {
+	        ns: "roadArea"
+	      });
+	    }
+	  },
+	  datatable: true,
+	  width: 200
+	};
+
 	function mapColourScaleFn (svgCB, colourArray, dimExtent, scaleLabel) {
 	  var rectDim = 20;
 	  var formatComma = d3.format(","); // initialize SVG for legend rects, their g and text nodes
@@ -950,7 +1038,8 @@
 	  } // colour bar scale
 
 
-	  mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel); // drawMapTable(map, mapSettings, data);
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel);
+	  drawMapTable(map, mapSettings, data);
 	}
 
 	function showData() {
