@@ -118,9 +118,8 @@ function uiHandler(event) {
 }
 
 function showChloropleth(data) {
-  console.log("data in showChloropleth: ", data); // Array
+  // data is an Array
   const thisData = data[0]; // Object
-  console.log("thisData in showChloropleth: ", thisData);
   let dimExtent = [];
   let totArray = [];
 
@@ -136,7 +135,7 @@ function showChloropleth(data) {
   dimExtent = d3.extent(totArray);
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
-  const colourMap = d3.scaleLinear()
+  const colourMap = d3.scaleQuantize()
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
@@ -148,7 +147,8 @@ function showChloropleth(data) {
   }
 
   // colour bar scale
-  mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel);
+  mapColourScaleFn(svgCB, colourArray, dimExtent);
+  d3.select("#cbID").text(mapScaleLabel);
   drawMapTable(map, mapSettings, data);
 }
 
