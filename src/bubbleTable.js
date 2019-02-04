@@ -826,7 +826,8 @@ var bubbleTable = (function () {
 	  },
 	  width: 990
 	};
-	function bubbleTable (svg, settings, data) {
+
+	var bubbleTable = window.bubbleTable = function (svg, settings, data) {
 	  var mergedSettings = extend(true, {}, defaults, settings);
 	  var outerWidth = mergedSettings.width;
 	  var outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio);
@@ -986,7 +987,7 @@ var bubbleTable = (function () {
 	  }
 
 	  return rtnObj;
-	}
+	};
 
 	return bubbleTable;
 

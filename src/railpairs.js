@@ -809,6 +809,92 @@
     width: 900
   };
 
+  var $map = _arrayMethods(1);
+
+  _export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
+    // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+    map: function map(callbackfn /* , thisArg */) {
+      return $map(this, callbackfn, arguments[1]);
+    }
+  });
+
+  var settBubble = {
+    aspectRatio: 19 / 3,
+    margin: {
+      top: 30,
+      right: 0,
+      bottom: 0,
+      left: 120
+    },
+    alt: i18next.t("alt", {
+      ns: "commodities"
+    }),
+    filterData: function filterData(data) {
+      var obj = {};
+      data.map(function (d) {
+        var keys = Object.keys(d);
+        keys.splice(keys.indexOf("year"), 1);
+
+        for (var _i = 0; _i < keys.length; _i++) {
+          var key = keys[_i];
+
+          if (!obj[key]) {
+            obj[key] = [];
+          }
+
+          obj[key].push({
+            year: d.year,
+            value: d[key] // format(d[key] * 1.0 / 1e6)
+
+          });
+        }
+      });
+      return Object.keys(obj).map(function (k) {
+        return {
+          id: k,
+          dataPoints: obj[k]
+        };
+      });
+    },
+    x: {
+      getValue: function getValue(d) {
+        return d.year;
+      },
+      getText: function getText(d) {
+        return d.year;
+      }
+    },
+    r: {
+      inverselyProportional: false,
+      // if true, bubble size decreases with value
+      getValue: function getValue(d) {
+        return d.value;
+      }
+    },
+    z: {
+      // Object { id: "total", dataPoints: (21) […] }, and similarly for id: local, id: itin
+      getId: function getId(d) {
+        return d.id;
+      },
+      getClass: function getClass() {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        return this.z.getId.apply(this, args);
+      },
+      getText: function getText(d) {
+        return i18next.t(d.id, {
+          ns: "commodities"
+        });
+      },
+      getDataPoints: function getDataPoints(d) {
+        return d.dataPoints;
+      }
+    },
+    width: 900
+  };
+
   function createLegend (regPairs, legendID) {
     var rectDim = 20; // initialize SVG for legend rects, their g and text nodes
 
@@ -846,7 +932,7 @@
 
   var data = {};
   var selectedRegion = "ATR";
-  var selectedComm = "meat"; // const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC"]; // plus USMEX
+  var selectedComm = "meat"; // const regions = ["ATR", "QC", "ON", "MB", "SK", "AB", "BC", "USMEX"];
 
   var regions = ["ATR", "ON", "QC", "MB", "SK", "AB", "BC"];
   var remainingRegions = regions.filter(function (item) {
@@ -864,16 +950,21 @@
   var chartPair3 = d3.select("#pair3").append("svg").attr("id", "svg_pair3");
   var chartPair4 = d3.select("#pair4").append("svg").attr("id", "svg_pair4");
   var chartPair5 = d3.select("#pair5").append("svg").attr("id", "svg_pair5");
-  var chartPair6 = d3.select("#pair6").append("svg").attr("id", "svg_pair6");
-  var chartPair7 = d3.select("#pair7").append("svg").attr("id", "svg_pair7");
-  var chartPair8 = d3.select("#pair8").append("svg").attr("id", "svg_pair8"); // ---------------------------------------------------------------------
-  // global variables for drawBubbles fn
+  var chartPair6 = d3.select("#pair6").append("svg").attr("id", "svg_pair6"); // const chartPair7 = d3.select("#pair7")
+  //     .append("svg")
+  //     .attr("id", "svg_pair7");
+  // const chartPair8 = d3.select("#pair8")
+  //     .append("svg")
+  //     .attr("id", "svg_pair8");
+  // ---------------------------------------------------------------------
+  // global variables for commodities bubble table
   // const rankedCommData = [];
   // let count = 0;
   // let years;
   // let maxVal;
   // let rankedCommNames; // temp
-  // ---------------------------------------------------------------------
+
+  var commTable = d3.select("#commgrid").append("svg").attr("id", "svg_commgrid"); // ---------------------------------------------------------------------
 
   function uiHandler(event) {
     if (event.target.id === "commodity") {
@@ -897,6 +988,24 @@
 
   function showArea() {
     areaChart(chartPair1, settings, data[selectedRegion]);
+  }
+
+  function showComm(region) {
+    // const thisReg = i18next.t(region, {ns: "railRegions"});
+    // const thisText = `Commodities originating from ${thisReg}, total tonnage (millions) for all destinations`;
+    var thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
+    d3.select("#commTableTitle").text(thisText); // Read commodities file for selected region
+    // d3.json("data/rail/commdata_" + selectedRegion + ".json", function(err, json) {
+    // d3.json("data/rail/commdata_QC.json", function(err, json) {
+
+    d3.json("data/rail/commdata_allOrig_allDest.json", function (err, json) {
+      sortComm(json);
+      bubbleTable(commTable, settBubble, json);
+    });
+  }
+
+  function sortComm(data) {
+    console.log("sort the data!");
   } // ---------------------------------------------------------------------
   // Landing page displays
 
@@ -906,7 +1015,8 @@
       ns: "railArea"
     }), settings.y.label = i18next.t("y_label", {
       ns: "railArea"
-    }), d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function (err, json1) {
+    }), // settBubble.z.getText = i18next.t("y_label", {ns: "commodities"}),
+    d3.json("data/rail/" + selectedComm + "_" + selectedRegion + ".json", function (err, json1) {
       data[selectedRegion] = json1;
       var numYears = json1.length;
 
@@ -944,11 +1054,14 @@
           } else if (idx == 5) {
             areaChart(chartPair6, settings, arrPair);
             createLegend([selectedRegion, thisReg], "#legend6");
-          } else if (idx == 6) {
-            areaChart(chartPair7, settings, arrPair); // createLegend([selectedRegion, thisReg], "#legend7");
-          } else if (idx == 7) {
-            areaChart(chartPair8, settings, arrPair); // createLegend([selectedRegion, thisReg], "#legend8");
-          }
+          } // else if (idx == 6) {
+          //   areaChart(chartPair7, settings, arrPair);
+          //   createLegend([selectedRegion, thisReg], "#legend7");
+          // } else if (idx == 7) {
+          //   areaChart(chartPair8, settings, arrPair);
+          //   createLegend([selectedRegion, thisReg], "#legend8");
+          // }
+
         }); // inner d3.json
       };
 
@@ -957,6 +1070,8 @@
       } // for loop
 
     }); // outer d3.json
+
+    showComm(selectedRegion);
   });
   $(document).on("change", uiHandler);
 

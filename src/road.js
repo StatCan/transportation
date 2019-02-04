@@ -694,6 +694,7 @@
 	  },
 	  // creates variable d
 	  filterData: function filterData(data) {
+	    // data is an array of objects
 	    return data;
 	  },
 	  x: {
@@ -712,7 +713,7 @@
 	    getValue: function getValue(d, key) {
 	      if (typeof d[key] === "string" || d[key] instanceof String) {
 	        return 0;
-	      } else return d[key] * 1.0 / 1000;
+	      } else return d[key] * 1.0 / 1e4;
 	    },
 	    getTotal: function getTotal(d, index, data) {
 	      var total;
@@ -721,7 +722,7 @@
 
 	      if (!d[sett.y.totalProperty]) {
 	        keys = sett.z.getKeys.call(sett, data);
-	        total = 0; // skipped date value here slice later
+	        total = 0;
 
 	        for (var k = 0; k < keys.length; k++) {
 	          total += sett.y.getValue.call(sett, d, keys[k], data);
@@ -735,7 +736,7 @@
 	    getText: function getText(d, key) {
 	      if (typeof d[key] === "string" || d[key] instanceof String) {
 	        return d[key];
-	      } else return d[key] * 1.0 / 1000;
+	      } else return d[key] * 1.0 / 1e4;
 	    },
 	    ticks: 5
 	  },
@@ -770,26 +771,24 @@
 	      });
 	    }
 	  },
-	  datatable: false,
+	  datatable: true,
 	  transition: false,
 	  width: 850
 	};
 
-	// function mapColourScaleFn(colourArray, dimExtent, units) {
-	function mapColourScaleFn (colourArray, dimExtent, scaleLabel) {
+	function mapColourScaleFn (svgCB, colourArray, dimExtent, scaleLabel) {
 	  var rectDim = 20;
 	  var formatComma = d3.format(","); // initialize SVG for legend rects, their g and text nodes
-
-	  var margin = {
-	    top: 20,
-	    right: 0,
-	    bottom: 10,
-	    left: 20
-	  };
-	  var width = 600 - margin.left - margin.right;
-	  var height = 150 - margin.top - margin.bottom; // Rect SVG defined in index.html
-
-	  var svgCB = d3.select("#mapColourScale").select("svg").attr("width", width).attr("height", height).style("vertical-align", "middle"); // Create the g nodes
+	  // const margin = {top: 20, right: 0, bottom: 10, left: 20};
+	  // const width = 600 - margin.left - margin.right;
+	  // const height = 150 - margin.top - margin.bottom;
+	  // Rect SVG defined in index.html
+	  // const svgCB = d3.select("#mapColourScale")
+	  //     .select("svg")
+	  //     .attr("width", width)
+	  //     .attr("height", height)
+	  //     .style("vertical-align", "middle");
+	  // Create the g nodes
 
 	  var rects = svgCB.selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
 
@@ -798,8 +797,8 @@
 	  }).attr("fill", function (d, i) {
 	    return colourArray[i];
 	  }); // define rect text labels (calculate cbValues)
+	  // console.log("dimExtent: ", dimExtent);
 
-	  console.log("dimExtent: ", dimExtent);
 	  var delta = (dimExtent[1] - dimExtent[0]) / colourArray.length;
 	  var cbValues = [];
 
@@ -834,13 +833,31 @@
 	var units = "$";
 	var xaxisLabeldy = "2.5em";
 	var mapScaleLabel = "Total Sales (" + units + ")";
-	var map = d3.select(".dashboard .map").append("svg");
+	/* SVGs */
+	// fuel sales stacked area chart
+
+	var chart = d3.select(".data").append("svg").attr("id", "svgFuel"); // Canada map
+
+	var map = d3.select(".dashboard .map").append("svg"); // map colour bar
+
+	var margin = {
+	  top: 20,
+	  right: 0,
+	  bottom: 10,
+	  left: 20
+	};
+	var width = 600 - margin.left - margin.right;
+	var height = 150 - margin.top - margin.bottom;
+	var svgCB = d3.select("#mapColourScale").select("svg").attr("width", width).attr("height", height).style("vertical-align", "middle");
 	getCanadaMap(map).on("loaded", function () {
-	  d3.select(".dashboard .map").selectAll("path").style("stroke", "black"); // Read map data
+	  d3.select(".dashboard .map").selectAll("path").style("stroke", "black"); // Read map data (total fuel sales in each region for each year in ref period)
 
 	  if (!mapData[selectedYear]) {
-	    d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function (err, filedata) {
-	      mapData[selectedYear] = filedata;
+	    d3.json("data/road/canada_fuelSales_allyears.json", function (err, filedata) {
+	      // Extract data for selected year from obj and save in array format
+	      var thisTotalArray = [];
+	      thisTotalArray.push(filedata[selectedYear]);
+	      mapData[selectedYear] = thisTotalArray;
 	      showChloropleth(mapData[selectedYear]);
 	    });
 	  } else {
@@ -877,9 +894,6 @@
 
 	  d3.select("#groups")._groups[0][0].value = selected;
 	});
-	/* globals areaChart */
-
-	var chart = d3.select(".data").append("svg").attr("id", "svgFuel");
 
 	function uiHandler(event) {
 	  if (event.target.id === "groups") {
@@ -912,7 +926,11 @@
 	}
 
 	function showChloropleth(data) {
-	  var thisData = data[0];
+	  console.log("data in showChloropleth: ", data); // Array
+
+	  var thisData = data[0]; // Object
+
+	  console.log("thisData in showChloropleth: ", thisData);
 	  var dimExtent = [];
 	  var totArray = [];
 	  totArray = Object.values(thisData); // https://d3js.org/colorbrewer.v1.js
@@ -932,7 +950,7 @@
 	  } // colour bar scale
 
 
-	  mapColourScaleFn(colourArray, dimExtent, mapScaleLabel);
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel); // drawMapTable(map, mapSettings, data);
 	}
 
 	function showData() {

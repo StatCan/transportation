@@ -848,7 +848,7 @@
 
 	        areaChart(chart2, settingsAirport, lineData[selectedAirpt]); // line chart title
 
-	        d3.select("#svg_lineChart").select(".airptChartTitle").text(i18next.t(selectedAirpt, {
+	        d3.select("#svg_lineChart").select(".areaChartTitle").text(i18next.t(selectedAirpt, {
 	          ns: "airports"
 	        }));
 	      } // lineData[selectedAirpt] = aptData;
@@ -860,7 +860,7 @@
 
 	  areaChart(chart2, settingsAirport, lineData[selectedAirpt]); // line chart title
 
-	  d3.select("#svg_lineChart").select(".airptChartTitle").text(i18next.t(selectedAirpt, {
+	  d3.select("#svg_lineChart").select(".areaChartTitle").text(i18next.t(selectedAirpt, {
 	    ns: "airports"
 	  }));
 	} // For map circles
