@@ -1,34 +1,54 @@
 import settings from "./stackedAreaSettings.js";
 import settingsAirport from "./stackedAreaSettingsAirports.js";
 
+const passengerMode = "passenger";
+const majorAirportMode = "majorAirport";
+
+const data = {};
+
+let passengerTotals;
+let majorTotals;
+let canadaMap;
+
+let selectedYear = 2017;
+let selectedMode = passengerMode;
+
+let selectedRegion = "CANADA"; // default region for areaChart
+
+let selectedAirpt;
+const lineData = {};
+
+
+
+// which data set to use. 0 for passenger, 1 for movements/major airports
+let dataSet = 0;
+
 const map = d3.select(".dashboard .map")
     .append("svg");
+
+
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
 const chart2 = d3.select("#lineChart") // .select(".data")
     .append("svg")
     .attr("id", "svg_lineChart");
+
+
+// For map circles
+let path;
+const defaultPointRadius = 1.5;
+const defaultStrokeWidth = 0.5;
+
+const airportGroup = map.append("g");
+let allAirports;
 // !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-const data = {};
-let passengerTotals;
-let majorTotals;
-let selectedYear = 2017;
-
-let selected = "CANADA"; // default region for areaChart
-
-let selectedAirpt;
-const lineData = {};
-
-// which data set to use. 0 for passenger, 1 for movements/major airports
-let dataSet = 0;
 
 /* canada map */
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value;
+    selectedRegion = document.getElementById("groups").value;
     showAreaData();
   }
   if (event.target.id === "yearSelector"){
@@ -39,12 +59,12 @@ function uiHandler(event) {
 
 function showAreaData() {
   const showChart = () => {
-    areaChart(chart, settings, data[selected]);
+    areaChart(chart, settings, data[selectedRegion]);
   };
 
-  if (!data[selected]) {
-    return d3.json(`data/air/passengers/${selected}.json`, (ptData) => {
-      data[selected] = ptData;
+  if (!data[selectedRegion]) {
+    return d3.json(`data/air/passengers/${selectedRegion}.json`, (ptData) => {
+      data[selectedRegion] = ptData;
       showChart();
     });
   }
@@ -52,8 +72,7 @@ function showAreaData() {
 }
 
 function colorMap() {
-  // TEMPORARY
-    d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
+    map.selectAll("path").style("stroke", "black");
 
     const totArr = [];
     for (const sales of Object.keys(passengerTotals[selectedYear])) {
@@ -75,12 +94,12 @@ function colorMap() {
     for (const key in passengerTotals[selectedYear]) {
       if (passengerTotals[selectedYear].hasOwnProperty(key)) {
         d3.select(".dashboard .map")
-            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
+            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key].filter(function(d) { return d !== 0; });));
       }
     }
 }
 
-function showAirport() {
+const showAirport = function() {
   if (!lineData[selectedAirpt]) {
     const fname = `data/air/passengers/${selectedAirpt}.json`;
     return d3.json(fname, (aptData) => {
@@ -112,41 +131,25 @@ function showAirport() {
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
 }
 
-// For map circles
-let path;
-const defaultPointRadius = 1.5;
-const defaultStrokeWidth = 0.5;
 
-const canadaMap = getCanadaMap(map)
-    .on("loaded", function() {
-      colorMap();
+let refreshMap = function(){
 
-      // d3.json("geojson/vennAirport.geojson", (error, airports) => {
-      d3.json("geojson/vennAirport_with_dataFlag.geojson", (error, airports) => {
-        if (error) throw error;
+  path = d3.geoPath().projection(canadaMap.settings.projection)
+      .pointRadius(defaultPointRadius);
+  airportGroup.selectAll("path")
+    .data(allAirports.features)
+    .enter().append("path")
+    .attr("d", path)
+    .attr("id", (d, i) => {
+      return "airport" + d.properties.id;
+    })
+    .attr("class", (d, i) => {
+      return "airport " + d.properties.hasPlanedData;
+    })
 
-        const airportGroup = map.append("g");
-        path = d3.geoPath().projection(this.settings.projection)
-            .pointRadius(defaultPointRadius);
 
-        airportGroup.selectAll("path")
-            .data(airports.features)
-            .enter().append("path")
-            .attr("d", path)
-            .attr("id", (d, i) => {
-              return "airport" + d.properties.id;
-            })
-            .attr("class", (d, i) => {
-              return "airport " + d.properties.hasPlanedData;
-            })
-            .on("mouseover", (d) => {
-              selectedAirpt = d.properties.id;
-              if (d.properties.hasPlanedData !== "noYears") {
-                  showAirport();
-              }
-            });
-      });
-    });
+}
+
 
 map.on("click", () => {
   const transition = d3.transition().duration(1000);
@@ -179,16 +182,54 @@ i18n.load(["src/i18n"], () => {
   d3.queue()
     .defer(d3.json, "data/air/passengers/Annual_Totals.json")
     .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
-    .await(function(error, passengerTotal, majorTotal) {
+    .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
+    .await(function(error, passengerTotal, majorTotal, airports) {
+      if (error) throw error;
       passengerTotals = passengerTotal;
       majorTotals = majorTotal;
       settings.x.label = i18next.t("x_label", {ns: "area"}),
       settings.y.label = i18next.t("y_label", {ns: "area"}),
       settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
       settingsAirport.y.label = i18next.t("y_label", {ns: "areaAirport"}),
-      selectedYear = 2017,
-      colorMap(),
+      selectedYear = document.getElementById("yearSelector").value;
+
+      canadaMap = getCanadaMap(map)
+          .on("loaded", function(){
+
+              allAirports = airports;
+
+              refreshMap();
+              colorMap();
+
+
+              airportGroup.selectAll("path")
+                  .on("mouseover", (d) => {
+                    selectedAirpt = d.properties.id;
+                    if (d.properties.hasPlanedData !== "noYears") {
+                        showAirport();
+                    }
+                  });
+
+
+              map.style("visibility", "visible")
+              d3.select(".canada-map").moveToBack();
+
+          })
       showAreaData();
     });
 });
+
 $(document).on("change", uiHandler);
+d3.selection.prototype.moveToFront = function() {
+     return this.each(function(){
+       this.parentNode.appendChild(this);
+     });
+   };
+ d3.selection.prototype.moveToBack = function() {
+     return this.each(function() {
+         var firstChild = this.parentNode.firstChild;
+         if (firstChild) {
+             this.parentNode.insertBefore(this, firstChild);
+         }
+     });
+ };
