@@ -55,10 +55,6 @@
   position: relative;
   top: -50px;
 }
-.chart-data-table {
-  position: relative;
-  top: 70px;
-}
 .details .chart-data-table {
   padding-bottom: 0em;
 }
@@ -66,7 +62,7 @@
   padding-bottom: 0em;
 }
 #dataSource {
-  position: relative;
+  /* position: relative; */
   top: 70px;
 }
 
