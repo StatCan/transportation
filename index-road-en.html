@@ -155,11 +155,6 @@
     <div class="col-md-6"><p><span class="wetlabel label-primary"><strong>Release date:</strong> Mar 31, 2019</span></p></div>
     <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
 </div>
-
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices enim vel magna pellentesque volutpat.
-				Donec sagittis, tortor nec ullamcorper elementum, arcu libero aliquam nulla, et facilisis quam tellus id ante.
-				Fusce ultrices lorem at metus viverra convallis. Nullam fermentum, leo sed porttitor congue, augue ipsum semper
-				massa, sit amet dignissim risus ante non turpis. Mauris et erat ut arcu blandit cursus quis ac dolor.</p>
 			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual stacked area chart and move directly to the data table displaying fuel sales by fuel type for the selected geography.</a>
       <a href="#map-dt-tbl" class="wb-inv wb-show-onfocus">Skip the chloropleth map and move directly to the data table displaying total fuel sales for each geography for the selected year.</a>
 
@@ -169,8 +164,8 @@
 						<label for="groups_yr">Year</label>
 						<select id="year" class="form-control">
 							<option value="2017">2017</option>
-							<!--<option value="2016">2016</option>
-							<option value="2015">2015</option>
+							<option value="2016">2016</option>
+							<!--<option value="2015">2015</option>
 							<option value="2014">2014</option>
 							<option value="2013">2013</option>
 							<option value="2012">2012</option>
@@ -183,7 +178,7 @@
 							<label for="groups">Geographic region</label>
 							<select id="groups" class="form-control">
 								<option value="CANADA">Canada, all provinces and territories</option>
-								<!--<option value="NL">Newfoundland and Labrador</option>
+								<option value="NL">Newfoundland and Labrador</option>
 								<option value="PE">Prince Edward Island</option>
 								<option value="NS">Nova Scotia</option>
 								<option value="NB">New Brunswick</option>
@@ -196,51 +191,34 @@
 								<option value="YT">Yukon</option>
 								<option value="NT_NU">Northwest Territories including Nunavut</option>
 								<option value="NT">Northwest Territories</option>
-								<option value="NU">Nunavut</option>-->
+								<option value="NU">Nunavut</option>
 							</select>
 						</div>
 					</div>
 				</div>
 			</form>
-			<div class="row">
 
-      	<div class="dashboard">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="map">  </div>
-                  <div class="row">
-                    <div class="col-md-12" id="mapColourScale">
-                      <svg></svg>
-                   </div>
-                  </div>
-              </div>
-            </div>
-
-            <div class="data col-md-6"></div>
+      <div class="row">
+      				<div class="dashboard">
+      					<div class="map col-md-6"></div>
+      					<div class="data col-md-6"></div>
+      				</div>
+      </div>
+      <div class="row">
+      				<div class="col-lg-6">
+      					 <div id="mapColourScale">
+      							<svg></svg>
+      					 </div>
+      			  </div>
+      </div>
 
 
 
-          </div> <!-- inner row -->
-
-        </div> <!-- dashboard -->
-
-      </div> <!-- outer row -->
-
-
-
-			<div class="row">
-        <div class="col-lg-6">
-					 <div id="forAreaTable"></div>
-			  </div>
-		 </div>
 
 		 <div class="row">
-       <div id="dataSource">
        	<p>Source:
   		 		<a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2310006601" target="_blank">Table 23-10-0066-01</a>
   						Sales of fuel used for road motor vehicles, annual (x 1,000)</p>
-      </div>
 		</div>
 
 

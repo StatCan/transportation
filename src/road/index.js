@@ -149,7 +149,7 @@ function showChloropleth(data) {
 
   // colour bar scale
   mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel);
-  drawMapTable(svgCB, mapSettings, data);
+  drawMapTable(map, mapSettings, data);
 }
 
 function showData() {
