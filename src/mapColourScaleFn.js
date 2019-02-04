@@ -1,18 +1,18 @@
-export default function(colourArray, dimExtent, scaleLabel) {
+export default function(svgCB, colourArray, dimExtent, scaleLabel) {
   const rectDim = 20;
   const formatComma = d3.format(",");
 
   // initialize SVG for legend rects, their g and text nodes
-  const margin = {top: 20, right: 0, bottom: 10, left: 20};
-  const width = 600 - margin.left - margin.right;
-  const height = 150 - margin.top - margin.bottom;
+  // const margin = {top: 20, right: 0, bottom: 10, left: 20};
+  // const width = 600 - margin.left - margin.right;
+  // const height = 150 - margin.top - margin.bottom;
 
   // Rect SVG defined in index.html
-  const svgCB = d3.select("#mapColourScale")
-      .select("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .style("vertical-align", "middle");
+  // const svgCB = d3.select("#mapColourScale")
+  //     .select("svg")
+  //     .attr("width", width)
+  //     .attr("height", height)
+  //     .style("vertical-align", "middle");
 
   // Create the g nodes
   const rects = svgCB.selectAll("rect")

@@ -10,13 +10,23 @@ const units = "$";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total Sales (" + units + ")";
 
-/* globals areaChart */
+/* SVGs */
+// fuel sales stacked area chart
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svgFuel");
-
+// Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
+// map colour bar
+const margin = {top: 20, right: 0, bottom: 10, left: 20};
+const width = 600 - margin.left - margin.right;
+const height = 150 - margin.top - margin.bottom;
+const svgCB = d3.select("#mapColourScale")
+    .select("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("vertical-align", "middle");
 
 getCanadaMap(map).on("loaded", function() {
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
@@ -138,8 +148,8 @@ function showChloropleth(data) {
   }
 
   // colour bar scale
-  mapColourScaleFn(colourArray, dimExtent, mapScaleLabel);
-  drawMapTable(map, mapSettings, data);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, mapScaleLabel);
+  drawMapTable(svgCB, mapSettings, data);
 }
 
 function showData() {

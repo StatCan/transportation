@@ -51,6 +51,25 @@
 #map-dt-tbl table tbody tr {
   font-size: 10px;
 }
+.map-data-table {
+  position: relative;
+  top: -50px;
+}
+.chart-data-table {
+  position: relative;
+  top: 70px;
+}
+.details .chart-data-table {
+  padding-bottom: 0em;
+}
+.details .map-data-table {
+  padding-bottom: 0em;
+}
+#dataSource {
+  position: relative;
+  top: 70px;
+}
+
 table, th, td {
   font-size: 12px;
 }
