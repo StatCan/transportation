@@ -30,6 +30,13 @@ const svgCB = d3.select("#mapColourScale")
     .style("vertical-align", "middle");
 
 getCanadaMap(map).on("loaded", function() {
+  // Load CANADA.json into data if not already there
+  if (!data["CANADA"]) {
+    d3.json("data/road/CANADA.json", function(err, filedata) {
+      data[selected] = filedata;
+    });
+  }
+
   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
 
   // Read map data (total fuel sales in each region for each year in ref period)
@@ -64,16 +71,12 @@ map.on("mouseover", () => {
   }
 });
 map.on("click", () => {
-  console.log("data on click: ", data);
   // clear any previous clicks
   d3.select(".map")
       .selectAll("path")
       .classed("roadMapHighlight", false);
 
-  // console.log("d3.event.target: ", d3.event.target);
   const classes = d3.event.target.classList;
-  console.log("classes: ", classes);
-  console.log("classes.len: ", classes.length);
 
   if (classes.length > 0) {
     selected = classes[0];
@@ -94,10 +97,38 @@ map.on("click", () => {
     d3.select("#groups")._groups[0][0].value = selected;
   } else {
     // reset area chart to Canada
-    console.log(data);
+    selected = "CANADA";
+    showData();
+    // update region displayed in dropdown menu
+    d3.select("#groups")._groups[0][0].value = selected;
   }
 });
 
+function showChloropleth(data) {
+  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+
+  // colour map with fillMapFn and output dimExtent for colour bar scale
+  const dimExtent = fillMapFn(data, colourArray);
+
+  // colour bar scale and add label
+  mapColourScaleFn(svgCB, colourArray, dimExtent);
+  d3.select("#cbID").text(mapScaleLabel);
+
+  // Display table of map data
+  drawMapTable(map, mapSettings, data);
+}
+
+function showData() {
+  areaChart(chart, settings, data[selected]);
+  d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
+
+  // Highlight region selected from menu on map
+  d3.select(".dashboard .map")
+      .select("." + selected)
+      .classed("roadMapHighlight", true);
+}
+
+// -----------------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
@@ -126,25 +157,7 @@ function uiHandler(event) {
     }
   }
 }
-
-function showChloropleth(data) {
-  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-
-  // colour map with fillMapFn and output dimExtent for colour bar scale
-  const dimExtent = fillMapFn(data, colourArray);
-
-  // colour bar scale and add label
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
-
-  // Display table of map data
-  drawMapTable(map, mapSettings, data);
-}
-
-function showData() {
-  areaChart(chart, settings, data[selected]);
-  d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
-}
+// -----------------------------------------------------------------------------
 
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
@@ -152,9 +165,7 @@ i18n.load(["src/i18n"], () => {
   d3.queue()
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, data) {
-        console.log("data in queue: ", data);
         data[selected] = data;
-        console.log(data);
         areaChart(chart, settings, data[selected]);
         d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
       });
