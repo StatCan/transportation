@@ -90,6 +90,7 @@ function colorMap() {
     const minValue =  Math.min.apply(null, totArr.filter(Boolean));
     const maxValue =  totArr[numberOfProvinces-1];
     const dimExtent = [minValue, maxValue]
+
     const colourMap = d3.scaleLinear()
         .domain([dimExtent[0], dimExtent[1]])
         .range(colourArray);
@@ -97,7 +98,11 @@ function colorMap() {
     for (const key in passengerTotals[selectedYear]) {
       if (passengerTotals[selectedYear].hasOwnProperty(key)) {
         d3.select(".dashboard .map")
+<<<<<<< HEAD
             .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
+=======
+            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key].filter(function(d) { return d !== 0; });));
+>>>>>>> 510874e6ba6a5f94f46518e57a1eb36432b5d1a1
       }
     }
 }
