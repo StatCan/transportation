@@ -98,11 +98,7 @@ function colorMap() {
     for (const key in passengerTotals[selectedYear]) {
       if (passengerTotals[selectedYear].hasOwnProperty(key)) {
         d3.select(".dashboard .map")
-<<<<<<< HEAD
             .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
-=======
-            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key].filter(function(d) { return d !== 0; });));
->>>>>>> 510874e6ba6a5f94f46518e57a1eb36432b5d1a1
       }
     }
 }
