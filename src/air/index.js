@@ -1,18 +1,17 @@
 import settings from "./stackedAreaSettings.js";
 import settingsAirport from "./stackedAreaSettingsAirports.js";
 
-const passengerMode = "passenger";
-const majorAirportMode = "majorAirport";
+// const passengerMode = "passenger"; // TODO
+// const majorAirportMode = "majorAirport"; // TODO
 
 const data = {};
 
 let passengerTotals;
 let majorTotals;
 let canadaMap;
-const numberOfProvinces = 13;
 
 let selectedYear = 2017;
-let selectedMode = passengerMode;
+// let selectedMode = passengerMode; // TODO
 
 let selectedRegion = "CANADA"; // default region for areaChart
 
@@ -20,9 +19,8 @@ let selectedAirpt;
 const lineData = {};
 
 
-
 // which data set to use. 0 for passenger, 1 for movements/major airports
-let dataSet = 0;
+// let dataSet = 0; // TODO
 
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -43,16 +41,14 @@ const defaultStrokeWidth = 0.5;
 
 const airportGroup = map.append("g");
 let allAirports;
-// !!!!!!! WIP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-/* canada map */
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selectedRegion = document.getElementById("groups").value;
     showAreaData();
   }
-  if (event.target.id === "yearSelector"){
+  if (event.target.id === "yearSelector") {
     selectedYear = document.getElementById("yearSelector").value;
     colorMap();
   }
@@ -73,34 +69,28 @@ function showAreaData() {
 }
 
 function colorMap() {
-    map.selectAll("path").style("stroke", "black");
+  let dimExtent = [];
+  map.selectAll("path").style("stroke", "black");
 
-    const totArr = [];
-    for (const sales of Object.keys(passengerTotals[selectedYear])) {
-      totArr.push(passengerTotals[selectedYear][sales]);
+  const totArr = [];
+  for (const sales of Object.keys(passengerTotals[selectedYear])) {
+    totArr.push(passengerTotals[selectedYear][sales]);
+  }
+
+  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+
+  // colour map to take data value and map it to the colour of the level bin it belongs to
+  dimExtent = d3.extent(totArr);
+  const colourMap = d3.scaleQuantile()
+      .domain([dimExtent[0], dimExtent[1]])
+      .range(colourArray);
+
+  for (const key in passengerTotals[selectedYear]) {
+    if (passengerTotals[selectedYear].hasOwnProperty(key)) {
+      d3.select(".dashboard .map")
+          .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
     }
-    // https://d3js.org/colorbrewer.v1.js
-    const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-
-    totArr.sort(function(a, b) {
-      return a - b;
-    });
-
-    // colour map to take data value and map it to the colour of the level bin it belongs to
-    const minValue =  Math.min.apply(null, totArr.filter(Boolean));
-    const maxValue =  totArr[numberOfProvinces-1];
-    const dimExtent = [minValue, maxValue]
-
-    const colourMap = d3.scaleLinear()
-        .domain([dimExtent[0], dimExtent[1]])
-        .range(colourArray);
-
-    for (const key in passengerTotals[selectedYear]) {
-      if (passengerTotals[selectedYear].hasOwnProperty(key)) {
-        d3.select(".dashboard .map")
-            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
-      }
-    }
+  }
 }
 
 const showAirport = function() {
@@ -108,51 +98,44 @@ const showAirport = function() {
     const fname = `data/air/passengers/${selectedAirpt}.json`;
     return d3.json(fname, (aptData) => {
       if (aptData) {
-        for(var year of aptData){
-          for (var key in year){
-            if (year[key]==="x" || year[key]===".."){
+        for (const year of aptData) {
+          for (const key in year) {
+            if (year[key]==="x" || year[key]==="..") {
               year[key]=0;
             }
           }
         }
         lineData[selectedAirpt] = aptData;
-        // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
         areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
-        // line chart title
+        // airport chart title
         d3.select("#svg_lineChart")
             .select(".areaChartTitle")
             .text(i18next.t(selectedAirpt, {ns: "airports"}));
       }
-      // lineData[selectedAirpt] = aptData;
-      // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
     });
   }
-  // lineChart(chart2, settingsLineChart, lineData[selectedAirpt]);
   areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
-  // line chart title
+  // airport chart title
   d3.select("#svg_lineChart")
       .select(".areaChartTitle")
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
-}
+};
 
 
-let refreshMap = function(){
-
+const refreshMap = function() {
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
   airportGroup.selectAll("path")
-    .data(allAirports.features)
-    .enter().append("path")
-    .attr("d", path)
-    .attr("id", (d, i) => {
-      return "airport" + d.properties.id;
-    })
-    .attr("class", (d, i) => {
-      return "airport " + d.properties.hasPlanedData;
-    })
-
-
-}
+      .data(allAirports.features)
+      .enter().append("path")
+      .attr("d", path)
+      .attr("id", (d, i) => {
+        return "airport" + d.properties.id;
+      })
+      .attr("class", (d, i) => {
+        return "airport " + d.properties.hasPlanedData;
+      });
+};
 
 
 map.on("click", () => {
@@ -184,56 +167,52 @@ map.on("click", () => {
 
 i18n.load(["src/i18n"], () => {
   d3.queue()
-    .defer(d3.json, "data/air/passengers/Annual_Totals.json")
-    .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
-    .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
-    .await(function(error, passengerTotal, majorTotal, airports) {
-      if (error) throw error;
-      passengerTotals = passengerTotal;
-      majorTotals = majorTotal;
-      settings.x.label = i18next.t("x_label", {ns: "area"}),
-      settings.y.label = i18next.t("y_label", {ns: "area"}),
-      settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
-      settingsAirport.y.label = i18next.t("y_label", {ns: "areaAirport"}),
-      selectedYear = document.getElementById("yearSelector").value;
+      .defer(d3.json, "data/air/passengers/Annual_Totals.json")
+      .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
+      .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
+      .await(function(error, passengerTotal, majorTotal, airports) {
+        if (error) throw error;
+        passengerTotals = passengerTotal;
+        majorTotals = majorTotal;
+        settings.x.label = i18next.t("x_label", {ns: "area"}),
+        settings.y.label = i18next.t("y_label", {ns: "area"}),
+        settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
+        settingsAirport.y.label = i18next.t("y_label", {ns: "areaAirport"}),
+        selectedYear = document.getElementById("yearSelector").value;
 
-      canadaMap = getCanadaMap(map)
-          .on("loaded", function(){
-
+        canadaMap = getCanadaMap(map)
+            .on("loaded", function() {
               allAirports = airports;
 
               refreshMap();
               colorMap();
 
-
               airportGroup.selectAll("path")
                   .on("mouseover", (d) => {
                     selectedAirpt = d.properties.id;
                     if (d.properties.hasPlanedData !== "noYears") {
-                        showAirport();
+                      showAirport();
                     }
                   });
 
-
-              map.style("visibility", "visible")
+              map.style("visibility", "visible");
               d3.select(".canada-map").moveToBack();
-
-          })
-      showAreaData();
-    });
+            });
+        showAreaData();
+      });
 });
 
 $(document).on("change", uiHandler);
 d3.selection.prototype.moveToFront = function() {
-     return this.each(function(){
-       this.parentNode.appendChild(this);
-     });
-   };
- d3.selection.prototype.moveToBack = function() {
-     return this.each(function() {
-         var firstChild = this.parentNode.firstChild;
-         if (firstChild) {
-             this.parentNode.insertBefore(this, firstChild);
-         }
-     });
- };
+  return this.each(function() {
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {
+  return this.each(function() {
+    const firstChild = this.parentNode.firstChild;
+    if (firstChild) {
+      this.parentNode.insertBefore(this, firstChild);
+    }
+  });
+};
