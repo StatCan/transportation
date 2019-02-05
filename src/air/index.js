@@ -9,6 +9,7 @@ const data = {};
 let passengerTotals;
 let majorTotals;
 let canadaMap;
+const numberOfProvinces = 13;
 
 let selectedYear = 2017;
 let selectedMode = passengerMode;
@@ -86,7 +87,9 @@ function colorMap() {
     });
 
     // colour map to take data value and map it to the colour of the level bin it belongs to
-    const dimExtent = d3.extent(totArr);
+    const minValue =  Math.min.apply(null, totArr.filter(Boolean));
+    const maxValue =  totArr[numberOfProvinces-1];
+    const dimExtent = [minValue, maxValue]
     const colourMap = d3.scaleLinear()
         .domain([dimExtent[0], dimExtent[1]])
         .range(colourArray);
@@ -94,7 +97,7 @@ function colorMap() {
     for (const key in passengerTotals[selectedYear]) {
       if (passengerTotals[selectedYear].hasOwnProperty(key)) {
         d3.select(".dashboard .map")
-            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key].filter(function(d) { return d !== 0; });));
+            .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
       }
     }
 }
