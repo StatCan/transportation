@@ -216,70 +216,50 @@ table, th, td {
 }
 
 /*rail dataset*/
-.ABto, .area.ABtoAB, .area.ABtoATR, .area.ABtoBC, .area.ABtoMB, .area.ABtoON, .area.ABtoQC,
-.area.ABtoSK, .area.ABtoUSMEX {
-	fill: #655643;
-}
-.ATRto, .area.ATRtoAB, .area.ATRtoATR, .area.ATRtoBC, .area.ATRtoMB, .area.ATRtoON, .area.ATRtoQC,
-.area.ATRtoSK, .area.ATRtoUSMEX {
-	fill: #EDDB7C;
-}
-.BCto, .area.BCtoAB, .area.BCtoATR, .area.BCtoBC, .area.BCtoMB, .area.BCtoON, .area.BCtoQC, .area.BCtoSK,
-.area.BCtoUSMEX {
-	fill: #1B676B;
-}
-.MBto, .area.MBtoATR, .area.MBtoAB, .area.MBtoBC, .area.MBtoMB, .area.MBtoON, .area.MBtoQC, .area.MBtoSK,
-.area.MBtoUSMEX {
-	fill: #005596;
-}
-.ONto, .area.ONtoATR, .area.ONtoAB, .area.ONtoBC, .area.ONtoMB, .area.ONtoON,
-.area.ONtoQC, .area.ONtoSK, .ONtoUSMEX {
-	fill: #BF4D28;
-}
-.QCto, .area.QCtoATR, .area.QCtoAB, .area.QCtoBC, .area.QCtoMB, .area.QCtoON, .area.QCtoQC, .area.QCtoSK,
-.area.QCtoUSMEX {
-	fill: #87244C;
-}
-.SKto, .area.SKtoATR, .area.SKtoAB, .area.SKtoBC, .area.SKtoMB, .area.SKtoON, .area.SKtoQC, .area.SKtoSK,
-.area.SKtoUSMEX {
-	fill: #FC913A;
-}
 /* LINES */
-.dline.ONtoATR, .legendLine.ONto {
-  stroke: #BF4D28;
-  stroke-width: 4px;
-  stroke-dasharray: 4px;
-}
-.dline.ATRtoON, .dline.ATRtoQC, .dline.ATRtoMB, .dline.ATRtoSK, .dline.ATRtoAB, .dline.ATRtoBC,
-.legendLine.ATRto {
-  stroke: #555;
-  stroke-width: 3px;
-}
-.dline.QCtoATR, .legendLine.QCto {
-  stroke: #3182bd;
-  stroke-width: 4px;
-  stroke-dasharray: 4px;
-}
-.dline.MBtoATR, .legendLine.MBto {
-  stroke: #31a354;
-  stroke-width: 4px;
-  stroke-dasharray: 4px;
-}
-.dline.SKtoATR, .legendLine.SKto {
-  stroke: #dd1c77;
-  stroke-width: 4px;
-  stroke-dasharray: 4px;
-}
-.dline.ABtoATR, .legendLine.ABto {
+.legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,
+.dline.ABtoON, .dline.ABtoQC, .dline.ABtoSK, .dline.ABtoUS-MEX {
   stroke: #c994c7;
   stroke-width: 4px;
   stroke-dasharray: 4px;
 }
-.dline.BCtoATR, .legendLine.BCto {
+.legendLine.ATto, .dline.ATtoAB, .dline.ATtoAT, .dline.ATtoBC, .dline.ATtoMB,
+.dline.ATtoON, .dline.ATtoQC, .dline.ATtoSK, .dline.ATtoUS-MEX
+ {
+  stroke: #555;
+  stroke-width: 3px;
+}
+.legendLine.BCto, .dline.BCtoAB, .dline.BCtoAT, .dline.BCtoBC, .dline.BCtoMB,
+.dline.BCtoON, .dline.BCtoQC, .dline.BCtoSK, .dline.BCtoUS-MEX {
   stroke: #1B676B;
   stroke-width: 4px;
   stroke-dasharray: 4px;
 }
+.legendLine.MBto, .dline.MBtoAT, .dline.MBtoAB, .dline.MBtoBC, .dline.MBtoMB,
+.dline.MBtoON, .dline.MBtoQC, .dline.MBtoSK, .dline.MBtoUS-MEX {
+  stroke: #31a354;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine.ONto, .dline.ONtoAT, .dline.ONtoAB, .dline.ONtoBC, .dline.ONtoMB,
+.dline.ONtoON, .dline.ONtoQC, .dline.ONtoSK, .dline.ONtoUS-MEX  {
+  stroke: #BF4D28;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine.QCto, .dline.QCtoAT, .dline.QCtoAB, .dline.QCtoBC, .dline.QCtoMB,
+.dline.QCtoON, .dline.QCtoQC, .dline.QCtoSK, .dline.QCtoUS-MEX  {
+  stroke: #3182bd;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine.SKto, .dline.SKtoAT, .dline.SKtoAB, .dline.SKtoBC, .dline.SKtoMB,
+.dline.SKtoON, .dline.SKtoQC, .dline.SKtoSK, .dline.SKtoUS-MEX {
+  stroke: #dd1c77;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+
 #tonnageDivIdLines .line-label {
   opacity: 0;
 }
