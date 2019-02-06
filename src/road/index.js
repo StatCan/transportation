@@ -125,6 +125,13 @@ function showData() {
       .classed("roadMapHighlight", true);
 }
 
+function updateTitles() {
+  const geography = i18next.t(selected, {ns: "roadGeography"});
+  d3.select("#mapTitleRoad")
+      .text("Total fuel sales, " + geography + ", " + selectedYear);
+  d3.select("#areaTitleRoad")
+      .text("Type of fuel sales, " + geography);
+}
 // -----------------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -132,6 +139,8 @@ function uiHandler(event) {
 
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("roadMapHighlight", false);
+    // Chart titles
+    updateTitles();
 
     if (!data[selected]) {
       d3.json("data/road/" + selected + ".json", function(err, filedata) {
@@ -144,6 +153,9 @@ function uiHandler(event) {
   }
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
+    // Chart titles
+    updateTitles();
+
     if (!mapData[selectedYear]) {
       d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
         mapData[selectedYear] = filedata;
@@ -166,6 +178,9 @@ i18n.load(["src/i18n"], () => {
         data[selected] = data;
         areaChart(chart, settings, data[selected]);
         d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
+
+        // Chart titles
+        updateTitles();
       });
 });
 

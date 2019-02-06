@@ -46,6 +46,9 @@
 .fueldata #chrt-dt-tbl  {
   font-size: 15px;
 }
+#mapTitleRoad, #areaTitleRoad {
+  font-weight: bold;
+}
 #mapColourScale text {
 	fill: #565656;
 	stroke: "none";

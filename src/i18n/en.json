@@ -28,6 +28,23 @@
       "diesel": "Diesel",
       "lpg": "LPG"
     },
+    "roadGeography": {
+      "CANADA": "Canada",
+      "NL": "Newfoundland and Labrador",
+      "PE": "Prince Edward Island",
+      "NS": "Nova Scotia",
+      "NB": "New Brunswick",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "YT": "Yukon",
+      "NT_NU": "Northwest Territories including Nunavut",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut"
+    },
     "railArea": {
       "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
