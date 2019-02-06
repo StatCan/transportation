@@ -21,9 +21,9 @@
     },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
-      "tableTitle": "Sales of fuel used for road motor vehicles, annual ",
+      "tableTitle": "Sales of fuel used for road motor vehicles, annual (million dollars)",
       "x_label": "Year",
-      "y_label": "Sales (x 10,000,000)",
+      "y_label": "Sales (million dollars)",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "LPG"
