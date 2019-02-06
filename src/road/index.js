@@ -1,5 +1,4 @@
 import settings from "./stackedAreaSettings.js";
-import mapSettings from "./mapSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 
@@ -113,9 +112,6 @@ function showChloropleth(data) {
   // colour bar scale and add label
   mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
-
-  // Display table of map data
-  drawMapTable(map, mapSettings, data);
 }
 
 function showData() {
