@@ -40,7 +40,7 @@ getCanadaMap(map).on("loaded", function() {
 
   // Read map data (total fuel sales in each region for each year in ref period)
   if (!mapData[selectedYear]) {
-    d3.json("data/road/canada_fuelSales_allyears.json", function(err, filedata) {
+    d3.json("data/road/Annual_Totals.json", function(err, filedata) {
       // Extract data for selected year from obj and save in array format
       const thisTotalArray = [];
       thisTotalArray.push(filedata[selectedYear]);
