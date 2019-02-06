@@ -6,7 +6,7 @@ const data = {};
 const mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
-const units = "$";
+const units = "million dollars";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total Sales (" + units + ")";
 
@@ -104,7 +104,8 @@ map.on("click", () => {
 });
 
 function showChloropleth(data) {
-  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  console.log(data)
+  const colourArray= ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(data, colourArray);

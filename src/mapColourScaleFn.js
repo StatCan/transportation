@@ -1,6 +1,8 @@
 export default function(svgCB, colourArray, dimExtent) {
+  const scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 20;
   const formatComma = d3.format(",d");
+  console.log(dimExtent)
 
   // Create the g nodes
   const rects = svgCB.selectAll("rect")
@@ -14,7 +16,7 @@ export default function(svgCB, colourArray, dimExtent) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 140 + i * 100;
+        return 235 + i * 85;
       })
       .attr("fill", function(d, i) {
         return colourArray[i];
@@ -36,14 +38,14 @@ export default function(svgCB, colourArray, dimExtent) {
   d3.select("#mapColourScale")
       .selectAll("text")
       .text(function(i, j) {
-        const s0 = formatComma(cbValues[j]/1e4);
-        const s2 = cbValues[j + 1] ? formatComma(cbValues[j + 1]/1e4) : s0 + "+";
+        const s0 = formatComma(cbValues[j] / scalef);
+        const s2 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
         updateText = cbValues[j + 1] ? "< " + s2 : s2;
         return updateText;
       })
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = [100, 202, 292, 392, 497];
+        const xpos = [185, 275, 351, 442];
         return xpos[i];
       })
       .style("display", function() {
