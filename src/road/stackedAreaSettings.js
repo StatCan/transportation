@@ -70,6 +70,7 @@ export default {
     }
   },
   datatable: true,
+  tableTitle: i18next.t("tableTitle", {ns: "roadArea"}),
   transition: false,
   width: 850
 };

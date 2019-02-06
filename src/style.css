@@ -43,6 +43,9 @@
   stroke: #aaa;
 	stroke-width: 2px;
 }
+.fueldata #chrt-dt-tbl  {
+  font-size: 15px;
+}
 #mapColourScale text {
 	fill: #565656;
 	stroke: "none";

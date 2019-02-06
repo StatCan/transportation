@@ -158,6 +158,7 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea"}),
   d3.queue()
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, data) {
