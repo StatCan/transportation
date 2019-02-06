@@ -6,7 +6,7 @@ export default {
     left: 80
   },
   filterData: function(data) {
-    return baseDateFilter(data)
+    return baseDateFilter(data);
   },
   x: {
     getLabel: function() {
@@ -72,7 +72,7 @@ const baseDateFilter = function(data) {
   for (let s = 0; s < data.length; s++) {
     const date = new Date(data[s].date);
     if (date >= minDate) {
-      newData.push(data[s])
+      newData.push(data[s]);
     }
   }
 

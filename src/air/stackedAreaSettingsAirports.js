@@ -8,7 +8,7 @@ export default {
     left: 50
   },
   filterData: function(data) {
-      return data;
+    return data;
   },
   x: {
     getValue: function(d) {

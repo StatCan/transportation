@@ -7,7 +7,7 @@ import settingsAirport from "./stackedAreaSettingsAirports.js";
 const data = {};
 
 let passengerTotals;
-let majorTotals;
+// let majorTotals; // TODO
 let canadaMap;
 
 let selectedYear = 2017;
@@ -173,7 +173,7 @@ i18n.load(["src/i18n"], () => {
       .await(function(error, passengerTotal, majorTotal, airports) {
         if (error) throw error;
         passengerTotals = passengerTotal;
-        majorTotals = majorTotal;
+        // majorTotals = majorTotal;
         settings.x.label = i18next.t("x_label", {ns: "area"}),
         settings.y.label = i18next.t("y_label", {ns: "area"}),
         settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
