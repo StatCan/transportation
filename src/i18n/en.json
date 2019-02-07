@@ -23,7 +23,7 @@
       "alt": "Fuel sales for road motor vehicles, annual",
       "tableTitle": "Sales of fuel used for road motor vehicles, annual (million dollars)",
       "x_label": "Year",
-      "y_label": "Sales (million dollars)",
+      "y_label": "Sales (millions of dollars)",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "LPG"
@@ -41,7 +41,6 @@
       "AB": "Alberta",
       "BC": "British Columbia",
       "YT": "Yukon",
-      "NT_NU": "Northwest Territories including Nunavut",
       "NT": "Northwest Territories",
       "NU": "Nunavut"
     },

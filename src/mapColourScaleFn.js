@@ -15,7 +15,7 @@ export default function(svgCB, colourArray, dimExtent) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 235 + i * 85;
+        return 245 + i * 85;
       })
       .attr("fill", function(d, i) {
         return colourArray[i];
@@ -44,7 +44,7 @@ export default function(svgCB, colourArray, dimExtent) {
       })
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = [185, 275, 351, 442];
+        const xpos = [197, 285, 361, 452];
         return xpos[i];
       })
       .style("display", function() {

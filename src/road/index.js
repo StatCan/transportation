@@ -6,7 +6,7 @@ const data = {};
 let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
-const units = "million dollars";
+const units = "millions of dollars";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total Sales (" + units + ")";
 
@@ -80,6 +80,8 @@ map.on("click", () => {
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selected;
   }
+  // Chart titles
+  updateTitles();
 });
 
 // -----------------------------------------------------------------------------
@@ -89,7 +91,6 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  console.log(thisTotalArray);
   const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
@@ -102,7 +103,10 @@ function colorMap() {
 
 function showData() {
   areaChart(chart, settings, data[selected]);
-  d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
+  d3.select("#svgFuel").select(".x.axis")
+      .select("text")
+      .attr("dy", xaxisLabeldy)
+      .attr("display", "none");
 
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
@@ -165,7 +169,10 @@ i18n.load(["src/i18n"], () => {
 
         // Area chart and x-axis position
         areaChart(chart, settings, data[selected]);
-        d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
+        d3.select("#svgFuel").select(".x.axis")
+            .select("text")
+            .attr("dy", xaxisLabeldy)
+            .attr("display", "none");
 
         // Show chart titles based on default menu options
         updateTitles();
