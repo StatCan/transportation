@@ -3,14 +3,14 @@ import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 
 const data = {};
-const mapData = {};
-let canadaMap;
+let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
 const units = "million dollars";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total Sales (" + units + ")";
 
+// -----------------------------------------------------------------------------
 /* SVGs */
 // fuel sales stacked area chart
 const chart = d3.select(".data")
@@ -29,30 +29,8 @@ const svgCB = d3.select("#mapColourScale")
     .attr("height", height)
     .style("vertical-align", "middle");
 
-// getCanadaMap(map).on("loaded", function() {
-//   // // Load CANADA.json into data if not already there
-//   // if (!data["CANADA"]) {
-//   //   d3.json("data/road/CANADA.json", function(err, filedata) {
-//   //     data[selected] = filedata;
-//   //   });
-//   // }
-//
-//   d3.select(".dashboard .map").selectAll("path").style("stroke", "black");
-//
-//   // Read map data (total fuel sales in each region for each year in ref period)
-//   if (!mapData[selectedYear]) {
-//     d3.json("data/road/Annual_Totals.json", function(err, filedata) {
-//       // Extract data for selected year from obj and save in array format
-//       const thisTotalArray = [];
-//       thisTotalArray.push(filedata[selectedYear]);
-//       mapData[selectedYear] = thisTotalArray;
-//       showChloropleth(mapData[selectedYear]);
-//     });
-//   } else {
-//     showChloropleth(mapData[selectedYear]);
-//   }
-// }); // end map
-
+// -----------------------------------------------------------------------------
+/* Map interactions */
 map.on("mouseover", () => {
   const classes = d3.event.target.classList;
 
@@ -104,24 +82,18 @@ map.on("click", () => {
   }
 });
 
-function showChloropleth(data) {
-  console.log(data);
-  const colourArray= ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-
-  // colour map with fillMapFn and output dimExtent for colour bar scale
-  const dimExtent = fillMapFn(data, colourArray);
-
-  // colour bar scale and add label
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
-}
-
+// -----------------------------------------------------------------------------
+/* FNS */
 function colorMap() {
-  console.log(data);
-  const colourArray= ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  // store map data in array and plot colour
+  const thisTotalArray = [];
+  thisTotalArray.push(mapData[selectedYear]);
+
+  console.log(thisTotalArray);
+  const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
-  const dimExtent = fillMapFn(data, colourArray);
+  const dimExtent = fillMapFn(thisTotalArray, colourArray);
 
   // colour bar scale and add label
   mapColourScaleFn(svgCB, colourArray, dimExtent);
@@ -145,7 +117,9 @@ function updateTitles() {
   d3.select("#areaTitleRoad")
       .text("Type of fuel sales, " + geography);
 }
+
 // -----------------------------------------------------------------------------
+/* uiHandler*/
 function uiHandler(event) {
   if (event.target.id === "groups") {
     selected = document.getElementById("groups").value;
@@ -166,43 +140,34 @@ function uiHandler(event) {
   }
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    // Chart titles
-    updateTitles();
-
-    if (!mapData[selectedYear]) {
-      d3.json("data/road/canada_fuelSales_" + selectedYear + ".json", function(err, filedata) {
-        mapData[selectedYear] = filedata;
-        showChloropleth(mapData[selectedYear]);
-      });
-    } else {
-      showChloropleth(mapData[selectedYear]);
-    }
+    updateTitles(); // update to reflect new menu selections for all charts
+    colorMap();
   }
 }
-// -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+/* Initial page load */
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea"}),
   d3.queue()
-      .defer(d3.json, "data/road/Annual_Totals.json") //  d3.json("data/road/Annual_Totals.json", function(err, filedata) {
+      .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, mapfile, areafile) {
-        mapData[selectedYear] = mapfile;
+        mapData = mapfile;
         data[selected] = areafile;
 
-        canadaMap = getCanadaMap(map)
+        getCanadaMap(map)
             .on("loaded", function() {
-              // Colour map with fuel sales majorTotals
               colorMap();
             });
 
-        // Area chart and xaxis position
+        // Area chart and x-axis position
         areaChart(chart, settings, data[selected]);
         d3.select("#svgFuel").select(".x.axis").select("text").attr("dy", xaxisLabeldy);
 
-        // Chart titles
+        // Show chart titles based on default menu options
         updateTitles();
       });
 });
