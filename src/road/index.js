@@ -167,6 +167,7 @@ i18n.load(["src/i18n"], () => {
 
         getCanadaMap(map)
             .on("loaded", function() {
+              d3.stcExt.addIEShim(map, 377, 457);
               colorMap();
             });
 
