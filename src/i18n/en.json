@@ -26,7 +26,7 @@
       "y_label": "Sales (millions of dollars)",
       "gas": "Gas",
       "diesel": "Diesel",
-      "lpg": "LPG"
+      "lpg": "Liquid Petroleum Gas"
     },
     "roadGeography": {
       "CANADA": "Canada",

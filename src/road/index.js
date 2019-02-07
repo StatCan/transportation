@@ -8,7 +8,7 @@ let selected = "CANADA";
 let selectedYear = "2017";
 const units = "millions of dollars";
 const xaxisLabeldy = "2.5em";
-const mapScaleLabel = "Total Sales (" + units + ")";
+const mapScaleLabel = "Total (" + units + ")";
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -21,7 +21,7 @@ const map = d3.select(".dashboard .map")
     .append("svg");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 600 - margin.left - margin.right;
+const width = 510 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
