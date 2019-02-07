@@ -32,11 +32,14 @@ const svgCB = d3.select("#mapColourScale")
 // -----------------------------------------------------------------------------
 /* Map interactions */
 map.on("mouseover", () => {
-  const classes = d3.event.target.classList;
+  if (d3.select(d3.event.target).attr("class")) {
+    // const classes = d3.event.target.classList;
+    const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-  d3.select(".dashboard .map")
-      .select("." + classes[0])
-      .classed("roadMapHighlight", true);
+    d3.select(".dashboard .map")
+        .select("." + classes[0])
+        .classed("roadMapHighlight", true);
+  }
 }).on("mouseout", () => {
   if (selected) {
     d3.select(".map")
@@ -54,9 +57,9 @@ map.on("click", () => {
       .selectAll("path")
       .classed("roadMapHighlight", false);
 
-  const classes = d3.event.target.classList;
+  if (d3.select(d3.event.target).attr("class")) {
+    const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-  if (classes.length > 0) {
     selected = classes[0];
     d3.select(".dashboard .map")
         .select("." + classes[0])
