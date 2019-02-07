@@ -1,1 +1,41 @@
-[{"date":"1993","gas":3869461,"diesel":989618,"lpg":null},{"date":"1994","gas":4082964,"diesel":1080544,"lpg":null},{"date":"1995","gas":4134983,"diesel":1126368,"lpg":null},{"date":"1996","gas":4172348,"diesel":1173583,"lpg":null},{"date":"1997","gas":4251691,"diesel":1203370,"lpg":null},{"date":"1998","gas":4400672,"diesel":1173724,"lpg":null},{"date":"1999","gas":4489276,"diesel":1208936,"lpg":null},{"date":"2000","gas":4406399,"diesel":1370074,"lpg":null},{"date":"2001","gas":4460565,"diesel":1329901,"lpg":null},{"date":"2002","gas":4532446,"diesel":1418915,"lpg":null},{"date":"2003","gas":4512548,"diesel":1515135,"lpg":null},{"date":"2004","gas":4543450,"diesel":1647352,"lpg":null},{"date":"2005","gas":4507834,"diesel":1681135,"lpg":null},{"date":"2006","gas":4524469,"diesel":1721635,"lpg":null},{"date":"2007","gas":4554406,"diesel":1796611,"lpg":null},{"date":"2008","gas":4467255,"diesel":1714031,"lpg":null},{"date":"2009","gas":4536112,"diesel":1647876,"lpg":null},{"date":"2010","gas":4560666,"diesel":1838578,"lpg":null},{"date":"2011","gas":4537496,"diesel":2221338,"lpg":null},{"date":"2012","gas":4348707,"diesel":1761637,"lpg":null},{"date":"2013","gas":4336807,"diesel":2145516,"lpg":196681},{"date":"2014","gas":4422297,"diesel":1922523,"lpg":343060},{"date":"2015","gas":4656988,"diesel":1852896,"lpg":320829},{"date":"2016","gas":4893207,"diesel":1837722,"lpg":278136},{"date":"2017","gas":4935834,"diesel":1910156,"lpg":85669}]
+[{
+  "date": "2010",
+  "gas": 4560666,
+  "diesel": 1838578,
+  "lpg": null
+}, {
+  "date": "2011",
+  "gas": 4537496,
+  "diesel": 2221338,
+  "lpg": null
+}, {
+  "date": "2012",
+  "gas": 4348707,
+  "diesel": 1761637,
+  "lpg": null
+}, {
+  "date": "2013",
+  "gas": 4336807,
+  "diesel": 2145516,
+  "lpg": 196681
+}, {
+  "date": "2014",
+  "gas": 4422297,
+  "diesel": 1922523,
+  "lpg": 343060
+}, {
+  "date": "2015",
+  "gas": 4656988,
+  "diesel": 1852896,
+  "lpg": 320829
+}, {
+  "date": "2016",
+  "gas": 4893207,
+  "diesel": 1837722,
+  "lpg": 278136
+}, {
+  "date": "2017",
+  "gas": 4935834,
+  "diesel": 1910156,
+  "lpg": 85669
+}]
