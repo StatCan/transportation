@@ -2,7 +2,6 @@ export default function(svgCB, colourArray, dimExtent) {
   const scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 20;
   const formatComma = d3.format(",d");
-  console.log(dimExtent)
 
   // Create the g nodes
   const rects = svgCB.selectAll("rect")
