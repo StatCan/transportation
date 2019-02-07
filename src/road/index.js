@@ -57,7 +57,8 @@ map.on("click", () => {
       .selectAll("path")
       .classed("roadMapHighlight", false);
 
-  if (d3.select(d3.event.target).attr("class")) {
+  if (d3.select(d3.event.target).attr("class") &&
+        d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
     selected = classes[0];
@@ -80,6 +81,7 @@ map.on("click", () => {
     // reset area chart to Canada
     selected = "CANADA";
     showData();
+
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selected;
   }
