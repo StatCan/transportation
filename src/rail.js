@@ -913,19 +913,20 @@
 
     var xcoord1 = [0, 20];
     var xcoord2 = [130, 150];
+    var ycoord = 7;
     lines.append("line").attr("x1", function (d, i) {
       return i === 0 ? xcoord1[0] : xcoord2[0];
     }).attr("x2", function (d, i) {
       return i === 0 ? xcoord1[1] : xcoord2[1];
-    }).attr("y1", 13).attr("y2", 13).attr("class", function (d, i) {
-      return "legendLine " + regPairs[i] + "to";
+    }).attr("y1", ycoord).attr("y2", ycoord).attr("class", function (d, i) {
+      return (i === 0 ? "legendLine " : "legendLine2 ") + regPairs[i] + "to";
     }); // add text node to rect g
 
     lines.append("text"); // Display text in text node
 
     d3.select(legendID).selectAll("text").text(function (d, i) {
       return i === 0 ? regPairs[0] + " to " + regPairs[1] : regPairs[1] + " to " + regPairs[0];
-    }).attr("y", 18).attr("x", function (d, i) {
+    }).attr("y", 10).attr("x", function (d, i) {
       var xpos = [25, 155];
       return xpos[i];
     }).style("display", function () {
@@ -934,7 +935,8 @@
   }
 
   var selectedRegion = "ON";
-  var selectedComm = "coal"; // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
+  var selectedComm = "chems"; // "coal";
+  // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 
   var regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
   var remainingRegions = regions.filter(function (item) {

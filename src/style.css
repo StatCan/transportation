@@ -222,7 +222,7 @@ table, th, td {
 }
 
 /*rail dataset*/
-/* LINES */
+/* SOLID LINES */
 .legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,
 .dline.ABtoON, .dline.ABtoQC, .dline.ABtoSK, .dline.ABtoUS-MEX {
   stroke: #c994c7;
@@ -245,22 +245,62 @@ table, th, td {
 .dline.MBtoON, .dline.MBtoQC, .dline.MBtoSK, .dline.MBtoUS-MEX {
   stroke: #31a354;
   stroke-width: 4px;
-  stroke-dasharray: 4px;
 }
 .legendLine.ONto, .dline.ONtoAT, .dline.ONtoAB, .dline.ONtoBC, .dline.ONtoMB,
 .dline.ONtoON, .dline.ONtoQC, .dline.ONtoSK, .dline.ONtoUS-MEX  {
-  stroke: #BF4D28;
+  stroke: #555;
   stroke-width: 4px;
-  stroke-dasharray: 4px;
 }
 .legendLine.QCto, .dline.QCtoAT, .dline.QCtoAB, .dline.QCtoBC, .dline.QCtoMB,
 .dline.QCtoON, .dline.QCtoQC, .dline.QCtoSK, .dline.QCtoUS-MEX  {
   stroke: #3182bd;
   stroke-width: 4px;
-  stroke-dasharray: 4px;
 }
 .legendLine.SKto, .dline.SKtoAT, .dline.SKtoAB, .dline.SKtoBC, .dline.SKtoMB,
 .dline.SKtoON, .dline.SKtoQC, .dline.SKtoSK, .dline.SKtoUS-MEX {
+  stroke: #dd1c77;
+  stroke-width: 4px;
+}
+/* DASHED LINES dline2 */
+.legendLine2.ABto, .dline2.ABtoAB, .dline2.ABtoAT, .dline2.ABtoBC, .dline2.ABtoMB,
+.dline2.ABtoON, .dline2.ABtoQC, .dline2.ABtoSK, .dline2.ABtoUS-MEX {
+  stroke: #c994c7;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.ATto, .dline2.ATtoAB, .dline2.ATtoAT, .dline2.ATtoBC, .dline2.ATtoMB,
+.dline2.ATtoON, .dline2.ATtoQC, .dline2.ATtoSK, .dline2.ATtoUS-MEX
+ {
+  stroke: #555;
+  stroke-width: 3px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.BCto, .dline2.BCtoAB, .dline2.BCtoAT, .dline2.BCtoBC, .dline2.BCtoMB,
+.dline2.BCtoON, .dline2.BCtoQC, .dline2.BCtoSK, .dline2.BCtoUS-MEX {
+  stroke: #1B676B;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.MBto, .dline2.MBtoAT, .dline2.MBtoAB, .dline2.MBtoBC, .dline2.MBtoMB,
+.dline2.MBtoON, .dline2.MBtoQC, .dline2.MBtoSK, .dline2.MBtoUS-MEX {
+  stroke: #31a354;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.ONto, .dline2.ONtoAT, .dline2.ONtoAB, .dline2.ONtoBC, .dline2.ONtoMB,
+.dline2.ONtoON, .dline2.ONtoQC, .dline2.ONtoSK, .dline2.ONtoUS-MEX  {
+  stroke: #555;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.QCto, .dline2.QCtoAT, .dline2.QCtoAB, .dline2.QCtoBC, .dline2.QCtoMB,
+.dline2.QCtoON, .dline2.QCtoQC, .dline2.QCtoSK, .dline2.QCtoUS-MEX  {
+  stroke: #3182bd;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.SKto, .dline2.SKtoAT, .dline2.SKtoAB, .dline2.SKtoBC, .dline2.SKtoMB,
+.dline2.SKtoON, .dline2.SKtoQC, .dline2.SKtoSK, .dline2.SKtoUS-MEX {
   stroke: #dd1c77;
   stroke-width: 4px;
   stroke-dasharray: 4px;
