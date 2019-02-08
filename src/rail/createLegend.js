@@ -32,7 +32,8 @@ export default function(regPairs, legendID) {
       .attr("y1", 13)
       .attr("y2", 13)
       .attr("class", function(d, i) {
-        return "legendLine " + regPairs[i] + "to";
+        return (i === 0 ? "legendLine " : "legendLine2 ")
+           + regPairs[i] + "to";
       });
 
   // add text node to rect g
