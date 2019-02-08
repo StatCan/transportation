@@ -748,7 +748,7 @@
       top: 20,
       right: 10,
       bottom: 50,
-      left: 50
+      left: 65
     },
     filterData: function filterData(data) {
       var root = data; // keys for labels to identify lines
