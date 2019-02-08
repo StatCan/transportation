@@ -22,6 +22,7 @@ export default function(regPairs, legendID) {
   // Append lines onto the g nodes and fill
   const xcoord1 = [0, 20];
   const xcoord2 = [130, 150];
+  const ycoord = 7;
   lines.append("line")
       .attr("x1", function(d, i) {
         return (i === 0 ? xcoord1[0] : xcoord2[0]);
@@ -29,8 +30,8 @@ export default function(regPairs, legendID) {
       .attr("x2", function(d, i) {
         return (i === 0 ? xcoord1[1] : xcoord2[1]);
       })
-      .attr("y1", 13)
-      .attr("y2", 13)
+      .attr("y1", ycoord)
+      .attr("y2", ycoord)
       .attr("class", function(d, i) {
         return (i === 0 ? "legendLine " : "legendLine2 ")
            + regPairs[i] + "to";
@@ -46,7 +47,7 @@ export default function(regPairs, legendID) {
         return i === 0 ? regPairs[0] + " to " + regPairs[1] :
         regPairs[1] + " to " + regPairs[0];
       })
-      .attr("y", 18)
+      .attr("y", 10)
       .attr("x", function(d, i) {
         const xpos = [25, 155];
         return xpos[i];

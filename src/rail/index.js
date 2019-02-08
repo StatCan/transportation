@@ -4,7 +4,7 @@ import createLegend from "./createLegend.js";
 
 // const data = {};
 let selectedRegion = "ON";
-let selectedComm = "coal";
+let selectedComm = "chems"; // "coal";
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];

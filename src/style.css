@@ -248,7 +248,7 @@ table, th, td {
 }
 .legendLine.ONto, .dline.ONtoAT, .dline.ONtoAB, .dline.ONtoBC, .dline.ONtoMB,
 .dline.ONtoON, .dline.ONtoQC, .dline.ONtoSK, .dline.ONtoUS-MEX  {
-  stroke: #BF4D28;
+  stroke: #555;
   stroke-width: 4px;
 }
 .legendLine.QCto, .dline.QCtoAT, .dline.QCtoAB, .dline.QCtoBC, .dline.QCtoMB,
@@ -289,7 +289,7 @@ table, th, td {
 }
 .legendLine2.ONto, .dline2.ONtoAT, .dline2.ONtoAB, .dline2.ONtoBC, .dline2.ONtoMB,
 .dline2.ONtoON, .dline2.ONtoQC, .dline2.ONtoSK, .dline2.ONtoUS-MEX  {
-  stroke: #BF4D28;
+  stroke: #555;
   stroke-width: 4px;
   stroke-dasharray: 4px;
 }
