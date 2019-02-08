@@ -177,6 +177,8 @@
       "partialcarload": "Less-than-carload shipments"
     },
     "modes": {
+      "alt": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
       "intl": "International travellers",
       "USres": "US residents",
       "nonUS": "non-US residents",

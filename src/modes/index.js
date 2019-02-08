@@ -1,4 +1,5 @@
 import makeSankey from "./makeSankey.js";
+import settings from "./stackedAreaSettingsTableOnly.js";
 
 let selected = "CANADA";
 let data;
@@ -31,6 +32,7 @@ i18n.load(["src/i18n"], function() {
       .await(function(error, json) {
         data = json;
         makeSankey(sankeyChart, data);
+        areaTable(stackedAreaSettingsTableOnly, data);
       });
 });
 

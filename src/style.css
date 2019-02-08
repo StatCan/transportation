@@ -527,6 +527,9 @@ div.tooltip {
 }
 
 /*modes dataset*/
+.modedata #chrt-dt-tbl  {
+  font-size: 15px;
+}
 .node rect {
   cursor: move;
   fill-opacity: .9;
