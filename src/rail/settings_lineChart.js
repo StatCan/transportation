@@ -5,7 +5,7 @@ export default {
     top: 20,
     right: 10,
     bottom: 50,
-    left: 50
+    left: 65
   },
   filterData: function(data) {
     const root = data;
