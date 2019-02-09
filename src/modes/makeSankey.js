@@ -1,7 +1,7 @@
 // function makeSankey(svgID, graph) {
 const defaults = {
   aspectRatio: 16 / 14,
-  width: 1100,
+  width: 1090,
   margin: {
     top: 10,
     right: 10,

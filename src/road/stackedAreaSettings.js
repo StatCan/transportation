@@ -7,6 +7,7 @@ export default {
   },
   // creates variable d
   filterData: function(data) {
+    console.log("road filterData: ", data)
     // data is an array of objects
     return data;
   },
@@ -22,6 +23,12 @@ export default {
   y: {
     label: i18next.t("y_label", {ns: "roadArea"}),
     getValue: function(d, key) {
+      console.log("y d: ", d)
+      console.log("y key: ", key)
+      console.log("typeof: ", typeof d[key] === "string")
+      console.log("instanceof: ", d[key] instanceof String)
+      console.log("d[key]: ", d[key])
+
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
       } else return d[key] * 1.0/ 1e3;
@@ -60,6 +67,7 @@ export default {
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
+      console.log("z keys: ", keys)
       return keys;
     },
     getClass: function(...args) {

@@ -179,6 +179,8 @@
     "modes": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
       "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "name": "Traveller characteristics",
+      "value": "Number of travellers",
       "intl": "International travellers",
       "USres": "US residents",
       "nonUS": "non-US residents",
