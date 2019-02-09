@@ -62,7 +62,7 @@ export default {
       return i18next.t(d.key, {ns: "area"});
     }
   },
-  datatable: false,
+  datatable: true,
   transition: true,
   width: 400
 };
