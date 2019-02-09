@@ -527,9 +527,19 @@ div.tooltip {
 }
 
 /*modes dataset*/
-.modedata #chrt-dt-tbl  {
-  font-size: 15px;
+/*-- table --*/
+#modesTable {
+    position: relative;
+    top: -200px;
 }
+#modesTable summary {
+	font-size: 18px;
+}
+.details .chart-data-table {
+  padding-bottom: 0em;
+}
+
+/*-- Sankey --*/
 .node rect {
   cursor: move;
   fill-opacity: .9;

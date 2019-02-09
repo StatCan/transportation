@@ -9,8 +9,7 @@ const sankeyChart = d3.select("#sankeyGraph")
     .attr("id", "svg_sankeyChart");
 
 const table = d3.select(".tabledata")
-    // .append("svg")
-    .attr("id", "chartTable");
+    .attr("id", "modesTable");
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
