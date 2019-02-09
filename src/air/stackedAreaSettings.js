@@ -1,5 +1,5 @@
 export default {
-  alt: i18next.t("alt", {ns: "area"}),
+  alt: i18next.t("alt", {ns: "airPassengers"}),
   margin: {
     top: 20,
     bottom: 50,
@@ -10,7 +10,7 @@ export default {
   },
   x: {
     getLabel: function() {
-      return i18next.t("x_label", {ns: "area"});
+      return i18next.t("x_label", {ns: "airPassengers"});
     },
     getValue: function(d) {
       return new Date(d.date + "-01");
@@ -22,9 +22,9 @@ export default {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "area"}),
+    label: i18next.t("y_label", {ns: "airPassengers"}),
     getLabel: function() {
-      return i18next.t("y_label", {ns: "area"});
+      return i18next.t("y_label", {ns: "airPassengers"});
     },
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
@@ -40,7 +40,7 @@ export default {
   },
 
   z: {
-    label: i18next.t("z_label", {ns: "area"}),
+    label: i18next.t("z_label", {ns: "airPassengers"}),
     getId: function(d) {
       return d.key;
     },
@@ -59,10 +59,11 @@ export default {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "area"});
+      return i18next.t(d.key, {ns: "airPassengers"});
     }
   },
   datatable: true,
+  tableTitle: i18next.t("tableTitle", {ns: "airPassengers"}),
   transition: true,
   width: 400
 };

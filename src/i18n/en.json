@@ -99,15 +99,21 @@
       "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
     },
     "areaAirport": {
-      "alt": "Air passenger traffic at Canadian airports, annual",
+      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
       "x_label": "Year",
-      "y_label": "Number of passengers (x 1000)",
-      "total": "Total",
-      "domestic": "Domestic",
-      "international": "International",
-      "transborder": "Transborder",
+      "y_label": "Number of passengers (in thousands)",
       "enplaned": "Enplaned",
       "deplaned": "Deplaned"
+    },
+    "airPassengers": {
+      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "tableTitle": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "x_label": "Year",
+      "y_label": "Number of passengers (in thousands)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "other_intl": "International",
+      "trans_border": "Transborder"
     },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",
