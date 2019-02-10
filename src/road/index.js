@@ -125,17 +125,32 @@ map.on("click", () => {
 });
 
 /*  areaChart interactions */
-// d3.select("#svgFuel").select("path")
-//   .on("mouseover", (d) => { 
-//     console.log("here: ", d) 
-// })
+// vertical line to help orient the user while exploring the streams
+const vertical = d3.select("#annualTimeseries")
+    .append("div")
+    .attr("class", "remove")
+    .style("position", "absolute")
+    .style("z-index", "0")
+    .style("width", "2px")
+    .style("height", "310px")
+    .style("top", "60px")
+    .style("bottom", "70px")
+    .style("left", "0px")
+    .style("background", "#ccc");
 
 d3.select("#annualTimeseries")
+  .on("mousemove", function() {
+    const mouse = d3.mouse(this);
+    const mousex = mouse[0] + 5;
+    vertical.style("left", mousex + "px" );
+    console.log("mousex: ", mousex)
+  })
   .on("mouseover", function() {
-    const mousex = d3.mouse(this);
-    console.log(".area mousex", mousex)
-
-})
+    const mouse = d3.mouse(this);
+    const mousex = mouse[0] + 5;
+    vertical.style("left", mousex + "px");
+    console.log("mouseover mousex: ", mousex)
+  });
 
 chart
   .on("mouseover", (d) => {
