@@ -1,16 +1,29 @@
 {
   "fr": {
-    "area": {
-      "alt": "Accroissement de la population mondiale historique et estimée par région",
-      "x_label": "Année",
-      "y_label": "Population (en Milliards)",
-      "datatableTitle": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en Milliards)",
-      "datatableTitlePercent": "Tableau de données : Accroissement de la population mondiale historique et estimée par région (en pourcentage de la planète)",
-      "gas": "Gas",
-      "diesel": "Diesel",
-      "LPG": "LPG",
-      "local": "Local",
-      "itinerant": "Itinerant"
+    "roadArea": {
+      "alt": "Ventes de carburants destinés aux véhicules automobiles, annuel",
+      "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, annuel (million de dollars)",
+      "x_label": "An",
+      "y_label": "Ventes (million de dollars)",
+      "gas": "Essence",
+      "diesel": "Carburant diesel",
+      "lpg": "Gaz de pétrole liquéfié"
+    },
+    "roadGeography": {
+      "CANADA": "Canada",
+      "NL": "Terre-Neuve-et-Labrador",
+      "PE": "Île-du-Prince-Édouard",
+      "NS": "Nouvelle-Écosse",
+      "NB": "ouveau-Brunswick",
+      "QC": "Québec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "Colombie-Britannique",
+      "YT": "Yukon",
+      "NT": "Territoires du Nord-Ouest",
+      "NU": "Nunavut"
     },
      "provinces": {
        "CANADA": "Canada",

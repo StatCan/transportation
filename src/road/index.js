@@ -35,6 +35,11 @@ const svgCB = d3.select("#mapColourScale")
 const div = d3.select("body").append("div")
   .attr("class", "tooltip")
   .style("opacity", 0);
+const divArea = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 
 // -----------------------------------------------------------------------------
 /* Map interactions */
@@ -63,9 +68,11 @@ map.on("mouseover", () => {
         )
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");
-  
   }
 }).on("mouseout", () => {
+  div.transition()
+     .style("opacity", 0);
+
   if (selected) {
     d3.select(".map")
         .selectAll("path:not(." + selected + ")")
@@ -115,6 +122,48 @@ map.on("click", () => {
   }
   // Chart titles
   updateTitles();
+});
+
+/*  areaChart interactions */
+// d3.select("#svgFuel").select("path")
+//   .on("mouseover", (d) => { 
+//     console.log("here: ", d) 
+// })
+
+d3.select("#annualTimeseries")
+  .on("mouseover", function() {
+    const mousex = d3.mouse(this);
+    console.log(".area mousex", mousex)
+
+})
+
+chart
+  .on("mouseover", (d) => {
+
+    // const mouseCoords = [d3.event.pageX, d3.event.pageY];
+    // console.log("X: ", mouseCoords)
+    // // Tooltip
+    // const root = d3.select(d3.event.target);
+
+    // if (root._groups[0][0].__data__) {
+    //   const thisArray = root._groups[0][0].__data__;
+    //   console.log("thisArray: ", thisArray)
+
+    //   divArea.transition()
+    //      .style("opacity", .9);
+    //   divArea.html(
+    //       "<b>" + "TYPE" + "</b>"+ "<br><br>" +
+    //         "<table>" +
+    //           "<tr>" + 
+    //             "<td><b>$" + 1000  + "</td>" +
+    //             // "<td>" + " (" + units + ")</td>" +
+    //           "</tr>" +
+    //         "</table>"
+    //       )
+    //       .style("left", (d3.event.pageX) + "px")
+    //       .style("top", (d3.event.pageY) + "px");
+    // }
+  
 });
 
 // -----------------------------------------------------------------------------
