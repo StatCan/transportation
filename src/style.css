@@ -486,13 +486,7 @@ Show only for top 2 charts
 .active {
 	pointer-events: auto;
 }
-#pageNum {
-	font-size: 14px;
-	text-align: right;
-	padding-right: 35px;
-	position: relative;
-	top: -32px;
-}
+
 /*expt rail dataset*/
 div.tooltip {
 	position: absolute;
