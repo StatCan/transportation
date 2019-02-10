@@ -29,14 +29,14 @@ const map = d3.select(".dashboard .map")
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
-const chart2 = d3.select("#lineChart") // .select(".data")
+const chart2 = d3.select("#aptChart") // .select(".data")
     .append("svg")
-    .attr("id", "svg_lineChart");
+    .attr("id", "svg_aptChart");
 
 
 // For map circles
 let path;
-const defaultPointRadius = 1.5;
+const defaultPointRadius = 1.1;
 const defaultStrokeWidth = 0.5;
 
 const airportGroup = map.append("g");
@@ -57,6 +57,9 @@ function uiHandler(event) {
 function showAreaData() {
   const showChart = () => {
     areaChart(chart, settings, data[selectedRegion]);
+    d3.select("#svg_areaChartAir").select(".x.axis")
+            .select("text")
+            .attr("display", "none");
   };
 
   if (!data[selectedRegion]) {
@@ -107,10 +110,11 @@ const showAirport = function() {
         }
         lineData[selectedAirpt] = aptData;
         areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
+        d3.select("#svg_aptChart").select(".x.axis").select("text").attr("display", "none");
         // Titles
         const fullName = i18next.t(selectedAirpt, {ns: "airports"});
         // airport chart title
-        d3.select("#svg_lineChart")
+        d3.select("#svg_aptChart")
             .select(".areaChartTitle")
             .text(fullName);
         // airport table title
@@ -121,7 +125,7 @@ const showAirport = function() {
   }
   areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
   // airport chart title
-  d3.select("#svg_lineChart")
+  d3.select("#svg_aptChart")
       .select(".areaChartTitle")
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
 };

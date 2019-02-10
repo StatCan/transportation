@@ -85,13 +85,13 @@ table, th, td {
 
 /*-- airport circle fill --*/
 .allYears {
-	fill: #008E09;
+	fill: #7E0C33;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .noYears {
-	fill: gray;
+	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
 }
@@ -102,13 +102,13 @@ table, th, td {
 	cursor: pointer;
 }
 .lastSixYears {
-	fill: #008E09;
+	fill: #F6CF22;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastFiveYears {
-	fill: #008E09;
+	fill: #F6CF22;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
@@ -182,25 +182,25 @@ table, th, td {
 .line svg .domain {
 	stroke: black;
 }
-#svg_lineChart .area  {
+#svg_aptChart .area  {
   opacity: 0.5;
 }
-#svg_lineChart .area2  {
+#svg_aptChart .area2  {
   fill: #046D8B;
 	opacity: 0.7;
 }
-#svg_lineChart .area1  {
+#svg_aptChart .area1  {
   fill: #D4C098;
 	opacity: 1;
 }
-#svg_lineChart .chart-label {
+#svg_aptChart .chart-label {
 	font-size: 8px;
 	fill: #555;
 }
-#svg_lineChart .tick text {
+#svg_aptChart .tick text {
 	font-size: 8px;
 }
-#svg_lineChart .area-label {
+#svg_aptChart .area-label {
 	font-size: 7px;
 	fill: #333333;
 }
@@ -219,13 +219,13 @@ table, th, td {
 .domain {
 	display: inline;
 }
-#svg_lineChart .axis path  {
+#svg_aptChart .axis path  {
   stroke: #aaa;
 }
-#svg_lineChart .axis .tick line {
+#svg_aptChart .axis .tick line {
   stroke: #aaa;
 }
-#svg_lineChart .areaChartTitle {
+#svg_aptChart .areaChartTitle {
   font-size: 8px;
   fill: #555;
   font-weight: bold;
