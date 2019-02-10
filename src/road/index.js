@@ -9,6 +9,7 @@ let selectedYear = "2017";
 const units = "millions of dollars";
 const xaxisLabeldy = "2.5em";
 const mapScaleLabel = "Total (" + units + ")";
+const formatComma = d3.format(",d");
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -30,15 +31,39 @@ const svgCB = d3.select("#mapColourScale")
     .style("vertical-align", "middle");
 
 // -----------------------------------------------------------------------------
+/* tooltip */
+const div = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
+// -----------------------------------------------------------------------------
 /* Map interactions */
 map.on("mouseover", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
+    // Highlight map region
     d3.select(".dashboard .map")
         .select("." + classes[0])
         .classed("roadMapHighlight", true);
+    // Tooltip
+    const key = i18next.t(classes[0], {ns: "roadGeography"});
+    const value = formatComma(mapData[selectedYear][classes[0]]);
+    div.transition()
+       .style("opacity", .9);
+    div.html(
+        "<b>" + key + "</b>"+ "<br><br>" +
+          "<table>" +
+            "<tr>" + 
+              "<td><b>$" + value  + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+            "</tr>" +
+          "</table>"
+        )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY) + "px");
+  
   }
 }).on("mouseout", () => {
   if (selected) {
@@ -70,9 +95,11 @@ map.on("click", () => {
     if (!data[selected]) {
       d3.json("data/road/" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
+           console.log("showData 3")
         showData();
       });
     } else {
+         console.log("showData 4")
       showData();
     }
     // update region displayed in dropdown menu
@@ -80,6 +107,7 @@ map.on("click", () => {
   } else {
     // reset area chart to Canada
     selected = "CANADA";
+       console.log("showData 5")
     showData();
 
     // update region displayed in dropdown menu
@@ -107,6 +135,7 @@ function colorMap() {
 }
 
 function showData() {
+     console.log("showData fn")
   areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
@@ -141,9 +170,11 @@ function uiHandler(event) {
     if (!data[selected]) {
       d3.json("data/road/" + selected + ".json", function(err, filedata) {
         data[selected] = filedata;
+        console.log("showData 1")
         showData();
       });
     } else {
+         console.log("showData 2")
       showData();
     }
   }
@@ -174,6 +205,7 @@ i18n.load(["src/i18n"], () => {
             });
 
         // Area chart and x-axis position
+        console.log("areaChart 1: ", data[selected])
         areaChart(chart, settings, data[selected]);
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
