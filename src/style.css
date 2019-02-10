@@ -16,6 +16,10 @@
 }
 
 /*road dataset*/
+/*-- tooltip --*/
+.remove {
+	margin-left: 63px;
+}
 .gas {
 	fill: #EDDB7C;
 }
