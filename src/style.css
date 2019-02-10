@@ -141,7 +141,7 @@ table, th, td {
 #svg_areaChartAir .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 12px;
+	font-size: 9px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svg_areaChartAir .axis path  {
