@@ -122,10 +122,10 @@ map.on("click", () => {
 });
 
 /*  areaChart interactions */
-// vertical line to help orient the user while exploring the streams
+// vertical line to attach to cursor
 const vertical = d3.select("#annualTimeseries")
     .append("div")
-    .attr("class", "remove")
+    .attr("class", "linecursor")
     .style("position", "absolute")
     .style("z-index", "0")
     .style("width", "2px")

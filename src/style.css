@@ -17,7 +17,7 @@
 
 /*road dataset*/
 /*-- tooltip --*/
-.remove {
+.linecursor {
 	margin-left: 63px;
 }
 .gas {
@@ -38,7 +38,7 @@
 	fill: #555;
 }
 #svgFuel .chart-label {
-	font-size: 20px;
+	font-size: 24px;
 	fill: #69757c;
 }
 #svgFuel .tick text {
@@ -79,11 +79,19 @@ table, th, td {
 }
 
 /*air dataset*/
+/*-- titles for map and charts --*/
+#mapTitleAir, #areaTitleAir {
+  font-weight: bold;
+}
 /*-- table --*/
 .airdata #chrt-dt-tbl  {
+/*  position: relative;
+  top: -150px;*/
   font-size: 18px;
 }
 .airdata #chrt-dt-tbl1  {
+/*  position: relative;
+  top: -150px;*/
   font-size: 18px;
 }
 
@@ -127,7 +135,7 @@ table, th, td {
 	stroke-width: 0.5px; */
 }
 #svg_areaChartAir .area-label {
-	font-size: 12px;
+	font-size: 10px;
 	fill: #3D3D3D;
 }
 #svg_areaChartAir .tick text {
@@ -143,7 +151,7 @@ table, th, td {
   stroke: #aaa;
 }
 #svg_areaChartAir .chart-label {
-	font-size: 12px;
+	font-size: 10px;
 	fill: #555;
 }
 .local, .domestic {
@@ -186,6 +194,10 @@ table, th, td {
 .line svg .domain {
 	stroke: black;
 }
+#svg_aptChart {
+  position: relative;
+  top: -150px;
+}
 #svg_aptChart .area  {
   opacity: 0.5;
 }
@@ -198,7 +210,7 @@ table, th, td {
 	opacity: 1;
 }
 #svg_aptChart .chart-label {
-	font-size: 8px;
+	font-size: 7px;
 	fill: #555;
 }
 #svg_aptChart .tick text {

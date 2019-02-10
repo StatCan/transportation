@@ -44,6 +44,50 @@
       "NT": "Northwest Territories",
       "NU": "Nunavut"
     },
+    "airGeography": {
+      "CANADA": "Canada",
+      "NL": "Newfoundland and Labrador",
+      "PE": "Prince Edward Island",
+      "NS": "Nova Scotia",
+      "NB": "New Brunswick",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "YT": "Yukon",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut"
+    },
+    "airports": {
+      "alt": "Air passenger traffic at Canadian airports, annual",
+      "YOW": "Macdonald-Cartier International (YOW), Ottawa, Ontario",
+      "YYZ": "Lester B. Pearson International (YYZ), Toronto, Ontario",
+      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario",
+      "YQG": "Windsor International (YQG), Windsor, Ontario",
+      "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
+    },
+    "airPassengerAirports": {
+      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "tableTitle": "Air passenger traffic at XXX, annual (in thousands)",
+      "x_label": "Year",
+      "y_label": "Number of passengers (in thousands)",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
+    },
+    "airPassengers": {
+      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "tableTitle": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "chartTitle": "Air passenger traffic",
+      "mapTitle": "Total, passenger sector",
+      "x_label": "Year",
+      "y_label": "Number of passengers (in thousands)",
+      "total": "Total",
+      "domestic": "Domestic",
+      "other_intl": "International",
+      "trans_border": "Transborder"
+    },
     "railArea": {
       "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
@@ -89,32 +133,6 @@
        "AB": "Alberta",
        "BC": "British Columbia",
        "YK": "Yukon"
-    },
-    "airports": {
-      "alt": "Air passenger traffic at Canadian airports, annual",
-      "YOW": "Macdonald-Cartier International (YOW), Ottawa, Ontario",
-      "YYZ": "Lester B. Pearson International (YYZ), Toronto, Ontario",
-      "YKZ": "Buttonville Municipal Airport (YKZ), Toronto, Ontario",
-      "YQG": "Windsor International (YQG), Windsor, Ontario",
-      "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
-    },
-    "airPassengerAirports": {
-      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "tableTitle": "Air passenger traffic at XXX, annual (in thousands)",
-      "x_label": "Year",
-      "y_label": "Number of passengers (in thousands)",
-      "enplaned": "Enplaned",
-      "deplaned": "Deplaned"
-    },
-    "airPassengers": {
-      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "tableTitle": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "x_label": "Year",
-      "y_label": "Number of passengers (in thousands)",
-      "total": "Total",
-      "domestic": "Domestic",
-      "other_intl": "International",
-      "trans_border": "Transborder"
     },
     "commodities": {
       "total": "Total tonnage of all rail commodities 4",

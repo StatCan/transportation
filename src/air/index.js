@@ -174,6 +174,15 @@ map.on("click", () => {
   }
 });
 
+/*-- update map and areaChart titles --*/
+function updateTitles() {
+  const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+  d3.select("#mapTitleAir")
+      .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedYear);
+  d3.select("#areaTitleAir")
+      .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
+}
+
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
@@ -211,6 +220,8 @@ i18n.load(["src/i18n"], () => {
               d3.select(".canada-map").moveToBack();
             });
         showAreaData();
+        // Show chart titles based on default menu options
+        updateTitles();
       });
 });
 
