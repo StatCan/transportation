@@ -55,7 +55,11 @@ export default {
     }
   },
   datatable: true,
-  tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
+  // tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
+  tableTitle: function(d) {
+    console.log(d)
+    return i18next.t("tableTitle", {ns: "airPassengerAirports"});
+  },
   areaTableID: "airportTable",
   transition: false,
   width: 500

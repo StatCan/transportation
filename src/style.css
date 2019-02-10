@@ -79,6 +79,9 @@ table, th, td {
 .airdata #chrt-dt-tbl  {
   font-size: 18px;
 }
+.airdata #chrt-dt-tbl1  {
+  font-size: 18px;
+}
 
 /*-- airport circle fill --*/
 .allYears {
