@@ -138,9 +138,12 @@ const vertical = d3.select("#annualTimeseries")
     .style("left", "0px")
     .style("background", "#ccc");
 
+let idx;
+let thisValue;
 d3.select("#annualTimeseries")
   .on("mousemove", function() {
-    const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
+    // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
+    const xref = [62, 149, 234, 321, 404, 491, 576];
     const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
     xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
     xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
@@ -149,7 +152,33 @@ d3.select("#annualTimeseries")
     const mousex = mouse[0];
     vertical.style("left", mousex + "px" );
     console.log("mouse: ", mouse);
-    
+
+    if ( mousex < xrefMid[0] ) {
+      idx = 0;
+      console.log("2010: ", idx)
+    } else if (  mousex < xrefMid[1]  ) {
+      idx = 1;
+      console.log("2011: ", idx)
+    } else if (  mousex < xrefMid[2]  ) {
+      idx = 2;
+      console.log("2012: ", idx)
+    } else if (  mousex < xrefMid[3]  ) {
+      idx = 3;
+      console.log("2013: ", idx)
+    } else if (  mousex < xrefMid[4]  ) {
+      idx = 4;
+      console.log("2014: ", idx)
+    } else if (  mousex < xrefMid[5]  ) {
+      idx = 5;
+      console.log("2015: ", idx)
+    } else if (  mousex < xrefMid[6]  ) {
+      idx = 6;
+      console.log("2016: ", idx)
+    } else if (  mousex > xrefMid[6]  ) {
+      idx = 7;
+      console.log("2017: ", idx)
+    }
+
 
     chart
       .on("mouseover", (d) => {
@@ -158,31 +187,28 @@ d3.select("#annualTimeseries")
 
         if (root._groups[0][0].__data__) {
           const thisArray = root._groups[0][0].__data__;
-          console.log("thisArray: ", thisArray)
-
-          if (mousex > xrefMid[0] && mousex < xrefMid[1]) {
-            console.log("win 1")
-          } else if (mousex > xrefMid[1] && mousex < xrefMid[2]) {
-            console.log("win 2")
-          }
-
-
-        //   divArea.transition()
-        //      .style("opacity", .9);
-        //   divArea.html(
-        //       "<b>" + "TYPE" + "</b>"+ "<br><br>" +
-        //         "<table>" +
-        //           "<tr>" + 
-        //             "<td><b>$" + 1000  + "</td>" +
-        //             // "<td>" + " (" + units + ")</td>" +
-        //           "</tr>" +
-        //         "</table>"
-        //       )
-        //       .style("left", (d3.event.pageX) + "px")
-        //       .style("top", (d3.event.pageY) + "px");
+          const thisYear = thisArray[idx];
+          thisValue = formatComma(thisYear[1] - thisYear[0]);
         }
       
     });
+
+    if (thisValue) {
+      divArea.transition()
+        .style("opacity", .9);
+      divArea.html(
+        "<b>" + "TYPE" + "</b>"+ "<br><br>" +
+          "<table>" +
+            "<tr>" + 
+              "<td><b>$" + thisValue  + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+            "</tr>" +
+          "</table>"
+        )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY) + "px");
+
+    }
 
 
   })
