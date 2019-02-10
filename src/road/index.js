@@ -54,11 +54,11 @@ map.on("mouseover", () => {
         .classed("roadMapHighlight", true);
     // Tooltip
     const key = i18next.t(classes[0], {ns: "roadGeography"});
-    const value = formatComma(mapData[selectedYear][classes[0]]);
+    const value = formatComma(mapData[selectedYear][classes[0]] / 1e3);
     div.transition()
        .style("opacity", .9);
     div.html(
-        "<b>" + key + "</b>"+ "<br><br>" +
+        "<b>" + key + " (" + units + ")</b>"+ "<br><br>" +
           "<table>" +
             "<tr>" + 
               "<td><b>$" + value  + "</td>" +
@@ -140,6 +140,7 @@ const vertical = d3.select("#annualTimeseries")
 
 let idx;
 let thisValue;
+let fuelType;
 d3.select("#annualTimeseries")
   .on("mousemove", function() {
     // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
@@ -151,44 +152,39 @@ d3.select("#annualTimeseries")
     const mouse = d3.mouse(this);
     const mousex = mouse[0];
     vertical.style("left", mousex + "px" );
-    console.log("mouse: ", mouse);
 
     if ( mousex < xrefMid[0] ) {
       idx = 0;
-      console.log("2010: ", idx)
     } else if (  mousex < xrefMid[1]  ) {
       idx = 1;
-      console.log("2011: ", idx)
     } else if (  mousex < xrefMid[2]  ) {
       idx = 2;
-      console.log("2012: ", idx)
     } else if (  mousex < xrefMid[3]  ) {
       idx = 3;
-      console.log("2013: ", idx)
     } else if (  mousex < xrefMid[4]  ) {
       idx = 4;
-      console.log("2014: ", idx)
     } else if (  mousex < xrefMid[5]  ) {
       idx = 5;
-      console.log("2015: ", idx)
     } else if (  mousex < xrefMid[6]  ) {
       idx = 6;
-      console.log("2016: ", idx)
     } else if (  mousex > xrefMid[6]  ) {
       idx = 7;
-      console.log("2017: ", idx)
     }
-
 
     chart
       .on("mouseover", (d) => {
         // Tooltip
         const root = d3.select(d3.event.target);
+        // console.log("root: ", root)
+        // console.log("root: ", root.attr("class"))
+
+        
 
         if (root._groups[0][0].__data__) {
           const thisArray = root._groups[0][0].__data__;
           const thisYear = thisArray[idx];
           thisValue = formatComma(thisYear[1] - thisYear[0]);
+          fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "roadArea"});
         }
       
     });
@@ -197,7 +193,7 @@ d3.select("#annualTimeseries")
       divArea.transition()
         .style("opacity", .9);
       divArea.html(
-        "<b>" + "TYPE" + "</b>"+ "<br><br>" +
+        "<b>" + fuelType + " (" + units + ")</b>"+ "<br><br>" +
           "<table>" +
             "<tr>" + 
               "<td><b>$" + thisValue  + "</td>" +
@@ -207,46 +203,16 @@ d3.select("#annualTimeseries")
         )
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");
-
     }
 
 
   })
-  // .on("mouseover", function() {
-  //   const mouse = d3.mouse(this);
-  //   const mousex = mouse[0] + 5;
-  //   vertical.style("left", mousex + "px");
-  //   console.log("mouseover mousex: ", mousex)
-  // });
+ .on("mouseout", function(d, i) {
+    // Clear tooltip
+    divArea.transition().style("opacity", 0);
+  });
 
-chart
-  .on("mouseover", (d) => {
 
-    // const mouseCoords = [d3.event.pageX, d3.event.pageY];
-    // console.log("X: ", mouseCoords)
-    // // Tooltip
-    // const root = d3.select(d3.event.target);
-
-    // if (root._groups[0][0].__data__) {
-    //   const thisArray = root._groups[0][0].__data__;
-    //   console.log("thisArray: ", thisArray)
-
-    //   divArea.transition()
-    //      .style("opacity", .9);
-    //   divArea.html(
-    //       "<b>" + "TYPE" + "</b>"+ "<br><br>" +
-    //         "<table>" +
-    //           "<tr>" + 
-    //             "<td><b>$" + 1000  + "</td>" +
-    //             // "<td>" + " (" + units + ")</td>" +
-    //           "</tr>" +
-    //         "</table>"
-    //       )
-    //       .style("left", (d3.event.pageX) + "px")
-    //       .style("top", (d3.event.pageY) + "px");
-    // }
-  
-});
 
 // -----------------------------------------------------------------------------
 /* FNS */
