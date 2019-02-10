@@ -107,10 +107,15 @@ const showAirport = function() {
         }
         lineData[selectedAirpt] = aptData;
         areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
+        // Titles
+        const fullName = i18next.t(selectedAirpt, {ns: "airports"});
         // airport chart title
         d3.select("#svg_lineChart")
             .select(".areaChartTitle")
-            .text(i18next.t(selectedAirpt, {ns: "airports"}));
+            .text(fullName);
+        // airport table title
+        d3.select("#chrt-dt-tbl1")
+          .text(`Air passenger traffic at ${fullName}, (in thousands)`);
       }
     });
   }
