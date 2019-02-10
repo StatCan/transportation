@@ -98,8 +98,9 @@
       "YQG": "Windsor International (YQG), Windsor, Ontario",
       "YQT": "Thunder Bay (YQT), Thunder Bay, Ontario"
     },
-    "areaAirport": {
+    "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "tableTitle": "Air passenger traffic at XXX, annual (in thousands)",
       "x_label": "Year",
       "y_label": "Number of passengers (in thousands)",
       "enplaned": "Enplaned",

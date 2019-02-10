@@ -1,5 +1,5 @@
 export default {
-  alt: i18next.t("alt", {ns: "areaAirport"}),
+  alt: i18next.t("alt", {ns: "airPassengerAirports"}),
   aspectRatio: 16/4,
   margin: {
     top: 20,
@@ -51,10 +51,12 @@ export default {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "areaAirport"});
+      return i18next.t(d.key, {ns: "airPassengerAirports"});
     }
   },
-  datatable: false,
+  datatable: true,
+  tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
+  areaTableID: "airportTable",
   transition: false,
   width: 500
 };

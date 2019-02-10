@@ -169,8 +169,9 @@ i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers"}),
-  settingsAirport.x.label = i18next.t("x_label", {ns: "areaAirport"}),
-  settingsAirport.y.label = i18next.t("y_label", {ns: "areaAirport"}),
+  settingsAirport.x.label = i18next.t("x_label", {ns: "airPassengerAirports"}),
+  settingsAirport.y.label = i18next.t("y_label", {ns: "airPassengerAirports"}),
+  settingsAirport.tableTitle = i18next.t("tableTitle", {ns: "airPassengerAirports"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
