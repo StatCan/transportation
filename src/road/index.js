@@ -140,17 +140,58 @@ const vertical = d3.select("#annualTimeseries")
 
 d3.select("#annualTimeseries")
   .on("mousemove", function() {
+    const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
+    const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
+    xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
+    xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
+    xref[6] + (xref[1] - xref[0])/2];
     const mouse = d3.mouse(this);
-    const mousex = mouse[0] + 5;
+    const mousex = mouse[0];
     vertical.style("left", mousex + "px" );
-    console.log("mousex: ", mousex)
+    console.log("mouse: ", mouse);
+    
+
+    chart
+      .on("mouseover", (d) => {
+        // Tooltip
+        const root = d3.select(d3.event.target);
+
+        if (root._groups[0][0].__data__) {
+          const thisArray = root._groups[0][0].__data__;
+          console.log("thisArray: ", thisArray)
+
+          if (mousex > xrefMid[0] && mousex < xrefMid[1]) {
+            console.log("win 1")
+          } else if (mousex > xrefMid[1] && mousex < xrefMid[2]) {
+            console.log("win 2")
+          }
+
+
+        //   divArea.transition()
+        //      .style("opacity", .9);
+        //   divArea.html(
+        //       "<b>" + "TYPE" + "</b>"+ "<br><br>" +
+        //         "<table>" +
+        //           "<tr>" + 
+        //             "<td><b>$" + 1000  + "</td>" +
+        //             // "<td>" + " (" + units + ")</td>" +
+        //           "</tr>" +
+        //         "</table>"
+        //       )
+        //       .style("left", (d3.event.pageX) + "px")
+        //       .style("top", (d3.event.pageY) + "px");
+        }
+      
+    });
+
+
   })
-  .on("mouseover", function() {
-    const mouse = d3.mouse(this);
-    const mousex = mouse[0] + 5;
-    vertical.style("left", mousex + "px");
-    console.log("mouseover mousex: ", mousex)
-  });
+  // .on("mouseover", function() {
+  //   const mouse = d3.mouse(this);
+  //   const mousex = mouse[0] + 5;
+  //   vertical.style("left", mousex + "px");
+  //   console.log("mouseover mousex: ", mousex)
+  // });
 
 chart
   .on("mouseover", (d) => {
