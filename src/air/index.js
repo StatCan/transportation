@@ -75,6 +75,9 @@ const divArea = d3.select("body")
 /* UI Handler */
 function uiHandler(event) {
   if (event.target.id === "groups") {
+    // clear any map region that is highlighted
+    d3.select(".map").selectAll("path").classed("airMapHighlight", false);
+
     selectedRegion = document.getElementById("groups").value;
     showAreaData();
   }
@@ -87,31 +90,119 @@ function uiHandler(event) {
 // -----------------------------------------------------------------------------
 /* Interactions */
 /*-- Map interactions --*/
-map.on("click", () => {
-  const transition = d3.transition().duration(1000);
-  const classes = d3.event.target.classList;
+map.on("mouseover", () => {
+  if (d3.select(d3.event.target).attr("class")) {
+    // const classes = d3.event.target.classList;
+    const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-  if (classes[0] !== "airport") { // to avoid zooming airport cirlces
-    if (classes[1] === "zoomed" || (classes.length === 0)) {
-      // return circles to original size
+    // Highlight map region
+    d3.select(".dashboard .map")
+        .select("." + classes[0])
+        .classed("airMapHighlight", true);
+    // Tooltip
+    const key = i18next.t(classes[0], {ns: "airGeography"});
+    const value = formatComma(passengerTotals[selectedYear][classes[0]] / 1e3);
+    div.transition()
+       .style("opacity", .9);
+    div.html( // **** CHANGE ns WITH DATASET ****
+        "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
+          "<table>" +
+            "<tr>" + 
+              "<td><b>" + value  + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+            "</tr>" +
+          "</table>"
+        )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY) + "px");
+  }
+}).on("mouseout", () => {
+  div.transition()
+     .style("opacity", 0);
+
+  if (selectedRegion) {
+    d3.select(".map")
+        .selectAll("path:not(." + selectedRegion + ")")
+        .classed("airMapHighlight", false);
+  } else {
+    d3.select(".map")
+        .selectAll("path")
+        .classed("airMapHighlight", false);
+  }
+});
+map.on("click", () => {
+  // clear any previous clicks
+  d3.select(".map")
+      .selectAll("path")
+      .classed("airMapHighlight", false);
+
+  const transition = d3.transition().duration(1000);
+  
+  // User clicks on region
+  if (d3.select(d3.event.target).attr("class") &&
+        d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
+    const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+
+    // ---------------------------------------------------------------------
+    // Region highlight
+    selectedRegion = classes[0];
+    d3.select(".dashboard .map")
+        .select("." + classes[0])
+        .classed("airMapHighlight", true);
+    // Display selected region in stacked area chart
+    if (!data[selectedRegion]) {
+      d3.json(`data/air/passengers/${selectedRegion}.json`, (err, filedata) => {
+        data[selectedRegion] = filedata;
+        showAreaData();
+      });
+    } else {
+      showAreaData();
+    }
+    // update region displayed in dropdown menu
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
+
+    // ---------------------------------------------------------------------
+    // zoom
+    if (classes[0] !== "airport") { // to avoid zooming airport cirlces
+      if (classes[1] === "zoomed" || (classes.length === 0)) {
+        // return circles to original size
+        path.pointRadius(function(d, i) {
+          return defaultPointRadius;
+        });
+        d3.transition(transition).selectAll(".airport")
+            .style("stroke-width", defaultStrokeWidth)
+            .attr("d", path);
+        return canadaMap.zoom();
+      }
       path.pointRadius(function(d, i) {
-        return defaultPointRadius;
+        return 0.5;
       });
       d3.transition(transition).selectAll(".airport")
-          .style("stroke-width", defaultStrokeWidth)
+          .style("stroke-width", 0.1)
           .attr("d", path);
+
+      canadaMap.zoom(classes[0]);
+    }
+  } else { // user clicks outside map
+    console.log("outside map")
+    
+    // reset area chart to Canada
+    selectedRegion = "CANADA";
+    showAreaData();
+
+    // update region displayed in dropdown menu
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
+    // Chart titles
+    updateTitles();
+
+    if (d3.select("." + selectedRegion + ".zoomed")) {
+      // clear zoom
       return canadaMap.zoom();
     }
-    path.pointRadius(function(d, i) {
-      return 0.5;
-    });
-    // console.log("path: ", path.pointRadius());
-    d3.transition(transition).selectAll(".airport")
-        .style("stroke-width", 0.1)
-        .attr("d", path);
-
-    canadaMap.zoom(classes[0]);
   }
+
+  // Chart titles
+  updateTitles();
 });
 
 /*--  areaChart interactions --*/
@@ -240,9 +331,10 @@ function colorMap() {
 function showAreaData() {
   const showChart = () => {
     areaChart(chart, settings, data[selectedRegion]);
-    d3.select("#svg_areaChartAir").select(".x.axis")
-            .select("text")
-            .attr("display", "none");
+    // Highlight region selected from menu on map
+      d3.select(".dashboard .map")
+        .select("." + selectedRegion)
+        .classed("airMapHighlight", true);
   };
 
   if (!data[selectedRegion]) {

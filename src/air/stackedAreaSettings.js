@@ -2,7 +2,7 @@ export default {
   alt: i18next.t("alt", {ns: "airPassengers"}),
   margin: {
     top: 50,
-    left: 80,
+    left: 90,
     bottom: 50
   },
   filterData: function(data) {
