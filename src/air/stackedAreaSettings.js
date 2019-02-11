@@ -1,9 +1,9 @@
 export default {
   alt: i18next.t("alt", {ns: "airPassengers"}),
   margin: {
-    top: 20,
-    bottom: 50,
-    left: 80
+    top: 50,
+    left: 80,
+    bottom: 50
   },
   filterData: function(data) {
     return baseDateFilter(data);
@@ -65,7 +65,7 @@ export default {
   datatable: true,
   tableTitle: i18next.t("tableTitle", {ns: "airPassengers"}),
   transition: true,
-  width: 400
+  width: 1050
 };
 const baseDateFilter = function(data) {
   const minDate = new Date("2010");
