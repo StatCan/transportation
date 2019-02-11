@@ -21,7 +21,9 @@
     },
     "road": {
       "chartTitle": "Type of fuel sales",
-      "mapTitle": "Total fuel sales"
+      "mapTitle": "Total fuel sales",
+      "units": "millions of dollars",
+      "mapScaleLabel": "Total"
     },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",

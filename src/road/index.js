@@ -6,9 +6,6 @@ const data = {};
 let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
-const units = "millions of dollars";
-const xaxisLabeldy = "2.5em";
-const mapScaleLabel = "Total (" + units + ")";
 const formatComma = d3.format(",d");
 
 // -----------------------------------------------------------------------------
@@ -58,7 +55,7 @@ map.on("mouseover", () => {
     div.transition()
        .style("opacity", .9);
     div.html(
-        "<b>" + key + " (" + units + ")</b>"+ "<br><br>" +
+        "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
           "<table>" +
             "<tr>" + 
               "<td><b>$" + value  + "</td>" +
@@ -170,7 +167,7 @@ d3.select("#annualTimeseries")
         divArea.transition()
           .style("opacity", .9);
         divArea.html(
-          "<b>" + fuelType + " (" + units + ")</b>"+ "<br><br>" +
+          "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
             "<table>" +
               "<tr>" + 
                 "<td><b>" + yearDict[idx] + ": $" + thisValue  + "</td>" +
@@ -203,6 +200,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
 
   // colour bar scale and add label
+  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
 }
@@ -212,7 +210,7 @@ function showData() {
   areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
-      .attr("dy", xaxisLabeldy)
+      // .attr("dy", xaxisLabeldy)
       .attr("display", "none");
 
   // Highlight region selected from menu on map
@@ -312,7 +310,7 @@ i18n.load(["src/i18n"], () => {
         areaChart(chart, settings, data[selected]);
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
-            .attr("dy", xaxisLabeldy)
+            // .attr("dy", xaxisLabeldy)
             .attr("display", "none");
 
         // Show chart titles based on default menu options

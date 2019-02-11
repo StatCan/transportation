@@ -11,7 +11,9 @@
     },
       "road": {
       "chartTitle": "Type de vente de carburant",
-      "mapTitle": "Total des ventes de carburant"
+      "mapTitle": "Total des ventes de carburant",
+      "units": "en millions de dollars",
+      "mapScaleLabel": "Total"
     },
     "roadGeography": {
       "CANADA": "Canada",
