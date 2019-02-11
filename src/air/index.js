@@ -1,5 +1,6 @@
 import settings from "./stackedAreaSettings.js";
 import settingsAirport from "./stackedAreaSettingsAirports.js";
+import mapColourScaleFn from "../mapColourScaleFn.js";
 
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
@@ -22,8 +23,6 @@ const lineData = {};
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
 
-const units = "millions of dollars";
-const mapScaleLabel = "Total (" + units + ")";
 const formatComma = d3.format(",d");
 
 // -----------------------------------------------------------------------------
@@ -43,7 +42,10 @@ let path;
 const defaultPointRadius = 1.1;
 const defaultStrokeWidth = 0.5;
 
-const airportGroup = map.append("g");
+// const airportGroup = map.append("g");
+let airportGroup;
+
+
 let allAirports;
 
 // -----------------------------------------------------------------------------
@@ -173,6 +175,7 @@ d3.select("#annualTimeseries")
 /* FNS */
 /*-- plot circles on map --*/
 const refreshMap = function() {
+  console.log("refreshMap")
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
   airportGroup.selectAll("path")
@@ -183,20 +186,22 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
+        console.log("refreshMap class")
         return "airport " + d.properties.hasPlanedData;
       });
 };
 
 function colorMap() {
+  console.log("colorMap")
+  const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+
   let dimExtent = [];
-  map.selectAll("path").style("stroke", "black");
+  // map.selectAll("path").style("stroke", "black");
 
   const totArr = [];
   for (const sales of Object.keys(passengerTotals[selectedYear])) {
     totArr.push(passengerTotals[selectedYear][sales]);
   }
-
-  const colourArray= ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
   dimExtent = d3.extent(totArr);
@@ -206,10 +211,22 @@ function colorMap() {
 
   for (const key in passengerTotals[selectedYear]) {
     if (passengerTotals[selectedYear].hasOwnProperty(key)) {
-      d3.select(".dashboard .map")
+      console.log("map fill")
+      // d3.select(".dashboard .map")
+      map
           .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
     }
   }
+
+  // colour bar scale and add label
+  console.log("dimExtent: ", dimExtent)
+  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
+  // mapColourScaleFn(svgCB, colourArray, dimExtent);
+  // d3.select("#cbID").text(mapScaleLabel);
+
+  // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
+  // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
+  airportGroup = map.append("g");
 }
 
 /*-- stackedArea chart for Passenger or Major Airports data --*/
@@ -327,9 +344,9 @@ i18n.load(["src/i18n"], () => {
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
               allAirports = airports;
-
-              refreshMap();
+            
               colorMap();
+              refreshMap();
 
               airportGroup.selectAll("path")
                   .on("mouseover", (d) => {
@@ -349,16 +366,16 @@ i18n.load(["src/i18n"], () => {
 });
 
 $(document).on("change", uiHandler);
-d3.selection.prototype.moveToFront = function() {
-  return this.each(function() {
-    this.parentNode.appendChild(this);
-  });
-};
-d3.selection.prototype.moveToBack = function() {
-  return this.each(function() {
-    const firstChild = this.parentNode.firstChild;
-    if (firstChild) {
-      this.parentNode.insertBefore(this, firstChild);
-    }
-  });
-};
+// d3.selection.prototype.moveToFront = function() {
+//   return this.each(function() {
+//     this.parentNode.appendChild(this);
+//   });
+// };
+// d3.selection.prototype.moveToBack = function() {
+//   return this.each(function() {
+//     const firstChild = this.parentNode.firstChild;
+//     if (firstChild) {
+//       this.parentNode.insertBefore(this, firstChild);
+//     }
+//   });
+// };
