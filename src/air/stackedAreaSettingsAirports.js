@@ -59,6 +59,7 @@ export default {
   // tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
   tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
   areaTableID: "airportTable",
+  summaryId: "chrt-dt-tbl1",
   transition: false,
   width: 500
 };
