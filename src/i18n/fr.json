@@ -9,6 +9,10 @@
       "diesel": "Carburant diesel",
       "lpg": "Gaz de pétrole liquéfié"
     },
+      "road": {
+      "chartTitle": "Type de vente de carburant",
+      "mapTitle": "Total des ventes de carburant"
+    },
     "roadGeography": {
       "CANADA": "Canada",
       "NL": "Terre-Neuve-et-Labrador",

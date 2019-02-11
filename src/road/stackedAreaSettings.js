@@ -7,7 +7,6 @@ export default {
   },
   // creates variable d
   filterData: function(data) {
-    console.log("road filterData: ", data)
     // data is an array of objects
     return data;
   },

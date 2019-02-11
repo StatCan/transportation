@@ -19,6 +19,10 @@
       "Remaining_itinerant": "Itinerant - Rest of province",
       "Remaining_local": "Local - Rest of province"
     },
+    "road": {
+      "chartTitle": "Type of fuel sales",
+      "mapTitle": "Total fuel sales"
+    },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
       "tableTitle": "Sales of fuel used for road motor vehicles, annual (million dollars)",

@@ -225,9 +225,9 @@ function showData() {
 function updateTitles() {
   const geography = i18next.t(selected, {ns: "roadGeography"});
   d3.select("#mapTitleRoad")
-      .text("Total fuel sales, " + geography + ", " + selectedYear);
+      .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
-      .text("Type of fuel sales, " + geography);
+      .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
 }
 
 /*-- find year interval closest to cursor for areaChart tooltip --*/
