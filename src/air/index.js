@@ -22,6 +22,10 @@ const lineData = {};
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
 
+const units = "millions of dollars";
+const mapScaleLabel = "Total (" + units + ")";
+const formatComma = d3.format(",d");
+
 // -----------------------------------------------------------------------------
 /* SVGs */
 const map = d3.select(".dashboard .map")
@@ -43,6 +47,18 @@ const airportGroup = map.append("g");
 let allAirports;
 
 // -----------------------------------------------------------------------------
+/* tooltip */
+/*-- for map --*/
+const div = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+/*-- for areaChart 1 --*/
+const divArea = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+// -----------------------------------------------------------------------------
 /* UI Handler */
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -56,7 +72,8 @@ function uiHandler(event) {
 }
 
 // -----------------------------------------------------------------------------
-/* Map interactions */
+/* Interactions */
+/*-- Map interactions --*/
 map.on("click", () => {
   const transition = d3.transition().duration(1000);
   const classes = d3.event.target.classList;
@@ -83,6 +100,74 @@ map.on("click", () => {
     canadaMap.zoom(classes[0]);
   }
 });
+
+/*--  areaChart interactions --*/
+// vertical line to attach to cursor
+const vertical = d3.select("#annualTimeseries")
+    .append("div")
+    .attr("class", "linecursor")
+    .style("position", "absolute")
+    .style("z-index", "0")
+    .style("width", "2px")
+    .style("height", "310px")
+    .style("top", "60px")
+    .style("bottom", "70px")
+    .style("left", "0px")
+    .style("background", "#ccc");
+
+let idx;
+let thisValue;
+let fuelType;
+d3.select("#annualTimeseries")
+  .on("mousemove", function() {
+    const mouse = d3.mouse(this);
+    const mousex = mouse[0];
+
+    if (mousex < 599) { // restrict line from going off the x-axis
+      // Find x-axis intervale closest to mousex
+      idx = findXInterval(mousex);
+
+      chart
+        .on("mouseover", (d) => {
+          // Tooltip
+          const root = d3.select(d3.event.target);
+
+          if (root._groups[0][0].__data__) {
+            const thisArray = root._groups[0][0].__data__;
+            if (thisArray[idx]) {
+              const thisYear = thisArray[idx];
+              thisValue = formatComma(thisYear[1] - thisYear[0]);
+              fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
+            }         
+          }      
+      });
+
+      const yearDict = {
+        0: 2010, 1: 2011, 2: 2012, 3: 2013, 4: 2014, 5: 2015, 6: 2016, 7: 2017
+      }
+
+      if (thisValue) {
+        divArea.transition()
+          .style("opacity", .9);
+        divArea.html(
+          "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+            "<table>" +
+              "<tr>" + 
+                "<td><b>" + yearDict[idx] + ": $" + thisValue  + "</td>" +
+                // "<td>" + " (" + units + ")</td>" +
+              "</tr>" +
+            "</table>"
+          )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY) + "px");
+      }
+    } // mousex restriction
+  })
+ .on("mouseout", function(d, i) {
+    // Clear tooltip
+    divArea.transition().style("opacity", 0);
+  });
+
 
 // -----------------------------------------------------------------------------
 /* FNS */
