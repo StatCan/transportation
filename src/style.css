@@ -1,3 +1,11 @@
+/* all tables */
+.details .chart-data-table {
+  padding-bottom: 0em;
+}
+.table {
+	margin-bottom: 0px;
+}
+
 .area svg text {
 	fill: currentColor;
 }
@@ -8,6 +16,10 @@
 }
 
 /*road dataset*/
+/*-- tooltip --*/
+.linecursor {
+	margin-left: 63px;
+}
 .gas {
 	fill: #EDDB7C;
 }
@@ -26,7 +38,7 @@
 	fill: #555;
 }
 #svgFuel .chart-label {
-	font-size: 20px;
+	font-size: 24px;
 	fill: #69757c;
 }
 #svgFuel .tick text {
@@ -44,7 +56,7 @@
 	stroke-width: 2px;
 }
 .fueldata #chrt-dt-tbl  {
-  font-size: 15px;
+  font-size: 18px;
 }
 #mapTitleRoad, #areaTitleRoad {
   font-weight: bold;
@@ -61,50 +73,66 @@
   position: relative;
   top: -50px;
 } */
-.details .chart-data-table {
-  padding-bottom: 0em;
-}
-.details .map-data-table {
-  padding-bottom: 0em;
-}
 
 table, th, td {
   font-size: 12px;
 }
 
 /*air dataset*/
-/* classes for airport circle fill */
+/*-- titles for map and charts --*/
+#mapTitleAir, #areaTitleAir {
+  font-weight: bold;
+}
+/*-- table --*/
+.airdata #chrt-dt-tbl  {
+/*  position: relative;
+  top: -150px;*/
+  font-size: 18px;
+}
+.airdata #chrt-dt-tbl1  {
+/*  position: relative;
+  top: -150px;*/
+  font-size: 18px;
+}
+
+/*-- map --*/
+.airMapHighlight {
+ 	stroke: #467B8D !important;
+	stroke-width: 0.5 !important;
+}
+
+/*-- airport circle fill --*/
 .allYears {
-	fill: #008E09;
+	fill: green;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .noYears {
-	fill: gray;
+	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
 }
 .lastSevenYears {
 	fill: #008E09;
-	stroke: black;
+	stroke: yellow;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastSixYears {
-	fill: #008E09;
-	stroke: black;
+	fill: #F6CF22;
+	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastFiveYears {
-	fill: #008E09;
-	stroke: black;
+	fill: #F6CF22;
+	stroke: blue;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .mix {
-	fill: gray;
+	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
 }
@@ -113,13 +141,13 @@ table, th, td {
 	stroke-width: 0.5px; */
 }
 #svg_areaChartAir .area-label {
-	font-size: 12px;
+	font-size: 20px;
 	fill: #3D3D3D;
 }
 #svg_areaChartAir .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 12px;
+	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svg_areaChartAir .axis path  {
@@ -129,7 +157,7 @@ table, th, td {
   stroke: #aaa;
 }
 #svg_areaChartAir .chart-label {
-	font-size: 12px;
+	font-size: 22px;
 	fill: #555;
 }
 .local, .domestic {
@@ -172,25 +200,29 @@ table, th, td {
 .line svg .domain {
 	stroke: black;
 }
-#svg_lineChart .area  {
+#svg_aptChart {
+  position: relative;
+  top: -70px;
+}
+#svg_aptChart .area  {
   opacity: 0.5;
 }
-#svg_lineChart .area2  {
+#svg_aptChart .area2  {
   fill: #046D8B;
 	opacity: 0.7;
 }
-#svg_lineChart .area1  {
+#svg_aptChart .area1  {
   fill: #D4C098;
 	opacity: 1;
 }
-#svg_lineChart .chart-label {
-	font-size: 8px;
+#svg_aptChart .chart-label {
+	font-size: 7px;
 	fill: #555;
 }
-#svg_lineChart .tick text {
+#svg_aptChart .tick text {
 	font-size: 8px;
 }
-#svg_lineChart .area-label {
+#svg_aptChart .area-label {
 	font-size: 7px;
 	fill: #333333;
 }
@@ -209,13 +241,13 @@ table, th, td {
 .domain {
 	display: inline;
 }
-#svg_lineChart .axis path  {
+#svg_aptChart .axis path  {
   stroke: #aaa;
 }
-#svg_lineChart .axis .tick line {
+#svg_aptChart .axis .tick line {
   stroke: #aaa;
 }
-#svg_lineChart .areaChartTitle {
+#svg_aptChart .areaChartTitle {
   font-size: 8px;
   fill: #555;
   font-weight: bold;
@@ -476,13 +508,7 @@ Show only for top 2 charts
 .active {
 	pointer-events: auto;
 }
-#pageNum {
-	font-size: 14px;
-	text-align: right;
-	padding-right: 35px;
-	position: relative;
-	top: -32px;
-}
+
 /*expt rail dataset*/
 div.tooltip {
 	position: absolute;
@@ -527,6 +553,19 @@ div.tooltip {
 }
 
 /*modes dataset*/
+/*-- table --*/
+#modesTable {
+    position: relative;
+    top: -200px;
+}
+#modesTable summary {
+	font-size: 18px;
+}
+.details .chart-data-table {
+  padding-bottom: 0em;
+}
+
+/*-- Sankey --*/
 .node rect {
   cursor: move;
   fill-opacity: .9;

@@ -427,7 +427,7 @@
 	// function makeSankey(svgID, graph) {
 	var defaults = {
 	  aspectRatio: 16 / 14,
-	  width: 1100,
+	  width: 1090,
 	  margin: {
 	    top: 10,
 	    right: 10,
@@ -512,7 +512,11 @@
 	    }); // add the link titles
 
 	    link.append("title").text(function (d) {
-	      return d.source.name + "_to_" + d.target.name + "\n" + format(d.value);
+	      // return i18next.t(d.source.name, {ns: "modes"}) + "_to_" +
+	      //         i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
+	      return i18next.t(d.target.name, {
+	        ns: "modes"
+	      }) + "\n" + format(d.value);
 	    }); // add in the nodes
 
 	    var node = dataLayer.append("g").selectAll(".node").data(graph.nodes).enter().append("g").attr("class", "node").attr("transform", function (d) {
@@ -530,14 +534,18 @@
 	    }).style("stroke", function (d) {
 	      return d3.rgb(d.color).darker(2);
 	    }).append("title").text(function (d) {
-	      return d.name + "\n" + format(d.value);
+	      return i18next.t(d.name, {
+	        ns: "modes"
+	      }) + "\n" + format(d.value);
 	    }); // add in the title for the nodes
 
 	    node.append("text").attr("x", -6).attr("y", function (d) {
 	      return d.dy / 2;
 	    }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
 	      // return i18next.t(d.name, {ns: "modes"});
-	      if (d.value != 0) return d.name;
+	      if (d.value != 0) return i18next.t(d.name, {
+	        ns: "modes"
+	      });
 	    }).filter(function (d) {
 	      return d.x < innerWidth / 2;
 	    }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start"); // the function for moving the nodes
@@ -560,9 +568,197 @@
 	  make(graph);
 	} // end makeSankey()
 
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+
+
+	var _toIobject = function (it) {
+	  return _iobject(_defined(it));
+	};
+
+	var max = Math.max;
+	var min$1 = Math.min;
+	var _toAbsoluteIndex = function (index, length) {
+	  index = _toInteger(index);
+	  return index < 0 ? max(index + length, 0) : min$1(index, length);
+	};
+
+	// false -> Array#indexOf
+	// true  -> Array#includes
+
+
+
+	var _arrayIncludes = function (IS_INCLUDES) {
+	  return function ($this, el, fromIndex) {
+	    var O = _toIobject($this);
+	    var length = _toLength(O.length);
+	    var index = _toAbsoluteIndex(fromIndex, length);
+	    var value;
+	    // Array#includes uses SameValueZero equality algorithm
+	    // eslint-disable-next-line no-self-compare
+	    if (IS_INCLUDES && el != el) while (length > index) {
+	      value = O[index++];
+	      // eslint-disable-next-line no-self-compare
+	      if (value != value) return true;
+	    // Array#indexOf ignores holes, Array#includes - not
+	    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+	      if (O[index] === el) return IS_INCLUDES || index || 0;
+	    } return !IS_INCLUDES && -1;
+	  };
+	};
+
+	var $indexOf = _arrayIncludes(false);
+	var $native = [].indexOf;
+	var NEGATIVE_ZERO = !!$native && 1 / [1].indexOf(1, -0) < 0;
+
+	_export(_export.P + _export.F * (NEGATIVE_ZERO || !_strictMethod($native)), 'Array', {
+	  // 22.1.3.11 / 15.4.4.14 Array.prototype.indexOf(searchElement [, fromIndex])
+	  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
+	    return NEGATIVE_ZERO
+	      // convert -0 to +0
+	      ? $native.apply(this, arguments) || 0
+	      : $indexOf(this, searchElement, arguments[1]);
+	  }
+	});
+
+	var tableSettings = {
+	  alt: i18next.t("alt", {
+	    ns: "modes"
+	  }),
+	  tableTitle: i18next.t("alt", {
+	    ns: "modes"
+	  }),
+	  margin: {
+	    top: 50,
+	    left: 80,
+	    bottom: 50
+	  },
+	  // creates variable d
+	  filterData: function filterData(data) {
+	    return data.nodes; // array of objects
+	  },
+	  x: {// getValue: function(d) {
+	    //   console.log("x getValue d: ", d)
+	    //   return new Date(d.date + "-01");
+	    // },
+	    // getText: function(d) {
+	    //   console.log("x getText d: ", d)
+	    //   return d.date;
+	    // }
+	  },
+	  y: {
+	    getValue: function getValue(d, key) {
+	      // d[key] can be string for Traveller Type, number for Count
+	      if (typeof d[key] === "string" || d[key] instanceof String) {
+	        // Traveller Type
+	        if (d.targetLinks[0]) {
+	          // empty only for first node
+	          // Land cases, parent is two levels up
+	          if (d.name === "USres_car" || d.name === "USres_bus" || d.name === "USres_train" || d.name === "USres_other") {
+	            var parent = i18next.t("USres", {
+	              ns: "modes"
+	            });
+	            var child = i18next.t(d[key], {
+	              ns: "modes"
+	            });
+	            return parent + ", " + child;
+	          } else if (d.name === "cdnFromUS_car" || d.name === "cdnFromUS_bus" || d.name === "cdnFromUS_train" || d.name === "cdnFromUS_other") {
+	            var _parent = i18next.t("cdnFromUS", {
+	              ns: "modes"
+	            });
+
+	            var _child = i18next.t(d[key], {
+	              ns: "modes"
+	            });
+
+	            return _parent + ", " + _child;
+	          } else {
+	            // All other cases, parent is in targetLinks[0].source.name
+	            var _parent2 = i18next.t(d.targetLinks[0].source.name, {
+	              ns: "modes"
+	            });
+
+	            var _child2 = i18next.t(d[key], {
+	              ns: "modes"
+	            });
+
+	            return _parent2 + ", " + _child2;
+	          }
+	        } else {
+	          // targetLinks empty
+	          if (d.name === "cdnFromOther_land") {
+	            // special case
+	            var _parent3 = i18next.t("cdnFromOther", {
+	              ns: "modes"
+	            });
+
+	            var _child3 = i18next.t(d[key], {
+	              ns: "modes"
+	            });
+
+	            return _parent3 + ", " + _child3;
+	          }
+	        }
+
+	        return i18next.t(d[key], {
+	          ns: "modes"
+	        }); // targetLinks empty (first node has no parent)
+	      } else return d[key]; // Number, not a string, do not pass through i18next
+
+	    } // getTotal: function(d, index, data) {
+	    //   let total;
+	    //   let keys;
+	    //   const sett = this;
+	    //   if (!d[sett.y.totalProperty]) {
+	    //     keys = sett.z.getKeys.call(sett, data);
+	    //     total = 0;
+	    //     for (let k = 0; k < keys.length; k++) {
+	    //       total += sett.y.getValue.call(sett, d, keys[k], data);
+	    //     }
+	    //     d[sett.y.totalProperty] = total;
+	    //   }
+	    //   return d[sett.y.totalProperty];
+	    // },
+	    // getText: function(d, key) {
+	    //   if (typeof d[key] === "string" || d[key] instanceof String) {
+	    //     return d[key];
+	    //   } else return d[key];
+	    // }
+
+	  },
+	  z: {
+	    // label: i18next.t("z_label", {ns: "modes"}),
+	    // getId: function(d) {
+	    //   console.log("z getID d: ", d)
+	    //   return d.key;
+	    // },
+	    getKeys: function getKeys(object) {
+	      var sett = this; // const keys = Object.keys(object[0]);
+
+	      var keys = ["name", "value"];
+
+	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
+	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+	      }
+
+	      return keys;
+	    },
+	    // getClass: function(...args) {
+	    //   return this.z.getId.apply(this, args);
+	    // },
+	    getText: function getText(d) {
+	      return i18next.t(d.key, {
+	        ns: "modes"
+	      });
+	    }
+	  },
+	  datatable: true,
+	  width: 200
+	};
+
 	var selected = "CANADA";
 	var data;
 	var sankeyChart = d3.select("#sankeyGraph").append("svg").attr("id", "svg_sankeyChart");
+	var table = d3.select(".tabledata").attr("id", "modesTable");
 
 	function uiHandler(event) {
 	  if (event.target.id === "groups") {
@@ -584,9 +780,12 @@
 	}
 
 	i18n.load(["src/i18n"], function () {
-	  d3.queue().defer(d3.json, "data/modes/canada_modes.json").await(function (error, json) {
+	  tableSettings.tableTitle = i18next.t("tableTitle", {
+	    ns: "modes"
+	  }), d3.queue().defer(d3.json, "data/modes/canada_modes.json").await(function (error, json) {
 	    data = json;
 	    makeSankey(sankeyChart, data);
+	    drawTable(table, tableSettings, data);
 	  });
 	});
 	$(document).on("change", uiHandler);
