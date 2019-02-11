@@ -49,7 +49,7 @@ export default function(svgCB, colourArray, dimExtent) {
           xpos = [167, 246, 331, 419];
         } else {
           xpos = [167, 253, 331, 419];
-        } 
+        }
         return xpos[i];
       })
       .style("display", function() {

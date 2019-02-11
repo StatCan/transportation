@@ -31,8 +31,8 @@ const svgCB = d3.select("#mapColourScale")
 // -----------------------------------------------------------------------------
 /* tooltip */
 const div = d3.select("body").append("div")
-  .attr("class", "tooltip")
-  .style("opacity", 0);
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 const divArea = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
@@ -41,7 +41,7 @@ const divArea = d3.select("body")
 
 // -----------------------------------------------------------------------------
 /* Interactions */
-/*-- Map interactions --*/
+/* -- Map interactions -- */
 map.on("mouseover", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
@@ -55,22 +55,22 @@ map.on("mouseover", () => {
     const key = i18next.t(classes[0], {ns: "roadGeography"});
     const value = formatComma(mapData[selectedYear][classes[0]] / 1e3);
     div.transition()
-       .style("opacity", .9);
+        .style("opacity", .9);
     div.html(
         "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
           "<table>" +
-            "<tr>" + 
-              "<td><b>$" + value  + "</td>" +
-              // "<td>" + " (" + units + ")</td>" +
+            "<tr>" +
+              "<td><b>$" + value + "</td>" +
+            // "<td>" + " (" + units + ")</td>" +
             "</tr>" +
           "</table>"
-        )
+    )
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");
   }
 }).on("mouseout", () => {
   div.transition()
-     .style("opacity", 0);
+      .style("opacity", 0);
 
   if (selected) {
     d3.select(".map")
@@ -120,7 +120,7 @@ map.on("click", () => {
   updateTitles();
 });
 
-/*--  areaChart interactions --*/
+/* --  areaChart interactions -- */
 // vertical line to attach to cursor
 const vertical = d3.select("#annualTimeseries")
     .append("div")
@@ -138,54 +138,54 @@ let idx;
 let thisValue;
 let fuelType;
 d3.select("#annualTimeseries")
-  .on("mousemove", function() {
-    const mouse = d3.mouse(this);
-    const mousex = mouse[0];
+    .on("mousemove", function() {
+      const mouse = d3.mouse(this);
+      const mousex = mouse[0];
 
-    if (mousex < 599) { // restrict line from going off the x-axis
-      // Find x-axis intervale closest to mousex
-      idx = findXInterval(mousex);
+      if (mousex < 599) { // restrict line from going off the x-axis
+        // Find x-axis intervale closest to mousex
+        idx = findXInterval(mousex);
 
-      chart
-        .on("mouseover", (d) => {
-          // Tooltip
-          const root = d3.select(d3.event.target);
+        chart
+            .on("mouseover", (d) => {
+              // Tooltip
+              const root = d3.select(d3.event.target);
 
-          if (root._groups[0][0].__data__) {
-            const thisArray = root._groups[0][0].__data__;
-            if (thisArray[idx]) {
-              const thisYear = thisArray[idx];
-              thisValue = formatComma(thisYear[1] - thisYear[0]);
-              fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "roadArea"});
-            }         
-          }      
-      });
+              if (root._groups[0][0].__data__) {
+                const thisArray = root._groups[0][0].__data__;
+                if (thisArray[idx]) {
+                  const thisYear = thisArray[idx];
+                  thisValue = formatComma(thisYear[1] - thisYear[0]);
+                  fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "roadArea"});
+                }
+              }
+            });
 
-      const yearDict = {
-        0: 2010, 1: 2011, 2: 2012, 3: 2013, 4: 2014, 5: 2015, 6: 2016, 7: 2017
-      }
+        const yearDict = {
+          0: 2010, 1: 2011, 2: 2012, 3: 2013, 4: 2014, 5: 2015, 6: 2016, 7: 2017
+        };
 
-      if (thisValue) {
-        divArea.transition()
-          .style("opacity", .9);
-        divArea.html(
-          "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" + 
-                "<td><b>" + yearDict[idx] + ": $" + thisValue  + "</td>" +
-                // "<td>" + " (" + units + ")</td>" +
-              "</tr>" +
-            "</table>"
+        if (thisValue) {
+          divArea.transition()
+              .style("opacity", .9);
+          divArea.html(
+              "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b>" + yearDict[idx] + ": $" + thisValue + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+                "</tr>" +
+              "</table>"
           )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY) + "px");
-      }
-    } // mousex restriction
-  })
- .on("mouseout", function(d, i) {
-    // Clear tooltip
-    divArea.transition().style("opacity", 0);
-  });
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY) + "px");
+        }
+      } // mousex restriction
+    })
+    .on("mouseout", function(d, i) {
+      // Clear tooltip
+      divArea.transition().style("opacity", 0);
+    });
 
 // -----------------------------------------------------------------------------
 /* FNS */
@@ -205,7 +205,7 @@ function colorMap() {
   d3.select("#cbID").text(mapScaleLabel);
 }
 
-/*-- display areaChart --*/
+/* -- display areaChart -- */
 function showData() {
   areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis")
@@ -219,7 +219,7 @@ function showData() {
       .classed("roadMapHighlight", true);
 }
 
-/*-- update map and areaChart titles --*/
+/* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selected, {ns: "roadGeography"});
   d3.select("#mapTitleRoad")
@@ -228,33 +228,33 @@ function updateTitles() {
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
 }
 
-/*-- find year interval closest to cursor for areaChart tooltip --*/
+/* -- find year interval closest to cursor for areaChart tooltip -- */
 function findXInterval(mousex) {
- // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
+  // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
   const xref = [62, 149, 234, 321, 404, 491, 576];
   const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
-  xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
-  xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
-  xref[6] + (xref[1] - xref[0])/2];
+    xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
+    xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
+    xref[6] + (xref[1] - xref[0])/2];
 
   // Plot vertical line at cursor
   vertical.style("left", mousex + "px" );
 
   if ( mousex < xrefMid[0] ) {
     idx = 0;
-  } else if (  mousex < xrefMid[1]  ) {
+  } else if ( mousex < xrefMid[1] ) {
     idx = 1;
-  } else if (  mousex < xrefMid[2]  ) {
+  } else if ( mousex < xrefMid[2] ) {
     idx = 2;
-  } else if (  mousex < xrefMid[3]  ) {
+  } else if ( mousex < xrefMid[3] ) {
     idx = 3;
-  } else if (  mousex < xrefMid[4]  ) {
+  } else if ( mousex < xrefMid[4] ) {
     idx = 4;
-  } else if (  mousex < xrefMid[5]  ) {
+  } else if ( mousex < xrefMid[5] ) {
     idx = 5;
-  } else if (  mousex < xrefMid[6]  ) {
+  } else if ( mousex < xrefMid[6] ) {
     idx = 6;
-  } else if (  mousex > xrefMid[6]  ) {
+  } else if ( mousex > xrefMid[6] ) {
     idx = 7;
   }
   return idx;

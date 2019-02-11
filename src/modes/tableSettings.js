@@ -26,23 +26,22 @@ export default {
       if (typeof d[key] === "string" || d[key] instanceof String) { // Traveller Type
         if (d.targetLinks[0]) { // empty only for first node
           // Land cases, parent is two levels up
-          if (d.name === "USres_car" || d.name === "USres_bus" || 
+          if (d.name === "USres_car" || d.name === "USres_bus" ||
               d.name === "USres_train" || d.name === "USres_other") {
             const parent = i18next.t("USres", {ns: "modes"});
             const child = i18next.t(d[key], {ns: "modes"});
             return parent + ", " + child;
-          } else if (d.name === "cdnFromUS_car" || d.name === "cdnFromUS_bus" || 
+          } else if (d.name === "cdnFromUS_car" || d.name === "cdnFromUS_bus" ||
               d.name === "cdnFromUS_train" || d.name === "cdnFromUS_other") {
             const parent = i18next.t("cdnFromUS", {ns: "modes"});
             const child = i18next.t(d[key], {ns: "modes"});
             return parent + ", " + child;
-
           } else {
           // All other cases, parent is in targetLinks[0].source.name
-          const parent = i18next.t(d.targetLinks[0].source.name, {ns: "modes"});
-          const child = i18next.t(d[key], {ns: "modes"});
-          return parent + ", " + child;
-         }
+            const parent = i18next.t(d.targetLinks[0].source.name, {ns: "modes"});
+            const child = i18next.t(d[key], {ns: "modes"});
+            return parent + ", " + child;
+          }
         } else { // targetLinks empty
           if (d.name === "cdnFromOther_land") { // special case
             const parent = i18next.t("cdnFromOther", {ns: "modes"});

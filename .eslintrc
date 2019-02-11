@@ -12,6 +12,7 @@
      "areaChart": true,
      "drawMapTable": true,
      "bubbleTable": true,
+     "drawTable": true,
      "$": true,
    },
    "extends": ["eslint:recommended", "google"],
