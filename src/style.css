@@ -196,7 +196,7 @@ table, th, td {
 }
 #svg_aptChart {
   position: relative;
-  top: -150px;
+  top: -70px;
 }
 #svg_aptChart .area  {
   opacity: 0.5;

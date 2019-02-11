@@ -44,7 +44,12 @@ export default function(svgCB, colourArray, dimExtent) {
       })
       .attr("y", 18)
       .attr("x", function(d, i) {
-        const xpos = [167, 253, 331, 419];
+        let xpos;
+        if (svgCB.attr("class") === "airCB") {
+          xpos = [167, 246, 331, 419];
+        } else {
+          xpos = [167, 253, 331, 419];
+        } 
         return xpos[i];
       })
       .style("display", function() {

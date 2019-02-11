@@ -16,7 +16,7 @@ let selectedYear = 2017;
 
 let selectedRegion = "CANADA"; // default region for areaChart
 
-let selectedAirpt;
+let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
 
 
@@ -29,6 +29,17 @@ const formatComma = d3.format(",d");
 /* SVGs */
 const map = d3.select(".dashboard .map")
     .append("svg");
+// map colour bar
+const margin = {top: 20, right: 0, bottom: 10, left: 20};
+const width = 510 - margin.left - margin.right;
+const height = 150 - margin.top - margin.bottom;
+const svgCB = d3.select("#mapColourScale")
+    .select("svg")
+    .attr("class", "airCB")
+    .attr("width", width)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
@@ -175,7 +186,6 @@ d3.select("#annualTimeseries")
 /* FNS */
 /*-- plot circles on map --*/
 const refreshMap = function() {
-  console.log("refreshMap")
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
   airportGroup.selectAll("path")
@@ -186,13 +196,11 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
-        console.log("refreshMap class")
         return "airport " + d.properties.hasPlanedData;
       });
 };
 
 function colorMap() {
-  console.log("colorMap")
   const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
 
   let dimExtent = [];
@@ -211,7 +219,6 @@ function colorMap() {
 
   for (const key in passengerTotals[selectedYear]) {
     if (passengerTotals[selectedYear].hasOwnProperty(key)) {
-      console.log("map fill")
       // d3.select(".dashboard .map")
       map
           .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
@@ -219,10 +226,10 @@ function colorMap() {
   }
 
   // colour bar scale and add label
-  console.log("dimExtent: ", dimExtent)
-  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
-  // mapColourScaleFn(svgCB, colourArray, dimExtent);
-  // d3.select("#cbID").text(mapScaleLabel);
+  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " (" 
+    + i18next.t("units", {ns: "airPassengers"}) + ")";
+  mapColourScaleFn(svgCB, colourArray, dimExtent);
+  d3.select("#cbID").text(mapScaleLabel);
 
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
@@ -366,16 +373,3 @@ i18n.load(["src/i18n"], () => {
 });
 
 $(document).on("change", uiHandler);
-// d3.selection.prototype.moveToFront = function() {
-//   return this.each(function() {
-//     this.parentNode.appendChild(this);
-//   });
-// };
-// d3.selection.prototype.moveToBack = function() {
-//   return this.each(function() {
-//     const firstChild = this.parentNode.firstChild;
-//     if (firstChild) {
-//       this.parentNode.insertBefore(this, firstChild);
-//     }
-//   });
-// };

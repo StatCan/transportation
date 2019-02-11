@@ -58,7 +58,8 @@
       "domestic": "Intérieur", 
       "other_intl": "Autres internationaux",
       "trans_border": "Transfrontalier",
-      "units": "en milliers"
+      "units": "en milliers",
+      "mapScaleLabel": "Total (en milliers)"
     },
      "provinces": {
        "CANADA": "Canada",
