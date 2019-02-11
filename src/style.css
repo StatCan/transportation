@@ -103,7 +103,7 @@ table, th, td {
 
 /*-- airport circle fill --*/
 .allYears {
-	fill: #7E0C33;
+	fill: green;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
@@ -115,24 +115,24 @@ table, th, td {
 }
 .lastSevenYears {
 	fill: #008E09;
-	stroke: black;
+	stroke: yellow;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastSixYears {
 	fill: #F6CF22;
-	stroke: black;
+	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .lastFiveYears {
 	fill: #F6CF22;
-	stroke: black;
+	stroke: blue;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .mix {
-	fill: gray;
+	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
 }
