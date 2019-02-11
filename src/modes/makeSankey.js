@@ -112,8 +112,9 @@ export default function(svg, graph) {
     // add the link titles
     link.append("title")
         .text(function(d) {
-          return d.source.name + "_to_" +
-                  d.target.name + "\n" + format(d.value);
+          // return i18next.t(d.source.name, {ns: "modes"}) + "_to_" +
+          //         i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
+          return i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
         });
 
     // add in the nodes
@@ -148,7 +149,7 @@ export default function(svg, graph) {
         })
         .append("title")
         .text(function(d) {
-          return d.name + "\n" + format(d.value);
+          return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
         });
 
     // add in the title for the nodes
@@ -162,7 +163,7 @@ export default function(svg, graph) {
         .attr("transform", null)
         .text(function(d) {
           // return i18next.t(d.name, {ns: "modes"});
-          if (d.value != 0) return d.name;
+          if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
         })
         .filter(function(d) {
           return d.x < innerWidth / 2;
