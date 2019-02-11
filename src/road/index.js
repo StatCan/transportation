@@ -39,7 +39,8 @@ const divArea = d3.select("body")
 
 
 // -----------------------------------------------------------------------------
-/* Map interactions */
+/* Interactions */
+/*-- Map interactions --*/
 map.on("mouseover", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
@@ -118,7 +119,7 @@ map.on("click", () => {
   updateTitles();
 });
 
-/*  areaChart interactions */
+/*--  areaChart interactions --*/
 // vertical line to attach to cursor
 const vertical = d3.select("#annualTimeseries")
     .append("div")
@@ -184,8 +185,6 @@ d3.select("#annualTimeseries")
     // Clear tooltip
     divArea.transition().style("opacity", 0);
   });
-
-
 
 // -----------------------------------------------------------------------------
 /* FNS */
