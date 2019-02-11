@@ -117,7 +117,7 @@ const vertical = d3.select("#annualTimeseries")
 
 let idx;
 let thisValue;
-let fuelType;
+let sectorType;
 d3.select("#annualTimeseries")
   .on("mousemove", function() {
     const mouse = d3.mouse(this);
@@ -137,7 +137,7 @@ d3.select("#annualTimeseries")
             if (thisArray[idx]) {
               const thisYear = thisArray[idx];
               thisValue = formatComma(thisYear[1] - thisYear[0]);
-              fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
+              sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
             }         
           }      
       });
@@ -150,10 +150,10 @@ d3.select("#annualTimeseries")
         divArea.transition()
           .style("opacity", .9);
         divArea.html(
-          "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+          "<b>" + sectorType + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
             "<table>" +
               "<tr>" + 
-                "<td><b>" + yearDict[idx] + ": $" + thisValue  + "</td>" +
+                "<td><b>" + yearDict[idx] + ": " + thisValue  + "</td>" +
                 // "<td>" + " (" + units + ")</td>" +
               "</tr>" +
             "</table>"
@@ -264,6 +264,38 @@ const showAirport = function() {
       .select(".areaChartTitle")
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
 };
+
+/*-- find year interval closest to cursor for areaChart tooltip --*/
+function findXInterval(mousex) {
+ // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
+  const xref = [62, 149, 234, 321, 404, 491, 576];
+  const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
+  xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
+  xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
+  xref[6] + (xref[1] - xref[0])/2];
+
+  // Plot vertical line at cursor
+  vertical.style("left", mousex + "px" );
+
+  if ( mousex < xrefMid[0] ) {
+    idx = 0;
+  } else if (  mousex < xrefMid[1]  ) {
+    idx = 1;
+  } else if (  mousex < xrefMid[2]  ) {
+    idx = 2;
+  } else if (  mousex < xrefMid[3]  ) {
+    idx = 3;
+  } else if (  mousex < xrefMid[4]  ) {
+    idx = 4;
+  } else if (  mousex < xrefMid[5]  ) {
+    idx = 5;
+  } else if (  mousex < xrefMid[6]  ) {
+    idx = 6;
+  } else if (  mousex > xrefMid[6]  ) {
+    idx = 7;
+  }
+  return idx;
+}
 
 /*-- update map and areaChart titles --*/
 function updateTitles() {

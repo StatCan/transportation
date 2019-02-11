@@ -191,7 +191,8 @@
       "total": "Total",
       "domestic": "Domestic",
       "other_intl": "International",
-      "trans_border": "Transborder"
+      "trans_border": "Transborder",
+      "units": "in thousands"
     },
     "railArea": {
       "alt": "Rail industry origin and destination of transported commodities, annual",

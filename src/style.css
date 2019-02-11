@@ -135,13 +135,13 @@ table, th, td {
 	stroke-width: 0.5px; */
 }
 #svg_areaChartAir .area-label {
-	font-size: 10px;
+	font-size: 20px;
 	fill: #3D3D3D;
 }
 #svg_areaChartAir .tick text {
 	fill: #69757c;
 	stroke: none;
-	font-size: 9px;
+	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svg_areaChartAir .axis path  {
@@ -151,7 +151,7 @@ table, th, td {
   stroke: #aaa;
 }
 #svg_areaChartAir .chart-label {
-	font-size: 10px;
+	font-size: 22px;
 	fill: #555;
 }
 .local, .domestic {
