@@ -50,7 +50,7 @@ const chart2 = d3.select("#aptChart") // .select(".data")
 /* variables */
 // For map circles
 let path;
-const defaultPointRadius = 1.1;
+const defaultPointRadius = 1.3;
 const defaultStrokeWidth = 0.5;
 
 // const airportGroup = map.append("g");
