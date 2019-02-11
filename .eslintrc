@@ -10,6 +10,7 @@
      "i18n": true,
      "getCanadaMap": true,
      "areaChart": true,
+     "lineChart": true,
      "drawMapTable": true,
      "bubbleTable": true,
      "drawTable": true,
