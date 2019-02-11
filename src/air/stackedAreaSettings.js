@@ -64,6 +64,8 @@ export default {
   },
   datatable: true,
   tableTitle: i18next.t("tableTitle", {ns: "airPassengers"}),
+  areaTableID: "areaTable",
+  // summaryId: "chrt-dt-tbl",
   transition: true,
   width: 1050
 };
