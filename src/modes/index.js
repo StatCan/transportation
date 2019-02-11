@@ -1,7 +1,9 @@
 import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
 
-let selected = "CANADA";
+let selectedGeo = "CANADA";
+let selectedMonth;
+let selectedYear;
 let data;
 
 const sankeyChart = d3.select("#sankeyGraph")
@@ -13,10 +15,13 @@ const table = d3.select(".tabledata")
 
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value;
-    if (!data[selected]) {
-      d3.json("data/modes/" + selected + "_modes.json", function(err, filedata) {
-        data[selected] = filedata;
+    selectedGeo = document.getElementById("groups").value;
+    selectedMonth = document.getElementById("month").value;
+    selectedYear = document.getElementById("year").value;
+
+    if (!data[selectedGeo]) {
+      d3.json("data/modes/" + selectedMonth + "_" modes.json", function(err, filedata) {
+        data[selectedGeo] = filedata;
         showData();
       });
     } else {
@@ -26,7 +31,7 @@ function uiHandler(event) {
 }
 
 function showData() {
-  makeSankey(sankeyChart, data[selected]);
+  makeSankey(sankeyChart, data[selectedGeo]);
 }
 
 i18n.load(["src/i18n"], function() {
