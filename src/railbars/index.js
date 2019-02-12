@@ -88,27 +88,34 @@ i18n.load(["src/i18n"], function() {
     console.log("json1: ", json1);
     const numYears = Object.keys(json1).length;
     const years = Object.keys(json1); // array
+    const domain = [-10000, 80000];
 
     // for (let idx = 0; idx < remainingRegions.length; idx++) {
     for (let idx = 0; idx < 1; idx++) {
       const targetRegion = remainingRegions[idx];
       d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
-         // Construct array to send to bar chart
-         const keys = [selectedRegion + "to" + targetRegion];
-         console.log("keys: ", keys)
-          const rtn = keys.map((d) => {
-          return {
-            id: d,
-            values: years.map((p) => {
-              return {
-                year: p,
-                value: json1[parseInt(p)][targetRegion]
-              };
-            })
-          };
-        });
-        console.log("rtn: ", rtn)
-        barChart(bar1, settingsBar, rtn);
+        const filterData = function(d) {
+          const keys = [selectedRegion + "to" + targetRegion];
+          return keys.map((d) => {
+            return {
+              category: d,
+              values: years.map((p) => {
+                return {
+                  year: p,
+                  value: json1[parseInt(p)][targetRegion]
+                };
+              })
+            };
+          });
+        };
+        const s = {
+          ...settingsBar,
+          filterData: filterData
+        };
+        settings.y.getDomain = () => {
+          return domain;
+        };
+        barChart(bar1, s, json1);
 
 
         // const arrBar = [];
@@ -116,7 +123,7 @@ i18n.load(["src/i18n"], function() {
         //   const thisYear = Object.keys(json1)[idx];
         //   arrBar.push({
         //     category: selectedRegion + "to" + targetRegion,
-        //     values: 
+        //     values:
         //     [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
         //     [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
         //   });

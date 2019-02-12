@@ -7,29 +7,10 @@ export default {
   // datatable: {
   //   title: i18next.t("datatableTitle", {ns: "railBar"})
   // },
-  filterData: function(d) {
-    console.log("filterData: ", d);
-    // var root = d.data,
-    //   keys = Object.keys(root);
-    // keys.splice(keys.indexOf("keys"),1);
-
-    // return keys.map(function(category) {
-    //   return {
-    //     category: category,
-    //     values: root.keys.values.map(function(region, index) {
-    //       return {
-    //         region: region,
-    //         imm: root[category][index]
-    //       };
-    //     })
-    //   };
-    // });
-    return d;
-  },
   x: {
     label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
-      return d.region;
+      return d.year;
     },
     getValue: function() {
       return this.x.getId.apply(this, arguments);
@@ -45,10 +26,10 @@ export default {
   y: {
     label: i18next.t("y_label", {ns: "railBar"}),
     getValue: function(d) {
-      return d.imm;
+      return d.value;
     },
     getText: function(d) {
-      return formatter.format(Math.round(d.imm));
+      return formatter.format(Math.round(d.value));
     }
   },
 
