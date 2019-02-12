@@ -11,6 +11,7 @@
      "getCanadaMap": true,
      "areaChart": true,
      "lineChart": true,
+     "barChart": true,
      "drawMapTable": true,
      "bubbleTable": true,
      "drawTable": true,

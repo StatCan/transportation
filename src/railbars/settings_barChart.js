@@ -1,71 +1,71 @@
 export default {
-  margin: {
-    top: 18,
-    right: 10,
-    bottom: 30,
-    left: 50
+  aspectRatio: 16 / 13,
+    margin: {
+    bottom: 150
   },
-  groupPadding: 0.2,
-  barPadding: 0.1,
-  aspectRatio: 16 / 9,
+  // alt: i18next.t("alt", {ns: "railBar"}),
+  // datatable: {
+  //   title: i18next.t("datatableTitle", {ns: "railBar"})
+  // },
+  filterData: function(d) {
+    console.log("filterData: ", d);
+    // var root = d.data,
+    //   keys = Object.keys(root);
+    // keys.splice(keys.indexOf("keys"),1);
+
+    // return keys.map(function(category) {
+    //   return {
+    //     category: category,
+    //     values: root.keys.values.map(function(region, index) {
+    //       return {
+    //         region: region,
+    //         imm: root[category][index]
+    //       };
+    //     })
+    //   };
+    // });
+    return d;
+  },
   x: {
-    getDomain: function(data) {
-      const sett = this;
-      const keys = [];
-      let i;
-      let d;
-      let x;
-
-      for (i = 0; i < data.length; i++) {
-        d = data[i];
-        x = sett.x.getValue.call(sett, d);
-
-        if (keys.indexOf(x) === -1) {
-          keys.push(x);
-        }
-      }
-
-      return keys;
+    label: i18next.t("x_label", {ns: "railBar"}),
+    getId: function(d) {
+      return d.region;
+    },
+    getValue: function() {
+      return this.x.getId.apply(this, arguments);
+    },
+    getClass: function() {
+      return this.x.getId.apply(this, arguments);
+    },
+    getTickText: function(val) {
+      return i18next.t(val, {ns: "railBar"});
     }
   },
+
   y: {
-    getDomain: function(data) {
-      let min = d3.min(data, this.y.getValue.bind(this));
-      let max = d3.max(data, this.y.getValue.bind(this));
-
-      if (min > 0) min = 0;
-      if (max < 0) max = 0;
-
-      if (this.showValues) {
-        if (min < 0 ) min -= (max - min) * .09;
-        if (max > 0 ) max += (max - min) * .06;
-      }
-
-      return [
-        min,
-        max
-      ];
+    label: i18next.t("y_label", {ns: "railBar"}),
+    getValue: function(d) {
+      return d.imm;
+    },
+    getText: function(d) {
+      return formatter.format(Math.round(d.imm));
     }
   },
+
   z: {
-    getDomain: function(data) {
-      const sett = this;
-      const keys = [];
-      let i;
-      let d;
-      let x;
-
-      for (i = 0; i < data.length; i++) {
-        d = data[i];
-        x = sett.z.getId.call(sett, d);
-
-        if (keys.indexOf(x) === -1) {
-          keys.push(x);
-        }
-      }
-
-      return keys;
+    // label: i18next.t("z_label", {ns: "railBar"}),
+    getId: function(d) {
+      return d.category;
+    },
+    getClass: function() {
+      return this.z.getId.apply(this, arguments);
+    },
+    getDataPoints: function(d) {
+      return d.values;
+    },
+    getText: function(d) {
+      return i18next.t(d.id, {ns: "railBar"});
     }
   },
-  width: 600
+  width: 900
 };

@@ -1,4 +1,5 @@
 import settings from "./settings_lineChart.js";
+import settingsBar from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
 
@@ -6,8 +7,8 @@ import createLegend from "./createLegend.js";
 let selectedRegion = "ON";
 let selectedComm = "chems"; // "coal";
 
-const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
-// const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
+// const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
+const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
 // const formatNumber = d3.format(","); // d3.format(".2f");
@@ -79,16 +80,51 @@ function sortComm(data) {
 i18n.load(["src/i18n"], function() {
   settings.x.label = i18next.t("x_label", {ns: "railArea"}),
   settings.y.label = i18next.t("y_label", {ns: "railArea"}),
+  settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
+  settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
   // settBubble.z.getText = i18next.t("y_label", {ns: "commodities"}),
 
   d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
     console.log("json1: ", json1);
     const numYears = Object.keys(json1).length;
+    const years = Object.keys(json1); // array
 
-    for (let idx = 0; idx < remainingRegions.length; idx++) {
+    // for (let idx = 0; idx < remainingRegions.length; idx++) {
+    for (let idx = 0; idx < 1; idx++) {
       const targetRegion = remainingRegions[idx];
       d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
-        // Construct data object pair to send to stacked area chart
+         // Construct array to send to bar chart
+         const keys = [selectedRegion + "to" + targetRegion];
+         console.log("keys: ", keys)
+          const rtn = keys.map((d) => {
+          return {
+            id: d,
+            values: years.map((p) => {
+              return {
+                year: p,
+                value: json1[parseInt(p)][targetRegion]
+              };
+            })
+          };
+        });
+        console.log("rtn: ", rtn)
+        barChart(bar1, settingsBar, rtn);
+
+
+        // const arrBar = [];
+        // for (let idx = 0; idx < numYears; idx++) {
+        //   const thisYear = Object.keys(json1)[idx];
+        //   arrBar.push({
+        //     category: selectedRegion + "to" + targetRegion,
+        //     values: 
+        //     [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
+        //     [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
+        //   });
+        // }
+        // console.log("arrBar: ", arrBar);
+
+        // -----------------------------------------------------------------------
+        // Construct data object pair to send to line chart
         const arrPair = [];
         for (let idx = 0; idx < numYears; idx++) {
           const thisYear = Object.keys(json1)[idx];
@@ -98,7 +134,7 @@ i18n.load(["src/i18n"], function() {
             [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
           });
         }
-        // console.log("arrPair: ", arrPair);
+        console.log("arrPair: ", arrPair);
 
         // send to lineChart
         if (idx == 0) {
