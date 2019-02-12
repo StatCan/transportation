@@ -6,10 +6,11 @@ import createLegend from "./createLegend.js";
 // const data = {};
 let selectedRegion = "ON";
 let selectedComm = "chems"; // "coal";
+let domain; // Stores domain of flattened json1
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
-const remainingRegions = regions.filter((item) => item !== selectedRegion);
+const getRemainingRegions = () => regions.filter((item) => item !== selectedRegion);
 
 // const formatNumber = d3.format(","); // d3.format(".2f");
 // const format = function(d) {
@@ -57,6 +58,7 @@ function uiHandler(event) {
 }
 
 // ---------------------------------------------------------------------
+// FUNCTIONS
 // function showArea() {
 //   lineChart(chartPair1, settings, data[selectedRegion]);
 // }
@@ -74,6 +76,17 @@ function showComm(region) {
 function sortComm(data) {
   console.log("sort the data!");
 }
+function filterDataBar(d) {
+  return [{
+    category: `${this.selectedRegion}to${this.targetRegion}`,
+    values: Object.keys(d).map((p) => {
+      return {
+        year: p,
+        value: d[parseInt(p, 10)][this.targetRegion]
+      };
+    })
+  }];
+}
 
 // ---------------------------------------------------------------------
 // Landing page displays
@@ -88,68 +101,21 @@ i18n.load(["src/i18n"], function() {
     console.log("json1: ", json1);
     const numYears = Object.keys(json1).length;
     const years = Object.keys(json1); // array
-    const domain = [-10000, 80000];
+    const remainingRegions = getRemainingRegions();
+    domain = [-10000, 80000];
 
-    // for (let idx = 0; idx < remainingRegions.length; idx++) {
-    for (let idx = 0; idx < 1; idx++) {
+    const s = {
+      ...settingsBar,
+      filterData: filterDataBar
+    };
+    settings.y.getDomain = () => {
+      return domain;
+    };
+
+    for (let idx = 0; idx < remainingRegions.length; idx++) {
       const targetRegion = remainingRegions[idx];
-      d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
-        const filterData = function(d) {
-          const keys = [selectedRegion + "to" + targetRegion];
-          return keys.map((d) => {
-            return {
-              category: d,
-              values: years.map((p) => {
-                return {
-                  year: p,
-                  value: json1[parseInt(p)][targetRegion]
-                };
-              })
-            };
-          });
-        };
-        const s = {
-          ...settingsBar,
-          filterData: filterData
-        };
-        settings.y.getDomain = () => {
-          return domain;
-        };
-        barChart(bar1, s, json1);
-
-
-        // const arrBar = [];
-        // for (let idx = 0; idx < numYears; idx++) {
-        //   const thisYear = Object.keys(json1)[idx];
-        //   arrBar.push({
-        //     category: selectedRegion + "to" + targetRegion,
-        //     values:
-        //     [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
-        //     [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
-        //   });
-        // }
-        // console.log("arrBar: ", arrBar);
-
-        // -----------------------------------------------------------------------
-        // Construct data object pair to send to line chart
-        const arrPair = [];
-        for (let idx = 0; idx < numYears; idx++) {
-          const thisYear = Object.keys(json1)[idx];
-          arrPair.push({
-            year: thisYear,
-            [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
-            [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
-          });
-        }
-        console.log("arrPair: ", arrPair);
-
-        // send to lineChart
-        if (idx == 0) {
-          lineChart(chartPair1, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend1");
-        }
-      }); // inner d3.json
-    } // for loop
+      barChart(eval(`bar${idx + 1}`), {...s, selectedRegion, targetRegion}, json1);
+    }
   }); // outer d3.json
 
   showComm(selectedRegion);
