@@ -1798,7 +1798,7 @@
 	// For map circles
 
 	var path;
-	var defaultPointRadius = 1.1;
+	var defaultPointRadius = 1.3;
 	var defaultStrokeWidth = 0.5; // const airportGroup = map.append("g");
 
 	var airportGroup;

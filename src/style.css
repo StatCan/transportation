@@ -254,6 +254,20 @@ table, th, td {
 }
 
 /*rail dataset*/
+/*-- barChart --*/
+#barChartTitle {
+  font-weight: bold;
+}
+.barChartTitle {
+	font-size: 12px;
+	font-weight: bold;
+}
+.bar {
+  fill: #0278A4;
+}
+.railBar .tick text {
+	font-size: 58px;
+}
 /* SOLID LINES */
 .legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,
 .dline.ABtoON, .dline.ABtoQC, .dline.ABtoSK, .dline.ABtoUS-MEX {
@@ -276,12 +290,12 @@ table, th, td {
 .legendLine.MBto, .dline.MBtoAT, .dline.MBtoAB, .dline.MBtoBC, .dline.MBtoMB,
 .dline.MBtoON, .dline.MBtoQC, .dline.MBtoSK, .dline.MBtoUS-MEX {
   stroke: #31a354;
-  stroke-width: 4px;
+  stroke-width: 2px;
 }
 .legendLine.ONto, .dline.ONtoAT, .dline.ONtoAB, .dline.ONtoBC, .dline.ONtoMB,
 .dline.ONtoON, .dline.ONtoQC, .dline.ONtoSK, .dline.ONtoUS-MEX  {
   stroke: #555;
-  stroke-width: 4px;
+  stroke-width: 2px;
 }
 .legendLine.QCto, .dline.QCtoAT, .dline.QCtoAB, .dline.QCtoBC, .dline.QCtoMB,
 .dline.QCtoON, .dline.QCtoQC, .dline.QCtoSK, .dline.QCtoUS-MEX  {
@@ -322,8 +336,8 @@ table, th, td {
 .legendLine2.ONto, .dline2.ONtoAT, .dline2.ONtoAB, .dline2.ONtoBC, .dline2.ONtoMB,
 .dline2.ONtoON, .dline2.ONtoQC, .dline2.ONtoSK, .dline2.ONtoUS-MEX  {
   stroke: #555;
-  stroke-width: 4px;
-  stroke-dasharray: 4px;
+  stroke-width: 2px;
+  stroke-dasharray: 2px;
 }
 .legendLine2.QCto, .dline2.QCtoAT, .dline2.QCtoAB, .dline2.QCtoBC, .dline2.QCtoMB,
 .dline2.QCtoON, .dline2.QCtoQC, .dline2.QCtoSK, .dline2.QCtoUS-MEX  {
@@ -342,16 +356,16 @@ table, th, td {
   opacity: 0;
 }
 #tonnageDivIdLines .chart-label {
-  font-size: 14px;
+  font-size: 8px;
   fill: #555;
 }
 #tonnageDivIdLines .tick text {
-	font-size: 16px;
+	font-size: 6px;
 }
 /* END LINES */
 
 .legendTextRail text {
-  font-size: 13px;
+  font-size: 16px;
   fill: #555;
 }
 #tonnageDivId .line-label {

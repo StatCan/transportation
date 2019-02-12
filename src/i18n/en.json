@@ -198,10 +198,16 @@
     "railArea": {
       "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
-      "y_label": "Tonnage"
+      "y_label": "Tonnage (in thousands)"
     },
-    "railRegions": {
-       "ATR": "Atlantic Region",
+    "railBar": {
+      "alt": "Rail industry origin and destination of transported commodities, annual",
+      "x_label": "Year",
+      "y_label": "Tonnage",
+      "ONtoAT": "Ontario to Atlantic Region"
+    },
+    "railGeography": {
+       "AT": "Atlantic Region",
        "QC": "Quebec",
        "ON": "Ontario",
        "MB": "Manitoba",
