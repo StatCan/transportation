@@ -1,6 +1,8 @@
 export default {
-  aspectRatio: 16 / 13,
-    margin: {
+  aspectRatio: 16 / 16,
+  margin: {
+    top: 20,
+    left: 100,
     bottom: 150
   },
   // alt: i18next.t("alt", {ns: "railBar"}),
@@ -30,7 +32,8 @@ export default {
     },
     getText: function(d) {
       return formatter.format(Math.round(d.value));
-    }
+    },
+    ticks: 5
   },
 
   z: {
@@ -48,5 +51,5 @@ export default {
       return i18next.t(d.id, {ns: "railBar"});
     }
   },
-  width: 900
+  width: 950
 };

@@ -206,7 +206,7 @@
       "y_label": "Tonnage",
       "ONtoAT": "Ontario to Atlantic Region"
     },
-    "railRegions": {
+    "railGeography": {
        "ATR": "Atlantic Region",
        "QC": "Quebec",
        "ON": "Ontario",

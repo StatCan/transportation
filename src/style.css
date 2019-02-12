@@ -254,6 +254,16 @@ table, th, td {
 }
 
 /*rail dataset*/
+/*-- barChart --*/
+#barChartTitle {
+  font-weight: bold;
+}
+.bar {
+  fill: #0278A4;
+}
+.railBar .tick text {
+	font-size: 58px;
+}
 /* SOLID LINES */
 .legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,
 .dline.ABtoON, .dline.ABtoQC, .dline.ABtoSK, .dline.ABtoUS-MEX {
