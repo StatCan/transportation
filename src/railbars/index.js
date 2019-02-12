@@ -25,11 +25,18 @@ const getRemainingRegions = () => regions.filter((item) => item !== selectedRegi
 //     .attr("id", "svg_pair1");
 
 const barSVG = [];
-for (let c = 0; c <7; c++) {
+for (let c = 0; c < getRemainingRegions().length; c++) {
   barSVG.push(d3.select(`#bar${c}`)
       .append("svg")
       .attr("id", `svg_bar${c}`));
 }
+
+// barChart title divs
+const titleDIV = [];
+for (let c = 0; c < getRemainingRegions().length; c++) {
+  titleDIV.push(`#bar${c}Title`);
+}
+
 // ---------------------------------------------------------------------
 // global variables for commodities bubble table
 // const rankedCommData = [];
@@ -92,13 +99,18 @@ function filterDataBar(d) {
   }];
 }
 /* -- update map and areaChart titles -- */
-function updateTitles() {
+function updateTitles(idx) {
   const geography = i18next.t(selectedRegion, {ns: "railGeography"});
   const comm = i18next.t(selectedComm, {ns: "commodities"});
 
   // Title for group of bar charts
   d3.select("#barChartTitle")
       .text(`${comm} transported by rail from ${geography} to all destinations`);
+
+  // individual bar chart titles
+  const targetGeo = i18next.t(getRemainingRegions()[idx], {ns: "railGeography"});
+  d3.select(titleDIV[idx])
+      .text(targetGeo);
 }
 // ---------------------------------------------------------------------
 // Landing page displays
@@ -136,7 +148,7 @@ i18n.load(["src/i18n"], function() {
           .selectAll("text")
           .attr("transform", "rotate(-45)")
           .style("text-anchor", "end");
-      updateTitles();
+      updateTitles(idx);
     }
   }); // outer d3.json
 

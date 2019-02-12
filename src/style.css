@@ -258,6 +258,10 @@ table, th, td {
 #barChartTitle {
   font-weight: bold;
 }
+.barChartTitle {
+	font-size: 12px;
+	font-weight: bold;
+}
 .bar {
   fill: #0278A4;
 }

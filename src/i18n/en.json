@@ -207,7 +207,7 @@
       "ONtoAT": "Ontario to Atlantic Region"
     },
     "railGeography": {
-       "ATR": "Atlantic Region",
+       "AT": "Atlantic Region",
        "QC": "Quebec",
        "ON": "Ontario",
        "MB": "Manitoba",
