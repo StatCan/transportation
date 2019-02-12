@@ -1,11 +1,12 @@
 import settings from "./settings_lineChart.js";
 import settingsBar from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
-// import createLegend from "./createLegend.js";
+import createLegend from "./createLegend.js";
 
 // const data = {};
 let selectedRegion = "ON";
 let selectedComm = "chems"; // "coal";
+const targetRegion = "AT"; // reciprocal region for line chart pair
 let domain; // Stores domain of flattened json1
 const scalef = 1e3; // scale factor for data values
 
@@ -20,9 +21,9 @@ const getRemainingRegions = () => regions.filter((item) => item !== selectedRegi
 
 // ---------------------------------------------------------------------
 /* SVGs */
-// const chartPair1 = d3.select("#pair1")
-//     .append("svg")
-//     .attr("id", "svg_pair1");
+const chartPair1 = d3.select("#pair1")
+    .append("svg")
+    .attr("id", "svg_pair1");
 
 const barSVG = [];
 for (let c = 0; c < getRemainingRegions().length; c++) {
@@ -123,8 +124,6 @@ i18n.load(["src/i18n"], function() {
 
   d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
     console.log("json1: ", json1);
-    // const numYears = Object.keys(json1).length;
-    // const years = Object.keys(json1); // array
     const remainingRegions = getRemainingRegions();
     domain = [0, 65];
 
@@ -150,6 +149,23 @@ i18n.load(["src/i18n"], function() {
           .style("text-anchor", "end");
       updateTitles(idx);
     }
+    d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
+      const numYears = Object.keys(json1).length;
+
+      // Construct data object pair to send to stacked area chart
+      const arrPair = [];
+      for (let idx = 0; idx < numYears; idx++) {
+        const thisYear = Object.keys(json1)[idx];
+        arrPair.push({
+          year: thisYear,
+          [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
+          [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
+        });
+      }
+      console.log("arrPair: ", arrPair);
+      lineChart(chartPair1, settings, arrPair);
+      createLegend([selectedRegion, targetRegion], "#legend1");
+    }); // inner d3.json
   }); // outer d3.json
 
   showComm(selectedRegion);

@@ -198,7 +198,7 @@
     "railArea": {
       "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
-      "y_label": "Tonnage"
+      "y_label": "Tonnage (in thousands)"
     },
     "railBar": {
       "alt": "Rail industry origin and destination of transported commodities, annual",

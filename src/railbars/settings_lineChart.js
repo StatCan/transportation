@@ -37,7 +37,7 @@ export default {
   y: {
     ticks: 3,
     getValue: function(d) {
-      return d.value; // * 1.0 / 1000;
+      return d.value * 1.0 / 1000;
     },
     getText: function(d) {
       return d.value;
@@ -65,5 +65,5 @@ export default {
     }
   },
   datatable: false,
-  width: 600
+  width: 400
 };

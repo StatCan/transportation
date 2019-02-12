@@ -51,5 +51,5 @@ export default {
       return i18next.t(d.id, {ns: "railBar"});
     }
   },
-  width: 950
+  width: 900
 };
