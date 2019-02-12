@@ -14,11 +14,11 @@ export default {
     getId: function(d) {
       return d.year;
     },
-    getValue: function() {
-      return this.x.getId.apply(this, arguments);
+    getValue: function(...args) {
+      return this.x.getId.apply(this, args);
     },
-    getClass: function() {
-      return this.x.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.x.getId.apply(this, args);
     },
     getTickText: function(val) {
       return i18next.t(val, {ns: "railBar"});
@@ -31,7 +31,7 @@ export default {
       return d.value;
     },
     getText: function(d) {
-      return formatter.format(Math.round(d.value));
+      return (Math.round(d.value));
     },
     ticks: 5
   },
@@ -41,8 +41,8 @@ export default {
     getId: function(d) {
       return d.category;
     },
-    getClass: function() {
-      return this.z.getId.apply(this, arguments);
+    getClass: function(...args) {
+      return this.z.getId.apply(this, args);
     },
     getDataPoints: function(d) {
       return d.values;
