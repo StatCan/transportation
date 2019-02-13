@@ -10,13 +10,116 @@ const defaults = {
   }
 };
 
+const nodes = [
+    {
+      "node": 0,
+      "name": "intl"
+    },
+    {
+      "node": 1,
+      "name": "USres"
+    },
+    {
+      "node": 2,
+      "name": "nonUSres"
+    },
+    {
+      "node": 3,
+      "name": "cdnFromUS"
+    },
+    {
+      "node": 4,
+      "name": "cdnFromOther"
+    },
+    {
+      "node": 5,
+      "name": "USres_air"
+    },
+    {
+      "node": 6,
+      "name": "USres_marine"
+    },
+    {
+      "node": 7,
+      "name": "USres_land"
+    },
+    {
+      "node": 8,
+      "name": "nonUSres_air"
+    },
+    {
+      "node": 9,
+      "name": "nonUSres_marine"
+    },
+    {
+      "node": 10,
+      "name": "nonUSres_land"
+    },
+    {
+      "node": 11,
+      "name": "cdnFromUS_air"
+    },
+    {
+      "node": 12,
+      "name": "cdnFromUS_marine"
+    },
+    {
+      "node": 13,
+      "name": "cdnFromUS_land"
+    },
+    {
+      "node": 14,
+      "name": "cdnFromOther_air"
+    },
+    {
+      "node": 15,
+      "name": "cdnFromOther_marine"
+    },
+    {
+      "node": 16,
+      "name": "cdnFromOther_land"
+    },
+    {
+      "node": 17,
+      "name": "USres_car"
+    },
+    {
+      "node": 18,
+      "name": "USres_bus"
+    },
+    {
+      "node": 19,
+      "name": "USres_train"
+    },
+    {
+      "node": 20,
+      "name": "USres_other"
+    },
+    {
+      "node": 21,
+      "name": "cdnFromUS_car"
+    },
+    {
+      "node": 22,
+      "name": "cdnFromUS_bus"
+    },
+    {
+      "node": 23,
+      "name": "cdnFromUS_train"
+    },
+    {
+      "node": 24,
+      "name": "cdnFromUS_other"
+    }
+  ];
+
 export default function(svg, graph) {
   const colourDict = {
   // level 1
     "intl": "#607890",
     // level 2
     "USres": "#CC982A",
-    "nonUS": "#928941",
+    "nonUSres": "#928941",
     "cdnFromUS": "#FFDC68",
     "cdnFromOther": "#FAB491",
     // level 3
@@ -29,9 +132,9 @@ export default function(svg, graph) {
     "USres_train": "#CC982A",
     "USres_other": "#CC982A",
 
-    "nonUS_land": "#928941",
-    "nonUS_air": "#928941",
-    "nonUS_marine": "#928941",
+    "nonUSres_land": "#928941",
+    "nonUSres_air": "#928941",
+    "nonUSres_marine": "#928941",
 
     "cdnFromUS_land": "#FFDC68",
     "cdnFromUS_air": "#FFDC68",
@@ -84,7 +187,7 @@ export default function(svg, graph) {
   // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
   function make(graph) {
     sankey
-        .nodes(graph.nodes)
+        .nodes(nodes)
         .links(graph.links)
         .layout(32);
 
@@ -119,7 +222,7 @@ export default function(svg, graph) {
 
     // add in the nodes
     const node = dataLayer.append("g").selectAll(".node")
-        .data(graph.nodes)
+        .data(nodes)
         .enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) {
