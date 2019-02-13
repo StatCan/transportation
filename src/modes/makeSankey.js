@@ -177,8 +177,8 @@ export default function(svg, graph) {
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
-      .nodeWidth(36)
-      .nodePadding(40)
+      // .nodeWidth(36) // defined in sankey_d3v4.js
+      // .nodePadding(40) // defined in sankey_d3v4.js
       .size([innerWidth, innerHeight]);
 
   const path = sankey.link();
