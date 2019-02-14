@@ -158,28 +158,18 @@ function showData() {
 }
 
 function filterZeros(d) {
-  var returnObject = {}
-  for (var geo in d){
-    returnObject[geo] = {}
-    returnObject[geo].links = []
-    for (var val of d[geo]){
-      if (val.value !==0){
-        returnObject[geo].links.push(val)
+  const returnObject = {};
+  for (const geo in d) {
+    if (Object.prototype.hasOwnProperty.call(d, geo)) {
+      returnObject[geo] = {};
+      returnObject[geo].links = [];
+      for (const val of d[geo]) {
+        if (val.value !==0) {
+          returnObject[geo].links.push(val);
+        }
       }
     }
   }
-
-  // // Loop through keys and check if all keys.links.length > 0
-  // const keys = Object.keys(returnObject);
-  // keys.map((d) => {
-  //   if (returnObject[d].links.length === 0) {
-  //     console.log("d key: ", d)
-  //     console.log("returnObject in here: ",returnObject)
-  //     console.log(returnObject[d].links)
-  //     console.log(returnObject[d].links.length)
-  //   }
-  // });
-
   return returnObject;
 }
 
@@ -190,7 +180,6 @@ i18n.load(["src/i18n"], function() {
       .await(function(error, json) {
         data[selectedYear + "-" + selectedMonth] = filterZeros(json);
         makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-        // drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedGeo]);
         drawTable(table, tableSettings, nodes);
       });
 });

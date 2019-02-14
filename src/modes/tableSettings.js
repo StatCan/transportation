@@ -8,7 +8,6 @@ export default {
   },
   // creates variable d
   filterData: function(data) {
-    console.log("filterData data: ", data)
     return data; // array of objects
   },
   x: {
