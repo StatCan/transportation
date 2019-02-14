@@ -4,8 +4,114 @@ import tableSettings from "./tableSettings.js";
 let selectedGeo = "Canada";
 let selectedMonth = "01";
 let selectedYear = "2018";
-let data = {};
+const data = {};
 
+// global nodes
+const nodes = [
+  {
+    "node": 0,
+    "name": "intl"
+  },
+  {
+    "node": 1,
+    "name": "USres"
+  },
+  {
+    "node": 2,
+    "name": "nonUSres"
+  },
+  {
+    "node": 3,
+    "name": "cdnFromUS"
+  },
+  {
+    "node": 4,
+    "name": "cdnFromOther"
+  },
+  {
+    "node": 5,
+    "name": "USres_air"
+  },
+  {
+    "node": 6,
+    "name": "USres_marine"
+  },
+  {
+    "node": 7,
+    "name": "USres_land"
+  },
+  {
+    "node": 8,
+    "name": "nonUSres_air"
+  },
+  {
+    "node": 9,
+    "name": "nonUSres_marine"
+  },
+  {
+    "node": 10,
+    "name": "nonUSres_land"
+  },
+  {
+    "node": 11,
+    "name": "cdnFromUS_air"
+  },
+  {
+    "node": 12,
+    "name": "cdnFromUS_marine"
+  },
+  {
+    "node": 13,
+    "name": "cdnFromUS_land"
+  },
+  {
+    "node": 14,
+    "name": "cdnFromOther_air"
+  },
+  {
+    "node": 15,
+    "name": "cdnFromOther_marine"
+  },
+  {
+    "node": 16,
+    "name": "cdnFromOther_land"
+  },
+  {
+    "node": 17,
+    "name": "USres_car"
+  },
+  {
+    "node": 18,
+    "name": "USres_bus"
+  },
+  {
+    "node": 19,
+    "name": "USres_train"
+  },
+  {
+    "node": 20,
+    "name": "USres_other"
+  },
+  {
+    "node": 21,
+    "name": "cdnFromUS_car"
+  },
+  {
+    "node": 22,
+    "name": "cdnFromUS_bus"
+  },
+  {
+    "node": 23,
+    "name": "cdnFromUS_train"
+  },
+  {
+    "node": 24,
+    "name": "cdnFromUS_other"
+  }
+];
+// ------------
+
+// SVGs
 const sankeyChart = d3.select("#sankeyGraph")
     .append("svg")
     .attr("id", "svg_sankeyChart");
@@ -17,7 +123,7 @@ function uiHandler(event) {
   // Clear any text in #zeroFlag
   if ( d3.select("#zeroFlag").text() !== "") {
     d3.select("#zeroFlag")
-            .text("");
+        .text("");
   }
 
   if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
@@ -33,14 +139,13 @@ function uiHandler(event) {
     } else {
       const thisData = data[selectedYear + "-" + selectedMonth];
       const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-     
+
       if (thisData[selectedGeo].links.length === 0) {
         d3.selectAll("svg > *").remove();
         d3.select("#zeroFlag")
-            .text(`Zero international travellers for ${selectedGeo}, 
+            .text(`Zero international travellers for ${selectedGeo},
               ${thisMonth} ${selectedYear}`);
-      }
-      else {
+      } else {
         showData();
       }
     }
@@ -52,7 +157,7 @@ function showData() {
   makeSankey(sankeyChart, data[selectedYear + "-" + selectedMonth][selectedGeo]);
 }
 
-function filterZeros(d){
+function filterZeros(d) {
   var returnObject = {}
   for (var geo in d){
     returnObject[geo] = {}
@@ -74,17 +179,19 @@ function filterZeros(d){
   //     console.log(returnObject[d].links.length)
   //   }
   // });
-  
+
   return returnObject;
 }
 
 i18n.load(["src/i18n"], function() {
   tableSettings.tableTitle = i18next.t("tableTitle", {ns: "modes"}),
   d3.queue()
-      .defer(d3.json,"data/modes/" + selectedYear + "-" + selectedMonth  + ".json")
+      .defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json")
       .await(function(error, json) {
         data[selectedYear + "-" + selectedMonth] = filterZeros(json);
-        makeSankey(sankeyChart, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+        makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+        // drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+        drawTable(table, tableSettings, nodes);
       });
 });
 

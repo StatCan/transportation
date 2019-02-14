@@ -8,7 +8,8 @@ export default {
   },
   // creates variable d
   filterData: function(data) {
-    return data.nodes; // array of objects
+    console.log("filterData data: ", data)
+    return data; // array of objects
   },
   x: {
     // getValue: function(d) {
@@ -52,33 +53,8 @@ export default {
         return i18next.t(d[key], {ns: "modes"}); // targetLinks empty (first node has no parent)
       } else return d[key]; // Number, not a string, do not pass through i18next
     }
-    // getTotal: function(d, index, data) {
-    //   let total;
-    //   let keys;
-    //   const sett = this;
-    //   if (!d[sett.y.totalProperty]) {
-    //     keys = sett.z.getKeys.call(sett, data);
-    //     total = 0;
-    //     for (let k = 0; k < keys.length; k++) {
-    //       total += sett.y.getValue.call(sett, d, keys[k], data);
-    //     }
-    //     d[sett.y.totalProperty] = total;
-    //   }
-
-    //   return d[sett.y.totalProperty];
-    // },
-    // getText: function(d, key) {
-    //   if (typeof d[key] === "string" || d[key] instanceof String) {
-    //     return d[key];
-    //   } else return d[key];
-    // }
   },
   z: {
-    // label: i18next.t("z_label", {ns: "modes"}),
-    // getId: function(d) {
-    //   console.log("z getID d: ", d)
-    //   return d.key;
-    // },
     getKeys: function(object) {
       const sett = this;
       // const keys = Object.keys(object[0]);
@@ -89,9 +65,6 @@ export default {
       }
       return keys;
     },
-    // getClass: function(...args) {
-    //   return this.z.getId.apply(this, args);
-    // },
     getText: function(d) {
       return i18next.t(d.key, {ns: "modes"});
     }
