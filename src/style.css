@@ -536,27 +536,7 @@ div.tooltip {
 	border-color: #000;
 	border-radius: 8px;
 }
-/* radar */
-.orig {
-	stroke: rgb(5, 143, 188);
-	stroke-width: 4;
-}
-.dest {
-	stroke: rgb(204, 0, 71);
-	stroke-width: 4;
-}
-.legendText {
-	stroke: none;
-  font-size: 14px;
-}
-.lineDest, .seriesDest {
-	fill: rgba(254, 195, 195, 0.7);
-	stroke: rgb(204, 0, 71);
-}
-.lineOrig, .seriesOrig {
-	fill: rgba(169, 203, 255, 0.7);
-	stroke: rgb(5, 143, 188);
-}
+
 
 /*map*/
 .canada-map path {
@@ -569,8 +549,8 @@ div.tooltip {
 /*modes dataset*/
 /*-- table --*/
 #modesTable {
-    position: relative;
-    top: -200px;
+    /* position: relative;
+    top: -200px; */
 }
 #modesTable summary {
 	font-size: 18px;
@@ -580,6 +560,15 @@ div.tooltip {
 }
 
 /*-- Sankey --*/
+/*-- div that displays zero data message --*/
+#zeroFlag {
+	font-weight: bold;
+	text-align: center;
+	position: absolute;
+	top: 20%;
+
+}
+
 .node rect {
   cursor: move;
   fill-opacity: .9;

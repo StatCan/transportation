@@ -314,6 +314,9 @@
       "mixedloads": "Mixed loads or unidentified freight",
       "partialcarload": "Less-than-carload shipments"
     },
+    "modesMonth": {
+      "01": "January"
+    },
     "modes": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
       "tableTitle": "International travellers entering or returning to Canada, by type of transport",
