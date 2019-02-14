@@ -17,8 +17,9 @@ let majorTotals; // TODO
 let canadaMap;
 let selectedDataset = "passengers"
 
-let selectedYear = 2017;
-let selectedMonth = "01"
+let selectedYear = "2017";
+let selectedMonth = "01";
+let selectedDate = selectedYear;
 let selectedRegion = "ON"; // default region for areaChart
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
@@ -36,6 +37,7 @@ const map = d3.select(".dashboard .map")
     .append("svg");
 let movementsButton = d3.select("#major");
 let passengerButton = d3.select("#movements");
+let monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -89,6 +91,8 @@ $(".data_set_selector").on("click", function(event){
       .attr("class", "btn btn-default movements data_set_selector")
       .attr("aria-pressed", false)
 
+      monthDropdown.style("visibility","visible");
+      selectedDate = selectedYear + "-" + selectedMonth;
       selectedDataset = "major_airports"
       totals = majorTotals;
       getData();
@@ -102,6 +106,8 @@ $(".data_set_selector").on("click", function(event){
       .attr("class", "btn btn-primary movements data_set_selector")
       .attr("aria-pressed", true)
 
+      monthDropdown.style("visibility","hidden");
+      selectedDate = selectedYear;
       selectedDataset = "passengers"
       totals = passengerTotals;
       getData();
@@ -119,6 +125,17 @@ function uiHandler(event) {
   }
   if (event.target.id === "yearSelector") {
     selectedYear = document.getElementById("yearSelector").value;
+    if(selectedDataset ==="major_airports"){
+      selectedDate = selectedYear + "-" + selectedMonth;
+    }
+    else{
+      selectedDate = selectedYear;
+    }
+    colorMap();
+  }
+  if (event.target.id === "monthSelector") {
+    selectedMonth = document.getElementById("monthSelector").value;
+    selectedDate = selectedYear + selectedMonth;
     colorMap();
   }
 }
@@ -148,7 +165,7 @@ map.on("mouseover", () => {
           .select("." + classes[0])
           .classed("airMapHighlight", true);
       // Tooltip
-      const value = formatComma(totals[selectedYear][classes[0]] / 1e3);
+      const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
       div.transition()
           .style("opacity", .9);
       div.html( // **** CHANGE ns WITH DATASET ****
@@ -337,8 +354,8 @@ function colorMap() {
   // map.selectAll("path").style("stroke", "black");
 
   const totArr = [];
-  for (const sales of Object.keys(totals[selectedYear])) {
-    totArr.push(totals[selectedYear][sales]);
+  for (const sales of Object.keys(totals[selectedDate])) {
+    totArr.push(totals[selectedDate][sales]);
   }
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
@@ -347,11 +364,11 @@ function colorMap() {
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
-  for (const key in totals[selectedYear]) {
-    if (totals[selectedYear].hasOwnProperty(key)) {
+  for (const key in totals[selectedDate]) {
+    if (totals[selectedDate].hasOwnProperty(key)) {
       // d3.select(".dashboard .map")
       map
-          .select("." + key).style("fill", colourMap(totals[selectedYear][key]));
+          .select("." + key).style("fill", colourMap(totals[selectedDate][key]));
     }
   }
 
@@ -456,7 +473,7 @@ function findXInterval(mousex) {
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
   d3.select("#mapTitleAir")
-      .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedYear);
+      .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
 }
@@ -478,8 +495,8 @@ i18n.load(["src/i18n"], () => {
         passengerTotals = passengerTotal;
         majorTotals = majorTotal;
 
-        selectedYear = document.getElementById("yearSelector").value;
-
+        selectedYear, selectedDate = document.getElementById("yearSelector").value;
+        selectedMonth = document.getElementById("monthSelector").value;
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
               allAirports = airports;
