@@ -80,8 +80,6 @@ export default function(svg, nodes, graph) {
 
   const path = sankey.link();
 
-
-  // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
   function make(graph) {
     sankey
         .nodes(nodes)

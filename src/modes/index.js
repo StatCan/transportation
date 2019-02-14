@@ -154,7 +154,7 @@ function uiHandler(event) {
 
 function showData() {
   d3.selectAll("svg > *").remove();
-  makeSankey(sankeyChart, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
 }
 
 function filterZeros(d) {
