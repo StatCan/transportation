@@ -549,8 +549,8 @@ div.tooltip {
 /*modes dataset*/
 /*-- table --*/
 #modesTable {
-    position: relative;
-    top: -200px;
+    /* position: relative;
+    top: -200px; */
 }
 #modesTable summary {
 	font-size: 18px;
