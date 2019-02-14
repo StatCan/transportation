@@ -5,16 +5,21 @@ import mapColourScaleFn from "../mapColourScaleFn.js";
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
 
-const data = {};
+const data = {
+  "passengers": {},
+  "major_airports":{}
+};
 
+
+let totals;
 let passengerTotals;
-// let majorTotals; // TODO
+let majorTotals; // TODO
 let canadaMap;
+let selectedDataset = "passengers"
 
 let selectedYear = 2017;
-// let selectedMode = passengerMode; // TODO
-
-let selectedRegion = "CANADA"; // default region for areaChart
+let selectedMonth = "01"
+let selectedRegion = "ON"; // default region for areaChart
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
@@ -29,6 +34,8 @@ const formatComma = d3.format(",d");
 /* SVGs */
 const map = d3.select(".dashboard .map")
     .append("svg");
+let movementsButton = d3.select("#major");
+let passengerButton = d3.select("#movements");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -73,7 +80,36 @@ const divArea = d3.select("body")
 
 // -----------------------------------------------------------------------------
 /* UI Handler */
+$(".data_set_selector").on("click", function(event){
+  if(event.target.id === ("major")){
+    movementsButton
+      .attr("class", "btn btn-primary major data_set_selector")
+      .attr("aria-pressed", true)
+    passengerButton
+      .attr("class", "btn btn-default movements data_set_selector")
+      .attr("aria-pressed", false)
+
+      selectedDataset = "major_airports"
+      totals = majorTotals;
+      getData();
+      showAreaData();
+  }
+  if (event.target.id === ("movements")) {
+    movementsButton
+      .attr("class", "btn btn-default major data_set_selector")
+      .attr("aria-pressed", false)
+    passengerButton
+      .attr("class", "btn btn-primary movements data_set_selector")
+      .attr("aria-pressed", true)
+
+      selectedDataset = "passengers"
+      totals = passengerTotals;
+      getData();
+      showAreaData();
+  }
+});
 function uiHandler(event) {
+
   if (event.target.id === "groups") {
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("airMapHighlight", false);
@@ -87,6 +123,16 @@ function uiHandler(event) {
   }
 }
 
+function getData(){
+  if (!data[selectedDataset][selectedRegion]) {
+    d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, (err, filedata) => {
+      data[selectedDataset][selectedRegion] = filedata;
+      showAreaData();
+    });
+  } else {
+    showAreaData();
+  }
+}
 // -----------------------------------------------------------------------------
 /* Interactions */
 /* -- Map interactions -- */
@@ -102,7 +148,7 @@ map.on("mouseover", () => {
           .select("." + classes[0])
           .classed("airMapHighlight", true);
       // Tooltip
-      const value = formatComma(passengerTotals[selectedYear][classes[0]] / 1e3);
+      const value = formatComma(totals[selectedYear][classes[0]] / 1e3);
       div.transition()
           .style("opacity", .9);
       div.html( // **** CHANGE ns WITH DATASET ****
@@ -132,6 +178,7 @@ map.on("mouseover", () => {
         .classed("airMapHighlight", false);
   }
 });
+
 map.on("click", () => {
   // clear any previous clicks
   d3.select(".map")
@@ -152,14 +199,7 @@ map.on("click", () => {
         .select("." + classes[0])
         .classed("airMapHighlight", true);
     // Display selected region in stacked area chart
-    if (!data[selectedRegion]) {
-      d3.json(`data/air/passengers/${selectedRegion}.json`, (err, filedata) => {
-        data[selectedRegion] = filedata;
-        showAreaData();
-      });
-    } else {
-      showAreaData();
-    }
+    getData()
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selectedRegion;
 
@@ -297,8 +337,8 @@ function colorMap() {
   // map.selectAll("path").style("stroke", "black");
 
   const totArr = [];
-  for (const sales of Object.keys(passengerTotals[selectedYear])) {
-    totArr.push(passengerTotals[selectedYear][sales]);
+  for (const sales of Object.keys(totals[selectedYear])) {
+    totArr.push(totals[selectedYear][sales]);
   }
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
@@ -307,11 +347,11 @@ function colorMap() {
       .domain([dimExtent[0], dimExtent[1]])
       .range(colourArray);
 
-  for (const key in passengerTotals[selectedYear]) {
-    if (passengerTotals[selectedYear].hasOwnProperty(key)) {
+  for (const key in totals[selectedYear]) {
+    if (totals[selectedYear].hasOwnProperty(key)) {
       // d3.select(".dashboard .map")
       map
-          .select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
+          .select("." + key).style("fill", colourMap(totals[selectedYear][key]));
     }
   }
 
@@ -329,16 +369,16 @@ function colorMap() {
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
   const showChart = () => {
-    areaChart(chart, settings, data[selectedRegion]);
+    areaChart(chart, settings, data[selectedDataset][selectedRegion]);
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
         .classed("airMapHighlight", true);
   };
 
-  if (!data[selectedRegion]) {
+  if (!data[selectedDataset][selectedRegion]) {
     return d3.json(`data/air/passengers/${selectedRegion}.json`, (ptData) => {
-      data[selectedRegion] = ptData;
+      data[selectedDataset][selectedRegion] = ptData;
       showChart();
     });
   }
@@ -348,7 +388,7 @@ function showAreaData() {
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
   if (!lineData[selectedAirpt]) {
-    const fname = `data/air/passengers/${selectedAirpt}.json`;
+    const fname = `data/air/${selectedDataset}/${selectedAirpt}.json`;
     return d3.json(fname, (aptData) => {
       if (aptData) {
         for (const year of aptData) {
@@ -434,8 +474,9 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
       .await(function(error, passengerTotal, majorTotal, airports) {
         if (error) throw error;
+        totals = passengerTotal;
         passengerTotals = passengerTotal;
-        // majorTotals = majorTotal;
+        majorTotals = majorTotal;
 
         selectedYear = document.getElementById("yearSelector").value;
 
