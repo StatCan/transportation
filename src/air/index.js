@@ -177,11 +177,16 @@ map.on("mouseover", () => {
               "</tr>" +
             "</table>"
       )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY) + "px");
+          .style("pointer-events", "none")
     }
   }
-}).on("mouseout", () => {
+})
+.on("mousemove", () => {
+  div
+  .style("left", ((d3.event.pageX +10) + "px"))
+  .style("top", ((d3.event.pageY +10) + "px"))
+})
+.on("mouseout", () => {
   div.transition()
       .style("opacity", 0);
 
@@ -266,6 +271,7 @@ map.on("click", () => {
 // vertical line to attach to cursor
 const vertical = d3.select("#annualTimeseries")
     .append("div")
+    .attr("id","infoDiv")
     .attr("class", "linecursor")
     .style("position", "absolute")
     .style("z-index", "0")
@@ -402,6 +408,13 @@ function showAreaData() {
   showChart();
 }
 
+function filterDates(data) {
+    for(var year in data){
+      if(data[year].date === selectedDate){
+        return data[year];
+      }
+    }
+}
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
   if (!lineData[selectedAirpt]) {
@@ -416,6 +429,21 @@ const showAirport = function() {
           }
         }
         lineData[selectedAirpt] = aptData;
+        let divData = filterDates(lineData[selectedAirpt]);
+        div.transition()
+            .style("opacity", .9);
+        div.html( // **** CHANGE ns WITH DATASET ****
+            "<b>placeholder title</b>"+ "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b> enplaned: " + divData.enplaned + " </td>" +
+                  "<td><b> deplaned: " + divData.deplaned + "</td>" +
+            // "<td>" + " (" + units + ")</td>" +
+                "</tr>" +
+              "</table>"
+        )
+            .style("pointer-events", "none")
+
         areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
         d3.select("#svg_aptChart").select(".x.axis").select("text").attr("display", "none");
         // Titles
