@@ -140,14 +140,13 @@ function uiHandler(event) {
       const thisData = data[selectedYear + "-" + selectedMonth];
       const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
 
-      if (thisData[selectedGeo].links.length === 0) {
+      if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
         d3.selectAll("svg > *").remove();
         d3.select("#zeroFlag")
             .text(`Zero international travellers for ${selectedGeo},
               ${thisMonth} ${selectedYear}`);
-      } else {
-        showData();
       }
+      showData();
     }
   }
 }
@@ -155,6 +154,7 @@ function uiHandler(event) {
 function showData() {
   d3.selectAll("svg > *").remove();
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+  drawTable(table, tableSettings, nodes);
 }
 
 function filterZeros(d) {

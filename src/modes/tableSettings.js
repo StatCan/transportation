@@ -10,16 +10,6 @@ export default {
   filterData: function(data) {
     return data; // array of objects
   },
-  x: {
-    // getValue: function(d) {
-    //   console.log("x getValue d: ", d)
-    //   return new Date(d.date + "-01");
-    // },
-    // getText: function(d) {
-    //   console.log("x getText d: ", d)
-    //   return d.date;
-    // }
-  },
   y: {
     getValue: function(d, key) {
       // d[key] can be string for Traveller Type, number for Count
