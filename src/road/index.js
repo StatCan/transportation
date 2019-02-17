@@ -217,6 +217,8 @@ function showData() {
   d3.select(".dashboard .map")
       .select("." + selected)
       .classed("roadMapHighlight", true);
+
+  updateTitles();
 }
 
 /* -- update map and areaChart titles -- */
@@ -226,6 +228,9 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
+  // table title
+  d3.select("#chrt-dt-tbl")
+      .text(`Sales of fuel in ${geography} used for road motor vehicles, annual (million dollars)`);
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -308,6 +313,7 @@ i18n.load(["src/i18n"], () => {
 
         // Area chart and x-axis position
         areaChart(chart, settings, data[selected]);
+        // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
             // .attr("dy", xaxisLabeldy)
