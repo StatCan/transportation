@@ -443,22 +443,15 @@ const showAirport = function() {
               "</table>"
         )
             .style("pointer-events", "none")
-
-        areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
-        d3.select("#svg_aptChart").select(".x.axis").select("text").attr("display", "none");
         // Titles
         const fullName = i18next.t(selectedAirpt, {ns: "airports"});
-        // airport chart title
-        d3.select("#svg_aptChart")
-            .select(".areaChartTitle")
-            .text(fullName);
+
         // airport table title
         d3.select("#chrt-dt-tbl1")
             .text(`Air passenger traffic at ${fullName}, (in thousands)`);
       }
     });
   }
-  areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
   // airport chart title
   d3.select("#svg_aptChart")
       .select(".areaChartTitle")
