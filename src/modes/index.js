@@ -116,8 +116,8 @@ const sankeyChart = d3.select("#sankeyGraph")
     .append("svg")
     .attr("id", "svg_sankeyChart");
 
-const table = d3.select(".tabledata")
-    .attr("id", "modesTable");
+const table = d3.select(".tabledata");
+// .attr("id", "modesTable");
 
 function uiHandler(event) {
   // Clear any text in #zeroFlag
