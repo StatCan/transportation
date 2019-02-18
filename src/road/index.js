@@ -21,12 +21,12 @@ const map = d3.select(".dashboard .map")
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
-const svgCB = d3.select("#mapColourScale")
-    .select("svg")
-    .attr("class", "roadCB")
-    .attr("width", width)
-    .attr("height", height)
-    .style("vertical-align", "middle");
+// const svgCB = d3.select("#mapColourScale")
+//     .select("svg")
+//     .attr("class", "roadCB")
+//     .attr("width", width)
+//     .attr("height", height)
+//     .style("vertical-align", "middle");
 
 // -----------------------------------------------------------------------------
 /* tooltip */
@@ -201,7 +201,7 @@ function colorMap() {
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
+//  mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
 }
 

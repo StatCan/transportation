@@ -539,7 +539,6 @@ i18n.load(["src/i18n"], () => {
         showAreaData();
         // Show chart titles based on default menu options
         updateTitles();
-        d3.select("thead_h0") = ""
       });
 });
 
