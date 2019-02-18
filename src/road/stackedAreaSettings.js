@@ -52,13 +52,13 @@ export default {
     getId: function(d) {
       return d.key;
     },
-    getKeys: function(object) {   
+    getKeys: function(object) {
       const sett = this;
       const keys = Object.keys(object[0]);
       keys.splice(keys.indexOf("date"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
-      }    
+      }
       return keys;
     },
     getClass: function(...args) {

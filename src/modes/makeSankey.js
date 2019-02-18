@@ -81,7 +81,6 @@ export default function(svg, nodes, graph) {
   const path = sankey.link();
 
   function make(graph) {
-    
     sankey
         .nodes(nodes)
         .links(graph.links)
@@ -171,19 +170,18 @@ export default function(svg, nodes, graph) {
           })
           .attr("x", 6 + sankey.nodeWidth())
           .attr("text-anchor", "start");
-
-      // the function for moving the nodes
-      function dragmove(d) {
-        d3.select(this)
-            .attr("transform",
-                "translate("
-                   + d.x + ","
-                   + (d.y = Math.max(
-                       0, Math.min(innerHeight - d.dy, d3.event.y))
-                   ) + ")");
-        sankey.relayout();
-        link.attr("d", path);
-      }
+    }
+    // the function for moving the nodes
+    function dragmove(d) {
+      d3.select(this)
+          .attr("transform",
+              "translate("
+                 + d.x + ","
+                 + (d.y = Math.max(
+                     0, Math.min(innerHeight - d.dy, d3.event.y))
+                 ) + ")");
+      sankey.relayout();
+      link.attr("d", path);
     }
   } // end make()
 

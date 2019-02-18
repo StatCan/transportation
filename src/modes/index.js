@@ -137,7 +137,6 @@ function uiHandler(event) {
         showData();
       });
     } else {
-      const thisData = data[selectedYear + "-" + selectedMonth];
       const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
 
       if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
