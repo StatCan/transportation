@@ -38,7 +38,6 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-
       return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
@@ -53,13 +52,13 @@ export default {
     getId: function(d) {
       return d.key;
     },
-    getKeys: function(object) {
+    getKeys: function(object) {   
       const sett = this;
       const keys = Object.keys(object[0]);
       keys.splice(keys.indexOf("date"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
-      }
+      }    
       return keys;
     },
     getClass: function(...args) {
@@ -71,6 +70,7 @@ export default {
   },
   datatable: true,
   tableTitle: i18next.t("tableTitle", {ns: "roadArea"}),
+  dataTableTotal: true, // show total in data table
   transition: false,
   width: 1050
 };

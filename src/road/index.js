@@ -230,7 +230,7 @@ function updateTitles() {
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   // table title
   d3.select("#chrt-dt-tbl")
-      .text(`Sales of fuel in ${geography} used for road motor vehicles, annual (million dollars)`);
+      .text(`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`);
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
