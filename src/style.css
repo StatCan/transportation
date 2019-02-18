@@ -548,16 +548,13 @@ div.tooltip {
 
 /*modes dataset*/
 /*-- table --*/
-#modesTable {
-    /* position: relative;
-    top: -200px; */
-}
-#modesTable summary {
+/* #modesTable summary {
 	font-size: 18px;
 }
-.details .chart-data-table {
-  padding-bottom: 0em;
-}
+#modesTable #only-dt-tbl  {
+  font-size: 18px;
+} */
+
 
 /*-- Sankey --*/
 /*-- div that displays zero data message --*/
