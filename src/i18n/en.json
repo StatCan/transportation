@@ -27,7 +27,7 @@
     },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
-      "tableTitle": "Sales of fuel used for road motor vehicles, annual (million dollars)",
+      "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (million dollars)",
       "x_label": "Year",
       "y_label": "Sales (millions of dollars)",
       "gas": "Gas",

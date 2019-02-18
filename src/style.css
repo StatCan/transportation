@@ -15,6 +15,9 @@
 	stroke: currentColor;
 }
 
+.tblHeader{
+  text-align: right
+}
 /*road dataset*/
 /*-- tooltip --*/
 .linecursor {

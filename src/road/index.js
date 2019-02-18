@@ -226,6 +226,7 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
+  settings.tableTitle = i18next.t("tableTitle",  {ns: "roadArea", geo: geography});
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -292,7 +293,7 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea"}),
+  settings.tableTitle = i18next.t("tableTitle",  {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
