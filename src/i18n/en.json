@@ -32,7 +32,8 @@
       "y_label": "Sales (millions of dollars)",
       "gas": "Gas",
       "diesel": "Diesel",
-      "lpg": "Liquid Petroleum Gas"
+      "lpg": "Liquid Petroleum Gas",
+      "total": "Total"
     },
     "roadGeography": {
       "CANADA": "Canada",
@@ -318,21 +319,17 @@
       "01": "January"
     },
     "modes": {
-      "alt": "International travellers entering or returning to Canada, by type of transport",
-      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
-      "name": "Traveller characteristics",
-      "value": "Number of travellers",
       "intl": "International travellers",
       "USres": "US residents",
-      "nonUS": "Non-US residents",
+      "nonUSres": "Non-US residents",
       "cdnFromUS": "Canadians via US",
       "cdnFromOther": "Canadians via other",
       "USres_air": "Air",
       "USres_marine": "Marine",
       "USres_land": "Land",
-      "nonUS_air": "Air",
-      "nonUS_marine": "Marine",
-      "nonUS_land": "Land",
+      "nonUSres_air": "Air",
+      "nonUSres_marine": "Marine",
+      "nonUSres_land": "Land",
       "cdnFromUS_air": "Air",
       "cdnFromUS_marine": "Marine",
       "cdnFromUS_land": "Land",
@@ -347,6 +344,12 @@
       "cdnFromUS_bus": "Bus",
       "cdnFromUS_train": "Train",
       "cdnFromUS_other": "Other"
+    },
+    "modes_sankey": {
+      "alt": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "name": "Traveller characteristics",
+      "value": "Number of travellers"
     }
   }
 }

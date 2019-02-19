@@ -1223,38 +1223,42 @@
 	      return i18next.t(d.target.name, {
 	        ns: "modes"
 	      }) + "\n" + format(d.value);
-	    }); // add in the nodes
+	    }); // DO NOT PLOT IF DATA IS COMPLETELY ZERO
 
-	    var node = dataLayer.append("g").selectAll(".node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function (d) {
-	      return "translate(" + d.x + "," + d.y + ")";
-	    }).call(d3.drag().subject(function (d) {
-	      return d;
-	    }).on("start", function () {
-	      this.parentNode.appendChild(this);
-	    }).on("drag", dragmove)); // add the rectangles for the nodes
+	    if (graph.links.length !== 0) {
+	      // add in the nodes
+	      var node = dataLayer.append("g").selectAll(".node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function (d) {
+	        return "translate(" + d.x + "," + d.y + ")";
+	      }).call(d3.drag().subject(function (d) {
+	        return d;
+	      }).on("start", function () {
+	        this.parentNode.appendChild(this);
+	      }).on("drag", dragmove)); // add the rectangles for the nodes
 
-	    node.append("rect").attr("height", function (d) {
-	      return d.dy;
-	    }).attr("width", sankey.nodeWidth()).style("fill", function (d) {
-	      return d.color = colourDict[d.name]; // return d.color = color(d.name.replace(/ .*/, ""));
-	    }).style("stroke", function (d) {
-	      return d3.rgb(d.color).darker(2);
-	    }).append("title").text(function (d) {
-	      return i18next.t(d.name, {
-	        ns: "modes"
-	      }) + "\n" + format(d.value);
-	    }); // add in the title for the nodes
+	      node.append("rect").attr("height", function (d) {
+	        return d.dy;
+	      }).attr("width", sankey.nodeWidth()).style("fill", function (d) {
+	        return d.color = colourDict[d.name]; // return d.color = color(d.name.replace(/ .*/, ""));
+	      }).style("stroke", function (d) {
+	        return d3.rgb(d.color).darker(2);
+	      }).append("title").text(function (d) {
+	        return i18next.t(d.name, {
+	          ns: "modes"
+	        }) + "\n" + format(d.value);
+	      }); // add in the title for the nodes
 
-	    node.append("text").attr("x", -6).attr("y", function (d) {
-	      return d.dy / 2;
-	    }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
-	      // return i18next.t(d.name, {ns: "modes"});
-	      if (d.value != 0) return i18next.t(d.name, {
-	        ns: "modes"
-	      });
-	    }).filter(function (d) {
-	      return d.x < innerWidth / 2;
-	    }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start"); // the function for moving the nodes
+	      node.append("text").attr("x", -6).attr("y", function (d) {
+	        return d.dy / 2;
+	      }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
+	        // return i18next.t(d.name, {ns: "modes"});
+	        if (d.value != 0) return i18next.t(d.name, {
+	          ns: "modes"
+	        });
+	      }).filter(function (d) {
+	        return d.x < innerWidth / 2;
+	      }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start");
+	    } // the function for moving the nodes
+
 
 	    function dragmove(d) {
 	      d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(innerHeight - d.dy, d3.event.y))) + ")");
@@ -1303,15 +1307,6 @@
 	  // creates variable d
 	  filterData: function filterData(data) {
 	    return data; // array of objects
-	  },
-	  x: {// getValue: function(d) {
-	    //   console.log("x getValue d: ", d)
-	    //   return new Date(d.date + "-01");
-	    // },
-	    // getText: function(d) {
-	    //   console.log("x getText d: ", d)
-	    //   return d.date;
-	    // }
 	  },
 	  y: {
 	    getValue: function getValue(d, key) {
@@ -1375,6 +1370,9 @@
 	    }
 	  },
 	  z: {
+	    getId: function getId(d) {
+	      return d.name;
+	    },
 	    getKeys: function getKeys(object) {
 	      var sett = this; // const keys = Object.keys(object[0]);
 
@@ -1386,8 +1384,13 @@
 
 	      return keys;
 	    },
+	    getKeyText: function getKeyText(key) {
+	      return i18next.t(key, {
+	        ns: "modes_sankey"
+	      });
+	    },
 	    getText: function getText(d) {
-	      return i18next.t(d.key, {
+	      return i18next.t(d.name, {
 	        ns: "modes"
 	      });
 	    }
@@ -1480,7 +1483,7 @@
 	// SVGs
 
 	var sankeyChart = d3.select("#sankeyGraph").append("svg").attr("id", "svg_sankeyChart");
-	var table = d3.select(".tabledata").attr("id", "modesTable");
+	var table = d3.select(".tabledata"); // .attr("id", "modesTable");
 
 	function uiHandler(event) {
 	  // Clear any text in #zeroFlag
@@ -1499,17 +1502,16 @@
 	        showData();
 	      });
 	    } else {
-	      var thisData = data[selectedYear + "-" + selectedMonth];
 	      var thisMonth = i18next.t(selectedMonth, {
 	        ns: "modesMonth"
 	      });
 
-	      if (thisData[selectedGeo].links.length === 0) {
+	      if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
 	        d3.selectAll("svg > *").remove();
 	        d3.select("#zeroFlag").text("Zero international travellers for ".concat(selectedGeo, ",\n              ").concat(thisMonth, " ").concat(selectedYear));
-	      } else {
-	        showData();
 	      }
+
+	      showData();
 	    }
 	  }
 	}
@@ -1517,6 +1519,7 @@
 	function showData() {
 	  d3.selectAll("svg > *").remove();
 	  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+	  drawTable(table, tableSettings, nodes);
 	}
 
 	function filterZeros(d) {
@@ -1560,7 +1563,7 @@
 
 	i18n.load(["src/i18n"], function () {
 	  tableSettings.tableTitle = i18next.t("tableTitle", {
-	    ns: "modes"
+	    ns: "modes_sankey"
 	  }), d3.queue().defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json").await(function (error, json) {
 	    data[selectedYear + "-" + selectedMonth] = filterZeros(json);
 	    makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);

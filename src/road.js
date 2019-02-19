@@ -1100,6 +1100,8 @@
 	  tableTitle: i18next.t("tableTitle", {
 	    ns: "roadArea"
 	  }),
+	  dataTableTotal: true,
+	  // show total in data table
 	  transition: false,
 	  width: 1050
 	};
@@ -1107,13 +1109,13 @@
 	function mapColourScaleFn (svgCB, colourArray, dimExtent) {
 	  var scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
 
-	  var rectDim = 20;
+	  var rectDim = 35;
 	  var formatComma = d3.format(",d"); // Create the g nodes
 
 	  var rects = svgCB.selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
 
 	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
-	    return 215 + i * 85;
+	    return 105 + i * rectDim;
 	  }).attr("fill", function (d, i) {
 	    return colourArray[i];
 	  }); // define rect text labels (calculate cbValues)
@@ -1123,7 +1125,8 @@
 	  cbValues[0] = dimExtent[0];
 
 	  for (var idx = 1; idx < colourArray.length; idx++) {
-	    cbValues.push(Math.round((0.5 + (idx - 1)) * delta + dimExtent[0]));
+	    // cbValues.push(Math.round((0.5 + (idx - 1)) * delta + dimExtent[0]));
+	    cbValues.push(Math.round(idx * delta + dimExtent[0]));
 	  } // add text node to rect g
 
 
@@ -1132,27 +1135,20 @@
 	  var updateText;
 	  d3.select("#mapColourScale").selectAll("text").text(function (i, j) {
 	    var s0 = formatComma(cbValues[j] / scalef);
-	    var s2 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
-	    updateText = cbValues[j + 1] ? "< " + s2 : s2;
+	    updateText = s0 + "+";
 	    return updateText;
-	  }).attr("y", 18).attr("x", function (d, i) {
-	    var xpos;
-
-	    if (svgCB.attr("class") === "airCB") {
-	      xpos = [167, 246, 331, 419];
-	    } else {
-	      xpos = [167, 253, 331, 419];
-	    }
-
-	    return xpos[i];
+	  }).attr("text-anchor", "end").attr("transform", function (d, i) {
+	    return "translate(" + (110 + i * (rectDim + 0)) + ", 50) " + "rotate(-45)";
 	  }).style("display", function () {
 	    return "inline";
 	  }); // Text label for scale bar
-
-	  if (d3.select("#cbID").empty()) {
-	    var label = svgCB.append("g").append("text");
-	    label.attr("id", "cbID").attr("y", 18).attr("x", 0);
-	  }
+	  // if (d3.select("#cbID").empty()) {
+	  //   const label = svgCB.append("g").append("text");
+	  //   label
+	  //       .attr("id", "cbID")
+	  //       .attr("y", 18)
+	  //       .attr("x", 0);
+	  // }
 	}
 
 	var $sort = [].sort;
@@ -1228,6 +1224,38 @@
 	  return dimExtent;
 	}
 
+	function areaLegendFn (svgLegend, colourArray, legendText) {
+	  var rectDim = 35; // Create the g nodes
+
+	  var rects = svgLegend.selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
+
+	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
+	    return 55 + i * rectDim * 4;
+	  }).attr("fill", function (d, i) {
+	    return colourArray[i];
+	  }); // add text node to rect g
+
+	  rects.append("text"); // Display text in text node
+
+	  d3.select("#areaLegend").selectAll("text").text(function (d, i) {
+	    return i18next.t(legendText[i], {
+	      ns: "roadArea"
+	    });
+	  }).attr("y", 28).attr("x", function (d, i) {
+	    var xpos = [55 + rectDim + 5, 237, 375];
+	    return xpos[i];
+	  }).style("display", function () {
+	    return "inline";
+	  }); // Text label for scale bar
+	  // if (d3.select("#cbID").empty()) {
+	  //   const label = svgCB.append("g").append("text");
+	  //   label
+	  //       .attr("id", "cbID")
+	  //       .attr("y", 18)
+	  //       .attr("x", 0);
+	  // }
+	}
+
 	var data = {};
 	var mapData = {};
 	var selected = "CANADA";
@@ -1249,7 +1277,9 @@
 	};
 	var width = 510 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
-	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "roadCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // -----------------------------------------------------------------------------
+	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "roadCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // area chart legend
+
+	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "roadAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle"); // -----------------------------------------------------------------------------
 
 	/* tooltip */
 
@@ -1381,7 +1411,7 @@
 	  // store map data in array and plot colour
 	  var thisTotalArray = [];
 	  thisTotalArray.push(mapData[selectedYear]);
-	  var colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"]; // colour map with fillMapFn and output dimExtent for colour bar scale
+	  var colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"]; // colour map with fillMapFn and output dimExtent for colour bar scale
 
 	  var dimExtent = fillMapFn(thisTotalArray, colourArray); // colour bar scale and add label
 
@@ -1402,6 +1432,8 @@
 	  .attr("display", "none"); // Highlight region selected from menu on map
 
 	  d3.select(".dashboard .map").select("." + selected).classed("roadMapHighlight", true);
+	  updateTitles();
+	  plotLegend();
 	}
 	/* -- update map and areaChart titles -- */
 
@@ -1415,7 +1447,15 @@
 	  }) + ", " + geography + ", " + selectedYear);
 	  d3.select("#areaTitleRoad").text(i18next.t("chartTitle", {
 	    ns: "road"
-	  }) + ", " + geography);
+	  }) + ", " + geography); // table title
+
+	  d3.select("#chrt-dt-tbl").text("Sales of fuel in ".concat(geography, " used for road motor vehicles, annual (millions of dollars)"));
+	}
+
+	function plotLegend() {
+	  var colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
+	  var legendText = ["gas", "diesel", "lpg"];
+	  areaLegendFn(svgLegend, colourArray, legendText);
 	}
 	/* -- find year interval closest to cursor for areaChart tooltip -- */
 
@@ -1496,6 +1536,8 @@
 	    }); // Area chart and x-axis position
 
 	    areaChart(chart, settings, data[selected]);
+	    plotLegend(); // Remove x-axis label
+
 	    d3.select("#svgFuel").select(".x.axis").select("text") // .attr("dy", xaxisLabeldy)
 	    .attr("display", "none"); // Show chart titles based on default menu options
 

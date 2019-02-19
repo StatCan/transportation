@@ -29,6 +29,14 @@
 .lpg {
 	fill: #5DC1BE;
 }
+.roadCB rect {
+	stroke: black;
+	stroke-width: 0.3;
+}
+.roadAreaCB text {
+	font-size: 16px;
+	fill: #69757c;
+}
 .roadMapHighlight {
 	stroke: #467B8D !important;
 	stroke-width: 0.5 !important;
@@ -36,6 +44,7 @@
 #svgFuel .area-label {
 	font-size: 20px;
 	fill: #555;
+	opacity: 0;
 }
 #svgFuel .chart-label {
 	font-size: 24px;
@@ -96,6 +105,10 @@ table, th, td {
 }
 
 /*-- map --*/
+.airCB rect {
+	stroke: black;
+	stroke-width: 0.3;
+}
 .airMapHighlight {
  	stroke: #467B8D !important;
 	stroke-width: 0.5 !important;
@@ -541,23 +554,20 @@ div.tooltip {
 /*map*/
 .canada-map path {
 	fill: #94a6b2;
-	stroke: #fff;
-	stroke-width: 0.03;
+	stroke: #bdbdbd;
+	stroke-width: 0.3;
 	opacity: 1;
 }
 
 /*modes dataset*/
 /*-- table --*/
-#modesTable {
-    /* position: relative;
-    top: -200px; */
-}
-#modesTable summary {
+/* #modesTable summary {
 	font-size: 18px;
 }
-.details .chart-data-table {
-  padding-bottom: 0em;
-}
+#modesTable #only-dt-tbl  {
+  font-size: 18px;
+} */
+
 
 /*-- Sankey --*/
 /*-- div that displays zero data message --*/

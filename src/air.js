@@ -1713,13 +1713,13 @@
 	function mapColourScaleFn (svgCB, colourArray, dimExtent) {
 	  var scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
 
-	  var rectDim = 20;
+	  var rectDim = 35;
 	  var formatComma = d3.format(",d"); // Create the g nodes
 
 	  var rects = svgCB.selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
 
 	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
-	    return 215 + i * 85;
+	    return 105 + i * rectDim;
 	  }).attr("fill", function (d, i) {
 	    return colourArray[i];
 	  }); // define rect text labels (calculate cbValues)
@@ -1729,7 +1729,8 @@
 	  cbValues[0] = dimExtent[0];
 
 	  for (var idx = 1; idx < colourArray.length; idx++) {
-	    cbValues.push(Math.round((0.5 + (idx - 1)) * delta + dimExtent[0]));
+	    // cbValues.push(Math.round((0.5 + (idx - 1)) * delta + dimExtent[0]));
+	    cbValues.push(Math.round(idx * delta + dimExtent[0]));
 	  } // add text node to rect g
 
 
@@ -1738,27 +1739,20 @@
 	  var updateText;
 	  d3.select("#mapColourScale").selectAll("text").text(function (i, j) {
 	    var s0 = formatComma(cbValues[j] / scalef);
-	    var s2 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
-	    updateText = cbValues[j + 1] ? "< " + s2 : s2;
+	    updateText = s0 + "+";
 	    return updateText;
-	  }).attr("y", 18).attr("x", function (d, i) {
-	    var xpos;
-
-	    if (svgCB.attr("class") === "airCB") {
-	      xpos = [167, 246, 331, 419];
-	    } else {
-	      xpos = [167, 253, 331, 419];
-	    }
-
-	    return xpos[i];
+	  }).attr("text-anchor", "end").attr("transform", function (d, i) {
+	    return "translate(" + (110 + i * (rectDim + 0)) + ", 50) " + "rotate(-45)";
 	  }).style("display", function () {
 	    return "inline";
 	  }); // Text label for scale bar
-
-	  if (d3.select("#cbID").empty()) {
-	    var label = svgCB.append("g").append("text");
-	    label.attr("id", "cbID").attr("y", 18).attr("x", 0);
-	  }
+	  // if (d3.select("#cbID").empty()) {
+	  //   const label = svgCB.append("g").append("text");
+	  //   label
+	  //       .attr("id", "cbID")
+	  //       .attr("y", 18)
+	  //       .attr("x", 0);
+	  // }
 	}
 
 	// const majorAirportMode = "majorAirport"; // TODO
@@ -1997,7 +1991,7 @@
 	};
 
 	function colorMap() {
-	  var colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+	  var colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
 	  var dimExtent = []; // map.selectAll("path").style("stroke", "black");
 
 	  var totArr = [];
