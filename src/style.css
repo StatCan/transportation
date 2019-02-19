@@ -44,6 +44,7 @@
 #svgFuel .area-label {
 	font-size: 20px;
 	fill: #555;
+	opacity: 0;
 }
 #svgFuel .chart-label {
 	font-size: 24px;
