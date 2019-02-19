@@ -18,6 +18,7 @@ const chart = d3.select(".data")
 // Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
+
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -28,6 +29,7 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
+
 // area chart legend
 const svgLegend = d3.select("#areaLegend")
     .select("svg")
@@ -35,6 +37,11 @@ const svgLegend = d3.select("#areaLegend")
     .attr("width", 650)
     .attr("height", height)
     .style("vertical-align", "middle");
+
+/* -- shim all the SVGs -- */
+d3.stcExt.addIEShim(map, 387.1, 457.5);
+d3.stcExt.addIEShim(svgCB, height, width);
+d3.stcExt.addIEShim(svgLegend, height, 650);
 
 // -----------------------------------------------------------------------------
 /* tooltip */
@@ -211,6 +218,8 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
+
+  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- display areaChart -- */
@@ -327,7 +336,6 @@ i18n.load(["src/i18n"], () => {
 
         getCanadaMap(map)
             .on("loaded", function() {
-              d3.stcExt.addIEShim(map, 377, 457);
               colorMap();
             });
 

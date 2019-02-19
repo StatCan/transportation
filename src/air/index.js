@@ -30,6 +30,7 @@ const formatComma = d3.format(",d");
 /* SVGs */
 const map = d3.select(".dashboard .map")
     .append("svg");
+
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -56,6 +57,12 @@ const svgLegend = d3.select("#areaLegend")
     .attr("height", height)
     .style("vertical-align", "middle");
 
+/* -- shim all the SVGs -- */
+d3.stcExt.addIEShim(map, 387.1, 457.5);
+d3.stcExt.addIEShim(svgCB, height, width);
+d3.stcExt.addIEShim(svgLegend, height, 650);
+
+// -----------------------------------------------------------------------------
 /* variables */
 // For map circles
 let path;
@@ -333,6 +340,8 @@ function colorMap() {
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
   airportGroup = map.append("g");
+
+  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
@@ -478,6 +487,7 @@ i18n.load(["src/i18n"], () => {
               map.style("visibility", "visible");
               d3.select(".canada-map").moveToBack();
             });
+
         showAreaData();
         plotLegend();
         // Show chart titles based on default menu options
