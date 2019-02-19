@@ -1752,6 +1752,27 @@
 	  }
 	}
 
+	function areaLegendFn (svgLegend, classArray) {
+	  var rectDim = 35; // Create the g nodes
+
+	  var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
+
+	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
+	    return 55 + i * rectDim * 4;
+	  }).attr("class", function (d, i) {
+	    return classArray[i];
+	  }); // add text node to rect g
+
+	  rects.append("text"); // Display text in text node
+
+	  d3.select("#areaLegend").selectAll("text").attr("y", 48).attr("x", function (d, i) {
+	    var xpos = [55 + rectDim + 5, 237, 375];
+	    return xpos[i];
+	  }).style("display", function () {
+	    return "inline";
+	  });
+	}
+
 	// const majorAirportMode = "majorAirport"; // TODO
 
 	var data = {};
@@ -1784,7 +1805,15 @@
 	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "airCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
 	var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir");
 	var chart2 = d3.select("#aptChart") // .select(".data")
-	.append("svg").attr("id", "svg_aptChart");
+	.append("svg").attr("id", "svg_aptChart"); // area chart legend
+
+	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "airAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
+	/* -- shim all the SVGs -- */
+
+	d3.stcExt.addIEShim(map, 387.1, 457.5);
+	d3.stcExt.addIEShim(svgCB, height, width);
+	d3.stcExt.addIEShim(svgLegend, height, 650); // -----------------------------------------------------------------------------
+
 	/* variables */
 	// For map circles
 
@@ -2021,7 +2050,7 @@
 	  d3.select("#cbID").text(mapScaleLabel); // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
 	  // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
 
-	  airportGroup = map.append("g");
+	  airportGroup = map.append("g"); // d3.stcExt.addIEShim(map, 387.1, 457.5);
 	}
 	/* -- stackedArea chart for Passenger or Major Airports data -- */
 
@@ -2145,6 +2174,17 @@
 	  }) + ", " + geography);
 	}
 
+	function plotLegend() {
+	  var classArray = ["domestic", "trans_border", "other_intl"];
+	  areaLegendFn(svgLegend, classArray);
+	  d3.select("#areaLegend").selectAll("text").text(function (d, i) {
+	    return i18next.t(classArray[i], {
+	      ns: "airPassengers"
+	    });
+	  });
+	} // -----------------------------------------------------------------------------
+
+
 	i18n.load(["src/i18n"], function () {
 	  settings.x.label = i18next.t("x_label", {
 	    ns: "airPassengers"
@@ -2176,7 +2216,8 @@
 	      map.style("visibility", "visible");
 	      d3.select(".canada-map").moveToBack();
 	    });
-	    showAreaData(); // Show chart titles based on default menu options
+	    showAreaData();
+	    plotLegend(); // Show chart titles based on default menu options
 
 	    updateTitles();
 	  });
