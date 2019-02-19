@@ -291,7 +291,7 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"];
+  const colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
 
   let dimExtent = [];
   // map.selectAll("path").style("stroke", "black");

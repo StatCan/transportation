@@ -1,7 +1,5 @@
 export default function(svgLegend, colourArray, legendText) {
-  const scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 35;
-  const formatComma = d3.format(",d");
 
   // Create the g nodes
   const rects = svgLegend.selectAll("rect")
@@ -34,7 +32,7 @@ export default function(svgLegend, colourArray, legendText) {
       .attr("y", 28)
       .attr("x", function(d, i) {
         const xpos = [55 + rectDim + 5, 237, 375];
-        return  xpos[i];
+        return xpos[i];
       })
       .style("display", function() {
         return "inline";

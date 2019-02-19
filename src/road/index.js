@@ -202,8 +202,7 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  // const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-  const colourArray = ["#f0f9e8", "#bae4bc", "#7bccc4", "#43a2ca", "#0868ac"];
+  const colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
@@ -211,7 +210,7 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  // d3.select("#cbID").text(mapScaleLabel);
+  d3.select("#cbID").text(mapScaleLabel);
 }
 
 /* -- display areaChart -- */
@@ -244,11 +243,9 @@ function updateTitles() {
 }
 
 function plotLegend() {
-
   const colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
   const legendText = ["gas", "diesel", "lpg"];
   areaLegendFn(svgLegend, colourArray, legendText);
-
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */

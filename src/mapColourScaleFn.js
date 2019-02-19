@@ -39,12 +39,11 @@ export default function(svgCB, colourArray, dimExtent) {
       .selectAll("text")
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
-        const s1 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
         updateText = s0 + "+";
         return updateText;
       })
       .attr("text-anchor", "end")
-      .attr("transform",function(d, i) { 
+      .attr("transform", function(d, i) {
         return "translate(" + (110 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
       })
       .style("display", function() {
