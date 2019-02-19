@@ -1537,6 +1537,7 @@
 	  margin: {
 	    top: 50,
 	    left: 90,
+	    right: 30,
 	    bottom: 50
 	  },
 	  filterData: function filterData(data) {
@@ -1548,8 +1549,11 @@
 	        ns: "airPassengers"
 	      });
 	    },
-	    getValue: function getValue(d) {
-	      return new Date(d.date + "-01");
+	    getValue: function getValue(d, i) {
+	      // return new Date(d.date + "-01");
+	      // for first year, start at Jan -01T00:00:00.000Z
+	      // for last year, end one ms past midnight so that year label gets plotted
+	      return i === 0 ? new Date(d.date + "-01") : new Date(d.date, 0, 1, 0, 0, 0, 1);
 	    },
 	    getText: function getText(d) {
 	      return d.date;
