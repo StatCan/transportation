@@ -21,86 +21,13 @@ const map = d3.select(".dashboard .map")
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
-const legendSteps =9;
-let mapLegend;
-// const svgCB = d3.select("#mapColourScale")
-//     .select("svg")
-//     .attr("class", "roadCB")
-//     .attr("width", width)
-//     .attr("height", height)
-//     .style("vertical-align", "middle");
-let createLegend = function() {
-   var pointSize = 40,
-     textSize = 14,
-     padding = 0,
-     width = 600,
-     height = pointSize + textSize * 4,
-     innerWidth = legendSteps * pointSize + (legendSteps - 1) * padding,
-     innerLegend, l, align;
-
-   mapLegend = d3.select("#mapColourScale")
-     .append("svg");
-
-   mapLegend
-     .attr("role", "presentation")
-     .attr("aria-hidden", "true")
-     .attr("viewBox", "0 0 " + width + " " + height);
-
-   if (mapLegend.node().msContentZoomFactor) {
-     mapLegend.attr("height", height);
-   }
-
-   mapLegend.append("text")
-     .attr("x", width / 2)
-     .attr("dy", textSize)
-     .attr("font-size", textSize)
-     .attr("text-anchor", "middle")
-     .text(i18next.t("change", {ns: "cpi"}));
-
-   innerLegend = mapLegend.append("g")
-     .attr("transform", "translate(" + (width / 2 - innerWidth / 2) + ", " + (textSize * 1.5) + ")");
-
-   for(l = 0; l < legendSteps; l++) {
-     innerLegend.append("rect")
-       .attr("x", l * (pointSize + padding))
-       .attr("y", 0)
-       .attr("height", pointSize)
-       .attr("width", pointSize + 1);
-
-     if ([0, Math.floor(legendSteps  / 2), legendSteps - 1].indexOf(l) !== -1) {
-       switch (l / (legendSteps - 1)) {
-       case 0:
-         align = "start";
-         break;
-       case 1:
-         align = "end";
-         break;
-       default:
-         align = "middle";
-       }
-       innerLegend.append("text")
-         .attr("dy", textSize * 1.5)
-         .attr("y", pointSize)
-         .attr("x", l * innerWidth / (legendSteps - 1))
-         .attr("font-size", textSize)
-         .attr("text-anchor", align);
-     }
-   }
- };
- let updateLegend = function(interpolate, scale) {
-   var colorScale = d3.scaleLinear().domain([0, legendSteps - 1]).range(scale.range()),
-     textScale = d3.scaleLinear().domain([0,2]).range(scale.domain());
-
-   mapLegend.selectAll("rect")
-     .attr("fill", function(d, i) {
-       return interpolate(colorScale(i));
-     });
-   mapLegend.selectAll("g text")
-     .text(function(d, i) {
-       return numberFormatter.format(textScale(i));
-     });
- };
-// -----------------------------------------------------------------------------
+const svgCB = d3.select("#mapColourScale")
+    .select("svg")
+    .attr("class", "roadCB")
+    .attr("width", width)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+//----------------------
 /* tooltip */
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -249,8 +176,9 @@ d3.select("#annualTimeseries")
                 "</tr>" +
               "</table>"
           )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY) + "px");
+              .style("left", (d3.event.pageX) + 10 +"px")
+              .style("top", (d3.event.pageY) + 10+ "px")
+              .style("pointer-events", "none");
         }
       } // mousex restriction
     })
@@ -273,31 +201,8 @@ function colorMap() {
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
-//  mapColourScaleFn(svgCB, colourArray, dimExtent);
+  mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
-
-  var interpolate = d3.stcExt.get5PointsInterpolation("#bdd7e7", "#6baed6", "#3182bd", "#08519c" ),
-  min = d3.min(points, sett.y.getValue.bind(sett));
-  max = d3.max(points, sett.y.getValue.bind(sett));
-
-  if (min >= 0 || max <= 0) {
-   domain = [min, max];
-   if (min === 0) {
-     range = [0, 1];
-   } else if (min > 0) {
-     range = [0.001, 1];
-   } else if (max === 0) {
-     range = [-1, 0];
-   } else {
-     range = [-1, -0.001];
-   }
-  } else {
-   temp = Math.abs(min) > max ? Math.abs(min) : max;
-   domain = [-temp, temp];
-   range = [-1, 1];
-  }
-  scale = d3.scaleLinear().domain(domain).range(range);
-  updateLegend(interpolate, scale)
 }
 
 /* -- display areaChart -- */
@@ -411,7 +316,6 @@ i18n.load(["src/i18n"], () => {
 
         // Show chart titles based on default menu options
         updateTitles();
-        createLegend();
       });
 });
 
