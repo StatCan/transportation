@@ -29,6 +29,10 @@
 .lpg {
 	fill: #5DC1BE;
 }
+.roadCB rect {
+	stroke: black;
+	stroke-width: 0.3;
+}
 .roadMapHighlight {
 	stroke: #467B8D !important;
 	stroke-width: 0.5 !important;
@@ -541,8 +545,8 @@ div.tooltip {
 /*map*/
 .canada-map path {
 	fill: #94a6b2;
-	stroke: #fff;
-	stroke-width: 0.03;
+	stroke: #bdbdbd;
+	stroke-width: 0.3;
 	opacity: 1;
 }
 

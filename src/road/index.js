@@ -194,7 +194,8 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  // const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  const colourArray = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
@@ -202,7 +203,7 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
+  // d3.select("#cbID").text(mapScaleLabel);
 }
 
 /* -- display areaChart -- */
