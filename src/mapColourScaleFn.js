@@ -45,8 +45,9 @@ export default function(svgCB, colourArray, dimExtent) {
         updateText = s0 + "+";
         return updateText;
       })
+      .attr("text-anchor", "end")
       .attr("transform",function(d, i) { 
-        return "translate(" + (85 + (i * (rectDim + 2))) + ", 80) " + "rotate(-45)";
+        return "translate(" + (110 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
       })
       .style("display", function() {
         return "inline";
