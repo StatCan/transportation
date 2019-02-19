@@ -176,8 +176,8 @@ d3.select("#annualTimeseries")
                 "</tr>" +
               "</table>"
           )
-              .style("left", (d3.event.pageX) + 10 +"px")
-              .style("top", (d3.event.pageY) + 10+ "px")
+              .style("left", (d3.event.pageX) + 10 + "px")
+              .style("top", (d3.event.pageY) + 10 + "px")
               .style("pointer-events", "none");
         }
       } // mousex restriction
