@@ -319,10 +319,6 @@
       "01": "January"
     },
     "modes": {
-      "alt": "International travellers entering or returning to Canada, by type of transport",
-      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
-      "name": "Traveller characteristics",
-      "value": "Number of travellers",
       "intl": "International travellers",
       "USres": "US residents",
       "nonUSres": "Non-US residents",
@@ -348,6 +344,12 @@
       "cdnFromUS_bus": "Bus",
       "cdnFromUS_train": "Train",
       "cdnFromUS_other": "Other"
+    },
+    "modes_sankey": {
+      "alt": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "name": "Traveller characteristics",
+      "value": "Number of travellers"
     }
   }
 }

@@ -44,6 +44,9 @@ export default {
     }
   },
   z: {
+    getId: function(d) {
+      return d.name;
+    },
     getKeys: function(object) {
       const sett = this;
       // const keys = Object.keys(object[0]);
@@ -54,8 +57,11 @@ export default {
       }
       return keys;
     },
+    getKeyText: function(key) {
+      return i18next.t(key, {ns: "modes_sankey"});
+    },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "modes"});
+      return i18next.t(d.name, {ns: "modes"});
     }
   },
   datatable: true,

@@ -173,7 +173,7 @@ function filterZeros(d) {
 }
 
 i18n.load(["src/i18n"], function() {
-  tableSettings.tableTitle = i18next.t("tableTitle", {ns: "modes"}),
+  tableSettings.tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}),
   d3.queue()
       .defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json")
       .await(function(error, json) {
