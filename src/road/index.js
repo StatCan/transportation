@@ -1,6 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
+import areaLegendFn from "../areaLegendFn.js";
 
 const data = {};
 let mapData = {};
@@ -27,7 +28,6 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
-//----------------------
 /* tooltip */
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -194,7 +194,8 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  // const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
+  const colourArray = ["#f0f9e8", "#bae4bc", "#7bccc4", "#43a2ca", "#0868ac"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
@@ -202,7 +203,7 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
+  // d3.select("#cbID").text(mapScaleLabel);
 }
 
 /* -- display areaChart -- */
@@ -217,6 +218,9 @@ function showData() {
   d3.select(".dashboard .map")
       .select("." + selected)
       .classed("roadMapHighlight", true);
+
+  updateTitles();
+  plotLegend();
 }
 
 /* -- update map and areaChart titles -- */
@@ -227,6 +231,14 @@ function updateTitles() {
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   settings.tableTitle = i18next.t("tableTitle",  {ns: "roadArea", geo: geography});
+}
+
+function plotLegend() {
+
+  const colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
+  const legendText = ["gas", "diesel", "lpg"];
+  areaLegendFn(svgLegend, colourArray, legendText);
+
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -309,6 +321,8 @@ i18n.load(["src/i18n"], () => {
 
         // Area chart and x-axis position
         areaChart(chart, settings, data[selected]);
+        plotLegend();
+        // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
             // .attr("dy", xaxisLabeldy)

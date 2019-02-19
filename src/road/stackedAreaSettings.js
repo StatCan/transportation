@@ -38,7 +38,6 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-
       return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
@@ -71,6 +70,7 @@ export default {
   },
   datatable: true,
   tableTitle: "",
+  dataTableTotal: true, // show total in data table
   transition: false,
   width: 1050
 };

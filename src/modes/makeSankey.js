@@ -10,110 +10,7 @@ const defaults = {
   }
 };
 
-const nodes = [
-    {
-      "node": 0,
-      "name": "intl"
-    },
-    {
-      "node": 1,
-      "name": "USres"
-    },
-    {
-      "node": 2,
-      "name": "nonUSres"
-    },
-    {
-      "node": 3,
-      "name": "cdnFromUS"
-    },
-    {
-      "node": 4,
-      "name": "cdnFromOther"
-    },
-    {
-      "node": 5,
-      "name": "USres_air"
-    },
-    {
-      "node": 6,
-      "name": "USres_marine"
-    },
-    {
-      "node": 7,
-      "name": "USres_land"
-    },
-    {
-      "node": 8,
-      "name": "nonUSres_air"
-    },
-    {
-      "node": 9,
-      "name": "nonUSres_marine"
-    },
-    {
-      "node": 10,
-      "name": "nonUSres_land"
-    },
-    {
-      "node": 11,
-      "name": "cdnFromUS_air"
-    },
-    {
-      "node": 12,
-      "name": "cdnFromUS_marine"
-    },
-    {
-      "node": 13,
-      "name": "cdnFromUS_land"
-    },
-    {
-      "node": 14,
-      "name": "cdnFromOther_air"
-    },
-    {
-      "node": 15,
-      "name": "cdnFromOther_marine"
-    },
-    {
-      "node": 16,
-      "name": "cdnFromOther_land"
-    },
-    {
-      "node": 17,
-      "name": "USres_car"
-    },
-    {
-      "node": 18,
-      "name": "USres_bus"
-    },
-    {
-      "node": 19,
-      "name": "USres_train"
-    },
-    {
-      "node": 20,
-      "name": "USres_other"
-    },
-    {
-      "node": 21,
-      "name": "cdnFromUS_car"
-    },
-    {
-      "node": 22,
-      "name": "cdnFromUS_bus"
-    },
-    {
-      "node": 23,
-      "name": "cdnFromUS_train"
-    },
-    {
-      "node": 24,
-      "name": "cdnFromUS_other"
-    }
-  ];
-
-export default function(svg, graph) {
+export default function(svg, nodes, graph) {
   const colourDict = {
   // level 1
     "intl": "#607890",
@@ -177,14 +74,12 @@ export default function(svg, graph) {
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
-      .nodeWidth(36)
-      .nodePadding(40)
+      // .nodeWidth(36) // defined in sankey_d3v4.js
+      // .nodePadding(40) // defined in sankey_d3v4.js
       .size([innerWidth, innerHeight]);
 
   const path = sankey.link();
 
-
-  // d3.json("data/modes/canada_modes_test.json", function(error, graph) {
   function make(graph) {
     sankey
         .nodes(nodes)
@@ -220,60 +115,62 @@ export default function(svg, graph) {
           return i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
         });
 
-    // add in the nodes
-    const node = dataLayer.append("g").selectAll(".node")
-        .data(nodes)
-        .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        })
-        .call(d3.drag()
-            .subject(function(d) {
-              return d;
-            })
-            .on("start", function() {
-              this.parentNode.appendChild(this);
-            })
-            .on("drag", dragmove));
+    // DO NOT PLOT IF DATA IS COMPLETELY ZERO
+    if (graph.links.length !== 0) {
+      // add in the nodes
+      const node = dataLayer.append("g").selectAll(".node")
+          .data(nodes)
+          .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")";
+          })
+          .call(d3.drag()
+              .subject(function(d) {
+                return d;
+              })
+              .on("start", function() {
+                this.parentNode.appendChild(this);
+              })
+              .on("drag", dragmove));
 
-    // add the rectangles for the nodes
-    node.append("rect")
-        .attr("height", function(d) {
-          return d.dy;
-        })
-        .attr("width", sankey.nodeWidth())
-        .style("fill", function(d) {
-          return d.color = colourDict[d.name];
-          // return d.color = color(d.name.replace(/ .*/, ""));
-        })
-        .style("stroke", function(d) {
-          return d3.rgb(d.color).darker(2);
-        })
-        .append("title")
-        .text(function(d) {
-          return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
-        });
+      // add the rectangles for the nodes
+      node.append("rect")
+          .attr("height", function(d) {
+            return d.dy;
+          })
+          .attr("width", sankey.nodeWidth())
+          .style("fill", function(d) {
+            return d.color = colourDict[d.name];
+            // return d.color = color(d.name.replace(/ .*/, ""));
+          })
+          .style("stroke", function(d) {
+            return d3.rgb(d.color).darker(2);
+          })
+          .append("title")
+          .text(function(d) {
+            return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
+          });
 
-    // add in the title for the nodes
-    node.append("text")
-        .attr("x", -6)
-        .attr("y", function(d) {
-          return d.dy / 2;
-        })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .attr("transform", null)
-        .text(function(d) {
-          // return i18next.t(d.name, {ns: "modes"});
-          if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
-        })
-        .filter(function(d) {
-          return d.x < innerWidth / 2;
-        })
-        .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start");
-
+      // add in the title for the nodes
+      node.append("text")
+          .attr("x", -6)
+          .attr("y", function(d) {
+            return d.dy / 2;
+          })
+          .attr("dy", ".35em")
+          .attr("text-anchor", "end")
+          .attr("transform", null)
+          .text(function(d) {
+            // return i18next.t(d.name, {ns: "modes"});
+            if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
+          })
+          .filter(function(d) {
+            return d.x < innerWidth / 2;
+          })
+          .attr("x", 6 + sankey.nodeWidth())
+          .attr("text-anchor", "start");
+    }
     // the function for moving the nodes
     function dragmove(d) {
       d3.select(this)

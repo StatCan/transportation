@@ -155,83 +155,89 @@
     <div class="col-md-6"><p><span class="wetlabel label-primary"><strong>Release date:</strong> Mar 31, 2019</span></p></div>
     <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
 </div>
-			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Changing any selection will automatically update the page content. These changes are reflected in the data table as well.</a>
 
-			<form onSubmit="return false;">
-				<div class="row">
-					<div class="col-md-6">
-						<label for="groups_yr">Year</label>
-						<select id="year" class="form-control">
-							<option value="2017">2017</option>
-							<option value="2016">2016</option>
-							<option value="2015">2015</option>
-							<option value="2014">2014</option>
-							<option value="2013">2013</option>
-							<option value="2012">2012</option>
-							<option value="2011">2011</option>
-							<option value="2010">2010</option>
+		<form onSubmit="return false;">
+			<div class="row">
+				<div class="col-md-5">
+					<label for="groups_yr">Year</label>
+					<select id="year" class="form-control">
+						<option value="2017">2017</option>
+						<option value="2016">2016</option>
+						<option value="2015">2015</option>
+						<option value="2014">2014</option>
+						<option value="2013">2013</option>
+						<option value="2012">2012</option>
+						<option value="2011">2011</option>
+						<option value="2010">2010</option>
+					</select>
+				</div>
+				<div class="col-md-7">
+					<div class="form-group">
+						<label for="groups">Select a province or territory</label>
+						<select id="groups" class="form-control">
+							<option value="CANADA">Canada</option>
+							<option value="NL">Newfoundland and Labrador</option>
+							<option value="PE">Prince Edward Island</option>
+							<option value="NS">Nova Scotia</option>
+							<option value="NB">New Brunswick</option>
+							<option value="QC">Quebec</option>
+							<option value="ON">Ontario</option>
+							<option value="MB">Manitoba</option>
+							<option value="SK">Saskatchewan</option>
+							<option value="AB">Alberta</option>
+							<option value="BC">British Columbia</option>
+							<option value="YT">Yukon</option>
+							<option value="NT">Northwest Territories</option>
+							<option value="NU">Nunavut</option>
 						</select>
 					</div>
-					<div class="col-md-5">
-						<div class="form-group">
-							<label for="groups">Select a province or territory</label>
-							<select id="groups" class="form-control">
-								<option value="CANADA">Canada</option>
-								<option value="NL">Newfoundland and Labrador</option>
-								<option value="PE">Prince Edward Island</option>
-								<option value="NS">Nova Scotia</option>
-								<option value="NB">New Brunswick</option>
-								<option value="QC">Quebec</option>
-								<option value="ON">Ontario</option>
-								<option value="MB">Manitoba</option>
-								<option value="SK">Saskatchewan</option>
-								<option value="AB">Alberta</option>
-								<option value="BC">British Columbia</option>
-								<option value="YT">Yukon</option>
-								<option value="NT">Northwest Territories</option>
-								<option value="NU">Nunavut</option>
-							</select>
-						</div>
-					</div>
 				</div>
-			</form>
+			</div>
+		</form>
+	<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Changing any selection will automatically update the page content. These changes are reflected in the data table as well.</a>
 
 		<div class="row"> <!--container row-->
       <div class="row"> <!-- main row 1 -->
         <div class="dashboard">
 
-          <div class="col-md-5"> <!-- first col in main row 1 -->
-            <div> <!-- first row in col 1 -->
-              <div id="mapTitleRoad">
-                <h3></h3>
-              </div>
-              <div class="map"></div>
-            </div> <!-- /row -->
+	        <div class="col-md-5"> <!-- first col in main row 1 -->
+	            <div> <!-- first row in col 1 -->
+	              	<div id="mapTitleRoad">
+	                	<h3></h3>
+	              	</div>
+	              	<div class="map"></div>
+	            </div> <!-- /row -->
 
-            <div> <!-- second row in col 1 -->
-              <div id="mapColourScale">
-                <svg></svg>
-              </div>
-            </div> <!-- /row -->
-           </div> <!-- /first col -->
+	            <div> <!-- second row in col 1 -->
+	              	<div id="mapColourScale">
+	                	<svg></svg>
+	              	</div>
+	            </div> <!-- /row -->
+	        </div> <!-- /first col -->
 
-           <div class="col-md-7"> <!-- second col in main row 1 -->
-            <div id="areaTitleRoad">
-              <h3></h3>
-           </div>
-           <div id="annualTimeseries">
-      			<div class="data fueldata"></div>
-      		</div>
-      	 </div> <!-- second col -->
+	        <div class="col-md-7"> <!-- second col in main row 1 -->
+	            <div id="areaTitleRoad">
+	              <h3></h3>
+	           	</div>
+	           	<div id="annualTimeseries">
+	      			<div class="data fueldata"></div>
+	      		</div>
+
+	      		<div> <!-- second row in col 2 -->
+	              	<div id="areaLegend">
+	                	<svg></svg>
+	              	</div>
+	            </div> <!-- /row -->
+	      	</div> <!-- second col -->
 
         </div> <!-- dashboard -->
-      </div> <!-- main row 1 -->
+     </div> <!-- main row 1 -->
 
-      <div class="row"> <!-- main row 2 -->
+    <div class="row"> <!-- main row 2 -->
         <div class="fueldata">
-          <div id="areaTable">
+          	<div id="areaTable">
         </div>
-      </div> <!-- main row 2 -->
+    </div> <!-- main row 2 -->
 
 <!-- End chart -->
 			</div>

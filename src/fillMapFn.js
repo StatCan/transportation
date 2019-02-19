@@ -1,6 +1,8 @@
 export default function(data, colourArray) {
+  console.log("data: ", data)
   // data is an Array
   const thisData = data[0]; // Object
+  console.log("thisData: ", thisData)
   let dimExtent = [];
   let totArray = [];
 
