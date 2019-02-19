@@ -40,8 +40,6 @@ export default function(svgCB, colourArray, dimExtent) {
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
         const s1 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
-        console.log("s0, : ", s0, s1);
-        // updateText = cbValues[j + 1] ? "> " + s0 : s0 + "+";
         updateText = s0 + "+";
         return updateText;
       })

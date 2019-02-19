@@ -1,6 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
+import areaLegendFn from "../areaLegendFn.js";
 
 const data = {};
 let mapData = {};
@@ -25,6 +26,13 @@ const svgCB = d3.select("#mapColourScale")
     .select("svg")
     .attr("class", "roadCB")
     .attr("width", width)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+// area chart legend
+const svgLegend = d3.select("#areaLegend")
+    .select("svg")
+    .attr("class", "roadAreaCB")
+    .attr("width", 650)
     .attr("height", height)
     .style("vertical-align", "middle");
 
@@ -220,6 +228,7 @@ function showData() {
       .classed("roadMapHighlight", true);
 
   updateTitles();
+  plotLegend();
 }
 
 /* -- update map and areaChart titles -- */
@@ -232,6 +241,14 @@ function updateTitles() {
   // table title
   d3.select("#chrt-dt-tbl")
       .text(`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`);
+}
+
+function plotLegend() {
+
+  const colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
+  const legendText = ["gas", "diesel", "lpg"];
+  areaLegendFn(svgLegend, colourArray, legendText);
+
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -314,6 +331,7 @@ i18n.load(["src/i18n"], () => {
 
         // Area chart and x-axis position
         areaChart(chart, settings, data[selected]);
+        plotLegend();
         // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
