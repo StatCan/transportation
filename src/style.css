@@ -153,9 +153,17 @@ table, th, td {
 	/* stroke: black;
 	stroke-width: 0.5px; */
 }
+
+/*-- area chart --*/
+.airAreaCB text {
+	font-size: 14px;
+	fill: #69757c;
+}
+
 #svg_areaChartAir .area-label {
 	font-size: 20px;
 	fill: #3D3D3D;
+  opacity: 0;
 }
 #svg_areaChartAir .tick text {
 	fill: #69757c;
@@ -173,12 +181,12 @@ table, th, td {
 	font-size: 22px;
 	fill: #555;
 }
-.local, .domestic {
+.domestic {
 	fill: #F6CF22;
 	opacity: 0.6;
 }
 
-.itinerant, .trans_border {
+.trans_border {
 	fill: #a6611a;
   opacity: 0.6;
 }

@@ -243,9 +243,14 @@ function updateTitles() {
 }
 
 function plotLegend() {
-  const colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
-  const legendText = ["gas", "diesel", "lpg"];
-  areaLegendFn(svgLegend, colourArray, legendText);
+  const classArray = ["gas", "diesel", "lpg"];
+  areaLegendFn(svgLegend, classArray);
+
+  d3.select("#areaLegend")
+      .selectAll("text")
+      .text(function(d, i) {
+        return i18next.t(classArray[i], {ns: "roadArea"});
+      });
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */

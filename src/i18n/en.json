@@ -7,17 +7,7 @@
       "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
       "gas": "Gas",
       "diesel": "Diesel",
-      "LPG": "LPG",
-      "local": "Local",
-      "itinerant": "Itinerant",
-      "total": "Total",
-      "domestic": "Domestic",
-      "other_intl": "International",
-      "trans_border": "Transborder",
-      "enplaned": "Enplaned",
-      "deplaned": "Deplaned",
-      "Remaining_itinerant": "Itinerant - Rest of province",
-      "Remaining_local": "Local - Rest of province"
+      "LPG": "LPG"
     },
     "road": {
       "chartTitle": "Type of fuel sales",

@@ -1,6 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 import settingsAirport from "./stackedAreaSettingsAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
+import areaLegendFn from "../areaLegendFn.js";
 
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
@@ -46,6 +47,14 @@ const chart = d3.select(".data")
 const chart2 = d3.select("#aptChart") // .select(".data")
     .append("svg")
     .attr("id", "svg_aptChart");
+
+// area chart legend
+const svgLegend = d3.select("#areaLegend")
+    .select("svg")
+    .attr("class", "airAreaCB")
+    .attr("width", 650)
+    .attr("height", height)
+    .style("vertical-align", "middle");
 
 /* variables */
 // For map circles
@@ -421,6 +430,18 @@ function updateTitles() {
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
 }
 
+function plotLegend() {
+  const classArray = ["domestic", "trans_border", "other_intl"];
+  areaLegendFn(svgLegend, classArray);
+
+  d3.select("#areaLegend")
+      .selectAll("text")
+      .text(function(d, i) {
+        return i18next.t(classArray[i], {ns: "airPassengers"});
+      });
+}
+// -----------------------------------------------------------------------------
+
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
@@ -458,6 +479,7 @@ i18n.load(["src/i18n"], () => {
               d3.select(".canada-map").moveToBack();
             });
         showAreaData();
+        plotLegend();
         // Show chart titles based on default menu options
         updateTitles();
       });
