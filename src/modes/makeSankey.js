@@ -11,42 +11,6 @@ const defaults = {
 };
 
 export default function(svg, nodes, graph) {
-  const colourDict = {
-  // level 1
-    "intl": "#607890",
-    // level 2
-    "USres": "#CC982A",
-    "nonUSres": "#928941",
-    "cdnFromUS": "#FFDC68",
-    "cdnFromOther": "#FAB491",
-    // level 3
-    "USres_land": "#CC982A",
-    "USres_air": "#CC982A",
-    "USres_marine": "#CC982A",
-    // level 4 of level 3 USres
-    "USres_car": "#CC982A",
-    "USres_bus": "#CC982A",
-    "USres_train": "#CC982A",
-    "USres_other": "#CC982A",
-
-    "nonUSres_land": "#928941",
-    "nonUSres_air": "#928941",
-    "nonUSres_marine": "#928941",
-
-    "cdnFromUS_land": "#FFDC68",
-    "cdnFromUS_air": "#FFDC68",
-    "cdnFromUS_marine": "#FFDC68",
-    // level 4 of level 3 cdnFromUS
-    "cdnFromUS_car": "#FFDC68",
-    "cdnFromUS_bus": "#FFDC68",
-    "cdnFromUS_train": "#FFDC68",
-    "cdnFromUS_other": "#FFDC68",
-
-    "cdnFromOther_land": "#FAB491",
-    "cdnFromOther_air": "#FAB491",
-    "cdnFromOther_marine": "#FAB491"
-  };
-
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -65,18 +29,8 @@ export default function(svg, nodes, graph) {
   };
   const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
 
-  // append the svg object to the body of the page
-  // var svg = d3.select(svgID).append("svg")
-  //     .attr("width", width + margin.left + margin.right)
-  //     .attr("height", height + margin.top + margin.bottom)
-  //   .append("g")
-  //     .attr("transform",
-  //           "translate(" + margin.left + "," + margin.top + ")");
-
   // Set the sankey diagram properties
   const sankey = d3.sankey()
-      // .nodeWidth(36) // defined in sankey_d3v4.js
-      // .nodePadding(40) // defined in sankey_d3v4.js
       .size([innerWidth, innerHeight]);
 
   const path = sankey.link();
@@ -146,7 +100,9 @@ export default function(svg, nodes, graph) {
       const node = dataLayer.append("g").selectAll(".node")
           .data(nodes)
           .enter().append("g")
-          .attr("class", "node")
+          .attr("class", function(d) {
+            return "node " + d.name; // d.name to fill by class in css
+          })
           .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")";
           })
@@ -186,9 +142,6 @@ export default function(svg, nodes, graph) {
             return d.dy;
           })
           .attr("width", sankey.nodeWidth())
-          .style("fill", function(d) {
-            return d.color = colourDict[d.name];
-          })
           .style("stroke", function(d) {
             return d3.rgb(d.color).darker(2);
           })
@@ -206,7 +159,6 @@ export default function(svg, nodes, graph) {
           .attr("text-anchor", "end")
           .attr("transform", null)
           .text(function(d) {
-            // return i18next.t(d.name, {ns: "modes"});
             if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
           })
           .filter(function(d) {

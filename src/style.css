@@ -618,7 +618,7 @@ div.tooltip {
 .USres rect {
 	fill: #CC982A;
 	}
-.nonUS rect {
+.nonUSres rect {
 	fill: #928941;
 	}
 .cdnFromUS rect {
@@ -648,13 +648,13 @@ div.tooltip {
 .USres_other rect {
 		fill: #CC982A;
 }
-.nonUS_land rect {
+.nonUSres_land rect {
 	fill: #928941;
 }
-.nonUS_air rect {
+.nonUSres_air rect {
 	fill: #928941;
 }
-.nonUS_marine rect {
+.nonUSres_marine rect {
 	fill: #928941;
 }
 .cdnFromUS_land rect {
