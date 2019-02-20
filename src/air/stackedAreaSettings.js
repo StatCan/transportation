@@ -82,7 +82,6 @@ export default {
     }
   },
   datatable: true,
-  tableTitle: i18next.t("tableTitle", {ns: "airPassengers"}),
   dataTableTotal: true, // show total in data table
   areaTableID: "areaTable",
   // summaryId: "chrt-dt-tbl",

@@ -20,7 +20,7 @@ let selectedDataset = "passengers";
 let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
-let selectedRegion = "ON"; // default region for areaChart
+let selectedRegion = "CANADA"; // default region for areaChart
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
@@ -402,6 +402,8 @@ function colorMap() {
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
+  updateTitles();
+
   const showChart = () => {
     areaChart(chart, settings, data[selectedDataset][selectedRegion]);
     // Highlight region selected from menu on map
@@ -508,6 +510,7 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
+  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
 }
 
 function plotLegend() {
@@ -525,7 +528,6 @@ function plotLegend() {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
