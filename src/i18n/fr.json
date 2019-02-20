@@ -186,10 +186,6 @@
     }
   },
    "modes": {
-      "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
-      "tableTitle": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
-      "name": "Caractéristiques des voyageurs",
-      "value": "Nombre de voyageurs",
       "intl": "Total des voyageurs internationaux",
       "USres": "Résidents des États-Unis",
       "nonUS": "Résidents de pays autres que les États-Unis",
@@ -215,19 +211,12 @@
       "cdnFromUS_bus": "Autocar",
       "cdnFromUS_train": "Train",
       "cdnFromUS_other": "Autres moyens",
-      "CANADA": "Canada",
-      "NL": "Terre-Neuve-et-Labrador",
-      "PE": "Île-du-Prince-Édouard",
-      "NS": "Nouvelle-Écosse",
-      "NB": "Nouveau-Brunswick",
-      "QC": "Québec",
-      "ON": "Ontario",
-      "MB": "Manitoba",
-      "SK": "Saskatchewan",
-      "AB": "Alberta",
-      "BC": "Colombie-Britannique",
-      "YK": "Yukon",
-      "NU": "Nunavut"
+    },
+    "modes_sankey": {
+      "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
+      "tableTitle": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
+      "name": "Caractéristiques des voyageurs",
+      "value": "Nombre de voyageurs"
     }
   }
 }

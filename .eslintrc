@@ -15,7 +15,7 @@
      "drawMapTable": true,
      "bubbleTable": true,
      "drawTable": true,
-     "$": true,
+     "$": true
    },
    "extends": ["eslint:recommended", "google"],
    "parserOptions": {

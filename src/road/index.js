@@ -18,6 +18,7 @@ const chart = d3.select(".data")
 // Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
+
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -194,8 +195,7 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  // const colourArray = ["#bdd7e7", "#6baed6", "#3182bd", "#08519c"];
-  const colourArray = ["#f0f9e8", "#bae4bc", "#7bccc4", "#43a2ca", "#0868ac"];
+  const colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
@@ -203,7 +203,9 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  // d3.select("#cbID").text(mapScaleLabel);
+  d3.select("#cbID").text(mapScaleLabel);
+
+  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- display areaChart -- */
@@ -234,11 +236,14 @@ function updateTitles() {
 }
 
 function plotLegend() {
+  const classArray = ["gas", "diesel", "lpg"];
+  areaLegendFn(svgLegend, classArray);
 
-  const colourArray = ["#EDDB7C", "#F99691", "#5DC1BE"];
-  const legendText = ["gas", "diesel", "lpg"];
-  areaLegendFn(svgLegend, colourArray, legendText);
-
+  d3.select("#areaLegend")
+      .selectAll("text")
+      .text(function(d, i) {
+        return i18next.t(classArray[i], {ns: "roadArea"});
+      });
 }
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -315,7 +320,6 @@ i18n.load(["src/i18n"], () => {
 
         getCanadaMap(map)
             .on("loaded", function() {
-              d3.stcExt.addIEShim(map, 377, 457);
               colorMap();
             });
 

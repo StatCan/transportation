@@ -1,6 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 import settingsAirport from "./stackedAreaSettingsAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
+import areaLegendFn from "../areaLegendFn.js";
 
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
@@ -56,6 +57,20 @@ const chart2 = d3.select("#aptChart") // .select(".data")
     .append("svg")
     .attr("id", "svg_aptChart");
 
+// area chart legend
+const svgLegend = d3.select("#areaLegend")
+    .select("svg")
+    .attr("class", "airAreaCB")
+    .attr("width", 650)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+
+/* -- shim all the SVGs -- */
+d3.stcExt.addIEShim(map, 387.1, 457.5);
+d3.stcExt.addIEShim(svgCB, height, width);
+d3.stcExt.addIEShim(svgLegend, height, 650);
+
+// -----------------------------------------------------------------------------
 /* variables */
 // For map circles
 let path;
@@ -354,7 +369,7 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"];
+  const colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
 
   let dimExtent = [];
   // map.selectAll("path").style("stroke", "black");
@@ -387,6 +402,8 @@ function colorMap() {
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
   airportGroup = map.append("g");
+
+  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
@@ -499,6 +516,18 @@ function updateTitles() {
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
 }
 
+function plotLegend() {
+  const classArray = ["domestic", "trans_border", "other_intl"];
+  areaLegendFn(svgLegend, classArray);
+
+  d3.select("#areaLegend")
+      .selectAll("text")
+      .text(function(d, i) {
+        return i18next.t(classArray[i], {ns: "airPassengers"});
+      });
+}
+// -----------------------------------------------------------------------------
+
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
@@ -536,7 +565,9 @@ i18n.load(["src/i18n"], () => {
               map.style("visibility", "visible");
               d3.select(".canada-map").moveToBack();
             });
+
         showAreaData();
+        plotLegend();
         // Show chart titles based on default menu options
         updateTitles();
       });

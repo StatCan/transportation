@@ -15,7 +15,7 @@ export default function(svgCB, colourArray, dimExtent) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 105 + i * rectDim;
+        return 175 + i * rectDim;
       })
       .attr("fill", function(d, i) {
         return colourArray[i];
@@ -26,7 +26,6 @@ export default function(svgCB, colourArray, dimExtent) {
   const cbValues=[];
   cbValues[0] = dimExtent[0];
   for (let idx=1; idx < colourArray.length; idx++) {
-    // cbValues.push(Math.round((0.5 + (idx - 1)) * delta + dimExtent[0]));
     cbValues.push(Math.round(( idx ) * delta + dimExtent[0]));
   }
 
@@ -39,24 +38,23 @@ export default function(svgCB, colourArray, dimExtent) {
       .selectAll("text")
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
-        const s1 = cbValues[j + 1] ? formatComma(cbValues[j + 1] / scalef) : s0 + "+";
         updateText = s0 + "+";
         return updateText;
       })
       .attr("text-anchor", "end")
-      .attr("transform",function(d, i) { 
-        return "translate(" + (110 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+      .attr("transform", function(d, i) {
+        return "translate(" + (180 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
       })
       .style("display", function() {
         return "inline";
       });
 
   // Text label for scale bar
-  // if (d3.select("#cbID").empty()) {
-  //   const label = svgCB.append("g").append("text");
-  //   label
-  //       .attr("id", "cbID")
-  //       .attr("y", 18)
-  //       .attr("x", 0);
-  // }
+  if (d3.select("#cbID").empty()) {
+    const label = svgCB.append("g").append("text");
+    label
+        .attr("id", "cbID")
+        .attr("y", 28)
+        .attr("x", 0);
+  }
 }
