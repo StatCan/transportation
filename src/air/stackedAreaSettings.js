@@ -36,6 +36,20 @@ export default {
         return 0;
       } else return Number(d[key]) * 1.0/ 1000;
     },
+    getTotal: function(d, index, data) {
+      let total;
+      let keys;
+      const sett = this;
+      if (!d[sett.y.totalProperty]) {
+        keys = sett.z.getKeys.call(sett, data);
+        total = 0;
+        for (let k = 0; k < keys.length; k++) {
+          total += sett.y.getValue.call(sett, d, keys[k], data);
+        }
+        d[sett.y.totalProperty] = total;
+      }
+      return d[sett.y.totalProperty];
+    },
     getText: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return d[key];
@@ -69,6 +83,7 @@ export default {
   },
   datatable: true,
   tableTitle: i18next.t("tableTitle", {ns: "airPassengers"}),
+  dataTableTotal: true, // show total in data table
   areaTableID: "areaTable",
   // summaryId: "chrt-dt-tbl",
   transition: true,
