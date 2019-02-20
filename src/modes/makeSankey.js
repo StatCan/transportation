@@ -63,6 +63,7 @@ export default function(svg, nodes, graph) {
   const format = function(d) {
     return formatNumber(d);
   };
+  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
 
   // append the svg object to the body of the page
   // var svg = d3.select(svgID).append("svg")
@@ -86,6 +87,11 @@ export default function(svg, nodes, graph) {
         .links(graph.links)
         .layout(32);
 
+    // tooltip div
+     const div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
           .attr("class", "data");
@@ -105,6 +111,27 @@ export default function(svg, nodes, graph) {
         })
         .sort(function(a, b) {
           return b.dy - a.dy;
+        })
+        .on("mousemove", function(d) {
+          // Tooltip
+          const sourceName = d.source.name;
+          div.transition()
+              .style("opacity", .9);
+          div.html(
+              "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
+                "<table>" +
+                  "<tr>" +
+                    "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                  "</tr>" +
+                "</table>"
+          )
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+              .style("opacity", 0);
         });
 
     // add the link titles
@@ -134,6 +161,27 @@ export default function(svg, nodes, graph) {
               })
               .on("drag", dragmove));
 
+      node
+          .on("mousemove", function(d) {
+            div.transition()
+                .style("opacity", .9);
+            div.html(
+                "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
+                "<table>" +
+                  "<tr>" +
+                  "<td>" + "Total:" + "</td>" +
+                  "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                  "</tr>" +
+                "</table>"
+            )
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+          })
+          .on("mouseout", function(d) {
+            div.transition()
+                .style("opacity", 0);
+          });
+
       // add the rectangles for the nodes
       node.append("rect")
           .attr("height", function(d) {
@@ -156,7 +204,7 @@ export default function(svg, nodes, graph) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2;
+                return d.dy / 2;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
