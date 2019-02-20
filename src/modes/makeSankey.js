@@ -88,7 +88,7 @@ export default function(svg, nodes, graph) {
         .layout(32);
 
     // tooltip div
-     const div = d3.select("body").append("div")
+    const div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
@@ -137,8 +137,6 @@ export default function(svg, nodes, graph) {
     // add the link titles
     link.append("title")
         .text(function(d) {
-          // return i18next.t(d.source.name, {ns: "modes"}) + "_to_" +
-          //         i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
           return i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
         });
 
@@ -190,12 +188,10 @@ export default function(svg, nodes, graph) {
           .attr("width", sankey.nodeWidth())
           .style("fill", function(d) {
             return d.color = colourDict[d.name];
-            // return d.color = color(d.name.replace(/ .*/, ""));
           })
           .style("stroke", function(d) {
             return d3.rgb(d.color).darker(2);
           })
-          .append("title")
           .text(function(d) {
             return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
           });
@@ -204,7 +200,7 @@ export default function(svg, nodes, graph) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-                return d.dy / 2;
+            return d.dy / 2;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
