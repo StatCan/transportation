@@ -121,7 +121,6 @@ const table = d3.select(".tabledata");
 // .attr("id", "modesTable");
 
 function uiHandler(event) {
-
   if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
     selectedGeo = document.getElementById("groups").value;
     selectedMonth = document.getElementById("month").value;

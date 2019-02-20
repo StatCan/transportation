@@ -64,8 +64,8 @@ map.on("mouseover", () => {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
     // Highlight map region
-    var selectedPath = d3.select(".dashboard .map")
-                        .select("." + classes[0])
+    const selectedPath = d3.select(".dashboard .map")
+        .select("." + classes[0]);
 
     selectedPath.classed("roadMapHighlight", true);
     selectedPath.moveToFront();
@@ -82,27 +82,27 @@ map.on("mouseover", () => {
             // "<td>" + " (" + units + ")</td>" +
             "</tr>" +
           "</table>"
-    )
+    );
   }
 })
-.on("mousemove", () => {
-  div
-  .style("left", ((d3.event.pageX +10) + "px"))
-  .style("top", ((d3.event.pageY +10) + "px"))
-}).on("mouseout", () => {
-  div.transition()
-      .style("opacity", 0);
+    .on("mousemove", () => {
+      div
+          .style("left", ((d3.event.pageX +10) + "px"))
+          .style("top", ((d3.event.pageY +10) + "px"));
+    }).on("mouseout", () => {
+      div.transition()
+          .style("opacity", 0);
 
-  if (selected) {
-    d3.select(".map")
-        .selectAll("path:not(." + selected + ")")
-        .classed("roadMapHighlight", false);
-  } else {
-    d3.select(".map")
-        .selectAll("path")
-        .classed("roadMapHighlight", false);
-  }
-});
+      if (selected) {
+        d3.select(".map")
+            .selectAll("path:not(." + selected + ")")
+            .classed("roadMapHighlight", false);
+      } else {
+        d3.select(".map")
+            .selectAll("path")
+            .classed("roadMapHighlight", false);
+      }
+    });
 map.on("click", () => {
   // clear any previous clicks
   d3.select(".map")
@@ -253,7 +253,7 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
-  settings.tableTitle = i18next.t("tableTitle",  {ns: "roadArea", geo: geography});
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: geography});
 }
 
 function plotLegend() {
@@ -331,7 +331,7 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-  settings.tableTitle = i18next.t("tableTitle",  {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
@@ -360,15 +360,15 @@ i18n.load(["src/i18n"], () => {
 
 $(document).on("change", uiHandler);
 d3.selection.prototype.moveToFront = function() {
-  return this.each(function(){
+  return this.each(function() {
     this.parentNode.appendChild(this);
   });
 };
 d3.selection.prototype.moveToBack = function() {
-    return this.each(function() {
-        var firstChild = this.parentNode.firstChild;
-        if (firstChild) {
-            this.parentNode.insertBefore(this, firstChild);
-        }
-    });
+  return this.each(function() {
+    const firstChild = this.parentNode.firstChild;
+    if (firstChild) {
+      this.parentNode.insertBefore(this, firstChild);
+    }
+  });
 };
