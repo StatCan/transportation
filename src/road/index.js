@@ -29,6 +29,22 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
+
+
+// area chart legend
+const svgLegend = d3.select("#areaLegend")
+    .select("svg")
+    .attr("class", "roadAreaCB")
+    .attr("width", 650)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+
+/* -- shim all the SVGs -- */
+d3.stcExt.addIEShim(map, 387.1, 457.5);
+d3.stcExt.addIEShim(svgCB, height, width);
+d3.stcExt.addIEShim(svgLegend, height, 650);
+
+// -----------------------------------------------------------------------------
 /* tooltip */
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -48,9 +64,11 @@ map.on("mouseover", () => {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
     // Highlight map region
-    d3.select(".dashboard .map")
-        .select("." + classes[0])
-        .classed("roadMapHighlight", true);
+    var selectedPath = d3.select(".dashboard .map")
+                        .select("." + classes[0])
+
+    selectedPath.classed("roadMapHighlight", true);
+    selectedPath.moveToFront();
     // Tooltip
     const key = i18next.t(classes[0], {ns: "roadGeography"});
     const value = formatComma(mapData[selectedYear][classes[0]] / 1e3);
@@ -65,9 +83,12 @@ map.on("mouseover", () => {
             "</tr>" +
           "</table>"
     )
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY) + "px");
   }
+})
+.on("mousemove", () => {
+  div
+  .style("left", ((d3.event.pageX +10) + "px"))
+  .style("top", ((d3.event.pageY +10) + "px"))
 }).on("mouseout", () => {
   div.transition()
       .style("opacity", 0);
@@ -195,7 +216,7 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  const colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
@@ -338,3 +359,16 @@ i18n.load(["src/i18n"], () => {
 });
 
 $(document).on("change", uiHandler);
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {
+    return this.each(function() {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+            this.parentNode.insertBefore(this, firstChild);
+        }
+    });
+};

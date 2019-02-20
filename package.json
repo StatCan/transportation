@@ -35,6 +35,7 @@
     "uglifyjs-folder": "^1.5.1"
   },
   "dependencies": {
+    "a-color-picker": "^1.1.7",
     "http-server": "^0.11.1"
   }
 }
