@@ -334,6 +334,7 @@
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to",
       "name": "Traveller characteristics",
       "value": "Number of travellers"
     },

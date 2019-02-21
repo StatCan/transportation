@@ -156,7 +156,7 @@ function showData() {
 function updateTitles() {
   const thisGeo = i18next.t(selectedGeo, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisTitle = "International travellers entering or returning to" + " " + thisGeo
+  const thisTitle =  i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
   + " in " + thisMonth + " " + selectedYear + ", by type of transport";
 
   d3.select("#only-dt-tbl").text(thisTitle);
