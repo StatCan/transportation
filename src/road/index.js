@@ -8,6 +8,7 @@ let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
 const formatComma = d3.format(",d");
+const scalef = 1e3;
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -155,85 +156,35 @@ const vertical = d3.select("#annualTimeseries")
     .style("left", "0px")
     .style("background", "#ccc");
 
-let idx;
+let hoverValue;
 let thisValue;
 let fuelType;
-d3.select("#svgFuel g.data")
-    .on("mousemove", function() {
-      const mouse = d3.mouse(this);
-      const mousex = mouse[0];
-      // Find x-axis intervale closest to mousex
-      idx = findAreaData(mousex);
-
-
-      // const root = d3.select(d3.event.target);
-      //
-      // if (root._groups[0][0].__data__) {
-      //   const thisArray = root._groups[0][0].__data__;
-      //   if (thisArray[idx]) {
-      //     const thisYear = thisArray[idx];
-      //     thisValue = formatComma(thisYear[1] - thisYear[0]);
-      //     fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "roadArea"});
-      //   }
-      // }
-
-
-      const yearDict = {
-        0: 2010, 1: 2011, 2: 2012, 3: 2013, 4: 2014, 5: 2015, 6: 2016, 7: 2017
-      };
-
-      if (thisValue) {
-        divArea.transition()
-            .style("opacity", .9);
-        divArea.html(
-            "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" +
-                "<td><b>" + yearDict[idx] + ": $" + thisValue + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
-              "</tr>" +
-            "</table>"
-        )
-            .style("left", (d3.event.pageX) + 10 + "px")
-            .style("top", (d3.event.pageY) + 10 + "px")
-            .style("pointer-events", "none");
-      }
-    })
-    .on("mouseout", function(d, i) {
-      // Clear tooltip
-      vertical.style("opacity", 0);
-      divArea.transition().style("opacity", 0);
-    });
 
 // -----------------------------------------------------------------------------
 /* FNS */
 /* -- find year interval closest to cursor for areaChart tooltip -- */
 function findAreaData(mousex) {
-  // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
-
-  //   x0 = lineObj.x.invert(d3.mouse(this)[0]),
-  //   data = lineObj.settings.z.getDataPoints(cpiInflationRate.select("._"+ selectedId).datum()),
-  //   i, d0, d1, d;
-  // i = bisectDate(data, x0.toISOString().substring(0,7));
-  // d0 = data[i - 1];
-  // d1 = data[i];
-  //
-  // if (d0 && d1) {
-  //   d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-  // } else if (d0) {
-  //   d = d0;
-  // }
-
-
   const bisectDate = d3.bisector(function(d) {
     return d.date;
   }).left;
-  const x0 = d3.select("#svgFuel .data").x.invert(mousex);
+  const x0 = stackedChart.x.invert(mousex);
   console.log(mousex);
   const chartData = data[selected];
   let d;
   const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-  console.log(data[selected][i])
+
+  const d0 = chartData[i - 1];
+  const d1 = chartData[i];
+
+  if (d0 && d1) {
+    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+  } else if (d0) {
+    d = d0;
+  }
+  else{
+    d = d1;
+  }
+  return d;
 }
 
 function colorMap() {
@@ -292,6 +243,45 @@ function plotLegend() {
       });
 }
 
+/* -- mouse events for area chart-- */
+
+function areaInteraction() {
+  d3.select("#areaData")
+      .on("mousemove", function() {
+        const mouse = d3.mouse(this);
+        const mousex = mouse[0];
+        // Find x-axis intervale closest to mousex
+        hoverValue = findAreaData(mousex);
+
+        const thisGas = formatComma(hoverValue.gas / scalef);
+        const thisDiesel = formatComma(hoverValue.diesel/ scalef);
+        const thisLPG = formatComma(hoverValue.lpg/ scalef);
+        divArea.transition()
+            .style("opacity", .9);
+        divArea.html(
+            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<table>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
+              "</tr>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
+              "</tr>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
+              "</tr>" +
+            "</table>"
+          )
+          .style("left", (d3.event.pageX) + 10 + "px")
+          .style("top", (d3.event.pageY) + 10 + "px")
+          .style("pointer-events", "none");
+      })
+      .on("mouseout", function(d, i) {
+      // Clear tooltip
+        vertical.style("opacity", 0);
+        divArea.transition().style("opacity", 0);
+      });
+}
 // -----------------------------------------------------------------------------
 /* uiHandler*/
 function uiHandler(event) {
@@ -339,6 +329,7 @@ i18n.load(["src/i18n"], () => {
 
         // Area chart and x-axis position
         stackedChart = areaChart(chart, settings, data[selected]);
+        areaInteraction();
         plotLegend();
         // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
