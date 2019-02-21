@@ -337,9 +337,25 @@
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
-      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to {{geo}} (million), by type of transport",
       "name": "Traveller characteristics",
       "value": "Number of travellers"
+    },
+    "modesGeography": {
+      "Canada": "Canada",
+      "NL": "Newfoundland and Labrador",
+      "PE": "Prince Edward Island",
+      "NS": "Nova Scotia",
+      "NB": "New Brunswick",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "YT": "Yukon",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut"
     }
   }
 }
