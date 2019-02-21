@@ -305,9 +305,6 @@
       "mixedloads": "Mixed loads or unidentified freight",
       "partialcarload": "Less-than-carload shipments"
     },
-    "modesMonth": {
-      "01": "January"
-    },
     "modes": {
       "intl": "International travellers",
       "USres": "US residents",
@@ -337,13 +334,43 @@
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
-      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to",
       "name": "Traveller characteristics",
       "value": "Number of travellers"
     },
-    "CopyButton" : {
+    "modesGeography": {
+      "Canada": "Canada",
+      "Newfoundland and Labrador": "Newfoundland and Labrador",
+      "Prince Edward Island": "Prince Edward Island",
+      "Nova Scotia": "Nova Scotia",
+      "New Brunswick": "New Brunswick",
+      "Quebec": "Quebec",
+      "Ontario": "Ontario",
+      "Manitoba": "Manitoba",
+      "Saskatchewan": "Saskatchewan",
+      "Alberta": "Alberta",
+      "British Columbia": "British Columbia",
+      "Yukon": "Yukon",
+      "Northwest Territories": "Northwest Territories",
+      "Nunavut": "Nunavut"
+    },
+    "modesMonth": {
+      "01": "January",
+      "02": "February",
+      "03": "March",
+      "04": "April",
+      "05": "May",
+      "06": "June",
+      "07": "July",
+      "08": "August",
+      "09": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+	"CopyButton" : {
       "CopyButton_Title" :  "Copy contents to clipboard",
       "CopyButton_Confirm" : "Data copied (you can now paste into other applications)"
-    }
+	}
   }
 }
