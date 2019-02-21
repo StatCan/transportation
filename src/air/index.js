@@ -427,11 +427,11 @@ function showAreaData() {
         .select("." + selectedRegion)
         .classed("airMapHighlight", true);
 
-    //------------------copy button---------------------------------
-    //need to re-apend the button since table is being re-build 
-    if(cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+    // ------------------copy button---------------------------------
+    // need to re-apend the button since table is being re-build
+    if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
     dataCopyButton(data[selectedDataset][selectedRegion]);
-    //---------------------------------------------------------------
+    // ---------------------------------------------------------------
   };
 
   if (!data[selectedDataset][selectedRegion]) {
@@ -547,36 +547,34 @@ function plotLegend() {
 }
 
 // -----------------------------------------------------------------------------
-  /* Copy Button*/
-  function dataCopyButton(cButtondata) {
+/* Copy Button*/
+function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+  const title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography})];
+  const columns = [""];
 
-    let lines = [];
-    let geography = i18next.t(selectedRegion, {ns: "airGeography"});
-    let title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography}) ];
-    let columns = [""];
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
 
-    for(let concept in cButtondata[0])  if(concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
-    
-    lines.push(title, [], columns);
- 
-     for(let row in cButtondata){
-      let auxRow = [];  
+  lines.push(title, [], columns);
 
-      for(let column in cButtondata[row]){        
-       
-        let value = cButtondata[row][column];
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
 
-        if(column != "date" && column != "total" && !isNaN(value)) value /= 1000;
-        
-        auxRow.push(value);
-        
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
+
+          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+          auxRow.push(value);
+        }
       }
-      
       lines.push(auxRow);
-    } 
-      
-    cButton.data = lines;
-  } 
+    }
+  }
+  cButton.data = lines;
+}
 // -----------------------------------------------------------------------------
 
 i18n.load(["src/i18n"], () => {
@@ -618,14 +616,14 @@ i18n.load(["src/i18n"], () => {
         // Show chart titles based on default menu options
         updateTitles();
 
-        // copy button options    
+        // copy button options
         const cButtonOptions = {
-          pNode : document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})  
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
         };
-        // build nodes on copy button 
+        // build nodes on copy button
         cButton.build(cButtonOptions);
       });
 });

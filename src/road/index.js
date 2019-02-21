@@ -164,7 +164,6 @@ let thisValue;
 
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
-      const innerWidth = 930; // GET FROM SETTINGS
       const mouse = d3.mouse(this);
       const mousex = mouse[0];
 
@@ -257,11 +256,11 @@ function showData() {
 
   updateTitles();
   plotLegend();
-    //------------------copy button---------------------------------
-  //need to re-apend the button since table is being re-build 
+  // ------------------copy button---------------------------------
+  // need to re-apend the button since table is being re-build
   cButton.appendTo(document.getElementById("copy-button-container"));
   dataCopyButton(data[selected]);
-  //---------------------------------------------------------------
+  // ---------------------------------------------------------------
 }
 
 /* -- update map and areaChart titles -- */
@@ -347,35 +346,37 @@ function uiHandler(event) {
 // -----------------------------------------------------------------------------
 /* Copy Button*/
 function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selected, {ns: "roadGeography"});
+  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const columns = [""];
 
-  let lines = [];
-  let geography = i18next.t(selected, {ns: "roadGeography"});  
-  let title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
-  let columns = [""];
-  
-  for(let concept in cButtondata[0]) if(concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}))
-  
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
+
   lines.push(title, [], columns);
 
-  for(let row in cButtondata){
-    let auxRow = [];  
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
 
-    for(let column in cButtondata[row]){
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
 
-      let value = cButtondata[row][column];
+          if (column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
 
-      if(column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
-       
-      auxRow.push(value);
+          auxRow.push(value);
+        }
+      }
+
+      lines.push(auxRow);
     }
-    
-    lines.push(auxRow);
   }
-    
-  cButton.data = lines;
-} 
 
-//-------------------------------------------------------------------------------------
+  cButton.data = lines;
+}
+
+// -------------------------------------------------------------------------------------
 /* Initial page load */
 
 // -----------------------------------------------------------------------------
@@ -408,18 +409,18 @@ i18n.load(["src/i18n"], () => {
         // Show chart titles based on default menu options
         updateTitles();
 
-        // copy button options    
+        // copy button options
         const cButtonOptions = {
-          pNode : document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
           accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
         };
-        // build nodes on copy button 
+        // build nodes on copy button
         cButton.build(cButtonOptions);
-    
+
         // copy button data;
-        dataCopyButton(data[selected]);   
+        dataCopyButton(data[selected]);
       });
 });
 

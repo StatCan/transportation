@@ -127,7 +127,6 @@ const table = d3.select(".tabledata");
 // .attr("id", "modesTable");
 
 function uiHandler(event) {
-
   if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
     selectedGeo = document.getElementById("groups").value;
     selectedMonth = document.getElementById("month").value;
@@ -146,11 +145,10 @@ function uiHandler(event) {
         d3.select("#zeroFlag")
             .text(`Zero international travellers for ${selectedGeo},
               ${thisMonth} ${selectedYear}`);
-      }
-      else{
+      } else {
         d3.select("#zeroFlag")
-            .text(``);
-      } 
+            .text("");
+      }
       showData();
     }
   }
@@ -191,28 +189,29 @@ function filterZeros(d) {
   }
   return returnObject;
 }
-//----------------------- Copy ButtonData function---------------------------------
+// ----------------------- Copy ButtonData function---------------------------------
 function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo + " in " + month + " " + selectedYear + ", by type of transport";
 
-  let lines = [];
-  let geo = i18next.t(selectedGeo, {ns: "modesGeography"});
-  let month = i18next.t(selectedMonth, {ns: "modesMonth"});
-  let tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo  + " in " + month + " " + selectedYear + ", by type of transport";
- 
-  let title = [tableTitle];
-  let columns = [i18next.t("name", {ns: "modes_sankey"}),i18next.t("value", {ns: "modes_sankey"})];
-  let rows = [];
+  const title = [tableTitle];
+  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
+  const rows = [];
 
-  lines.push(title,[],columns);
+  lines.push(title, [], columns);
 
-  for(let node in cButtondata){
-    rows.push([i18next.t(cButtondata[node].name, {ns: "modes"}) , cButtondata[node].value]);
-  };
+  for (const node in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, node)) {
+      rows.push([i18next.t(cButtondata[node].name, {ns: "modes"}), cButtondata[node].value]);
+    }
+  }
 
-  rows.forEach(x => lines.push(x));
-    
+  rows.forEach((x) => lines.push(x));
+
   cButton.data = lines;
-} 
+}
 
 i18n.load(["src/i18n"], function() {
   d3.queue()
@@ -223,19 +222,19 @@ i18n.load(["src/i18n"], function() {
         // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
         drawTable(table, tableSettings, nodes);
         updateTitles();
-         // copy button options    
-        let cButtonOptions = {
-          pNode : document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})       
+        // copy button options
+        const cButtonOptions = {
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
         };
-      
-        // build nodes on copy button 
+
+        // build nodes on copy button
         cButton.build(cButtonOptions);
-  
+
         // copy button data;
-        dataCopyButton(nodes);  
+        dataCopyButton(nodes);
       });
 });
 
