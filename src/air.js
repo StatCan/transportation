@@ -1006,12 +1006,141 @@
 	  };
 	});
 
+	// 21.2.5.3 get RegExp.prototype.flags
+
+	var _flags = function () {
+	  var that = _anObject(this);
+	  var result = '';
+	  if (that.global) result += 'g';
+	  if (that.ignoreCase) result += 'i';
+	  if (that.multiline) result += 'm';
+	  if (that.unicode) result += 'u';
+	  if (that.sticky) result += 'y';
+	  return result;
+	};
+
+	// 21.2.5.3 get RegExp.prototype.flags()
+	if (_descriptors && /./g.flags != 'g') _objectDp.f(RegExp.prototype, 'flags', {
+	  configurable: true,
+	  get: _flags
+	});
+
+	var TO_STRING = 'toString';
+	var $toString = /./[TO_STRING];
+
+	var define = function (fn) {
+	  _redefine(RegExp.prototype, TO_STRING, fn, true);
+	};
+
+	// 21.2.5.14 RegExp.prototype.toString()
+	if (_fails(function () { return $toString.call({ source: 'a', flags: 'b' }) != '/a/b'; })) {
+	  define(function toString() {
+	    var R = _anObject(this);
+	    return '/'.concat(R.source, '/',
+	      'flags' in R ? R.flags : !_descriptors && R instanceof RegExp ? _flags.call(R) : undefined);
+	  });
+	// FF44- RegExp#toString has a wrong name
+	} else if ($toString.name != TO_STRING) {
+	  define(function toString() {
+	    return $toString.call(this);
+	  });
+	}
+
+	var DateProto = Date.prototype;
+	var INVALID_DATE = 'Invalid Date';
+	var TO_STRING$1 = 'toString';
+	var $toString$1 = DateProto[TO_STRING$1];
+	var getTime = DateProto.getTime;
+	if (new Date(NaN) + '' != INVALID_DATE) {
+	  _redefine(DateProto, TO_STRING$1, function toString() {
+	    var value = getTime.call(this);
+	    // eslint-disable-next-line no-self-compare
+	    return value === value ? $toString$1.call(this) : INVALID_DATE;
+	  });
+	}
+
+	var SPECIES = _wks('species');
+
+	var _arraySpeciesConstructor = function (original) {
+	  var C;
+	  if (_isArray(original)) {
+	    C = original.constructor;
+	    // cross-realm fallback
+	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
+	    if (_isObject(C)) {
+	      C = C[SPECIES];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array : C;
+	};
+
+	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+
+
+	var _arraySpeciesCreate = function (original, length) {
+	  return new (_arraySpeciesConstructor(original))(length);
+	};
+
+	// 0 -> Array#forEach
+	// 1 -> Array#map
+	// 2 -> Array#filter
+	// 3 -> Array#some
+	// 4 -> Array#every
+	// 5 -> Array#find
+	// 6 -> Array#findIndex
+
+
+
+
+
+	var _arrayMethods = function (TYPE, $create) {
+	  var IS_MAP = TYPE == 1;
+	  var IS_FILTER = TYPE == 2;
+	  var IS_SOME = TYPE == 3;
+	  var IS_EVERY = TYPE == 4;
+	  var IS_FIND_INDEX = TYPE == 6;
+	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+	  var create = $create || _arraySpeciesCreate;
+	  return function ($this, callbackfn, that) {
+	    var O = _toObject($this);
+	    var self = _iobject(O);
+	    var f = _ctx(callbackfn, that, 3);
+	    var length = _toLength(self.length);
+	    var index = 0;
+	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+	    var val, res;
+	    for (;length > index; index++) if (NO_HOLES || index in self) {
+	      val = self[index];
+	      res = f(val, index, O);
+	      if (TYPE) {
+	        if (IS_MAP) result[index] = res;   // map
+	        else if (res) switch (TYPE) {
+	          case 3: return true;             // some
+	          case 5: return val;              // find
+	          case 6: return index;            // findIndex
+	          case 2: result.push(val);        // filter
+	        } else if (IS_EVERY) return false; // every
+	      }
+	    }
+	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+	  };
+	};
+
 	var _strictMethod = function (method, arg) {
 	  return !!method && _fails(function () {
 	    // eslint-disable-next-line no-useless-call
 	    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
 	  });
 	};
+
+	var $filter = _arrayMethods(2);
+
+	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
+	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+	  filter: function filter(callbackfn /* , thisArg */) {
+	    return $filter(this, callbackfn, arguments[1]);
+	  }
+	});
 
 	var $indexOf = _arrayIncludes(false);
 	var $native = [].indexOf;
@@ -1039,11 +1168,11 @@
 	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
 
 
-	var SPECIES = _wks('species');
+	var SPECIES$1 = _wks('species');
 	var _speciesConstructor = function (O, D) {
 	  var C = _anObject(O).constructor;
 	  var S;
-	  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
+	  return C === undefined || (S = _anObject(C)[SPECIES$1]) == undefined ? D : _aFunction(S);
 	};
 
 	// true  -> String#at
@@ -1113,19 +1242,6 @@
 	  return builtinExec.call(R, S);
 	};
 
-	// 21.2.5.3 get RegExp.prototype.flags
-
-	var _flags = function () {
-	  var that = _anObject(this);
-	  var result = '';
-	  if (that.global) result += 'g';
-	  if (that.ignoreCase) result += 'i';
-	  if (that.multiline) result += 'm';
-	  if (that.unicode) result += 'u';
-	  if (that.sticky) result += 'y';
-	  return result;
-	};
-
 	var nativeExec = RegExp.prototype.exec;
 	// This always refers to the native implementation, because the
 	// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
@@ -1189,7 +1305,7 @@
 	  exec: _regexpExec
 	});
 
-	var SPECIES$1 = _wks('species');
+	var SPECIES$2 = _wks('species');
 
 	var REPLACE_SUPPORTS_NAMED_GROUPS = !_fails(function () {
 	  // #replace needs built-in support for named groups.
@@ -1232,7 +1348,7 @@
 	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
 	      // a new one. We need to return the patched regex when creating the new one.
 	      re.constructor = {};
-	      re.constructor[SPECIES$1] = function () { return re; };
+	      re.constructor[SPECIES$2] = function () { return re; };
 	    }
 	    re[SYMBOL]('');
 	    return !execCalled;
@@ -1574,6 +1690,24 @@
 	        return 0;
 	      } else return Number(d[key]) * 1.0 / 1000;
 	    },
+	    getTotal: function getTotal(d, index, data) {
+	      var total;
+	      var keys;
+	      var sett = this;
+
+	      if (!d[sett.y.totalProperty]) {
+	        keys = sett.z.getKeys.call(sett, data);
+	        total = 0;
+
+	        for (var k = 0; k < keys.length; k++) {
+	          total += sett.y.getValue.call(sett, d, keys[k], data);
+	        }
+
+	        d[sett.y.totalProperty] = total;
+	      }
+
+	      return d[sett.y.totalProperty];
+	    },
 	    getText: function getText(d, key) {
 	      if (d[key] === "x" || d[key] === "..") {
 	        return d[key];
@@ -1614,9 +1748,8 @@
 	    }
 	  },
 	  datatable: true,
-	  tableTitle: i18next.t("tableTitle", {
-	    ns: "airPassengers"
-	  }),
+	  dataTableTotal: true,
+	  // show total in data table
 	  areaTableID: "areaTable",
 	  // summaryId: "chrt-dt-tbl",
 	  transition: true,
@@ -1636,82 +1769,6 @@
 	  }
 
 	  return newData;
-	};
-
-	var settingsAirport = {
-	  alt: i18next.t("alt", {
-	    ns: "airPassengerAirports"
-	  }),
-	  aspectRatio: 16 / 4,
-	  margin: {
-	    top: 20,
-	    right: 10,
-	    bottom: 50,
-	    left: 50
-	  },
-	  filterData: function filterData(data) {
-	    return data;
-	  },
-	  x: {
-	    getValue: function getValue(d) {
-	      return new Date(d.date + "-01");
-	    },
-	    getText: function getText(d) {
-	      return d.date;
-	    },
-	    ticks: 10,
-	    tickSize: 4
-	  },
-	  y: {
-	    getValue: function getValue(d, key) {
-	      if (d[key] === "x" || d[key] === "..") {
-	        return 0;
-	      } else return Number(d[key]) * 1.0 / 1000;
-	    },
-	    getText: function getText(d, key) {
-	      if (d[key] === "x" || d[key] === "..") {
-	        return d[key];
-	      } else return Number(d[key]) * 1.0 / 1000;
-	    },
-	    ticks: 3
-	  },
-	  z: {
-	    getId: function getId(d) {
-	      return d.key;
-	    },
-	    getKeys: function getKeys(object) {
-	      var sett = this;
-	      var keys = Object.keys(object[0]);
-	      keys.splice(keys.indexOf("date"), 1);
-
-	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
-	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
-	      }
-
-	      return keys;
-	    },
-	    getClass: function getClass() {
-	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	        args[_key] = arguments[_key];
-	      }
-
-	      return this.z.getId.apply(this, args);
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "airPassengerAirports"
-	      });
-	    }
-	  },
-	  datatable: true,
-	  // tableTitle: i18next.t("tableTitle", {ns: "airPassengerAirports"}),
-	  tableTitle: i18next.t("tableTitle", {
-	    ns: "airPassengerAirports"
-	  }),
-	  areaTableID: "airportTable",
-	  summaryId: "chrt-dt-tbl1",
-	  transition: false,
-	  width: 500
 	};
 
 	function mapColourScaleFn (svgCB, colourArray, dimExtent) {
@@ -1779,12 +1836,19 @@
 
 	// const majorAirportMode = "majorAirport"; // TODO
 
-	var data = {};
-	var passengerTotals; // let majorTotals; // TODO
+	var data = {
+	  "passengers": {},
+	  "major_airports": {}
+	};
+	var totals;
+	var passengerTotals;
+	var majorTotals; // TODO
 
 	var canadaMap;
-	var selectedYear = 2017; // let selectedMode = passengerMode; // TODO
-
+	var selectedDataset = "passengers";
+	var selectedYear = "2017";
+	var selectedMonth = "01";
+	var selectedDate = selectedYear;
 	var selectedRegion = "CANADA"; // default region for areaChart
 
 	var selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
@@ -1792,11 +1856,15 @@
 	var lineData = {}; // which data set to use. 0 for passenger, 1 for movements/major airports
 	// let dataSet = 0; // TODO
 
-	var formatComma = d3.format(",d"); // -----------------------------------------------------------------------------
+	var formatComma = d3.format(",d");
+	var scalef = 1e3; // -----------------------------------------------------------------------------
 
 	/* SVGs */
 
-	var map = d3.select(".dashboard .map").append("svg"); // map colour bar
+	var map = d3.select(".dashboard .map").append("svg");
+	var movementsButton = d3.select("#major");
+	var passengerButton = d3.select("#movements");
+	var monthDropdown = d3.select("#months"); // map colour bar
 
 	var margin = {
 	  top: 20,
@@ -1807,9 +1875,7 @@
 	var width = 510 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
 	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "airCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
-	var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir");
-	var chart2 = d3.select("#aptChart") // .select(".data")
-	.append("svg").attr("id", "svg_aptChart"); // area chart legend
+	var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir"); // area chart legend
 
 	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "airAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
 	/* -- shim all the SVGs -- */
@@ -1839,6 +1905,30 @@
 
 	/* UI Handler */
 
+	$(".data_set_selector").on("click", function (event) {
+	  if (event.target.id === "major") {
+	    movementsButton.attr("class", "btn btn-primary major data_set_selector").attr("aria-pressed", true);
+	    passengerButton.attr("class", "btn btn-default movements data_set_selector").attr("aria-pressed", false);
+	    monthDropdown.style("visibility", "visible");
+	    selectedDate = selectedYear + "-" + selectedMonth;
+	    selectedDataset = "major_airports";
+	    totals = majorTotals;
+	    getData();
+	    showAreaData();
+	  }
+
+	  if (event.target.id === "movements") {
+	    movementsButton.attr("class", "btn btn-default major data_set_selector").attr("aria-pressed", false);
+	    passengerButton.attr("class", "btn btn-primary movements data_set_selector").attr("aria-pressed", true);
+	    monthDropdown.style("visibility", "hidden");
+	    selectedDate = selectedYear;
+	    selectedDataset = "passengers";
+	    totals = passengerTotals;
+	    getData();
+	    showAreaData();
+	  }
+	});
+
 	function uiHandler(event) {
 	  if (event.target.id === "groups") {
 	    // clear any map region that is highlighted
@@ -1849,7 +1939,31 @@
 
 	  if (event.target.id === "yearSelector") {
 	    selectedYear = document.getElementById("yearSelector").value;
+
+	    if (selectedDataset === "major_airports") {
+	      selectedDate = selectedYear + "-" + selectedMonth;
+	    } else {
+	      selectedDate = selectedYear;
+	    }
+
 	    colorMap();
+	  }
+
+	  if (event.target.id === "monthSelector") {
+	    selectedMonth = document.getElementById("monthSelector").value;
+	    selectedDate = selectedYear + selectedMonth;
+	    colorMap();
+	  }
+	}
+
+	function getData() {
+	  if (!data[selectedDataset][selectedRegion]) {
+	    d3.json("data/air/".concat(selectedDataset, "/").concat(selectedRegion, ".json"), function (err, filedata) {
+	      data[selectedDataset][selectedRegion] = filedata;
+	      showAreaData();
+	    });
+	  } else {
+	    showAreaData();
 	  }
 	} // -----------------------------------------------------------------------------
 
@@ -1871,15 +1985,17 @@
 	      // Highlight map region
 	      d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Tooltip
 
-	      var value = formatComma(passengerTotals[selectedYear][classes[0]] / 1e3);
+	      var value = formatComma(totals[selectedDate][classes[0]] / 1e3);
 	      div.transition().style("opacity", .9);
 	      div.html( // **** CHANGE ns WITH DATASET ****
 	      "<b>" + key + " (" + i18next.t("units", {
 	        ns: "airPassengers"
 	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + // "<td>" + " (" + units + ")</td>" +
-	      "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY + "px");
+	      "</tr>" + "</table>").style("pointer-events", "none");
 	    }
 	  }
+	}).on("mousemove", function () {
+	  div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	}).on("mouseout", function () {
 	  div.transition().style("opacity", 0);
 
@@ -1902,15 +2018,7 @@
 	    selectedRegion = classes[0];
 	    d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Display selected region in stacked area chart
 
-	    if (!data[selectedRegion]) {
-	      d3.json("data/air/passengers/".concat(selectedRegion, ".json"), function (err, filedata) {
-	        data[selectedRegion] = filedata;
-	        showAreaData();
-	      });
-	    } else {
-	      showAreaData();
-	    } // update region displayed in dropdown menu
-
+	    getData(); // update region displayed in dropdown menu
 
 	    d3.select("#groups")._groups[0][0].value = selectedRegion; // ---------------------------------------------------------------------
 	    // zoom
@@ -1954,10 +2062,10 @@
 	/* --  areaChart interactions -- */
 	// vertical line to attach to cursor
 
-	var vertical = d3.select("#annualTimeseries").append("div").attr("class", "linecursor").style("position", "absolute").style("z-index", "0").style("width", "2px").style("height", "310px").style("top", "60px").style("bottom", "70px").style("left", "0px").style("background", "#ccc");
+	var vertical = d3.select("#annualTimeseries").append("div").attr("id", "infoDiv").attr("class", "linecursor").style("position", "absolute").style("z-index", "0").style("width", "2px").style("height", "310px").style("top", "60px").style("bottom", "70px").style("left", "0px").style("background", "#ccc");
 	var idx;
-	var thisValue;
-	var sectorType;
+	var thisValue; // let sectorType;
+
 	d3.select("#annualTimeseries").on("mousemove", function () {
 	  var mouse = d3.mouse(this);
 	  var mousex = mouse[0];
@@ -1975,10 +2083,7 @@
 
 	        if (thisArray[idx]) {
 	          var thisYear = thisArray[idx];
-	          thisValue = formatComma(thisYear[1] - thisYear[0]);
-	          sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {
-	            ns: "airPassengers"
-	          });
+	          thisValue = formatComma(thisYear[1] - thisYear[0]); // const sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
 	        }
 	      }
 	    });
@@ -1994,11 +2099,26 @@
 	    };
 
 	    if (thisValue) {
+	      var thisData = data[selectedDataset][selectedRegion];
+	      var thisDomestic = formatComma(thisData.filter(function (item) {
+	        return item.date === yearDict[idx].toString();
+	      })[0]["domestic"] / scalef);
+	      var thisTrans = formatComma(thisData.filter(function (item) {
+	        return item.date === yearDict[idx].toString();
+	      })[0]["trans_border"] / scalef);
+	      var thisInter = formatComma(thisData.filter(function (item) {
+	        return item.date === yearDict[idx].toString();
+	      })[0]["other_intl"] / scalef);
 	      divArea.transition().style("opacity", .9);
-	      divArea.html("<b>" + sectorType + " (" + i18next.t("units", {
+	      divArea.html("<b>" + "Passenger movements (" + i18next.t("units", {
 	        ns: "airPassengers"
-	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + yearDict[idx] + ": " + thisValue + "</td>" + // "<td>" + " (" + units + ")</td>" +
-	      "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY + "px");
+	      }) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
+	        ns: "airPassengers"
+	      }) + "</b>: " + thisDomestic + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("trans_border", {
+	        ns: "airPassengers"
+	      }) + "</b>: " + thisTrans + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("other_intl", {
+	        ns: "airPassengers"
+	      }) + "</b>: " + thisInter + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY + "px");
 	    }
 	  } // mousex restriction
 
@@ -2026,21 +2146,21 @@
 
 	  var totArr = [];
 
-	  var _arr = Object.keys(passengerTotals[selectedYear]);
+	  var _arr = Object.keys(totals[selectedDate]);
 
 	  for (var _i = 0; _i < _arr.length; _i++) {
 	    var sales = _arr[_i];
-	    totArr.push(passengerTotals[selectedYear][sales]);
+	    totArr.push(totals[selectedDate][sales]);
 	  } // colour map to take data value and map it to the colour of the level bin it belongs to
 
 
 	  dimExtent = d3.extent(totArr);
 	  var colourMap = d3.scaleQuantile().domain([dimExtent[0], dimExtent[1]]).range(colourArray);
 
-	  for (var key in passengerTotals[selectedYear]) {
-	    if (passengerTotals[selectedYear].hasOwnProperty(key)) {
+	  for (var key in totals[selectedDate]) {
+	    if (totals[selectedDate].hasOwnProperty(key)) {
 	      // d3.select(".dashboard .map")
-	      map.select("." + key).style("fill", colourMap(passengerTotals[selectedYear][key]));
+	      map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
 	    }
 	  } // colour bar scale and add label
 
@@ -2060,27 +2180,37 @@
 
 
 	function showAreaData() {
+	  updateTitles();
+
 	  var showChart = function showChart() {
-	    areaChart(chart, settings, data[selectedRegion]); // Highlight region selected from menu on map
+	    areaChart(chart, settings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
 
 	    d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true);
 	  };
 
-	  if (!data[selectedRegion]) {
+	  if (!data[selectedDataset][selectedRegion]) {
 	    return d3.json("data/air/passengers/".concat(selectedRegion, ".json"), function (ptData) {
-	      data[selectedRegion] = ptData;
+	      data[selectedDataset][selectedRegion] = ptData;
 	      showChart();
 	    });
 	  }
 
 	  showChart();
 	}
+
+	function filterDates(data) {
+	  for (var year in data) {
+	    if (data[year].date === selectedDate) {
+	      return data[year];
+	    }
+	  }
+	}
 	/* -- stackedArea chart for airports -- */
 
 
 	var showAirport = function showAirport() {
 	  if (!lineData[selectedAirpt]) {
-	    var fname = "data/air/passengers/".concat(selectedAirpt, ".json");
+	    var fname = "data/air/".concat(selectedDataset, "/").concat(selectedAirpt, ".json");
 	    return d3.json(fname, function (aptData) {
 	      if (aptData) {
 	        var _iteratorNormalCompletion = true;
@@ -2113,21 +2243,21 @@
 	        }
 
 	        lineData[selectedAirpt] = aptData;
-	        areaChart(chart2, settingsAirport, lineData[selectedAirpt]);
-	        d3.select("#svg_aptChart").select(".x.axis").select("text").attr("display", "none"); // Titles
+	        var divData = filterDates(lineData[selectedAirpt]);
+	        div.transition().style("opacity", .9);
+	        div.html( // **** CHANGE ns WITH DATASET ****
+	        "<b>placeholder title</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b> enplaned: " + divData.enplaned + " </td>" + "<td><b> deplaned: " + divData.deplaned + "</td>" + // "<td>" + " (" + units + ")</td>" +
+	        "</tr>" + "</table>").style("pointer-events", "none"); // Titles
 
 	        var fullName = i18next.t(selectedAirpt, {
 	          ns: "airports"
-	        }); // airport chart title
-
-	        d3.select("#svg_aptChart").select(".areaChartTitle").text(fullName); // airport table title
+	        }); // airport table title
 
 	        d3.select("#chrt-dt-tbl1").text("Air passenger traffic at ".concat(fullName, ", (in thousands)"));
 	      }
 	    });
-	  }
+	  } // airport chart title
 
-	  areaChart(chart2, settingsAirport, lineData[selectedAirpt]); // airport chart title
 
 	  d3.select("#svg_aptChart").select(".areaChartTitle").text(i18next.t(selectedAirpt, {
 	    ns: "airports"
@@ -2172,10 +2302,14 @@
 	  });
 	  d3.select("#mapTitleAir").text(i18next.t("mapTitle", {
 	    ns: "airPassengers"
-	  }) + ", " + geography + ", " + selectedYear);
+	  }) + ", " + geography + ", " + selectedDate);
 	  d3.select("#areaTitleAir").text(i18next.t("chartTitle", {
 	    ns: "airPassengers"
 	  }) + ", " + geography);
+	  settings.tableTitle = i18next.t("tableTitle", {
+	    ns: "airPassengers",
+	    geo: geography
+	  });
 	}
 
 	function plotLegend() {
@@ -2194,18 +2328,13 @@
 	    ns: "airPassengers"
 	  }), settings.y.label = i18next.t("y_label", {
 	    ns: "airPassengers"
-	  }), settings.tableTitle = i18next.t("tableTitle", {
-	    ns: "airPassengers"
-	  }), settingsAirport.x.label = i18next.t("x_label", {
-	    ns: "airPassengerAirports"
-	  }), settingsAirport.y.label = i18next.t("y_label", {
-	    ns: "airPassengerAirports"
-	  }), // settingsAirport.tableTitle = i18next.t("tableTitle", {ns: "airPassengerAirports"}),
-	  d3.queue().defer(d3.json, "data/air/passengers/Annual_Totals.json").defer(d3.json, "data/air/major_airports/Annual_Totals.json").defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson").await(function (error, passengerTotal, majorTotal, airports) {
+	  }), d3.queue().defer(d3.json, "data/air/passengers/Annual_Totals.json").defer(d3.json, "data/air/major_airports/Annual_Totals.json").defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson").await(function (error, passengerTotal, majorTotal, airports) {
 	    if (error) throw error;
-	    passengerTotals = passengerTotal; // majorTotals = majorTotal;
-
-	    selectedYear = document.getElementById("yearSelector").value;
+	    totals = passengerTotal;
+	    passengerTotals = passengerTotal;
+	    majorTotals = majorTotal;
+	    selectedDate = document.getElementById("yearSelector").value;
+	    selectedMonth = document.getElementById("monthSelector").value;
 	    canadaMap = getCanadaMap(map).on("loaded", function () {
 	      allAirports = airports;
 	      colorMap();

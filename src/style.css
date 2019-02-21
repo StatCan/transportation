@@ -15,6 +15,9 @@
 	stroke: currentColor;
 }
 
+.tblHeader{
+  text-align: right
+}
 /*road dataset*/
 /*-- tooltip --*/
 .linecursor {
@@ -31,14 +34,14 @@
 }
 .roadCB rect {
 	stroke: black;
-	stroke-width: 0.3;
+	stroke-width: 0;
 }
 .roadAreaCB text {
 	font-size: 16px;
 	fill: #69757c;
 }
 .roadMapHighlight {
-	stroke: #467B8D !important;
+	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
 #svgFuel .area-label {
@@ -58,11 +61,11 @@
 }
 #svgFuel .axis .tick line {
   stroke: #aaa;
-	stroke-width: 2px;
+	stroke-width: 0px;
 }
 #svgFuel .axis path  {
   stroke: #aaa;
-	stroke-width: 2px;
+	stroke-width: 0px;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
@@ -562,7 +565,7 @@ div.tooltip {
 /*map*/
 .canada-map path {
 	fill: #94a6b2;
-	stroke: #bdbdbd;
+	stroke: #fff;
 	stroke-width: 0.3;
 	opacity: 1;
 }
@@ -615,7 +618,7 @@ div.tooltip {
 .USres rect {
 	fill: #CC982A;
 	}
-.nonUS rect {
+.nonUSres rect {
 	fill: #928941;
 	}
 .cdnFromUS rect {
@@ -645,13 +648,13 @@ div.tooltip {
 .USres_other rect {
 		fill: #CC982A;
 }
-.nonUS_land rect {
+.nonUSres_land rect {
 	fill: #928941;
 }
-.nonUS_air rect {
+.nonUSres_air rect {
 	fill: #928941;
 }
-.nonUS_marine rect {
+.nonUSres_marine rect {
 	fill: #928941;
 }
 .cdnFromUS_land rect {

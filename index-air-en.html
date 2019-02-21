@@ -134,7 +134,7 @@
 	<li><a href="http://www.statcan.gc.ca/eng/start">Home</a></li>
 	<li><a href="/census-recensement/index-eng.cfm">Census Program</a></li>
     <li><a href="/census-recensement/2016/dp-pd/index-eng.cfm">Data products, 2016 Census</a></li>
-	<li>Aircraft movements, by class of operation, airports with NAV CANADA towers, 1997–2017</li>
+	<li>Aircraft  , by class of operation, airports with NAV CANADA towers, 1997–2017</li>
 </ol>
 
 ﻿</div>
@@ -155,7 +155,16 @@
 	<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
 	<form onSubmit="return false;">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="column form-group col-md-4">
+				<label id="data_set_change">Change Dataset</label>
+				<div><div class="btn-group" role="group" aria-labelledby="data_set_change">
+					<button id="movements" type="button" class="btn btn-primary movements data_set_selector" aria-pressed="true">Passenger Movements</button>
+					<button id="major" type="button" class="btn btn-default major data_set_selector" aria-pressed="false">Major Airports</button>
+				</div></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
 				<label for="groups_yr">Year</label>
 				<select id="yearSelector" class="form-control">
 					<option value="2017">2017</option>
@@ -168,11 +177,28 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
+			<div id="months" style= "visibility: hidden" class="col-md-3">
+				<label for="groups_month">Month</label>
+				<select  id="monthSelector" class="form-control">
+					<option value="01">January</option>
+					<option value="02">February</option>
+					<option value="03">March</option>
+					<option value="04">April</option>
+					<option value="05">May</option>
+					<option value="06">June</option>
+					<option value="07">July</option>
+					<option value="08">August</option>
+					<option value="09">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
+				</select>
+			</div>
 			<div class="col-md-5">
 				<div class="form-group">
 					<label for="groups">Geographic region:</label>
 					<select id="groups" class="form-control">
-						<option value="CANADA">Total Canadian airports</option>
+            <option selected value="CANADA">Canada</option>
 						<option value="NL">Newfoundland and Labrador</option>
 						<option value="PE">Prince Edward Island</option>
 						<option value="NS">Nova Scotia (no data)</option>

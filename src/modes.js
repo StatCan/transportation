@@ -1140,39 +1140,7 @@
 	  }
 	};
 	function makeSankey (svg, nodes, graph) {
-	  var colourDict = {
-	    // level 1
-	    "intl": "#607890",
-	    // level 2
-	    "USres": "#CC982A",
-	    "nonUSres": "#928941",
-	    "cdnFromUS": "#FFDC68",
-	    "cdnFromOther": "#FAB491",
-	    // level 3
-	    "USres_land": "#CC982A",
-	    "USres_air": "#CC982A",
-	    "USres_marine": "#CC982A",
-	    // level 4 of level 3 USres
-	    "USres_car": "#CC982A",
-	    "USres_bus": "#CC982A",
-	    "USres_train": "#CC982A",
-	    "USres_other": "#CC982A",
-	    "nonUSres_land": "#928941",
-	    "nonUSres_air": "#928941",
-	    "nonUSres_marine": "#928941",
-	    "cdnFromUS_land": "#FFDC68",
-	    "cdnFromUS_air": "#FFDC68",
-	    "cdnFromUS_marine": "#FFDC68",
-	    // level 4 of level 3 cdnFromUS
-	    "cdnFromUS_car": "#FFDC68",
-	    "cdnFromUS_bus": "#FFDC68",
-	    "cdnFromUS_train": "#FFDC68",
-	    "cdnFromUS_other": "#FFDC68",
-	    "cdnFromOther_land": "#FAB491",
-	    "cdnFromOther_air": "#FAB491",
-	    "cdnFromOther_marine": "#FAB491"
-	  }; // set the dimensions and margins of the graph
-
+	  // set the dimensions and margins of the graph
 	  var mergedSettings = defaults;
 	  var outerWidth = mergedSettings.width;
 	  var outerHeight = Math.ceil(outerWidth / mergedSettings.aspectRatio);
@@ -1186,23 +1154,18 @@
 
 	  var format = function format(d) {
 	    return formatNumber(d);
-	  }; // append the svg object to the body of the page
-	  // var svg = d3.select(svgID).append("svg")
-	  //     .attr("width", width + margin.left + margin.right)
-	  //     .attr("height", height + margin.top + margin.bottom)
-	  //   .append("g")
-	  //     .attr("transform",
-	  //           "translate(" + margin.left + "," + margin.top + ")");
+	  };
+
+	  var tooltipShiftY = 90; // amount to raise tooltip in y-dirn
 	  // Set the sankey diagram properties
 
-
-	  var sankey = d3.sankey() // .nodeWidth(36) // defined in sankey_d3v4.js
-	  // .nodePadding(40) // defined in sankey_d3v4.js
-	  .size([innerWidth, innerHeight]);
+	  var sankey = d3.sankey().size([innerWidth, innerHeight]);
 	  var path = sankey.link();
 
 	  function make(graph) {
-	    sankey.nodes(nodes).links(graph.links).layout(32);
+	    sankey.nodes(nodes).links(graph.links).layout(32); // tooltip div
+
+	    var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
 	    if (dataLayer.empty()) {
 	      dataLayer = chartInner.append("g").attr("class", "data");
@@ -1215,11 +1178,20 @@
 	      if (d.value === 0) return 0;
 	    }).sort(function (a, b) {
 	      return b.dy - a.dy;
+	    }).on("mousemove", function (d) {
+	      // Tooltip
+	      var sourceName = d.source.name;
+	      div.transition().style("opacity", .9);
+	      div.html("<b>" + i18next.t(sourceName, {
+	        ns: "modes"
+	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + i18next.t(d.target.name, {
+	        ns: "modes"
+	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	    }).on("mouseout", function (d) {
+	      div.transition().style("opacity", 0);
 	    }); // add the link titles
 
 	    link.append("title").text(function (d) {
-	      // return i18next.t(d.source.name, {ns: "modes"}) + "_to_" +
-	      //         i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
 	      return i18next.t(d.target.name, {
 	        ns: "modes"
 	      }) + "\n" + format(d.value);
@@ -1227,21 +1199,29 @@
 
 	    if (graph.links.length !== 0) {
 	      // add in the nodes
-	      var node = dataLayer.append("g").selectAll(".node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function (d) {
+	      var node = dataLayer.append("g").selectAll(".node").data(nodes).enter().append("g").attr("class", function (d) {
+	        return "node " + d.name; // d.name to fill by class in css
+	      }).attr("transform", function (d) {
 	        return "translate(" + d.x + "," + d.y + ")";
 	      }).call(d3.drag().subject(function (d) {
 	        return d;
 	      }).on("start", function () {
 	        this.parentNode.appendChild(this);
-	      }).on("drag", dragmove)); // add the rectangles for the nodes
+	      }).on("drag", dragmove));
+	      node.on("mousemove", function (d) {
+	        div.transition().style("opacity", .9);
+	        div.html("<b>" + i18next.t(d.name, {
+	          ns: "modes"
+	        }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	      }).on("mouseout", function (d) {
+	        div.transition().style("opacity", 0);
+	      }); // add the rectangles for the nodes
 
 	      node.append("rect").attr("height", function (d) {
 	        return d.dy;
-	      }).attr("width", sankey.nodeWidth()).style("fill", function (d) {
-	        return d.color = colourDict[d.name]; // return d.color = color(d.name.replace(/ .*/, ""));
-	      }).style("stroke", function (d) {
+	      }).attr("width", sankey.nodeWidth()).style("stroke", function (d) {
 	        return d3.rgb(d.color).darker(2);
-	      }).append("title").text(function (d) {
+	      }).text(function (d) {
 	        return i18next.t(d.name, {
 	          ns: "modes"
 	        }) + "\n" + format(d.value);
@@ -1250,7 +1230,6 @@
 	      node.append("text").attr("x", -6).attr("y", function (d) {
 	        return d.dy / 2;
 	      }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
-	        // return i18next.t(d.name, {ns: "modes"});
 	        if (d.value != 0) return i18next.t(d.name, {
 	          ns: "modes"
 	        });
@@ -1486,11 +1465,6 @@
 	var table = d3.select(".tabledata"); // .attr("id", "modesTable");
 
 	function uiHandler(event) {
-	  // Clear any text in #zeroFlag
-	  if (d3.select("#zeroFlag").text() !== "") {
-	    d3.select("#zeroFlag").text("");
-	  }
-
 	  if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
 	    selectedGeo = document.getElementById("groups").value;
 	    selectedMonth = document.getElementById("month").value;
@@ -1520,6 +1494,22 @@
 	  d3.selectAll("svg > *").remove();
 	  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
 	  drawTable(table, tableSettings, nodes);
+	  updateTitles();
+	}
+	/* -- update table title -- */
+
+
+	function updateTitles() {
+	  var thisGeo = i18next.t(selectedGeo, {
+	    ns: "modesGeography"
+	  });
+	  var thisMonth = i18next.t(selectedMonth, {
+	    ns: "modesMonth"
+	  });
+	  var thisTitle = i18next.t("tableTitle", {
+	    ns: "modes_sankey"
+	  }) + " " + thisGeo + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+	  d3.select("#only-dt-tbl").text(thisTitle);
 	}
 
 	function filterZeros(d) {
@@ -1562,12 +1552,12 @@
 	}
 
 	i18n.load(["src/i18n"], function () {
-	  tableSettings.tableTitle = i18next.t("tableTitle", {
-	    ns: "modes_sankey"
-	  }), d3.queue().defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json").await(function (error, json) {
+	  d3.queue().defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json").await(function (error, json) {
 	    data[selectedYear + "-" + selectedMonth] = filterZeros(json);
-	    makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+	    makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]); // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
+
 	    drawTable(table, tableSettings, nodes);
+	    updateTitles();
 	  });
 	});
 	$(document).on("change", uiHandler);
