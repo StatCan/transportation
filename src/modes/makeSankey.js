@@ -88,12 +88,6 @@ export default function(svg, nodes, graph) {
               .style("opacity", 0);
         });
 
-    // add the link titles
-    link.append("title")
-        .text(function(d) {
-          return i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
-        });
-
     // DO NOT PLOT IF DATA IS COMPLETELY ZERO
     if (graph.links.length !== 0) {
       // add in the nodes
