@@ -144,17 +144,17 @@ map.on("click", () => {
 
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
-const vertical = d3.select("#annualTimeseries")
-    .append("div")
-    .attr("class", "linecursor")
-    .style("position", "absolute")
-    .style("z-index", "0")
-    .style("width", "2px")
-    .style("height", "310px")
-    .style("top", "60px")
-    .style("bottom", "70px")
-    .style("left", "0px")
-    .style("background", "#ccc");
+// const vertical = d3.select("#annualTimeseries")
+//     .append("div")
+//     .attr("class", "linecursor")
+//     .style("position", "absolute")
+//     .style("z-index", "0")
+//     .style("width", "2px")
+//     .style("height", "310px")
+//     .style("top", "60px")
+//     .style("bottom", "70px")
+//     .style("left", "0px")
+//     .style("background", "#ccc");
 
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
