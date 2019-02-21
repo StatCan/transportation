@@ -6,8 +6,8 @@ import CopyButton from "../copyButton.js";
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
 
-/*Copy Button */
-//-----------------------------------------------------------------------------
+/* Copy Button */
+// -----------------------------------------------------------------------------
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
 
 // -----------------------------------------------------------------------------
-/* variables */
+/* letiables */
 // For map circles
 let path;
 const defaultPointRadius = 1.3;
@@ -429,8 +429,8 @@ function showAreaData() {
 
     //------------------copy button---------------------------------
     //need to re-apend the button since table is being re-build 
-    if(cButton.pNode) cButton.Append(document.getElementById("copy-button-container"));
-    DataCopyButton(data[selectedDataset][selectedRegion]);
+    if(cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+    dataCopyButton(data[selectedDataset][selectedRegion]);
     //---------------------------------------------------------------
   };
 
@@ -548,23 +548,23 @@ function plotLegend() {
 
 // -----------------------------------------------------------------------------
   /* Copy Button*/
-  function DataCopyButton(cButtondata) {
+  function dataCopyButton(cButtondata) {
 
-    var lines = [];
-    const geography = i18next.t(selectedRegion, {ns: "airGeography"});
-    var title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography}) ];
-    var columns = [""];
+    let lines = [];
+    let geography = i18next.t(selectedRegion, {ns: "airGeography"});
+    let title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography}) ];
+    let columns = [""];
 
-    for(var concept in cButtondata[0])  if(concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
+    for(let concept in cButtondata[0])  if(concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
     
     lines.push(title, [], columns);
  
-     for(var row in cButtondata){
-      var auxRow = [];  
+     for(let row in cButtondata){
+      let auxRow = [];  
 
-      for(var column in cButtondata[row]){        
+      for(let column in cButtondata[row]){        
        
-        var value = cButtondata[row][column];
+        let value = cButtondata[row][column];
 
         if(column != "date" && column != "total" && !isNaN(value)) value /= 1000;
         
@@ -618,15 +618,15 @@ i18n.load(["src/i18n"], () => {
         // Show chart titles based on default menu options
         updateTitles();
 
-        //copy button options    
+        // copy button options    
         const cButtonOptions = {
           pNode : document.getElementById("copy-button-container"),
           title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
           msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
           accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})  
         };
-        //build nodes on copy button 
-        cButton.Build(cButtonOptions);
+        // build nodes on copy button 
+        cButton.build(cButtonOptions);
       });
 });
 
