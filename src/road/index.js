@@ -67,26 +67,32 @@ map.on("mouseover", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    // Highlight map region
-    const selectedPath = d3.select(".dashboard .map")
-        .select("." + classes[0]);
+    if (classes[0] !== "svg-shimmed") {
+      // Highlight map region
+      const selectedPath = d3.select(".dashboard .map")
+          .select("." + classes[0]);
 
-    selectedPath.classed("roadMapHighlight", true);
-    selectedPath.moveToFront();
-    // Tooltip
-    const key = i18next.t(classes[0], {ns: "roadGeography"});
-    const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-    div.transition()
-        .style("opacity", .9);
-    div.html(
-        "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>$" + value + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
-            "</tr>" +
-          "</table>"
-    );
+      selectedPath.classed("roadMapHighlight", true);
+      selectedPath.moveToFront();
+      // Tooltip
+      const key = i18next.t(classes[0], {ns: "roadGeography"});
+      const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+      div.transition()
+          .style("opacity", .9);
+      div.html(
+          "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+            "<table>" +
+              "<tr>" +
+                "<td><b>$" + value + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+              "</tr>" +
+            "</table>"
+      );
+    } else {
+      // clear tooltip for IE
+      div.transition()
+          .style("opacity", 0);
+    }
   }
 })
     .on("mousemove", () => {
@@ -108,6 +114,7 @@ map.on("mouseover", () => {
       }
     });
 map.on("click", () => {
+  console.log("map click");
   // clear any previous clicks
   d3.select(".map")
       .selectAll("path")
@@ -147,74 +154,66 @@ map.on("click", () => {
 
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
-const vertical = d3.select("#annualTimeseries")
-    .append("div")
-    .attr("class", "linecursor")
-    .style("position", "absolute")
-    .style("z-index", "0")
-    .style("width", "2px")
-    .style("height", "310px")
-    .style("top", "60px")
-    .style("bottom", "70px")
-    .style("left", "0px")
-    .style("background", "#ccc");
-
-let idx;
-let thisValue;
+// const vertical = d3.select("#annualTimeseries")
+//     .append("div")
+//     .attr("class", "linecursor")
+//     .style("position", "absolute")
+//     .style("z-index", "0")
+//     .style("width", "2px")
+//     .style("height", "310px")
+//     .style("top", "60px")
+//     .style("bottom", "70px")
+//     .style("left", "0px")
+//     .style("background", "#ccc");
 
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
-      const mouse = d3.mouse(this);
-      const mousex = mouse[0];
+      const innerWidth = 593.4; // svg width
 
-      if (mousex < 599) { // restrict line from going off the x-axis
-        // Find x-axis intervale closest to mousex
-        idx = findXInterval(mousex);
+      data[selected].map(function(d) {
+        return d.date;
+      });
+      const bisectDate = d3.bisector(function(d) {
+        return d.date;
+      }).left;
+      const chartData = data[selected];
 
-        chart
-            .on("mousemove", (d) => {
-              // Tooltip
-              const root = d3.select(d3.event.target);
+      const yearRange = data[selected].map(function(d) {
+        return parseInt(d.date);
+      });
 
-              if (root._groups[0][0].__data__) {
-                const thisArray = root._groups[0][0].__data__;
-                if (thisArray[idx]) {
-                  const thisYear = thisArray[idx];
-                  thisValue = formatComma(thisYear[1] - thisYear[0]);
-                }
-              }
-            });
+      const xDomain = d3.extent(yearRange);
+      console.log("xDomain: ", xDomain);
 
-        const yearDict = {
-          0: 2010, 1: 2011, 2: 2012, 3: 2013, 4: 2014, 5: 2015, 6: 2016, 7: 2017
-        };
+      const x = d3.scaleTime().range([0, innerWidth]).domain(xDomain);
+      const x0 = x.invert(d3.mouse(this)[0]);
+      const i = bisectDate(chartData, x0);
+      console.log(i);
+      console.log("YEAR ", yearRange[i]);
 
-        if (thisValue) {
-          const thisGas = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["gas"] / scalef);
-          const thisDiesel = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["diesel"] / scalef);
-          const thisLPG = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["lpg"] / scalef);
+      const thisGas = formatComma(data[selected].filter((item) => item.date === yearRange[i].toString())[0]["gas"] / scalef);
+      const thisDiesel = formatComma(data[selected].filter((item) => item.date === yearRange[i].toString())[0]["diesel"] / scalef);
+      const thisLPG = formatComma(data[selected].filter((item) => item.date === yearRange[i].toString())[0]["lpg"] / scalef);
 
-          divArea.transition()
-              .style("opacity", .9);
-          divArea.html(
-              "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
-                "</tr>" +
-              "</table>"
-          )
-              .style("left", (d3.event.pageX) + 10 + "px")
-              .style("top", (d3.event.pageY) + 10 + "px")
-              .style("pointer-events", "none");
-        }
-      } // mousex restriction
+      divArea.transition()
+          .style("opacity", .9);
+      divArea.html(
+          "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + yearRange[i] + ":</b>" + "<br><br>" +
+          "<table>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
+            "</tr>" +
+          "</table>"
+      )
+          .style("left", (d3.event.pageX) + 10 + "px")
+          .style("top", (d3.event.pageY) + 10 + "px")
+          .style("pointer-events", "none");
     })
     .on("mouseout", function(d, i) {
       // Clear tooltip
@@ -282,38 +281,6 @@ function plotLegend() {
       .text(function(d, i) {
         return i18next.t(classArray[i], {ns: "roadArea"});
       });
-}
-
-/* -- find year interval closest to cursor for areaChart tooltip -- */
-function findXInterval(mousex) {
-  // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
-  const xref = [62, 149, 234, 321, 404, 491, 576];
-  const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
-    xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
-    xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
-    xref[6] + (xref[1] - xref[0])/2];
-
-  // Plot vertical line at cursor
-  vertical.style("left", mousex + "px" );
-
-  if ( mousex < xrefMid[0] ) {
-    idx = 0;
-  } else if ( mousex < xrefMid[1] ) {
-    idx = 1;
-  } else if ( mousex < xrefMid[2] ) {
-    idx = 2;
-  } else if ( mousex < xrefMid[3] ) {
-    idx = 3;
-  } else if ( mousex < xrefMid[4] ) {
-    idx = 4;
-  } else if ( mousex < xrefMid[5] ) {
-    idx = 5;
-  } else if ( mousex < xrefMid[6] ) {
-    idx = 6;
-  } else if ( mousex > xrefMid[6] ) {
-    idx = 7;
-  }
-  return idx;
 }
 
 // -----------------------------------------------------------------------------
