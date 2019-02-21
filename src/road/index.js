@@ -72,8 +72,6 @@ map.on("mouseover", () => {
       selectedPath.classed("roadMapHighlight", true);
       selectedPath.moveToFront();
       // Tooltip
-      console.log("classes: ", classes);
-      console.log("classes[0]: ", classes[0]);
       const key = i18next.t(classes[0], {ns: "roadGeography"});
       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
       div.transition()
@@ -87,6 +85,10 @@ map.on("mouseover", () => {
               "</tr>" +
             "</table>"
       );
+    } else {
+      // clear tooltip for IE
+      div.transition()
+          .style("opacity", 0);
     }
   }
 })
@@ -109,6 +111,7 @@ map.on("mouseover", () => {
       }
     });
 map.on("click", () => {
+  console.log("map click");
   // clear any previous clicks
   d3.select(".map")
       .selectAll("path")
