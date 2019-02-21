@@ -110,10 +110,10 @@ table, th, td {
 /*-- map --*/
 .airCB rect {
 	stroke: black;
-	stroke-width: 0.3;
+	stroke-width: 0.0;
 }
 .airMapHighlight {
- 	stroke: #467B8D !important;
+ 	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
 
