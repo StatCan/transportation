@@ -114,7 +114,6 @@ map.on("mouseover", () => {
       }
     });
 map.on("click", () => {
-  console.log("map click");
   // clear any previous clicks
   d3.select(".map")
       .selectAll("path")
@@ -183,13 +182,10 @@ d3.select("#annualTimeseries")
       });
 
       const xDomain = d3.extent(yearRange);
-      console.log("xDomain: ", xDomain);
 
       const x = d3.scaleTime().range([0, innerWidth]).domain(xDomain);
       const x0 = x.invert(d3.mouse(this)[0]);
       const i = bisectDate(chartData, x0);
-      console.log(i);
-      console.log("YEAR ", yearRange[i]);
 
       const thisGas = formatComma(data[selected].filter((item) => item.date === yearRange[i].toString())[0]["gas"] / scalef);
       const thisDiesel = formatComma(data[selected].filter((item) => item.date === yearRange[i].toString())[0]["diesel"] / scalef);
