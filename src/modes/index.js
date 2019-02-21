@@ -2,8 +2,8 @@ import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
 import CopyButton from "../copyButton.js";
 
-/*Copy Button */
-//-----------------------------------------------------------------------------
+/* Copy Button */
+// -----------------------------------------------------------------------------
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
@@ -150,7 +150,7 @@ function uiHandler(event) {
       else{
         d3.select("#zeroFlag")
             .text(``);
-      }
+      } 
       showData();
     }
   }
@@ -161,9 +161,9 @@ function showData() {
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
   drawTable(table, tableSettings, nodes);
   updateTitles();
-    //------------------copy button---------------------------------
-    DataCopyButton(nodes);
-    //---------------------------------------------------------------
+  // ------------------copy button---------------------------------
+  dataCopyButton(nodes);
+  // ---------------------------------------------------------------
 }
 
 /* -- update table title -- */
@@ -192,24 +192,24 @@ function filterZeros(d) {
   return returnObject;
 }
 //----------------------- Copy ButtonData function---------------------------------
-function DataCopyButton(cButtondata) {
+function dataCopyButton(cButtondata) {
 
-  var lines = [];
-  const geo = i18next.t(selectedGeo, {ns: "modesGeography"});
-  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo  + " in " + month + " " + selectedYear + ", by type of transport";
+  let lines = [];
+  let geo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  let month = i18next.t(selectedMonth, {ns: "modesMonth"});
+  let tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo  + " in " + month + " " + selectedYear + ", by type of transport";
  
-  var title = [tableTitle];
-  var columns = [i18next.t("name", {ns: "modes_sankey"}),i18next.t("value", {ns: "modes_sankey"})];
-  var rows = [];
+  let title = [tableTitle];
+  let columns = [i18next.t("name", {ns: "modes_sankey"}),i18next.t("value", {ns: "modes_sankey"})];
+  let rows = [];
 
   lines.push(title,[],columns);
 
-  for(var node in cButtondata){
+  for(let node in cButtondata){
     rows.push([i18next.t(cButtondata[node].name, {ns: "modes"}) , cButtondata[node].value]);
   };
 
-  rows.forEach( x => lines.push(x));
+  rows.forEach(x => lines.push(x));
     
   cButton.data = lines;
 } 
@@ -223,19 +223,19 @@ i18n.load(["src/i18n"], function() {
         // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
         drawTable(table, tableSettings, nodes);
         updateTitles();
-         //copy button options    
-      const cButtonOptions = {
-        pNode : document.getElementById("copy-button-container"),
-        title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
-        msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
-        accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})       
-      };
+         // copy button options    
+        let cButtonOptions = {
+          pNode : document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})       
+        };
       
-      //build nodes on copy button 
-      cButton.Build(cButtonOptions);
+        // build nodes on copy button 
+        cButton.build(cButtonOptions);
   
         // copy button data;
-      DataCopyButton(nodes);  
+        dataCopyButton(nodes);  
       });
 });
 
