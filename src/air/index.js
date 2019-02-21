@@ -30,6 +30,7 @@ const lineData = {};
 // let dataSet = 0; // TODO
 
 const formatComma = d3.format(",d");
+const scalef = 1e3;
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -323,16 +324,25 @@ d3.select("#annualTimeseries")
         };
 
         if (thisValue) {
+          const thisData = data[selectedDataset][selectedRegion];
+          const thisDomestic = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["domestic"] / scalef);
+          const thisTrans = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["trans_border"] / scalef);
+          const thisInter = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["other_intl"] / scalef);
           divArea.transition()
               .style("opacity", .9);
           divArea.html(
-              "<b>" + sectorType + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" +
-                "<td><b>" + yearDict[idx] + ": " + thisValue + "</td>" +
-              // "<td>" + " (" + units + ")</td>" +
-              "</tr>" +
-            "</table>"
+              "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+                "</tr>" +
+              "</table>"
           )
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY) + "px");

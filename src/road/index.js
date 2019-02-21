@@ -161,24 +161,25 @@ let thisValue;
 let fuelType;
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
-      const bisectDate = d3.bisector(function(d) { return d[0]; }).left;
-
-      console.log(data)
-      const yearRange = data[selected].map(function(d) { return parseInt(d.date); });
-      console.log("junk: ", yearRange);
-
-      const xDomain = d3.extent(yearRange);
-      console.log("xDomain: ", xDomain);
-
-      const innerWidth = 930; // GET FROM SETTINGS
-      const xScale = d3.scaleTime().range([0, innerWidth]).domain(xDomain);
-      // const yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
-      console.log("xScale: ", xScale);
+      // const bisectDate = d3.bisector(function(d) { return d[0]; }).left;
+      //
+      // console.log(data)
+      // const yearRange = data[selected].map(function(d) { return parseInt(d.date); });
+      // console.log("junk: ", yearRange);
+      //
+      // const xDomain = d3.extent(yearRange);
+      // console.log("xDomain: ", xDomain);
+      //
+      // const innerWidth = 930; // GET FROM SETTINGS
+      // const xScale = d3.scaleTime().range([0, innerWidth]).domain(xDomain);
+      // // const yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
+      // console.log("xScale: ", xScale);
 
       const mouse = d3.mouse(this);
-      const mousex = xScale.invert(mouse[0]); // mouse[0];
-      const thisDate = bisectDate(data[selected], mousex);
-      console.log("thisDate: ", thisDate)
+      const mousex = mouse[0];
+      // const mousex = xScale.invert(mouse[0]); // mouse[0];
+      // const thisDate = bisectDate(data[selected], mousex);
+      // console.log("thisDate: ", thisDate)
 
       if (mousex < 599) { // restrict line from going off the x-axis
         // Find x-axis intervale closest to mousex

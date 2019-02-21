@@ -146,8 +146,10 @@ function uiHandler(event) {
 }
 
 function showData() {
+    console.log(nodes)
   d3.selectAll("svg > *").remove();
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+  console.log( data[selectedYear + "-" + selectedMonth][selectedGeo])
   drawTable(table, tableSettings, nodes);
   updateTitles();
 }
@@ -184,6 +186,7 @@ i18n.load(["src/i18n"], function() {
       .await(function(error, json) {
         data[selectedYear + "-" + selectedMonth] = filterZeros(json);
         makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
+        // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
         drawTable(table, tableSettings, nodes);
         updateTitles();
       });
