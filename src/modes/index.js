@@ -149,6 +149,17 @@ function showData() {
   d3.selectAll("svg > *").remove();
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
   drawTable(table, tableSettings, nodes);
+  updateTitles();
+}
+
+/* -- update table title -- */
+function updateTitles() {
+  const thisGeo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisTitle = "International travellers entering or returning to" + " " + thisGeo
+  + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+
+  d3.select("#only-dt-tbl").text(thisTitle);
 }
 
 function filterZeros(d) {
@@ -168,13 +179,13 @@ function filterZeros(d) {
 }
 
 i18n.load(["src/i18n"], function() {
-  tableSettings.tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}),
   d3.queue()
       .defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json")
       .await(function(error, json) {
         data[selectedYear + "-" + selectedMonth] = filterZeros(json);
         makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
         drawTable(table, tableSettings, nodes);
+        updateTitles();
       });
 });
 
