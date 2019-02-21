@@ -552,13 +552,13 @@ function plotLegend() {
 
     var lines = [];
     const geography = i18next.t(selectedRegion, {ns: "airGeography"});
-    var title = [i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography];
+    var title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography}) ];
     var columns = [""];
 
     for(var concept in cButtondata[0])  if(concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
     
     lines.push(title, [], columns);
-
+ 
      for(var row in cButtondata){
       var auxRow = [];  
 

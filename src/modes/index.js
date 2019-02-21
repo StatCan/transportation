@@ -190,8 +190,11 @@ function filterZeros(d) {
 function DataCopyButton(cButtondata) {
 
   var lines = [];
-
-  var title = [tableSettings.tableTitle];
+  const geo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo  + " in " + month + " " + selectedYear + ", by type of transport";
+ 
+  var title = [tableTitle];
   var columns = [i18next.t("name", {ns: "modes_sankey"}),i18next.t("value", {ns: "modes_sankey"})];
   var rows = [];
 
