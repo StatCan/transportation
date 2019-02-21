@@ -306,7 +306,7 @@ d3.select("#annualTimeseries")
 
       if (mousex < 599) { // restrict line from going off the x-axis
       // Find x-axis intervale closest to mousex
-        idx = findXInterval(mousex);
+        idx = findXInterval(mouse);
 
         chart
             .on("mouseover", (d) => {
@@ -476,36 +476,15 @@ const showAirport = function() {
 };
 
 /* -- find year interval closest to cursor for areaChart tooltip -- */
-function findXInterval(mousex) {
-  console.log(stackedArea.x.invert(mousex))
+function findXInterval(mouse) {
+//  console.log(stackedArea.x.invert(mousex))
+  d3.select("#svg_areaChartAir > g > g.data")
+      .append("circle")
+      .attr("cx", mouse[0])
+      .attr("cy", mouse[1])
+      .attr("r", 25)
+      .style("fill", "purple");
   // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
-  const xref = [62, 149, 234, 321, 404, 491, 576];
-  const xrefMid = [xref[0] + (xref[1] - xref[0])/2, xref[1] + (xref[1] - xref[0])/2,
-    xref[2] + (xref[1] - xref[0])/2, xref[3] + (xref[1] - xref[0])/2,
-    xref[4] + (xref[1] - xref[0])/2, xref[5] + (xref[1] - xref[0])/2,
-    xref[6] + (xref[1] - xref[0])/2];
-
-  // Plot vertical line at cursor
-  vertical.style("left", mousex + "px" );
-
-  if ( mousex < xrefMid[0] ) {
-    idx = 0;
-  } else if ( mousex < xrefMid[1] ) {
-    idx = 1;
-  } else if ( mousex < xrefMid[2] ) {
-    idx = 2;
-  } else if ( mousex < xrefMid[3] ) {
-    idx = 3;
-  } else if ( mousex < xrefMid[4] ) {
-    idx = 4;
-  } else if ( mousex < xrefMid[5] ) {
-    idx = 5;
-  } else if ( mousex < xrefMid[6] ) {
-    idx = 6;
-  } else if ( mousex > xrefMid[6] ) {
-    idx = 7;
-  }
-  return idx;
 }
 
 /* -- update map and areaChart titles -- */

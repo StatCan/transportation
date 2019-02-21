@@ -22,7 +22,7 @@ export default {
     getText: function(d) {
       return d.date;
     },
-    ticks: 7
+    ticks: 8
   },
   y: {
     label: i18next.t("y_label", {ns: "roadArea"}),
@@ -77,5 +77,5 @@ export default {
   tableTitle: "",
   dataTableTotal: true, // show total in data table
   transition: false,
-  width: 1050
+  width: 1050,
 };
