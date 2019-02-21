@@ -64,26 +64,30 @@ map.on("mouseover", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    // Highlight map region
-    const selectedPath = d3.select(".dashboard .map")
-        .select("." + classes[0]);
+    if (classes[0] !== "svg-shimmed") {
+      // Highlight map region
+      const selectedPath = d3.select(".dashboard .map")
+          .select("." + classes[0]);
 
-    selectedPath.classed("roadMapHighlight", true);
-    selectedPath.moveToFront();
-    // Tooltip
-    const key = i18next.t(classes[0], {ns: "roadGeography"});
-    const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-    div.transition()
-        .style("opacity", .9);
-    div.html(
-        "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>$" + value + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
-            "</tr>" +
-          "</table>"
-    );
+      selectedPath.classed("roadMapHighlight", true);
+      selectedPath.moveToFront();
+      // Tooltip
+      console.log("classes: ", classes);
+      console.log("classes[0]: ", classes[0]);
+      const key = i18next.t(classes[0], {ns: "roadGeography"});
+      const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+      div.transition()
+          .style("opacity", .9);
+      div.html(
+          "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+            "<table>" +
+              "<tr>" +
+                "<td><b>$" + value + "</td>" +
+              // "<td>" + " (" + units + ")</td>" +
+              "</tr>" +
+            "</table>"
+      );
+    }
   }
 })
     .on("mousemove", () => {
