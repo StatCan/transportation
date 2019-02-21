@@ -340,6 +340,10 @@
       "tableTitle": "International travellers entering or returning to Canada, by type of transport",
       "name": "Traveller characteristics",
       "value": "Number of travellers"
+    },
+    "CopyButton" : {
+      "CopyButton_Title" :  "Copy contents to clipboard",
+      "CopyButton_Confirm" : "Data copied (you can now paste into other applications)"
     }
   }
 }

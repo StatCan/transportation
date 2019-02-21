@@ -1,9 +1,15 @@
 import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import CopyButton from "../copyButton.js";
 
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
+
+/*Copy Button */
+//-----------------------------------------------------------------------------
+const cButton = new CopyButton();
+// -----------------------------------------------------------------------------
 
 const data = {
   "passengers": {},
@@ -410,6 +416,12 @@ function showAreaData() {
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
         .classed("airMapHighlight", true);
+
+    //------------------copy button---------------------------------
+    //need to re-apend the button since table is being re-build 
+    if(cButton.pNode) cButton.Append(document.getElementById("copy-button-container"));
+    DataCopyButton(data[selectedDataset][selectedRegion]);
+    //---------------------------------------------------------------
   };
 
   if (!data[selectedDataset][selectedRegion]) {
@@ -523,6 +535,38 @@ function plotLegend() {
         return i18next.t(classArray[i], {ns: "airPassengers"});
       });
 }
+
+// -----------------------------------------------------------------------------
+  /* Copy Button*/
+  function DataCopyButton(cButtondata) {
+
+    var lines = [];
+    const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+    var title = [i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography];
+    var columns = [""];
+
+    for(var concept in cButtondata[0])  if(concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
+    
+    lines.push(title, [], columns);
+
+     for(var row in cButtondata){
+      var auxRow = [];  
+
+      for(var column in cButtondata[row]){        
+       
+        var value = cButtondata[row][column];
+
+        if(column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+        
+        auxRow.push(value);
+        
+      }
+      
+      lines.push(auxRow);
+    } 
+      
+    cButton.data = lines;
+  } 
 // -----------------------------------------------------------------------------
 
 i18n.load(["src/i18n"], () => {
@@ -563,6 +607,16 @@ i18n.load(["src/i18n"], () => {
         plotLegend();
         // Show chart titles based on default menu options
         updateTitles();
+
+        //copy button options    
+        const cButtonOptions = {
+          pNode : document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})  
+        };
+        //build nodes on copy button 
+        cButton.Build(cButtonOptions);
       });
 });
 

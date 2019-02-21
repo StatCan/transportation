@@ -2,12 +2,17 @@ import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import CopyButton from "../copyButton.js";
 
 const data = {};
 let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
 const formatComma = d3.format(",d");
+
+/*Copy Button */
+//-----------------------------------------------------------------------------
+const cButton = new CopyButton();
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -244,6 +249,11 @@ function showData() {
 
   updateTitles();
   plotLegend();
+    //------------------copy button---------------------------------
+  //need to re-apend the button since table is being re-build 
+  cButton.Append(document.getElementById("copy-button-container"));
+  DataCopyButton(data[selected]);
+  //---------------------------------------------------------------
 }
 
 /* -- update map and areaChart titles -- */
@@ -327,6 +337,41 @@ function uiHandler(event) {
 }
 
 // -----------------------------------------------------------------------------
+/* Copy Button*/
+function DataCopyButton(cButtondata) {
+
+  var lines = [];
+
+  const geography = i18next.t(selected, {ns: "roadGeography"});  
+  var title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  var columns = [""];
+  
+  for(var concept in cButtondata[0]) if(concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}))
+  
+  lines.push(title, [], columns);
+
+  for(var row in cButtondata){
+    var auxRow = [];  
+
+    for(var column in cButtondata[row]){
+
+      var value = cButtondata[row][column];
+
+      if(column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
+       
+      auxRow.push(value);
+    }
+    
+    lines.push(auxRow);
+  }
+    
+  cButton.data = lines;
+} 
+
+//-------------------------------------------------------------------------------------
+/* Initial page load */
+
+// -----------------------------------------------------------------------------
 /* Initial page load */
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
@@ -355,6 +400,19 @@ i18n.load(["src/i18n"], () => {
 
         // Show chart titles based on default menu options
         updateTitles();
+
+          //copy button options    
+          const cButtonOptions = {
+            pNode : document.getElementById("copy-button-container"),
+            title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
+            msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
+            accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+          };
+          //build nodes on copy button 
+          cButton.Build(cButtonOptions);
+      
+            // copy button data;
+          DataCopyButton(data[selected]);   
       });
 });
 

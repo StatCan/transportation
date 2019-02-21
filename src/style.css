@@ -687,3 +687,60 @@ div.tooltip {
 .cdnFromOther_marine rect {
 	fill: #FAB491;
 }
+
+/* copy button */
+.copy-button .copy-confirm {    
+	visibility: hidden;
+	position: absolute;
+	top: 825px;
+	right: 75px;
+	background: #eaebed;
+	line-height: 25px;
+	border-radius: 4px;
+	border: solid thin black;
+	padding: 5px;
+	color: #333;
+	
+	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+}
+
+.copy-button  .btn.btn-primary.copy .clipboard{
+	font-size: 18px;	 
+}
+
+.copy-button {
+	text-align: right;
+	
+}
+/* Fade In Fade Out */
+.fadeIn {
+	-webkit-animation: fadeIn 0.5s forwards;
+	animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+@-webkit-keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+.fadeOut {
+	-webkit-animation: fadeOut 0.5s forwards;
+	animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+@-webkit-keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
+}

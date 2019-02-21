@@ -1,5 +1,11 @@
 import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
+import CopyButton from "../copyButton.js";
+
+/*Copy Button */
+//-----------------------------------------------------------------------------
+const cButton = new CopyButton();
+// -----------------------------------------------------------------------------
 
 let selectedGeo = "Canada";
 
@@ -149,6 +155,10 @@ function showData() {
   d3.selectAll("svg > *").remove();
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
   drawTable(table, tableSettings, nodes);
+
+    //------------------copy button---------------------------------
+    DataCopyButton(nodes);
+    //---------------------------------------------------------------
 }
 
 function filterZeros(d) {
@@ -166,6 +176,25 @@ function filterZeros(d) {
   }
   return returnObject;
 }
+//----------------------- Copy ButtonData function---------------------------------
+function DataCopyButton(cButtondata) {
+
+  var lines = [];
+
+  var title = [tableSettings.tableTitle];
+  var columns = [i18next.t("name", {ns: "modes_sankey"}),i18next.t("value", {ns: "modes_sankey"})];
+  var rows = [];
+
+  lines.push(title,[],columns);
+
+  for(var node in cButtondata){
+    rows.push([i18next.t(cButtondata[node].name, {ns: "modes"}) , cButtondata[node].value]);
+  };
+
+  rows.forEach( x => lines.push(x));
+    
+  cButton.data = lines;
+} 
 
 i18n.load(["src/i18n"], function() {
   tableSettings.tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}),
@@ -175,6 +204,20 @@ i18n.load(["src/i18n"], function() {
         data[selectedYear + "-" + selectedMonth] = filterZeros(json);
         makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
         drawTable(table, tableSettings, nodes);
+
+         //copy button options    
+      const cButtonOptions = {
+        pNode : document.getElementById("copy-button-container"),
+        title: i18next.t("CopyButton_Title", {ns: "CopyButton"}), 
+        msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}), 
+        accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})       
+      };
+      
+      //build nodes on copy button 
+      cButton.Build(cButtonOptions);
+  
+        // copy button data;
+      DataCopyButton(nodes);  
       });
 });
 
