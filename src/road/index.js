@@ -165,47 +165,6 @@ d3.select("#annualTimeseries")
       const mouse = d3.mouse(this);
       const mousex = mouse[0];
 
-      // const parseDate = d3.utcParse("%Y");
-      // console.log(data[selected].map(function(d) { return parseDate(d.date); }))
-      // const bisectDate = d3.bisector(function(d) {
-      //   console.log("d[0]: ", d[0])
-      //   return d[0];
-      // }).left;
-      //
-      // const formatValue = d3.format(",.2f");
-      // const formatCurrency = function(d) { return "$" + formatValue(d); };
-      //
-      // const x = d3.scaleTime()
-      //     .range([0, innerWidth]);
-      //
-      // // const xAxis = d3.axisBottom()
-      // //     .scale(x)
-      // //     .orient("bottom");
-      // //
-      // // var x0 = x.invert(d3.mouse(this)[0]);
-      // // console.log("x0: ", x0)
-      //
-      //
-      // const yearRange = data[selected].map(function(d) { return parseInt(d.date); });
-      // console.log("yearRange: ", yearRange);
-      //
-      // const xDomain = d3.extent(yearRange);
-      // console.log("xDomain: ", xDomain);
-
-
-      // const xScale = d3.scaleTime().range([0, innerWidth]).domain(xDomain);
-
-      //
-      // console.log("mouse[0]: ", mouse[0])
-      // const mousexScale = xScale.invert(mouse[0]);
-      // // const mousexScale = chart.x.invert(mouse[0]);
-      // console.log("mousexScale: ", mousexScale)
-      // console.log("xScale(2015): ", xScale(2015));
-      // console.log("xScale(mousexScale): ", xScale(mousexScale));
-      //
-      // const thisDate = bisectDate(data[selected], mousexScale);
-      // console.log("thisDate: ", thisDate)
-
       if (mousex < 599) { // restrict line from going off the x-axis
         // Find x-axis intervale closest to mousex
         idx = findXInterval(mousex);
