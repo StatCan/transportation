@@ -8,6 +8,7 @@ let mapData = {};
 let selected = "CANADA";
 let selectedYear = "2017";
 const formatComma = d3.format(",d");
+const scalef = 1e3;
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -71,7 +72,7 @@ map.on("mouseover", () => {
     selectedPath.moveToFront();
     // Tooltip
     const key = i18next.t(classes[0], {ns: "roadGeography"});
-    const value = formatComma(mapData[selectedYear][classes[0]] / 1e3);
+    const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
     div.transition()
         .style("opacity", .9);
     div.html(
@@ -176,8 +177,8 @@ d3.select("#annualTimeseries")
                 const thisArray = root._groups[0][0].__data__;
                 if (thisArray[idx]) {
                   const thisYear = thisArray[idx];
+                  console.log("thisArray: ", thisArray)
                   thisValue = formatComma(thisYear[1] - thisYear[0]);
-                  fuelType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "roadArea"});
                 }
               }
             });
@@ -187,14 +188,23 @@ d3.select("#annualTimeseries")
         };
 
         if (thisValue) {
+          const thisGas = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["gas"] / scalef);
+          const thisDiesel = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["diesel"] / scalef);
+          const thisLPG = formatComma(data[selected].filter((item) => item.date === yearDict[idx].toString())[0]["lpg"] / scalef);
+
           divArea.transition()
               .style("opacity", .9);
           divArea.html(
-              "<b>" + fuelType + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+              "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" +
               "<table>" +
                 "<tr>" +
-                  "<td><b>" + yearDict[idx] + ": $" + thisValue + "</td>" +
-              // "<td>" + " (" + units + ")</td>" +
+                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
                 "</tr>" +
               "</table>"
           )
