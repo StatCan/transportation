@@ -1189,12 +1189,6 @@
 	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
-	    }); // add the link titles
-
-	    link.append("title").text(function (d) {
-	      return i18next.t(d.target.name, {
-	        ns: "modes"
-	      }) + "\n" + format(d.value);
 	    }); // DO NOT PLOT IF DATA IS COMPLETELY ZERO
 
 	    if (graph.links.length !== 0) {

@@ -1977,21 +1977,23 @@
 	    // const classes = d3.event.target.classList;
 	    var classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-	    var key = i18next.t(classes[0], {
-	      ns: "airGeography"
-	    });
+	    if (classes[0] !== "svg-shimmed") {
+	      var key = i18next.t(classes[0], {
+	        ns: "airGeography"
+	      });
 
-	    if (key !== "airport") {
-	      // Highlight map region
-	      d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Tooltip
+	      if (key !== "airport") {
+	        // Highlight map region
+	        d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Tooltip
 
-	      var value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-	      div.transition().style("opacity", .9);
-	      div.html( // **** CHANGE ns WITH DATASET ****
-	      "<b>" + key + " (" + i18next.t("units", {
-	        ns: "airPassengers"
-	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + // "<td>" + " (" + units + ")</td>" +
-	      "</tr>" + "</table>").style("pointer-events", "none");
+	        var value = formatComma(totals[selectedDate][classes[0]] / 1e3);
+	        div.transition().style("opacity", .9);
+	        div.html( // **** CHANGE ns WITH DATASET ****
+	        "<b>" + key + " (" + i18next.t("units", {
+	          ns: "airPassengers"
+	        }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + // "<td>" + " (" + units + ")</td>" +
+	        "</tr>" + "</table>").style("pointer-events", "none");
+	      }
 	    }
 	  }
 	}).on("mousemove", function () {
