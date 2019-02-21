@@ -294,7 +294,7 @@ const vertical = d3.select("#annualTimeseries")
 
 let idx;
 let thisValue;
-let sectorType;
+// let sectorType;
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
       const mouse = d3.mouse(this);
@@ -314,7 +314,7 @@ d3.select("#annualTimeseries")
                 if (thisArray[idx]) {
                   const thisYear = thisArray[idx];
                   thisValue = formatComma(thisYear[1] - thisYear[0]);
-                  sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
+                  // const sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
                 }
               }
             });

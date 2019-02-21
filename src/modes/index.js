@@ -146,10 +146,8 @@ function uiHandler(event) {
 }
 
 function showData() {
-    console.log(nodes)
   d3.selectAll("svg > *").remove();
   makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-  console.log( data[selectedYear + "-" + selectedMonth][selectedGeo])
   drawTable(table, tableSettings, nodes);
   updateTitles();
 }
@@ -158,7 +156,7 @@ function showData() {
 function updateTitles() {
   const thisGeo = i18next.t(selectedGeo, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisTitle =  i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
+  const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
   + " in " + thisMonth + " " + selectedYear + ", by type of transport";
 
   d3.select("#only-dt-tbl").text(thisTitle);
