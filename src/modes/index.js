@@ -112,6 +112,17 @@ const nodes = [
 ];
 // ------------
 
+const loadData = function(selectedYear, selectedMonth, cb) {
+  if (!data[selectedYear + "-" + selectedMonth]) {
+    d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, json) {
+      data[selectedYear + "-" + selectedMonth] = json;
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
+
 // SVGs
 const sankeyChart = d3.select("#sankeyGraph")
     .append("svg")
@@ -126,29 +137,34 @@ function uiHandler(event) {
     selectedMonth = document.getElementById("month").value;
     selectedYear = document.getElementById("year").value;
 
-    if (!data[selectedYear + "-" + selectedMonth]) {
-      d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, filedata) {
-        data[selectedYear + "-" + selectedMonth] = filterZeros(filedata);
-        showData();
-      });
-    } else {
+    loadData(selectedYear, selectedMonth, () => {
       const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
 
-      if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
+      if (data[selectedYear + "-" + selectedMonth][selectedGeo].length === 0) {
         d3.selectAll("svg > *").remove();
         d3.select("#zeroFlag")
             .text(`Zero international travellers for ${selectedGeo},
               ${thisMonth} ${selectedYear}`);
       }
       showData();
-    }
+    });
   }
 }
 
 function showData() {
   d3.selectAll("svg > *").remove();
-  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-  drawTable(table, tableSettings, nodes);
+
+  makeSankey(sankeyChart, {}, {
+    nodes,
+    links: data[selectedYear + "-" + selectedMonth][selectedGeo]
+  });
+  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedGeo].map((d) => {
+    return {
+      source: nodes[d.source],
+      target: nodes[d.target],
+      value: d.value
+    };
+  }));
   updateTitles();
 }
 
@@ -162,32 +178,8 @@ function updateTitles() {
   d3.select("#only-dt-tbl").text(thisTitle);
 }
 
-function filterZeros(d) {
-  const returnObject = {};
-  for (const geo in d) {
-    if (Object.prototype.hasOwnProperty.call(d, geo)) {
-      returnObject[geo] = {};
-      returnObject[geo].links = [];
-      for (const val of d[geo]) {
-        if (val.value !==0) {
-          returnObject[geo].links.push(val);
-        }
-      }
-    }
-  }
-  return returnObject;
-}
-
 i18n.load(["src/i18n"], function() {
-  d3.queue()
-      .defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json")
-      .await(function(error, json) {
-        data[selectedYear + "-" + selectedMonth] = filterZeros(json);
-        makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-        // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
-        drawTable(table, tableSettings, nodes);
-        updateTitles();
-      });
+  loadData(selectedYear, selectedMonth, showData);
 });
 
 $(document).on("change", uiHandler);
