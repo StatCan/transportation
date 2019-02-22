@@ -20,6 +20,12 @@
 }
 /*road dataset*/
 /*-- tooltip --*/
+.hoverLine {
+   stroke: #000;
+   stroke-width: 1px;
+   opacity: 1;
+   pointer-events: none;
+}
 .linecursor {
 	margin-left: 63px;
 }
