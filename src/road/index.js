@@ -10,7 +10,7 @@ let selectedYear = "2017";
 const formatComma = d3.format(",d");
 const scalef = 1e3;
 
-let stackedChart; // stores areaChart() callf
+let stackedChart; // stores areaChart() call
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -61,7 +61,6 @@ const divArea = d3.select("body")
 let hoverLine = chart.append("line")
     .attr("class", "hoverLine")
     .style("display", "none");
-// let overlayRect;
 
 // -----------------------------------------------------------------------------
 /* Interactions */
@@ -88,7 +87,6 @@ map.on("mouseover", () => {
             "<table>" +
               "<tr>" +
                 "<td><b>$" + value + "</td>" +
-              // "<td>" + " (" + units + ")</td>" +
               "</tr>" +
             "</table>"
       );
@@ -99,24 +97,24 @@ map.on("mouseover", () => {
     }
   }
 })
-    .on("mousemove", () => {
-      div
-          .style("left", ((d3.event.pageX +10) + "px"))
-          .style("top", ((d3.event.pageY +10) + "px"));
-    }).on("mouseout", () => {
-      div.transition()
-          .style("opacity", 0);
+  .on("mousemove", () => {
+    div
+        .style("left", ((d3.event.pageX +10) + "px"))
+        .style("top", ((d3.event.pageY +10) + "px"));
+  }).on("mouseout", () => {
+    div.transition()
+        .style("opacity", 0);
 
-      if (selected) {
-        d3.select(".map")
-            .selectAll("path:not(." + selected + ")")
-            .classed("roadMapHighlight", false);
-      } else {
-        d3.select(".map")
-            .selectAll("path")
-            .classed("roadMapHighlight", false);
-      }
-    });
+    if (selected) {
+      d3.select(".map")
+          .selectAll("path:not(." + selected + ")")
+          .classed("roadMapHighlight", false);
+    } else {
+      d3.select(".map")
+          .selectAll("path")
+          .classed("roadMapHighlight", false);
+    }
+  });
 map.on("click", () => {
   console.log("map click");
   // clear any previous clicks
@@ -132,6 +130,7 @@ map.on("click", () => {
     d3.select(".dashboard .map")
         .select("." + classes[0])
         .classed("roadMapHighlight", true);
+    updateTitles();
 
     // Display selected region in stacked area chart
     if (!data[selected]) {
@@ -147,13 +146,13 @@ map.on("click", () => {
   } else {
     // reset area chart to Canada
     selected = "CANADA";
+    updateTitles();
     showData();
 
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selected;
   }
-  // Chart titles
-  updateTitles();
+
 });
 
 /* --  areaChart interactions -- */
@@ -210,25 +209,23 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
   d3.select("#cbID").text(mapScaleLabel);
-
-  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- display areaChart -- */
 function showData() {
   stackedChart = areaChart(chart, settings, data[selected]);
   d3.select("#svgFuel").select(".x.axis")
-      .select("text")
-      // .attr("dy", xaxisLabeldy)
-      .attr("display", "none");
+    .select("text")
+    .attr("display", "none");
+
+  areaInteraction();
+  plotHoverLine();
+  plotLegend();
 
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
-      .select("." + selected)
-      .classed("roadMapHighlight", true);
-
-  updateTitles();
-  plotLegend();
+    .select("." + selected)
+    .classed("roadMapHighlight", true);
 }
 
 /* -- find dta values closest to cursor for areaChart tooltip -- */
@@ -301,6 +298,18 @@ function plotHoverLine() {
 }
 
 // -----------------------------------------------------------------------------
+/* load data fn */
+const loadData = function(selected, cb) {
+  if (!data[selected]) {
+    d3.json("data/road/" + selected + ".json", function(err, filedata) {
+      data[selected] = filedata;
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
+
 /* uiHandler*/
 function uiHandler(event) {
   if (event.target.id === "groups") {
@@ -308,21 +317,17 @@ function uiHandler(event) {
 
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("roadMapHighlight", false);
+    
     // Chart titles
     updateTitles();
 
-    if (!data[selected]) {
-      d3.json("data/road/" + selected + ".json", function(err, filedata) {
-        data[selected] = filedata;
-        showData();
-      });
-    } else {
+    loadData(selected, () => {
       showData();
-    }
+    });
   }
+
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    updateTitles(); // update to reflect new menu selections for all charts
     colorMap();
   }
 }
@@ -345,18 +350,8 @@ i18n.load(["src/i18n"], () => {
               colorMap();
             });
 
-        // Area chart, hover line and legend
-        stackedChart = areaChart(chart, settings, data[selected]);
-        areaInteraction();
-        plotHoverLine();
-        plotLegend();
-        // Remove x-axis label
-        d3.select("#svgFuel").select(".x.axis")
-            .select("text")
-            .attr("display", "none");
-
-        // Show chart titles based on default menu options
-        updateTitles();
+        showData(); // plot area chart, legend, and hover line
+        updateTitles(); // update chart, map and table titles
       });
 });
 
