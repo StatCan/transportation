@@ -5,7 +5,7 @@ import areaLegendFn from "../areaLegendFn.js";
 
 const data = {};
 let mapData = {};
-let selected = "CANADA";
+let selectedRegion = "CANADA";
 let selectedYear = "2017";
 const formatComma = d3.format(",d");
 const scalef = 1e3;
@@ -105,9 +105,9 @@ map.on("mouseover", () => {
     div.transition()
         .style("opacity", 0);
 
-    if (selected) {
+    if (selectedRegion) {
       d3.select(".map")
-          .selectAll("path:not(." + selected + ")")
+          .selectAll("path:not(." + selectedRegion + ")")
           .classed("roadMapHighlight", false);
     } else {
       d3.select(".map")
@@ -126,27 +126,27 @@ map.on("click", () => {
         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    selected = classes[0];
+    selectedRegion = classes[0];
     d3.select(".dashboard .map")
         .select("." + classes[0])
         .classed("roadMapHighlight", true);
     updateTitles();
 
     // Display selected region in stacked area chart
-    loadData(selected, () => {
+    loadData(selectedRegion, () => {
       showData();
     });
 
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selected;
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
   } else {
     // reset area chart to Canada
-    selected = "CANADA";
+    selectedRegion = "CANADA";
     updateTitles();
     showData();
 
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selected;
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
   }
 
 });
@@ -209,7 +209,7 @@ function colorMap() {
 
 /* -- display areaChart -- */
 function showData() {
-  stackedChart = areaChart(chart, settings, data[selected]);
+  stackedChart = areaChart(chart, settings, data[selectedRegion]);
   d3.select("#svgFuel").select(".x.axis")
     .select("text")
     .attr("display", "none");
@@ -220,7 +220,7 @@ function showData() {
 
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
-    .select("." + selected)
+    .select("." + selectedRegion)
     .classed("roadMapHighlight", true);
 }
 
@@ -230,7 +230,7 @@ function findAreaData(mousex) {
     return d.date;
   }).left;
   const x0 = stackedChart.x.invert(mousex);
-  const chartData = data[selected];
+  const chartData = data[selectedRegion];
   let d;
   const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
 
@@ -250,7 +250,7 @@ function findAreaData(mousex) {
 
 /* -- update map and areaChart titles -- */
 function updateTitles() {
-  const geography = i18next.t(selected, {ns: "roadGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
   d3.select("#mapTitleRoad")
       .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
@@ -295,10 +295,10 @@ function plotHoverLine() {
 
 // -----------------------------------------------------------------------------
 /* load data fn */
-const loadData = function(selected, cb) {
-  if (!data[selected]) {
-    d3.json("data/road/" + selected + ".json", function(err, filedata) {
-      data[selected] = filedata;
+const loadData = function(selectedRegion, cb) {
+  if (!data[selectedRegion]) {
+    d3.json("data/road/" + selectedRegion + ".json", function(err, filedata) {
+      data[selectedRegion] = filedata;
       cb();
     });
   } else {
@@ -309,7 +309,7 @@ const loadData = function(selected, cb) {
 /* uiHandler*/
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value;
+    selectedRegion = document.getElementById("groups").value;
 
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("roadMapHighlight", false);
@@ -317,7 +317,7 @@ function uiHandler(event) {
     // Chart titles
     updateTitles();
 
-    loadData(selected, () => {
+    loadData(selectedRegion, () => {
       showData();
     });
   }
@@ -333,13 +333,13 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "roadGeography"})}),
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, mapfile, areafile) {
         mapData = mapfile;
-        data[selected] = areafile;
+        data[selectedRegion] = areafile;
 
         getCanadaMap(map)
             .on("loaded", function() {
