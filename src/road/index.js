@@ -61,7 +61,7 @@ const divArea = d3.select("body")
 let hoverLine = chart.append("line")
     .attr("class", "hoverLine")
     .style("display", "none");
-let overlayRect;
+// let overlayRect;
 
 // -----------------------------------------------------------------------------
 /* Interactions */
@@ -326,7 +326,7 @@ i18n.load(["src/i18n"], () => {
         areaInteraction();
 
         // overlay rect
-        overlayRect = d3.select("#svgFuel .data").append("rect")
+        const overlayRect = d3.select("#svgFuel .data").append("rect")
           .style("fill", "none")
           .style("pointer-events", "all")
           .attr("class", "overlay")
@@ -334,11 +334,13 @@ i18n.load(["src/i18n"], () => {
             hoverLine.style("display", "none");
           })
           .on("mousemove", function(){
-            console.log(d3.mouse(this)[0])
-            hoverLine.style("display", "none");
+            hoverLine.style("display", "inline");
             hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
             hoverLine.moveToFront()
           });
+        overlayRect
+          .attr("width", stackedChart.settings.innerWidth)
+          .attr("height", stackedChart.settings.innerHeight)
 
         hoverLine
           .attr("x1", stackedChart.settings.margin.left)
