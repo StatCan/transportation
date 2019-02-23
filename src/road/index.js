@@ -133,14 +133,10 @@ map.on("click", () => {
     updateTitles();
 
     // Display selected region in stacked area chart
-    if (!data[selected]) {
-      d3.json("data/road/" + selected + ".json", function(err, filedata) {
-        data[selected] = filedata;
-        showData();
-      });
-    } else {
+    loadData(selected, () => {
       showData();
-    }
+    });
+
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selected;
   } else {
