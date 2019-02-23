@@ -10,7 +10,7 @@ let selectedYear = "2017";
 const formatComma = d3.format(",d");
 const scalef = 1e3;
 
-let stackedChart; // stores areaChart() call
+let stackedChart; // stores areaChart() callf
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -231,7 +231,7 @@ function showData() {
   plotLegend();
 }
 
-/* -- find year interval closest to cursor for areaChart tooltip -- */
+/* -- find dta values closest to cursor for areaChart tooltip -- */
 function findAreaData(mousex) {
   const bisectDate = d3.bisector(function(d) {
     return d.date;
@@ -274,6 +274,30 @@ function plotLegend() {
       .text(function(d, i) {
         return i18next.t(classArray[i], {ns: "roadArea"});
       });
+}
+
+function plotHoverLine() {
+  const overlayRect = d3.select("#svgFuel .data").append("rect")
+    .style("fill", "none")
+    .style("pointer-events", "all")
+    .attr("class", "overlay")
+    .on("mouseout", function() {
+      hoverLine.style("display", "none");
+    })
+    .on("mousemove", function(){
+      hoverLine.style("display", "inline");
+      hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
+      hoverLine.moveToFront()
+    });
+  overlayRect
+    .attr("width", stackedChart.settings.innerWidth)
+    .attr("height", stackedChart.settings.innerHeight)
+
+  hoverLine
+    .attr("x1", stackedChart.settings.margin.left)
+    .attr("x2", stackedChart.settings.margin.left)
+    .attr("y1", stackedChart.settings.margin.top)
+    .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
 }
 
 // -----------------------------------------------------------------------------
@@ -321,34 +345,10 @@ i18n.load(["src/i18n"], () => {
               colorMap();
             });
 
-        // Area chart and x-axis position
+        // Area chart, hover line and legend
         stackedChart = areaChart(chart, settings, data[selected]);
         areaInteraction();
-
-        // overlay rect
-        const overlayRect = d3.select("#svgFuel .data").append("rect")
-          .style("fill", "none")
-          .style("pointer-events", "all")
-          .attr("class", "overlay")
-          .on("mouseout", function() {
-            hoverLine.style("display", "none");
-          })
-          .on("mousemove", function(){
-            hoverLine.style("display", "inline");
-            hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-            hoverLine.moveToFront()
-          });
-        overlayRect
-          .attr("width", stackedChart.settings.innerWidth)
-          .attr("height", stackedChart.settings.innerHeight)
-
-        hoverLine
-          .attr("x1", stackedChart.settings.margin.left)
-          .attr("x2", stackedChart.settings.margin.left)
-          .attr("y1", stackedChart.settings.margin.top)
-          .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
-
-
+        plotHoverLine();
         plotLegend();
         // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
