@@ -28,7 +28,7 @@ const width = 510 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
-    .attr("class", "roadCB")
+    .attr("class", "mapCB")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");

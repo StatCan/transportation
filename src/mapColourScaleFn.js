@@ -5,12 +5,11 @@ export default function(svgCB, colourArray, dimExtent) {
 
   // Create the g nodes
   const rects = svgCB
-      .attr("class", "roadCB")
+      .attr("class", "mapCB")
       .selectAll("rect")
       .data(colourArray)
       .enter()
       .append("g");
-      // .attr("class", "roadCB");
 
   // Append rects onto the g nodes and fill
   rects.append("rect")
@@ -37,7 +36,7 @@ export default function(svgCB, colourArray, dimExtent) {
 
   // Display text in text node
   let updateText;
-  d3.select("#mapColourScale .roadCB")
+  d3.select("#mapColourScale .mapCB")
       .selectAll("text")  
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
