@@ -137,16 +137,23 @@ function uiHandler(event) {
     selectedMonth = document.getElementById("month").value;
     selectedYear = document.getElementById("year").value;
 
+    // clear any zeroFlag message
+    if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
+
     loadData(selectedYear, selectedMonth, () => {
       const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+      const thisData = data[selectedYear + "-" + selectedMonth][selectedGeo];
 
-      if (data[selectedYear + "-" + selectedMonth][selectedGeo].length === 0) {
+      const travellerTotal = () => thisData.map(item => item.value).reduce((prev, next) => prev + next);
+
+      if (travellerTotal() === 0) {
         d3.selectAll("svg > *").remove();
         d3.select("#zeroFlag")
             .text(`Zero international travellers for ${selectedGeo},
               ${thisMonth} ${selectedYear}`);
+      } else {
+        showData();
       }
-      showData();
     });
   }
 }
