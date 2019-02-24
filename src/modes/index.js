@@ -150,6 +150,7 @@ function showData() {
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedGeo];
 
+  // Check that the sum of all nodes is not zero
   const travellerTotal = () => thisData.map((item) => item.value).reduce((prev, next) => prev + next);
   if (travellerTotal() === 0) {
     d3.selectAll("svg > *").remove();

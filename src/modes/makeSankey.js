@@ -39,7 +39,7 @@ export default function(svg, settings, data) {
         })
         .filter((d) => nonZeroNodes.includes(d.node))
   };
-console.log(nonZeroNodes, data)
+// console.log(nonZeroNodes, data)
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
