@@ -141,30 +141,30 @@ function uiHandler(event) {
     if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 
     loadData(selectedYear, selectedMonth, () => {
-      const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-      const thisData = data[selectedYear + "-" + selectedMonth][selectedGeo];
-
-      const travellerTotal = () => thisData.map(item => item.value).reduce((prev, next) => prev + next);
-
-      if (travellerTotal() === 0) {
-        d3.selectAll("svg > *").remove();
-        d3.select("#zeroFlag")
-            .text(`Zero international travellers for ${selectedGeo},
-              ${thisMonth} ${selectedYear}`);
-      } else {
-        showData();
-      }
+      showData();
     });
   }
 }
 
 function showData() {
-  d3.selectAll("svg > *").remove();
+  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisData = data[selectedYear + "-" + selectedMonth][selectedGeo];
 
-  makeSankey(sankeyChart, {}, {
-    nodes,
-    links: data[selectedYear + "-" + selectedMonth][selectedGeo]
-  });
+  const travellerTotal = () => thisData.map((item) => item.value).reduce((prev, next) => prev + next);
+  if (travellerTotal() === 0) {
+    d3.selectAll("svg > *").remove();
+    d3.select("#zeroFlag")
+        .text(`Zero international travellers for ${selectedGeo},
+          ${thisMonth} ${selectedYear}`);
+  } else {
+    d3.selectAll("svg > *").remove();
+
+    makeSankey(sankeyChart, {}, {
+      nodes,
+      links: data[selectedYear + "-" + selectedMonth][selectedGeo]
+    });
+  }
+
   drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedGeo].map((d) => {
     return {
       source: nodes[d.source],
@@ -172,6 +172,7 @@ function showData() {
       value: d.value
     };
   }));
+
   updateTitles();
 }
 
