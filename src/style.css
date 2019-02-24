@@ -79,19 +79,18 @@
 #mapTitleRoad, #areaTitleRoad {
   font-weight: bold;
 }
+/* -- map colour bar related -- */
 #mapColourScale text {
 	fill: #565656;
 	stroke: "none";
 	font-size: 13px;
 }
-#map-dt-tbl table tbody tr {
-  font-size: 10px;
+.roadmapCBlabel {
+	position: relative;
+	top: -116px;
+	color: #565656;
+	text-align: left;
 }
-/* .map-data-table {
-  position: relative;
-  top: -50px;
-} */
-
 table, th, td {
   font-size: 12px;
 }

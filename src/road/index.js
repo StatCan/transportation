@@ -116,7 +116,6 @@ map.on("mouseover", () => {
     }
   });
 map.on("click", () => {
-  console.log("map click");
   // clear any previous clicks
   d3.select(".map")
       .selectAll("path")
@@ -204,7 +203,14 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
+
+  // Colourbar label (need be plotted only once)
+  const label = d3.select("#mapColourScale").append("div").attr("class","roadmapCBlabel");
+  if (d3.select(".roadmapCBlabel").text() === "") {
+    label
+        .append("text")
+        .text(mapScaleLabel);
+  }
 }
 
 /* -- display areaChart -- */
