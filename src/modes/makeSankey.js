@@ -164,7 +164,7 @@ export default function(svg, settings, data) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2.5;
+            return d.dy / 2;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
@@ -202,8 +202,13 @@ export default function(svg, settings, data) {
         let lineNumber = 0;
         const lineHeight = 1.1; // ems
         const y = text.attr("y");
-        const dy = parseFloat(text.attr("dy"));
-        let tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        const dy = parseFloat(text.attr("dy")) - lineHeight / 2; // added this to shift all lines up
+        let tspan = text.text(null)
+            .append("tspan")
+            .attr("class", "nowrap")
+            .attr("x", xcoord)
+            .attr("y", y)
+            .attr("dy", dy + "em");
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(" "));
@@ -211,7 +216,15 @@ export default function(svg, settings, data) {
             line.pop();
             tspan.text(line.join(" "));
             line = [word];
-            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+            // console.log("dy: ", dy)
+            tspan = text.append("tspan")
+                .attr("class", "wordwrap")
+                .attr("x", xcoord)
+                .attr("y", y)
+                .attr("dy", function() {
+                  return ++lineNumber * lineHeight + dy + "em";
+                })
+                .text(word);
           }
         }
       });
