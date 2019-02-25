@@ -164,7 +164,7 @@ export default function(svg, settings, data) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2;
+            return d.dy / 2.5;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
@@ -176,7 +176,8 @@ export default function(svg, settings, data) {
             return d.x < innerWidth / 2;
           })
           .attr("x", 6 + sankey.nodeWidth())
-          .attr("text-anchor", "start");
+          .attr("text-anchor", "start")
+          .call(wrap, 200);
     }
     // the function for moving the nodes
     function dragmove(d) {
@@ -189,6 +190,31 @@ export default function(svg, settings, data) {
                  ) + ")");
       sankey.relayout();
       link.attr("d", path);
+    }
+
+    function wrap(text, width) {
+      const xcoord = 40;
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
     }
   } // end make()
 
