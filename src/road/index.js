@@ -84,7 +84,7 @@ map.on("mousemove", () => {
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-      div.transition()
+      div
           .style("opacity", .9);
       div.html(
           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
@@ -100,7 +100,7 @@ map.on("mousemove", () => {
           .style("top", ((d3.event.pageY +10) + "px"));
     } else {
       // clear tooltip for IE
-      div.transition()
+      div
           .style("opacity", 0);
     }
   }

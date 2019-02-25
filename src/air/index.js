@@ -184,7 +184,7 @@ map.on("mouseover", () => {
             .classed("airMapHighlight", true);
         // Tooltip
         const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-        div.transition()
+        div
             .style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
             "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
@@ -205,7 +205,7 @@ map.on("mouseover", () => {
 });
 
 map.on("mouseout", () => {
-  div.transition()
+  div
       .style("opacity", 0);
 
   if (selectedRegion) {
