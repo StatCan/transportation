@@ -39,7 +39,7 @@ export default function(svg, settings, data) {
         })
         .filter((d) => nonZeroNodes.includes(d.node))
   };
-// console.log(nonZeroNodes, data)
+
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
@@ -195,15 +195,15 @@ export default function(svg, settings, data) {
     function wrap(text, width) {
       const xcoord = 40;
       text.each(function() {
-        var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1.1, // ems
-            y = text.attr("y"),
-            dy = parseFloat(text.attr("dy")),
-            tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        const text = d3.select(this);
+        const words = text.text().split(/\s+/).reverse();
+        let word;
+        let line = [];
+        let lineNumber = 0;
+        const lineHeight = 1.1; // ems
+        const y = text.attr("y");
+        const dy = parseFloat(text.attr("dy"));
+        let tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(" "));
