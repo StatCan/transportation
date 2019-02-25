@@ -196,29 +196,28 @@ map.on("mouseover", () => {
               "</table>"
         )
             .style("pointer-events", "none");
+        div
+            .style("left", ((d3.event.pageX +10) + "px"))
+            .style("top", ((d3.event.pageY +10) + "px"));
       }
     }
   }
-})
-    .on("mousemove", () => {
-      div
-          .style("left", ((d3.event.pageX +10) + "px"))
-          .style("top", ((d3.event.pageY +10) + "px"));
-    })
-    .on("mouseout", () => {
-      div.transition()
-          .style("opacity", 0);
+});
 
-      if (selectedRegion) {
-        d3.select(".map")
-            .selectAll("path:not(." + selectedRegion + ")")
-            .classed("airMapHighlight", false);
-      } else {
-        d3.select(".map")
-            .selectAll("path")
-            .classed("airMapHighlight", false);
-      }
-    });
+map.on("mouseout", () => {
+  div.transition()
+      .style("opacity", 0);
+
+  if (selectedRegion) {
+    d3.select(".map")
+        .selectAll("path:not(." + selectedRegion + ")")
+        .classed("airMapHighlight", false);
+  } else {
+    d3.select(".map")
+        .selectAll("path")
+        .classed("airMapHighlight", false);
+  }
+});
 
 map.on("click", () => {
   // clear any previous clicks
@@ -410,9 +409,9 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("units", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  
+
   // Colourbar label (need be plotted only once)
-  const label = d3.select("#mapColourScale").append("div").attr("class","airmapCBlabel");
+  const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
   if (d3.select(".airmapCBlabel").text() === "") {
     label
         .append("text")

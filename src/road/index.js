@@ -69,7 +69,7 @@ const hoverLine = chart.append("line")
 // -----------------------------------------------------------------------------
 /* Interactions */
 /* -- Map interactions -- */
-map.on("mouseover", () => {
+map.on("mousemove", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
@@ -94,31 +94,33 @@ map.on("mouseover", () => {
               "</tr>" +
             "</table>"
       );
+
+      div
+          .style("left", ((d3.event.pageX +10) + "px"))
+          .style("top", ((d3.event.pageY +10) + "px"));
     } else {
       // clear tooltip for IE
       div.transition()
           .style("opacity", 0);
     }
   }
-})
-    .on("mousemove", () => {
-      div
-          .style("left", ((d3.event.pageX +10) + "px"))
-          .style("top", ((d3.event.pageY +10) + "px"));
-    }).on("mouseout", () => {
-      div.transition()
-          .style("opacity", 0);
+});
 
-      if (selectedRegion) {
-        d3.select(".map")
-            .selectAll("path:not(." + selectedRegion + ")")
-            .classed("roadMapHighlight", false);
-      } else {
-        d3.select(".map")
-            .selectAll("path")
-            .classed("roadMapHighlight", false);
-      }
-    });
+map.on("mouseout", () => {
+  div.transition()
+      .style("opacity", 0);
+
+  if (selectedRegion) {
+    d3.select(".map")
+        .selectAll("path:not(." + selectedRegion + ")")
+        .classed("roadMapHighlight", false);
+  } else {
+    d3.select(".map")
+        .selectAll("path")
+        .classed("roadMapHighlight", false);
+  }
+});
+
 map.on("click", () => {
   // clear any previous clicks
   d3.select(".map")
