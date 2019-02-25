@@ -36,12 +36,9 @@ const lineData = {};
 // let dataSet = 0; // TODO
 
 const formatComma = d3.format(",d");
-<<<<<<< HEAD
 let stackedArea;
-=======
 const scalef = 1e3;
 
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 // -----------------------------------------------------------------------------
 /* SVGs */
 const map = d3.select(".dashboard .map")
@@ -178,29 +175,6 @@ map.on("mouseover", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
-<<<<<<< HEAD
-    const key = i18next.t(classes[0], {ns: "airGeography"});
-
-    if (key !== "airport") {
-      // Highlight map region
-      d3.select(".dashboard .map")
-          .select("." + classes[0])
-          .classed("airMapHighlight", true);
-      // Tooltip
-      const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-      div.transition()
-          .style("opacity", .9);
-      div.html( // **** CHANGE ns WITH DATASET ****
-          "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" +
-                "<td><b>" + value + "</td>" +
-          // "<td>" + " (" + units + ")</td>" +
-              "</tr>" +
-            "</table>"
-      )
-          .style("pointer-events", "none");
-=======
 
     if (classes[0] !== "svg-shimmed") {
       const key = i18next.t(classes[0], {ns: "airGeography"});
@@ -225,7 +199,6 @@ map.on("mouseover", () => {
         )
             .style("pointer-events", "none");
       }
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
     }
   }
 })
@@ -440,7 +413,7 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("units", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  
+
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class","airmapCBlabel");
   if (d3.select(".airmapCBlabel").text() === "") {

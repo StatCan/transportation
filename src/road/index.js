@@ -11,10 +11,6 @@ let selectedYear = "2017";
 let overlayRect;
 const formatComma = d3.format(",d");
 const scalef = 1e3;
-<<<<<<< HEAD
-
-=======
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 
 let stackedChart; // stores areaChart() call
 
@@ -70,15 +66,7 @@ const divArea = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
-<<<<<<< HEAD
-let stackedChart;
-=======
 
-/* vertical line to attach to cursor */
-const hoverLine = chart.append("line")
-    .attr("class", "hoverLine")
-    .style("display", "none");
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 
 // -----------------------------------------------------------------------------
 /* Interactions */
@@ -88,28 +76,6 @@ map.on("mouseover", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-<<<<<<< HEAD
-    // Highlight map region
-    const selectedPath = d3.select(".dashboard .map")
-        .select("." + classes[0])
-
-    selectedPath.classed("roadMapHighlight", true);
-    selectedPath.moveToFront();
-    // Tooltip
-    const key = i18next.t(classes[0], {ns: "roadGeography"});
-    const value = formatComma(mapData[selectedYear][classes[0]] / 1e3);
-    div.transition()
-        .style("opacity", .9);
-    div.html(
-        "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>$" + value + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
-            "</tr>" +
-          "</table>"
-    );
-=======
     if (classes[0] !== "svg-shimmed") {
       // Highlight map region
       const selectedPath = d3.select(".dashboard .map")
@@ -135,7 +101,6 @@ map.on("mouseover", () => {
       div.transition()
           .style("opacity", 0);
     }
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   }
 })
     .on("mousemove", () => {
@@ -146,15 +111,9 @@ map.on("mouseover", () => {
       div.transition()
           .style("opacity", 0);
 
-<<<<<<< HEAD
-      if (selected) {
-        d3.select(".map")
-            .selectAll("path:not(." + selected + ")")
-=======
       if (selectedRegion) {
         d3.select(".map")
             .selectAll("path:not(." + selectedRegion + ")")
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
             .classed("roadMapHighlight", false);
       } else {
         d3.select(".map")
@@ -197,16 +156,17 @@ map.on("click", () => {
 });
 
 /* --  areaChart interactions -- */
-<<<<<<< HEAD
-// vertical line to attach to cursor
 
 
 let hoverValue;
 let thisValue;
 let fuelType;
-=======
 function areaInteraction() {
   d3.select("#svgFuel .data")
+      .on("mouseover", function() {
+        divArea.transition()
+            .style("opacity", .9);
+      })
       .on("mousemove", function() {
         const mousex = d3.mouse(this)[0];
         const hoverValue = findAreaData(mousex);
@@ -214,9 +174,6 @@ function areaInteraction() {
         const thisGas = formatComma(hoverValue.gas / scalef);
         const thisDiesel = formatComma(hoverValue.diesel / scalef);
         const thisLPG = formatComma(hoverValue.lpg / scalef);
-
-        divArea.transition()
-            .style("opacity", .9);
         divArea.html(
             "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
               "<table>" +
@@ -241,8 +198,6 @@ function areaInteraction() {
       });
 }
 
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
-
 // -----------------------------------------------------------------------------
 /* FNS */
 /* -- find year interval closest to cursor for areaChart tooltip -- */
@@ -251,7 +206,7 @@ function findAreaData(mousex) {
     return d.date;
   }).left;
   const x0 = stackedChart.x.invert(mousex);
-  const chartData = data[selected];
+  const chartData = data[selectedRegion];
   let d;
   const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
 
@@ -294,11 +249,7 @@ function colorMap() {
 
 /* -- display areaChart -- */
 function showData() {
-<<<<<<< HEAD
-  stackedChart = areaChart(chart, settings, data[selected]);
-=======
   stackedChart = areaChart(chart, settings, data[selectedRegion]);
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -312,38 +263,10 @@ function showData() {
       .select("." + selectedRegion)
       .classed("roadMapHighlight", true);
 
-<<<<<<< HEAD
-
   updateTitles();
   plotLegend();
-=======
-  // copy button data;
   cButton.appendTo(document.getElementById("copy-button-container"));
   dataCopyButton(data[selectedRegion]);
-}
-
-/* -- find dta values closest to cursor for areaChart tooltip -- */
-function findAreaData(mousex) {
-  const bisectDate = d3.bisector(function(d) {
-    return d.date;
-  }).left;
-  const x0 = stackedChart.x.invert(mousex);
-  const chartData = data[selectedRegion];
-  let d;
-  const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-
-  const d0 = chartData[i - 1];
-  const d1 = chartData[i];
-
-  if (d0 && d1) {
-    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-  } else if (d0) {
-    d = d0;
-  } else {
-    d = d1;
-  }
-  return d;
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 }
 
 /* -- update map and areaChart titles -- */
@@ -367,50 +290,6 @@ function plotLegend() {
       });
 }
 
-<<<<<<< HEAD
-/* -- mouse events for area chart-- */
-
-function areaInteraction() {
-  d3.select("#svgFuel .data")
-      .on("mouseover", function(){
-        divArea.transition()
-            .style("opacity", .9);
-        const mouse = d3.mouse(this);
-        const mousex = mouse[0];
-      })
-      .on("mousemove", function() {
-        const mouse = d3.mouse(this);
-        const mousex = mouse[0];
-        // Find x-axis intervale closest to mousex
-        hoverValue = findAreaData(mousex);
-
-        const thisGas = formatComma(hoverValue.gas / scalef);
-        const thisDiesel = formatComma(hoverValue.diesel/ scalef);
-        const thisLPG = formatComma(hoverValue.lpg/ scalef);
-
-        divArea.html(
-            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
-            "<table>" +
-              "<tr>" +
-                "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
-              "</tr>" +
-              "<tr>" +
-                "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
-              "</tr>" +
-              "<tr>" +
-                "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
-              "</tr>" +
-            "</table>"
-          )
-          .style("left", (d3.event.pageX) + 10 + "px")
-          .style("top", (d3.event.pageY) + 10 + "px")
-          .style("pointer-events", "none");
-      })
-      .on("mouseout", function(d, i) {
-      // Clear tooltip
-        divArea.transition().style("opacity", 0);
-      });
-=======
 function plotHoverLine() {
   const overlayRect = d3.select("#svgFuel .data").append("rect")
       .style("fill", "none")
@@ -433,7 +312,6 @@ function plotHoverLine() {
       .attr("x2", stackedChart.settings.margin.left)
       .attr("y1", stackedChart.settings.margin.top)
       .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 }
 // -----------------------------------------------------------------------------
 /* load data fn */
@@ -508,11 +386,7 @@ function dataCopyButton(cButtondata) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-<<<<<<< HEAD
-  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
-=======
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "roadGeography"})}),
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
@@ -525,9 +399,8 @@ i18n.load(["src/i18n"], () => {
               colorMap();
             });
 
-<<<<<<< HEAD
         // Area chart and x-axis position
-        stackedChart = areaChart(chart, settings, data[selected]);
+        stackedChart = areaChart(chart, settings, data[selectedRegion]);
         areaInteraction();
         plotLegend();
 
@@ -563,7 +436,6 @@ i18n.load(["src/i18n"], () => {
 
         // Show chart titles based on default menu options
         updateTitles();
-=======
         // copy button options
         const cButtonOptions = {
           pNode: document.getElementById("copy-button-container"),
@@ -576,7 +448,6 @@ i18n.load(["src/i18n"], () => {
 
         showData(); // plot area chart, legend, and hover line
         updateTitles(); // update chart, map and table titles
->>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
       });
 });
 
