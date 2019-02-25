@@ -24,6 +24,12 @@
 } 
 /*road dataset*/
 /*-- tooltip --*/
+.hoverLine {
+   stroke: #000;
+   stroke-width: 1px;
+   opacity: 1;
+   pointer-events: none;
+}
 .linecursor {
 	margin-left: 63px;
 }
@@ -36,7 +42,7 @@
 .lpg {
 	fill: #5DC1BE;
 }
-.roadCB rect {
+.mapCB rect {
 	stroke: black;
 	stroke-width: 0;
 }
@@ -77,19 +83,18 @@
 #mapTitleRoad, #areaTitleRoad {
   font-weight: bold;
 }
+/* -- map colour bar related -- */
 #mapColourScale text {
 	fill: #565656;
 	stroke: "none";
 	font-size: 13px;
 }
-#map-dt-tbl table tbody tr {
-  font-size: 10px;
+.roadmapCBlabel {
+	position: relative;
+	top: -116px;
+	color: #565656;
+	text-align: left;
 }
-/* .map-data-table {
-  position: relative;
-  top: -50px;
-} */
-
 table, th, td {
   font-size: 12px;
 }
@@ -119,6 +124,12 @@ table, th, td {
 .airMapHighlight {
  	stroke: #467B8D !important;
 	stroke-width: 0.5 !important;
+}
+.airmapCBlabel { /* colour bar label */
+	position: relative;
+	top: -116px;
+	color: #565656;
+	text-align: left;
 }
 
 /*-- airport circle fill --*/

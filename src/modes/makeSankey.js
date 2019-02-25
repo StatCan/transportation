@@ -10,7 +10,7 @@ const defaults = {
   }
 };
 
-export default function(svg, nodes, graph) {
+export default function(svg, settings, data) {
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -20,6 +20,26 @@ export default function(svg, nodes, graph) {
   let chartInner = svg.select("g.margin-offset");
   let dataLayer = chartInner.select(".data");
 
+  const nonZeroNodes = [];
+  data = {
+    links: data.links
+        .map((d) => {
+          return {...d};
+        })
+        .filter((d) => {
+          if (d.value > 0) {
+            nonZeroNodes.push(d.source, d.target);
+            return true;
+          }
+          return false;
+        }),
+    nodes: data.nodes
+        .map((d) => {
+          return {...d};
+        })
+        .filter((d) => nonZeroNodes.includes(d.node))
+  };
+// console.log(nonZeroNodes, data)
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
@@ -35,10 +55,10 @@ export default function(svg, nodes, graph) {
 
   const path = sankey.link();
 
-  function make(graph) {
+  function make() {
     sankey
-        .nodes(nodes)
-        .links(graph.links)
+        .nodes(data.nodes)
+        .links(data.links)
         .layout(32);
 
     // tooltip div
@@ -53,15 +73,12 @@ export default function(svg, nodes, graph) {
 
     // add in the links
     const link = dataLayer.append("g").selectAll(".link")
-        .data(graph.links)
+        .data(sankey.links())
         .enter().append("path")
         .attr("class", "link")
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
-        })
-        .style("opacity", function(d) {
-          if (d.value === 0) return 0;
         })
         .sort(function(a, b) {
           return b.dy - a.dy;
@@ -89,16 +106,16 @@ export default function(svg, nodes, graph) {
         });
 
     // DO NOT PLOT IF DATA IS COMPLETELY ZERO
-    if (graph.links.length !== 0) {
+    if (data.links.length !== 0) {
       // add in the nodes
       const node = dataLayer.append("g").selectAll(".node")
-          .data(nodes)
+          .data(sankey.nodes())
           .enter().append("g")
           .attr("class", function(d) {
             return "node " + d.name; // d.name to fill by class in css
           })
           .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")";
+            return `translate(${d.x || 0}, ${d.y || 0})`;
           })
           .call(d3.drag()
               .subject(function(d) {
@@ -147,7 +164,7 @@ export default function(svg, nodes, graph) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2;
+            return d.dy / 2.5;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
@@ -159,7 +176,8 @@ export default function(svg, nodes, graph) {
             return d.x < innerWidth / 2;
           })
           .attr("x", 6 + sankey.nodeWidth())
-          .attr("text-anchor", "start");
+          .attr("text-anchor", "start")
+          .call(wrap, 200);
     }
     // the function for moving the nodes
     function dragmove(d) {
@@ -172,6 +190,31 @@ export default function(svg, nodes, graph) {
                  ) + ")");
       sankey.relayout();
       link.attr("d", path);
+    }
+
+    function wrap(text, width) {
+      const xcoord = 40;
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
     }
   } // end make()
 
@@ -188,5 +231,5 @@ export default function(svg, nodes, graph) {
   }
 
   d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-  make(graph);
+  make();
 } // end makeSankey()
