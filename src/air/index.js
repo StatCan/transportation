@@ -410,7 +410,14 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("units", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
+  
+  // Colourbar label (need be plotted only once)
+  const label = d3.select("#mapColourScale").append("div").attr("class","airmapCBlabel");
+  if (d3.select(".airmapCBlabel").text() === "") {
+    label
+        .append("text")
+        .text(mapScaleLabel);
+  }
 
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!

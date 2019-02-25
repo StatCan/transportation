@@ -7,7 +7,7 @@ import CopyButton from "../copyButton.js";
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
-let selectedGeo = "Canada";
+let selectedRegion = "Canada";
 
 let selectedMonth = "01";
 let selectedYear = "2018";
@@ -118,6 +118,17 @@ const nodes = [
 ];
 // ------------
 
+const loadData = function(selectedYear, selectedMonth, cb) {
+  if (!data[selectedYear + "-" + selectedMonth]) {
+    d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, json) {
+      data[selectedYear + "-" + selectedMonth] = json;
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
+
 // SVGs
 const sankeyChart = d3.select("#sankeyGraph")
     .append("svg")
@@ -127,46 +138,64 @@ const table = d3.select(".tabledata");
 // .attr("id", "modesTable");
 
 function uiHandler(event) {
+  // clear any tooltips
+  d3.selectAll(".tooltip").style("opacity", 0);
+
   if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
-    selectedGeo = document.getElementById("groups").value;
+    selectedRegion = document.getElementById("groups").value;
     selectedMonth = document.getElementById("month").value;
     selectedYear = document.getElementById("year").value;
 
-    if (!data[selectedYear + "-" + selectedMonth]) {
-      d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, filedata) {
-        data[selectedYear + "-" + selectedMonth] = filterZeros(filedata);
-        showData();
-      });
-    } else {
-      const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+    // clear any zeroFlag message
+    if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 
-      if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
-        d3.selectAll("svg > *").remove();
-        d3.select("#zeroFlag")
-            .text(`Zero international travellers for ${selectedGeo},
-              ${thisMonth} ${selectedYear}`);
-      } else {
-        d3.select("#zeroFlag")
-            .text("");
-      }
+    loadData(selectedYear, selectedMonth, () => {
       showData();
-    }
+    });
   }
 }
 
 function showData() {
-  d3.selectAll("svg > *").remove();
-  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-  drawTable(table, tableSettings, nodes);
+  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
+
+  // Check that the sum of all nodes is not zero
+  const travellerTotal = () => thisData.map((item) => item.value).reduce((prev, next) => prev + next);
+  if (travellerTotal() === 0) {
+    d3.selectAll("svg > *").remove();
+    d3.select("#zeroFlag")
+        .text(`Zero international travellers for ${selectedRegion},
+          ${thisMonth} ${selectedYear}`);
+  } else {
+    d3.selectAll("svg > *").remove();
+
+    makeSankey(sankeyChart, {}, {
+      nodes,
+      links: data[selectedYear + "-" + selectedMonth][selectedRegion]
+    });
+  }
+
+  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedRegion].map((d) => {
+    return {
+      source: nodes[d.source],
+      target: nodes[d.target],
+      value: d.value
+    };
+  }));
+
   updateTitles();
   // ------------------copy button---------------------------------
-  dataCopyButton(nodes);
+  // dataCopyButton(nodes);
+
+  cButton.appendTo(document.getElementById("copy-button-container"));
+  // dataCopyButton(nodes);
+  dataCopyButton(data[selectedYear + "-" + selectedMonth][selectedRegion]);
   // ---------------------------------------------------------------
 }
 
 /* -- update table title -- */
 function updateTitles() {
-  const thisGeo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
   + " in " + thisMonth + " " + selectedYear + ", by type of transport";
@@ -174,68 +203,53 @@ function updateTitles() {
   d3.select("#only-dt-tbl").text(thisTitle);
 }
 
-function filterZeros(d) {
-  const returnObject = {};
-  for (const geo in d) {
-    if (Object.prototype.hasOwnProperty.call(d, geo)) {
-      returnObject[geo] = {};
-      returnObject[geo].links = [];
-      for (const val of d[geo]) {
-        if (val.value !==0) {
-          returnObject[geo].links.push(val);
-        }
-      }
-    }
-  }
-  return returnObject;
-}
-// ----------------------- Copy ButtonData function---------------------------------
+// -----------------------------------------------------------------------------
+/* Copy Button*/
 function dataCopyButton(cButtondata) {
   const lines = [];
-  const geo = i18next.t(selectedGeo, {ns: "modesGeography"});
-  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const tableTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo + " in " + month + " " + selectedYear + ", by type of transport";
+  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
+  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const columns = [""];
 
-  const title = [tableTitle];
-  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
-  const rows = [];
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
 
   lines.push(title, [], columns);
 
-  for (const node in cButtondata) {
-    if (Object.prototype.hasOwnProperty.call(cButtondata, node)) {
-      rows.push([i18next.t(cButtondata[node].name, {ns: "modes"}), cButtondata[node].value]);
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
+
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
+
+          if (column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
+
+          auxRow.push(value);
+        }
+      }
+
+      lines.push(auxRow);
     }
   }
-
-  rows.forEach((x) => lines.push(x));
 
   cButton.data = lines;
 }
 
+// -----------------------------------------------------------------------------
+/* Initial page load */
 i18n.load(["src/i18n"], function() {
-  d3.queue()
-      .defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json")
-      .await(function(error, json) {
-        data[selectedYear + "-" + selectedMonth] = filterZeros(json);
-        makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-        // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
-        drawTable(table, tableSettings, nodes);
-        updateTitles();
-        // copy button options
-        const cButtonOptions = {
-          pNode: document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-        };
+  // copy button options
+  const cButtonOptions = {
+    pNode: document.getElementById("copy-button-container"),
+    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+  };
+  // build nodes on copy button
+  cButton.build(cButtonOptions);
 
-        // build nodes on copy button
-        cButton.build(cButtonOptions);
-
-        // copy button data;
-        dataCopyButton(nodes);
-      });
+  loadData(selectedYear, selectedMonth, showData);
 });
 
 $(document).on("change", uiHandler);

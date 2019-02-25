@@ -22,7 +22,7 @@ export default class CopyButton {
 
   build(options) {
     if (options) this.options = options; // workAround;
-    if (options.pNode) this.pNode = options.pNode; // workAround;    
+    if (options.pNode) this.pNode = options.pNode; // workAround;
     if (options.class) this.class = options.class;// workAround;
 
     this.root = document.createElement("div");
@@ -106,7 +106,7 @@ export default class CopyButton {
     this.pNode = pNode;
 
     this.pNode.appendChild(this.root);
-    
+
     this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
   }
 

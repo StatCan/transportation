@@ -4,7 +4,9 @@ export default function(svgCB, colourArray, dimExtent) {
   const formatComma = d3.format(",d");
 
   // Create the g nodes
-  const rects = svgCB.selectAll("rect")
+  const rects = svgCB
+      .attr("class", "mapCB")
+      .selectAll("rect")
       .data(colourArray)
       .enter()
       .append("g");
@@ -34,8 +36,8 @@ export default function(svgCB, colourArray, dimExtent) {
 
   // Display text in text node
   let updateText;
-  d3.select("#mapColourScale")
-      .selectAll("text")
+  d3.select("#mapColourScale .mapCB")
+      .selectAll("text")  
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
         updateText = s0 + "+";
@@ -48,13 +50,4 @@ export default function(svgCB, colourArray, dimExtent) {
       .style("display", function() {
         return "inline";
       });
-
-  // Text label for scale bar
-  if (d3.select("#cbID").empty()) {
-    const label = svgCB.append("g").append("text");
-    label
-        .attr("id", "cbID")
-        .attr("y", 28)
-        .attr("x", 0);
-  }
 }
