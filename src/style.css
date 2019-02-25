@@ -18,6 +18,10 @@
 .tblHeader{
   text-align: right
 }
+
+.table td {
+	text-align: right;
+} 
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -38,7 +42,7 @@
 .lpg {
 	fill: #5DC1BE;
 }
-.roadCB rect {
+.mapCB rect {
 	stroke: black;
 	stroke-width: 0;
 }
@@ -79,19 +83,18 @@
 #mapTitleRoad, #areaTitleRoad {
   font-weight: bold;
 }
+/* -- map colour bar related -- */
 #mapColourScale text {
 	fill: #565656;
 	stroke: "none";
 	font-size: 13px;
 }
-#map-dt-tbl table tbody tr {
-  font-size: 10px;
+.roadmapCBlabel {
+	position: relative;
+	top: -116px;
+	color: #565656;
+	text-align: left;
 }
-/* .map-data-table {
-  position: relative;
-  top: -50px;
-} */
-
 table, th, td {
   font-size: 12px;
 }
@@ -121,6 +124,12 @@ table, th, td {
 .airMapHighlight {
  	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
+}
+.airmapCBlabel { /* colour bar label */
+	position: relative;
+	top: -116px;
+	color: #565656;
+	text-align: left;
 }
 
 /*-- airport circle fill --*/
@@ -624,7 +633,7 @@ div.tooltip {
 .USres rect {
 	fill: #CC982A;
 	}
-.nonUS rect {
+.nonUSres rect {
 	fill: #928941;
 	}
 .cdnFromUS rect {
@@ -654,13 +663,13 @@ div.tooltip {
 .USres_other rect {
 		fill: #CC982A;
 }
-.nonUS_land rect {
+.nonUSres_land rect {
 	fill: #928941;
 }
-.nonUS_air rect {
+.nonUSres_air rect {
 	fill: #928941;
 }
-.nonUS_marine rect {
+.nonUSres_marine rect {
 	fill: #928941;
 }
 .cdnFromUS_land rect {
@@ -692,4 +701,61 @@ div.tooltip {
 }
 .cdnFromOther_marine rect {
 	fill: #FAB491;
+}
+
+/* copy button */
+.copy-button .copy-confirm {    
+	visibility: hidden;
+	position: absolute;
+	top: 825px;
+	right: 75px;
+	background: #eaebed;
+	line-height: 25px;
+	border-radius: 4px;
+	border: solid thin black;
+	padding: 5px;
+	color: #333;
+	
+	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+}
+
+.copy-button  .btn.btn-primary.copy .clipboard{
+	font-size: 18px;	 
+}
+
+.copy-button {
+	text-align: right;
+	
+}
+/* Fade In Fade Out */
+.fadeIn {
+	-webkit-animation: fadeIn 0.5s forwards;
+	animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+@-webkit-keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+.fadeOut {
+	-webkit-animation: fadeOut 0.5s forwards;
+	animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+@-webkit-keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
 }

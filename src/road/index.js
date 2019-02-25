@@ -2,16 +2,25 @@ import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import CopyButton from "../copyButton.js";
 
 const data = {};
 let mapData = {};
-let selected = "CANADA";
+let selectedRegion = "CANADA";
 let selectedYear = "2017";
 let overlayRect;
 const formatComma = d3.format(",d");
 const scalef = 1e3;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 
+let stackedChart; // stores areaChart() call
+
+/* Copy Button */
+// -----------------------------------------------------------------------------
+const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 /* SVGs */
 // fuel sales stacked area chart
@@ -33,7 +42,7 @@ const width = 510 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
-    .attr("class", "roadCB")
+    .attr("class", "mapCB")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
@@ -61,7 +70,15 @@ const divArea = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+<<<<<<< HEAD
 let stackedChart;
+=======
+
+/* vertical line to attach to cursor */
+const hoverLine = chart.append("line")
+    .attr("class", "hoverLine")
+    .style("display", "none");
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 
 // -----------------------------------------------------------------------------
 /* Interactions */
@@ -71,6 +88,7 @@ map.on("mouseover", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
+<<<<<<< HEAD
     // Highlight map region
     const selectedPath = d3.select(".dashboard .map")
         .select("." + classes[0])
@@ -91,6 +109,33 @@ map.on("mouseover", () => {
             "</tr>" +
           "</table>"
     );
+=======
+    if (classes[0] !== "svg-shimmed") {
+      // Highlight map region
+      const selectedPath = d3.select(".dashboard .map")
+          .select("." + classes[0]);
+
+      selectedPath.classed("roadMapHighlight", true);
+      selectedPath.moveToFront();
+      // Tooltip
+      const key = i18next.t(classes[0], {ns: "roadGeography"});
+      const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+      div.transition()
+          .style("opacity", .9);
+      div.html(
+          "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+            "<table>" +
+              "<tr>" +
+                "<td><b>$" + value + "</td>" +
+              "</tr>" +
+            "</table>"
+      );
+    } else {
+      // clear tooltip for IE
+      div.transition()
+          .style("opacity", 0);
+    }
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   }
 })
     .on("mousemove", () => {
@@ -101,9 +146,15 @@ map.on("mouseover", () => {
       div.transition()
           .style("opacity", 0);
 
+<<<<<<< HEAD
       if (selected) {
         d3.select(".map")
             .selectAll("path:not(." + selected + ")")
+=======
+      if (selectedRegion) {
+        d3.select(".map")
+            .selectAll("path:not(." + selectedRegion + ")")
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
             .classed("roadMapHighlight", false);
       } else {
         d3.select(".map")
@@ -121,41 +172,76 @@ map.on("click", () => {
         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    selected = classes[0];
+    selectedRegion = classes[0];
     d3.select(".dashboard .map")
         .select("." + classes[0])
         .classed("roadMapHighlight", true);
+    updateTitles();
 
     // Display selected region in stacked area chart
-    if (!data[selected]) {
-      d3.json("data/road/" + selected + ".json", function(err, filedata) {
-        data[selected] = filedata;
-        showData();
-      });
-    } else {
+    loadData(selectedRegion, () => {
       showData();
-    }
+    });
+
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selected;
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
   } else {
     // reset area chart to Canada
-    selected = "CANADA";
+    selectedRegion = "CANADA";
+    updateTitles();
     showData();
 
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selected;
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
   }
-  // Chart titles
-  updateTitles();
 });
 
 /* --  areaChart interactions -- */
+<<<<<<< HEAD
 // vertical line to attach to cursor
 
 
 let hoverValue;
 let thisValue;
 let fuelType;
+=======
+function areaInteraction() {
+  d3.select("#svgFuel .data")
+      .on("mousemove", function() {
+        const mousex = d3.mouse(this)[0];
+        const hoverValue = findAreaData(mousex);
+
+        const thisGas = formatComma(hoverValue.gas / scalef);
+        const thisDiesel = formatComma(hoverValue.diesel / scalef);
+        const thisLPG = formatComma(hoverValue.lpg / scalef);
+
+        divArea.transition()
+            .style("opacity", .9);
+        divArea.html(
+            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
+                "</tr>" +
+              "</table>"
+        )
+            .style("left", (d3.event.pageX) + 10 + "px")
+            .style("top", (d3.event.pageY) + 10 + "px")
+            .style("pointer-events", "none");
+      })
+      .on("mouseout", function(d, i) {
+      // Clear tooltip
+        divArea.transition().style("opacity", 0);
+      });
+}
+
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 
 // -----------------------------------------------------------------------------
 /* FNS */
@@ -196,32 +282,73 @@ function colorMap() {
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
 
-  // d3.stcExt.addIEShim(map, 387.1, 457.5);
+  // Colourbar label (need be plotted only once)
+  const label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");
+  if (d3.select(".roadmapCBlabel").text() === "") {
+    label
+        .append("text")
+        .text(mapScaleLabel);
+  }
 }
 
 /* -- display areaChart -- */
 function showData() {
+<<<<<<< HEAD
   stackedChart = areaChart(chart, settings, data[selected]);
+=======
+  stackedChart = areaChart(chart, settings, data[selectedRegion]);
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
-      // .attr("dy", xaxisLabeldy)
       .attr("display", "none");
+
+  areaInteraction();
+  plotHoverLine();
+  plotLegend();
 
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
-      .select("." + selected)
+      .select("." + selectedRegion)
       .classed("roadMapHighlight", true);
 
+<<<<<<< HEAD
 
   updateTitles();
   plotLegend();
+=======
+  // copy button data;
+  cButton.appendTo(document.getElementById("copy-button-container"));
+  dataCopyButton(data[selectedRegion]);
+}
+
+/* -- find dta values closest to cursor for areaChart tooltip -- */
+function findAreaData(mousex) {
+  const bisectDate = d3.bisector(function(d) {
+    return d.date;
+  }).left;
+  const x0 = stackedChart.x.invert(mousex);
+  const chartData = data[selectedRegion];
+  let d;
+  const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+
+  const d0 = chartData[i - 1];
+  const d1 = chartData[i];
+
+  if (d0 && d1) {
+    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+  } else if (d0) {
+    d = d0;
+  } else {
+    d = d1;
+  }
+  return d;
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 }
 
 /* -- update map and areaChart titles -- */
 function updateTitles() {
-  const geography = i18next.t(selected, {ns: "roadGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
   d3.select("#mapTitleRoad")
       .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
@@ -240,6 +367,7 @@ function plotLegend() {
       });
 }
 
+<<<<<<< HEAD
 /* -- mouse events for area chart-- */
 
 function areaInteraction() {
@@ -282,32 +410,97 @@ function areaInteraction() {
       // Clear tooltip
         divArea.transition().style("opacity", 0);
       });
+=======
+function plotHoverLine() {
+  const overlayRect = d3.select("#svgFuel .data").append("rect")
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr("class", "overlay")
+      .on("mouseout", function() {
+        hoverLine.style("display", "none");
+      })
+      .on("mousemove", function() {
+        hoverLine.style("display", "inline");
+        hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
+        hoverLine.moveToFront();
+      });
+  overlayRect
+      .attr("width", stackedChart.settings.innerWidth)
+      .attr("height", stackedChart.settings.innerHeight);
+
+  hoverLine
+      .attr("x1", stackedChart.settings.margin.left)
+      .attr("x2", stackedChart.settings.margin.left)
+      .attr("y1", stackedChart.settings.margin.top)
+      .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 }
 // -----------------------------------------------------------------------------
+/* load data fn */
+const loadData = function(selectedRegion, cb) {
+  if (!data[selectedRegion]) {
+    d3.json("data/road/" + selectedRegion + ".json", function(err, filedata) {
+      data[selectedRegion] = filedata;
+      cb();
+    });
+  } else {
+    cb();
+  }
+};
+
 /* uiHandler*/
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    selected = document.getElementById("groups").value;
+    selectedRegion = document.getElementById("groups").value;
 
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("roadMapHighlight", false);
+
     // Chart titles
     updateTitles();
 
-    if (!data[selected]) {
-      d3.json("data/road/" + selected + ".json", function(err, filedata) {
-        data[selected] = filedata;
-        showData();
-      });
-    } else {
+    loadData(selectedRegion, () => {
       showData();
-    }
+    });
   }
+
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    updateTitles(); // update to reflect new menu selections for all charts
     colorMap();
   }
+}
+
+// -----------------------------------------------------------------------------
+/* Copy Button*/
+function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
+  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const columns = [""];
+
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
+
+  lines.push(title, [], columns);
+
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
+
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
+
+          if (column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
+
+          auxRow.push(value);
+        }
+      }
+
+      lines.push(auxRow);
+    }
+  }
+
+  cButton.data = lines;
 }
 
 // -----------------------------------------------------------------------------
@@ -315,19 +508,24 @@ function uiHandler(event) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
+<<<<<<< HEAD
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selected, {ns: "roadGeography"})}),
+=======
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "roadGeography"})}),
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, mapfile, areafile) {
         mapData = mapfile;
-        data[selected] = areafile;
+        data[selectedRegion] = areafile;
 
         getCanadaMap(map)
             .on("loaded", function() {
               colorMap();
             });
 
+<<<<<<< HEAD
         // Area chart and x-axis position
         stackedChart = areaChart(chart, settings, data[selected]);
         areaInteraction();
@@ -365,6 +563,20 @@ i18n.load(["src/i18n"], () => {
 
         // Show chart titles based on default menu options
         updateTitles();
+=======
+        // copy button options
+        const cButtonOptions = {
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+        };
+        // build nodes on copy button
+        cButton.build(cButtonOptions);
+
+        showData(); // plot area chart, legend, and hover line
+        updateTitles(); // update chart, map and table titles
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
       });
 });
 

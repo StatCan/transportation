@@ -59,7 +59,7 @@
     },
       "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "tableTitle": "Air passenger traffic at XXX, annual (in thousands)",
+      "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
       "x_label": "Year",
       "y_label": "Number of passengers (in thousands)",
       "enplaned": "Enplaned",
@@ -67,7 +67,7 @@
     },
     "airPassengers": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "tableTitle": "Air passenger traffic at Canadian airports, annual (in thousands)",
+      "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total, passenger sector",
       "x_label": "Year",
@@ -305,15 +305,12 @@
       "mixedloads": "Mixed loads or unidentified freight",
       "partialcarload": "Less-than-carload shipments"
     },
-    "modesMonth": {
-      "01": "January"
-    },
     "modes": {
       "intl": "International travellers",
-      "USres": "US residents",
-      "nonUSres": "Non-US residents",
-      "cdnFromUS": "Canadians via US",
-      "cdnFromOther": "Canadians via other",
+      "USres": "US residents entering Canada",
+      "nonUSres": "Residents of countries other than the US entering Canada",
+      "cdnFromUS": "Canadian residents returning from the US",
+      "cdnFromOther": "Canadian residents returning from countries other than the US",
       "USres_air": "Air",
       "USres_marine": "Marine",
       "USres_land": "Land",
@@ -337,9 +334,43 @@
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
-      "tableTitle": "International travellers entering or returning to Canada, by type of transport",
+      "tableTitle": "International travellers entering or returning to",
       "name": "Traveller characteristics",
       "value": "Number of travellers"
-    }
+    },
+    "modesGeography": {
+      "Canada": "Canada",
+      "Newfoundland and Labrador": "Newfoundland and Labrador",
+      "Prince Edward Island": "Prince Edward Island",
+      "Nova Scotia": "Nova Scotia",
+      "New Brunswick": "New Brunswick",
+      "Quebec": "Quebec",
+      "Ontario": "Ontario",
+      "Manitoba": "Manitoba",
+      "Saskatchewan": "Saskatchewan",
+      "Alberta": "Alberta",
+      "British Columbia": "British Columbia",
+      "Yukon": "Yukon",
+      "Northwest Territories": "Northwest Territories",
+      "Nunavut": "Nunavut"
+    },
+    "modesMonth": {
+      "01": "January",
+      "02": "February",
+      "03": "March",
+      "04": "April",
+      "05": "May",
+      "06": "June",
+      "07": "July",
+      "08": "August",
+      "09": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+	"CopyButton" : {
+      "CopyButton_Title" :  "Copy contents to clipboard",
+      "CopyButton_Confirm" : "Data copied (you can now paste into other applications)"
+	}
   }
 }

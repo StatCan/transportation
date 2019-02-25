@@ -1,14 +1,19 @@
 import settings from "./stackedAreaSettings.js";
-import settingsAirport from "./stackedAreaSettingsAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import CopyButton from "../copyButton.js";
 
 // const passengerMode = "passenger"; // TODO
 // const majorAirportMode = "majorAirport"; // TODO
 
+/* Copy Button */
+// -----------------------------------------------------------------------------
+const cButton = new CopyButton();
+// -----------------------------------------------------------------------------
+
 const data = {
   "passengers": {},
-  "major_airports":{}
+  "major_airports": {}
 };
 
 
@@ -16,12 +21,12 @@ let totals;
 let passengerTotals;
 let majorTotals; // TODO
 let canadaMap;
-let selectedDataset = "passengers"
+let selectedDataset = "passengers";
 
 let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
-let selectedRegion = "ON"; // default region for areaChart
+let selectedRegion = "CANADA"; // default region for areaChart
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
@@ -31,14 +36,19 @@ const lineData = {};
 // let dataSet = 0; // TODO
 
 const formatComma = d3.format(",d");
+<<<<<<< HEAD
 let stackedArea;
+=======
+const scalef = 1e3;
+
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
 // -----------------------------------------------------------------------------
 /* SVGs */
 const map = d3.select(".dashboard .map")
     .append("svg");
-let movementsButton = d3.select("#major");
-let passengerButton = d3.select("#movements");
-let monthDropdown = d3.select("#months");
+const movementsButton = d3.select("#major");
+const passengerButton = d3.select("#movements");
+const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 510 - margin.left - margin.right;
@@ -53,9 +63,6 @@ const svgCB = d3.select("#mapColourScale")
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
-const chart2 = d3.select("#aptChart") // .select(".data")
-    .append("svg")
-    .attr("id", "svg_aptChart");
 
 // area chart legend
 const svgLegend = d3.select("#areaLegend")
@@ -71,7 +78,7 @@ d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
 
 // -----------------------------------------------------------------------------
-/* variables */
+/* letiables */
 // For map circles
 let path;
 const defaultPointRadius = 1.3;
@@ -171,6 +178,7 @@ map.on("mouseover", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+<<<<<<< HEAD
     const key = i18next.t(classes[0], {ns: "airGeography"});
 
     if (key !== "airport") {
@@ -192,6 +200,32 @@ map.on("mouseover", () => {
             "</table>"
       )
           .style("pointer-events", "none");
+=======
+
+    if (classes[0] !== "svg-shimmed") {
+      const key = i18next.t(classes[0], {ns: "airGeography"});
+
+      if (key !== "airport") {
+        // Highlight map region
+        d3.select(".dashboard .map")
+            .select("." + classes[0])
+            .classed("airMapHighlight", true);
+        // Tooltip
+        const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
+        div.transition()
+            .style("opacity", .9);
+        div.html( // **** CHANGE ns WITH DATASET ****
+            "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b>" + value + "</td>" +
+            // "<td>" + " (" + units + ")</td>" +
+                "</tr>" +
+              "</table>"
+        )
+            .style("pointer-events", "none");
+      }
+>>>>>>> 9e47046efd893b0af26454608a2c9527c2ce02a2
     }
   }
 })
@@ -298,7 +332,7 @@ const vertical = d3.select("#annualTimeseries")
 
 let idx;
 let thisValue;
-let sectorType;
+// let sectorType;
 d3.select("#annualTimeseries")
     .on("mousemove", function() {
       const mouse = d3.mouse(this);
@@ -318,7 +352,7 @@ d3.select("#annualTimeseries")
                 if (thisArray[idx]) {
                   const thisYear = thisArray[idx];
                   thisValue = formatComma(thisYear[1] - thisYear[0]);
-                  sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
+                  // const sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
                 }
               }
             });
@@ -328,16 +362,25 @@ d3.select("#annualTimeseries")
         };
 
         if (thisValue) {
+          const thisData = data[selectedDataset][selectedRegion];
+          const thisDomestic = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["domestic"] / scalef);
+          const thisTrans = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["trans_border"] / scalef);
+          const thisInter = formatComma(thisData.filter((item) => item.date === yearDict[idx].toString())[0]["other_intl"] / scalef);
           divArea.transition()
               .style("opacity", .9);
           divArea.html(
-              "<b>" + sectorType + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
-            "<table>" +
-              "<tr>" +
-                "<td><b>" + yearDict[idx] + ": " + thisValue + "</td>" +
-              // "<td>" + " (" + units + ")</td>" +
-              "</tr>" +
-            "</table>"
+              "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" +
+              "<table>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                  "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+                "</tr>" +
+              "</table>"
           )
           divArea
               .style("left", ((d3.event.pageX +10) + "px"))
@@ -397,7 +440,14 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("units", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  d3.select("#cbID").text(mapScaleLabel);
+  
+  // Colourbar label (need be plotted only once)
+  const label = d3.select("#mapColourScale").append("div").attr("class","airmapCBlabel");
+  if (d3.select(".airmapCBlabel").text() === "") {
+    label
+        .append("text")
+        .text(mapScaleLabel);
+  }
 
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
@@ -408,12 +458,20 @@ function colorMap() {
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
+  updateTitles();
+
   const showChart = () => {
     stackedArea = areaChart(chart, settings, data[selectedDataset][selectedRegion]);
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
         .classed("airMapHighlight", true);
+
+    // ------------------copy button---------------------------------
+    // need to re-apend the button since table is being re-build
+    if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+    dataCopyButton(data[selectedDataset][selectedRegion]);
+    // ---------------------------------------------------------------
   };
 
   if (!data[selectedDataset][selectedRegion]) {
@@ -459,7 +517,7 @@ const showAirport = function() {
                 "</tr>" +
               "</table>"
         )
-            .style("pointer-events", "none")
+            .style("pointer-events", "none");
         // Titles
         const fullName = i18next.t(selectedAirpt, {ns: "airports"});
 
@@ -494,6 +552,7 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
+  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
 }
 
 function plotLegend() {
@@ -506,15 +565,41 @@ function plotLegend() {
         return i18next.t(classArray[i], {ns: "airPassengers"});
       });
 }
+
+// -----------------------------------------------------------------------------
+/* Copy Button*/
+function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+  const title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography})];
+  const columns = [""];
+
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
+
+  lines.push(title, [], columns);
+
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
+
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
+
+          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+          auxRow.push(value);
+        }
+      }
+      lines.push(auxRow);
+    }
+  }
+  cButton.data = lines;
+}
 // -----------------------------------------------------------------------------
 
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers"}),
-  settingsAirport.x.label = i18next.t("x_label", {ns: "airPassengerAirports"}),
-  settingsAirport.y.label = i18next.t("y_label", {ns: "airPassengerAirports"}),
-  // settingsAirport.tableTitle = i18next.t("tableTitle", {ns: "airPassengerAirports"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
@@ -550,6 +635,16 @@ i18n.load(["src/i18n"], () => {
         plotLegend();
         // Show chart titles based on default menu options
         updateTitles();
+
+        // copy button options
+        const cButtonOptions = {
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+        };
+        // build nodes on copy button
+        cButton.build(cButtonOptions);
       });
 });
 

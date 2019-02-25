@@ -10,43 +10,7 @@ const defaults = {
   }
 };
 
-export default function(svg, nodes, graph) {
-  const colourDict = {
-  // level 1
-    "intl": "#607890",
-    // level 2
-    "USres": "#CC982A",
-    "nonUSres": "#928941",
-    "cdnFromUS": "#FFDC68",
-    "cdnFromOther": "#FAB491",
-    // level 3
-    "USres_land": "#CC982A",
-    "USres_air": "#CC982A",
-    "USres_marine": "#CC982A",
-    // level 4 of level 3 USres
-    "USres_car": "#CC982A",
-    "USres_bus": "#CC982A",
-    "USres_train": "#CC982A",
-    "USres_other": "#CC982A",
-
-    "nonUSres_land": "#928941",
-    "nonUSres_air": "#928941",
-    "nonUSres_marine": "#928941",
-
-    "cdnFromUS_land": "#FFDC68",
-    "cdnFromUS_air": "#FFDC68",
-    "cdnFromUS_marine": "#FFDC68",
-    // level 4 of level 3 cdnFromUS
-    "cdnFromUS_car": "#FFDC68",
-    "cdnFromUS_bus": "#FFDC68",
-    "cdnFromUS_train": "#FFDC68",
-    "cdnFromUS_other": "#FFDC68",
-
-    "cdnFromOther_land": "#FAB491",
-    "cdnFromOther_air": "#FAB491",
-    "cdnFromOther_marine": "#FAB491"
-  };
-
+export default function(svg, settings, data) {
   // set the dimensions and margins of the graph
   const mergedSettings = defaults;
   const outerWidth = mergedSettings.width;
@@ -56,6 +20,26 @@ export default function(svg, nodes, graph) {
   let chartInner = svg.select("g.margin-offset");
   let dataLayer = chartInner.select(".data");
 
+  const nonZeroNodes = [];
+  data = {
+    links: data.links
+        .map((d) => {
+          return {...d};
+        })
+        .filter((d) => {
+          if (d.value > 0) {
+            nonZeroNodes.push(d.source, d.target);
+            return true;
+          }
+          return false;
+        }),
+    nodes: data.nodes
+        .map((d) => {
+          return {...d};
+        })
+        .filter((d) => nonZeroNodes.includes(d.node))
+  };
+// console.log(nonZeroNodes, data)
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
@@ -63,28 +47,24 @@ export default function(svg, nodes, graph) {
   const format = function(d) {
     return formatNumber(d);
   };
-
-  // append the svg object to the body of the page
-  // var svg = d3.select(svgID).append("svg")
-  //     .attr("width", width + margin.left + margin.right)
-  //     .attr("height", height + margin.top + margin.bottom)
-  //   .append("g")
-  //     .attr("transform",
-  //           "translate(" + margin.left + "," + margin.top + ")");
+  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
-      // .nodeWidth(36) // defined in sankey_d3v4.js
-      // .nodePadding(40) // defined in sankey_d3v4.js
       .size([innerWidth, innerHeight]);
 
   const path = sankey.link();
 
-  function make(graph) {
+  function make() {
     sankey
-        .nodes(nodes)
-        .links(graph.links)
+        .nodes(data.nodes)
+        .links(data.links)
         .layout(32);
+
+    // tooltip div
+    const div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     if (dataLayer.empty()) {
       dataLayer = chartInner.append("g")
@@ -93,37 +73,49 @@ export default function(svg, nodes, graph) {
 
     // add in the links
     const link = dataLayer.append("g").selectAll(".link")
-        .data(graph.links)
+        .data(sankey.links())
         .enter().append("path")
         .attr("class", "link")
         .attr("d", path)
         .style("stroke-width", function(d) {
           return Math.max(1, d.dy);
         })
-        .style("opacity", function(d) {
-          if (d.value === 0) return 0;
-        })
         .sort(function(a, b) {
           return b.dy - a.dy;
-        });
-
-    // add the link titles
-    link.append("title")
-        .text(function(d) {
-          // return i18next.t(d.source.name, {ns: "modes"}) + "_to_" +
-          //         i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
-          return i18next.t(d.target.name, {ns: "modes"}) + "\n" + format(d.value);
+        })
+        .on("mousemove", function(d) {
+          // Tooltip
+          const sourceName = d.source.name;
+          div.transition()
+              .style("opacity", .9);
+          div.html(
+              "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
+                "<table>" +
+                  "<tr>" +
+                    "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                  "</tr>" +
+                "</table>"
+          )
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+              .style("opacity", 0);
         });
 
     // DO NOT PLOT IF DATA IS COMPLETELY ZERO
-    if (graph.links.length !== 0) {
+    if (data.links.length !== 0) {
       // add in the nodes
       const node = dataLayer.append("g").selectAll(".node")
-          .data(nodes)
+          .data(sankey.nodes())
           .enter().append("g")
-          .attr("class", "node")
+          .attr("class", function(d) {
+            return "node " + d.name; // d.name to fill by class in css
+          })
           .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")";
+            return `translate(${d.x || 0}, ${d.y || 0})`;
           })
           .call(d3.drag()
               .subject(function(d) {
@@ -134,20 +126,36 @@ export default function(svg, nodes, graph) {
               })
               .on("drag", dragmove));
 
+      node
+          .on("mousemove", function(d) {
+            div.transition()
+                .style("opacity", .9);
+            div.html(
+                "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
+                "<table>" +
+                  "<tr>" +
+                  "<td>" + "Total:" + "</td>" +
+                  "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                  "</tr>" +
+                "</table>"
+            )
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+          })
+          .on("mouseout", function(d) {
+            div.transition()
+                .style("opacity", 0);
+          });
+
       // add the rectangles for the nodes
       node.append("rect")
           .attr("height", function(d) {
             return d.dy;
           })
           .attr("width", sankey.nodeWidth())
-          .style("fill", function(d) {
-            return d.color = colourDict[d.name];
-            // return d.color = color(d.name.replace(/ .*/, ""));
-          })
           .style("stroke", function(d) {
             return d3.rgb(d.color).darker(2);
           })
-          .append("title")
           .text(function(d) {
             return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
           });
@@ -156,20 +164,20 @@ export default function(svg, nodes, graph) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2;
+            return d.dy / 2.5;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
           .attr("transform", null)
           .text(function(d) {
-            // return i18next.t(d.name, {ns: "modes"});
             if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
           })
           .filter(function(d) {
             return d.x < innerWidth / 2;
           })
           .attr("x", 6 + sankey.nodeWidth())
-          .attr("text-anchor", "start");
+          .attr("text-anchor", "start")
+          .call(wrap, 200);
     }
     // the function for moving the nodes
     function dragmove(d) {
@@ -182,6 +190,31 @@ export default function(svg, nodes, graph) {
                  ) + ")");
       sankey.relayout();
       link.attr("d", path);
+    }
+
+    function wrap(text, width) {
+      const xcoord = 40;
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
     }
   } // end make()
 
@@ -198,5 +231,5 @@ export default function(svg, nodes, graph) {
   }
 
   d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-  make(graph);
+  make();
 } // end makeSankey()
