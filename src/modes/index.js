@@ -1,7 +1,13 @@
 import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
+import CopyButton from "../copyButton.js";
 
-let selectedGeo = "Canada";
+/* Copy Button */
+// -----------------------------------------------------------------------------
+const cButton = new CopyButton();
+// -----------------------------------------------------------------------------
+
+let selectedRegion = "Canada";
 
 let selectedMonth = "01";
 let selectedYear = "2018";
@@ -134,9 +140,9 @@ const table = d3.select(".tabledata");
 function uiHandler(event) {
   // clear any tooltips
   d3.selectAll(".tooltip").style("opacity", 0);
-  
+
   if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
-    selectedGeo = document.getElementById("groups").value;
+    selectedRegion = document.getElementById("groups").value;
     selectedMonth = document.getElementById("month").value;
     selectedYear = document.getElementById("year").value;
 
@@ -151,25 +157,25 @@ function uiHandler(event) {
 
 function showData() {
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisData = data[selectedYear + "-" + selectedMonth][selectedGeo];
+  const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
   const travellerTotal = () => thisData.map((item) => item.value).reduce((prev, next) => prev + next);
   if (travellerTotal() === 0) {
     d3.selectAll("svg > *").remove();
     d3.select("#zeroFlag")
-        .text(`Zero international travellers for ${selectedGeo},
+        .text(`Zero international travellers for ${selectedRegion},
           ${thisMonth} ${selectedYear}`);
   } else {
     d3.selectAll("svg > *").remove();
 
     makeSankey(sankeyChart, {}, {
       nodes,
-      links: data[selectedYear + "-" + selectedMonth][selectedGeo]
+      links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });
   }
 
-  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedGeo].map((d) => {
+  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedRegion].map((d) => {
     return {
       source: nodes[d.source],
       target: nodes[d.target],
@@ -178,11 +184,18 @@ function showData() {
   }));
 
   updateTitles();
+  // ------------------copy button---------------------------------
+  // dataCopyButton(nodes);
+
+  cButton.appendTo(document.getElementById("copy-button-container"));
+  // dataCopyButton(nodes);
+  dataCopyButton(data[selectedYear + "-" + selectedMonth][selectedRegion]);
+  // ---------------------------------------------------------------
 }
 
 /* -- update table title -- */
 function updateTitles() {
-  const thisGeo = i18next.t(selectedGeo, {ns: "modesGeography"});
+  const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
   + " in " + thisMonth + " " + selectedYear + ", by type of transport";
@@ -190,7 +203,52 @@ function updateTitles() {
   d3.select("#only-dt-tbl").text(thisTitle);
 }
 
+// -----------------------------------------------------------------------------
+/* Copy Button*/
+function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
+  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const columns = [""];
+
+  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
+
+  lines.push(title, [], columns);
+
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
+
+      for (const column in cButtondata[row]) {
+        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+          let value = cButtondata[row][column];
+
+          if (column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
+
+          auxRow.push(value);
+        }
+      }
+
+      lines.push(auxRow);
+    }
+  }
+
+  cButton.data = lines;
+}
+
+// -----------------------------------------------------------------------------
+/* Initial page load */
 i18n.load(["src/i18n"], function() {
+  // copy button options
+  const cButtonOptions = {
+    pNode: document.getElementById("copy-button-container"),
+    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+  };
+  // build nodes on copy button
+  cButton.build(cButtonOptions);
+
   loadData(selectedYear, selectedMonth, showData);
 });
 

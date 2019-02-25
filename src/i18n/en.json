@@ -367,6 +367,10 @@
       "10": "October",
       "11": "November",
       "12": "December"
-    }
+    },
+	"CopyButton" : {
+      "CopyButton_Title" :  "Copy contents to clipboard",
+      "CopyButton_Confirm" : "Data copied (you can now paste into other applications)"
+	}
   }
 }
