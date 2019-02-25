@@ -18,6 +18,10 @@
 .tblHeader{
   text-align: right
 }
+
+.table td {
+	text-align: right;
+} 
 /*road dataset*/
 /*-- tooltip --*/
 .linecursor {
