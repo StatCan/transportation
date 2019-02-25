@@ -184,7 +184,7 @@
        "NT": "Territoires du Nord-Ouest",
        "NU": "Nunavut"
     }
-  },
+  ,
    "modes": {
       "intl": "Total des voyageurs internationaux",
       "USres": "Résidents des États-Unis",
@@ -217,6 +217,10 @@
       "tableTitle": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
       "name": "Caractéristiques des voyageurs",
       "value": "Nombre de voyageurs"
+    },    
+    "CopyButton" : {
+      "CopyButton_Title" :  "Copier le contenu vers le presse-papier",
+      "CopyButton_Confirm" : "Les données sont copiées (vous pouvez maintenant les coller dans une autre application)"
     }
   }
 }

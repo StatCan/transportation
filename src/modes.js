@@ -20,47 +20,6 @@
 	});
 	var _core_1 = _core.version;
 
-	var _library = false;
-
-	var _shared = createCommonjsModule(function (module) {
-	var SHARED = '__core-js_shared__';
-	var store = _global[SHARED] || (_global[SHARED] = {});
-
-	(module.exports = function (key, value) {
-	  return store[key] || (store[key] = value !== undefined ? value : {});
-	})('versions', []).push({
-	  version: _core.version,
-	  mode: _library ? 'pure' : 'global',
-	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
-	});
-	});
-
-	var id = 0;
-	var px = Math.random();
-	var _uid = function (key) {
-	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-	};
-
-	var _wks = createCommonjsModule(function (module) {
-	var store = _shared('wks');
-
-	var Symbol = _global.Symbol;
-	var USE_SYMBOL = typeof Symbol == 'function';
-
-	var $exports = module.exports = function (name) {
-	  return store[name] || (store[name] =
-	    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
-	};
-
-	$exports.store = store;
-	});
-
-	var f = _wks;
-
-	var _wksExt = {
-		f: f
-	};
-
 	var _isObject = function (it) {
 	  return typeof it === 'object' ? it !== null : typeof it === 'function';
 	};
@@ -109,7 +68,7 @@
 
 	var dP = Object.defineProperty;
 
-	var f$1 = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+	var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes) {
 	  _anObject(O);
 	  P = _toPrimitive(P, true);
 	  _anObject(Attributes);
@@ -122,20 +81,7 @@
 	};
 
 	var _objectDp = {
-		f: f$1
-	};
-
-	var defineProperty = _objectDp.f;
-	var _wksDefine = function (name) {
-	  var $Symbol = _core.Symbol || (_core.Symbol = _library ? {} : _global.Symbol || {});
-	  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: _wksExt.f(name) });
-	};
-
-	_wksDefine('asyncIterator');
-
-	var hasOwnProperty = {}.hasOwnProperty;
-	var _has = function (it, key) {
-	  return hasOwnProperty.call(it, key);
+		f: f
 	};
 
 	var _propertyDesc = function (bitmap, value) {
@@ -152,6 +98,17 @@
 	} : function (object, key, value) {
 	  object[key] = value;
 	  return object;
+	};
+
+	var hasOwnProperty = {}.hasOwnProperty;
+	var _has = function (it, key) {
+	  return hasOwnProperty.call(it, key);
+	};
+
+	var id = 0;
+	var px = Math.random();
+	var _uid = function (key) {
+	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 	};
 
 	var _redefine = createCommonjsModule(function (module) {
@@ -250,75 +207,6 @@
 	$export.R = 128; // real proto method for `library`
 	var _export = $export;
 
-	var _meta = createCommonjsModule(function (module) {
-	var META = _uid('meta');
-
-
-	var setDesc = _objectDp.f;
-	var id = 0;
-	var isExtensible = Object.isExtensible || function () {
-	  return true;
-	};
-	var FREEZE = !_fails(function () {
-	  return isExtensible(Object.preventExtensions({}));
-	});
-	var setMeta = function (it) {
-	  setDesc(it, META, { value: {
-	    i: 'O' + ++id, // object ID
-	    w: {}          // weak collections IDs
-	  } });
-	};
-	var fastKey = function (it, create) {
-	  // return primitive with prefix
-	  if (!_isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-	  if (!_has(it, META)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return 'F';
-	    // not necessary to add metadata
-	    if (!create) return 'E';
-	    // add missing metadata
-	    setMeta(it);
-	  // return object ID
-	  } return it[META].i;
-	};
-	var getWeak = function (it, create) {
-	  if (!_has(it, META)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return true;
-	    // not necessary to add metadata
-	    if (!create) return false;
-	    // add missing metadata
-	    setMeta(it);
-	  // return hash weak collections IDs
-	  } return it[META].w;
-	};
-	// add metadata on freeze-family methods calling
-	var onFreeze = function (it) {
-	  if (FREEZE && meta.NEED && isExtensible(it) && !_has(it, META)) setMeta(it);
-	  return it;
-	};
-	var meta = module.exports = {
-	  KEY: META,
-	  NEED: false,
-	  fastKey: fastKey,
-	  getWeak: getWeak,
-	  onFreeze: onFreeze
-	};
-	});
-	var _meta_1 = _meta.KEY;
-	var _meta_2 = _meta.NEED;
-	var _meta_3 = _meta.fastKey;
-	var _meta_4 = _meta.getWeak;
-	var _meta_5 = _meta.onFreeze;
-
-	var def = _objectDp.f;
-
-	var TAG = _wks('toStringTag');
-
-	var _setToStringTag = function (it, tag, stat) {
-	  if (it && !_has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-	};
-
 	var toString = {}.toString;
 
 	var _cof = function (it) {
@@ -338,11 +226,10 @@
 	  return it;
 	};
 
-	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	// 7.1.13 ToObject(argument)
 
-
-	var _toIobject = function (it) {
-	  return _iobject(_defined(it));
+	var _toObject = function (it) {
+	  return Object(_defined(it));
 	};
 
 	// 7.1.4 ToInteger
@@ -359,631 +246,40 @@
 	  return it > 0 ? min(_toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
-	var max = Math.max;
-	var min$1 = Math.min;
-	var _toAbsoluteIndex = function (index, length) {
-	  index = _toInteger(index);
-	  return index < 0 ? max(index + length, 0) : min$1(index, length);
-	};
-
-	// false -> Array#indexOf
-	// true  -> Array#includes
-
-
-
-	var _arrayIncludes = function (IS_INCLUDES) {
-	  return function ($this, el, fromIndex) {
-	    var O = _toIobject($this);
-	    var length = _toLength(O.length);
-	    var index = _toAbsoluteIndex(fromIndex, length);
-	    var value;
-	    // Array#includes uses SameValueZero equality algorithm
-	    // eslint-disable-next-line no-self-compare
-	    if (IS_INCLUDES && el != el) while (length > index) {
-	      value = O[index++];
-	      // eslint-disable-next-line no-self-compare
-	      if (value != value) return true;
-	    // Array#indexOf ignores holes, Array#includes - not
-	    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
-	      if (O[index] === el) return IS_INCLUDES || index || 0;
-	    } return !IS_INCLUDES && -1;
-	  };
-	};
-
-	var shared = _shared('keys');
-
-	var _sharedKey = function (key) {
-	  return shared[key] || (shared[key] = _uid(key));
-	};
-
-	var arrayIndexOf = _arrayIncludes(false);
-	var IE_PROTO = _sharedKey('IE_PROTO');
-
-	var _objectKeysInternal = function (object, names) {
-	  var O = _toIobject(object);
-	  var i = 0;
-	  var result = [];
-	  var key;
-	  for (key in O) if (key != IE_PROTO) _has(O, key) && result.push(key);
-	  // Don't enum bug & hidden keys
-	  while (names.length > i) if (_has(O, key = names[i++])) {
-	    ~arrayIndexOf(result, key) || result.push(key);
-	  }
-	  return result;
-	};
-
-	// IE 8- don't enum bug keys
-	var _enumBugKeys = (
-	  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-	).split(',');
-
-	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-
-
-
-	var _objectKeys = Object.keys || function keys(O) {
-	  return _objectKeysInternal(O, _enumBugKeys);
-	};
-
-	var f$2 = Object.getOwnPropertySymbols;
-
-	var _objectGops = {
-		f: f$2
-	};
-
-	var f$3 = {}.propertyIsEnumerable;
-
-	var _objectPie = {
-		f: f$3
-	};
-
-	// all enumerable object keys, includes symbols
-
-
-
-	var _enumKeys = function (it) {
-	  var result = _objectKeys(it);
-	  var getSymbols = _objectGops.f;
-	  if (getSymbols) {
-	    var symbols = getSymbols(it);
-	    var isEnum = _objectPie.f;
-	    var i = 0;
-	    var key;
-	    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
-	  } return result;
-	};
-
 	// 7.2.2 IsArray(argument)
 
 	var _isArray = Array.isArray || function isArray(arg) {
 	  return _cof(arg) == 'Array';
 	};
 
-	var _objectDps = _descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
-	  _anObject(O);
-	  var keys = _objectKeys(Properties);
-	  var length = keys.length;
-	  var i = 0;
-	  var P;
-	  while (length > i) _objectDp.f(O, P = keys[i++], Properties[P]);
-	  return O;
-	};
+	var _library = false;
 
-	var document$2 = _global.document;
-	var _html = document$2 && document$2.documentElement;
+	var _shared = createCommonjsModule(function (module) {
+	var SHARED = '__core-js_shared__';
+	var store = _global[SHARED] || (_global[SHARED] = {});
 
-	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-
-
-
-	var IE_PROTO$1 = _sharedKey('IE_PROTO');
-	var Empty = function () { /* empty */ };
-	var PROTOTYPE$1 = 'prototype';
-
-	// Create object with fake `null` prototype: use iframe Object with cleared prototype
-	var createDict = function () {
-	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = _domCreate('iframe');
-	  var i = _enumBugKeys.length;
-	  var lt = '<';
-	  var gt = '>';
-	  var iframeDocument;
-	  iframe.style.display = 'none';
-	  _html.appendChild(iframe);
-	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-	  // createDict = iframe.contentWindow.Object;
-	  // html.removeChild(iframe);
-	  iframeDocument = iframe.contentWindow.document;
-	  iframeDocument.open();
-	  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-	  iframeDocument.close();
-	  createDict = iframeDocument.F;
-	  while (i--) delete createDict[PROTOTYPE$1][_enumBugKeys[i]];
-	  return createDict();
-	};
-
-	var _objectCreate = Object.create || function create(O, Properties) {
-	  var result;
-	  if (O !== null) {
-	    Empty[PROTOTYPE$1] = _anObject(O);
-	    result = new Empty();
-	    Empty[PROTOTYPE$1] = null;
-	    // add "__proto__" for Object.getPrototypeOf polyfill
-	    result[IE_PROTO$1] = O;
-	  } else result = createDict();
-	  return Properties === undefined ? result : _objectDps(result, Properties);
-	};
-
-	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-
-	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
-
-	var f$4 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-	  return _objectKeysInternal(O, hiddenKeys);
-	};
-
-	var _objectGopn = {
-		f: f$4
-	};
-
-	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-
-	var gOPN = _objectGopn.f;
-	var toString$1 = {}.toString;
-
-	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-	  ? Object.getOwnPropertyNames(window) : [];
-
-	var getWindowNames = function (it) {
-	  try {
-	    return gOPN(it);
-	  } catch (e) {
-	    return windowNames.slice();
-	  }
-	};
-
-	var f$5 = function getOwnPropertyNames(it) {
-	  return windowNames && toString$1.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(_toIobject(it));
-	};
-
-	var _objectGopnExt = {
-		f: f$5
-	};
-
-	var gOPD = Object.getOwnPropertyDescriptor;
-
-	var f$6 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
-	  O = _toIobject(O);
-	  P = _toPrimitive(P, true);
-	  if (_ie8DomDefine) try {
-	    return gOPD(O, P);
-	  } catch (e) { /* empty */ }
-	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
-	};
-
-	var _objectGopd = {
-		f: f$6
-	};
-
-	// ECMAScript 6 symbols shim
-
-
-
-
-
-	var META = _meta.KEY;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	var gOPD$1 = _objectGopd.f;
-	var dP$1 = _objectDp.f;
-	var gOPN$1 = _objectGopnExt.f;
-	var $Symbol = _global.Symbol;
-	var $JSON = _global.JSON;
-	var _stringify = $JSON && $JSON.stringify;
-	var PROTOTYPE$2 = 'prototype';
-	var HIDDEN = _wks('_hidden');
-	var TO_PRIMITIVE = _wks('toPrimitive');
-	var isEnum = {}.propertyIsEnumerable;
-	var SymbolRegistry = _shared('symbol-registry');
-	var AllSymbols = _shared('symbols');
-	var OPSymbols = _shared('op-symbols');
-	var ObjectProto = Object[PROTOTYPE$2];
-	var USE_NATIVE = typeof $Symbol == 'function';
-	var QObject = _global.QObject;
-	// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-	var setter = !QObject || !QObject[PROTOTYPE$2] || !QObject[PROTOTYPE$2].findChild;
-
-	// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-	var setSymbolDesc = _descriptors && _fails(function () {
-	  return _objectCreate(dP$1({}, 'a', {
-	    get: function () { return dP$1(this, 'a', { value: 7 }).a; }
-	  })).a != 7;
-	}) ? function (it, key, D) {
-	  var protoDesc = gOPD$1(ObjectProto, key);
-	  if (protoDesc) delete ObjectProto[key];
-	  dP$1(it, key, D);
-	  if (protoDesc && it !== ObjectProto) dP$1(ObjectProto, key, protoDesc);
-	} : dP$1;
-
-	var wrap = function (tag) {
-	  var sym = AllSymbols[tag] = _objectCreate($Symbol[PROTOTYPE$2]);
-	  sym._k = tag;
-	  return sym;
-	};
-
-	var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
-	  return typeof it == 'symbol';
-	} : function (it) {
-	  return it instanceof $Symbol;
-	};
-
-	var $defineProperty = function defineProperty(it, key, D) {
-	  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
-	  _anObject(it);
-	  key = _toPrimitive(key, true);
-	  _anObject(D);
-	  if (_has(AllSymbols, key)) {
-	    if (!D.enumerable) {
-	      if (!_has(it, HIDDEN)) dP$1(it, HIDDEN, _propertyDesc(1, {}));
-	      it[HIDDEN][key] = true;
-	    } else {
-	      if (_has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
-	      D = _objectCreate(D, { enumerable: _propertyDesc(0, false) });
-	    } return setSymbolDesc(it, key, D);
-	  } return dP$1(it, key, D);
-	};
-	var $defineProperties = function defineProperties(it, P) {
-	  _anObject(it);
-	  var keys = _enumKeys(P = _toIobject(P));
-	  var i = 0;
-	  var l = keys.length;
-	  var key;
-	  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
-	  return it;
-	};
-	var $create = function create(it, P) {
-	  return P === undefined ? _objectCreate(it) : $defineProperties(_objectCreate(it), P);
-	};
-	var $propertyIsEnumerable = function propertyIsEnumerable(key) {
-	  var E = isEnum.call(this, key = _toPrimitive(key, true));
-	  if (this === ObjectProto && _has(AllSymbols, key) && !_has(OPSymbols, key)) return false;
-	  return E || !_has(this, key) || !_has(AllSymbols, key) || _has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
-	};
-	var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
-	  it = _toIobject(it);
-	  key = _toPrimitive(key, true);
-	  if (it === ObjectProto && _has(AllSymbols, key) && !_has(OPSymbols, key)) return;
-	  var D = gOPD$1(it, key);
-	  if (D && _has(AllSymbols, key) && !(_has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
-	  return D;
-	};
-	var $getOwnPropertyNames = function getOwnPropertyNames(it) {
-	  var names = gOPN$1(_toIobject(it));
-	  var result = [];
-	  var i = 0;
-	  var key;
-	  while (names.length > i) {
-	    if (!_has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
-	  } return result;
-	};
-	var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
-	  var IS_OP = it === ObjectProto;
-	  var names = gOPN$1(IS_OP ? OPSymbols : _toIobject(it));
-	  var result = [];
-	  var i = 0;
-	  var key;
-	  while (names.length > i) {
-	    if (_has(AllSymbols, key = names[i++]) && (IS_OP ? _has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
-	  } return result;
-	};
-
-	// 19.4.1.1 Symbol([description])
-	if (!USE_NATIVE) {
-	  $Symbol = function Symbol() {
-	    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
-	    var tag = _uid(arguments.length > 0 ? arguments[0] : undefined);
-	    var $set = function (value) {
-	      if (this === ObjectProto) $set.call(OPSymbols, value);
-	      if (_has(this, HIDDEN) && _has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-	      setSymbolDesc(this, tag, _propertyDesc(1, value));
-	    };
-	    if (_descriptors && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
-	    return wrap(tag);
-	  };
-	  _redefine($Symbol[PROTOTYPE$2], 'toString', function toString() {
-	    return this._k;
-	  });
-
-	  _objectGopd.f = $getOwnPropertyDescriptor;
-	  _objectDp.f = $defineProperty;
-	  _objectGopn.f = _objectGopnExt.f = $getOwnPropertyNames;
-	  _objectPie.f = $propertyIsEnumerable;
-	  _objectGops.f = $getOwnPropertySymbols;
-
-	  if (_descriptors && !_library) {
-	    _redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
-	  }
-
-	  _wksExt.f = function (name) {
-	    return wrap(_wks(name));
-	  };
-	}
-
-	_export(_export.G + _export.W + _export.F * !USE_NATIVE, { Symbol: $Symbol });
-
-	for (var es6Symbols = (
-	  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
-	  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
-	).split(','), j = 0; es6Symbols.length > j;)_wks(es6Symbols[j++]);
-
-	for (var wellKnownSymbols = _objectKeys(_wks.store), k = 0; wellKnownSymbols.length > k;) _wksDefine(wellKnownSymbols[k++]);
-
-	_export(_export.S + _export.F * !USE_NATIVE, 'Symbol', {
-	  // 19.4.2.1 Symbol.for(key)
-	  'for': function (key) {
-	    return _has(SymbolRegistry, key += '')
-	      ? SymbolRegistry[key]
-	      : SymbolRegistry[key] = $Symbol(key);
-	  },
-	  // 19.4.2.5 Symbol.keyFor(sym)
-	  keyFor: function keyFor(sym) {
-	    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
-	    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
-	  },
-	  useSetter: function () { setter = true; },
-	  useSimple: function () { setter = false; }
+	(module.exports = function (key, value) {
+	  return store[key] || (store[key] = value !== undefined ? value : {});
+	})('versions', []).push({
+	  version: _core.version,
+	  mode: _library ? 'pure' : 'global',
+	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+	});
 	});
 
-	_export(_export.S + _export.F * !USE_NATIVE, 'Object', {
-	  // 19.1.2.2 Object.create(O [, Properties])
-	  create: $create,
-	  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
-	  defineProperty: $defineProperty,
-	  // 19.1.2.3 Object.defineProperties(O, Properties)
-	  defineProperties: $defineProperties,
-	  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-	  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-	  // 19.1.2.7 Object.getOwnPropertyNames(O)
-	  getOwnPropertyNames: $getOwnPropertyNames,
-	  // 19.1.2.8 Object.getOwnPropertySymbols(O)
-	  getOwnPropertySymbols: $getOwnPropertySymbols
+	var _wks = createCommonjsModule(function (module) {
+	var store = _shared('wks');
+
+	var Symbol = _global.Symbol;
+	var USE_SYMBOL = typeof Symbol == 'function';
+
+	var $exports = module.exports = function (name) {
+	  return store[name] || (store[name] =
+	    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
+	};
+
+	$exports.store = store;
 	});
-
-	// 24.3.2 JSON.stringify(value [, replacer [, space]])
-	$JSON && _export(_export.S + _export.F * (!USE_NATIVE || _fails(function () {
-	  var S = $Symbol();
-	  // MS Edge converts symbol values to JSON as {}
-	  // WebKit converts symbol values to JSON as null
-	  // V8 throws on boxed symbols
-	  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
-	})), 'JSON', {
-	  stringify: function stringify(it) {
-	    var args = [it];
-	    var i = 1;
-	    var replacer, $replacer;
-	    while (arguments.length > i) args.push(arguments[i++]);
-	    $replacer = replacer = args[1];
-	    if (!_isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-	    if (!_isArray(replacer)) replacer = function (key, value) {
-	      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
-	      if (!isSymbol(value)) return value;
-	    };
-	    args[1] = replacer;
-	    return _stringify.apply($JSON, args);
-	  }
-	});
-
-	// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-	$Symbol[PROTOTYPE$2][TO_PRIMITIVE] || _hide($Symbol[PROTOTYPE$2], TO_PRIMITIVE, $Symbol[PROTOTYPE$2].valueOf);
-	// 19.4.3.5 Symbol.prototype[@@toStringTag]
-	_setToStringTag($Symbol, 'Symbol');
-	// 20.2.1.9 Math[@@toStringTag]
-	_setToStringTag(Math, 'Math', true);
-	// 24.3.3 JSON[@@toStringTag]
-	_setToStringTag(_global.JSON, 'JSON', true);
-
-	// 22.1.3.31 Array.prototype[@@unscopables]
-	var UNSCOPABLES = _wks('unscopables');
-	var ArrayProto = Array.prototype;
-	if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
-	var _addToUnscopables = function (key) {
-	  ArrayProto[UNSCOPABLES][key] = true;
-	};
-
-	var _iterStep = function (done, value) {
-	  return { value: value, done: !!done };
-	};
-
-	var _iterators = {};
-
-	var IteratorPrototype = {};
-
-	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-	_hide(IteratorPrototype, _wks('iterator'), function () { return this; });
-
-	var _iterCreate = function (Constructor, NAME, next) {
-	  Constructor.prototype = _objectCreate(IteratorPrototype, { next: _propertyDesc(1, next) });
-	  _setToStringTag(Constructor, NAME + ' Iterator');
-	};
-
-	// 7.1.13 ToObject(argument)
-
-	var _toObject = function (it) {
-	  return Object(_defined(it));
-	};
-
-	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-
-
-	var IE_PROTO$2 = _sharedKey('IE_PROTO');
-	var ObjectProto$1 = Object.prototype;
-
-	var _objectGpo = Object.getPrototypeOf || function (O) {
-	  O = _toObject(O);
-	  if (_has(O, IE_PROTO$2)) return O[IE_PROTO$2];
-	  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-	    return O.constructor.prototype;
-	  } return O instanceof Object ? ObjectProto$1 : null;
-	};
-
-	var ITERATOR = _wks('iterator');
-	var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
-	var FF_ITERATOR = '@@iterator';
-	var KEYS = 'keys';
-	var VALUES = 'values';
-
-	var returnThis = function () { return this; };
-
-	var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
-	  _iterCreate(Constructor, NAME, next);
-	  var getMethod = function (kind) {
-	    if (!BUGGY && kind in proto) return proto[kind];
-	    switch (kind) {
-	      case KEYS: return function keys() { return new Constructor(this, kind); };
-	      case VALUES: return function values() { return new Constructor(this, kind); };
-	    } return function entries() { return new Constructor(this, kind); };
-	  };
-	  var TAG = NAME + ' Iterator';
-	  var DEF_VALUES = DEFAULT == VALUES;
-	  var VALUES_BUG = false;
-	  var proto = Base.prototype;
-	  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-	  var $default = $native || getMethod(DEFAULT);
-	  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
-	  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
-	  var methods, key, IteratorPrototype;
-	  // Fix native
-	  if ($anyNative) {
-	    IteratorPrototype = _objectGpo($anyNative.call(new Base()));
-	    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
-	      // Set @@toStringTag to native iterators
-	      _setToStringTag(IteratorPrototype, TAG, true);
-	      // fix for some old engines
-	      if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
-	    }
-	  }
-	  // fix Array#{values, @@iterator}.name in V8 / FF
-	  if (DEF_VALUES && $native && $native.name !== VALUES) {
-	    VALUES_BUG = true;
-	    $default = function values() { return $native.call(this); };
-	  }
-	  // Define iterator
-	  if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
-	    _hide(proto, ITERATOR, $default);
-	  }
-	  // Plug for library
-	  _iterators[NAME] = $default;
-	  _iterators[TAG] = returnThis;
-	  if (DEFAULT) {
-	    methods = {
-	      values: DEF_VALUES ? $default : getMethod(VALUES),
-	      keys: IS_SET ? $default : getMethod(KEYS),
-	      entries: $entries
-	    };
-	    if (FORCED) for (key in methods) {
-	      if (!(key in proto)) _redefine(proto, key, methods[key]);
-	    } else _export(_export.P + _export.F * (BUGGY || VALUES_BUG), NAME, methods);
-	  }
-	  return methods;
-	};
-
-	// 22.1.3.4 Array.prototype.entries()
-	// 22.1.3.13 Array.prototype.keys()
-	// 22.1.3.29 Array.prototype.values()
-	// 22.1.3.30 Array.prototype[@@iterator]()
-	var es6_array_iterator = _iterDefine(Array, 'Array', function (iterated, kind) {
-	  this._t = _toIobject(iterated); // target
-	  this._i = 0;                   // next index
-	  this._k = kind;                // kind
-	// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
-	}, function () {
-	  var O = this._t;
-	  var kind = this._k;
-	  var index = this._i++;
-	  if (!O || index >= O.length) {
-	    this._t = undefined;
-	    return _iterStep(1);
-	  }
-	  if (kind == 'keys') return _iterStep(0, index);
-	  if (kind == 'values') return _iterStep(0, O[index]);
-	  return _iterStep(0, [index, O[index]]);
-	}, 'values');
-
-	// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
-	_iterators.Arguments = _iterators.Array;
-
-	_addToUnscopables('keys');
-	_addToUnscopables('values');
-	_addToUnscopables('entries');
-
-	var ITERATOR$1 = _wks('iterator');
-	var TO_STRING_TAG = _wks('toStringTag');
-	var ArrayValues = _iterators.Array;
-
-	var DOMIterables = {
-	  CSSRuleList: true, // TODO: Not spec compliant, should be false.
-	  CSSStyleDeclaration: false,
-	  CSSValueList: false,
-	  ClientRectList: false,
-	  DOMRectList: false,
-	  DOMStringList: false,
-	  DOMTokenList: true,
-	  DataTransferItemList: false,
-	  FileList: false,
-	  HTMLAllCollection: false,
-	  HTMLCollection: false,
-	  HTMLFormElement: false,
-	  HTMLSelectElement: false,
-	  MediaList: true, // TODO: Not spec compliant, should be false.
-	  MimeTypeArray: false,
-	  NamedNodeMap: false,
-	  NodeList: true,
-	  PaintRequestList: false,
-	  Plugin: false,
-	  PluginArray: false,
-	  SVGLengthList: false,
-	  SVGNumberList: false,
-	  SVGPathSegList: false,
-	  SVGPointList: false,
-	  SVGStringList: false,
-	  SVGTransformList: false,
-	  SourceBufferList: false,
-	  StyleSheetList: true, // TODO: Not spec compliant, should be false.
-	  TextTrackCueList: false,
-	  TextTrackList: false,
-	  TouchList: false
-	};
-
-	for (var collections = _objectKeys(DOMIterables), i = 0; i < collections.length; i++) {
-	  var NAME = collections[i];
-	  var explicit = DOMIterables[NAME];
-	  var Collection = _global[NAME];
-	  var proto = Collection && Collection.prototype;
-	  var key;
-	  if (proto) {
-	    if (!proto[ITERATOR$1]) _hide(proto, ITERATOR$1, ArrayValues);
-	    if (!proto[TO_STRING_TAG]) _hide(proto, TO_STRING_TAG, NAME);
-	    _iterators[NAME] = ArrayValues;
-	    if (explicit) for (key in es6_array_iterator) if (!proto[key]) _redefine(proto, key, es6_array_iterator[key], true);
-	  }
-	}
 
 	var SPECIES = _wks('species');
 
@@ -1059,22 +355,428 @@
 	  });
 	};
 
-	var $filter = _arrayMethods(2);
+	var $map = _arrayMethods(1);
 
-	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
-	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
-	  filter: function filter(callbackfn /* , thisArg */) {
-	    return $filter(this, callbackfn, arguments[1]);
+	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
+	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map(this, callbackfn, arguments[1]);
 	  }
 	});
 
-	var dP$2 = _objectDp.f;
+	var _arrayReduce = function (that, callbackfn, aLen, memo, isRight) {
+	  _aFunction(callbackfn);
+	  var O = _toObject(that);
+	  var self = _iobject(O);
+	  var length = _toLength(O.length);
+	  var index = isRight ? length - 1 : 0;
+	  var i = isRight ? -1 : 1;
+	  if (aLen < 2) for (;;) {
+	    if (index in self) {
+	      memo = self[index];
+	      index += i;
+	      break;
+	    }
+	    index += i;
+	    if (isRight ? index < 0 : length <= index) {
+	      throw TypeError('Reduce of empty array with no initial value');
+	    }
+	  }
+	  for (;isRight ? index >= 0 : length > index; index += i) if (index in self) {
+	    memo = callbackfn(memo, self[index], index, O);
+	  }
+	  return memo;
+	};
+
+	_export(_export.P + _export.F * !_strictMethod([].reduce, true), 'Array', {
+	  // 22.1.3.18 / 15.4.4.21 Array.prototype.reduce(callbackfn [, initialValue])
+	  reduce: function reduce(callbackfn /* , initialValue */) {
+	    return _arrayReduce(this, callbackfn, arguments.length, arguments[1], false);
+	  }
+	});
+
+	// 7.2.8 IsRegExp(argument)
+
+
+	var MATCH = _wks('match');
+	var _isRegexp = function (it) {
+	  var isRegExp;
+	  return _isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : _cof(it) == 'RegExp');
+	};
+
+	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+
+
+	var SPECIES$1 = _wks('species');
+	var _speciesConstructor = function (O, D) {
+	  var C = _anObject(O).constructor;
+	  var S;
+	  return C === undefined || (S = _anObject(C)[SPECIES$1]) == undefined ? D : _aFunction(S);
+	};
+
+	// true  -> String#at
+	// false -> String#codePointAt
+	var _stringAt = function (TO_STRING) {
+	  return function (that, pos) {
+	    var s = String(_defined(that));
+	    var i = _toInteger(pos);
+	    var l = s.length;
+	    var a, b;
+	    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
+	    a = s.charCodeAt(i);
+	    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+	      ? TO_STRING ? s.charAt(i) : a
+	      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+	  };
+	};
+
+	var at = _stringAt(true);
+
+	 // `AdvanceStringIndex` abstract operation
+	// https://tc39.github.io/ecma262/#sec-advancestringindex
+	var _advanceStringIndex = function (S, index, unicode) {
+	  return index + (unicode ? at(S, index).length : 1);
+	};
+
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+
+	var TAG = _wks('toStringTag');
+	// ES3 wrong here
+	var ARG = _cof(function () { return arguments; }()) == 'Arguments';
+
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function (it, key) {
+	  try {
+	    return it[key];
+	  } catch (e) { /* empty */ }
+	};
+
+	var _classof = function (it) {
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? _cof(O)
+	    // ES3 arguments fallback
+	    : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+	var builtinExec = RegExp.prototype.exec;
+
+	 // `RegExpExec` abstract operation
+	// https://tc39.github.io/ecma262/#sec-regexpexec
+	var _regexpExecAbstract = function (R, S) {
+	  var exec = R.exec;
+	  if (typeof exec === 'function') {
+	    var result = exec.call(R, S);
+	    if (typeof result !== 'object') {
+	      throw new TypeError('RegExp exec method returned something other than an Object or null');
+	    }
+	    return result;
+	  }
+	  if (_classof(R) !== 'RegExp') {
+	    throw new TypeError('RegExp#exec called on incompatible receiver');
+	  }
+	  return builtinExec.call(R, S);
+	};
+
+	// 21.2.5.3 get RegExp.prototype.flags
+
+	var _flags = function () {
+	  var that = _anObject(this);
+	  var result = '';
+	  if (that.global) result += 'g';
+	  if (that.ignoreCase) result += 'i';
+	  if (that.multiline) result += 'm';
+	  if (that.unicode) result += 'u';
+	  if (that.sticky) result += 'y';
+	  return result;
+	};
+
+	var nativeExec = RegExp.prototype.exec;
+	// This always refers to the native implementation, because the
+	// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+	// which loads this file before patching the method.
+	var nativeReplace = String.prototype.replace;
+
+	var patchedExec = nativeExec;
+
+	var LAST_INDEX = 'lastIndex';
+
+	var UPDATES_LAST_INDEX_WRONG = (function () {
+	  var re1 = /a/,
+	      re2 = /b*/g;
+	  nativeExec.call(re1, 'a');
+	  nativeExec.call(re2, 'a');
+	  return re1[LAST_INDEX] !== 0 || re2[LAST_INDEX] !== 0;
+	})();
+
+	// nonparticipating capturing group, copied from es5-shim's String#split patch.
+	var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+	var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
+
+	if (PATCH) {
+	  patchedExec = function exec(str) {
+	    var re = this;
+	    var lastIndex, reCopy, match, i;
+
+	    if (NPCG_INCLUDED) {
+	      reCopy = new RegExp('^' + re.source + '$(?!\\s)', _flags.call(re));
+	    }
+	    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re[LAST_INDEX];
+
+	    match = nativeExec.call(re, str);
+
+	    if (UPDATES_LAST_INDEX_WRONG && match) {
+	      re[LAST_INDEX] = re.global ? match.index + match[0].length : lastIndex;
+	    }
+	    if (NPCG_INCLUDED && match && match.length > 1) {
+	      // Fix browsers whose `exec` methods don't consistently return `undefined`
+	      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+	      // eslint-disable-next-line no-loop-func
+	      nativeReplace.call(match[0], reCopy, function () {
+	        for (i = 1; i < arguments.length - 2; i++) {
+	          if (arguments[i] === undefined) match[i] = undefined;
+	        }
+	      });
+	    }
+
+	    return match;
+	  };
+	}
+
+	var _regexpExec = patchedExec;
+
+	_export({
+	  target: 'RegExp',
+	  proto: true,
+	  forced: _regexpExec !== /./.exec
+	}, {
+	  exec: _regexpExec
+	});
+
+	var SPECIES$2 = _wks('species');
+
+	var REPLACE_SUPPORTS_NAMED_GROUPS = !_fails(function () {
+	  // #replace needs built-in support for named groups.
+	  // #match works fine because it just return the exec results, even if it has
+	  // a "grops" property.
+	  var re = /./;
+	  re.exec = function () {
+	    var result = [];
+	    result.groups = { a: '7' };
+	    return result;
+	  };
+	  return ''.replace(re, '$<a>') !== '7';
+	});
+
+	var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = (function () {
+	  // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+	  var re = /(?:)/;
+	  var originalExec = re.exec;
+	  re.exec = function () { return originalExec.apply(this, arguments); };
+	  var result = 'ab'.split(re);
+	  return result.length === 2 && result[0] === 'a' && result[1] === 'b';
+	})();
+
+	var _fixReWks = function (KEY, length, exec) {
+	  var SYMBOL = _wks(KEY);
+
+	  var DELEGATES_TO_SYMBOL = !_fails(function () {
+	    // String methods call symbol-named RegEp methods
+	    var O = {};
+	    O[SYMBOL] = function () { return 7; };
+	    return ''[KEY](O) != 7;
+	  });
+
+	  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL ? !_fails(function () {
+	    // Symbol-named RegExp methods call .exec
+	    var execCalled = false;
+	    var re = /a/;
+	    re.exec = function () { execCalled = true; return null; };
+	    if (KEY === 'split') {
+	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+	      // a new one. We need to return the patched regex when creating the new one.
+	      re.constructor = {};
+	      re.constructor[SPECIES$2] = function () { return re; };
+	    }
+	    re[SYMBOL]('');
+	    return !execCalled;
+	  }) : undefined;
+
+	  if (
+	    !DELEGATES_TO_SYMBOL ||
+	    !DELEGATES_TO_EXEC ||
+	    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
+	    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+	  ) {
+	    var nativeRegExpMethod = /./[SYMBOL];
+	    var fns = exec(
+	      _defined,
+	      SYMBOL,
+	      ''[KEY],
+	      function maybeCallNative(nativeMethod, regexp, str, arg2, forceStringMethod) {
+	        if (regexp.exec === _regexpExec) {
+	          if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+	            // The native String method already delegates to @@method (this
+	            // polyfilled function), leasing to infinite recursion.
+	            // We avoid it by directly calling the native @@method method.
+	            return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+	          }
+	          return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+	        }
+	        return { done: false };
+	      }
+	    );
+	    var strfn = fns[0];
+	    var rxfn = fns[1];
+
+	    _redefine(String.prototype, KEY, strfn);
+	    _hide(RegExp.prototype, SYMBOL, length == 2
+	      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+	      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+	      ? function (string, arg) { return rxfn.call(string, this, arg); }
+	      // 21.2.5.6 RegExp.prototype[@@match](string)
+	      // 21.2.5.9 RegExp.prototype[@@search](string)
+	      : function (string) { return rxfn.call(string, this); }
+	    );
+	  }
+	};
+
+	var $min = Math.min;
+	var $push = [].push;
+	var $SPLIT = 'split';
+	var LENGTH = 'length';
+	var LAST_INDEX$1 = 'lastIndex';
+	var MAX_UINT32 = 0xffffffff;
+
+	// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
+	var SUPPORTS_Y = !_fails(function () { });
+
+	// @@split logic
+	_fixReWks('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
+	  var internalSplit;
+	  if (
+	    'abbc'[$SPLIT](/(b)*/)[1] == 'c' ||
+	    'test'[$SPLIT](/(?:)/, -1)[LENGTH] != 4 ||
+	    'ab'[$SPLIT](/(?:ab)*/)[LENGTH] != 2 ||
+	    '.'[$SPLIT](/(.?)(.?)/)[LENGTH] != 4 ||
+	    '.'[$SPLIT](/()()/)[LENGTH] > 1 ||
+	    ''[$SPLIT](/.?/)[LENGTH]
+	  ) {
+	    // based on es5-shim implementation, need to rework it
+	    internalSplit = function (separator, limit) {
+	      var string = String(this);
+	      if (separator === undefined && limit === 0) return [];
+	      // If `separator` is not a regex, use native split
+	      if (!_isRegexp(separator)) return $split.call(string, separator, limit);
+	      var output = [];
+	      var flags = (separator.ignoreCase ? 'i' : '') +
+	                  (separator.multiline ? 'm' : '') +
+	                  (separator.unicode ? 'u' : '') +
+	                  (separator.sticky ? 'y' : '');
+	      var lastLastIndex = 0;
+	      var splitLimit = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	      // Make `global` and avoid `lastIndex` issues by working with a copy
+	      var separatorCopy = new RegExp(separator.source, flags + 'g');
+	      var match, lastIndex, lastLength;
+	      while (match = _regexpExec.call(separatorCopy, string)) {
+	        lastIndex = separatorCopy[LAST_INDEX$1];
+	        if (lastIndex > lastLastIndex) {
+	          output.push(string.slice(lastLastIndex, match.index));
+	          if (match[LENGTH] > 1 && match.index < string[LENGTH]) $push.apply(output, match.slice(1));
+	          lastLength = match[0][LENGTH];
+	          lastLastIndex = lastIndex;
+	          if (output[LENGTH] >= splitLimit) break;
+	        }
+	        if (separatorCopy[LAST_INDEX$1] === match.index) separatorCopy[LAST_INDEX$1]++; // Avoid an infinite loop
+	      }
+	      if (lastLastIndex === string[LENGTH]) {
+	        if (lastLength || !separatorCopy.test('')) output.push('');
+	      } else output.push(string.slice(lastLastIndex));
+	      return output[LENGTH] > splitLimit ? output.slice(0, splitLimit) : output;
+	    };
+	  // Chakra, V8
+	  } else if ('0'[$SPLIT](undefined, 0)[LENGTH]) {
+	    internalSplit = function (separator, limit) {
+	      return separator === undefined && limit === 0 ? [] : $split.call(this, separator, limit);
+	    };
+	  } else {
+	    internalSplit = $split;
+	  }
+
+	  return [
+	    // `String.prototype.split` method
+	    // https://tc39.github.io/ecma262/#sec-string.prototype.split
+	    function split(separator, limit) {
+	      var O = defined(this);
+	      var splitter = separator == undefined ? undefined : separator[SPLIT];
+	      return splitter !== undefined
+	        ? splitter.call(separator, O, limit)
+	        : internalSplit.call(String(O), separator, limit);
+	    },
+	    // `RegExp.prototype[@@split]` method
+	    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
+	    //
+	    // NOTE: This cannot be properly polyfilled in engines that don't support
+	    // the 'y' flag.
+	    function (regexp, limit) {
+	      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== $split);
+	      if (res.done) return res.value;
+
+	      var rx = _anObject(regexp);
+	      var S = String(this);
+	      var C = _speciesConstructor(rx, RegExp);
+
+	      var unicodeMatching = rx.unicode;
+	      var flags = (rx.ignoreCase ? 'i' : '') +
+	                  (rx.multiline ? 'm' : '') +
+	                  (rx.unicode ? 'u' : '') +
+	                  (SUPPORTS_Y ? 'y' : 'g');
+
+	      // ^(? + rx + ) is needed, in combination with some S slicing, to
+	      // simulate the 'y' flag.
+	      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+	      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	      if (lim === 0) return [];
+	      if (S.length === 0) return _regexpExecAbstract(splitter, S) === null ? [S] : [];
+	      var p = 0;
+	      var q = 0;
+	      var A = [];
+	      while (q < S.length) {
+	        splitter.lastIndex = SUPPORTS_Y ? q : 0;
+	        var z = _regexpExecAbstract(splitter, SUPPORTS_Y ? S : S.slice(q));
+	        var e;
+	        if (
+	          z === null ||
+	          (e = $min(_toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+	        ) {
+	          q = _advanceStringIndex(S, q, unicodeMatching);
+	        } else {
+	          A.push(S.slice(p, q));
+	          if (A.length === lim) return A;
+	          for (var i = 1; i <= z.length - 1; i++) {
+	            A.push(z[i]);
+	            if (A.length === lim) return A;
+	          }
+	          q = p = e;
+	        }
+	      }
+	      A.push(S.slice(p));
+	      return A;
+	    }
+	  ];
+	});
+
+	var dP$1 = _objectDp.f;
 	var FProto = Function.prototype;
 	var nameRE = /^\s*function ([^ (]*)/;
-	var NAME$1 = 'name';
+	var NAME = 'name';
 
 	// 19.2.4.2 name
-	NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
+	NAME in FProto || _descriptors && dP$1(FProto, NAME, {
 	  configurable: true,
 	  get: function () {
 	    try {
@@ -1128,6 +830,129 @@
 	  };
 	});
 
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+
+
+	var _toIobject = function (it) {
+	  return _iobject(_defined(it));
+	};
+
+	var max = Math.max;
+	var min$1 = Math.min;
+	var _toAbsoluteIndex = function (index, length) {
+	  index = _toInteger(index);
+	  return index < 0 ? max(index + length, 0) : min$1(index, length);
+	};
+
+	// false -> Array#indexOf
+	// true  -> Array#includes
+
+
+
+	var _arrayIncludes = function (IS_INCLUDES) {
+	  return function ($this, el, fromIndex) {
+	    var O = _toIobject($this);
+	    var length = _toLength(O.length);
+	    var index = _toAbsoluteIndex(fromIndex, length);
+	    var value;
+	    // Array#includes uses SameValueZero equality algorithm
+	    // eslint-disable-next-line no-self-compare
+	    if (IS_INCLUDES && el != el) while (length > index) {
+	      value = O[index++];
+	      // eslint-disable-next-line no-self-compare
+	      if (value != value) return true;
+	    // Array#indexOf ignores holes, Array#includes - not
+	    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+	      if (O[index] === el) return IS_INCLUDES || index || 0;
+	    } return !IS_INCLUDES && -1;
+	  };
+	};
+
+	// 22.1.3.31 Array.prototype[@@unscopables]
+	var UNSCOPABLES = _wks('unscopables');
+	var ArrayProto = Array.prototype;
+	if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
+	var _addToUnscopables = function (key) {
+	  ArrayProto[UNSCOPABLES][key] = true;
+	};
+
+	// https://github.com/tc39/Array.prototype.includes
+
+	var $includes = _arrayIncludes(true);
+
+	_export(_export.P, 'Array', {
+	  includes: function includes(el /* , fromIndex = 0 */) {
+	    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+	  }
+	});
+
+	_addToUnscopables('includes');
+
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	}
+
+	function _objectSpread(target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i] != null ? arguments[i] : {};
+	    var ownKeys = Object.keys(source);
+
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+	      }));
+	    }
+
+	    ownKeys.forEach(function (key) {
+	      _defineProperty(target, key, source[key]);
+	    });
+	  }
+
+	  return target;
+	}
+
+	var $filter = _arrayMethods(2);
+
+	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
+	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+	  filter: function filter(callbackfn /* , thisArg */) {
+	    return $filter(this, callbackfn, arguments[1]);
+	  }
+	});
+
 	// function makeSankey(svgID, graph) {
 	var defaults = {
 	  aspectRatio: 16 / 14,
@@ -1139,7 +964,7 @@
 	    left: 10
 	  }
 	};
-	function makeSankey (svg, nodes, graph) {
+	function makeSankey (svg, settings, data) {
 	  // set the dimensions and margins of the graph
 	  var mergedSettings = defaults;
 	  var outerWidth = mergedSettings.width;
@@ -1148,6 +973,24 @@
 	  var innerWidth = mergedSettings.innerWidth = outerWidth - mergedSettings.margin.left - mergedSettings.margin.right;
 	  var chartInner = svg.select("g.margin-offset");
 	  var dataLayer = chartInner.select(".data");
+	  var nonZeroNodes = [];
+	  data = {
+	    links: data.links.map(function (d) {
+	      return _objectSpread({}, d);
+	    }).filter(function (d) {
+	      if (d.value > 0) {
+	        nonZeroNodes.push(d.source, d.target);
+	        return true;
+	      }
+
+	      return false;
+	    }),
+	    nodes: data.nodes.map(function (d) {
+	      return _objectSpread({}, d);
+	    }).filter(function (d) {
+	      return nonZeroNodes.includes(d.node);
+	    })
+	  };
 	  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom; // format variables
 
 	  var formatNumber = d3.format(",.0f"); // zero decimal places
@@ -1162,8 +1005,8 @@
 	  var sankey = d3.sankey().size([innerWidth, innerHeight]);
 	  var path = sankey.link();
 
-	  function make(graph) {
-	    sankey.nodes(nodes).links(graph.links).layout(32); // tooltip div
+	  function make() {
+	    sankey.nodes(data.nodes).links(data.links).layout(32); // tooltip div
 
 	    var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
@@ -1172,10 +1015,8 @@
 	    } // add in the links
 
 
-	    var link = dataLayer.append("g").selectAll(".link").data(graph.links).enter().append("path").attr("class", "link").attr("d", path).style("stroke-width", function (d) {
+	    var link = dataLayer.append("g").selectAll(".link").data(sankey.links()).enter().append("path").attr("class", "link").attr("d", path).style("stroke-width", function (d) {
 	      return Math.max(1, d.dy);
-	    }).style("opacity", function (d) {
-	      if (d.value === 0) return 0;
 	    }).sort(function (a, b) {
 	      return b.dy - a.dy;
 	    }).on("mousemove", function (d) {
@@ -1191,12 +1032,12 @@
 	      div.transition().style("opacity", 0);
 	    }); // DO NOT PLOT IF DATA IS COMPLETELY ZERO
 
-	    if (graph.links.length !== 0) {
+	    if (data.links.length !== 0) {
 	      // add in the nodes
-	      var node = dataLayer.append("g").selectAll(".node").data(nodes).enter().append("g").attr("class", function (d) {
+	      var node = dataLayer.append("g").selectAll(".node").data(sankey.nodes()).enter().append("g").attr("class", function (d) {
 	        return "node " + d.name; // d.name to fill by class in css
 	      }).attr("transform", function (d) {
-	        return "translate(" + d.x + "," + d.y + ")";
+	        return "translate(".concat(d.x || 0, ", ").concat(d.y || 0, ")");
 	      }).call(d3.drag().subject(function (d) {
 	        return d;
 	      }).on("start", function () {
@@ -1222,14 +1063,14 @@
 	      }); // add in the title for the nodes
 
 	      node.append("text").attr("x", -6).attr("y", function (d) {
-	        return d.dy / 2;
+	        return d.dy / 2.5;
 	      }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
 	        if (d.value != 0) return i18next.t(d.name, {
 	          ns: "modes"
 	        });
 	      }).filter(function (d) {
 	        return d.x < innerWidth / 2;
-	      }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start");
+	      }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200);
 	    } // the function for moving the nodes
 
 
@@ -1237,6 +1078,34 @@
 	      d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(innerHeight - d.dy, d3.event.y))) + ")");
 	      sankey.relayout();
 	      link.attr("d", path);
+	    }
+
+	    function wrap(text, width) {
+	      var xcoord = 40;
+	      text.each(function () {
+	        var text = d3.select(this);
+	        var words = text.text().split(/\s+/).reverse();
+	        var word;
+	        var line = [];
+	        var lineNumber = 0;
+	        var lineHeight = 1.1; // ems
+
+	        var y = text.attr("y");
+	        var dy = parseFloat(text.attr("dy"));
+	        var tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+
+	        while (word = words.pop()) {
+	          line.push(word);
+	          tspan.text(line.join(" "));
+
+	          if (tspan.node().getComputedTextLength() > width) {
+	            line.pop();
+	            tspan.text(line.join(" "));
+	            line = [word];
+	            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+	          }
+	        }
+	      });
 	    }
 	  } // end make()
 
@@ -1248,7 +1117,7 @@
 	  }
 
 	  d3.stcExt.addIEShim(svg, outerHeight, outerWidth);
-	  make(graph);
+	  make();
 	} // end makeSankey()
 
 	var $indexOf = _arrayIncludes(false);
@@ -1266,80 +1135,12 @@
 	});
 
 	var tableSettings = {
-	  alt: i18next.t("alt", {
-	    ns: "modes"
-	  }),
 	  tableTitle: i18next.t("alt", {
 	    ns: "modes"
 	  }),
-	  margin: {
-	    top: 50,
-	    left: 80,
-	    bottom: 50
-	  },
-	  // creates variable d
-	  filterData: function filterData(data) {
-	    return data; // array of objects
-	  },
 	  y: {
 	    getValue: function getValue(d, key) {
-	      // d[key] can be string for Traveller Type, number for Count
-	      if (typeof d[key] === "string" || d[key] instanceof String) {
-	        // Traveller Type
-	        if (d.targetLinks[0]) {
-	          // empty only for first node
-	          // Land cases, parent is two levels up
-	          if (d.name === "USres_car" || d.name === "USres_bus" || d.name === "USres_train" || d.name === "USres_other") {
-	            var parent = i18next.t("USres", {
-	              ns: "modes"
-	            });
-	            var child = i18next.t(d[key], {
-	              ns: "modes"
-	            });
-	            return parent + ", " + child;
-	          } else if (d.name === "cdnFromUS_car" || d.name === "cdnFromUS_bus" || d.name === "cdnFromUS_train" || d.name === "cdnFromUS_other") {
-	            var _parent = i18next.t("cdnFromUS", {
-	              ns: "modes"
-	            });
-
-	            var _child = i18next.t(d[key], {
-	              ns: "modes"
-	            });
-
-	            return _parent + ", " + _child;
-	          } else {
-	            // All other cases, parent is in targetLinks[0].source.name
-	            var _parent2 = i18next.t(d.targetLinks[0].source.name, {
-	              ns: "modes"
-	            });
-
-	            var _child2 = i18next.t(d[key], {
-	              ns: "modes"
-	            });
-
-	            return _parent2 + ", " + _child2;
-	          }
-	        } else {
-	          // targetLinks empty
-	          if (d.name === "cdnFromOther_land") {
-	            // special case
-	            var _parent3 = i18next.t("cdnFromOther", {
-	              ns: "modes"
-	            });
-
-	            var _child3 = i18next.t(d[key], {
-	              ns: "modes"
-	            });
-
-	            return _parent3 + ", " + _child3;
-	          }
-	        }
-
-	        return i18next.t(d[key], {
-	          ns: "modes"
-	        }); // targetLinks empty (first node has no parent)
-	      } else return d[key]; // Number, not a string, do not pass through i18next
-
+	      return d[key]; // Number, not a string, do not pass through i18next
 	    }
 	  },
 	  z: {
@@ -1363,16 +1164,209 @@
 	      });
 	    },
 	    getText: function getText(d) {
-	      return i18next.t(d.name, {
+	      var source = i18next.t(d.source.name, {
 	        ns: "modes"
 	      });
+	      var target = i18next.t(d.target.name, {
+	        ns: "modes"
+	      });
+	      return "".concat(source, " -> ").concat(target);
 	    }
-	  },
-	  datatable: true,
-	  width: 200
+	  }
 	};
 
-	var selectedGeo = "Canada";
+	// fast apply, http://jsperf.lnkit.com/fast-apply/5
+	var _invoke = function (fn, args, that) {
+	  var un = that === undefined;
+	  switch (args.length) {
+	    case 0: return un ? fn()
+	                      : fn.call(that);
+	    case 1: return un ? fn(args[0])
+	                      : fn.call(that, args[0]);
+	    case 2: return un ? fn(args[0], args[1])
+	                      : fn.call(that, args[0], args[1]);
+	    case 3: return un ? fn(args[0], args[1], args[2])
+	                      : fn.call(that, args[0], args[1], args[2]);
+	    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+	                      : fn.call(that, args[0], args[1], args[2], args[3]);
+	  } return fn.apply(that, args);
+	};
+
+	var arraySlice = [].slice;
+	var factories = {};
+
+	var construct = function (F, len, args) {
+	  if (!(len in factories)) {
+	    for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
+	    // eslint-disable-next-line no-new-func
+	    factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
+	  } return factories[len](F, args);
+	};
+
+	var _bind = Function.bind || function bind(that /* , ...args */) {
+	  var fn = _aFunction(this);
+	  var partArgs = arraySlice.call(arguments, 1);
+	  var bound = function (/* args... */) {
+	    var args = partArgs.concat(arraySlice.call(arguments));
+	    return this instanceof bound ? construct(fn, args.length, args) : _invoke(fn, args, that);
+	  };
+	  if (_isObject(fn.prototype)) bound.prototype = fn.prototype;
+	  return bound;
+	};
+
+	// 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
+
+
+	_export(_export.P, 'Function', { bind: _bind });
+
+	var CopyButton =
+	/*#__PURE__*/
+	function () {
+	  function CopyButton(pNode, options) {
+	    _classCallCheck(this, CopyButton);
+
+	    this.pNode = pNode ? pNode : document.createElement("div");
+	    this.options = options ? options : {};
+	    this.nodes = {};
+	    this.data = null;
+	    this.instanceNumber = ++CopyButton.n;
+	    this.class = this.options.class || "";
+	    /* this.data = shall be an array (i.e called rowsArray) of arrays (i.e each is called row).
+	      each array on rowsArray represents a row on the table.
+	      this.data must be set/updated by the code that uses this button
+	      [
+	        ["title"]
+	        ["columna1" , "columna2" ,..., "columnaN"]
+	        ["value1Row1", "value2Row1",..., "valueNRowN"]
+	        ["value1Row2", "value2Row2",..., "valueNRowN"]
+	      ]
+	    */
+	  }
+
+	  _createClass(CopyButton, [{
+	    key: "build",
+	    value: function build(options) {
+	      if (options) this.options = options; // workAround;
+
+	      if (options.pNode) this.pNode = options.pNode; // workAround;
+
+	      if (options.class) this.class = options.class; // workAround;
+
+	      this.root = document.createElement("div");
+	      this.root.setAttribute("class", "copy-button button-" + this.instanceNumber + " " + this.class);
+	      this.pNode.appendChild(this.root);
+	      this.nodes.btnCopy = document.createElement("button");
+	      this.nodes.btnCopy.setAttribute("type", "button");
+	      this.nodes.btnCopy.setAttribute("class", "btn btn-primary copy button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.btnCopy.setAttribute("title", this.options.title || "");
+	      this.root.appendChild(this.nodes.btnCopy);
+	      var icon = document.createElement("span");
+	      icon.setAttribute("class", "fa fa-clipboard clipboard button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.btnCopy.appendChild(icon);
+	      var accessibility = document.createElement("span");
+	      accessibility.setAttribute("class", "wb-inv button-" + this.instanceNumber + " " + this.class);
+	      accessibility.innerHTML = this.options.accessibility || "";
+	      this.nodes.btnCopy.appendChild(accessibility);
+	      this.nodes.msgCopyConfirm = document.createElement("div");
+	      this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.msgCopyConfirm.setAttribute("aria-live", "polite");
+	      this.nodes.msgCopyConfirm.innerHTML = this.options.msgCopyConfirm || "";
+	      this.root.appendChild(this.nodes.msgCopyConfirm);
+	      this.nodes.btnCopy.addEventListener("click", this.onBtnClick.bind(this));
+	    }
+	  }, {
+	    key: "onBtnClick",
+	    value: function onBtnClick(ev) {
+	      this.copyData(this.data);
+	    }
+	  }, {
+	    key: "copyData",
+	    value: function copyData(lines) {
+	      var linesTemp = lines ? lines : [];
+	      this.clipboard(this.toCSV("\t", linesTemp), this.root);
+	      this.fade(this.nodes.msgCopyConfirm, true);
+	      setTimeout(function (ev) {
+	        this.fade(this.nodes.msgCopyConfirm, false);
+	      }.bind(this), 1500);
+	    }
+	  }, {
+	    key: "toCSV",
+	    value: function toCSV(separator, lines) {
+	      var csv = lines.map(function (line) {
+	        return line.join(separator);
+	      });
+	      return csv.join("\r\n");
+	    }
+	  }, {
+	    key: "clipboard",
+	    value: function clipboard(string, target) {
+	      if (this.isIE()) window.clipboardData.setData("Text", string);else {
+	        // Copying the string
+	        var aux = document.createElement("textarea");
+	        aux.textContent = string;
+	        target.appendChild(aux);
+	        aux.select();
+	        document.execCommand("copy");
+	        target.removeChild(aux);
+	      }
+	    }
+	  }, {
+	    key: "fade",
+	    value: function fade(node, visible) {
+	      var clss = ["copy-confirm button-" + this.instanceNumber + " " + this.class];
+	      var add = visible ? "fadeIn" : "fadeOut";
+	      clss.push(add);
+	      node.setAttribute("class", clss.join(" "));
+	    } // work around for when tables are destroyed
+
+	  }, {
+	    key: "appendTo",
+	    value: function appendTo(pNode) {
+	      this.pNode = pNode;
+	      this.pNode.appendChild(this.root);
+	      this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
+	    }
+	  }, {
+	    key: "isIE",
+	    value: function isIE() {
+	      var ua = window.navigator.userAgent;
+	      var msie = ua.indexOf("MSIE ");
+
+	      if (msie > 0) {
+	        // IE 10 or older => return version number
+	        return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+	      }
+
+	      var trident = ua.indexOf("Trident/");
+
+	      if (trident > 0) {
+	        // IE 11 => return version number
+	        var rv = ua.indexOf("rv:");
+	        return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+	      }
+
+	      var edge = ua.indexOf("Edge/");
+
+	      if (edge > 0) {
+	        // Edge (IE 12+) => return version number
+	        return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+	      } // other browser
+
+
+	      return false;
+	    }
+	  }]);
+
+	  return CopyButton;
+	}();
+	CopyButton.n = 0;
+
+	/* Copy Button */
+	// -----------------------------------------------------------------------------
+
+	var cButton = new CopyButton(); // -----------------------------------------------------------------------------
+
+	var selectedRegion = "Canada";
 	var selectedMonth = "01";
 	var selectedYear = "2018";
 	var data = {}; // global nodes
@@ -1453,48 +1447,82 @@
 	  "node": 24,
 	  "name": "cdnFromUS_other"
 	}]; // ------------
-	// SVGs
+
+	var loadData = function loadData(selectedYear, selectedMonth, cb) {
+	  if (!data[selectedYear + "-" + selectedMonth]) {
+	    d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function (err, json) {
+	      data[selectedYear + "-" + selectedMonth] = json;
+	      cb();
+	    });
+	  } else {
+	    cb();
+	  }
+	}; // SVGs
+
 
 	var sankeyChart = d3.select("#sankeyGraph").append("svg").attr("id", "svg_sankeyChart");
 	var table = d3.select(".tabledata"); // .attr("id", "modesTable");
 
 	function uiHandler(event) {
+	  // clear any tooltips
+	  d3.selectAll(".tooltip").style("opacity", 0);
+
 	  if (event.target.id === "groups" || event.target.id === "month" || event.target.id === "year") {
-	    selectedGeo = document.getElementById("groups").value;
+	    selectedRegion = document.getElementById("groups").value;
 	    selectedMonth = document.getElementById("month").value;
-	    selectedYear = document.getElementById("year").value;
+	    selectedYear = document.getElementById("year").value; // clear any zeroFlag message
 
-	    if (!data[selectedYear + "-" + selectedMonth]) {
-	      d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function (err, filedata) {
-	        data[selectedYear + "-" + selectedMonth] = filterZeros(filedata);
-	        showData();
-	      });
-	    } else {
-	      var thisMonth = i18next.t(selectedMonth, {
-	        ns: "modesMonth"
-	      });
-
-	      if (data[selectedYear + "-" + selectedMonth][selectedGeo].links.length === 0) {
-	        d3.selectAll("svg > *").remove();
-	        d3.select("#zeroFlag").text("Zero international travellers for ".concat(selectedGeo, ",\n              ").concat(thisMonth, " ").concat(selectedYear));
-	      }
-
+	    if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
+	    loadData(selectedYear, selectedMonth, function () {
 	      showData();
-	    }
+	    });
 	  }
 	}
 
 	function showData() {
-	  d3.selectAll("svg > *").remove();
-	  makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]);
-	  drawTable(table, tableSettings, nodes);
-	  updateTitles();
+	  var thisMonth = i18next.t(selectedMonth, {
+	    ns: "modesMonth"
+	  });
+	  var thisData = data[selectedYear + "-" + selectedMonth][selectedRegion]; // Check that the sum of all nodes is not zero
+
+	  var travellerTotal = function travellerTotal() {
+	    return thisData.map(function (item) {
+	      return item.value;
+	    }).reduce(function (prev, next) {
+	      return prev + next;
+	    });
+	  };
+
+	  if (travellerTotal() === 0) {
+	    d3.selectAll("svg > *").remove();
+	    d3.select("#zeroFlag").text("Zero international travellers for ".concat(selectedRegion, ",\n          ").concat(thisMonth, " ").concat(selectedYear));
+	  } else {
+	    d3.selectAll("svg > *").remove();
+	    makeSankey(sankeyChart, {}, {
+	      nodes: nodes,
+	      links: data[selectedYear + "-" + selectedMonth][selectedRegion]
+	    });
+	  }
+
+	  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedRegion].map(function (d) {
+	    return {
+	      source: nodes[d.source],
+	      target: nodes[d.target],
+	      value: d.value
+	    };
+	  }));
+	  updateTitles(); // ------------------copy button---------------------------------
+	  // dataCopyButton(nodes);
+
+	  cButton.appendTo(document.getElementById("copy-button-container")); // dataCopyButton(nodes);
+
+	  dataCopyButton(data[selectedYear + "-" + selectedMonth][selectedRegion]); // ---------------------------------------------------------------
 	}
 	/* -- update table title -- */
 
 
 	function updateTitles() {
-	  var thisGeo = i18next.t(selectedGeo, {
+	  var thisGeo = i18next.t(selectedRegion, {
 	    ns: "modesGeography"
 	  });
 	  var thisMonth = i18next.t(selectedMonth, {
@@ -1504,55 +1532,66 @@
 	    ns: "modes_sankey"
 	  }) + " " + thisGeo + " in " + thisMonth + " " + selectedYear + ", by type of transport";
 	  d3.select("#only-dt-tbl").text(thisTitle);
-	}
+	} // -----------------------------------------------------------------------------
 
-	function filterZeros(d) {
-	  var returnObject = {};
+	/* Copy Button*/
 
-	  for (var geo in d) {
-	    if (Object.prototype.hasOwnProperty.call(d, geo)) {
-	      returnObject[geo] = {};
-	      returnObject[geo].links = [];
-	      var _iteratorNormalCompletion = true;
-	      var _didIteratorError = false;
-	      var _iteratorError = undefined;
 
-	      try {
-	        for (var _iterator = d[geo][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	          var val = _step.value;
+	function dataCopyButton(cButtondata) {
+	  var lines = [];
+	  var geography = i18next.t(selectedRegion, {
+	    ns: "roadGeography"
+	  });
+	  var title = ["Sales of fuel in ".concat(geography, " used for road motor vehicles, annual (millions of dollars)")];
+	  var columns = [""];
 
-	          if (val.value !== 0) {
-	            returnObject[geo].links.push(val);
-	          }
-	        }
-	      } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion && _iterator.return != null) {
-	            _iterator.return();
-	          }
-	        } finally {
-	          if (_didIteratorError) {
-	            throw _iteratorError;
-	          }
+	  for (var concept in cButtondata[0]) {
+	    if (concept != "date") columns.push(i18next.t(concept, {
+	      ns: "roadArea"
+	    }));
+	  }
+
+	  lines.push(title, [], columns);
+
+	  for (var row in cButtondata) {
+	    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+	      var auxRow = [];
+
+	      for (var column in cButtondata[row]) {
+	        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+	          var value = cButtondata[row][column];
+	          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+	          auxRow.push(value);
 	        }
 	      }
+
+	      lines.push(auxRow);
 	    }
 	  }
 
-	  return returnObject;
-	}
+	  cButton.data = lines;
+	} // -----------------------------------------------------------------------------
+
+	/* Initial page load */
+
 
 	i18n.load(["src/i18n"], function () {
-	  d3.queue().defer(d3.json, "data/modes/" + selectedYear + "-" + selectedMonth + ".json").await(function (error, json) {
-	    data[selectedYear + "-" + selectedMonth] = filterZeros(json);
-	    makeSankey(sankeyChart, nodes, data[selectedYear + "-" + selectedMonth][selectedGeo]); // console.log(data[selectedYear + "-" + selectedMonth][selectedGeo])
+	  // copy button options
+	  var cButtonOptions = {
+	    pNode: document.getElementById("copy-button-container"),
+	    title: i18next.t("CopyButton_Title", {
+	      ns: "CopyButton"
+	    }),
+	    msgCopyConfirm: i18next.t("CopyButton_Confirm", {
+	      ns: "CopyButton"
+	    }),
+	    accessibility: i18next.t("CopyButton_Title", {
+	      ns: "CopyButton"
+	    })
+	  }; // build nodes on copy button
 
-	    drawTable(table, tableSettings, nodes);
-	    updateTitles();
-	  });
+	  cButton.build(cButtonOptions);
+	  loadData(selectedYear, selectedMonth, showData);
 	});
 	$(document).on("change", uiHandler);
 

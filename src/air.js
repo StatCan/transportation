@@ -1777,7 +1777,7 @@
 	  var rectDim = 35;
 	  var formatComma = d3.format(",d"); // Create the g nodes
 
-	  var rects = svgCB.selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
+	  var rects = svgCB.attr("class", "mapCB").selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
 
 	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
 	    return 175 + i * rectDim;
@@ -1797,7 +1797,7 @@
 	  rects.append("text"); // Display text in text node
 
 	  var updateText;
-	  d3.select("#mapColourScale").selectAll("text").text(function (i, j) {
+	  d3.select("#mapColourScale .mapCB").selectAll("text").text(function (i, j) {
 	    var s0 = formatComma(cbValues[j] / scalef);
 	    updateText = s0 + "+";
 	    return updateText;
@@ -1805,12 +1805,7 @@
 	    return "translate(" + (180 + i * (rectDim + 0)) + ", 50) " + "rotate(-45)";
 	  }).style("display", function () {
 	    return "inline";
-	  }); // Text label for scale bar
-
-	  if (d3.select("#cbID").empty()) {
-	    var label = svgCB.append("g").append("text");
-	    label.attr("id", "cbID").attr("y", 28).attr("x", 0);
-	  }
+	  });
 	}
 
 	function areaLegendFn (svgLegend, classArray) {
@@ -1834,7 +1829,229 @@
 	  });
 	}
 
+	var $map = _arrayMethods(1);
+
+	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
+	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map(this, callbackfn, arguments[1]);
+	  }
+	});
+
+	// fast apply, http://jsperf.lnkit.com/fast-apply/5
+	var _invoke = function (fn, args, that) {
+	  var un = that === undefined;
+	  switch (args.length) {
+	    case 0: return un ? fn()
+	                      : fn.call(that);
+	    case 1: return un ? fn(args[0])
+	                      : fn.call(that, args[0]);
+	    case 2: return un ? fn(args[0], args[1])
+	                      : fn.call(that, args[0], args[1]);
+	    case 3: return un ? fn(args[0], args[1], args[2])
+	                      : fn.call(that, args[0], args[1], args[2]);
+	    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+	                      : fn.call(that, args[0], args[1], args[2], args[3]);
+	  } return fn.apply(that, args);
+	};
+
+	var arraySlice = [].slice;
+	var factories = {};
+
+	var construct = function (F, len, args) {
+	  if (!(len in factories)) {
+	    for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
+	    // eslint-disable-next-line no-new-func
+	    factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
+	  } return factories[len](F, args);
+	};
+
+	var _bind = Function.bind || function bind(that /* , ...args */) {
+	  var fn = _aFunction(this);
+	  var partArgs = arraySlice.call(arguments, 1);
+	  var bound = function (/* args... */) {
+	    var args = partArgs.concat(arraySlice.call(arguments));
+	    return this instanceof bound ? construct(fn, args.length, args) : _invoke(fn, args, that);
+	  };
+	  if (_isObject(fn.prototype)) bound.prototype = fn.prototype;
+	  return bound;
+	};
+
+	// 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
+
+
+	_export(_export.P, 'Function', { bind: _bind });
+
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	var CopyButton =
+	/*#__PURE__*/
+	function () {
+	  function CopyButton(pNode, options) {
+	    _classCallCheck(this, CopyButton);
+
+	    this.pNode = pNode ? pNode : document.createElement("div");
+	    this.options = options ? options : {};
+	    this.nodes = {};
+	    this.data = null;
+	    this.instanceNumber = ++CopyButton.n;
+	    this.class = this.options.class || "";
+	    /* this.data = shall be an array (i.e called rowsArray) of arrays (i.e each is called row).
+	      each array on rowsArray represents a row on the table.
+	      this.data must be set/updated by the code that uses this button
+	      [
+	        ["title"]
+	        ["columna1" , "columna2" ,..., "columnaN"]
+	        ["value1Row1", "value2Row1",..., "valueNRowN"]
+	        ["value1Row2", "value2Row2",..., "valueNRowN"]
+	      ]
+	    */
+	  }
+
+	  _createClass(CopyButton, [{
+	    key: "build",
+	    value: function build(options) {
+	      if (options) this.options = options; // workAround;
+
+	      if (options.pNode) this.pNode = options.pNode; // workAround;
+
+	      if (options.class) this.class = options.class; // workAround;
+
+	      this.root = document.createElement("div");
+	      this.root.setAttribute("class", "copy-button button-" + this.instanceNumber + " " + this.class);
+	      this.pNode.appendChild(this.root);
+	      this.nodes.btnCopy = document.createElement("button");
+	      this.nodes.btnCopy.setAttribute("type", "button");
+	      this.nodes.btnCopy.setAttribute("class", "btn btn-primary copy button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.btnCopy.setAttribute("title", this.options.title || "");
+	      this.root.appendChild(this.nodes.btnCopy);
+	      var icon = document.createElement("span");
+	      icon.setAttribute("class", "fa fa-clipboard clipboard button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.btnCopy.appendChild(icon);
+	      var accessibility = document.createElement("span");
+	      accessibility.setAttribute("class", "wb-inv button-" + this.instanceNumber + " " + this.class);
+	      accessibility.innerHTML = this.options.accessibility || "";
+	      this.nodes.btnCopy.appendChild(accessibility);
+	      this.nodes.msgCopyConfirm = document.createElement("div");
+	      this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
+	      this.nodes.msgCopyConfirm.setAttribute("aria-live", "polite");
+	      this.nodes.msgCopyConfirm.innerHTML = this.options.msgCopyConfirm || "";
+	      this.root.appendChild(this.nodes.msgCopyConfirm);
+	      this.nodes.btnCopy.addEventListener("click", this.onBtnClick.bind(this));
+	    }
+	  }, {
+	    key: "onBtnClick",
+	    value: function onBtnClick(ev) {
+	      this.copyData(this.data);
+	    }
+	  }, {
+	    key: "copyData",
+	    value: function copyData(lines) {
+	      var linesTemp = lines ? lines : [];
+	      this.clipboard(this.toCSV("\t", linesTemp), this.root);
+	      this.fade(this.nodes.msgCopyConfirm, true);
+	      setTimeout(function (ev) {
+	        this.fade(this.nodes.msgCopyConfirm, false);
+	      }.bind(this), 1500);
+	    }
+	  }, {
+	    key: "toCSV",
+	    value: function toCSV(separator, lines) {
+	      var csv = lines.map(function (line) {
+	        return line.join(separator);
+	      });
+	      return csv.join("\r\n");
+	    }
+	  }, {
+	    key: "clipboard",
+	    value: function clipboard(string, target) {
+	      if (this.isIE()) window.clipboardData.setData("Text", string);else {
+	        // Copying the string
+	        var aux = document.createElement("textarea");
+	        aux.textContent = string;
+	        target.appendChild(aux);
+	        aux.select();
+	        document.execCommand("copy");
+	        target.removeChild(aux);
+	      }
+	    }
+	  }, {
+	    key: "fade",
+	    value: function fade(node, visible) {
+	      var clss = ["copy-confirm button-" + this.instanceNumber + " " + this.class];
+	      var add = visible ? "fadeIn" : "fadeOut";
+	      clss.push(add);
+	      node.setAttribute("class", clss.join(" "));
+	    } // work around for when tables are destroyed
+
+	  }, {
+	    key: "appendTo",
+	    value: function appendTo(pNode) {
+	      this.pNode = pNode;
+	      this.pNode.appendChild(this.root);
+	      this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
+	    }
+	  }, {
+	    key: "isIE",
+	    value: function isIE() {
+	      var ua = window.navigator.userAgent;
+	      var msie = ua.indexOf("MSIE ");
+
+	      if (msie > 0) {
+	        // IE 10 or older => return version number
+	        return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+	      }
+
+	      var trident = ua.indexOf("Trident/");
+
+	      if (trident > 0) {
+	        // IE 11 => return version number
+	        var rv = ua.indexOf("rv:");
+	        return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+	      }
+
+	      var edge = ua.indexOf("Edge/");
+
+	      if (edge > 0) {
+	        // Edge (IE 12+) => return version number
+	        return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+	      } // other browser
+
+
+	      return false;
+	    }
+	  }]);
+
+	  return CopyButton;
+	}();
+	CopyButton.n = 0;
+
 	// const majorAirportMode = "majorAirport"; // TODO
+
+	/* Copy Button */
+	// -----------------------------------------------------------------------------
+
+	var cButton = new CopyButton(); // -----------------------------------------------------------------------------
 
 	var data = {
 	  "passengers": {},
@@ -1884,7 +2101,7 @@
 	d3.stcExt.addIEShim(svgCB, height, width);
 	d3.stcExt.addIEShim(svgLegend, height, 650); // -----------------------------------------------------------------------------
 
-	/* variables */
+	/* letiables */
 	// For map circles
 
 	var path;
@@ -1993,12 +2210,12 @@
 	          ns: "airPassengers"
 	        }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + // "<td>" + " (" + units + ")</td>" +
 	        "</tr>" + "</table>").style("pointer-events", "none");
+	        div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	      }
 	    }
 	  }
-	}).on("mousemove", function () {
-	  div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
-	}).on("mouseout", function () {
+	});
+	map.on("mouseout", function () {
 	  div.transition().style("opacity", 0);
 
 	  if (selectedRegion) {
@@ -2172,9 +2389,15 @@
 	  }) + " (" + i18next.t("units", {
 	    ns: "airPassengers"
 	  }) + ")";
-	  mapColourScaleFn(svgCB, colourArray, dimExtent);
-	  d3.select("#cbID").text(mapScaleLabel); // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
+	  mapColourScaleFn(svgCB, colourArray, dimExtent); // Colourbar label (need be plotted only once)
+
+	  var label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
+
+	  if (d3.select(".airmapCBlabel").text() === "") {
+	    label.append("text").text(mapScaleLabel);
+	  } // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
 	  // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
+
 
 	  airportGroup = map.append("g"); // d3.stcExt.addIEShim(map, 387.1, 457.5);
 	}
@@ -2187,7 +2410,11 @@
 	  var showChart = function showChart() {
 	    areaChart(chart, settings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
 
-	    d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true);
+	    d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true); // ------------------copy button---------------------------------
+	    // need to re-apend the button since table is being re-build
+
+	    if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+	    dataCopyButton(data[selectedDataset][selectedRegion]); // ---------------------------------------------------------------
 	  };
 
 	  if (!data[selectedDataset][selectedRegion]) {
@@ -2324,6 +2551,47 @@
 	  });
 	} // -----------------------------------------------------------------------------
 
+	/* Copy Button*/
+
+
+	function dataCopyButton(cButtondata) {
+	  var lines = [];
+	  var geography = i18next.t(selectedRegion, {
+	    ns: "airGeography"
+	  });
+	  var title = [i18next.t("tableTitle", {
+	    ns: "airPassengerAirports",
+	    geo: geography
+	  })];
+	  var columns = [""];
+
+	  for (var concept in cButtondata[0]) {
+	    if (concept != "date") columns.push(i18next.t(concept, {
+	      ns: "airPassengers"
+	    }));
+	  }
+
+	  lines.push(title, [], columns);
+
+	  for (var row in cButtondata) {
+	    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+	      var auxRow = [];
+
+	      for (var column in cButtondata[row]) {
+	        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+	          var value = cButtondata[row][column];
+	          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+	          auxRow.push(value);
+	        }
+	      }
+
+	      lines.push(auxRow);
+	    }
+	  }
+
+	  cButton.data = lines;
+	} // -----------------------------------------------------------------------------
+
 
 	i18n.load(["src/i18n"], function () {
 	  settings.x.label = i18next.t("x_label", {
@@ -2354,7 +2622,22 @@
 	    showAreaData();
 	    plotLegend(); // Show chart titles based on default menu options
 
-	    updateTitles();
+	    updateTitles(); // copy button options
+
+	    var cButtonOptions = {
+	      pNode: document.getElementById("copy-button-container"),
+	      title: i18next.t("CopyButton_Title", {
+	        ns: "CopyButton"
+	      }),
+	      msgCopyConfirm: i18next.t("CopyButton_Confirm", {
+	        ns: "CopyButton"
+	      }),
+	      accessibility: i18next.t("CopyButton_Title", {
+	        ns: "CopyButton"
+	      })
+	    }; // build nodes on copy button
+
+	    cButton.build(cButtonOptions);
 	  });
 	});
 	$(document).on("change", uiHandler);
