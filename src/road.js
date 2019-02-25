@@ -344,7 +344,7 @@
 	  return store[key] || (store[key] = value !== undefined ? value : {});
 	})('versions', []).push({
 	  version: _core.version,
-	  mode: _library ? 'pure' : 'global',
+	  mode: 'global',
 	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
@@ -1628,14 +1628,14 @@
 	        ns: "roadGeography"
 	      });
 	      var value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-	      div.transition().style("opacity", .9);
+	      div.style("opacity", .9);
 	      div.html("<b>" + key + " (" + i18next.t("units", {
 	        ns: "road"
 	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>$" + value + "</td>" + "</tr>" + "</table>");
 	      div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	    } else {
 	      // clear tooltip for IE
-	      div.transition().style("opacity", 0);
+	      div.style("opacity", 0);
 	    }
 	  }
 	});

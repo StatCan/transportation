@@ -1063,7 +1063,7 @@
 	      }); // add in the title for the nodes
 
 	      node.append("text").attr("x", -6).attr("y", function (d) {
-	        return d.dy / 2.5;
+	        return d.dy / 2;
 	      }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
 	        if (d.value != 0) return i18next.t(d.name, {
 	          ns: "modes"
@@ -1091,8 +1091,9 @@
 	        var lineHeight = 1.1; // ems
 
 	        var y = text.attr("y");
-	        var dy = parseFloat(text.attr("dy"));
-	        var tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+	        var dy = parseFloat(text.attr("dy")) - lineHeight / 2; // added this to shift all lines up
+
+	        var tspan = text.text(null).append("tspan").attr("class", "nowrap").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
 
 	        while (word = words.pop()) {
 	          line.push(word);
@@ -1101,8 +1102,11 @@
 	          if (tspan.node().getComputedTextLength() > width) {
 	            line.pop();
 	            tspan.text(line.join(" "));
-	            line = [word];
-	            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+	            line = [word]; // console.log("dy: ", dy)
+
+	            tspan = text.append("tspan").attr("class", "wordwrap").attr("x", xcoord).attr("y", y).attr("dy", function () {
+	              return ++lineNumber * lineHeight + dy + "em";
+	            }).text(word);
 	          }
 	        }
 	      });

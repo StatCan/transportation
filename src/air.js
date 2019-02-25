@@ -2204,7 +2204,7 @@
 	        d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Tooltip
 
 	        var value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-	        div.transition().style("opacity", .9);
+	        div.style("opacity", .9);
 	        div.html( // **** CHANGE ns WITH DATASET ****
 	        "<b>" + key + " (" + i18next.t("units", {
 	          ns: "airPassengers"
@@ -2216,7 +2216,7 @@
 	  }
 	});
 	map.on("mouseout", function () {
-	  div.transition().style("opacity", 0);
+	  div.style("opacity", 0);
 
 	  if (selectedRegion) {
 	    d3.select(".map").selectAll("path:not(." + selectedRegion + ")").classed("airMapHighlight", false);
