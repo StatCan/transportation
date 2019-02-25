@@ -227,7 +227,8 @@ i18n.load(["src/i18n"], function() {
           pNode: document.getElementById("copy-button-container"),
           title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
           msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          class : "modes"
         };
 
         // build nodes on copy button

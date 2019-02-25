@@ -5,6 +5,9 @@ export default class CopyButton {
 
     this.nodes = {};
     this.data = null;
+
+    this.instanceNumber = ++CopyButton.n;
+    this.class = this.options.class || "";
     /* this.data = shall be an array (i.e called rowsArray) of arrays (i.e each is called row).
       each array on rowsArray represents a row on the table.
       this.data must be set/updated by the code that uses this button
@@ -19,29 +22,30 @@ export default class CopyButton {
 
   build(options) {
     if (options) this.options = options; // workAround;
-    if (options.pNode) this.pNode = options.pNode; // workAround;
+    if (options.pNode) this.pNode = options.pNode; // workAround;    
+    if (options.class) this.class = options.class;// workAround;
 
     this.root = document.createElement("div");
-    this.root.setAttribute("class", "copy-button");
+    this.root.setAttribute("class", "copy-button button-" + this.instanceNumber + " " + this.class);
     this.pNode.appendChild(this.root);
 
     this.nodes.btnCopy = document.createElement("button");
     this.nodes.btnCopy.setAttribute("type", "button");
-    this.nodes.btnCopy.setAttribute("class", "btn btn-primary copy");
+    this.nodes.btnCopy.setAttribute("class", "btn btn-primary copy button-" + this.instanceNumber + " " + this.class);
     this.nodes.btnCopy.setAttribute("title", this.options.title || "");
     this.root.appendChild(this.nodes.btnCopy);
 
     const icon = document.createElement("span");
-    icon.setAttribute("class", "fa fa-clipboard clipboard");
+    icon.setAttribute("class", "fa fa-clipboard clipboard button-" + this.instanceNumber + " " + this.class);
     this.nodes.btnCopy.appendChild(icon);
 
     const accessibility = document.createElement("span");
-    accessibility.setAttribute("class", "wb-inv");
+    accessibility.setAttribute("class", "wb-inv button-" + this.instanceNumber + " " + this.class);
     accessibility.innerHTML = this.options.accessibility || "";
     this.nodes.btnCopy.appendChild(accessibility);
 
     this.nodes.msgCopyConfirm = document.createElement("div");
-    this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm");
+    this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
     this.nodes.msgCopyConfirm.setAttribute("aria-live", "polite");
     this.nodes.msgCopyConfirm.innerHTML = this.options.msgCopyConfirm || "";
     this.root.appendChild(this.nodes.msgCopyConfirm);
@@ -61,7 +65,6 @@ export default class CopyButton {
 
     setTimeout(function(ev) {
       this.fade(this.nodes.msgCopyConfirm, false);
-      this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm"); // TODO : this should not be here
     }.bind(this), 1500);
   }
 
@@ -90,7 +93,7 @@ export default class CopyButton {
   }
 
   fade(node, visible) {
-    const clss = ["copy-confirm"];
+    const clss = ["copy-confirm button-" + this.instanceNumber + " " + this.class];
     const add = visible ? "fadeIn" : "fadeOut";
 
     clss.push(add);
@@ -103,6 +106,8 @@ export default class CopyButton {
     this.pNode = pNode;
 
     this.pNode.appendChild(this.root);
+    
+    this.nodes.msgCopyConfirm.setAttribute("class", "copy-confirm button-" + this.instanceNumber + " " + this.class);
   }
 
   isIE() {
@@ -134,3 +139,5 @@ export default class CopyButton {
     return false;
   }
 }
+
+CopyButton.n = 0;
