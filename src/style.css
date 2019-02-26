@@ -19,9 +19,7 @@
   text-align: right
 }
 
-.table td {
-	text-align: right;
-} 
+
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -758,4 +756,16 @@ div.tooltip {
 @-webkit-keyframes fadeOut {
 	0% 	 { opacity: 1; visibility:visible }
 	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+.tabledata .row-level-1 th{
+ padding-left: 20px;
+}
+
+.tabledata .row-level-2 th{
+	padding-left: 40px;
+}
+
+.tabledata .row-level-3 th{
+	padding-left: 60px;
 }
