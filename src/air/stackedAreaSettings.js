@@ -34,8 +34,6 @@ export default {
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return 0;
-        // console.log("null: ", d[key])
-        // return -999;
       } else return Number(d[key]) * 1.0/ 1000;
     },
     getTotal: function(d, index, data) {
@@ -46,7 +44,6 @@ export default {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
         for (let k = 0; k < keys.length; k++) {
-          console.log("tot: ", sett.y.getValue.call(sett, d, keys[k], data))
           total += sett.y.getValue.call(sett, d, keys[k], data);
         }
         d[sett.y.totalProperty] = total;
