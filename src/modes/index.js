@@ -73,20 +73,17 @@ function showData() {
     d3.selectAll("svg > *").remove();
 
     makeSankey(sankeyChart, {}, {
-      nodes : sankeyNodes,
+      nodes: sankeyNodes,
       links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });
   }
 
-  var dataTable =  data[selectedYear + "-" + selectedMonth][selectedRegion];
+  const dataTable = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   dataTree.setData(dataTable);
-  
-  var auxArray = dataTree.toArray();
-  
-  auxArray.forEach(function(item){
-    
-  })
+  const auxArray = dataTree.toArray();
+  auxArray.forEach(function(item) {
+  });
 
   drawTable(table, tableSettings, auxArray);
 
@@ -115,10 +112,9 @@ function dataCopyButton() {
   const month = i18next.t(selectedMonth, {ns: "modesMonth"});
   const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
   + " in " + month + " " + selectedYear + ", by type of transport";
-  
-  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})]  
+
+  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
   cButton.data = dataTree.toLines(title, columns);
-  
 }
 
 // -----------------------------------------------------------------------------
@@ -130,7 +126,7 @@ i18n.load(["src/i18n"], function() {
     title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
     msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
     accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-  }; 
+  };
   // build nodes on copy button
   cButton.build(cButtonOptions);
 
