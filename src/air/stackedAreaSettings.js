@@ -33,7 +33,8 @@ export default {
     },
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
-        return 0;
+        // return 0;
+        return null;
       } else return Number(d[key]) * 1.0/ 1000;
     },
     getTotal: function(d, index, data) {

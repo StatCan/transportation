@@ -295,7 +295,6 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-  console.log("plotHoverLine")
   const overlayRect = d3.select("#svgFuel .data").append("rect")
       .style("fill", "none")
       .style("pointer-events", "all")
