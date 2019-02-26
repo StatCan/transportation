@@ -5,7 +5,7 @@ import NodesTree from "./nodesTree.js";
 
 /* Copy Button and DataTree*/
 // -----------------------------------------------------------------------------
-const cButton = new CopyButton();
+const cButton = new CopyButton(); 
 const dataTree = new NodesTree();
 // -----------------------------------------------------------------------------
 
