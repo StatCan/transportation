@@ -226,7 +226,6 @@ function showData() {
       .attr("display", "none");
 
   areaInteraction();
-  plotHoverLine();
   plotLegend();
 
   // Highlight region selected from menu on map
@@ -402,8 +401,8 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-
         showData(); // plot area chart, legend, and hover line
+        plotHoverLine();
         updateTitles(); // update chart, map and table titles
       });
 });

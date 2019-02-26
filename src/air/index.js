@@ -303,7 +303,6 @@ function plotHoverLine() {
         hoverLine.style("display", "none");
       })
       .on("mousemove", function() {
-        console.log("hoverLine: ", hoverLine)
         hoverLine.style("display", "inline");
         hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
         hoverLine.moveToFront();
@@ -460,7 +459,6 @@ function showAreaData() {
     // ---------------------------------------------------------------
 
     areaInteraction();
-    // plotHoverLine();
     plotLegend();
   };
 
@@ -503,7 +501,6 @@ const showAirport = function() {
                 "<tr>" +
                   "<td><b> enplaned: " + divData.enplaned + " </td>" +
                   "<td><b> deplaned: " + divData.deplaned + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
                 "</tr>" +
               "</table>"
         )
@@ -611,6 +608,7 @@ i18n.load(["src/i18n"], () => {
             });
 
         showAreaData();
+        // plotHoverLine();
 
         // Show chart titles based on default menu options
         updateTitles();
