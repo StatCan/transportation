@@ -37,6 +37,38 @@
       "NT": "Territoires du Nord-Ouest",
       "NU": "Nunavut"
     },
+    "airGeography": {
+      "CANADA": "Canada",
+      "NL": "Terre-Neuve-et-Labrador",
+      "PE": "Île-du-Prince-Édouard",
+      "NS": "Nouvelle-Écosse",
+      "NB": "Nouveau-Brunswick",
+      "QC": "Québec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "Colombie-Britannique",
+      "YT": "Yukon",
+      "NT": "Territoires du Nord-Ouest",
+      "NU": "Nunavut"
+    },
+    "airPassengers": {
+      "alt": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
+      "tableTitle": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
+      "chartTitle": "Trafic aérien de passagers",
+      "mapTitle": "Total, passager secteur",
+      "chartHoverPassengers": "Trafic aérien de passagers",
+      "units": "personnes",
+      "x_label": "An",
+      "y_label": "Nombre de passagers (en milliers)",
+      "total": "Tous",
+      "domestic": "Intérieur",
+      "other_intl": "Autres internationaux",
+      "trans_border": "Transfrontalier",
+      "scalef": "en milliers",
+      "mapScaleLabel": "Total"
+    },
     "modesGeography": {
       "Canada": "Canada",
       "Newfoundland and Labrador": "Newfoundland and Labrador",

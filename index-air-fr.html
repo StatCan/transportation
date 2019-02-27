@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="en" dir="ltr">
+<html class="no-js" lang="fr" dir="ltr">
 <!--<![endif]-->
 
 <head>
@@ -146,26 +146,26 @@
 <main role="main" property="mainContentOfPage" class="container">
 
 <div class="scatter">
-<h1 property="name" id="wb-cont">Air passenger traffic at Canadian airports, annual</h1>
+<h1 property="name" id="wb-cont">Trafic aérien de passagers aux aéroports canadiens, annuel</h1>
 
 <!--startindex-->
 <div class="row mrgn-bttm-sm">
-    <div class="col-md-6"><p><span class="wetlabel label-primary"><strong>Release date:</strong> Mar 31, 2019</span></p></div>
+
 </div>
 
 	<form onSubmit="return false;">
 		<div class="row">
 			<div class="column form-group col-md-4">
-				<label id="data_set_change">Change Dataset</label>
+				<label id="data_set_change">Changer le jeu de donnée</label>
 				<div><div class="btn-group" role="group" aria-labelledby="data_set_change">
-					<button id="movements" type="button" class="btn btn-primary movements data_set_selector" aria-pressed="true">Passenger Movements</button>
-					<button id="major" type="button" class="btn btn-default major data_set_selector" aria-pressed="false">Major Airports</button>
+					<button id="movements" type="button" class="btn btn-primary movements data_set_selector" aria-pressed="true">Trafic de passagers</button>
+					<button id="major" type="button" class="btn btn-default major data_set_selector" aria-pressed="false">Vols</button>
 				</div></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-2">
-				<label for="groups_yr">Year</label>
+				<label for="groups_yr">Annnée</label>
 				<select id="yearSelector" class="form-control">
 					<option value="2017">2017</option>
 					<option value="2016">2016</option>
@@ -178,47 +178,47 @@
 				</select>
 			</div>
 			<div id="months" style= "visibility: hidden" class="col-md-3">
-				<label for="groups_month">Month</label>
+				<label for="groups_month">Mois</label>
 				<select  id="monthSelector" class="form-control">
-					<option value="01">January</option>
-					<option value="02">February</option>
-					<option value="03">March</option>
-					<option value="04">April</option>
-					<option value="05">May</option>
-					<option value="06">June</option>
-					<option value="07">July</option>
-					<option value="08">August</option>
-					<option value="09">September</option>
-					<option value="10">October</option>
-					<option value="11">November</option>
-					<option value="12">December</option>
+          <option value="01">janvier</option>
+          <option value="02">février</option>
+          <option value="03">mars</option>
+          <option value="04">avril</option>
+          <option value="05">mai</option>
+          <option value="06">juin</option>
+          <option value="07">juillet</option>
+          <option value="08">août</option>
+          <option value="09">septembre</option>
+          <option value="10">octobre</option>
+          <option value="11">novembre</option>
+          <option value="12">décembre</option>
 				</select>
 			</div>
 			<div class="col-md-5">
 				<div class="form-group">
-					<label for="groups">Geographic region:</label>
+					<label for="groups">Trouvez une géographie</label>
 					<select id="groups" class="form-control">
-            <option selected value="CANADA">Canada</option>
-						<option value="NL">Newfoundland and Labrador</option>
-						<option value="PE">Prince Edward Island</option>
-						<option value="NS">Nova Scotia (no data)</option>
-						<option value="NB">New Brunswick (no data)</option>
-						<option value="QC">Quebec</option>
-						<option value="ON">Ontario</option>
-						<option value="MB">Manitoba</option>
-						<option value="SK">Saskatchewan</option>
-						<option value="AB">Alberta</option>
-						<option value="BC">British Columbia</option>
-						<option value="YT">Yukon (no data)</option>
-						<option value="NT">Northwest Territories</option>
-						<option value="NU">Nunavut</option>
+            <option value="CANADA">Canada</option>
+            <option value="NL">Terre-Neuve-et-Labrador</option>
+            <option value="PE">Île-du-Prince-Édouard</option>
+            <option value="NS">Nouvelle-Écosse</option>
+            <option value="NB">Nouveau-Brunswick</option>
+            <option value="QC">Québec</option>
+            <option value="ON">Ontario</option>
+            <option value="MB">Manitoba</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="AB">Alberta</option>
+            <option value="BC">Colombie-Britannique</option>
+            <option value="YT">Yukon</option>
+            <option value="NT">Territoires du Nord-Ouest</option>
+            <option value="NU">Nunavut</option>
 					</select>
 				</div>
 			</div>
 		</div>
 	</form>
 
-  <div class="wb-inv wb-show-onfocus">Changing any selection will automatically update the page content. These changes are reflected in the <a href="#chrt-dt-tbl">data table</a> as well.</div>
+ <div class="wb-inv wb-show-onfocus">Toute modification apportera automatiquement une mise à jour au contenu de la page. Ces modifications sont également reflétées dans le <a href="#chrt-dt-tbl">tableau de données</a>.</div>
 
 	<div class="row"> <!-- main row 1 -->
         <div class="dashboard">
