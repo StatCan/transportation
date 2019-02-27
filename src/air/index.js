@@ -79,7 +79,7 @@ d3.stcExt.addIEShim(svgLegend, height, 650);
 // For map circles
 let path;
 const defaultPointRadius = 1.3;
-const defaultStrokeWidth = 0.5;
+const zoomedPointRadius = 0.9;
 
 // const airportGroup = map.append("g");
 let airportGroup;
@@ -231,7 +231,7 @@ map.on("click", () => {
       .selectAll("path")
       .classed("airMapHighlight", false);
 
-  const transition = d3.transition().duration(1000);
+  // const transition = d3.transition().duration(1000);
 
   // User clicks on region
   if (d3.select(d3.event.target).attr("class") &&
@@ -257,21 +257,21 @@ map.on("click", () => {
         path.pointRadius(function(d, i) {
           return defaultPointRadius;
         });
-        d3.transition(transition).selectAll(".airport")
-            .style("stroke-width", defaultStrokeWidth)
-            .attr("d", path);
+
         return canadaMap.zoom();
       }
       path.pointRadius(function(d, i) {
-        return 0.5;
+        return zoomedPointRadius;
       });
-      d3.transition(transition).selectAll(".airport")
-          .style("stroke-width", 0.1)
-          .attr("d", path);
 
       canadaMap.zoom(classes[0]);
     }
   } else { // user clicks outside map
+    // reset circle size
+    path.pointRadius(function(d, i) {
+      return defaultPointRadius;
+    });
+
     // reset area chart to Canada
     selectedRegion = "CANADA";
     showAreaData();
@@ -505,7 +505,7 @@ const showAirport = function() {
         )
             .style("pointer-events", "none");
         // Titles
-        const fullName = i18next.t(selectedAirpt, {ns: "airports"});
+        // const fullName = i18next.t(selectedAirpt, {ns: "airports"});
       }
     });
   }
