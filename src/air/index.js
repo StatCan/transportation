@@ -461,18 +461,30 @@ function showAreaData() {
   };
 
   if (!data[selectedDataset][selectedRegion]) {
-    loadData();
+    loadData().then(function (ptData){
+        data[selectedDataset][selectedRegion] = ptData;
+        showChart();
+        plotHoverLine();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
-  showChart();
-  plotHoverLine();
+  else{
+    showChart();
+    plotHoverLine();
+  }
 }
 
 function loadData() {
-  d3.queue()
-    .defer(d3.json, `data/air/passengers/${selectedRegion}.json`)
-    .await(function(error, ptData){
-      data[selectedDataset][selectedRegion] = ptData;
-    });
+  return new Promise(function(resolve, reject) {
+  d3.json(`data/air/passengers/${selectedRegion}.json`, function(err, ptData) {
+    if (err) {
+      	reject(err);
+      } else {
+      	resolve(ptData);
+      }
+    });})
 }
 function filterDates(data) {
   for (const year in data) {
