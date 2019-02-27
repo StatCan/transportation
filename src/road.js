@@ -1059,6 +1059,9 @@
 	    return data;
 	  },
 	  x: {
+	    label: i18next.t("x_label", {
+	      ns: "roadArea"
+	    }),
 	    getValue: function getValue(d, i) {
 	      // return new Date(d.date + "-01");
 	      // for first year, start at Jan -01T00:00:00.000Z
@@ -1259,7 +1262,7 @@
 	  var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
 
 	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
-	    return 55 + i * rectDim * 4;
+	    return 57 + i * rectDim * 5.2;
 	  }).attr("class", function (d, i) {
 	    return classArray[i];
 	  }); // add text node to rect g
@@ -1267,8 +1270,7 @@
 	  rects.append("text"); // Display text in text node
 
 	  d3.select("#areaLegend").selectAll("text").attr("y", 48).attr("x", function (d, i) {
-	    var xpos = [55 + rectDim + 5, 237, 375];
-	    return xpos[i];
+	    return 57 + i * rectDim * 5.2 + 40;
 	  }).style("display", function () {
 	    return "inline";
 	  });
@@ -1683,9 +1685,11 @@
 	    var thisDiesel = formatComma(hoverValue.diesel / scalef);
 	    var thisLPG = formatComma(hoverValue.lpg / scalef);
 	    divArea.transition().style("opacity", .9);
-	    divArea.html("<b>" + "Fuel sales (" + i18next.t("units", {
+	    divArea.html("<b>" + i18next.t("hoverTitle", {
+	      ns: "roadArea"
+	    }) + " (" + i18next.t("units", {
 	      ns: "road"
-	    }) + ") in " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("gas", {
+	    }) + "), " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("gas", {
 	      ns: "roadArea"
 	    }) + "</b>: $" + thisGas + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("diesel", {
 	      ns: "roadArea"

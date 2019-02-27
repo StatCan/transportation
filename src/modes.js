@@ -1345,7 +1345,9 @@
 	        ns: "modes"
 	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + i18next.t(d.target.name, {
 	        ns: "modes"
-	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
+	        ns: "modes_sankey"
+	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
 	    }); // DO NOT PLOT IF DATA IS COMPLETELY ZERO
@@ -1365,7 +1367,9 @@
 	        div.transition().style("opacity", .9);
 	        div.html("<b>" + i18next.t(d.name, {
 	          ns: "modes"
-	        }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	        }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
+	          ns: "modes_sankey"
+	        }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
 	      }).on("mouseout", function (d) {
 	        div.transition().style("opacity", 0);
 	      }); // add the rectangles for the nodes
@@ -2082,7 +2086,9 @@
 	  });
 	  var thisTitle = i18next.t("tableTitle", {
 	    ns: "modes_sankey"
-	  }) + " " + thisGeo + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+	  }) + " " + thisGeo + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {
+	    ns: "modes_sankey"
+	  });
 	  d3.select("#only-dt-tbl").text(thisTitle);
 	} // -----------------------------------------------------------------------------
 
@@ -2098,7 +2104,9 @@
 	  });
 	  var title = i18next.t("tableTitle", {
 	    ns: "modes_sankey"
-	  }) + " " + geo + " in " + month + " " + selectedYear + ", by type of transport";
+	  }) + " " + geo + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {
+	    ns: "modes_sankey"
+	  });
 	  var columns = [i18next.t("name", {
 	    ns: "modes_sankey"
 	  }), i18next.t("value", {
