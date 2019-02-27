@@ -5,7 +5,7 @@ const defaults = {
   margin: {
     top: 10,
     right: 10,
-    bottom: 10,
+    bottom: 30,
     left: 10
   }
 };
