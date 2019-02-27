@@ -32,10 +32,9 @@
       "MB": "Manitoba",
       "SK": "Saskatchewan",
       "AB": "Alberta",
-      "BC": "Colombie-Britannique",
+      "BC": "BC",
       "YT": "Yukon",
       "NT": "Territoires du Nord-Ouest",
       "NU": "Nunavut"
     }
-  }
 }
