@@ -1006,125 +1006,40 @@
 	  };
 	});
 
-	// 21.2.5.3 get RegExp.prototype.flags
+	// 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
 
-	var _flags = function () {
-	  var that = _anObject(this);
-	  var result = '';
-	  if (that.global) result += 'g';
-	  if (that.ignoreCase) result += 'i';
-	  if (that.multiline) result += 'm';
-	  if (that.unicode) result += 'u';
-	  if (that.sticky) result += 'y';
-	  return result;
+	var getTime = Date.prototype.getTime;
+	var $toISOString = Date.prototype.toISOString;
+
+	var lz = function (num) {
+	  return num > 9 ? num : '0' + num;
 	};
 
-	// 21.2.5.3 get RegExp.prototype.flags()
-	if (_descriptors && /./g.flags != 'g') _objectDp.f(RegExp.prototype, 'flags', {
-	  configurable: true,
-	  get: _flags
+	// PhantomJS / old WebKit has a broken implementations
+	var _dateToIsoString = (_fails(function () {
+	  return $toISOString.call(new Date(-5e13 - 1)) != '0385-07-25T07:06:39.999Z';
+	}) || !_fails(function () {
+	  $toISOString.call(new Date(NaN));
+	})) ? function toISOString() {
+	  if (!isFinite(getTime.call(this))) throw RangeError('Invalid time value');
+	  var d = this;
+	  var y = d.getUTCFullYear();
+	  var m = d.getUTCMilliseconds();
+	  var s = y < 0 ? '-' : y > 9999 ? '+' : '';
+	  return s + ('00000' + Math.abs(y)).slice(s ? -6 : -4) +
+	    '-' + lz(d.getUTCMonth() + 1) + '-' + lz(d.getUTCDate()) +
+	    'T' + lz(d.getUTCHours()) + ':' + lz(d.getUTCMinutes()) +
+	    ':' + lz(d.getUTCSeconds()) + '.' + (m > 99 ? m : '0' + lz(m)) + 'Z';
+	} : $toISOString;
+
+	// 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
+
+
+
+	// PhantomJS / old WebKit has a broken implementations
+	_export(_export.P + _export.F * (Date.prototype.toISOString !== _dateToIsoString), 'Date', {
+	  toISOString: _dateToIsoString
 	});
-
-	var TO_STRING = 'toString';
-	var $toString = /./[TO_STRING];
-
-	var define = function (fn) {
-	  _redefine(RegExp.prototype, TO_STRING, fn, true);
-	};
-
-	// 21.2.5.14 RegExp.prototype.toString()
-	if (_fails(function () { return $toString.call({ source: 'a', flags: 'b' }) != '/a/b'; })) {
-	  define(function toString() {
-	    var R = _anObject(this);
-	    return '/'.concat(R.source, '/',
-	      'flags' in R ? R.flags : !_descriptors && R instanceof RegExp ? _flags.call(R) : undefined);
-	  });
-	// FF44- RegExp#toString has a wrong name
-	} else if ($toString.name != TO_STRING) {
-	  define(function toString() {
-	    return $toString.call(this);
-	  });
-	}
-
-	var DateProto = Date.prototype;
-	var INVALID_DATE = 'Invalid Date';
-	var TO_STRING$1 = 'toString';
-	var $toString$1 = DateProto[TO_STRING$1];
-	var getTime = DateProto.getTime;
-	if (new Date(NaN) + '' != INVALID_DATE) {
-	  _redefine(DateProto, TO_STRING$1, function toString() {
-	    var value = getTime.call(this);
-	    // eslint-disable-next-line no-self-compare
-	    return value === value ? $toString$1.call(this) : INVALID_DATE;
-	  });
-	}
-
-	var SPECIES = _wks('species');
-
-	var _arraySpeciesConstructor = function (original) {
-	  var C;
-	  if (_isArray(original)) {
-	    C = original.constructor;
-	    // cross-realm fallback
-	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
-	    if (_isObject(C)) {
-	      C = C[SPECIES];
-	      if (C === null) C = undefined;
-	    }
-	  } return C === undefined ? Array : C;
-	};
-
-	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-
-
-	var _arraySpeciesCreate = function (original, length) {
-	  return new (_arraySpeciesConstructor(original))(length);
-	};
-
-	// 0 -> Array#forEach
-	// 1 -> Array#map
-	// 2 -> Array#filter
-	// 3 -> Array#some
-	// 4 -> Array#every
-	// 5 -> Array#find
-	// 6 -> Array#findIndex
-
-
-
-
-
-	var _arrayMethods = function (TYPE, $create) {
-	  var IS_MAP = TYPE == 1;
-	  var IS_FILTER = TYPE == 2;
-	  var IS_SOME = TYPE == 3;
-	  var IS_EVERY = TYPE == 4;
-	  var IS_FIND_INDEX = TYPE == 6;
-	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-	  var create = $create || _arraySpeciesCreate;
-	  return function ($this, callbackfn, that) {
-	    var O = _toObject($this);
-	    var self = _iobject(O);
-	    var f = _ctx(callbackfn, that, 3);
-	    var length = _toLength(self.length);
-	    var index = 0;
-	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-	    var val, res;
-	    for (;length > index; index++) if (NO_HOLES || index in self) {
-	      val = self[index];
-	      res = f(val, index, O);
-	      if (TYPE) {
-	        if (IS_MAP) result[index] = res;   // map
-	        else if (res) switch (TYPE) {
-	          case 3: return true;             // some
-	          case 5: return val;              // find
-	          case 6: return index;            // findIndex
-	          case 2: result.push(val);        // filter
-	        } else if (IS_EVERY) return false; // every
-	      }
-	    }
-	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-	  };
-	};
 
 	var _strictMethod = function (method, arg) {
 	  return !!method && _fails(function () {
@@ -1132,15 +1047,6 @@
 	    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
 	  });
 	};
-
-	var $filter = _arrayMethods(2);
-
-	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
-	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
-	  filter: function filter(callbackfn /* , thisArg */) {
-	    return $filter(this, callbackfn, arguments[1]);
-	  }
-	});
 
 	var $indexOf = _arrayIncludes(false);
 	var $native = [].indexOf;
@@ -1168,11 +1074,11 @@
 	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
 
 
-	var SPECIES$1 = _wks('species');
+	var SPECIES = _wks('species');
 	var _speciesConstructor = function (O, D) {
 	  var C = _anObject(O).constructor;
 	  var S;
-	  return C === undefined || (S = _anObject(C)[SPECIES$1]) == undefined ? D : _aFunction(S);
+	  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
 	};
 
 	// true  -> String#at
@@ -1242,6 +1148,19 @@
 	  return builtinExec.call(R, S);
 	};
 
+	// 21.2.5.3 get RegExp.prototype.flags
+
+	var _flags = function () {
+	  var that = _anObject(this);
+	  var result = '';
+	  if (that.global) result += 'g';
+	  if (that.ignoreCase) result += 'i';
+	  if (that.multiline) result += 'm';
+	  if (that.unicode) result += 'u';
+	  if (that.sticky) result += 'y';
+	  return result;
+	};
+
 	var nativeExec = RegExp.prototype.exec;
 	// This always refers to the native implementation, because the
 	// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
@@ -1305,7 +1224,7 @@
 	  exec: _regexpExec
 	});
 
-	var SPECIES$2 = _wks('species');
+	var SPECIES$1 = _wks('species');
 
 	var REPLACE_SUPPORTS_NAMED_GROUPS = !_fails(function () {
 	  // #replace needs built-in support for named groups.
@@ -1348,7 +1267,7 @@
 	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
 	      // a new one. We need to return the patched regex when creating the new one.
 	      re.constructor = {};
-	      re.constructor[SPECIES$2] = function () { return re; };
+	      re.constructor[SPECIES$1] = function () { return re; };
 	    }
 	    re[SYMBOL]('');
 	    return !execCalled;
@@ -1687,7 +1606,7 @@
 	    },
 	    getValue: function getValue(d, key) {
 	      if (d[key] === "x" || d[key] === "..") {
-	        return 0;
+	        return undefined;
 	      } else return Number(d[key]) * 1.0 / 1000;
 	    },
 	    getTotal: function getTotal(d, index, data) {
@@ -1828,6 +1747,73 @@
 	    return "inline";
 	  });
 	}
+
+	var SPECIES$2 = _wks('species');
+
+	var _arraySpeciesConstructor = function (original) {
+	  var C;
+	  if (_isArray(original)) {
+	    C = original.constructor;
+	    // cross-realm fallback
+	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
+	    if (_isObject(C)) {
+	      C = C[SPECIES$2];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array : C;
+	};
+
+	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+
+
+	var _arraySpeciesCreate = function (original, length) {
+	  return new (_arraySpeciesConstructor(original))(length);
+	};
+
+	// 0 -> Array#forEach
+	// 1 -> Array#map
+	// 2 -> Array#filter
+	// 3 -> Array#some
+	// 4 -> Array#every
+	// 5 -> Array#find
+	// 6 -> Array#findIndex
+
+
+
+
+
+	var _arrayMethods = function (TYPE, $create) {
+	  var IS_MAP = TYPE == 1;
+	  var IS_FILTER = TYPE == 2;
+	  var IS_SOME = TYPE == 3;
+	  var IS_EVERY = TYPE == 4;
+	  var IS_FIND_INDEX = TYPE == 6;
+	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+	  var create = $create || _arraySpeciesCreate;
+	  return function ($this, callbackfn, that) {
+	    var O = _toObject($this);
+	    var self = _iobject(O);
+	    var f = _ctx(callbackfn, that, 3);
+	    var length = _toLength(self.length);
+	    var index = 0;
+	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+	    var val, res;
+	    for (;length > index; index++) if (NO_HOLES || index in self) {
+	      val = self[index];
+	      res = f(val, index, O);
+	      if (TYPE) {
+	        if (IS_MAP) result[index] = res;   // map
+	        else if (res) switch (TYPE) {
+	          case 3: return true;             // some
+	          case 5: return val;              // find
+	          case 6: return index;            // findIndex
+	          case 2: result.push(val);        // filter
+	        } else if (IS_EVERY) return false; // every
+	      }
+	    }
+	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+	  };
+	};
 
 	var $map = _arrayMethods(1);
 
@@ -2074,7 +2060,9 @@
 	// let dataSet = 0; // TODO
 
 	var formatComma = d3.format(",d");
-	var scalef = 1e3; // -----------------------------------------------------------------------------
+	var scalef = 1e3;
+	var stackedArea; // stores areaChart() call
+	// -----------------------------------------------------------------------------
 
 	/* SVGs */
 
@@ -2118,7 +2106,10 @@
 	var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 	/* -- for areaChart 1 -- */
 
-	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
+	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+	/* vertical line to attach to cursor */
+
+	var hoverLine = chart.append("line").attr("class", "hoverLine").style("display", "none"); // -----------------------------------------------------------------------------
 
 	/* UI Handler */
 
@@ -2281,74 +2272,68 @@
 	/* --  areaChart interactions -- */
 	// vertical line to attach to cursor
 
-	var vertical = d3.select("#annualTimeseries").append("div").attr("id", "infoDiv").attr("class", "linecursor").style("position", "absolute").style("z-index", "0").style("width", "2px").style("height", "310px").style("top", "60px").style("bottom", "70px").style("left", "0px").style("background", "#ccc");
-	var idx;
-	var thisValue; // let sectorType;
+	function plotHoverLine() {
+	  var overlayRect = d3.select("#svgFuel .data").append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay").on("mouseout", function () {
+	    hoverLine.style("display", "none");
+	  }).on("mousemove", function () {
+	    hoverLine.style("display", "inline");
+	    hoverLine.style("transform", "translate(" + d3.mouse(this)[0] + "px)");
+	    hoverLine.moveToFront();
+	  });
+	  overlayRect.attr("width", stackedArea.settings.innerWidth).attr("height", stackedArea.settings.innerHeight);
+	  hoverLine.attr("x1", stackedArea.settings.margin.left).attr("x2", stackedArea.settings.margin.left).attr("y1", stackedArea.settings.margin.top).attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
+	}
 
-	d3.select("#annualTimeseries").on("mousemove", function () {
-	  var mouse = d3.mouse(this);
-	  var mousex = mouse[0];
+	function findAreaData(mousex) {
+	  var bisectDate = d3.bisector(function (d) {
+	    return d.date;
+	  }).left;
+	  var x0 = stackedArea.x.invert(mousex);
+	  var chartData = data[selectedDataset][selectedRegion];
+	  var d;
+	  var i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+	  var d0 = chartData[i - 1];
+	  var d1 = chartData[i];
 
-	  if (mousex < 599) {
-	    // restrict line from going off the x-axis
-	    // Find x-axis intervale closest to mousex
-	    idx = findXInterval(mousex);
-	    chart.on("mouseover", function (d) {
-	      // Tooltip
-	      var root = d3.select(d3.event.target);
+	  if (d0 && d1) {
+	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+	  } else if (d0) {
+	    d = d0;
+	  } else {
+	    d = d1;
+	  }
 
-	      if (root._groups[0][0].__data__) {
-	        var thisArray = root._groups[0][0].__data__;
+	  return d;
+	}
 
-	        if (thisArray[idx]) {
-	          var thisYear = thisArray[idx];
-	          thisValue = formatComma(thisYear[1] - thisYear[0]); // const sectorType = i18next.t(root.attr("class").split(" ").slice(-1)[0], {ns: "airPassengers"});
-	        }
-	      }
-	    });
-	    var yearDict = {
-	      0: 2010,
-	      1: 2011,
-	      2: 2012,
-	      3: 2013,
-	      4: 2014,
-	      5: 2015,
-	      6: 2016,
-	      7: 2017
-	    };
-
-	    if (thisValue) {
-	      var thisData = data[selectedDataset][selectedRegion];
-	      var thisDomestic = formatComma(thisData.filter(function (item) {
-	        return item.date === yearDict[idx].toString();
-	      })[0]["domestic"] / scalef);
-	      var thisTrans = formatComma(thisData.filter(function (item) {
-	        return item.date === yearDict[idx].toString();
-	      })[0]["trans_border"] / scalef);
-	      var thisInter = formatComma(thisData.filter(function (item) {
-	        return item.date === yearDict[idx].toString();
-	      })[0]["other_intl"] / scalef);
-	      divArea.transition().style("opacity", .9);
-	      divArea.html("<b>" + "Passenger movements (" + i18next.t("units", {
-	        ns: "airPassengers"
-	      }) + ") in " + yearDict[idx] + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
-	        ns: "airPassengers"
-	      }) + "</b>: " + thisDomestic + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("trans_border", {
-	        ns: "airPassengers"
-	      }) + "</b>: " + thisTrans + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("other_intl", {
-	        ns: "airPassengers"
-	      }) + "</b>: " + thisInter + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY + "px");
-	    }
-	  } // mousex restriction
-
-	}).on("mouseout", function (d, i) {
-	  // Clear tooltip
-	  divArea.transition().style("opacity", 0);
-	}); // -----------------------------------------------------------------------------
+	function areaInteraction() {
+	  d3.select("#svg_areaChartAir .data").on("mousemove", function () {
+	    var mousex = d3.mouse(this)[0];
+	    var hoverValue = findAreaData(mousex);
+	    var thisDomestic = formatComma(hoverValue.domestic / scalef);
+	    var thisTrans = formatComma(hoverValue.trans_border / scalef);
+	    var thisInter = formatComma(hoverValue.other_intl / scalef);
+	    divArea.transition().style("opacity", .9);
+	    divArea.html("<b>" + "Passenger movements (" + i18next.t("units", {
+	      ns: "airPassengers"
+	    }) + ") in " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
+	      ns: "airPassengers"
+	    }) + "</b>: " + thisDomestic + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("trans_border", {
+	      ns: "airPassengers"
+	    }) + "</b>: " + thisTrans + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("other_intl", {
+	      ns: "airPassengers"
+	    }) + "</b>: " + thisInter + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
+	    plotHoverLine();
+	  }).on("mouseout", function (d, i) {
+	    // Clear tooltip
+	    divArea.transition().style("opacity", 0);
+	  });
+	} // -----------------------------------------------------------------------------
 
 	/* FNS */
 
 	/* -- plot circles on map -- */
+
 
 	var refreshMap = function refreshMap() {
 	  path = d3.geoPath().projection(canadaMap.settings.projection).pointRadius(defaultPointRadius);
@@ -2360,7 +2345,7 @@
 	};
 
 	function colorMap() {
-	  var colourArray = ["#edf8fb", "#b3cde3", "#8c96c6", "#8856a7", "#810f7c"];
+	  var colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
 	  var dimExtent = []; // map.selectAll("path").style("stroke", "black");
 
 	  var totArr = [];
@@ -2408,13 +2393,16 @@
 	  updateTitles();
 
 	  var showChart = function showChart() {
-	    areaChart(chart, settings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
+	    stackedArea = areaChart(chart, settings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
 
 	    d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true); // ------------------copy button---------------------------------
 	    // need to re-apend the button since table is being re-build
 
 	    if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
 	    dataCopyButton(data[selectedDataset][selectedRegion]); // ---------------------------------------------------------------
+
+	    areaInteraction();
+	    plotLegend();
 	  };
 
 	  if (!data[selectedDataset][selectedRegion]) {
@@ -2475,8 +2463,7 @@
 	        var divData = filterDates(lineData[selectedAirpt]);
 	        div.transition().style("opacity", .9);
 	        div.html( // **** CHANGE ns WITH DATASET ****
-	        "<b>placeholder title</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b> enplaned: " + divData.enplaned + " </td>" + "<td><b> deplaned: " + divData.deplaned + "</td>" + // "<td>" + " (" + units + ")</td>" +
-	        "</tr>" + "</table>").style("pointer-events", "none"); // Titles
+	        "<b>placeholder title</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b> enplaned: " + divData.enplaned + " </td>" + "<td><b> deplaned: " + divData.deplaned + "</td>" + "</tr>" + "</table>").style("pointer-events", "none"); // Titles
 
 	        var fullName = i18next.t(selectedAirpt, {
 	          ns: "airports"
@@ -2492,36 +2479,6 @@
 	    ns: "airports"
 	  }));
 	};
-	/* -- find year interval closest to cursor for areaChart tooltip -- */
-
-
-	function findXInterval(mousex) {
-	  // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
-	  var xref = [62, 149, 234, 321, 404, 491, 576];
-	  var xrefMid = [xref[0] + (xref[1] - xref[0]) / 2, xref[1] + (xref[1] - xref[0]) / 2, xref[2] + (xref[1] - xref[0]) / 2, xref[3] + (xref[1] - xref[0]) / 2, xref[4] + (xref[1] - xref[0]) / 2, xref[5] + (xref[1] - xref[0]) / 2, xref[6] + (xref[1] - xref[0]) / 2]; // Plot vertical line at cursor
-
-	  vertical.style("left", mousex + "px");
-
-	  if (mousex < xrefMid[0]) {
-	    idx = 0;
-	  } else if (mousex < xrefMid[1]) {
-	    idx = 1;
-	  } else if (mousex < xrefMid[2]) {
-	    idx = 2;
-	  } else if (mousex < xrefMid[3]) {
-	    idx = 3;
-	  } else if (mousex < xrefMid[4]) {
-	    idx = 4;
-	  } else if (mousex < xrefMid[5]) {
-	    idx = 5;
-	  } else if (mousex < xrefMid[6]) {
-	    idx = 6;
-	  } else if (mousex > xrefMid[6]) {
-	    idx = 7;
-	  }
-
-	  return idx;
-	}
 	/* -- update map and areaChart titles -- */
 
 
@@ -2619,8 +2576,8 @@
 	      map.style("visibility", "visible");
 	      d3.select(".canada-map").moveToBack();
 	    });
-	    showAreaData();
-	    plotLegend(); // Show chart titles based on default menu options
+	    showAreaData(); // plotHoverLine();
+	    // Show chart titles based on default menu options
 
 	    updateTitles(); // copy button options
 

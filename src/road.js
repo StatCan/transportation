@@ -344,7 +344,7 @@
 	  return store[key] || (store[key] = value !== undefined ? value : {});
 	})('versions', []).push({
 	  version: _core.version,
-	  mode: 'global',
+	  mode: _library ? 'pure' : 'global',
 	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
@@ -1729,7 +1729,6 @@
 	  stackedChart = areaChart(chart, settings, data[selectedRegion]);
 	  d3.select("#svgFuel").select(".x.axis").select("text").attr("display", "none");
 	  areaInteraction();
-	  plotHoverLine();
 	  plotLegend(); // Highlight region selected from menu on map
 
 	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true); // copy button data;
@@ -1910,6 +1909,7 @@
 	    cButton.build(cButtonOptions);
 	    showData(); // plot area chart, legend, and hover line
 
+	    plotHoverLine();
 	    updateTitles(); // update chart, map and table titles
 	  });
 	});
