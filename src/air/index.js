@@ -194,11 +194,10 @@ map.on("mouseover", () => {
         div
             .style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
-            "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
+            "<b>" + key + " (" + i18next.t("scalef", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
               "<table>" +
                 "<tr>" +
-                  "<td><b>" + value + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
+                  "<td><b>" + value + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
                 "</tr>" +
               "</table>"
         )
@@ -353,16 +352,16 @@ function areaInteraction() {
         divArea.transition()
             .style("opacity", .9);
         divArea.html(
-            "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<b>" + i18next.t("chartHoverPassengers", {ns: "airPassengers"}) + " (" + i18next.t("scalef", {ns: "airPassengers"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
                 "<table>" +
                   "<tr>" +
-                    "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+                    "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
                   "</tr>" +
                   "<tr>" +
-                    "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+                    "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
                   "</tr>" +
                   "<tr>" +
-                    "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+                    "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
                   "</tr>" +
                 "</table>"
         )
@@ -423,7 +422,7 @@ function colorMap() {
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
-    + i18next.t("units", {ns: "airPassengers"}) + ")";
+    + i18next.t("scalef", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
 
   // Colourbar label (need be plotted only once)
@@ -507,10 +506,6 @@ const showAirport = function() {
             .style("pointer-events", "none");
         // Titles
         const fullName = i18next.t(selectedAirpt, {ns: "airports"});
-
-        // airport table title
-        d3.select("#chrt-dt-tbl1")
-            .text(`Air passenger traffic at ${fullName}, (in thousands)`);
       }
     });
   }

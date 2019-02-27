@@ -62,13 +62,15 @@
       "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total, passenger sector",
+      "chartHoverPassengers": "Passenger movements",
+      "units": "people",
       "x_label": "Year",
       "y_label": "Number of passengers (in thousands)",
       "total": "Total",
       "domestic": "Domestic",
       "other_intl": "International",
       "trans_border": "Transborder",
-      "units": "in thousands",
+      "scalef": "in thousands",
       "mapScaleLabel": "Total"
     },
     "airports": {
