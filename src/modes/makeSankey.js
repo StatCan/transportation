@@ -93,7 +93,7 @@ export default function(svg, settings, data) {
                 "<table>" +
                   "<tr>" +
                     "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " "  + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                   "</tr>" +
                 "</table>"
           )
