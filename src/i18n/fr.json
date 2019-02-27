@@ -97,6 +97,7 @@
     "modes_sankey": {
     "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
     "tableTitle": "Voyageurs internationaux entrant ou revenant au / à",
+    "units": "personnes",
     "byType": "selon le moyen de transport",
     "name": "Caractéristiques des voyageurs",
     "value": "Nombre des voyageurs"
