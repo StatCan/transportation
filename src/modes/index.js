@@ -100,7 +100,7 @@ function updateTitles() {
   const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
-  + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
@@ -111,7 +111,7 @@ function dataCopyButton() {
   const geo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const month = i18next.t(selectedMonth, {ns: "modesMonth"});
   const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
-  + " in " + month + " " + selectedYear + ", by type of transport";
+  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
 
   const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
   cButton.data = dataTree.toLines(title, columns);
