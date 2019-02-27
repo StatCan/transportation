@@ -5,14 +5,17 @@ export default class NodesTree {
         this.data = null;
     }
     
-    setData(data){
+    setData(data, tree){
+
         this.data = data;
 
-        this.iterTree(this.tree, addData);
+        let treeTemp = (tree) ? tree : this.tree;
 
-        this.tree.value = 0;
+        this.iterTree(treeTemp, addData);
 
-        this.tree.children.forEach(function(child){this.tree.value += child.value;}.bind(this));
+        treeTemp.value = 0;
+
+        treeTemp.children.forEach(function(child){treeTemp.value += child.value;}.bind(this));
 
         function addData(tree){
             
@@ -33,24 +36,29 @@ export default class NodesTree {
     toArray(){
         let treeAsArray = [];
 
-        this.iterTree(this.tree, fillArray);
+        var clone = this.buildTree();
+
+        if(this.data) this.setData(this.data, clone);
+
+        this.iterTree(clone, fillArray);
         
         return treeAsArray;
 
         function fillArray(tree){
 
-            treeAsArray.push(cloneItem(tree));
+            treeAsArray.push(tree);
         }
-
-        function cloneItem(item){
+        
+       /*  function cloneItem(item){
             let itemTemp = {};
-
-            for(let key in item){
+            let dummy = JSON.stringify(item);
+            debugger
+             for(let key in item){
                 itemTemp[key] = item[key];
-            }
+            } 
 
             return itemTemp;
-        }
+        } */
     }
 
     toLines(title, columns){
