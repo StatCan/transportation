@@ -144,7 +144,9 @@ function uiHandler(event) {
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("airMapHighlight", false);
 
-    selectedRegion = document.getElementById("groups").value;
+    if(document.getElementById("groups").class !== "passenger"){
+      selectedRegion = document.getElementById("groups").value;
+    }
     showAreaData();
   }
   if (event.target.id === "yearSelector") {
