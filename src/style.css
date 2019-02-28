@@ -131,39 +131,41 @@ table, th, td {
 }
 
 /*-- airport circle fill --*/
-.allYears {
-	fill: green;
+.passengers.allYears {
+	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.noYears {
+.passengers.noYears {
 	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0;
 }
-.lastSevenYears {
-	fill: #008E09;
-	stroke: yellow;
+.passengers.lastSevenYears {
+	fill: orange;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastSixYears {
-	fill: #F6CF22;
+.passengers.lastSixYears {
+	fill: orange;
 	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastFiveYears {
-	fill: #F6CF22;
-	stroke: blue;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.mix {
+.passengers.lastFiveYears {
 	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
+	cursor: pointer;
+}
+.passengers.mix {
+	fill: orange;
+	stroke: black;
+	stroke-width: 0.3px;
+	/*opacity: 0;*/
 }
 .airport {
 	/* stroke: black;

@@ -391,7 +391,7 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
-        return "airport " + d.properties.hasPlanedData;
+        return "airport " + selectedDataset + " " + d.properties.hasPlanedData;
       });
 };
 
