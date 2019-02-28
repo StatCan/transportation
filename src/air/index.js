@@ -57,13 +57,14 @@ const svgCB = d3.select("#mapColourScale")
     .attr("height", height)
     .style("vertical-align", "middle");
 
+const widthNaN = 55;
 const svgNaN = d3.select("#mapColourScaleNaN")
     .select("svg")
     .attr("class", "airCB")
-    .attr("width", 50)
+    .attr("width", widthNaN)
     .attr("height", height)
     .style("vertical-align", "middle")
-    .attr("transform", "translate(210, 0)");;
+    .attr("transform", "translate(0, 0)");
 
 const chart = d3.select(".data")
     .append("svg")
@@ -81,6 +82,7 @@ const svgLegend = d3.select("#areaLegend")
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
+d3.stcExt.addIEShim(svgNaN, height, widthNaN);
 
 // -----------------------------------------------------------------------------
 /* letiables */
@@ -99,6 +101,11 @@ let allAirports;
 /* tooltip */
 /* -- for map -- */
 const div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+/* -- for map NaN legend -- */
+const divNaN = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -456,31 +463,46 @@ function mapColourScaleNaN(svg) {
       .selectAll("rect")
       .data(["#888"])
       .enter()
-      .append("g");
+      .append("g")
+      .attr("class", "legendNaN");
 
   // Append rects onto the g nodes and fill
   rects.append("rect")
       .attr("width", rectDim)
       .attr("height", rectDim)
       .attr("y", 5)
-      .attr("x", 15)
+      .attr("x", 10)
       .attr("fill", "#424242");
 
   // add text node to rect g
   rects.append("text");
 
   // Display text in text node
-  let updateText;
   d3.select("#mapColourScaleNaN .mapCB")
       .selectAll("text")
-      .text("No data")
+      .text("x")
       // .attr("text-anchor", "end")
       .attr("transform", function(d, i) {
-        return "translate(-200, 60) " + "rotate(0)";
+        return "translate(24, 60) " + "rotate(0)";
       })
       .style("display", function() {
         return "inline";
       });
+
+  rects.on("mousemove", () => {
+    // Tooltip
+    const nanHover = i18next.t("NaNhover", {ns: "airUI"});
+    divNaN.style("opacity", .9);
+    divNaN.html(nanHover)
+        .style("pointer-events", "none");
+    divNaN
+        .style("left", ((d3.event.pageX +10) + "px"))
+        .style("top", ((d3.event.pageY +10) + "px"));
+  });
+
+  rects.on("mouseout", () => {
+    divNaN.style("opacity", 0);
+  });
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */

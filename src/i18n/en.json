@@ -49,6 +49,9 @@
       "NT": "Northwest Territories",
       "NU": "Nunavut"
     },
+    "airUI": {
+      "NaNhover": "suppressed to meet the confidentiality requirements of the Statistics Act"
+    },
       "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
       "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",

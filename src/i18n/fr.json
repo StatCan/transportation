@@ -53,6 +53,9 @@
       "NT": "Territoires du Nord-Ouest",
       "NU": "Nunavut"
     },
+    "airUI": {
+      "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique"
+    },
     "airPassengers": {
       "alt": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
       "tableTitle": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
