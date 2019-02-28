@@ -191,8 +191,7 @@ map.on("mousemove", () => {
             .classed("airMapHighlight", true);
         // Tooltip
         const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-        div.transition()
-            .style("opacity", .9);
+        div.style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
             "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
               "<table>" +
@@ -212,8 +211,7 @@ map.on("mousemove", () => {
 });
 
 map.on("mouseout", () => {
-  div.transition()
-      .style("opacity", 0);
+  div.style("opacity", 0);
 
   if (selectedRegion) {
     d3.select(".map")
@@ -295,27 +293,12 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-  const overlayRect = d3.select("#svgFuel .data").append("rect")
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr("class", "overlay")
-      .on("mouseout", function() {
-        hoverLine.style("display", "none");
-      })
-      .on("mousemove", function() {
-        hoverLine.style("display", "inline");
-        hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-        hoverLine.moveToFront();
-      });
-  overlayRect
-      .attr("width", stackedArea.settings.innerWidth)
-      .attr("height", stackedArea.settings.innerHeight);
 
   hoverLine
-      .attr("x1", stackedArea.settings.margin.left)
-      .attr("x2", stackedArea.settings.margin.left)
-      .attr("y1", stackedArea.settings.margin.top)
-      .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
+    .attr("x1", stackedArea.settings.margin.left)
+    .attr("x2", stackedArea.settings.margin.left)
+    .attr("y1", stackedArea.settings.margin.top)
+    .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 }
 
 function findAreaData(mousex) {
@@ -368,14 +351,17 @@ function areaInteraction() {
           .style("left", ((d3.event.pageX +10) + "px"))
           .style("top", ((d3.event.pageY +10) + "px"))
           .style("pointer-events", "none");
+      hoverLine.style("display", null);
+      hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+      hoverLine.moveToFront()
     })
     .on("mouseover", function(){
-      divArea.transition()
-          .style("opacity", .9);
+      divArea.style("opacity", .9);
     })
     .on("mouseout", function(d, i) {
     // Clear tooltip
-      divArea.transition().style("opacity", 0);
+      hoverLine.style("display", "none");
+      divArea.style("opacity", 0);
     });
 }
 
@@ -417,8 +403,7 @@ function colorMap() {
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
       // d3.select(".dashboard .map")
-      map
-          .select("." + key).style("fill", colourMap(totals[selectedDate][key]));
+      map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
     }
   }
 
@@ -464,7 +449,7 @@ function showAreaData() {
     loadData().then(function (ptData){
         data[selectedDataset][selectedRegion] = ptData;
         showChart();
-        plotHoverLine();
+  //      /();
       })
       .catch(function (error) {
         console.log(error);
@@ -472,7 +457,7 @@ function showAreaData() {
   }
   else{
     showChart();
-    plotHoverLine();
+    //plotHoverLine();
   }
 }
 
@@ -508,8 +493,7 @@ const showAirport = function() {
         }
         lineData[selectedAirpt] = aptData;
         const divData = filterDates(lineData[selectedAirpt]);
-        div.transition()
-            .style("opacity", .9);
+        div.style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
             "<b>placeholder title</b>"+ "<br><br>" +
               "<table>" +
@@ -642,30 +626,7 @@ i18n.load(["src/i18n"], () => {
         showAreaData();
         plotLegend();
         areaInteraction();
-        overlayRect = d3.select("#svgFuel .data").append("rect")
-          .style("fill", "none")
-          .style("pointer-events", "all")
-          .attr("class", "overlay")
-          .on("mouseout", function() {
-            hoverLine.style("display", "none");
-          })
-          .on("mousemove", function(){
-            console.log(d3.mouse(this)[0])
-            hoverLine.style("display", null);
-            hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-            hoverLine.moveToFront()
-          });
-
-        overlayRect
-          .attr("width", stackedArea.settings.innerWidth)
-          .attr("height", stackedArea.settings.innerHeight)
-
-        hoverLine
-          .attr("x1", stackedArea.settings.margin.left)
-          .attr("x2", stackedArea.settings.margin.left)
-          .attr("y1", stackedArea.settings.margin.top)
-          .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
-
+        plotHoverLine();
         // Show chart titles based on default menu options
         updateTitles();
 
