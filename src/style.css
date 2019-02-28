@@ -136,7 +136,7 @@ table, th, td {
 
 /*-- airport circle fill --*/
 .passengers.allYears {
-	fill: orange;
+	fill: #FFF84C;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
@@ -148,28 +148,28 @@ table, th, td {
 	opacity: 0;
 }
 .passengers.lastSevenYears {
-	fill: orange;
+	fill: #FFF84C;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .passengers.lastSixYears {
-	fill: orange;
+	fill: #FFF84C;
 	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .passengers.lastFiveYears {
-	fill: orange;
+	fill: #FFF84C;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
 .passengers.mix {
-	fill: orange;
+	fill: gray;
 	stroke: black;
 	stroke-width: 0.3px;
-	/*opacity: 0;*/
+	opacity: 0.5;
 }
 .airport {
 	/* stroke: black;

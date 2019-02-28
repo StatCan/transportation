@@ -50,7 +50,8 @@
       "NU": "Nunavut"
     },
     "airUI": {
-      "NaNhover": "suppressed to meet the confidentiality requirements of the Statistics Act"
+      "NaNhover1": "suppressed to meet the confidentiality",
+      "NaNhover2": "requirements of the Statistics Act"
     },
       "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",

@@ -491,9 +491,17 @@ function mapColourScaleNaN(svg) {
 
   rects.on("mousemove", () => {
     // Tooltip
-    const nanHover = i18next.t("NaNhover", {ns: "airUI"});
     divNaN.style("opacity", .9);
-    divNaN.html(nanHover)
+    divNaN.html(
+        "<table>" +
+           "<tr>" +
+             "<td>" + i18next.t("NaNhover1", {ns: "airUI"}) + "</td>" +
+           "</tr>" +
+           "<tr>" +
+             "<td>" + i18next.t("NaNhover2", {ns: "airUI"}) + "</td>" +
+           "</tr>" +
+         "</table>"
+    )
         .style("pointer-events", "none");
     divNaN
         .style("left", ((d3.event.pageX +10) + "px"))
