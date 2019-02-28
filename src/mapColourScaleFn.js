@@ -37,7 +37,7 @@ export default function(svgCB, colourArray, dimExtent) {
   // Display text in text node
   let updateText;
   d3.select("#mapColourScale .mapCB")
-      .selectAll("text")  
+      .selectAll("text")
       .text(function(i, j) {
         const s0 = formatComma(cbValues[j] / scalef);
         updateText = s0 + "+";

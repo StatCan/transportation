@@ -1,11 +1,11 @@
 // function makeSankey(svgID, graph) {
 const defaults = {
-  aspectRatio: 16 / 14,
-  width: 1090,
+  aspectRatio: 16 / 10,
+  width: 900,
   margin: {
     top: 10,
     right: 10,
-    bottom: 10,
+    bottom: 30,
     left: 10
   }
 };
@@ -39,7 +39,7 @@ export default function(svg, settings, data) {
         })
         .filter((d) => nonZeroNodes.includes(d.node))
   };
-// console.log(nonZeroNodes, data)
+
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
@@ -93,7 +93,7 @@ export default function(svg, settings, data) {
                 "<table>" +
                   "<tr>" +
                     "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                   "</tr>" +
                 "</table>"
           )
@@ -135,7 +135,7 @@ export default function(svg, settings, data) {
                 "<table>" +
                   "<tr>" +
                   "<td>" + "Total:" + "</td>" +
-                  "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " people</td>" +
+                  "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                   "</tr>" +
                 "</table>"
             )
@@ -164,7 +164,7 @@ export default function(svg, settings, data) {
       node.append("text")
           .attr("x", -6)
           .attr("y", function(d) {
-            return d.dy / 2.5;
+            return d.dy / 2;
           })
           .attr("dy", ".35em")
           .attr("text-anchor", "end")
@@ -195,15 +195,20 @@ export default function(svg, settings, data) {
     function wrap(text, width) {
       const xcoord = 40;
       text.each(function() {
-        var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1.1, // ems
-            y = text.attr("y"),
-            dy = parseFloat(text.attr("dy")),
-            tspan = text.text(null).append("tspan").attr("x", xcoord).attr("y", y).attr("dy", dy + "em");
+        const text = d3.select(this);
+        const words = text.text().split(/\s+/).reverse();
+        let word;
+        let line = [];
+        let lineNumber = 0;
+        const lineHeight = 1.1; // ems
+        const y = text.attr("y");
+        const dy = parseFloat(text.attr("dy")) - lineHeight / 2; // added this to shift all lines up
+        let tspan = text.text(null)
+            .append("tspan")
+            .attr("class", "nowrap")
+            .attr("x", xcoord)
+            .attr("y", y)
+            .attr("dy", dy + "em");
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(" "));
@@ -211,7 +216,15 @@ export default function(svg, settings, data) {
             line.pop();
             tspan.text(line.join(" "));
             line = [word];
-            tspan = text.append("tspan").attr("x", xcoord).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+            // console.log("dy: ", dy)
+            tspan = text.append("tspan")
+                .attr("class", "wordwrap")
+                .attr("x", xcoord)
+                .attr("y", y)
+                .attr("dy", function() {
+                  return ++lineNumber * lineHeight + dy + "em";
+                })
+                .text(word);
           }
         }
       });

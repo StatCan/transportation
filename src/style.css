@@ -129,41 +129,47 @@ table, th, td {
 	color: #565656;
 	text-align: left;
 }
+.legendNaN text {
+  fill: #565656;
+  font-size: 13px;
+}
 
 /*-- airport circle fill --*/
-.allYears {
-	fill: green;
+.passengers.allYears {
+	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.noYears {
+.passengers.noYears {
 	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0;
 }
-.lastSevenYears {
-	fill: #008E09;
-	stroke: yellow;
+.passengers.lastSevenYears {
+	fill: orange;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastSixYears {
-	fill: #F6CF22;
+.passengers.lastSixYears {
+	fill: orange;
 	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastFiveYears {
-	fill: #F6CF22;
-	stroke: blue;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.mix {
+.passengers.lastFiveYears {
 	fill: orange;
 	stroke: black;
 	stroke-width: 0.3px;
+	cursor: pointer;
+}
+.passengers.mix {
+	fill: orange;
+	stroke: black;
+	stroke-width: 0.3px;
+	/*opacity: 0;*/
 }
 .airport {
 	/* stroke: black;
@@ -702,7 +708,7 @@ div.tooltip {
 }
 
 /* copy button */
-.copy-button .copy-confirm {    
+.copy-button .copy-confirm {
 	visibility: hidden;
 	position: absolute;
 	top: 825px;
@@ -713,19 +719,19 @@ div.tooltip {
 	border: solid thin black;
 	padding: 5px;
 	color: #333;
-	
+
 	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 }
 
 .copy-button  .btn.btn-primary.copy .clipboard{
-	font-size: 18px;	 
+	font-size: 18px;
 }
 
 .copy-button {
 	text-align: right;
-	
+
 }
 /* Fade In Fade Out */
 .fadeIn {

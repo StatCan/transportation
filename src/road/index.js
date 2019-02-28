@@ -69,7 +69,7 @@ const hoverLine = chart.append("line")
 // -----------------------------------------------------------------------------
 /* Interactions */
 /* -- Map interactions -- */
-map.on("mouseover", () => {
+map.on("mousemove", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
@@ -84,7 +84,7 @@ map.on("mouseover", () => {
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-      div.transition()
+      div
           .style("opacity", .9);
       div.html(
           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
@@ -94,31 +94,33 @@ map.on("mouseover", () => {
               "</tr>" +
             "</table>"
       );
-    } else {
-      // clear tooltip for IE
-      div.transition()
-          .style("opacity", 0);
-    }
-  }
-})
-    .on("mousemove", () => {
+
       div
           .style("left", ((d3.event.pageX +10) + "px"))
           .style("top", ((d3.event.pageY +10) + "px"));
-    }).on("mouseout", () => {
-      div.transition()
+    } else {
+      // clear tooltip for IE
+      div
           .style("opacity", 0);
+    }
+  }
+});
 
-      if (selectedRegion) {
-        d3.select(".map")
-            .selectAll("path:not(." + selectedRegion + ")")
-            .classed("roadMapHighlight", false);
-      } else {
-        d3.select(".map")
-            .selectAll("path")
-            .classed("roadMapHighlight", false);
-      }
-    });
+map.on("mouseout", () => {
+  div.transition()
+      .style("opacity", 0);
+
+  if (selectedRegion) {
+    d3.select(".map")
+        .selectAll("path:not(." + selectedRegion + ")")
+        .classed("roadMapHighlight", false);
+  } else {
+    d3.select(".map")
+        .selectAll("path")
+        .classed("roadMapHighlight", false);
+  }
+});
+
 map.on("click", () => {
   // clear any previous clicks
   d3.select(".map")
@@ -167,7 +169,7 @@ function areaInteraction() {
         divArea.transition()
             .style("opacity", .9);
         divArea.html(
-            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
               "<table>" +
                 "<tr>" +
                   "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
@@ -224,7 +226,6 @@ function showData() {
       .attr("display", "none");
 
   areaInteraction();
-  plotHoverLine();
   plotLegend();
 
   // Highlight region selected from menu on map
@@ -400,8 +401,8 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-
         showData(); // plot area chart, legend, and hover line
+        plotHoverLine();
         updateTitles(); // update chart, map and table titles
       });
 });

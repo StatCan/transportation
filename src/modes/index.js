@@ -60,6 +60,7 @@ function uiHandler(event) {
 
 function showData() {
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisRegion = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
@@ -67,26 +68,23 @@ function showData() {
   if (travellerTotal() === 0) {
     d3.selectAll("svg > *").remove();
     d3.select("#zeroFlag")
-        .text(`Zero international travellers for ${selectedRegion},
+        .text(`${i18next.t("noData", {ns: "modes_sankey"})} ${thisRegion},
           ${thisMonth} ${selectedYear}`);
   } else {
     d3.selectAll("svg > *").remove();
 
     makeSankey(sankeyChart, {}, {
-      nodes : sankeyNodes,
+      nodes: sankeyNodes,
       links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });
   }
 
-  var dataTable =  data[selectedYear + "-" + selectedMonth][selectedRegion];
+  const dataTable = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   dataTree.setData(dataTable);
-  
-  var auxArray = dataTree.toArray();
-  
-  auxArray.forEach(function(item){
-    
-  })
+  const auxArray = dataTree.toArray();
+  auxArray.forEach(function(item) {
+  });
 
   drawTable(table, tableSettings, auxArray);
 
@@ -103,7 +101,7 @@ function updateTitles() {
   const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
-  + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
@@ -114,11 +112,10 @@ function dataCopyButton() {
   const geo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const month = i18next.t(selectedMonth, {ns: "modesMonth"});
   const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
-  + " in " + month + " " + selectedYear + ", by type of transport";
-  
-  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})]  
+  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
+
+  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
   cButton.data = dataTree.toLines(title, columns);
-  
 }
 
 // -----------------------------------------------------------------------------
@@ -130,7 +127,7 @@ i18n.load(["src/i18n"], function() {
     title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
     msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
     accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-  }; 
+  };
   // build nodes on copy button
   cButton.build(cButtonOptions);
 
