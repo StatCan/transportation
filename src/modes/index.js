@@ -60,6 +60,7 @@ function uiHandler(event) {
 
 function showData() {
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisRegion = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
@@ -67,7 +68,7 @@ function showData() {
   if (travellerTotal() === 0) {
     d3.selectAll("svg > *").remove();
     d3.select("#zeroFlag")
-        .text(`Zero international travellers for ${selectedRegion},
+        .text(`${i18next.t("noData", {ns: "modes_sankey"})} ${thisRegion},
           ${thisMonth} ${selectedYear}`);
   } else {
     d3.selectAll("svg > *").remove();

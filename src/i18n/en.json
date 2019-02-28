@@ -332,7 +332,8 @@
       "units": "people",
       "byType": "by type of transport",
       "name": "Traveller characteristics",
-      "value": "Number of travellers"
+      "value": "Number of travellers",
+      "noData": "Zero international travellers for "
     },
     "modesGeography": {
       "Canada": "Canada",
