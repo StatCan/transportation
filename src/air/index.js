@@ -48,7 +48,7 @@ const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 510 - margin.left - margin.right;
+const width = 380 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -56,6 +56,14 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
+
+const svgNaN = d3.select("#mapColourScaleNaN")
+    .select("svg")
+    .attr("class", "airCB")
+    .attr("width", 50)
+    .attr("height", height)
+    .style("vertical-align", "middle")
+    .attr("transform", "translate(210, 0)");;
 
 const chart = d3.select(".data")
     .append("svg")
@@ -424,6 +432,7 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("scalef", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
+  mapColourScaleNaN(svgNaN);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
@@ -438,6 +447,40 @@ function colorMap() {
   airportGroup = map.append("g");
 
   // d3.stcExt.addIEShim(map, 387.1, 457.5);
+}
+
+function mapColourScaleNaN(svg) {
+  const rectDim = 35;
+  const rects = svg
+      .attr("class", "mapCB")
+      .selectAll("rect")
+      .data(["#888"])
+      .enter()
+      .append("g");
+
+  // Append rects onto the g nodes and fill
+  rects.append("rect")
+      .attr("width", rectDim)
+      .attr("height", rectDim)
+      .attr("y", 5)
+      .attr("x", 15)
+      .attr("fill", "#424242");
+
+  // add text node to rect g
+  rects.append("text");
+
+  // Display text in text node
+  let updateText;
+  d3.select("#mapColourScaleNaN .mapCB")
+      .selectAll("text")
+      .text("No data")
+      // .attr("text-anchor", "end")
+      .attr("transform", function(d, i) {
+        return "translate(-200, 60) " + "rotate(0)";
+      })
+      .style("display", function() {
+        return "inline";
+      });
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
