@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import areaLegendFn from "../areaLegendFn.js";
 import CopyButton from "../copyButton.js";
@@ -16,22 +17,90 @@ const data = {
   "major_airports": {}
 };
 
+const passengerDropdownData = {
+  "Canada": "CANADA",
+  "Newfoundland and Labrador": "NL",
+  "St John's International": "YYT",
+  "Prince Edward Island": "PE",
+  "Nova Scotia (no data)": "NS",
+  "Halifax/Robert L Stanfield International": "YHZ",
+  "New Brunswick (no data)": "NB",
+  "Moncton/Greater Moncton International": "YQM",
+  "Quebec": "QC",
+  "Montréal/Pierre Elliott Trudeau International": "YUL",
+  "Québec/Jean Lesage International": "YQB",
+  "Ontario": "ON",
+  "Ottawa/Macdonald-Cartier International": "YOW",
+  "Toronto/Lester B Pearson International": "YYZ",
+  "Manitoba": "MB",
+  "Winnipeg/James Armstrong Richardson International": "NL",
+  "Saskatchewan": "SK",
+  "Alberta": "AB",
+  "Calgary International": "YYC",
+  "Edmonton International": "YEG",
+  "British Columbia": "BC",
+  "Vancouver International": "YVR",
+  "Victoria International": "YYJ",
+  "Yukon (no data)": "YT",
+  "Northwest Territories": "NT",
+  "Nunavut": "NU"
+};
+const majorDropdownData = {
+  "Canada": "CANADA",
+  "Newfoundland and Labrador": "NL",
+  "St John's International": "YYT",
+  "Prince Edward Island": "PE",
+  "Charlottetown": "YYG",
+  "Nova Scotia (no data)": "NS",
+  "Halifax/Robert L Stanfield International": "YHZ",
+  "New Brunswick (no data)": "NB",
+  "Moncton/Greater Moncton International": "YQM",
+  "Fredericton International": "YFC",
+  "Saint John": "YSJ",
+  "Quebec": "QC",
+  "Montréal/Pierre Elliott Trudeau International": "YUL",
+  "Québec/Jean Lesage International": "YQB",
+  "Montréal Mirabel International": "YMX",
+  "Ontario": "ON",
+  "Ottawa/Macdonald-Cartier International": "YOW",
+  "Toronto/Lester B Pearson International": "YYZ",
+  "Thunder Bay International": "YQT",
+  "London International": "YXU",
+  "Manitoba": "MB",
+  "Winnipeg/James Armstrong Richardson International": "NL",
+  "Saskatchewan": "SK",
+  "Regina International": "YQR",
+  "Saskatoon John G. Diefenbaker International": "YXE",
+  "Alberta": "AB",
+  "Calgary International": "YYC",
+  "Edmonton International": "YEG",
+  "British Columbia": "BC",
+  "Vancouver International": "YVR",
+  "Victoria International": "YYJ",
+  "Kelowna International": "YLW",
+  "Prince George Airpor": "YXS",
+  "Yukon (no data)": "YT",
+  "Erik Nielsen Whitehorse International": "YXY",
+  "Northwest Territories": "NT",
+  "Yellowknife": "YZF",
+  "Nunavut": "NU",
+  "Iqaluit": "YFB"
+};
+let selectedDropdown = passengerDropdownData;
 
 let totals;
 let passengerTotals;
 let majorTotals; // TODO
 let canadaMap;
 let selectedDataset = "passengers";
-
 let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA"; // default region for areaChart
+let selectedSettings = settings;
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
-
-
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
 
@@ -102,6 +171,7 @@ const div = d3.select("body").append("div")
 const divArea = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
+    .style("pointer-events", "none")
     .style("opacity", 0);
 
 /* vertical line to attach to cursor */
@@ -123,9 +193,14 @@ $(".data_set_selector").on("click", function(event) {
     monthDropdown.style("visibility", "visible");
     selectedDate = selectedYear + "-" + selectedMonth;
     selectedDataset = "major_airports";
+    selectedDropdown = majorDropdownData;
+    selectedSettings = settingsMajorAirports;
+    createDropdown();
+
     totals = majorTotals;
     getData();
     showAreaData();
+  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
     movementsButton
@@ -138,16 +213,20 @@ $(".data_set_selector").on("click", function(event) {
     monthDropdown.style("visibility", "hidden");
     selectedDate = selectedYear;
     selectedDataset = "passengers";
+    selectedDropdown = passengerDropdownData;
+    selectedSettings = settings;
+    createDropdown();
+
     totals = passengerTotals;
     getData();
     showAreaData();
+  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(0)");
   }
 });
 function uiHandler(event) {
   if (event.target.id === "groups") {
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("airMapHighlight", false);
-
     selectedRegion = document.getElementById("groups").value;
     showAreaData();
   }
@@ -170,7 +249,14 @@ function uiHandler(event) {
 function getData() {
   if (!data[selectedDataset][selectedRegion]) {
     d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, (err, filedata) => {
-      data[selectedDataset][selectedRegion] = filedata;
+      data[selectedDataset][selectedRegion] = filedata.map((obj) => {
+        const rObj = {};
+        rObj.date = obj.date;
+        rObj.domestic = obj.domestic;
+        rObj.transborder = obj.transborder;
+        rObj.international = obj.international;
+        return rObj;
+      });
       showAreaData();
     });
   } else {
@@ -180,7 +266,7 @@ function getData() {
 // -----------------------------------------------------------------------------
 /* Interactions */
 /* -- Map interactions -- */
-map.on("mouseover", () => {
+map.on("mousemove", () => {
   if (d3.select(d3.event.target).attr("class")) {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
@@ -281,7 +367,7 @@ map.on("click", () => {
     showAreaData();
 
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selectedRegion;
+    d3.select("groups")._groups[0][0].value = selectedRegion;
     // Chart titles
     updateTitles();
 
@@ -298,22 +384,6 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-  const overlayRect = d3.select("#svgFuel .data").append("rect")
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr("class", "overlay")
-      .on("mouseout", function() {
-        hoverLine.style("display", "none");
-      })
-      .on("mousemove", function() {
-        hoverLine.style("display", "inline");
-        hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-        hoverLine.moveToFront();
-      });
-  overlayRect
-      .attr("width", stackedArea.settings.innerWidth)
-      .attr("height", stackedArea.settings.innerHeight);
-
   hoverLine
       .attr("x1", stackedArea.settings.margin.left)
       .attr("x2", stackedArea.settings.margin.left)
@@ -328,13 +398,18 @@ function findAreaData(mousex) {
   const x0 = stackedArea.x.invert(mousex);
   const chartData = data[selectedDataset][selectedRegion];
   let d;
-  const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+  let i;
+  if (selectedDataset === "passenger" ) {
+    i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+  } else {
+    i = bisectDate(chartData, x0.toISOString().substring(0, 7));
+  }
 
   const d0 = chartData[i - 1];
   const d1 = chartData[i];
 
   if (d0 && d1) {
-    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    d = x0 - new Date(d0.date ) > new Date(d1.date ) - x0 ? d1 : d0;
   } else if (d0) {
     d = d0;
   } else {
@@ -342,7 +417,7 @@ function findAreaData(mousex) {
   }
   return d;
 }
-
+// area chart hover
 function areaInteraction() {
   d3.select("#svg_areaChartAir .data")
       .on("mousemove", function() {
@@ -350,34 +425,37 @@ function areaInteraction() {
         const hoverValue = findAreaData(mousex);
 
         const thisDomestic = formatComma(hoverValue.domestic / scalef);
-        const thisTrans = formatComma(hoverValue.trans_border / scalef);
-        const thisInter = formatComma(hoverValue.other_intl / scalef);
-
-        divArea.transition()
-            .style("opacity", .9);
+        const thisTrans = formatComma(hoverValue.transborder / scalef);
+        const thisInter = formatComma(hoverValue.international / scalef);
         divArea.html(
-            "<b>" + i18next.t("chartHoverPassengers", {ns: "airPassengers"}) + " (" + i18next.t("scalef", {ns: "airPassengers"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
-                "<table>" +
-                  "<tr>" +
-                    "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
-                  "</tr>" +
-                  "<tr>" +
-                    "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
-                  "</tr>" +
-                  "<tr>" +
-                    "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
-                  "</tr>" +
-                "</table>"
-        )
-            .style("left", (d3.event.pageX) + 10 + "px")
-            .style("top", (d3.event.pageY) + 10 + "px")
+            "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+          "<table>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+            "</tr>" +
+          "</table>"
+        );
+        divArea
+            .style("left", ((d3.event.pageX +10) + "px"))
+            .style("top", ((d3.event.pageY +10) + "px"))
             .style("pointer-events", "none");
-
-        plotHoverLine();
+        hoverLine.style("display", null);
+        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.moveToFront();
+      })
+      .on("mouseover", function() {
+        divArea.style("opacity", .9);
       })
       .on("mouseout", function(d, i) {
       // Clear tooltip
-        divArea.transition().style("opacity", 0);
+        hoverLine.style("display", "none");
+        divArea.style("opacity", 0);
       });
 }
 
@@ -419,8 +497,7 @@ function colorMap() {
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
       // d3.select(".dashboard .map")
-      map
-          .select("." + key).style("fill", colourMap(totals[selectedDate][key]));
+      map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
     }
   }
 
@@ -507,7 +584,7 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
-    stackedArea = areaChart(chart, settings, data[selectedDataset][selectedRegion]);
+    stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
@@ -524,20 +601,52 @@ function showAreaData() {
   };
 
   if (!data[selectedDataset][selectedRegion]) {
-    return d3.json(`data/air/passengers/${selectedRegion}.json`, (ptData) => {
-      data[selectedDataset][selectedRegion] = ptData;
+    loadData().then(function(ptData) {
+      data[selectedDataset][selectedRegion] = ptData.map((obj) => {
+        const rObj = {};
+        rObj.date = obj.date;
+        rObj.domestic = obj.domestic;
+        rObj.transborder = obj.transborder;
+        rObj.international = obj.international;
+        rObj.total = obj.total;
+        return rObj;
+      });
       showChart();
-    });
+    })
+        .catch(function(error) {
+          console.log(error);
+        });
+  } else {
+    showChart();
+    // plotHoverLine();
   }
-  showChart();
 }
 
+function loadData() {
+  return new Promise(function(resolve, reject) {
+    d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, function(err, ptData) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(ptData);
+      }
+    });
+  });
+}
 function filterDates(data) {
   for (const year in data) {
     if (data[year].date === selectedDate) {
       return data[year];
     }
   }
+}
+function createDropdown() {
+  const dropdown = $("#groups");
+  dropdown.empty(); // remove old options
+  $.each(selectedDropdown, function(key, value) {
+    dropdown.append($("<option></option>")
+        .attr("value", value).text(key));
+  });
 }
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
@@ -554,8 +663,7 @@ const showAirport = function() {
         }
         lineData[selectedAirpt] = aptData;
         const divData = filterDates(lineData[selectedAirpt]);
-        div.transition()
-            .style("opacity", .9);
+        div.style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
             "<b>placeholder title</b>"+ "<br><br>" +
               "<table>" +
@@ -577,7 +685,6 @@ const showAirport = function() {
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
 };
 
-
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
@@ -585,11 +692,11 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
-  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
+  selectedSettings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
 }
 
 function plotLegend() {
-  const classArray = ["domestic", "trans_border", "other_intl"];
+  const classArray = ["domestic", "transborder", "international"];
   areaLegendFn(svgLegend, classArray);
 
   d3.select("#areaLegend")
@@ -633,18 +740,22 @@ function dataCopyButton(cButtondata) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
+  settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airPassengers"}),
+  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
       .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
-      .await(function(error, passengerTotal, majorTotal, airports) {
+      .defer(d3.json, `data/air/passengers/${selectedRegion}.json`)
+      .await(function(error, passengerTotal, majorTotal, airports, areaData) {
         if (error) throw error;
         totals = passengerTotal;
         passengerTotals = passengerTotal;
         majorTotals = majorTotal;
-
+        data[selectedDataset][selectedRegion] = areaData;
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
+        createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
               allAirports = airports;
@@ -663,13 +774,6 @@ i18n.load(["src/i18n"], () => {
               map.style("visibility", "visible");
               d3.select(".canada-map").moveToBack();
             });
-
-        showAreaData();
-        // plotHoverLine();
-
-        // Show chart titles based on default menu options
-        updateTitles();
-
         // copy button options
         const cButtonOptions = {
           pNode: document.getElementById("copy-button-container"),
@@ -679,7 +783,26 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
+        showAreaData();
+        plotLegend();
+        areaInteraction();
+        plotHoverLine();
+        // Show chart titles based on default menu options
+        updateTitles();
       });
 });
 
 $(document).on("change", uiHandler);
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function() {
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {
+  return this.each(function() {
+    const firstChild = this.parentNode.firstChild;
+    if (firstChild) {
+      this.parentNode.insertBefore(this, firstChild);
+    }
+  });
+};

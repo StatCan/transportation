@@ -19,7 +19,9 @@
   text-align: right
 }
 
-
+.table td {
+	text-align: right;
+}
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -119,10 +121,10 @@ table, th, td {
 /*-- map --*/
 .airCB rect {
 	stroke: black;
-	stroke-width: 0.3;
+	stroke-width: 0.0;
 }
 .airMapHighlight {
- 	stroke: #467B8D !important;
+ 	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
 .airmapCBlabel { /* colour bar label */
@@ -210,11 +212,11 @@ table, th, td {
 	opacity: 0.6;
 }
 
-.trans_border {
+.transborder {
 	fill: #a6611a;
   opacity: 0.6;
 }
-.other_intl {
+.international {
   fill: #83C3F2;
 	opacity: 0.6;
 }
