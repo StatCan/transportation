@@ -443,8 +443,8 @@ function areaInteraction() {
           "</table>"
         );
         divArea
-            .style("left", ((d3.event.pageX +10) + "px"))
-            .style("top", ((d3.event.pageY +10) + "px"))
+            .style("left", ((d3.event.pageX + 10) + "px"))
+            .style("top", ((d3.event.pageY + 10) + "px"))
             .style("pointer-events", "none");
         hoverLine.style("display", null);
         hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
@@ -454,7 +454,7 @@ function areaInteraction() {
         divArea.style("opacity", .9);
       })
       .on("mouseout", function(d, i) {
-      // Clear tooltip
+        // Clear tooltip
         hoverLine.style("display", "none");
         divArea.style("opacity", 0);
       });
@@ -480,10 +480,9 @@ const refreshMap = function() {
 
 function colorMap() {
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656"];
-  const numLevels = 5; // remaining colours in array are for blank and NaN box
+  const numLevels = 5; // remaining 2 colours in array are for blank and NaN box
 
   let dimExtent = [];
-  // map.selectAll("path").style("stroke", "black");
 
   const totArr = [];
   for (const sales of Object.keys(totals[selectedDate])) {
@@ -498,7 +497,6 @@ function colorMap() {
 
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
-      // d3.select(".dashboard .map")
       map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
     }
   }
