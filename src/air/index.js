@@ -50,16 +50,16 @@ const monthDropdown = d3.select("#months");
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 380 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
-const svgCB = d3.select("#mapColourScale")
-    .select("svg")
+const svgCB = d3.select("#mapColourScale").append("g")
+    .append("svg")
     .attr("class", "airCB")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
 
 const widthNaN = 55;
-const svgNaN = d3.select("#mapColourScaleNaN")
-    .select("svg")
+const svgNaN = d3.select("#mapColourScale").select("g")
+    .append("svg")
     .attr("class", "airCB")
     .attr("width", widthNaN)
     .attr("height", height)

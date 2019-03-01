@@ -125,7 +125,7 @@ table, th, td {
 }
 .airmapCBlabel { /* colour bar label */
 	position: relative;
-	top: -116px;
+	top: -10px;
 	color: #565656;
 	text-align: left;
 }
