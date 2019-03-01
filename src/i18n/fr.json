@@ -67,13 +67,13 @@
       "chartHoverPassengers": "Trafic aérien de passagers",
       "units": "personnes",
       "x_label": "An",
-      "y_label": "milliers de passagers",
+      "y_label": "milliers",
       "total": "Tous",
       "domestic": "Intérieur",
       "international": "Autres internationaux",
       "transborder": "Transfrontalier",
       "scalef": "en milliers",
-      "mapScaleLabel": "milliers de passagers"
+      "mapScaleLabel": "milliers"
     },
     "airports": {
       "YXX":"Abbotsford, Colombie-Britannique",

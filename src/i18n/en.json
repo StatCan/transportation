@@ -70,13 +70,13 @@
       "chartHoverPassengers": "Passenger movements",
       "units": "people",
       "x_label": "Year",
-      "y_label": "thousands of people",
+      "y_label": "thousands",
       "total": "Total",
       "domestic": "Domestic",
       "international": "International",
       "transborder": "Transborder",
       "scalef": "in thousands",
-      "mapScaleLabel": "thousands of people"
+      "mapScaleLabel": "thousands"
     },
     "airports": {
       "YXX":"Abbotsford, British Columbia",
