@@ -16,13 +16,84 @@ const data = {
   "major_airports": {}
 };
 
+const passengerDropdownData = {
+  "Canada":"CANADA",
+  "Newfoundland and Labrador":"NL",
+  "St John's International":"YYT",
+  "Prince Edward Island":"PE",
+  "Nova Scotia (no data)":"NS",
+  "Halifax/Robert L Stanfield International":"YHZ",
+  "New Brunswick (no data)":"NB",
+  "Moncton/Greater Moncton International":"YQM",
+  "Quebec":"QC",
+  "Montréal/Pierre Elliott Trudeau International":"YUL",
+  "Québec/Jean Lesage International":"YQB",
+  "Ontario":"ON",
+  "Ottawa/Macdonald-Cartier International":"YOW",
+  "Toronto/Lester B Pearson International":"YYZ",
+  "Manitoba":"MB",
+  "Winnipeg/James Armstrong Richardson International":"NL",
+  "Saskatchewan":"SK",
+  "Alberta":"AB",
+  "Calgary International":"YYC",
+  "Edmonton International":"YEG",
+  "British Columbia":"BC",
+  "Vancouver International":"YVR",
+  "Victoria International":"YYJ",
+  "Yukon (no data)":"YT",
+  "Northwest Territories":"NT",
+  "Nunavut":"NU"
+};
+const majorDropdownData = {
+  "Canada":"CANADA",
+  "Newfoundland and Labrador":"NL",
+  "St John's International":"YYT",
+  "Prince Edward Island":"PE",
+  "Charlottetown":"YYG",
+  "Nova Scotia (no data)":"NS",
+  "Halifax/Robert L Stanfield International":"YHZ",
+  "New Brunswick (no data)":"NB",
+  "Moncton/Greater Moncton International":"YQM",
+  "Fredericton International":"YFC",
+  "Saint John":"YSJ",
+  "Quebec":"QC",
+  "Montréal/Pierre Elliott Trudeau International":"YUL",
+  "Québec/Jean Lesage International":"YQB",
+  "Montréal Mirabel International":"YMX",
+  "Ontario":"ON",
+  "Ottawa/Macdonald-Cartier International":"YOW",
+  "Toronto/Lester B Pearson International":"YYZ",
+  "Thunder Bay International":"YQT",
+  "London International":"YXU",
+  "Manitoba":"MB",
+  "Winnipeg/James Armstrong Richardson International":"NL",
+  "Saskatchewan":"SK",
+  "Regina International":"YQR",
+  "Saskatoon John G. Diefenbaker International":"YXE",
+  "Alberta":"AB",
+  "Calgary International":"YYC",
+  "Edmonton International":"YEG",
+  "British Columbia":"BC",
+  "Vancouver International":"YVR",
+  "Victoria International":"YYJ",
+  "Kelowna International":"YLW",
+  "Prince George Airpor":"YXS",
+  "Yukon (no data)":"YT",
+  "Erik Nielsen Whitehorse International":"YXY",
+  "Northwest Territories":"NT",
+  "Yellowknife":"YZF",
+  "Nunavut":"NU",
+  "Iqaluit":"YFB"
+};
+let selectedDropdown = passengerDropdownData;
+
+
 
 let totals;
 let passengerTotals;
 let majorTotals; // TODO
 let canadaMap;
 let selectedDataset = "passengers";
-
 let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
@@ -30,9 +101,6 @@ let selectedRegion = "CANADA"; // default region for areaChart
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
-let overlayRect;
-
-
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
 
@@ -119,6 +187,9 @@ $(".data_set_selector").on("click", function(event) {
     monthDropdown.style("visibility", "visible");
     selectedDate = selectedYear + "-" + selectedMonth;
     selectedDataset = "major_airports";
+    selectedDropdown = majorDropdownData;
+    createDropdown();
+
     totals = majorTotals;
     getData();
     showAreaData();
@@ -134,6 +205,9 @@ $(".data_set_selector").on("click", function(event) {
     monthDropdown.style("visibility", "hidden");
     selectedDate = selectedYear;
     selectedDataset = "passengers";
+    selectedDropdown = passengerDropdownData;
+    createDropdown();
+
     totals = passengerTotals;
     getData();
     showAreaData();
@@ -143,10 +217,7 @@ function uiHandler(event) {
   if (event.target.id === "groups") {
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("airMapHighlight", false);
-
-    if(document.getElementById("groups").class !== "passenger"){
-      selectedRegion = document.getElementById("groups").value;
-    }
+    selectedRegion = document.getElementById("groups").value;
     showAreaData();
   }
   if (event.target.id === "yearSelector") {
@@ -168,7 +239,14 @@ function uiHandler(event) {
 function getData() {
   if (!data[selectedDataset][selectedRegion]) {
     d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, (err, filedata) => {
-      data[selectedDataset][selectedRegion] = filedata;
+      data[selectedDataset][selectedRegion] = filedata.map(obj =>{
+        var rObj = {};
+        rObj.date = obj.date
+        rObj.domestic = obj.domestic;
+        rObj.transborder = obj.transborder;
+        rObj.international = obj.international;
+        return rObj;
+      });
       showAreaData();
     });
   } else {
@@ -248,7 +326,7 @@ map.on("click", () => {
     // Display selected region in stacked area chart
     getData();
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selectedRegion;
+    d3.select("groups")._groups[0][0].value = selectedRegion;
 
     // ---------------------------------------------------------------------
     // zoom
@@ -278,7 +356,7 @@ map.on("click", () => {
     showAreaData();
 
     // update region displayed in dropdown menu
-    d3.select("#groups")._groups[0][0].value = selectedRegion;
+    d3.select("groups")._groups[0][0].value = selectedRegion;
     // Chart titles
     updateTitles();
 
@@ -333,8 +411,8 @@ function areaInteraction() {
       const hoverValue = findAreaData(mousex);
 
       const thisDomestic = formatComma(hoverValue.domestic / scalef);
-      const thisTrans = formatComma(hoverValue.trans_border / scalef);
-      const thisInter = formatComma(hoverValue.other_intl / scalef);
+      const thisTrans = formatComma(hoverValue.transborder / scalef);
+      const thisInter = formatComma(hoverValue.international / scalef);
       divArea.html(
           "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
           "<table>" +
@@ -342,10 +420,10 @@ function areaInteraction() {
               "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
             "</tr>" +
             "<tr>" +
-              "<td><b>" + i18next.t("trans_border", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+              "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
             "</tr>" +
             "<tr>" +
-              "<td><b>" + i18next.t("other_intl", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+              "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
             "</tr>" +
           "</table>"
       )
@@ -449,9 +527,16 @@ function showAreaData() {
 
   if (!data[selectedDataset][selectedRegion]) {
     loadData().then(function (ptData){
-        data[selectedDataset][selectedRegion] = ptData;
+        data[selectedDataset][selectedRegion] = ptData.map(obj =>{
+          var rObj = {};
+          rObj.date = obj.date;
+          rObj.domestic = obj.domestic;
+          rObj.transborder = obj.transborder;
+          rObj.international = obj.international;
+          rObj.total = obj.total;
+          return rObj;
+        });
         showChart();
-  //      /();
       })
       .catch(function (error) {
         console.log(error);
@@ -465,7 +550,7 @@ function showAreaData() {
 
 function loadData() {
   return new Promise(function(resolve, reject) {
-  d3.json(`data/air/passengers/${selectedRegion}.json`, function(err, ptData) {
+  d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, function(err, ptData) {
     if (err) {
       	reject(err);
       } else {
@@ -479,6 +564,14 @@ function filterDates(data) {
       return data[year];
     }
   }
+}
+function createDropdown() {
+  let dropdown = $("#groups");
+  dropdown.empty(); // remove old options
+  $.each(selectedDropdown, function(key,value) {
+    dropdown.append($("<option></option>")
+       .attr("value", value).text(key));
+  });
 }
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
@@ -540,7 +633,7 @@ function updateTitles() {
 }
 
 function plotLegend() {
-  const classArray = ["domestic", "trans_border", "other_intl"];
+  const classArray = ["domestic", "transborder", "international"];
   areaLegendFn(svgLegend, classArray);
 
   d3.select("#areaLegend")
@@ -597,7 +690,7 @@ i18n.load(["src/i18n"], () => {
         data[selectedDataset][selectedRegion] = areaData;
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
-
+        createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
               allAirports = airports;

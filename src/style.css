@@ -21,7 +21,7 @@
 
 .table td {
 	text-align: right;
-} 
+}
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -204,11 +204,11 @@ table, th, td {
 	opacity: 0.6;
 }
 
-.trans_border {
+.transborder {
 	fill: #a6611a;
   opacity: 0.6;
 }
-.other_intl {
+.international {
   fill: #83C3F2;
 	opacity: 0.6;
 }
@@ -704,7 +704,7 @@ div.tooltip {
 }
 
 /* copy button */
-.copy-button .copy-confirm {    
+.copy-button .copy-confirm {
 	visibility: hidden;
 	position: absolute;
 	top: 825px;
@@ -715,19 +715,19 @@ div.tooltip {
 	border: solid thin black;
 	padding: 5px;
 	color: #333;
-	
+
 	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 }
 
 .copy-button  .btn.btn-primary.copy .clipboard{
-	font-size: 18px;	 
+	font-size: 18px;
 }
 
 .copy-button {
 	text-align: right;
-	
+
 }
 /* Fade In Fade Out */
 .fadeIn {
