@@ -211,6 +211,7 @@ $(".data_set_selector").on("click", function(event) {
     totals = majorTotals;
     getData();
     showAreaData();
+  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
     movementsButton
@@ -230,6 +231,7 @@ $(".data_set_selector").on("click", function(event) {
     totals = passengerTotals;
     getData();
     showAreaData();
+  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(0)");
   }
 });
 function uiHandler(event) {

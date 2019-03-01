@@ -24,10 +24,10 @@ const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svgFuel");
 
-//verticle line
-let hoverLine = chart.append("line")
-  .attr("class", "hoverLine")
-  .style("display", "none")
+// vertical line
+const hoverLine = chart.append("line")
+    .attr("class", "hoverLine")
+    .style("display", "none");
 // Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -160,9 +160,7 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 
 
-let hoverValue;
-let thisValue;
-let fuelType;
+// const hoverValue;
 function areaInteraction() {
   d3.select("#svgFuel .data")
       .on("mouseover", function() {
@@ -219,8 +217,7 @@ function findAreaData(mousex) {
     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
   } else if (d0) {
     d = d0;
-  }
-  else{
+  } else {
     d = d1;
   }
   return d;
@@ -406,30 +403,29 @@ i18n.load(["src/i18n"], () => {
         plotLegend();
 
         overlayRect = d3.select("#svgFuel .data").append("rect")
-          .style("fill", "none")
-          .style("pointer-events", "all")
-          .attr("class", "overlay")
-          .on("mouseout", function() {
-            hoverLine.style("display", "none");
-          })
-          .on("mousemove", function(){
-            console.log(d3.mouse(this)[0])
-            hoverLine.style("display", null);
-            hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-            hoverLine.moveToFront()
-          });
+            .style("fill", "none")
+            .style("pointer-events", "all")
+            .attr("class", "overlay")
+            .on("mouseout", function() {
+              hoverLine.style("display", "none");
+            })
+            .on("mousemove", function() {
+              hoverLine.style("display", null);
+              hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
+              hoverLine.moveToFront();
+            });
 
         overlayRect
-          .attr("width", stackedChart.settings.innerWidth)
-          .attr("height", stackedChart.settings.innerHeight)
+            .attr("width", stackedChart.settings.innerWidth)
+            .attr("height", stackedChart.settings.innerHeight);
 
         hoverLine
-          .attr("x1", stackedChart.settings.margin.left)
-          .attr("x2", stackedChart.settings.margin.left)
-          .attr("y1", stackedChart.settings.margin.top)
-          .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
+            .attr("x1", stackedChart.settings.margin.left)
+            .attr("x2", stackedChart.settings.margin.left)
+            .attr("y1", stackedChart.settings.margin.top)
+            .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
 
-      // Remove x-axis label
+        // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
             // .attr("dy", xaxisLabeldy)
