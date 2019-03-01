@@ -12,6 +12,7 @@ export default {
     return data;
   },
   x: {
+    label: i18next.t("x_label", {ns: "roadArea"}),
     getValue: function(d, i) {
       // return new Date(d.date + "-01");
       // for first year, start at Jan -01T00:00:00.000Z

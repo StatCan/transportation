@@ -105,8 +105,8 @@ const lineData = {};
 // let dataSet = 0; // TODO
 
 const formatComma = d3.format(",d");
-let stackedArea;
 const scalef = 1e3;
+let stackedArea; // stores areaChart() call
 
 // -----------------------------------------------------------------------------
 /* SVGs */
@@ -117,7 +117,7 @@ const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 510 - margin.left - margin.right;
+const width = 380 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -126,13 +126,18 @@ const svgCB = d3.select("#mapColourScale")
     .attr("height", height)
     .style("vertical-align", "middle");
 
+const widthNaN = 55;
+const svgNaN = d3.select("#mapColourScaleNaN")
+    .select("svg")
+    .attr("class", "airCB")
+    .attr("width", widthNaN)
+    .attr("height", height)
+    .style("vertical-align", "middle")
+    .attr("transform", "translate(0, 0)");
+
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
-
-const hoverLine = chart.append("line")
-    .attr("class", "hoverLine")
-    .style("display", "none");
 
 // area chart legend
 const svgLegend = d3.select("#areaLegend")
@@ -146,13 +151,14 @@ const svgLegend = d3.select("#areaLegend")
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
+d3.stcExt.addIEShim(svgNaN, height, widthNaN);
 
 // -----------------------------------------------------------------------------
 /* letiables */
 // For map circles
 let path;
 const defaultPointRadius = 1.3;
-const defaultStrokeWidth = 0.5;
+const zoomedPointRadius = 0.9;
 
 // const airportGroup = map.append("g");
 let airportGroup;
@@ -166,12 +172,23 @@ let allAirports;
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+
+/* -- for map NaN legend -- */
+const divNaN = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 /* -- for areaChart 1 -- */
 const divArea = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("pointer-events", "none")
     .style("opacity", 0);
+
+/* vertical line to attach to cursor */
+const hoverLine = chart.append("line")
+    .attr("class", "hoverLine")
+    .style("display", "none");
 
 // -----------------------------------------------------------------------------
 /* UI Handler */
@@ -273,13 +290,13 @@ map.on("mousemove", () => {
             .classed("airMapHighlight", true);
         // Tooltip
         const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
-        div.style("opacity", .9);
+        div
+            .style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
-            "<b>" + key + " (" + i18next.t("units", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
+            "<b>" + key + " (" + i18next.t("scalef", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
               "<table>" +
                 "<tr>" +
-                  "<td><b>" + value + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
+                  "<td><b>" + value + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
                 "</tr>" +
               "</table>"
         )
@@ -293,7 +310,8 @@ map.on("mousemove", () => {
 });
 
 map.on("mouseout", () => {
-  div.style("opacity", 0);
+  div
+      .style("opacity", 0);
 
   if (selectedRegion) {
     d3.select(".map")
@@ -312,7 +330,7 @@ map.on("click", () => {
       .selectAll("path")
       .classed("airMapHighlight", false);
 
-  const transition = d3.transition().duration(1000);
+  // const transition = d3.transition().duration(1000);
 
   // User clicks on region
   if (d3.select(d3.event.target).attr("class") &&
@@ -338,21 +356,21 @@ map.on("click", () => {
         path.pointRadius(function(d, i) {
           return defaultPointRadius;
         });
-        d3.transition(transition).selectAll(".airport")
-            .style("stroke-width", defaultStrokeWidth)
-            .attr("d", path);
+
         return canadaMap.zoom();
       }
       path.pointRadius(function(d, i) {
-        return 0.5;
+        return zoomedPointRadius;
       });
-      d3.transition(transition).selectAll(".airport")
-          .style("stroke-width", 0.1)
-          .attr("d", path);
 
       canadaMap.zoom(classes[0]);
     }
   } else { // user clicks outside map
+    // reset circle size
+    path.pointRadius(function(d, i) {
+      return defaultPointRadius;
+    });
+
     // reset area chart to Canada
     selectedRegion = "CANADA";
     showAreaData();
@@ -464,7 +482,7 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
-        return "airport " + d.properties.hasPlanedData;
+        return "airport " + selectedDataset + " " + d.properties.hasPlanedData;
       });
 };
 
@@ -494,8 +512,9 @@ function colorMap() {
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
-    + i18next.t("units", {ns: "airPassengers"}) + ")";
+    + i18next.t("scalef", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
+  mapColourScaleNaN(svgNaN);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
@@ -510,6 +529,63 @@ function colorMap() {
   airportGroup = map.append("g");
 
   // d3.stcExt.addIEShim(map, 387.1, 457.5);
+}
+
+function mapColourScaleNaN(svg) {
+  const rectDim = 35;
+  const rects = svg
+      .attr("class", "mapCB")
+      .selectAll("rect")
+      .data(["#888"])
+      .enter()
+      .append("g")
+      .attr("class", "legendNaN");
+
+  // Append rects onto the g nodes and fill
+  rects.append("rect")
+      .attr("width", rectDim)
+      .attr("height", rectDim)
+      .attr("y", 5)
+      .attr("x", 10)
+      .attr("fill", "#424242");
+
+  // add text node to rect g
+  rects.append("text");
+
+  // Display text in text node
+  d3.select("#mapColourScaleNaN .mapCB")
+      .selectAll("text")
+      .text("x")
+      // .attr("text-anchor", "end")
+      .attr("transform", function(d, i) {
+        return "translate(24, 60) " + "rotate(0)";
+      })
+      .style("display", function() {
+        return "inline";
+      });
+
+  rects.on("mousemove", () => {
+    // Tooltip
+    divNaN.style("opacity", .9);
+    divNaN.html(
+        "<table>" +
+           "<tr>" +
+             "<td>" + i18next.t("NaNhover1", {ns: "airUI"}) + "</td>" +
+           "</tr>" +
+           "<tr>" +
+             "<td>" + i18next.t("NaNhover2", {ns: "airUI"}) + "</td>" +
+           "</tr>" +
+         "</table>"
+    )
+        .style("pointer-events", "none");
+    divNaN
+        .style("left", ((d3.event.pageX +10) + "px"))
+        .style("top", ((d3.event.pageY +10) + "px"));
+  });
+
+  rects.on("mouseout", () => {
+    divNaN.style("opacity", 0);
+  });
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
@@ -528,6 +604,9 @@ function showAreaData() {
     if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
     dataCopyButton(data[selectedDataset][selectedRegion]);
     // ---------------------------------------------------------------
+
+    areaInteraction();
+    plotLegend();
   };
 
   if (!data[selectedDataset][selectedRegion]) {
@@ -600,17 +679,12 @@ const showAirport = function() {
                 "<tr>" +
                   "<td><b> enplaned: " + divData.enplaned + " </td>" +
                   "<td><b> deplaned: " + divData.deplaned + "</td>" +
-            // "<td>" + " (" + units + ")</td>" +
                 "</tr>" +
               "</table>"
         )
             .style("pointer-events", "none");
         // Titles
-        const fullName = i18next.t(selectedAirpt, {ns: "airports"});
-
-        // airport table title
-        d3.select("#chrt-dt-tbl1")
-            .text(`Air passenger traffic at ${fullName}, (in thousands)`);
+        // const fullName = i18next.t(selectedAirpt, {ns: "airports"});
       }
     });
   }

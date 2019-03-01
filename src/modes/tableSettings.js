@@ -23,9 +23,7 @@ export default {
       return i18next.t(key, {ns: "modes_sankey"});
     },
     getText: function(d) {
-      const source = i18next.t(d.source.name, {ns: "modes"});
-      const target = i18next.t(d.target.name, {ns: "modes"});
-      return `${source} -> ${target}`;
+      return i18next.t(d.name, {ns: "modes"});
     }
   }
 };

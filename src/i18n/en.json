@@ -1,14 +1,5 @@
 {
   "en": {
-    "area": {
-      "alt": "Air passenger traffic at Canadian airports, annual",
-      "x_label": "Year",
-      "y_label": "Number of passengers (x 1000)",
-      "datatableTitle": "Data Table: Historic and Estimated Worldwide Population Growth by Region (in Billions)",
-      "gas": "Gas",
-      "diesel": "Diesel",
-      "LPG": "LPG"
-    },
     "road": {
       "chartTitle": "Type of fuel sales",
       "mapTitle": "Total fuel sales",
@@ -18,6 +9,7 @@
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
       "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (million dollars)",
+      "hoverTitle": "Fuel sales",
       "x_label": "Year",
       "y_label": "Sales (millions of dollars)",
       "gas": "Gas",
@@ -57,6 +49,10 @@
       "NT": "Northwest Territories",
       "NU": "Nunavut"
     },
+    "airUI": {
+      "NaNhover1": "suppressed to meet the confidentiality",
+      "NaNhover2": "requirements of the Statistics Act"
+    },
       "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
       "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
@@ -70,13 +66,15 @@
       "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total, passenger sector",
+      "chartHoverPassengers": "Passenger movements",
+      "units": "people",
       "x_label": "Year",
       "y_label": "Number of passengers (in thousands)",
       "total": "Total",
       "domestic": "Domestic",
       "other_intl": "International",
       "trans_border": "Transborder",
-      "units": "in thousands",
+      "scalef": "in thousands",
       "mapScaleLabel": "Total"
     },
     "airports": {
@@ -307,10 +305,10 @@
     },
     "modes": {
       "intl": "International travellers",
-      "USres": "US residents entering Canada",
-      "nonUSres": "Residents of countries other than the US entering Canada",
-      "cdnFromUS": "Canadian residents returning from the US",
-      "cdnFromOther": "Canadian residents returning from countries other than the US",
+      "USres": "United States residents entering Canada",
+      "nonUSres": "Residents of countries other than the United States entering Canada",
+      "cdnFromUS": "Canadian residents returning from the United States",
+      "cdnFromOther": "Canadian residents returning from countries other than the United States",
       "USres_air": "Air",
       "USres_marine": "Marine",
       "USres_land": "Land",
@@ -335,8 +333,11 @@
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
       "tableTitle": "International travellers entering or returning to",
+      "units": "people",
+      "byType": "by type of transport",
       "name": "Traveller characteristics",
-      "value": "Number of travellers"
+      "value": "Number of travellers",
+      "noData": "Zero international travellers for "
     },
     "modesGeography": {
       "Canada": "Canada",
@@ -368,9 +369,9 @@
       "11": "November",
       "12": "December"
     },
-	"CopyButton" : {
-      "CopyButton_Title" :  "Copy contents to clipboard",
-      "CopyButton_Confirm" : "Data copied (you can now paste into other applications)"
+	"CopyButton": {
+      "CopyButton_Title":  "Copy contents to clipboard",
+      "CopyButton_Confirm": "Data copied (you can now paste into other applications)"
 	}
   }
 }

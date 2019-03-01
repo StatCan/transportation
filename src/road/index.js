@@ -86,7 +86,7 @@ map.on("mousemove", () => {
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-      div.transition()
+      div
           .style("opacity", .9);
       div.html(
           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
@@ -102,7 +102,7 @@ map.on("mousemove", () => {
           .style("top", ((d3.event.pageY +10) + "px"));
     } else {
       // clear tooltip for IE
-      div.transition()
+      div
           .style("opacity", 0);
     }
   }
@@ -177,7 +177,7 @@ function areaInteraction() {
         const thisDiesel = formatComma(hoverValue.diesel / scalef);
         const thisLPG = formatComma(hoverValue.lpg / scalef);
         divArea.html(
-            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
               "<table>" +
                 "<tr>" +
                   "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
@@ -257,7 +257,6 @@ function showData() {
       .attr("display", "none");
 
   areaInteraction();
-  plotHoverLine();
   plotLegend();
 
   // Highlight region selected from menu on map
@@ -447,8 +446,8 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-
         showData(); // plot area chart, legend, and hover line
+        plotHoverLine();
         updateTitles(); // update chart, map and table titles
       });
 });
