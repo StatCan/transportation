@@ -57,7 +57,7 @@
       "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
       "NaNhover1": "confidentiel en vertu des dispositions",
       "NaNhover2": " de la Loi sur la statistique",
-      "NaNbox": "pas de données"
+      "NaNbox": "indéfini"
     },
     "airPassengers": {
       "alt": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",

@@ -24,7 +24,9 @@ const sankeyNodes = dataTree.toArray();
 const loadData = function(selectedYear, selectedMonth, cb) {
   if (!data[selectedYear + "-" + selectedMonth]) {
     d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, json) {
-      if (err) {console.log("NOOOOOOOOOOOOO")}
+      if (err) {
+        console.log("file does not exist");
+      }
       data[selectedYear + "-" + selectedMonth] = json;
       cb();
     });

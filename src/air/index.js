@@ -528,63 +528,6 @@ function colorMap() {
   // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
-function mapColourScaleNaN(svg) {
-  const rectDim = 35;
-  const rects = svg
-      .attr("class", "mapCB")
-      .selectAll("rect")
-      .data(["#888"])
-      .enter()
-      .append("g")
-      .attr("class", "legendNaN");
-
-  // Append rects onto the g nodes and fill
-  rects.append("rect")
-      .attr("width", rectDim)
-      .attr("height", rectDim)
-      .attr("y", 5)
-      .attr("x", 10)
-      .attr("fill", "#424242");
-
-  // add text node to rect g
-  rects.append("text");
-
-  // Display text in text node
-  d3.select("#mapColourScaleNaN .mapCB")
-      .selectAll("text")
-      .text("x")
-      // .attr("text-anchor", "end")
-      .attr("transform", function(d, i) {
-        return "translate(24, 60) " + "rotate(0)";
-      })
-      .style("display", function() {
-        return "inline";
-      });
-
-  rects.on("mousemove", () => {
-    // Tooltip
-    divNaN.style("opacity", .9);
-    divNaN.html(
-        "<table>" +
-           "<tr>" +
-             "<td>" + i18next.t("NaNhover1", {ns: "airUI"}) + "</td>" +
-           "</tr>" +
-           "<tr>" +
-             "<td>" + i18next.t("NaNhover2", {ns: "airUI"}) + "</td>" +
-           "</tr>" +
-         "</table>"
-    )
-        .style("pointer-events", "none");
-    divNaN
-        .style("left", ((d3.event.pageX +10) + "px"))
-        .style("top", ((d3.event.pageY +10) + "px"));
-  });
-
-  rects.on("mouseout", () => {
-    divNaN.style("opacity", 0);
-  });
-}
-
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
   updateTitles();
