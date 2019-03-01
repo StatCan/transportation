@@ -11,7 +11,7 @@
       "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (million dollars)",
       "hoverTitle": "Fuel sales",
       "x_label": "Year",
-      "y_label": "Sales (millions of dollars)",
+      "y_label": "millions of dollars",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "Liquid Petroleum Gas",
@@ -70,13 +70,13 @@
       "chartHoverPassengers": "Passenger movements",
       "units": "people",
       "x_label": "Year",
-      "y_label": "Number of passengers (in thousands)",
+      "y_label": "thousands of people",
       "total": "Total",
       "domestic": "Domestic",
       "other_intl": "International",
       "trans_border": "Transborder",
       "scalef": "in thousands",
-      "mapScaleLabel": "Total"
+      "mapScaleLabel": "thousands of people"
     },
     "airports": {
       "YXX":"Abbotsford, British Columbia",

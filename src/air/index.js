@@ -117,7 +117,7 @@ const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 460 - margin.left - margin.right;
+const width = 570 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -125,6 +125,7 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
+
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
@@ -478,7 +479,8 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#5D0FBC", "#fff", "#565656"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656"];
+  const numLevels = 5; // remaining colours in array are for blank and NaN box
 
   let dimExtent = [];
   // map.selectAll("path").style("stroke", "black");
@@ -492,7 +494,7 @@ function colorMap() {
   dimExtent = d3.extent(totArr);
   const colourMap = d3.scaleQuantile()
       .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray.slice(0, 4));
+      .range(colourArray.slice(0, numLevels));
 
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
@@ -502,16 +504,8 @@ function colorMap() {
   }
 
   // colour bar scale and add label
-  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
-    + i18next.t("scalef", {ns: "airPassengers"}) + ")";
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
-  // label NaN legend box
-  d3.select(".classNaN").select("text")
-      .text(i18next.t("NaNbox", {ns: "airUI"}))
-      .attr("text-anchor", "start")
-      .attr("transform", function(d, i) {
-        return "translate(345, 60) " + "rotate(0)";
-      });
+  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
@@ -524,8 +518,6 @@ function colorMap() {
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
   airportGroup = map.append("g");
-
-  // d3.stcExt.addIEShim(map, 387.1, 457.5);
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */

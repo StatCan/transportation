@@ -1,20 +1,17 @@
-export default function(svgCB, colourArrayInit, dimExtent) {
+export default function(svgCB, colourArray, dimExtent, numLevels) {
   const scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 35;
   const formatComma = d3.format(",d");
-
-  const colourArrayAll = colourArrayInit;
-  const colourArray = colourArrayInit.slice(0, 4);
 
   // Create the g nodes
   const rects = svgCB
       .attr("class", "mapCB")
       .selectAll("rect")
-      .data(colourArrayAll)
+      .data(Array.from(Array(colourArray.length).keys()))
       .enter()
       .append("g")
       .attr("class", function(d, i) {
-        if (i === colourArray.length + 1) {
+        if (i === numLevels + 1) {
           return "classNaN";
         }
       });
@@ -25,17 +22,17 @@ export default function(svgCB, colourArrayInit, dimExtent) {
       .attr("height", rectDim)
       .attr("y", 5)
       .attr("x", function(d, i) {
-        return 175 + i * rectDim;
+        return 160 + i * rectDim;
       })
       .attr("fill", function(d, i) {
-        return colourArrayAll[i];
+        return colourArray[i];
       });
 
   // define rect text labels (calculate cbValues)
-  const delta =(dimExtent[1] - dimExtent[0] ) / colourArray.length;
+  const delta =(dimExtent[1] - dimExtent[0] ) / numLevels;
   const cbValues=[];
   cbValues[0] = dimExtent[0];
-  for (let idx=1; idx < colourArray.length; idx++) {
+  for (let idx=1; idx < numLevels; idx++) {
     cbValues.push(Math.round(( idx ) * delta + dimExtent[0]));
   }
 
@@ -44,20 +41,24 @@ export default function(svgCB, colourArrayInit, dimExtent) {
 
   // Display text in text node
   let updateText;
-  let count = 0;
   d3.select("#mapColourScale .mapCB")
       .selectAll("text")
       .text(function(i, j) {
-        if (count < colourArray.length) {
+        if (i < numLevels) {
           const s0 = formatComma(cbValues[j] / scalef);
           updateText = s0 + "+";
-          count++;
           return updateText;
+        } else if (i === numLevels + 1) {
+          return i18next.t("NaNbox", {ns: "airUI"});
         }
       })
       .attr("text-anchor", "end")
       .attr("transform", function(d, i) {
-        return "translate(" + (180 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+        if (i < numLevels) {
+          return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+        } else if (i === numLevels + 1) { // NaN box in legend
+          return "translate(" + (199 + (i * (rectDim + 0))) + ", 57) ";
+        }
       })
       .style("display", function() {
         return "inline";

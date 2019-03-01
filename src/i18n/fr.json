@@ -12,10 +12,10 @@
     },
     "roadArea": {
       "alt": "Ventes de carburants destinés aux véhicules automobiles, annuel",
-      "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, {{geo}} (million de dollars)",
+      "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, {{geo}} (millions de dollars)",
       "hoverTitle": "Ventes de carburants",
       "x_label": "Année",
-      "y_label": "Ventes (million de dollars)",
+      "y_label": "millions de dollars",
       "gas": "Essence",
       "diesel": "Carburant diesel",
       "lpg": "Gaz de pétrole liquéfié",
@@ -67,13 +67,13 @@
       "chartHoverPassengers": "Trafic aérien de passagers",
       "units": "personnes",
       "x_label": "An",
-      "y_label": "Nombre de passagers (en milliers)",
+      "y_label": "milliers de passagers",
       "total": "Tous",
       "domestic": "Intérieur",
       "other_intl": "Autres internationaux",
       "trans_border": "Transfrontalier",
       "scalef": "en milliers",
-      "mapScaleLabel": "Total"
+      "mapScaleLabel": "milliers de passagers"
     },
     "airports": {
       "YXX":"Abbotsford, Colombie-Britannique",

@@ -6,6 +6,7 @@ export default {
     right: 30,
     bottom: 50
   },
+  aspectRatio: 16 / 11,
   filterData: function(data) {
     return baseDateFilter(data);
   },

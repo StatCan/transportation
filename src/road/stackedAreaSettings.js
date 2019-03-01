@@ -6,6 +6,7 @@ export default {
     right: 30,
     bottom: 50
   },
+  aspectRatio: 16 / 11,
   // creates variable d
   filterData: function(data) {
     // data is an array of objects
