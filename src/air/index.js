@@ -78,7 +78,7 @@ const majorDropdownData = {
   "Vancouver International": "YVR",
   "Victoria International": "YYJ",
   "Kelowna International": "YLW",
-  "Prince George Airpor": "YXS",
+  "Prince George Airport": "YXS",
   "Yukon (no data)": "YT",
   "Erik Nielsen Whitehorse International": "YXY",
   "Northwest Territories": "NT",
@@ -117,7 +117,7 @@ const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 380 - margin.left - margin.right;
+const width = 460 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -478,7 +478,7 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "red"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#5D0FBC", "#fff", "#565656"];
 
   let dimExtent = [];
   // map.selectAll("path").style("stroke", "black");
@@ -492,7 +492,7 @@ function colorMap() {
   dimExtent = d3.extent(totArr);
   const colourMap = d3.scaleQuantile()
       .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray.slice(0,5));
+      .range(colourArray.slice(0, 4));
 
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
@@ -505,7 +505,13 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("scalef", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  // mapColourScaleNaN(svgNaN);
+  // label NaN legend box
+  d3.select(".classNaN").select("text")
+      .text(i18next.t("NaNbox", {ns: "airUI"}))
+      .attr("text-anchor", "start")
+      .attr("transform", function(d, i) {
+        return "translate(345, 60) " + "rotate(0)";
+      });
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");

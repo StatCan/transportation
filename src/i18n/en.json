@@ -51,7 +51,8 @@
     },
     "airUI": {
       "NaNhover1": "suppressed to meet the confidentiality",
-      "NaNhover2": "requirements of the Statistics Act"
+      "NaNhover2": "requirements of the Statistics Act",
+      "NaNbox": "no data"
     },
       "airPassengerAirports": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",

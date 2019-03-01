@@ -228,7 +228,7 @@ function colorMap() {
   const thisTotalArray = [];
   thisTotalArray.push(mapData[selectedYear]);
 
-  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#5D0FBC"];
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
   const dimExtent = fillMapFn(thisTotalArray, colourArray);

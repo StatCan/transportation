@@ -85,8 +85,6 @@
 }
 /* -- map colour bar related -- */
 #mapColourScale text {
-  position: relative;
-  top: -108px;
 	fill: #565656;
 	stroke: "none";
 	font-size: 13px;
@@ -129,7 +127,7 @@ table, th, td {
 }
 .airmapCBlabel { /* colour bar label */
 	position: relative;
-	top: -10px;
+	top: -117px;
 	color: #565656;
 	text-align: left;
 }
