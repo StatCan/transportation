@@ -50,22 +50,12 @@ const monthDropdown = d3.select("#months");
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
 const width = 380 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
-const svgCB = d3.select("#mapColourScale").append("g")
-    .append("svg")
+const svgCB = d3.select("#mapColourScale")
+    .select("svg")
     .attr("class", "airCB")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
-
-const widthNaN = 55;
-const svgNaN = d3.select("#mapColourScale").select("g")
-    .append("svg")
-    .attr("class", "airCB")
-    .attr("width", widthNaN)
-    .attr("height", height)
-    .style("vertical-align", "middle")
-    .attr("transform", "translate(0, 0)");
-
 const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
@@ -82,7 +72,6 @@ const svgLegend = d3.select("#areaLegend")
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
-d3.stcExt.addIEShim(svgNaN, height, widthNaN);
 
 // -----------------------------------------------------------------------------
 /* letiables */
@@ -105,9 +94,9 @@ const div = d3.select("body").append("div")
     .style("opacity", 0);
 
 /* -- for map NaN legend -- */
-const divNaN = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+// const divNaN = d3.select("body").append("div")
+//     .attr("class", "tooltip")
+//     .style("opacity", 0);
 
 /* -- for areaChart 1 -- */
 const divArea = d3.select("body")
@@ -411,7 +400,7 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "red"];
 
   let dimExtent = [];
   // map.selectAll("path").style("stroke", "black");
@@ -425,7 +414,7 @@ function colorMap() {
   dimExtent = d3.extent(totArr);
   const colourMap = d3.scaleQuantile()
       .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray);
+      .range(colourArray.slice(0,5));
 
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
@@ -439,7 +428,7 @@ function colorMap() {
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
     + i18next.t("scalef", {ns: "airPassengers"}) + ")";
   mapColourScaleFn(svgCB, colourArray, dimExtent);
-  mapColourScaleNaN(svgNaN);
+  // mapColourScaleNaN(svgNaN);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
