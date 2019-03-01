@@ -73,8 +73,8 @@
       "y_label": "thousands of people",
       "total": "Total",
       "domestic": "Domestic",
-      "other_intl": "International",
-      "trans_border": "Transborder",
+      "international": "International",
+      "transborder": "Transborder",
       "scalef": "in thousands",
       "mapScaleLabel": "thousands of people"
     },

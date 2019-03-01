@@ -70,8 +70,8 @@
       "y_label": "milliers de passagers",
       "total": "Tous",
       "domestic": "Intérieur",
-      "other_intl": "Autres internationaux",
-      "trans_border": "Transfrontalier",
+      "international": "Autres internationaux",
+      "transborder": "Transfrontalier",
       "scalef": "en milliers",
       "mapScaleLabel": "milliers de passagers"
     },
