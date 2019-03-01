@@ -1,4 +1,5 @@
 import settings from "./stackedAreaSettings.js";
+import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import areaLegendFn from "../areaLegendFn.js";
 import CopyButton from "../copyButton.js";
@@ -98,6 +99,7 @@ let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA"; // default region for areaChart
+let selectedSettings = settings;
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineData = {};
@@ -188,6 +190,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDate = selectedYear + "-" + selectedMonth;
     selectedDataset = "major_airports";
     selectedDropdown = majorDropdownData;
+    selectedSettings = settingsMajorAirports;
     createDropdown();
 
     totals = majorTotals;
@@ -206,6 +209,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDate = selectedYear;
     selectedDataset = "passengers";
     selectedDropdown = passengerDropdownData;
+    selectedSettings = settings;
     createDropdown();
 
     totals = passengerTotals;
@@ -326,7 +330,7 @@ map.on("click", () => {
     // Display selected region in stacked area chart
     getData();
     // update region displayed in dropdown menu
-    d3.select("groups")._groups[0][0].value = selectedRegion;
+    d3.select("#groups")._groups[0][0].value = selectedRegion;
 
     // ---------------------------------------------------------------------
     // zoom
@@ -388,19 +392,26 @@ function findAreaData(mousex) {
   const x0 = stackedArea.x.invert(mousex);
   const chartData = data[selectedDataset][selectedRegion];
   let d;
-  const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+  let i;
+  if (selectedDataset === "passenger" ){
+      i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+  }
+  else{
+    i = bisectDate(chartData, x0.toISOString().substring(0, 7));
+  }
 
   const d0 = chartData[i - 1];
   const d1 = chartData[i];
 
   if (d0 && d1) {
-    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    d = x0 - new Date(d0.date ) > new Date(d1.date ) - x0 ? d1 : d0;
   } else if (d0) {
     d = d0;
   }
   else{
     d = d1;
   }
+  console.log(d)
   return d;
 }
 // area chart hover
@@ -512,7 +523,7 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
-    stackedArea = areaChart(chart, settings, data[selectedDataset][selectedRegion]);
+    stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
@@ -629,7 +640,7 @@ function updateTitles() {
       .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
-  settings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
+  selectedSettings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
 }
 
 function plotLegend() {
@@ -677,6 +688,8 @@ function dataCopyButton(cButtondata) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
+  settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airPassengers"}),
+  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
