@@ -53,6 +53,11 @@
       "NT": "Territoires du Nord-Ouest",
       "NU": "Nunavut"
     },
+    "airUI": {
+      "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
+      "NaNhover1": "confidentiel en vertu des dispositions",
+      "NaNhover2": " de la Loi sur la statistique"
+    },
     "airPassengers": {
       "alt": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
       "tableTitle": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
@@ -132,7 +137,8 @@
     "units": "personnes",
     "byType": "selon le moyen de transport",
     "name": "Caractéristiques des voyageurs",
-    "value": "Nombre des voyageurs"
+    "value": "Nombre des voyageurs",
+    "noData": "Pas de voyageurs internationaux au / à "
     }
   }
 }

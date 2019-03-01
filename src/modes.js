@@ -2043,6 +2043,9 @@
 	  var thisMonth = i18next.t(selectedMonth, {
 	    ns: "modesMonth"
 	  });
+	  var thisRegion = i18next.t(selectedRegion, {
+	    ns: "modesGeography"
+	  });
 	  var thisData = data[selectedYear + "-" + selectedMonth][selectedRegion]; // Check that the sum of all nodes is not zero
 
 	  var travellerTotal = function travellerTotal() {
@@ -2055,7 +2058,9 @@
 
 	  if (travellerTotal() === 0) {
 	    d3.selectAll("svg > *").remove();
-	    d3.select("#zeroFlag").text("Zero international travellers for ".concat(selectedRegion, ",\n          ").concat(thisMonth, " ").concat(selectedYear));
+	    d3.select("#zeroFlag").text("".concat(i18next.t("noData", {
+	      ns: "modes_sankey"
+	    }), " ").concat(thisRegion, ",\n          ").concat(thisMonth, " ").concat(selectedYear));
 	  } else {
 	    d3.selectAll("svg > *").remove();
 	    makeSankey(sankeyChart, {}, {

@@ -19,7 +19,9 @@
   text-align: right
 }
 
-
+.table td {
+	text-align: right;
+}
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -117,10 +119,10 @@ table, th, td {
 /*-- map --*/
 .airCB rect {
 	stroke: black;
-	stroke-width: 0.3;
+	stroke-width: 0.0;
 }
 .airMapHighlight {
- 	stroke: #467B8D !important;
+ 	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
 .airmapCBlabel { /* colour bar label */
@@ -129,41 +131,47 @@ table, th, td {
 	color: #565656;
 	text-align: left;
 }
+.legendNaN text {
+  fill: #565656;
+  font-size: 13px;
+}
 
 /*-- airport circle fill --*/
-.allYears {
-	fill: green;
+.passengers.allYears {
+	fill: #FFF84C;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.noYears {
+.passengers.noYears {
 	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0;
 }
-.lastSevenYears {
-	fill: #008E09;
-	stroke: yellow;
+.passengers.lastSevenYears {
+	fill: #FFF84C;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastSixYears {
-	fill: #F6CF22;
+.passengers.lastSixYears {
+	fill: #FFF84C;
 	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastFiveYears {
-	fill: #F6CF22;
-	stroke: blue;
+.passengers.lastFiveYears {
+	fill: #FFF84C;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.mix {
-	fill: orange;
+.passengers.mix {
+	fill: gray;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0.5;
 }
 .airport {
 	/* stroke: black;
@@ -202,11 +210,11 @@ table, th, td {
 	opacity: 0.6;
 }
 
-.trans_border {
+.transborder {
 	fill: #a6611a;
   opacity: 0.6;
 }
-.other_intl {
+.international {
   fill: #83C3F2;
 	opacity: 0.6;
 }
@@ -702,7 +710,7 @@ div.tooltip {
 }
 
 /* copy button */
-.copy-button .copy-confirm {    
+.copy-button .copy-confirm {
 	visibility: hidden;
 	position: absolute;
 	top: 825px;
@@ -713,19 +721,19 @@ div.tooltip {
 	border: solid thin black;
 	padding: 5px;
 	color: #333;
-	
+
 	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 }
 
 .copy-button  .btn.btn-primary.copy .clipboard{
-	font-size: 18px;	 
+	font-size: 18px;
 }
 
 .copy-button {
 	text-align: right;
-	
+
 }
 /* Fade In Fade Out */
 .fadeIn {

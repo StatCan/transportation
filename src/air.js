@@ -799,19 +799,632 @@
 	// 24.3.3 JSON[@@toStringTag]
 	_setToStringTag(_global.JSON, 'JSON', true);
 
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+
+	var TAG$1 = _wks('toStringTag');
+	// ES3 wrong here
+	var ARG = _cof(function () { return arguments; }()) == 'Arguments';
+
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function (it, key) {
+	  try {
+	    return it[key];
+	  } catch (e) { /* empty */ }
+	};
+
+	var _classof = function (it) {
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG$1)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? _cof(O)
+	    // ES3 arguments fallback
+	    : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+	var _anInstance = function (it, Constructor, name, forbiddenField) {
+	  if (!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)) {
+	    throw TypeError(name + ': incorrect invocation!');
+	  } return it;
+	};
+
+	// call something on iterator step with safe closing on error
+
+	var _iterCall = function (iterator, fn, value, entries) {
+	  try {
+	    return entries ? fn(_anObject(value)[0], value[1]) : fn(value);
+	  // 7.4.6 IteratorClose(iterator, completion)
+	  } catch (e) {
+	    var ret = iterator['return'];
+	    if (ret !== undefined) _anObject(ret.call(iterator));
+	    throw e;
+	  }
+	};
+
+	var _iterators = {};
+
+	// check on default Array iterator
+
+	var ITERATOR = _wks('iterator');
+	var ArrayProto = Array.prototype;
+
+	var _isArrayIter = function (it) {
+	  return it !== undefined && (_iterators.Array === it || ArrayProto[ITERATOR] === it);
+	};
+
+	var ITERATOR$1 = _wks('iterator');
+
+	var core_getIteratorMethod = _core.getIteratorMethod = function (it) {
+	  if (it != undefined) return it[ITERATOR$1]
+	    || it['@@iterator']
+	    || _iterators[_classof(it)];
+	};
+
+	var _forOf = createCommonjsModule(function (module) {
+	var BREAK = {};
+	var RETURN = {};
+	var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
+	  var iterFn = ITERATOR ? function () { return iterable; } : core_getIteratorMethod(iterable);
+	  var f = _ctx(fn, that, entries ? 2 : 1);
+	  var index = 0;
+	  var length, step, iterator, result;
+	  if (typeof iterFn != 'function') throw TypeError(iterable + ' is not iterable!');
+	  // fast case for arrays with default iterator
+	  if (_isArrayIter(iterFn)) for (length = _toLength(iterable.length); length > index; index++) {
+	    result = entries ? f(_anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
+	    if (result === BREAK || result === RETURN) return result;
+	  } else for (iterator = iterFn.call(iterable); !(step = iterator.next()).done;) {
+	    result = _iterCall(iterator, f, step.value, entries);
+	    if (result === BREAK || result === RETURN) return result;
+	  }
+	};
+	exports.BREAK = BREAK;
+	exports.RETURN = RETURN;
+	});
+
+	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+
+
+	var SPECIES = _wks('species');
+	var _speciesConstructor = function (O, D) {
+	  var C = _anObject(O).constructor;
+	  var S;
+	  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
+	};
+
+	// fast apply, http://jsperf.lnkit.com/fast-apply/5
+	var _invoke = function (fn, args, that) {
+	  var un = that === undefined;
+	  switch (args.length) {
+	    case 0: return un ? fn()
+	                      : fn.call(that);
+	    case 1: return un ? fn(args[0])
+	                      : fn.call(that, args[0]);
+	    case 2: return un ? fn(args[0], args[1])
+	                      : fn.call(that, args[0], args[1]);
+	    case 3: return un ? fn(args[0], args[1], args[2])
+	                      : fn.call(that, args[0], args[1], args[2]);
+	    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+	                      : fn.call(that, args[0], args[1], args[2], args[3]);
+	  } return fn.apply(that, args);
+	};
+
+	var process = _global.process;
+	var setTask = _global.setImmediate;
+	var clearTask = _global.clearImmediate;
+	var MessageChannel = _global.MessageChannel;
+	var Dispatch = _global.Dispatch;
+	var counter = 0;
+	var queue = {};
+	var ONREADYSTATECHANGE = 'onreadystatechange';
+	var defer, channel, port;
+	var run = function () {
+	  var id = +this;
+	  // eslint-disable-next-line no-prototype-builtins
+	  if (queue.hasOwnProperty(id)) {
+	    var fn = queue[id];
+	    delete queue[id];
+	    fn();
+	  }
+	};
+	var listener = function (event) {
+	  run.call(event.data);
+	};
+	// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+	if (!setTask || !clearTask) {
+	  setTask = function setImmediate(fn) {
+	    var args = [];
+	    var i = 1;
+	    while (arguments.length > i) args.push(arguments[i++]);
+	    queue[++counter] = function () {
+	      // eslint-disable-next-line no-new-func
+	      _invoke(typeof fn == 'function' ? fn : Function(fn), args);
+	    };
+	    defer(counter);
+	    return counter;
+	  };
+	  clearTask = function clearImmediate(id) {
+	    delete queue[id];
+	  };
+	  // Node.js 0.8-
+	  if (_cof(process) == 'process') {
+	    defer = function (id) {
+	      process.nextTick(_ctx(run, id, 1));
+	    };
+	  // Sphere (JS game engine) Dispatch API
+	  } else if (Dispatch && Dispatch.now) {
+	    defer = function (id) {
+	      Dispatch.now(_ctx(run, id, 1));
+	    };
+	  // Browsers with MessageChannel, includes WebWorkers
+	  } else if (MessageChannel) {
+	    channel = new MessageChannel();
+	    port = channel.port2;
+	    channel.port1.onmessage = listener;
+	    defer = _ctx(port.postMessage, port, 1);
+	  // Browsers with postMessage, skip WebWorkers
+	  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+	  } else if (_global.addEventListener && typeof postMessage == 'function' && !_global.importScripts) {
+	    defer = function (id) {
+	      _global.postMessage(id + '', '*');
+	    };
+	    _global.addEventListener('message', listener, false);
+	  // IE8-
+	  } else if (ONREADYSTATECHANGE in _domCreate('script')) {
+	    defer = function (id) {
+	      _html.appendChild(_domCreate('script'))[ONREADYSTATECHANGE] = function () {
+	        _html.removeChild(this);
+	        run.call(id);
+	      };
+	    };
+	  // Rest old browsers
+	  } else {
+	    defer = function (id) {
+	      setTimeout(_ctx(run, id, 1), 0);
+	    };
+	  }
+	}
+	var _task = {
+	  set: setTask,
+	  clear: clearTask
+	};
+
+	var macrotask = _task.set;
+	var Observer = _global.MutationObserver || _global.WebKitMutationObserver;
+	var process$1 = _global.process;
+	var Promise$1 = _global.Promise;
+	var isNode = _cof(process$1) == 'process';
+
+	var _microtask = function () {
+	  var head, last, notify;
+
+	  var flush = function () {
+	    var parent, fn;
+	    if (isNode && (parent = process$1.domain)) parent.exit();
+	    while (head) {
+	      fn = head.fn;
+	      head = head.next;
+	      try {
+	        fn();
+	      } catch (e) {
+	        if (head) notify();
+	        else last = undefined;
+	        throw e;
+	      }
+	    } last = undefined;
+	    if (parent) parent.enter();
+	  };
+
+	  // Node.js
+	  if (isNode) {
+	    notify = function () {
+	      process$1.nextTick(flush);
+	    };
+	  // browsers with MutationObserver, except iOS Safari - https://github.com/zloirock/core-js/issues/339
+	  } else if (Observer && !(_global.navigator && _global.navigator.standalone)) {
+	    var toggle = true;
+	    var node = document.createTextNode('');
+	    new Observer(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
+	    notify = function () {
+	      node.data = toggle = !toggle;
+	    };
+	  // environments with maybe non-completely correct, but existent Promise
+	  } else if (Promise$1 && Promise$1.resolve) {
+	    // Promise.resolve without an argument throws an error in LG WebOS 2
+	    var promise = Promise$1.resolve(undefined);
+	    notify = function () {
+	      promise.then(flush);
+	    };
+	  // for other environments - macrotask based on:
+	  // - setImmediate
+	  // - MessageChannel
+	  // - window.postMessag
+	  // - onreadystatechange
+	  // - setTimeout
+	  } else {
+	    notify = function () {
+	      // strange IE + webpack dev server bug - use .call(global)
+	      macrotask.call(_global, flush);
+	    };
+	  }
+
+	  return function (fn) {
+	    var task = { fn: fn, next: undefined };
+	    if (last) last.next = task;
+	    if (!head) {
+	      head = task;
+	      notify();
+	    } last = task;
+	  };
+	};
+
+	// 25.4.1.5 NewPromiseCapability(C)
+
+
+	function PromiseCapability(C) {
+	  var resolve, reject;
+	  this.promise = new C(function ($$resolve, $$reject) {
+	    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+	    resolve = $$resolve;
+	    reject = $$reject;
+	  });
+	  this.resolve = _aFunction(resolve);
+	  this.reject = _aFunction(reject);
+	}
+
+	var f$7 = function (C) {
+	  return new PromiseCapability(C);
+	};
+
+	var _newPromiseCapability = {
+		f: f$7
+	};
+
+	var _perform = function (exec) {
+	  try {
+	    return { e: false, v: exec() };
+	  } catch (e) {
+	    return { e: true, v: e };
+	  }
+	};
+
+	var navigator = _global.navigator;
+
+	var _userAgent = navigator && navigator.userAgent || '';
+
+	var _promiseResolve = function (C, x) {
+	  _anObject(C);
+	  if (_isObject(x) && x.constructor === C) return x;
+	  var promiseCapability = _newPromiseCapability.f(C);
+	  var resolve = promiseCapability.resolve;
+	  resolve(x);
+	  return promiseCapability.promise;
+	};
+
+	var _redefineAll = function (target, src, safe) {
+	  for (var key in src) _redefine(target, key, src[key], safe);
+	  return target;
+	};
+
+	var SPECIES$1 = _wks('species');
+
+	var _setSpecies = function (KEY) {
+	  var C = _global[KEY];
+	  if (_descriptors && C && !C[SPECIES$1]) _objectDp.f(C, SPECIES$1, {
+	    configurable: true,
+	    get: function () { return this; }
+	  });
+	};
+
+	var ITERATOR$2 = _wks('iterator');
+	var SAFE_CLOSING = false;
+
+	try {
+	  var riter = [7][ITERATOR$2]();
+	  riter['return'] = function () { SAFE_CLOSING = true; };
+	} catch (e) { /* empty */ }
+
+	var _iterDetect = function (exec, skipClosing) {
+	  if (!skipClosing && !SAFE_CLOSING) return false;
+	  var safe = false;
+	  try {
+	    var arr = [7];
+	    var iter = arr[ITERATOR$2]();
+	    iter.next = function () { return { done: safe = true }; };
+	    arr[ITERATOR$2] = function () { return iter; };
+	    exec(arr);
+	  } catch (e) { /* empty */ }
+	  return safe;
+	};
+
+	var task = _task.set;
+	var microtask = _microtask();
+
+
+
+
+	var PROMISE = 'Promise';
+	var TypeError$1 = _global.TypeError;
+	var process$2 = _global.process;
+	var versions = process$2 && process$2.versions;
+	var v8 = versions && versions.v8 || '';
+	var $Promise = _global[PROMISE];
+	var isNode$1 = _classof(process$2) == 'process';
+	var empty = function () { /* empty */ };
+	var Internal, newGenericPromiseCapability, OwnPromiseCapability, Wrapper;
+	var newPromiseCapability = newGenericPromiseCapability = _newPromiseCapability.f;
+
+	var USE_NATIVE$1 = !!function () {
+	  try {
+	    // correct subclassing with @@species support
+	    var promise = $Promise.resolve(1);
+	    var FakePromise = (promise.constructor = {})[_wks('species')] = function (exec) {
+	      exec(empty, empty);
+	    };
+	    // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+	    return (isNode$1 || typeof PromiseRejectionEvent == 'function')
+	      && promise.then(empty) instanceof FakePromise
+	      // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+	      // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+	      // we can't detect it synchronously, so just check versions
+	      && v8.indexOf('6.6') !== 0
+	      && _userAgent.indexOf('Chrome/66') === -1;
+	  } catch (e) { /* empty */ }
+	}();
+
+	// helpers
+	var isThenable = function (it) {
+	  var then;
+	  return _isObject(it) && typeof (then = it.then) == 'function' ? then : false;
+	};
+	var notify = function (promise, isReject) {
+	  if (promise._n) return;
+	  promise._n = true;
+	  var chain = promise._c;
+	  microtask(function () {
+	    var value = promise._v;
+	    var ok = promise._s == 1;
+	    var i = 0;
+	    var run = function (reaction) {
+	      var handler = ok ? reaction.ok : reaction.fail;
+	      var resolve = reaction.resolve;
+	      var reject = reaction.reject;
+	      var domain = reaction.domain;
+	      var result, then, exited;
+	      try {
+	        if (handler) {
+	          if (!ok) {
+	            if (promise._h == 2) onHandleUnhandled(promise);
+	            promise._h = 1;
+	          }
+	          if (handler === true) result = value;
+	          else {
+	            if (domain) domain.enter();
+	            result = handler(value); // may throw
+	            if (domain) {
+	              domain.exit();
+	              exited = true;
+	            }
+	          }
+	          if (result === reaction.promise) {
+	            reject(TypeError$1('Promise-chain cycle'));
+	          } else if (then = isThenable(result)) {
+	            then.call(result, resolve, reject);
+	          } else resolve(result);
+	        } else reject(value);
+	      } catch (e) {
+	        if (domain && !exited) domain.exit();
+	        reject(e);
+	      }
+	    };
+	    while (chain.length > i) run(chain[i++]); // variable length - can't use forEach
+	    promise._c = [];
+	    promise._n = false;
+	    if (isReject && !promise._h) onUnhandled(promise);
+	  });
+	};
+	var onUnhandled = function (promise) {
+	  task.call(_global, function () {
+	    var value = promise._v;
+	    var unhandled = isUnhandled(promise);
+	    var result, handler, console;
+	    if (unhandled) {
+	      result = _perform(function () {
+	        if (isNode$1) {
+	          process$2.emit('unhandledRejection', value, promise);
+	        } else if (handler = _global.onunhandledrejection) {
+	          handler({ promise: promise, reason: value });
+	        } else if ((console = _global.console) && console.error) {
+	          console.error('Unhandled promise rejection', value);
+	        }
+	      });
+	      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+	      promise._h = isNode$1 || isUnhandled(promise) ? 2 : 1;
+	    } promise._a = undefined;
+	    if (unhandled && result.e) throw result.v;
+	  });
+	};
+	var isUnhandled = function (promise) {
+	  return promise._h !== 1 && (promise._a || promise._c).length === 0;
+	};
+	var onHandleUnhandled = function (promise) {
+	  task.call(_global, function () {
+	    var handler;
+	    if (isNode$1) {
+	      process$2.emit('rejectionHandled', promise);
+	    } else if (handler = _global.onrejectionhandled) {
+	      handler({ promise: promise, reason: promise._v });
+	    }
+	  });
+	};
+	var $reject = function (value) {
+	  var promise = this;
+	  if (promise._d) return;
+	  promise._d = true;
+	  promise = promise._w || promise; // unwrap
+	  promise._v = value;
+	  promise._s = 2;
+	  if (!promise._a) promise._a = promise._c.slice();
+	  notify(promise, true);
+	};
+	var $resolve = function (value) {
+	  var promise = this;
+	  var then;
+	  if (promise._d) return;
+	  promise._d = true;
+	  promise = promise._w || promise; // unwrap
+	  try {
+	    if (promise === value) throw TypeError$1("Promise can't be resolved itself");
+	    if (then = isThenable(value)) {
+	      microtask(function () {
+	        var wrapper = { _w: promise, _d: false }; // wrap
+	        try {
+	          then.call(value, _ctx($resolve, wrapper, 1), _ctx($reject, wrapper, 1));
+	        } catch (e) {
+	          $reject.call(wrapper, e);
+	        }
+	      });
+	    } else {
+	      promise._v = value;
+	      promise._s = 1;
+	      notify(promise, false);
+	    }
+	  } catch (e) {
+	    $reject.call({ _w: promise, _d: false }, e); // wrap
+	  }
+	};
+
+	// constructor polyfill
+	if (!USE_NATIVE$1) {
+	  // 25.4.3.1 Promise(executor)
+	  $Promise = function Promise(executor) {
+	    _anInstance(this, $Promise, PROMISE, '_h');
+	    _aFunction(executor);
+	    Internal.call(this);
+	    try {
+	      executor(_ctx($resolve, this, 1), _ctx($reject, this, 1));
+	    } catch (err) {
+	      $reject.call(this, err);
+	    }
+	  };
+	  // eslint-disable-next-line no-unused-vars
+	  Internal = function Promise(executor) {
+	    this._c = [];             // <- awaiting reactions
+	    this._a = undefined;      // <- checked in isUnhandled reactions
+	    this._s = 0;              // <- state
+	    this._d = false;          // <- done
+	    this._v = undefined;      // <- value
+	    this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
+	    this._n = false;          // <- notify
+	  };
+	  Internal.prototype = _redefineAll($Promise.prototype, {
+	    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
+	    then: function then(onFulfilled, onRejected) {
+	      var reaction = newPromiseCapability(_speciesConstructor(this, $Promise));
+	      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
+	      reaction.fail = typeof onRejected == 'function' && onRejected;
+	      reaction.domain = isNode$1 ? process$2.domain : undefined;
+	      this._c.push(reaction);
+	      if (this._a) this._a.push(reaction);
+	      if (this._s) notify(this, false);
+	      return reaction.promise;
+	    },
+	    // 25.4.5.1 Promise.prototype.catch(onRejected)
+	    'catch': function (onRejected) {
+	      return this.then(undefined, onRejected);
+	    }
+	  });
+	  OwnPromiseCapability = function () {
+	    var promise = new Internal();
+	    this.promise = promise;
+	    this.resolve = _ctx($resolve, promise, 1);
+	    this.reject = _ctx($reject, promise, 1);
+	  };
+	  _newPromiseCapability.f = newPromiseCapability = function (C) {
+	    return C === $Promise || C === Wrapper
+	      ? new OwnPromiseCapability(C)
+	      : newGenericPromiseCapability(C);
+	  };
+	}
+
+	_export(_export.G + _export.W + _export.F * !USE_NATIVE$1, { Promise: $Promise });
+	_setToStringTag($Promise, PROMISE);
+	_setSpecies(PROMISE);
+	Wrapper = _core[PROMISE];
+
+	// statics
+	_export(_export.S + _export.F * !USE_NATIVE$1, PROMISE, {
+	  // 25.4.4.5 Promise.reject(r)
+	  reject: function reject(r) {
+	    var capability = newPromiseCapability(this);
+	    var $$reject = capability.reject;
+	    $$reject(r);
+	    return capability.promise;
+	  }
+	});
+	_export(_export.S + _export.F * (_library || !USE_NATIVE$1), PROMISE, {
+	  // 25.4.4.6 Promise.resolve(x)
+	  resolve: function resolve(x) {
+	    return _promiseResolve(_library && this === Wrapper ? $Promise : this, x);
+	  }
+	});
+	_export(_export.S + _export.F * !(USE_NATIVE$1 && _iterDetect(function (iter) {
+	  $Promise.all(iter)['catch'](empty);
+	})), PROMISE, {
+	  // 25.4.4.1 Promise.all(iterable)
+	  all: function all(iterable) {
+	    var C = this;
+	    var capability = newPromiseCapability(C);
+	    var resolve = capability.resolve;
+	    var reject = capability.reject;
+	    var result = _perform(function () {
+	      var values = [];
+	      var index = 0;
+	      var remaining = 1;
+	      _forOf(iterable, false, function (promise) {
+	        var $index = index++;
+	        var alreadyCalled = false;
+	        values.push(undefined);
+	        remaining++;
+	        C.resolve(promise).then(function (value) {
+	          if (alreadyCalled) return;
+	          alreadyCalled = true;
+	          values[$index] = value;
+	          --remaining || resolve(values);
+	        }, reject);
+	      });
+	      --remaining || resolve(values);
+	    });
+	    if (result.e) reject(result.v);
+	    return capability.promise;
+	  },
+	  // 25.4.4.4 Promise.race(iterable)
+	  race: function race(iterable) {
+	    var C = this;
+	    var capability = newPromiseCapability(C);
+	    var reject = capability.reject;
+	    var result = _perform(function () {
+	      _forOf(iterable, false, function (promise) {
+	        C.resolve(promise).then(capability.resolve, reject);
+	      });
+	    });
+	    if (result.e) reject(result.v);
+	    return capability.promise;
+	  }
+	});
+
 	// 22.1.3.31 Array.prototype[@@unscopables]
 	var UNSCOPABLES = _wks('unscopables');
-	var ArrayProto = Array.prototype;
-	if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
+	var ArrayProto$1 = Array.prototype;
+	if (ArrayProto$1[UNSCOPABLES] == undefined) _hide(ArrayProto$1, UNSCOPABLES, {});
 	var _addToUnscopables = function (key) {
-	  ArrayProto[UNSCOPABLES][key] = true;
+	  ArrayProto$1[UNSCOPABLES][key] = true;
 	};
 
 	var _iterStep = function (done, value) {
 	  return { value: value, done: !!done };
 	};
-
-	var _iterators = {};
 
 	var IteratorPrototype = {};
 
@@ -843,7 +1456,7 @@
 	  } return O instanceof Object ? ObjectProto$1 : null;
 	};
 
-	var ITERATOR = _wks('iterator');
+	var ITERATOR$3 = _wks('iterator');
 	var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 	var FF_ITERATOR = '@@iterator';
 	var KEYS = 'keys';
@@ -864,7 +1477,7 @@
 	  var DEF_VALUES = DEFAULT == VALUES;
 	  var VALUES_BUG = false;
 	  var proto = Base.prototype;
-	  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+	  var $native = proto[ITERATOR$3] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
 	  var $default = $native || getMethod(DEFAULT);
 	  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
 	  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
@@ -876,7 +1489,7 @@
 	      // Set @@toStringTag to native iterators
 	      _setToStringTag(IteratorPrototype, TAG, true);
 	      // fix for some old engines
-	      if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+	      if (typeof IteratorPrototype[ITERATOR$3] != 'function') _hide(IteratorPrototype, ITERATOR$3, returnThis);
 	    }
 	  }
 	  // fix Array#{values, @@iterator}.name in V8 / FF
@@ -885,8 +1498,8 @@
 	    $default = function values() { return $native.call(this); };
 	  }
 	  // Define iterator
-	  if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
-	    _hide(proto, ITERATOR, $default);
+	  if (BUGGY || VALUES_BUG || !proto[ITERATOR$3]) {
+	    _hide(proto, ITERATOR$3, $default);
 	  }
 	  // Plug for library
 	  _iterators[NAME] = $default;
@@ -933,7 +1546,7 @@
 	_addToUnscopables('values');
 	_addToUnscopables('entries');
 
-	var ITERATOR$1 = _wks('iterator');
+	var ITERATOR$4 = _wks('iterator');
 	var TO_STRING_TAG = _wks('toStringTag');
 	var ArrayValues = _iterators.Array;
 
@@ -978,7 +1591,7 @@
 	  var proto = Collection && Collection.prototype;
 	  var key;
 	  if (proto) {
-	    if (!proto[ITERATOR$1]) _hide(proto, ITERATOR$1, ArrayValues);
+	    if (!proto[ITERATOR$4]) _hide(proto, ITERATOR$4, ArrayValues);
 	    if (!proto[TO_STRING_TAG]) _hide(proto, TO_STRING_TAG, NAME);
 	    _iterators[NAME] = ArrayValues;
 	    if (explicit) for (key in es6_array_iterator) if (!proto[key]) _redefine(proto, key, es6_array_iterator[key], true);
@@ -1071,16 +1684,6 @@
 	  return _isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : _cof(it) == 'RegExp');
 	};
 
-	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
-
-
-	var SPECIES = _wks('species');
-	var _speciesConstructor = function (O, D) {
-	  var C = _anObject(O).constructor;
-	  var S;
-	  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
-	};
-
 	// true  -> String#at
 	// false -> String#codePointAt
 	var _stringAt = function (TO_STRING) {
@@ -1103,30 +1706,6 @@
 	// https://tc39.github.io/ecma262/#sec-advancestringindex
 	var _advanceStringIndex = function (S, index, unicode) {
 	  return index + (unicode ? at(S, index).length : 1);
-	};
-
-	// getting tag from 19.1.3.6 Object.prototype.toString()
-
-	var TAG$1 = _wks('toStringTag');
-	// ES3 wrong here
-	var ARG = _cof(function () { return arguments; }()) == 'Arguments';
-
-	// fallback for IE11 Script Access Denied error
-	var tryGet = function (it, key) {
-	  try {
-	    return it[key];
-	  } catch (e) { /* empty */ }
-	};
-
-	var _classof = function (it) {
-	  var O, T, B;
-	  return it === undefined ? 'Undefined' : it === null ? 'Null'
-	    // @@toStringTag case
-	    : typeof (T = tryGet(O = Object(it), TAG$1)) == 'string' ? T
-	    // builtinTag case
-	    : ARG ? _cof(O)
-	    // ES3 arguments fallback
-	    : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 	};
 
 	var builtinExec = RegExp.prototype.exec;
@@ -1224,7 +1803,7 @@
 	  exec: _regexpExec
 	});
 
-	var SPECIES$1 = _wks('species');
+	var SPECIES$2 = _wks('species');
 
 	var REPLACE_SUPPORTS_NAMED_GROUPS = !_fails(function () {
 	  // #replace needs built-in support for named groups.
@@ -1267,7 +1846,7 @@
 	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
 	      // a new one. We need to return the patched regex when creating the new one.
 	      re.constructor = {};
-	      re.constructor[SPECIES$1] = function () { return re; };
+	      re.constructor[SPECIES$2] = function () { return re; };
 	    }
 	    re[SYMBOL]('');
 	    return !execCalled;
@@ -1435,6 +2014,82 @@
 	      return A;
 	    }
 	  ];
+	});
+
+	var SPECIES$3 = _wks('species');
+
+	var _arraySpeciesConstructor = function (original) {
+	  var C;
+	  if (_isArray(original)) {
+	    C = original.constructor;
+	    // cross-realm fallback
+	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
+	    if (_isObject(C)) {
+	      C = C[SPECIES$3];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array : C;
+	};
+
+	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+
+
+	var _arraySpeciesCreate = function (original, length) {
+	  return new (_arraySpeciesConstructor(original))(length);
+	};
+
+	// 0 -> Array#forEach
+	// 1 -> Array#map
+	// 2 -> Array#filter
+	// 3 -> Array#some
+	// 4 -> Array#every
+	// 5 -> Array#find
+	// 6 -> Array#findIndex
+
+
+
+
+
+	var _arrayMethods = function (TYPE, $create) {
+	  var IS_MAP = TYPE == 1;
+	  var IS_FILTER = TYPE == 2;
+	  var IS_SOME = TYPE == 3;
+	  var IS_EVERY = TYPE == 4;
+	  var IS_FIND_INDEX = TYPE == 6;
+	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+	  var create = $create || _arraySpeciesCreate;
+	  return function ($this, callbackfn, that) {
+	    var O = _toObject($this);
+	    var self = _iobject(O);
+	    var f = _ctx(callbackfn, that, 3);
+	    var length = _toLength(self.length);
+	    var index = 0;
+	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+	    var val, res;
+	    for (;length > index; index++) if (NO_HOLES || index in self) {
+	      val = self[index];
+	      res = f(val, index, O);
+	      if (TYPE) {
+	        if (IS_MAP) result[index] = res;   // map
+	        else if (res) switch (TYPE) {
+	          case 3: return true;             // some
+	          case 5: return val;              // find
+	          case 6: return index;            // findIndex
+	          case 2: result.push(val);        // filter
+	        } else if (IS_EVERY) return false; // every
+	      }
+	    }
+	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+	  };
+	};
+
+	var $map = _arrayMethods(1);
+
+	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
+	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map(this, callbackfn, arguments[1]);
+	  }
 	});
 
 	// Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -1690,6 +2345,132 @@
 	  return newData;
 	};
 
+	var settingsMajorAirports = {
+	  alt: i18next.t("alt", {
+	    ns: "airPassengers"
+	  }),
+	  margin: {
+	    top: 50,
+	    left: 90,
+	    right: 30,
+	    bottom: 50
+	  },
+	  filterData: function filterData(data) {
+	    return baseDateFilter$1(data);
+	  },
+	  x: {
+	    getLabel: function getLabel() {
+	      return i18next.t("x_label", {
+	        ns: "airPassengers"
+	      });
+	    },
+	    getValue: function getValue(d, i) {
+	      // return new Date(d.date + "-01");
+	      // for first year, start at Jan -01T00:00:00.000Z
+	      // for last year, end one ms past midnight so that year label gets plotted
+	      return new Date(d.date + "-01"); // return i === 0 ? new Date(d.date + "-01") :
+	      //   new Date(d.date, 0, 1, 0, 0, 0, 1);
+	    },
+	    getText: function getText(d) {
+	      return d.date;
+	    },
+	    ticks: 7 * 6
+	  },
+	  y: {
+	    label: i18next.t("y_label", {
+	      ns: "airPassengers"
+	    }),
+	    getLabel: function getLabel() {
+	      return i18next.t("y_label", {
+	        ns: "airPassengers"
+	      });
+	    },
+	    getValue: function getValue(d, key) {
+	      if (d[key] === "x" || d[key] === "..") {
+	        return 0;
+	      } else return Number(d[key]) * 1.0 / 1000;
+	    },
+	    getTotal: function getTotal(d, index, data) {
+	      var total;
+	      var keys;
+	      var sett = this;
+
+	      if (!d[sett.y.totalProperty]) {
+	        keys = sett.z.getKeys.call(sett, data);
+	        total = 0;
+
+	        for (var k = 0; k < keys.length; k++) {
+	          total += sett.y.getValue.call(sett, d, keys[k], data);
+	        }
+
+	        d[sett.y.totalProperty] = total;
+	      }
+
+	      return d[sett.y.totalProperty];
+	    },
+	    getText: function getText(d, key) {
+	      if (d[key] === "x" || d[key] === "..") {
+	        return d[key];
+	      } else return Number(d[key]) * 1.0 / 1000;
+	    },
+	    ticks: 5
+	  },
+	  z: {
+	    label: i18next.t("z_label", {
+	      ns: "airPassengers"
+	    }),
+	    getId: function getId(d) {
+	      return d.key;
+	    },
+	    getKeys: function getKeys(object) {
+	      var sett = this;
+	      var keys = Object.keys(object[0]);
+	      keys.splice(keys.indexOf("date"), 1);
+
+	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
+	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+	      }
+
+	      return keys; // return keys.sort();
+	      // return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
+	    },
+	    getClass: function getClass() {
+	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      return this.z.getId.apply(this, args);
+	    },
+	    getText: function getText(d) {
+	      return i18next.t(d.key, {
+	        ns: "airPassengers"
+	      });
+	    }
+	  },
+	  datatable: true,
+	  dataTableTotal: true,
+	  // show total in data table
+	  areaTableID: "areaTable",
+	  // summaryId: "chrt-dt-tbl",
+	  transition: true,
+	  width: 1050
+	};
+
+	var baseDateFilter$1 = function baseDateFilter(data) {
+	  var minDate = new Date("2010");
+	  var newData = [];
+
+	  for (var s = 0; s < data.length; s++) {
+	    var date = new Date(data[s].date);
+
+	    if (date >= minDate) {
+	      newData.push(data[s]);
+	    }
+	  }
+
+	  return newData;
+	};
+
 	function mapColourScaleFn (svgCB, colourArray, dimExtent) {
 	  var scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
 
@@ -1746,99 +2527,6 @@
 	    return "inline";
 	  });
 	}
-
-	var SPECIES$2 = _wks('species');
-
-	var _arraySpeciesConstructor = function (original) {
-	  var C;
-	  if (_isArray(original)) {
-	    C = original.constructor;
-	    // cross-realm fallback
-	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
-	    if (_isObject(C)) {
-	      C = C[SPECIES$2];
-	      if (C === null) C = undefined;
-	    }
-	  } return C === undefined ? Array : C;
-	};
-
-	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-
-
-	var _arraySpeciesCreate = function (original, length) {
-	  return new (_arraySpeciesConstructor(original))(length);
-	};
-
-	// 0 -> Array#forEach
-	// 1 -> Array#map
-	// 2 -> Array#filter
-	// 3 -> Array#some
-	// 4 -> Array#every
-	// 5 -> Array#find
-	// 6 -> Array#findIndex
-
-
-
-
-
-	var _arrayMethods = function (TYPE, $create) {
-	  var IS_MAP = TYPE == 1;
-	  var IS_FILTER = TYPE == 2;
-	  var IS_SOME = TYPE == 3;
-	  var IS_EVERY = TYPE == 4;
-	  var IS_FIND_INDEX = TYPE == 6;
-	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-	  var create = $create || _arraySpeciesCreate;
-	  return function ($this, callbackfn, that) {
-	    var O = _toObject($this);
-	    var self = _iobject(O);
-	    var f = _ctx(callbackfn, that, 3);
-	    var length = _toLength(self.length);
-	    var index = 0;
-	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-	    var val, res;
-	    for (;length > index; index++) if (NO_HOLES || index in self) {
-	      val = self[index];
-	      res = f(val, index, O);
-	      if (TYPE) {
-	        if (IS_MAP) result[index] = res;   // map
-	        else if (res) switch (TYPE) {
-	          case 3: return true;             // some
-	          case 5: return val;              // find
-	          case 6: return index;            // findIndex
-	          case 2: result.push(val);        // filter
-	        } else if (IS_EVERY) return false; // every
-	      }
-	    }
-	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-	  };
-	};
-
-	var $map = _arrayMethods(1);
-
-	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
-	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
-	  map: function map(callbackfn /* , thisArg */) {
-	    return $map(this, callbackfn, arguments[1]);
-	  }
-	});
-
-	// fast apply, http://jsperf.lnkit.com/fast-apply/5
-	var _invoke = function (fn, args, that) {
-	  var un = that === undefined;
-	  switch (args.length) {
-	    case 0: return un ? fn()
-	                      : fn.call(that);
-	    case 1: return un ? fn(args[0])
-	                      : fn.call(that, args[0]);
-	    case 2: return un ? fn(args[0], args[1])
-	                      : fn.call(that, args[0], args[1]);
-	    case 3: return un ? fn(args[0], args[1], args[2])
-	                      : fn.call(that, args[0], args[1], args[2]);
-	    case 4: return un ? fn(args[0], args[1], args[2], args[3])
-	                      : fn.call(that, args[0], args[1], args[2], args[3]);
-	  } return fn.apply(that, args);
-	};
 
 	var arraySlice = [].slice;
 	var factories = {};
@@ -2042,6 +2730,76 @@
 	  "passengers": {},
 	  "major_airports": {}
 	};
+	var passengerDropdownData = {
+	  "Canada": "CANADA",
+	  "Newfoundland and Labrador": "NL",
+	  "St John's International": "YYT",
+	  "Prince Edward Island": "PE",
+	  "Nova Scotia (no data)": "NS",
+	  "Halifax/Robert L Stanfield International": "YHZ",
+	  "New Brunswick (no data)": "NB",
+	  "Moncton/Greater Moncton International": "YQM",
+	  "Quebec": "QC",
+	  "Montréal/Pierre Elliott Trudeau International": "YUL",
+	  "Québec/Jean Lesage International": "YQB",
+	  "Ontario": "ON",
+	  "Ottawa/Macdonald-Cartier International": "YOW",
+	  "Toronto/Lester B Pearson International": "YYZ",
+	  "Manitoba": "MB",
+	  "Winnipeg/James Armstrong Richardson International": "NL",
+	  "Saskatchewan": "SK",
+	  "Alberta": "AB",
+	  "Calgary International": "YYC",
+	  "Edmonton International": "YEG",
+	  "British Columbia": "BC",
+	  "Vancouver International": "YVR",
+	  "Victoria International": "YYJ",
+	  "Yukon (no data)": "YT",
+	  "Northwest Territories": "NT",
+	  "Nunavut": "NU"
+	};
+	var majorDropdownData = {
+	  "Canada": "CANADA",
+	  "Newfoundland and Labrador": "NL",
+	  "St John's International": "YYT",
+	  "Prince Edward Island": "PE",
+	  "Charlottetown": "YYG",
+	  "Nova Scotia (no data)": "NS",
+	  "Halifax/Robert L Stanfield International": "YHZ",
+	  "New Brunswick (no data)": "NB",
+	  "Moncton/Greater Moncton International": "YQM",
+	  "Fredericton International": "YFC",
+	  "Saint John": "YSJ",
+	  "Quebec": "QC",
+	  "Montréal/Pierre Elliott Trudeau International": "YUL",
+	  "Québec/Jean Lesage International": "YQB",
+	  "Montréal Mirabel International": "YMX",
+	  "Ontario": "ON",
+	  "Ottawa/Macdonald-Cartier International": "YOW",
+	  "Toronto/Lester B Pearson International": "YYZ",
+	  "Thunder Bay International": "YQT",
+	  "London International": "YXU",
+	  "Manitoba": "MB",
+	  "Winnipeg/James Armstrong Richardson International": "NL",
+	  "Saskatchewan": "SK",
+	  "Regina International": "YQR",
+	  "Saskatoon John G. Diefenbaker International": "YXE",
+	  "Alberta": "AB",
+	  "Calgary International": "YYC",
+	  "Edmonton International": "YEG",
+	  "British Columbia": "BC",
+	  "Vancouver International": "YVR",
+	  "Victoria International": "YYJ",
+	  "Kelowna International": "YLW",
+	  "Prince George Airpor": "YXS",
+	  "Yukon (no data)": "YT",
+	  "Erik Nielsen Whitehorse International": "YXY",
+	  "Northwest Territories": "NT",
+	  "Yellowknife": "YZF",
+	  "Nunavut": "NU",
+	  "Iqaluit": "YFB"
+	};
+	var selectedDropdown = passengerDropdownData;
 	var totals;
 	var passengerTotals;
 	var majorTotals; // TODO
@@ -2053,6 +2811,7 @@
 	var selectedDate = selectedYear;
 	var selectedRegion = "CANADA"; // default region for areaChart
 
+	var selectedSettings = settings;
 	var selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 
 	var lineData = {}; // which data set to use. 0 for passenger, 1 for movements/major airports
@@ -2076,9 +2835,11 @@
 	  bottom: 10,
 	  left: 20
 	};
-	var width = 510 - margin.left - margin.right;
+	var width = 380 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
 	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "airCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
+	var widthNaN = 55;
+	var svgNaN = d3.select("#mapColourScaleNaN").select("svg").attr("class", "airCB").attr("width", widthNaN).attr("height", height).style("vertical-align", "middle").attr("transform", "translate(0, 0)");
 	var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir"); // area chart legend
 
 	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "airAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
@@ -2086,7 +2847,8 @@
 
 	d3.stcExt.addIEShim(map, 387.1, 457.5);
 	d3.stcExt.addIEShim(svgCB, height, width);
-	d3.stcExt.addIEShim(svgLegend, height, 650); // -----------------------------------------------------------------------------
+	d3.stcExt.addIEShim(svgLegend, height, 650);
+	d3.stcExt.addIEShim(svgNaN, height, widthNaN); // -----------------------------------------------------------------------------
 
 	/* letiables */
 	// For map circles
@@ -2103,9 +2865,12 @@
 	/* -- for map -- */
 
 	var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+	/* -- for map NaN legend -- */
+
+	var divNaN = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 	/* -- for areaChart 1 -- */
 
-	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("pointer-events", "none").style("opacity", 0);
 	/* vertical line to attach to cursor */
 
 	var hoverLine = chart.append("line").attr("class", "hoverLine").style("display", "none"); // -----------------------------------------------------------------------------
@@ -2119,6 +2884,9 @@
 	    monthDropdown.style("visibility", "visible");
 	    selectedDate = selectedYear + "-" + selectedMonth;
 	    selectedDataset = "major_airports";
+	    selectedDropdown = majorDropdownData;
+	    selectedSettings = settingsMajorAirports;
+	    createDropdown();
 	    totals = majorTotals;
 	    getData();
 	    showAreaData();
@@ -2130,6 +2898,9 @@
 	    monthDropdown.style("visibility", "hidden");
 	    selectedDate = selectedYear;
 	    selectedDataset = "passengers";
+	    selectedDropdown = passengerDropdownData;
+	    selectedSettings = settings;
+	    createDropdown();
 	    totals = passengerTotals;
 	    getData();
 	    showAreaData();
@@ -2166,7 +2937,14 @@
 	function getData() {
 	  if (!data[selectedDataset][selectedRegion]) {
 	    d3.json("data/air/".concat(selectedDataset, "/").concat(selectedRegion, ".json"), function (err, filedata) {
-	      data[selectedDataset][selectedRegion] = filedata;
+	      data[selectedDataset][selectedRegion] = filedata.map(function (obj) {
+	        var rObj = {};
+	        rObj.date = obj.date;
+	        rObj.domestic = obj.domestic;
+	        rObj.transborder = obj.transborder;
+	        rObj.international = obj.international;
+	        return rObj;
+	      });
 	      showAreaData();
 	    });
 	  } else {
@@ -2179,7 +2957,7 @@
 	/* -- Map interactions -- */
 
 
-	map.on("mouseover", function () {
+	map.on("mousemove", function () {
 	  if (d3.select(d3.event.target).attr("class")) {
 	    // const classes = d3.event.target.classList;
 	    var classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
@@ -2258,7 +3036,7 @@
 	    selectedRegion = "CANADA";
 	    showAreaData(); // update region displayed in dropdown menu
 
-	    d3.select("#groups")._groups[0][0].value = selectedRegion; // Chart titles
+	    d3.select("groups")._groups[0][0].value = selectedRegion; // Chart titles
 
 	    updateTitles();
 
@@ -2275,14 +3053,6 @@
 	// vertical line to attach to cursor
 
 	function plotHoverLine() {
-	  var overlayRect = d3.select("#svgFuel .data").append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay").on("mouseout", function () {
-	    hoverLine.style("display", "none");
-	  }).on("mousemove", function () {
-	    hoverLine.style("display", "inline");
-	    hoverLine.style("transform", "translate(" + d3.mouse(this)[0] + "px)");
-	    hoverLine.moveToFront();
-	  });
-	  overlayRect.attr("width", stackedArea.settings.innerWidth).attr("height", stackedArea.settings.innerHeight);
 	  hoverLine.attr("x1", stackedArea.settings.margin.left).attr("x2", stackedArea.settings.margin.left).attr("y1", stackedArea.settings.margin.top).attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 	}
 
@@ -2293,12 +3063,19 @@
 	  var x0 = stackedArea.x.invert(mousex);
 	  var chartData = data[selectedDataset][selectedRegion];
 	  var d;
-	  var i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+	  var i;
+
+	  if (selectedDataset === "passenger") {
+	    i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+	  } else {
+	    i = bisectDate(chartData, x0.toISOString().substring(0, 7));
+	  }
+
 	  var d0 = chartData[i - 1];
 	  var d1 = chartData[i];
 
 	  if (d0 && d1) {
-	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+	    d = x0 - new Date(d0.date) > new Date(d1.date) - x0 ? d1 : d0;
 	  } else if (d0) {
 	    d = d0;
 	  } else {
@@ -2306,37 +3083,35 @@
 	  }
 
 	  return d;
-	}
+	} // area chart hover
+
 
 	function areaInteraction() {
 	  d3.select("#svg_areaChartAir .data").on("mousemove", function () {
 	    var mousex = d3.mouse(this)[0];
 	    var hoverValue = findAreaData(mousex);
 	    var thisDomestic = formatComma(hoverValue.domestic / scalef);
-	    var thisTrans = formatComma(hoverValue.trans_border / scalef);
-	    var thisInter = formatComma(hoverValue.other_intl / scalef);
-	    divArea.transition().style("opacity", .9);
-	    divArea.html("<b>" + i18next.t("chartHoverPassengers", {
+	    var thisTrans = formatComma(hoverValue.transborder / scalef);
+	    var thisInter = formatComma(hoverValue.international / scalef);
+	    divArea.html("<b>" + "Passenger movements (" + i18next.t("units", {
 	      ns: "airPassengers"
-	    }) + " (" + i18next.t("scalef", {
+	    }) + ") in " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
 	      ns: "airPassengers"
-	    }) + "), " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
+	    }) + "</b>: " + thisDomestic + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("transborder", {
 	      ns: "airPassengers"
-	    }) + "</b>: " + thisDomestic + " " + i18next.t("units", {
+	    }) + "</b>: " + thisTrans + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("international", {
 	      ns: "airPassengers"
-	    }) + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("trans_border", {
-	      ns: "airPassengers"
-	    }) + "</b>: " + thisTrans + " " + i18next.t("units", {
-	      ns: "airPassengers"
-	    }) + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("other_intl", {
-	      ns: "airPassengers"
-	    }) + "</b>: " + thisInter + " " + i18next.t("units", {
-	      ns: "airPassengers"
-	    }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
-	    plotHoverLine();
+	    }) + "</b>: " + thisInter + "</td>" + "</tr>" + "</table>");
+	    divArea.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
+	    hoverLine.style("display", null);
+	    hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date)) + "px)");
+	    hoverLine.moveToFront();
+	  }).on("mouseover", function () {
+	    divArea.style("opacity", .9);
 	  }).on("mouseout", function (d, i) {
 	    // Clear tooltip
-	    divArea.transition().style("opacity", 0);
+	    hoverLine.style("display", "none");
+	    divArea.style("opacity", 0);
 	  });
 	} // -----------------------------------------------------------------------------
 
@@ -2350,7 +3125,7 @@
 	  airportGroup.selectAll("path").data(allAirports.features).enter().append("path").attr("d", path).attr("id", function (d, i) {
 	    return "airport" + d.properties.id;
 	  }).attr("class", function (d, i) {
-	    return "airport " + d.properties.hasPlanedData;
+	    return "airport " + selectedDataset + " " + d.properties.hasPlanedData;
 	  });
 	};
 
@@ -2384,7 +3159,8 @@
 	  }) + " (" + i18next.t("scalef", {
 	    ns: "airPassengers"
 	  }) + ")";
-	  mapColourScaleFn(svgCB, colourArray, dimExtent); // Colourbar label (need be plotted only once)
+	  mapColourScaleFn(svgCB, colourArray, dimExtent);
+	  mapColourScaleNaN(svgNaN); // Colourbar label (need be plotted only once)
 
 	  var label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
 
@@ -2396,6 +3172,35 @@
 
 	  airportGroup = map.append("g"); // d3.stcExt.addIEShim(map, 387.1, 457.5);
 	}
+
+	function mapColourScaleNaN(svg) {
+	  var rectDim = 35;
+	  var rects = svg.attr("class", "mapCB").selectAll("rect").data(["#888"]).enter().append("g").attr("class", "legendNaN"); // Append rects onto the g nodes and fill
+
+	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", 10).attr("fill", "#424242"); // add text node to rect g
+
+	  rects.append("text"); // Display text in text node
+
+	  d3.select("#mapColourScaleNaN .mapCB").selectAll("text").text("x") // .attr("text-anchor", "end")
+	  .attr("transform", function (d, i) {
+	    return "translate(24, 60) " + "rotate(0)";
+	  }).style("display", function () {
+	    return "inline";
+	  });
+	  rects.on("mousemove", function () {
+	    // Tooltip
+	    divNaN.style("opacity", .9);
+	    divNaN.html("<table>" + "<tr>" + "<td>" + i18next.t("NaNhover1", {
+	      ns: "airUI"
+	    }) + "</td>" + "</tr>" + "<tr>" + "<td>" + i18next.t("NaNhover2", {
+	      ns: "airUI"
+	    }) + "</td>" + "</tr>" + "</table>").style("pointer-events", "none");
+	    divNaN.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
+	  });
+	  rects.on("mouseout", function () {
+	    divNaN.style("opacity", 0);
+	  });
+	}
 	/* -- stackedArea chart for Passenger or Major Airports data -- */
 
 
@@ -2403,7 +3208,7 @@
 	  updateTitles();
 
 	  var showChart = function showChart() {
-	    stackedArea = areaChart(chart, settings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
+	    stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]); // Highlight region selected from menu on map
 
 	    d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true); // ------------------copy button---------------------------------
 	    // need to re-apend the button since table is being re-build
@@ -2416,13 +3221,35 @@
 	  };
 
 	  if (!data[selectedDataset][selectedRegion]) {
-	    return d3.json("data/air/passengers/".concat(selectedRegion, ".json"), function (ptData) {
-	      data[selectedDataset][selectedRegion] = ptData;
+	    loadData().then(function (ptData) {
+	      data[selectedDataset][selectedRegion] = ptData.map(function (obj) {
+	        var rObj = {};
+	        rObj.date = obj.date;
+	        rObj.domestic = obj.domestic;
+	        rObj.transborder = obj.transborder;
+	        rObj.international = obj.international;
+	        rObj.total = obj.total;
+	        return rObj;
+	      });
 	      showChart();
+	    }).catch(function (error) {
+	      console.log(error);
 	    });
+	  } else {
+	    showChart(); // plotHoverLine();
 	  }
+	}
 
-	  showChart();
+	function loadData() {
+	  return new Promise(function (resolve, reject) {
+	    d3.json("data/air/".concat(selectedDataset, "/").concat(selectedRegion, ".json"), function (err, ptData) {
+	      if (err) {
+	        reject(err);
+	      } else {
+	        resolve(ptData);
+	      }
+	    });
+	  });
 	}
 
 	function filterDates(data) {
@@ -2431,6 +3258,15 @@
 	      return data[year];
 	    }
 	  }
+	}
+
+	function createDropdown() {
+	  var dropdown = $("#groups");
+	  dropdown.empty(); // remove old options
+
+	  $.each(selectedDropdown, function (key, value) {
+	    dropdown.append($("<option></option>").attr("value", value).text(key));
+	  });
 	}
 	/* -- stackedArea chart for airports -- */
 
@@ -2471,7 +3307,7 @@
 
 	        lineData[selectedAirpt] = aptData;
 	        var divData = filterDates(lineData[selectedAirpt]);
-	        div.transition().style("opacity", .9);
+	        div.style("opacity", .9);
 	        div.html( // **** CHANGE ns WITH DATASET ****
 	        "<b>placeholder title</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b> enplaned: " + divData.enplaned + " </td>" + "<td><b> deplaned: " + divData.deplaned + "</td>" + "</tr>" + "</table>").style("pointer-events", "none"); // Titles
 	        // const fullName = i18next.t(selectedAirpt, {ns: "airports"});
@@ -2497,14 +3333,14 @@
 	  d3.select("#areaTitleAir").text(i18next.t("chartTitle", {
 	    ns: "airPassengers"
 	  }) + ", " + geography);
-	  settings.tableTitle = i18next.t("tableTitle", {
+	  selectedSettings.tableTitle = i18next.t("tableTitle", {
 	    ns: "airPassengers",
 	    geo: geography
 	  });
 	}
 
 	function plotLegend() {
-	  var classArray = ["domestic", "trans_border", "other_intl"];
+	  var classArray = ["domestic", "transborder", "international"];
 	  areaLegendFn(svgLegend, classArray);
 	  d3.select("#areaLegend").selectAll("text").text(function (d, i) {
 	    return i18next.t(classArray[i], {
@@ -2560,13 +3396,19 @@
 	    ns: "airPassengers"
 	  }), settings.y.label = i18next.t("y_label", {
 	    ns: "airPassengers"
-	  }), d3.queue().defer(d3.json, "data/air/passengers/Annual_Totals.json").defer(d3.json, "data/air/major_airports/Annual_Totals.json").defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson").await(function (error, passengerTotal, majorTotal, airports) {
+	  }), settingsMajorAirports.x.label = i18next.t("x_label", {
+	    ns: "airPassengers"
+	  }), settingsMajorAirports.y.label = i18next.t("y_label", {
+	    ns: "airPassengers"
+	  }), d3.queue().defer(d3.json, "data/air/passengers/Annual_Totals.json").defer(d3.json, "data/air/major_airports/Annual_Totals.json").defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson").defer(d3.json, "data/air/passengers/".concat(selectedRegion, ".json")).await(function (error, passengerTotal, majorTotal, airports, areaData) {
 	    if (error) throw error;
 	    totals = passengerTotal;
 	    passengerTotals = passengerTotal;
 	    majorTotals = majorTotal;
+	    data[selectedDataset][selectedRegion] = areaData;
 	    selectedDate = document.getElementById("yearSelector").value;
 	    selectedMonth = document.getElementById("monthSelector").value;
+	    createDropdown();
 	    canadaMap = getCanadaMap(map).on("loaded", function () {
 	      allAirports = airports;
 	      colorMap();
@@ -2580,11 +3422,7 @@
 	      });
 	      map.style("visibility", "visible");
 	      d3.select(".canada-map").moveToBack();
-	    });
-	    showAreaData(); // plotHoverLine();
-	    // Show chart titles based on default menu options
-
-	    updateTitles(); // copy button options
+	    }); // copy button options
 
 	    var cButtonOptions = {
 	      pNode: document.getElementById("copy-button-container"),
@@ -2600,8 +3438,30 @@
 	    }; // build nodes on copy button
 
 	    cButton.build(cButtonOptions);
+	    showAreaData();
+	    plotLegend();
+	    areaInteraction();
+	    plotHoverLine(); // Show chart titles based on default menu options
+
+	    updateTitles();
 	  });
 	});
 	$(document).on("change", uiHandler);
+
+	d3.selection.prototype.moveToFront = function () {
+	  return this.each(function () {
+	    this.parentNode.appendChild(this);
+	  });
+	};
+
+	d3.selection.prototype.moveToBack = function () {
+	  return this.each(function () {
+	    var firstChild = this.parentNode.firstChild;
+
+	    if (firstChild) {
+	      this.parentNode.insertBefore(this, firstChild);
+	    }
+	  });
+	};
 
 }());

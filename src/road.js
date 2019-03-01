@@ -1071,7 +1071,7 @@
 	    getText: function getText(d) {
 	      return d.date;
 	    },
-	    ticks: 7
+	    ticks: 8
 	  },
 	  y: {
 	    label: i18next.t("y_label", {
@@ -1570,6 +1570,7 @@
 	var mapData = {};
 	var selectedRegion = "CANADA";
 	var selectedYear = "2017";
+	var overlayRect;
 	var formatComma = d3.format(",d");
 	var scalef = 1e3;
 	var stackedChart; // stores areaChart() call
@@ -1582,7 +1583,9 @@
 	/* SVGs */
 	// fuel sales stacked area chart
 
-	var chart = d3.select(".data").append("svg").attr("id", "svgFuel"); // Canada map
+	var chart = d3.select(".data").append("svg").attr("id", "svgFuel"); // vertical line
+
+	var hoverLine = chart.append("line").attr("class", "hoverLine").style("display", "none"); // Canada map
 
 	var map = d3.select(".dashboard .map").append("svg"); // map colour bar
 
@@ -1606,10 +1609,7 @@
 	/* tooltip */
 
 	var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
-	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
-	/* vertical line to attach to cursor */
-
-	var hoverLine = chart.append("line").attr("class", "hoverLine").style("display", "none"); // -----------------------------------------------------------------------------
+	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
 
 	/* Interactions */
 
@@ -1676,15 +1676,17 @@
 	  }
 	});
 	/* --  areaChart interactions -- */
+	// const hoverValue;
 
 	function areaInteraction() {
-	  d3.select("#svgFuel .data").on("mousemove", function () {
+	  d3.select("#svgFuel .data").on("mouseover", function () {
+	    divArea.transition().style("opacity", .9);
+	  }).on("mousemove", function () {
 	    var mousex = d3.mouse(this)[0];
 	    var hoverValue = findAreaData(mousex);
 	    var thisGas = formatComma(hoverValue.gas / scalef);
 	    var thisDiesel = formatComma(hoverValue.diesel / scalef);
 	    var thisLPG = formatComma(hoverValue.lpg / scalef);
-	    divArea.transition().style("opacity", .9);
 	    divArea.html("<b>" + i18next.t("hoverTitle", {
 	      ns: "roadArea"
 	    }) + " (" + i18next.t("units", {
@@ -1704,6 +1706,30 @@
 
 	/* FNS */
 
+	/* -- find year interval closest to cursor for areaChart tooltip -- */
+
+
+	function findAreaData(mousex) {
+	  var bisectDate = d3.bisector(function (d) {
+	    return d.date;
+	  }).left;
+	  var x0 = stackedChart.x.invert(mousex);
+	  var chartData = data[selectedRegion];
+	  var d;
+	  var i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+	  var d0 = chartData[i - 1];
+	  var d1 = chartData[i];
+
+	  if (d0 && d1) {
+	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+	  } else if (d0) {
+	    d = d0;
+	  } else {
+	    d = d1;
+	  }
+
+	  return d;
+	}
 
 	function colorMap() {
 	  // store map data in array and plot colour
@@ -1735,34 +1761,11 @@
 	  areaInteraction();
 	  plotLegend(); // Highlight region selected from menu on map
 
-	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true); // copy button data;
-
+	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true);
+	  updateTitles();
+	  plotLegend();
 	  cButton.appendTo(document.getElementById("copy-button-container"));
 	  dataCopyButton(data[selectedRegion]);
-	}
-	/* -- find dta values closest to cursor for areaChart tooltip -- */
-
-
-	function findAreaData(mousex) {
-	  var bisectDate = d3.bisector(function (d) {
-	    return d.date;
-	  }).left;
-	  var x0 = stackedChart.x.invert(mousex);
-	  var chartData = data[selectedRegion];
-	  var d;
-	  var i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-	  var d0 = chartData[i - 1];
-	  var d1 = chartData[i];
-
-	  if (d0 && d1) {
-	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-	  } else if (d0) {
-	    d = d0;
-	  } else {
-	    d = d1;
-	  }
-
-	  return d;
 	}
 	/* -- update map and areaChart titles -- */
 
@@ -1895,7 +1898,25 @@
 	    data[selectedRegion] = areafile;
 	    getCanadaMap(map).on("loaded", function () {
 	      colorMap();
-	    }); // copy button options
+	    }); // Area chart and x-axis position
+
+	    stackedChart = areaChart(chart, settings, data[selectedRegion]);
+	    areaInteraction();
+	    plotLegend();
+	    overlayRect = d3.select("#svgFuel .data").append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay").on("mouseout", function () {
+	      hoverLine.style("display", "none");
+	    }).on("mousemove", function () {
+	      hoverLine.style("display", null);
+	      hoverLine.style("transform", "translate(" + d3.mouse(this)[0] + "px)");
+	      hoverLine.moveToFront();
+	    });
+	    overlayRect.attr("width", stackedChart.settings.innerWidth).attr("height", stackedChart.settings.innerHeight);
+	    hoverLine.attr("x1", stackedChart.settings.margin.left).attr("x2", stackedChart.settings.margin.left).attr("y1", stackedChart.settings.margin.top).attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top); // Remove x-axis label
+
+	    d3.select("#svgFuel").select(".x.axis").select("text") // .attr("dy", xaxisLabeldy)
+	    .attr("display", "none"); // Show chart titles based on default menu options
+
+	    updateTitles(); // copy button options
 
 	    var cButtonOptions = {
 	      pNode: document.getElementById("copy-button-container"),
