@@ -18,77 +18,75 @@ const data = {
 };
 
 const passengerDropdownData = {
-  "Canada":"CANADA",
-  "Newfoundland and Labrador":"NL",
-  "St John's International":"YYT",
-  "Prince Edward Island":"PE",
-  "Nova Scotia (no data)":"NS",
-  "Halifax/Robert L Stanfield International":"YHZ",
-  "New Brunswick (no data)":"NB",
-  "Moncton/Greater Moncton International":"YQM",
-  "Quebec":"QC",
-  "Montréal/Pierre Elliott Trudeau International":"YUL",
-  "Québec/Jean Lesage International":"YQB",
-  "Ontario":"ON",
-  "Ottawa/Macdonald-Cartier International":"YOW",
-  "Toronto/Lester B Pearson International":"YYZ",
-  "Manitoba":"MB",
-  "Winnipeg/James Armstrong Richardson International":"NL",
-  "Saskatchewan":"SK",
-  "Alberta":"AB",
-  "Calgary International":"YYC",
-  "Edmonton International":"YEG",
-  "British Columbia":"BC",
-  "Vancouver International":"YVR",
-  "Victoria International":"YYJ",
-  "Yukon (no data)":"YT",
-  "Northwest Territories":"NT",
-  "Nunavut":"NU"
+  "Canada": "CANADA",
+  "Newfoundland and Labrador": "NL",
+  "St John's International": "YYT",
+  "Prince Edward Island": "PE",
+  "Nova Scotia (no data)": "NS",
+  "Halifax/Robert L Stanfield International": "YHZ",
+  "New Brunswick (no data)": "NB",
+  "Moncton/Greater Moncton International": "YQM",
+  "Quebec": "QC",
+  "Montréal/Pierre Elliott Trudeau International": "YUL",
+  "Québec/Jean Lesage International": "YQB",
+  "Ontario": "ON",
+  "Ottawa/Macdonald-Cartier International": "YOW",
+  "Toronto/Lester B Pearson International": "YYZ",
+  "Manitoba": "MB",
+  "Winnipeg/James Armstrong Richardson International": "NL",
+  "Saskatchewan": "SK",
+  "Alberta": "AB",
+  "Calgary International": "YYC",
+  "Edmonton International": "YEG",
+  "British Columbia": "BC",
+  "Vancouver International": "YVR",
+  "Victoria International": "YYJ",
+  "Yukon (no data)": "YT",
+  "Northwest Territories": "NT",
+  "Nunavut": "NU"
 };
 const majorDropdownData = {
-  "Canada":"CANADA",
-  "Newfoundland and Labrador":"NL",
-  "St John's International":"YYT",
-  "Prince Edward Island":"PE",
-  "Charlottetown":"YYG",
-  "Nova Scotia (no data)":"NS",
-  "Halifax/Robert L Stanfield International":"YHZ",
-  "New Brunswick (no data)":"NB",
-  "Moncton/Greater Moncton International":"YQM",
-  "Fredericton International":"YFC",
-  "Saint John":"YSJ",
-  "Quebec":"QC",
-  "Montréal/Pierre Elliott Trudeau International":"YUL",
-  "Québec/Jean Lesage International":"YQB",
-  "Montréal Mirabel International":"YMX",
-  "Ontario":"ON",
-  "Ottawa/Macdonald-Cartier International":"YOW",
-  "Toronto/Lester B Pearson International":"YYZ",
-  "Thunder Bay International":"YQT",
-  "London International":"YXU",
-  "Manitoba":"MB",
-  "Winnipeg/James Armstrong Richardson International":"NL",
-  "Saskatchewan":"SK",
-  "Regina International":"YQR",
-  "Saskatoon John G. Diefenbaker International":"YXE",
-  "Alberta":"AB",
-  "Calgary International":"YYC",
-  "Edmonton International":"YEG",
-  "British Columbia":"BC",
-  "Vancouver International":"YVR",
-  "Victoria International":"YYJ",
-  "Kelowna International":"YLW",
-  "Prince George Airpor":"YXS",
-  "Yukon (no data)":"YT",
-  "Erik Nielsen Whitehorse International":"YXY",
-  "Northwest Territories":"NT",
-  "Yellowknife":"YZF",
-  "Nunavut":"NU",
-  "Iqaluit":"YFB"
+  "Canada": "CANADA",
+  "Newfoundland and Labrador": "NL",
+  "St John's International": "YYT",
+  "Prince Edward Island": "PE",
+  "Charlottetown": "YYG",
+  "Nova Scotia (no data)": "NS",
+  "Halifax/Robert L Stanfield International": "YHZ",
+  "New Brunswick (no data)": "NB",
+  "Moncton/Greater Moncton International": "YQM",
+  "Fredericton International": "YFC",
+  "Saint John": "YSJ",
+  "Quebec": "QC",
+  "Montréal/Pierre Elliott Trudeau International": "YUL",
+  "Québec/Jean Lesage International": "YQB",
+  "Montréal Mirabel International": "YMX",
+  "Ontario": "ON",
+  "Ottawa/Macdonald-Cartier International": "YOW",
+  "Toronto/Lester B Pearson International": "YYZ",
+  "Thunder Bay International": "YQT",
+  "London International": "YXU",
+  "Manitoba": "MB",
+  "Winnipeg/James Armstrong Richardson International": "NL",
+  "Saskatchewan": "SK",
+  "Regina International": "YQR",
+  "Saskatoon John G. Diefenbaker International": "YXE",
+  "Alberta": "AB",
+  "Calgary International": "YYC",
+  "Edmonton International": "YEG",
+  "British Columbia": "BC",
+  "Vancouver International": "YVR",
+  "Victoria International": "YYJ",
+  "Kelowna International": "YLW",
+  "Prince George Airpor": "YXS",
+  "Yukon (no data)": "YT",
+  "Erik Nielsen Whitehorse International": "YXY",
+  "Northwest Territories": "NT",
+  "Yellowknife": "YZF",
+  "Nunavut": "NU",
+  "Iqaluit": "YFB"
 };
 let selectedDropdown = passengerDropdownData;
-
-
 
 let totals;
 let passengerTotals;
@@ -132,9 +130,9 @@ const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
 
-let hoverLine = chart.append("line")
-  .attr("class", "hoverLine")
-  .style("display", "none")
+const hoverLine = chart.append("line")
+    .attr("class", "hoverLine")
+    .style("display", "none");
 
 // area chart legend
 const svgLegend = d3.select("#areaLegend")
@@ -243,9 +241,9 @@ function uiHandler(event) {
 function getData() {
   if (!data[selectedDataset][selectedRegion]) {
     d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, (err, filedata) => {
-      data[selectedDataset][selectedRegion] = filedata.map(obj =>{
-        var rObj = {};
-        rObj.date = obj.date
+      data[selectedDataset][selectedRegion] = filedata.map((obj) => {
+        const rObj = {};
+        rObj.date = obj.date;
         rObj.domestic = obj.domestic;
         rObj.transborder = obj.transborder;
         rObj.international = obj.international;
@@ -377,12 +375,11 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-
   hoverLine
-    .attr("x1", stackedArea.settings.margin.left)
-    .attr("x2", stackedArea.settings.margin.left)
-    .attr("y1", stackedArea.settings.margin.top)
-    .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
+      .attr("x1", stackedArea.settings.margin.left)
+      .attr("x2", stackedArea.settings.margin.left)
+      .attr("y1", stackedArea.settings.margin.top)
+      .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 }
 
 function findAreaData(mousex) {
@@ -393,10 +390,9 @@ function findAreaData(mousex) {
   const chartData = data[selectedDataset][selectedRegion];
   let d;
   let i;
-  if (selectedDataset === "passenger" ){
-      i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-  }
-  else{
+  if (selectedDataset === "passenger" ) {
+    i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+  } else {
     i = bisectDate(chartData, x0.toISOString().substring(0, 7));
   }
 
@@ -407,25 +403,23 @@ function findAreaData(mousex) {
     d = x0 - new Date(d0.date ) > new Date(d1.date ) - x0 ? d1 : d0;
   } else if (d0) {
     d = d0;
-  }
-  else{
+  } else {
     d = d1;
   }
-  console.log(d)
   return d;
 }
 // area chart hover
 function areaInteraction() {
-    d3.select("#svg_areaChartAir .data")
-    .on("mousemove", function() {
-      const mousex = d3.mouse(this)[0];
-      const hoverValue = findAreaData(mousex);
+  d3.select("#svg_areaChartAir .data")
+      .on("mousemove", function() {
+        const mousex = d3.mouse(this)[0];
+        const hoverValue = findAreaData(mousex);
 
-      const thisDomestic = formatComma(hoverValue.domestic / scalef);
-      const thisTrans = formatComma(hoverValue.transborder / scalef);
-      const thisInter = formatComma(hoverValue.international / scalef);
-      divArea.html(
-          "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+        const thisDomestic = formatComma(hoverValue.domestic / scalef);
+        const thisTrans = formatComma(hoverValue.transborder / scalef);
+        const thisInter = formatComma(hoverValue.international / scalef);
+        divArea.html(
+            "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
           "<table>" +
             "<tr>" +
               "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
@@ -437,23 +431,23 @@ function areaInteraction() {
               "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
             "</tr>" +
           "</table>"
-      )
-      divArea
-          .style("left", ((d3.event.pageX +10) + "px"))
-          .style("top", ((d3.event.pageY +10) + "px"))
-          .style("pointer-events", "none");
-      hoverLine.style("display", null);
-      hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
-      hoverLine.moveToFront()
-    })
-    .on("mouseover", function(){
-      divArea.style("opacity", .9);
-    })
-    .on("mouseout", function(d, i) {
-    // Clear tooltip
-      hoverLine.style("display", "none");
-      divArea.style("opacity", 0);
-    });
+        );
+        divArea
+            .style("left", ((d3.event.pageX +10) + "px"))
+            .style("top", ((d3.event.pageY +10) + "px"))
+            .style("pointer-events", "none");
+        hoverLine.style("display", null);
+        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.moveToFront();
+      })
+      .on("mouseover", function() {
+        divArea.style("opacity", .9);
+      })
+      .on("mouseout", function(d, i) {
+      // Clear tooltip
+        hoverLine.style("display", "none");
+        divArea.style("opacity", 0);
+      });
 }
 
 // -----------------------------------------------------------------------------
@@ -537,37 +531,37 @@ function showAreaData() {
   };
 
   if (!data[selectedDataset][selectedRegion]) {
-    loadData().then(function (ptData){
-        data[selectedDataset][selectedRegion] = ptData.map(obj =>{
-          var rObj = {};
-          rObj.date = obj.date;
-          rObj.domestic = obj.domestic;
-          rObj.transborder = obj.transborder;
-          rObj.international = obj.international;
-          rObj.total = obj.total;
-          return rObj;
-        });
-        showChart();
-      })
-      .catch(function (error) {
-        console.log(error);
+    loadData().then(function(ptData) {
+      data[selectedDataset][selectedRegion] = ptData.map((obj) => {
+        const rObj = {};
+        rObj.date = obj.date;
+        rObj.domestic = obj.domestic;
+        rObj.transborder = obj.transborder;
+        rObj.international = obj.international;
+        rObj.total = obj.total;
+        return rObj;
       });
-  }
-  else{
+      showChart();
+    })
+        .catch(function(error) {
+          console.log(error);
+        });
+  } else {
     showChart();
-    //plotHoverLine();
+    // plotHoverLine();
   }
 }
 
 function loadData() {
   return new Promise(function(resolve, reject) {
-  d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, function(err, ptData) {
-    if (err) {
-      	reject(err);
+    d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, function(err, ptData) {
+      if (err) {
+        reject(err);
       } else {
-      	resolve(ptData);
+        resolve(ptData);
       }
-    });})
+    });
+  });
 }
 function filterDates(data) {
   for (const year in data) {
@@ -577,11 +571,11 @@ function filterDates(data) {
   }
 }
 function createDropdown() {
-  let dropdown = $("#groups");
+  const dropdown = $("#groups");
   dropdown.empty(); // remove old options
-  $.each(selectedDropdown, function(key,value) {
+  $.each(selectedDropdown, function(key, value) {
     dropdown.append($("<option></option>")
-       .attr("value", value).text(key));
+        .attr("value", value).text(key));
   });
 }
 /* -- stackedArea chart for airports -- */
@@ -625,13 +619,6 @@ const showAirport = function() {
       .select(".areaChartTitle")
       .text(i18next.t(selectedAirpt, {ns: "airports"}));
 };
-
-/* -- find year interval closest to cursor for areaChart tooltip -- */
-function findXInterval(mouse) {
-//  console.log(stackedArea.x.invert(mousex))
-
-  // const xref = [0.0782, 137.114, 274.150, 411.560, 548.60, 685.630, 822.670];
-}
 
 /* -- update map and areaChart titles -- */
 function updateTitles() {
@@ -737,7 +724,6 @@ i18n.load(["src/i18n"], () => {
         plotHoverLine();
         // Show chart titles based on default menu options
         updateTitles();
-
       });
 });
 
