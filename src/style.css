@@ -201,6 +201,21 @@ table, th, td {
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
+/* major airports tick classes */
+#svg_areaChartAir .tickJan text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick.Jan line {
+	stroke-width: 5px;
+}
+#svg_areaChartAir .tick.notJan text {
+	opacity: 0;
+}
+/* ---- */
+
 #svg_areaChartAir .axis path  {
   stroke: #aaa;
 }
