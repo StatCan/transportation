@@ -520,24 +520,24 @@ function colorMap() {
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
-  console.log("IN showAreaData!!!!!!!!!!!!!!!!!!!!!!!")
+  console.log("IN showAreaData!!!!!!!!!!!!!!!!!!!!!!!");
   updateTitles();
 
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
 
     if (selectedDataset === "major_airports") {
-         d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
-      .each(function(d, i) {
-        var thisMonth = d.getMonth();
-        if (thisMonth !== 0) {
-          d3.select(this).attr("class", "tick notJan");
-        } else {
-          d3.select(this).attr("class", "tick Jan");
-        }
-      });
+      d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
+          .each(function(d, i) {
+            const thisMonth = d.getMonth();
+            if (thisMonth !== 0) {
+              d3.select(this).attr("class", "tick notJan");
+            } else {
+              d3.select(this).attr("class", "tick Jan");
+            }
+          });
     }
- 
+
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
