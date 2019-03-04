@@ -675,16 +675,37 @@ const showAirport = function() {
         lineData[selectedAirpt] = aptData;
         const divData = filterDates(lineData[selectedAirpt]);
         div.style("opacity", .9);
-        div.html( // **** CHANGE ns WITH DATASET ****
-            "<b>placeholder title</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b> enplaned: " + divData.enplaned + " </td>" +
-                  "<td><b> deplaned: " + divData.deplaned + "</td>" +
-                "</tr>" +
-              "</table>"
-        )
+        if(selectedDataset === "passengers"){
+          div.html( // **** CHANGE ns WITH DATASET ****
+              "<b>" + "Enplaned/Deplaned (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divData.date + ":</b>" + "<br><br>" +
+                "<table>" +
+                  "<tr>" +
+                    "<td><b> Enplaned: </b>:" + divData.enplaned + " </td>" +
+                  "</tr>" +
+                    "<td><b> Deplaned: </b>:" + divData.deplaned + "</td>" +
+                  "</tr>" +
+                "</table>")
+                .style("pointer-events", "none");
+          }
+          else{
+            const thisDomestic = formatComma(divData.domestic / scalef);
+            const thisTrans = formatComma(divData.transborder / scalef);
+            const thisInter = formatComma(divData.international / scalef);
+            div.html(
+              "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divData.date + ":</b>" + "<br><br>" +
+            "<table>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+              "</tr>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+              "</tr>" +
+              "<tr>" +
+                "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+              "</tr>" +
+            "</table>")
             .style("pointer-events", "none");
+          }
         // Titles
         // const fullName = i18next.t(selectedAirpt, {ns: "airports"});
       }
