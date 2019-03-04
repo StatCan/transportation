@@ -26,9 +26,10 @@ export default {
 
         // console.log("item: ", item);
         // console.log("item before: ", dataClone[prevIdx])
+        // (year, month, date, hours, minutes, seconds, ms)
 
         if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
-          const decDate = new Date(dataClone[prevIdx].date, 11, 1, 0, 0, 0, 0);
+          const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
             domestic: dataClone[prevIdx].domestic,
             international: dataClone[prevIdx].international,
@@ -68,8 +69,6 @@ export default {
       //   return new Date(d.date + "-01");
       // }
 
-      console.log("")
-      console.log("getValue d.date: ", new Date(d.date))
       return new Date(d.date);
       // return i === 0 ? new Date(d.date + "-01") :
       //   new Date(d.date, 0, 1, 0, 0, 0, 1); // Date(d.date, 12, 1, 0, 0, 0, 0);
