@@ -8,7 +8,47 @@ export default {
   },
   aspectRatio: 16 / 11,
   filterData: function(data) {
-    return baseDateFilter(data);
+    // clone data object
+    const dataClone = JSON.parse(JSON.stringify(data));
+
+    let count = 0;
+    dataClone.filter(function(item) {
+      item.flag = null;
+      item.isCopy = null;
+
+      if (!parseFloat(item.domestic) && !parseFloat(item.transborder) && !parseFloat(item.international)) {
+        const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
+
+        // define a flag for previous item if not already flagged as compleley undefined
+        item.flag = -999;
+        item.isCopy = true;
+        if (dataClone[prevIdx].flag !== -999) dataClone[prevIdx].flag = 1;
+
+        // console.log("item: ", item);
+        // console.log("item before: ", dataClone[prevIdx])
+
+        if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
+          const decDate = new Date(dataClone[prevIdx].date, 11, 1, 0, 0, 0, 0);
+          dataClone.push({date: decDate,
+            domestic: dataClone[prevIdx].domestic,
+            international: dataClone[prevIdx].international,
+            transborder: dataClone[prevIdx].transborder,
+            total: dataClone[prevIdx].total,
+            flag: null
+          });
+        }
+      }
+      count++;
+    });
+
+    dataClone.sort(function(a, b) {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+    console.log("dataClone after: ", dataClone);
+
+    // return baseDateFilter(data);
+    return baseDateFilter(dataClone);
   },
   x: {
     getLabel: function() {
@@ -28,9 +68,11 @@ export default {
       //   return new Date(d.date + "-01");
       // }
 
-
-      return i === 0 ? new Date(d.date + "-01") :
-        new Date(d.date, 0, 1, 0, 0, 0, 1); // Date(d.date, 12, 1, 0, 0, 0, 0);
+      console.log("")
+      console.log("getValue d.date: ", new Date(d.date))
+      return new Date(d.date);
+      // return i === 0 ? new Date(d.date + "-01") :
+      //   new Date(d.date, 0, 1, 0, 0, 0, 1); // Date(d.date, 12, 1, 0, 0, 0, 0);
     },
     getText: function(d) {
       return d.date;
