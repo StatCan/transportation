@@ -13,7 +13,7 @@ export default function(svgLegend, classArray) {
       .attr("height", rectDim)
       .attr("y", 25)
       .attr("x", function(d, i) {
-        return 55 + i * rectDim*4;
+        return 57 + i * rectDim*5.2;
       })
       .attr("class", function(d, i) {
         return classArray[i];
@@ -28,8 +28,7 @@ export default function(svgLegend, classArray) {
       .selectAll("text")
       .attr("y", 48)
       .attr("x", function(d, i) {
-        const xpos = [55 + rectDim + 5, 237, 375];
-        return xpos[i];
+        return 57 + i * rectDim*5.2 + 40;
       })
       .style("display", function() {
         return "inline";

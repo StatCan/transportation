@@ -24,10 +24,10 @@ const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svgFuel");
 
-//verticle line
-let hoverLine = chart.append("line")
-  .attr("class", "hoverLine")
-  .style("display", "none")
+// vertical line
+const hoverLine = chart.append("line")
+    .attr("class", "hoverLine")
+    .style("display", "none");
 // Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
@@ -86,7 +86,7 @@ map.on("mousemove", () => {
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-      div.transition()
+      div
           .style("opacity", .9);
       div.html(
           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
@@ -102,7 +102,7 @@ map.on("mousemove", () => {
           .style("top", ((d3.event.pageY +10) + "px"));
     } else {
       // clear tooltip for IE
-      div.transition()
+      div
           .style("opacity", 0);
     }
   }
@@ -160,9 +160,7 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 
 
-let hoverValue;
-let thisValue;
-let fuelType;
+// const hoverValue;
 function areaInteraction() {
   d3.select("#svgFuel .data")
       .on("mouseover", function() {
@@ -177,7 +175,7 @@ function areaInteraction() {
         const thisDiesel = formatComma(hoverValue.diesel / scalef);
         const thisLPG = formatComma(hoverValue.lpg / scalef);
         divArea.html(
-            "<b>" + "Fuel sales (" + i18next.t("units", {ns: "road"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
               "<table>" +
                 "<tr>" +
                   "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
@@ -219,8 +217,7 @@ function findAreaData(mousex) {
     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
   } else if (d0) {
     d = d0;
-  }
-  else{
+  } else {
     d = d1;
   }
   return d;
@@ -257,7 +254,6 @@ function showData() {
       .attr("display", "none");
 
   areaInteraction();
-  plotHoverLine();
   plotLegend();
 
   // Highlight region selected from menu on map
@@ -407,30 +403,29 @@ i18n.load(["src/i18n"], () => {
         plotLegend();
 
         overlayRect = d3.select("#svgFuel .data").append("rect")
-          .style("fill", "none")
-          .style("pointer-events", "all")
-          .attr("class", "overlay")
-          .on("mouseout", function() {
-            hoverLine.style("display", "none");
-          })
-          .on("mousemove", function(){
-            console.log(d3.mouse(this)[0])
-            hoverLine.style("display", null);
-            hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-            hoverLine.moveToFront()
-          });
+            .style("fill", "none")
+            .style("pointer-events", "all")
+            .attr("class", "overlay")
+            .on("mouseout", function() {
+              hoverLine.style("display", "none");
+            })
+            .on("mousemove", function() {
+              hoverLine.style("display", null);
+              hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
+              hoverLine.moveToFront();
+            });
 
         overlayRect
-          .attr("width", stackedChart.settings.innerWidth)
-          .attr("height", stackedChart.settings.innerHeight)
+            .attr("width", stackedChart.settings.innerWidth)
+            .attr("height", stackedChart.settings.innerHeight);
 
         hoverLine
-          .attr("x1", stackedChart.settings.margin.left)
-          .attr("x2", stackedChart.settings.margin.left)
-          .attr("y1", stackedChart.settings.margin.top)
-          .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
+            .attr("x1", stackedChart.settings.margin.left)
+            .attr("x2", stackedChart.settings.margin.left)
+            .attr("y1", stackedChart.settings.margin.top)
+            .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
 
-      // Remove x-axis label
+        // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
             .select("text")
             // .attr("dy", xaxisLabeldy)
@@ -447,8 +442,8 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-
         showData(); // plot area chart, legend, and hover line
+        plotHoverLine();
         updateTitles(); // update chart, map and table titles
       });
 });

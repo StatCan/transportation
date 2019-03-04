@@ -131,41 +131,47 @@ table, th, td {
 	color: #565656;
 	text-align: left;
 }
+.legendNaN text {
+  fill: #565656;
+  font-size: 13px;
+}
 
 /*-- airport circle fill --*/
-.allYears {
-	fill: green;
+.passengers.allYears {
+	fill: #FFF84C;
 	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.noYears {
+.passengers.noYears {
 	fill: #000;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0;
 }
-.lastSevenYears {
-	fill: #008E09;
-	stroke: yellow;
+.passengers.lastSevenYears {
+	fill: #FFF84C;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastSixYears {
-	fill: #F6CF22;
+.passengers.lastSixYears {
+	fill: #FFF84C;
 	stroke: green;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.lastFiveYears {
-	fill: #F6CF22;
-	stroke: blue;
+.passengers.lastFiveYears {
+	fill: #FFF84C;
+	stroke: black;
 	stroke-width: 0.3px;
 	cursor: pointer;
 }
-.mix {
-	fill: orange;
+.passengers.mix {
+	fill: gray;
 	stroke: black;
 	stroke-width: 0.3px;
+	opacity: 0.5;
 }
 .airport {
 	/* stroke: black;
@@ -758,4 +764,16 @@ div.tooltip {
 @-webkit-keyframes fadeOut {
 	0% 	 { opacity: 1; visibility:visible }
 	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+.tabledata .row-level-1 th{
+ padding-left: 20px;
+}
+
+.tabledata .row-level-2 th{
+	padding-left: 40px;
+}
+
+.tabledata .row-level-3 th{
+	padding-left: 60px;
 }

@@ -1,36 +1,41 @@
 export default {
-  alt: i18next.t("alt", {ns: "roadArea"}),
+  alt: i18next.t("alt", {ns: "airPassengers"}),
   margin: {
     top: 50,
     left: 90,
     right: 30,
     bottom: 50
   },
-  // creates variable d
   filterData: function(data) {
-    // data is an array of objects
-    return data;
+    return baseDateFilter(data);
   },
   x: {
-    label: i18next.t("x_label", {ns: "roadArea"}),
+    getLabel: function() {
+      return i18next.t("x_label", {ns: "airPassengers"});
+    },
     getValue: function(d, i) {
       // return new Date(d.date + "-01");
       // for first year, start at Jan -01T00:00:00.000Z
       // for last year, end one ms past midnight so that year label gets plotted
-      return i === 0 ? new Date(d.date + "-01") :
-        new Date(d.date, 0, 1, 0, 0, 0, 1);
+      return new Date(d.date + "-01");
+      // return i === 0 ? new Date(d.date + "-01") :
+      //   new Date(d.date, 0, 1, 0, 0, 0, 1);
     },
     getText: function(d) {
       return d.date;
     },
-    ticks: 8
+    ticks: 7*6
   },
+
   y: {
-    label: i18next.t("y_label", {ns: "roadArea"}),
+    label: i18next.t("y_label", {ns: "airPassengers"}),
+    getLabel: function() {
+      return i18next.t("y_label", {ns: "airPassengers"});
+    },
     getValue: function(d, key) {
-      if (typeof d[key] === "string" || d[key] instanceof String) {
+      if (d[key]=== "x" || d[key]=== "..") {
         return 0;
-      } else return d[key] * 1.0/ 1e3;
+      } else return Number(d[key]) * 1.0/ 1000;
     },
     getTotal: function(d, index, data) {
       let total;
@@ -47,14 +52,15 @@ export default {
       return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
-      if (typeof d[key] === "string" || d[key] instanceof String) {
+      if (d[key]=== "x" || d[key]=== "..") {
         return d[key];
-      } else return d[key] * 1.0/ 1e3;
+      } else return Number(d[key]) * 1.0/ 1000;
     },
     ticks: 5
   },
+
   z: {
-    label: i18next.t("z_label", {ns: "roadArea"}),
+    label: i18next.t("z_label", {ns: "airPassengers"}),
     getId: function(d) {
       return d.key;
     },
@@ -66,17 +72,32 @@ export default {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
       return keys;
+      // return keys.sort();
+      // return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "roadArea"});
+      return i18next.t(d.key, {ns: "airPassengers"});
     }
   },
   datatable: true,
-  tableTitle: "",
   dataTableTotal: true, // show total in data table
-  transition: false,
-  width: 1050,
+  areaTableID: "areaTable",
+  // summaryId: "chrt-dt-tbl",
+  transition: true,
+  width: 1050
+};
+const baseDateFilter = function(data) {
+  const minDate = new Date("2010");
+  const newData = [];
+  for (let s = 0; s < data.length; s++) {
+    const date = new Date(data[s].date);
+    if (date >= minDate) {
+      newData.push(data[s]);
+    }
+  }
+
+  return newData;
 };

@@ -1,11 +1,14 @@
 import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
 import CopyButton from "../copyButton.js";
+import NodesTree from "./nodesTree.js";
 
-/* Copy Button */
+/* Copy Button and DataTree*/
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
+const dataTree = new NodesTree();
 // -----------------------------------------------------------------------------
+
 
 let selectedRegion = "Canada";
 
@@ -13,110 +16,10 @@ let selectedMonth = "01";
 let selectedYear = "2018";
 const data = {};
 
-// global nodes
-const nodes = [
-  {
-    "node": 0,
-    "name": "intl"
-  },
-  {
-    "node": 1,
-    "name": "USres"
-  },
-  {
-    "node": 2,
-    "name": "nonUSres"
-  },
-  {
-    "node": 3,
-    "name": "cdnFromUS"
-  },
-  {
-    "node": 4,
-    "name": "cdnFromOther"
-  },
-  {
-    "node": 5,
-    "name": "USres_air"
-  },
-  {
-    "node": 6,
-    "name": "USres_marine"
-  },
-  {
-    "node": 7,
-    "name": "USres_land"
-  },
-  {
-    "node": 8,
-    "name": "nonUSres_air"
-  },
-  {
-    "node": 9,
-    "name": "nonUSres_marine"
-  },
-  {
-    "node": 10,
-    "name": "nonUSres_land"
-  },
-  {
-    "node": 11,
-    "name": "cdnFromUS_air"
-  },
-  {
-    "node": 12,
-    "name": "cdnFromUS_marine"
-  },
-  {
-    "node": 13,
-    "name": "cdnFromUS_land"
-  },
-  {
-    "node": 14,
-    "name": "cdnFromOther_air"
-  },
-  {
-    "node": 15,
-    "name": "cdnFromOther_marine"
-  },
-  {
-    "node": 16,
-    "name": "cdnFromOther_land"
-  },
-  {
-    "node": 17,
-    "name": "USres_car"
-  },
-  {
-    "node": 18,
-    "name": "USres_bus"
-  },
-  {
-    "node": 19,
-    "name": "USres_train"
-  },
-  {
-    "node": 20,
-    "name": "USres_other"
-  },
-  {
-    "node": 21,
-    "name": "cdnFromUS_car"
-  },
-  {
-    "node": 22,
-    "name": "cdnFromUS_bus"
-  },
-  {
-    "node": 23,
-    "name": "cdnFromUS_train"
-  },
-  {
-    "node": 24,
-    "name": "cdnFromUS_other"
-  }
-];
+// global used on sankey
+const sankeyNodes = dataTree.toArray();
 // ------------
+
 
 const loadData = function(selectedYear, selectedMonth, cb) {
   if (!data[selectedYear + "-" + selectedMonth]) {
@@ -157,6 +60,7 @@ function uiHandler(event) {
 
 function showData() {
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisRegion = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
@@ -164,32 +68,31 @@ function showData() {
   if (travellerTotal() === 0) {
     d3.selectAll("svg > *").remove();
     d3.select("#zeroFlag")
-        .text(`Zero international travellers for ${selectedRegion},
+        .text(`${i18next.t("noData", {ns: "modes_sankey"})} ${thisRegion},
           ${thisMonth} ${selectedYear}`);
   } else {
     d3.selectAll("svg > *").remove();
 
     makeSankey(sankeyChart, {}, {
-      nodes,
+      nodes: sankeyNodes,
       links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });
   }
 
-  drawTable(table, tableSettings, data[selectedYear + "-" + selectedMonth][selectedRegion].map((d) => {
-    return {
-      source: nodes[d.source],
-      target: nodes[d.target],
-      value: d.value
-    };
-  }));
+  const dataTable = data[selectedYear + "-" + selectedMonth][selectedRegion];
+
+  dataTree.setData(dataTable);
+  const auxArray = dataTree.toArray();
+  auxArray.forEach(function(item) {
+  });
+
+  drawTable(table, tableSettings, auxArray);
 
   updateTitles();
   // ------------------copy button---------------------------------
-  // dataCopyButton(nodes);
-
   cButton.appendTo(document.getElementById("copy-button-container"));
-  // dataCopyButton(nodes);
-  dataCopyButton(data[selectedYear + "-" + selectedMonth][selectedRegion]);
+
+  dataCopyButton();
   // ---------------------------------------------------------------
 }
 
@@ -198,42 +101,21 @@ function updateTitles() {
   const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
   const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
-  + " in " + thisMonth + " " + selectedYear + ", by type of transport";
+  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
 
 // -----------------------------------------------------------------------------
 /* Copy Button*/
-function dataCopyButton(cButtondata) {
-  const lines = [];
-  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
-  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
-  const columns = [""];
+function dataCopyButton() {
+  const geo = i18next.t(selectedRegion, {ns: "modesGeography"});
+  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
+  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
 
-  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
-
-  lines.push(title, [], columns);
-
-  for (const row in cButtondata) {
-    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
-      const auxRow = [];
-
-      for (const column in cButtondata[row]) {
-        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-          let value = cButtondata[row][column];
-
-          if (column != "date" && column!= "total" && !isNaN(value)) value /= 1000;
-
-          auxRow.push(value);
-        }
-      }
-
-      lines.push(auxRow);
-    }
-  }
-
-  cButton.data = lines;
+  const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
+  cButton.data = dataTree.toLines(title, columns);
 }
 
 // -----------------------------------------------------------------------------
