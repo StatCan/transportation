@@ -17,75 +17,26 @@ const data = {
   "major_airports": {}
 };
 
-const passengerDropdownData = {
-  "Canada": "CANADA",
-  "Newfoundland and Labrador": "NL",
-  "St John's International": "YYT",
-  "Prince Edward Island": "PE",
-  "Nova Scotia (no data)": "NS",
-  "Halifax/Robert L Stanfield International": "YHZ",
-  "New Brunswick (no data)": "NB",
-  "Moncton/Greater Moncton International": "YQM",
-  "Quebec": "QC",
-  "Montréal/Pierre Elliott Trudeau International": "YUL",
-  "Québec/Jean Lesage International": "YQB",
-  "Ontario": "ON",
-  "Ottawa/Macdonald-Cartier International": "YOW",
-  "Toronto/Lester B Pearson International": "YYZ",
-  "Manitoba": "MB",
-  "Winnipeg/James Armstrong Richardson International": "NL",
-  "Saskatchewan": "SK",
-  "Alberta": "AB",
-  "Calgary International": "YYC",
-  "Edmonton International": "YEG",
-  "British Columbia": "BC",
-  "Vancouver International": "YVR",
-  "Victoria International": "YYJ",
-  "Yukon (no data)": "YT",
-  "Northwest Territories": "NT",
-  "Nunavut": "NU"
-};
-const majorDropdownData = {
-  "Canada": "CANADA",
-  "Newfoundland and Labrador": "NL",
-  "St John's International": "YYT",
-  "Prince Edward Island": "PE",
-  "Charlottetown": "YYG",
-  "Nova Scotia (no data)": "NS",
-  "Halifax/Robert L Stanfield International": "YHZ",
-  "New Brunswick (no data)": "NB",
-  "Moncton/Greater Moncton International": "YQM",
-  "Fredericton International": "YFC",
-  "Saint John": "YSJ",
-  "Quebec": "QC",
-  "Montréal/Pierre Elliott Trudeau International": "YUL",
-  "Québec/Jean Lesage International": "YQB",
-  "Montréal Mirabel International": "YMX",
-  "Ontario": "ON",
-  "Ottawa/Macdonald-Cartier International": "YOW",
-  "Toronto/Lester B Pearson International": "YYZ",
-  "Thunder Bay International": "YQT",
-  "London International": "YXU",
-  "Manitoba": "MB",
-  "Winnipeg/James Armstrong Richardson International": "NL",
-  "Saskatchewan": "SK",
-  "Regina International": "YQR",
-  "Saskatoon John G. Diefenbaker International": "YXE",
-  "Alberta": "AB",
-  "Calgary International": "YYC",
-  "Edmonton International": "YEG",
-  "British Columbia": "BC",
-  "Vancouver International": "YVR",
-  "Victoria International": "YYJ",
-  "Kelowna International": "YLW",
-  "Prince George Airport": "YXS",
-  "Yukon (no data)": "YT",
-  "Erik Nielsen Whitehorse International": "YXY",
-  "Northwest Territories": "NT",
-  "Yellowknife": "YZF",
-  "Nunavut": "NU",
-  "Iqaluit": "YFB"
-};
+const passengerDropdownData = [
+  "CANADA", "NL", "YYT", "PE",
+  "NS", "YHZ",
+  "NB", "YQM",
+  "QC", "YUL", "YQB",
+  "ON", "YOW", "YYZ",
+  "MB", "NL",
+  "SK",
+  "AB", "YYC", "YEG",
+  "BC", "YVR", "YYJ",
+  "YT",
+  "NT",
+  "NU"
+];
+const majorDropdownData = [
+  "CANADA", "NL", "YYT", "PE", "YYG", "NS", "YHZ", "NB", "YQM", "YFC", "YSJ",
+  "QC", "YUL", "YQB", "YMX", "ON", "YOW", "YYZ", "YQT", "YXU", "MB", "NL",
+  "SK", "YQR", "YXE", "AB", "YYC", "YEG", "BC", "YVR", "YYJ", "YLW", "YXS",
+  "YT", "YXY", "NT", "YZF", "NU", "YFB"
+];
 let selectedDropdown = passengerDropdownData;
 
 let totals;
@@ -594,11 +545,16 @@ function filterDates(data) {
   }
 }
 function createDropdown() {
+  $("#groups").empty();
+
+  const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
+                    "movementsDropdown";
+
   const dropdown = $("#groups");
-  dropdown.empty(); // remove old options
-  $.each(selectedDropdown, function(key, value) {
+  $.each(selectedDropdown, function(key) {
     dropdown.append($("<option></option>")
-        .attr("value", value).text(key));
+        .attr("value", selectedDropdown[key])
+        .text(i18next.t(selectedDropdown[key], {ns: i18nDict})));
   });
 }
 /* -- stackedArea chart for airports -- */
