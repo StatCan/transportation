@@ -114,12 +114,17 @@ export default {
   z: {
     label: i18next.t("z_label", {ns: "airPassengers"}),
     getId: function(d) {
-      return d.key;
+      if (d.key !== "flag" && d.key !== "isCopy") {
+        return d.key;
+      }
     },
     getKeys: function(object) {
       const sett = this;
       const keys = Object.keys(object[0]);
+      // remove unwanted keys
       keys.splice(keys.indexOf("date"), 1);
+      keys.splice(keys.indexOf("isCopy"), 1);
+      keys.splice(keys.indexOf("isCopy"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
