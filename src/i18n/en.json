@@ -2,16 +2,16 @@
   "en": {
     "road": {
       "chartTitle": "Type of fuel sales",
-      "mapTitle": "Total fuel sales",
-      "units": "millions of dollars",
+      "mapTitle": "Net fuel sales across Canada",
+      "units": "millions of litres",
       "mapScaleLabel": "Total"
     },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
-      "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (million dollars)",
+      "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (millions of litres)",
       "hoverTitle": "Fuel sales",
       "x_label": "Year",
-      "y_label": "millions of dollars",
+      "y_label": "millions of litres",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "Liquid Petroleum Gas",
