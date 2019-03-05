@@ -11,27 +11,46 @@ export default {
     // clone data object
     const dataClone = JSON.parse(JSON.stringify(data));
 
+    // pad out the last year to Dec 31
+    // (year, month, date, hours, minutes, seconds, ms)
+    dataClone.push({
+      date: new Date(dataClone[dataClone.length - 1].date, 11, 31, 0, 0, 0, 0),
+      domestic: dataClone[dataClone.length - 1].domestic,
+      international: dataClone[dataClone.length - 1].international,
+      transborder: dataClone[dataClone.length - 1].transborder,
+      total: dataClone[dataClone.length - 1].total,
+    });
+
+    // Assign flag = 0 if all of the sectors are defined
+    // else flag = 1 if at least one of the sectors is defined
+    // else flag = -999 if none of the sectors is defined
+    dataClone.filter(function(item) {
+      if (parseFloat(item.domestic) && parseFloat(item.transborder) && parseFloat(item.international)) {
+        item.flag = 0;
+      } else if (parseFloat(item.domestic) || parseFloat(item.transborder) || parseFloat(item.international)) {
+        item.flag = 1;
+      } else if (!parseFloat(item.domestic) && !parseFloat(item.transborder) && !parseFloat(item.international)) {
+        item.flag = -999;
+      }
+    });
+
     let count = 0;
     dataClone.filter(function(item) {
-      item.flag = null;
       item.isCopy = null;
 
-      if (!parseFloat(item.domestic) || !parseFloat(item.transborder) || !parseFloat(item.international)) {
+      if (item.flag === 1 || item.flag === -999) {
         const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
+        console.log("item: ", item)
 
-        // define a flag for previous item if not already flagged as compleley undefined
-        item.flag = -999;
-
-        if (dataClone[prevIdx].flag !== -999) dataClone[prevIdx].flag = 1;
-
-        if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
+        if (dataClone[prevIdx].flag === 0) {
+          console.log("add ", dataClone[prevIdx])
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
             domestic: dataClone[prevIdx].domestic,
             international: dataClone[prevIdx].international,
             transborder: dataClone[prevIdx].transborder,
             total: dataClone[prevIdx].total,
-            flag: null,
+            flag: dataClone[prevIdx].flag,
             isCopy: true
           });
         }
@@ -39,15 +58,43 @@ export default {
       count++;
     });
 
+    // let count = 0;
+    // dataClone.filter(function(item) {
+    //   item.isCopy = null;
+    //
+    //   // if (!parseFloat(item.domestic) || !parseFloat(item.transborder) || !parseFloat(item.international)) {
+    //   // Case where gap year is undefined in all sectors
+    //   if (!parseFloat(item.domestic) && !parseFloat(item.transborder) && !parseFloat(item.international)) {
+    //     const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
+    //
+    //     if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
+    //       const prevDomestic = dataClone[prevIdx].domestic;
+    //       const prevTrans = dataClone[prevIdx].transborder;
+    //       const prevIntl = dataClone[prevIdx].international;
+    //       if ( (parseFloat(prevDomestic) && parseFloat(prevTrans) && parseFloat(prevIntl)) ) {
+    //         const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+    //         dataClone.push({date: decDate,
+    //           domestic: dataClone[prevIdx].domestic,
+    //           international: dataClone[prevIdx].international,
+    //           transborder: dataClone[prevIdx].transborder,
+    //           total: dataClone[prevIdx].total,
+    //           flag: dataClone[prevIdx].flag,
+    //           isCopy: true
+    //         });
+    //       }
+    //     }
+    //   }
+    //   count++;
+    // });
+
     dataClone.sort(function(a, b) {
       return new Date(a.date) - new Date(b.date);
     });
+    console.log(dataClone)
 
     // Set last year to 1 ms after midnight
     // (year, month, date, hours, minutes, seconds, ms)
-    dataClone[dataClone.length - 1].date = new Date(dataClone[dataClone.length - 1].date, 0, 1, 0, 0, 0, 1);
-
-    console.log("dataClone: ", dataClone)
+    // dataClone[dataClone.length - 1].date = new Date(dataClone[dataClone.length - 1].date, 0, 1, 0, 0, 0, 1);
 
     return baseDateFilter(dataClone);
   },
