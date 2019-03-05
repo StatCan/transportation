@@ -274,8 +274,8 @@ function showData() {
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
-  d3.select("#mapTitleRoad")
-      .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
+  // d3.select("#mapTitleRoad")
+  //     .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: geography});
@@ -384,6 +384,8 @@ i18n.load(["src/i18n"], () => {
             .on("loaded", function() {
               colorMap();
             });
+        d3.select("#mapTitleRoad")
+         .text(i18next.t("mapTitle", {ns: "road"}));
 
         // Area chart and x-axis position
         stackedChart = areaChart(chart, settings, data[selectedRegion]);
