@@ -24,10 +24,6 @@ export default {
 
         if (dataClone[prevIdx].flag !== -999) dataClone[prevIdx].flag = 1;
 
-        // console.log("item: ", item);
-        // console.log("item before: ", dataClone[prevIdx])
-        // (year, month, date, hours, minutes, seconds, ms)
-
         if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
@@ -47,9 +43,12 @@ export default {
       return new Date(a.date) - new Date(b.date);
     });
 
-    console.log("dataClone after: ", dataClone);
+    // Set last year to 1 ms after midnight
+    // (year, month, date, hours, minutes, seconds, ms)
+    dataClone[dataClone.length - 1].date = new Date(dataClone[dataClone.length - 1].date, 0, 1, 0, 0, 0, 1);
 
-    // return baseDateFilter(data);
+    console.log("dataClone: ", dataClone)
+
     return baseDateFilter(dataClone);
   },
   x: {
@@ -57,22 +56,7 @@ export default {
       return i18next.t("x_label", {ns: "airPassengers"});
     },
     getValue: function(d, i) {
-      // return new Date(d.date + "-01");
-      // for first year, start at Jan -01T00:00:00.000Z
-      // for last year, end one ms past midnight so that year label gets plotted
-
-      // console.log(d)
-      // if (i === 0) {
-      //   console.log(i, new Date(d.date-1 + "-01"));
-      //   return new Date(d.date-1 + "-01");
-      // } else {
-      //   // new Date(d.date, 0, 1, 0, 0, 0, 1)
-      //   return new Date(d.date + "-01");
-      // }
-
       return new Date(d.date);
-      // return i === 0 ? new Date(d.date + "-01") :
-      //   new Date(d.date, 0, 1, 0, 0, 0, 1); // Date(d.date, 12, 1, 0, 0, 0, 0);
     },
     getText: function(d) {
       return d.date;
