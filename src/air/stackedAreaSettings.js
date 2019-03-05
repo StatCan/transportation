@@ -16,7 +16,7 @@ export default {
       item.flag = null;
       item.isCopy = null;
 
-      if (!parseFloat(item.domestic) && !parseFloat(item.transborder) && !parseFloat(item.international)) {
+      if (!parseFloat(item.domestic) || !parseFloat(item.transborder) || !parseFloat(item.international)) {
         const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
 
         // define a flag for previous item if not already flagged as compleley undefined
