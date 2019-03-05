@@ -14,7 +14,7 @@ export default {
     // pad out the last year to Dec 31
     // (year, month, date, hours, minutes, seconds, ms)
     dataClone.push({
-      date: new Date(dataClone[dataClone.length - 1].date, 11, 31, 0, 0, 0, 0),
+      date: new Date(dataClone[dataClone.length - 1].date, 5, 0, 0, 0, 0, 0), // .date, 11, 31, 0, 0, 0, 0),
       domestic: dataClone[dataClone.length - 1].domestic,
       international: dataClone[dataClone.length - 1].international,
       transborder: dataClone[dataClone.length - 1].transborder,
@@ -42,8 +42,7 @@ export default {
         const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
         console.log("item: ", item)
 
-        if (dataClone[prevIdx].flag === 0) {
-          console.log("add ", dataClone[prevIdx])
+        if (item.flag === 1 && dataClone[prevIdx].flag === 0) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
             domestic: dataClone[prevIdx].domestic,
@@ -53,8 +52,46 @@ export default {
             flag: dataClone[prevIdx].flag,
             isCopy: true
           });
+        } else if (item.flag === 1 || item.flag === 1) {
+          const sumDomestic = parseFloat(item.domestic) + parseFloat(dataClone[prevIdx].domestic);
+          const sumTrans = parseFloat(item.transborder) + parseFloat(dataClone[prevIdx].transborder);
+          const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
+          
+          if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
+            console.log("this case: ", item)
+            console.log("EXTEND")
+            const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+            dataClone.push({date: decDate,
+              domestic: dataClone[prevIdx].domestic,
+              international: dataClone[prevIdx].international,
+              transborder: dataClone[prevIdx].transborder,
+              total: dataClone[prevIdx].total,
+              flag: dataClone[prevIdx].flag,
+              isCopy: true
+            });
+          } 
+          
+           
+
+        } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) { console.log("")
+          console.log("nan item: ", item)
+         
+          console.log("add ", dataClone[prevIdx])
+          console.log("")
+          const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+          dataClone.push({date: decDate,
+            domestic: dataClone[prevIdx].domestic,
+            international: dataClone[prevIdx].international,
+            transborder: dataClone[prevIdx].transborder,
+            total: dataClone[prevIdx].total,
+            flag: dataClone[prevIdx].flag,
+            isCopy: true
+          });
+          
         }
-      }
+      } 
+
+     
       count++;
     });
 
