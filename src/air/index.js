@@ -934,14 +934,17 @@ function filterDates(data) {
 function createDropdown() {
   const dropdown = $("#groups");
   dropdown.empty(); // remove old options
+  const indent = "&numsp;&numsp;&numsp;";
+  let prefix;
   for(let geo of selectedDropdown){
-    if(geo.type === "geo"){
-      dropdown.append($("<option></option>")
-          .attr("value", geo.code).html("" + geo.fullName));
+    if (geo.type === "airport"){prefix = indent;}else{prefix="";}
+    if(geo.data && geo.data === "no"){
+      dropdown.append($("<option disabled></option>")
+          .attr("value", geo.code).html(prefix + geo.fullName + " (no data)"))
     }
     else{
       dropdown.append($("<option></option>")
-          .attr("value", geo.code).html("&numsp;&numsp;&numsp;" + geo.fullName));
+          .attr("value", geo.code).html(prefix + geo.fullName));
     }
   }
 }
