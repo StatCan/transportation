@@ -17,75 +17,338 @@ const data = {
   "major_airports": {}
 };
 
-const passengerDropdownData = {
-  "Canada": "CANADA",
-  "Newfoundland and Labrador": "NL",
-  "St John's International": "YYT",
-  "Prince Edward Island": "PE",
-  "Nova Scotia (no data)": "NS",
-  "Halifax/Robert L Stanfield International": "YHZ",
-  "New Brunswick (no data)": "NB",
-  "Moncton/Greater Moncton International": "YQM",
-  "Quebec": "QC",
-  "Montréal/Pierre Elliott Trudeau International": "YUL",
-  "Québec/Jean Lesage International": "YQB",
-  "Ontario": "ON",
-  "Ottawa/Macdonald-Cartier International": "YOW",
-  "Toronto/Lester B Pearson International": "YYZ",
-  "Manitoba": "MB",
-  "Winnipeg/James Armstrong Richardson International": "NL",
-  "Saskatchewan": "SK",
-  "Alberta": "AB",
-  "Calgary International": "YYC",
-  "Edmonton International": "YEG",
-  "British Columbia": "BC",
-  "Vancouver International": "YVR",
-  "Victoria International": "YYJ",
-  "Yukon (no data)": "YT",
-  "Northwest Territories": "NT",
-  "Nunavut": "NU"
-};
-const majorDropdownData = {
-  "Canada": "CANADA",
-  "Newfoundland and Labrador": "NL",
-  "St John's International": "YYT",
-  "Prince Edward Island": "PE",
-  "Charlottetown": "YYG",
-  "Nova Scotia (no data)": "NS",
-  "Halifax/Robert L Stanfield International": "YHZ",
-  "New Brunswick (no data)": "NB",
-  "Moncton/Greater Moncton International": "YQM",
-  "Fredericton International": "YFC",
-  "Saint John": "YSJ",
-  "Quebec": "QC",
-  "Montréal/Pierre Elliott Trudeau International": "YUL",
-  "Québec/Jean Lesage International": "YQB",
-  "Montréal Mirabel International": "YMX",
-  "Ontario": "ON",
-  "Ottawa/Macdonald-Cartier International": "YOW",
-  "Toronto/Lester B Pearson International": "YYZ",
-  "Thunder Bay International": "YQT",
-  "London International": "YXU",
-  "Manitoba": "MB",
-  "Winnipeg/James Armstrong Richardson International": "NL",
-  "Saskatchewan": "SK",
-  "Regina International": "YQR",
-  "Saskatoon John G. Diefenbaker International": "YXE",
-  "Alberta": "AB",
-  "Calgary International": "YYC",
-  "Edmonton International": "YEG",
-  "British Columbia": "BC",
-  "Vancouver International": "YVR",
-  "Victoria International": "YYJ",
-  "Kelowna International": "YLW",
-  "Prince George Airpor": "YXS",
-  "Yukon (no data)": "YT",
-  "Erik Nielsen Whitehorse International": "YXY",
-  "Northwest Territories": "NT",
-  "Yellowknife": "YZF",
-  "Nunavut": "NU",
-  "Iqaluit": "YFB"
-};
+const passengerDropdownData = [
+  {
+    "fullName":"Canada",
+    "code":"CANADA",
+    "type":"geo"
+  },
+  {
+    "fullName":"Newfoundland and Labrador",
+    "code":"NL",
+    "type":"geo"
+  },
+  {
+    "fullName":"St John's International",
+    "code":"YYT",
+    "type":"airport"
+  },
+  {
+    "fullName":"Prince Edward Island",
+    "code":"PE",
+    "type":"geo"
+  },
+  {
+    "fullName":"Nova Scotia",
+    "code":"NS",
+    "data": "no",
+    "type":"geo"
+  },
+  {
+    "fullName":"Halifax/Robert L. Stanfield International",
+    "code":"YHZ",
+    "type":"airport"
+  },
+  {
+    "fullName":"New Brunswick",
+    "code":"NB",
+    "data": "no",
+    "type":"geo"
+  },
+  {
+    "fullName":"Moncton/Greater Moncton International",
+    "code":"YQM",
+    "type":"airport"
+  },
+  {
+    "fullName":"Quebec",
+    "code":"QC",
+    "type":"geo"
+  },
+  {
+    "fullName":"Montréal/Pierre Elliott Trudeau International",
+    "code":"YUL",
+    "type":"airport"
+  },
+  {
+    "fullName":"Québec/Jean Lesage International",
+    "code":"YQB",
+    "type":"airport"
+  },
+  {
+    "fullName":"Ontario",
+    "code":"ON",
+    "type":"geo"
+  },
+  {
+    "fullName":"Ottawa/Macdonald-Cartier International",
+    "code":"YOW",
+    "type":"airport"
+  },
+  {
+    "fullName":"Toronto/Lester B Pearson International",
+    "code":"YYZ",
+    "type":"airport"
+  },
+  {
+    "fullName":"Manitoba",
+    "code":"MB",
+    "type":"geo"
+  },
+  {
+    "fullName":"Winnipeg/James Armstrong Richardson International",
+    "code":"YWG",
+    "type":"airport"
+  },
+  {
+    "fullName":"Saskatchewan",
+    "code":"SK",
+    "type":"geo"
+  },
+  {
+    "fullName":"Alberta",
+    "code":"AB",
+    "type":"geo"
+  },
+  {
+    "fullName":"Calgary International",
+    "code":"YYC",
+    "type":"airport"
+  },
+  {
+    "fullName":"Edmonton International",
+    "code":"YEG",
+    "type":"airport"
+  },
+  {
+    "fullName":"British Columbia",
+    "code":"BC",
+    "type":"geo"
+  },
+  {
+    "fullName":"Vancouver International",
+    "code":"YVR",
+    "type":"airport"
+  },
+  {
+    "fullName":"Victoria International",
+    "code":"YYJ",
+    "type":"airport"
+  },
+  {
+    "fullName":"Yukon",
+    "code":"YT",
+    "data": "no",
+    "type":"geo"
+  },
+  {
+    "fullName":"Northwest Territories",
+    "code":"NT",
+    "type":"geo"
+  },
+  {
+    "fullName":"Nunavut",
+    "code":"NU",
+    "type":"geo"
+  }
+];
+const majorDropdownData = [
+  {
+    "fullName":"Canada",
+    "code":"CANADA",
+    "type":"geo"
+  },
+  {
+    "fullName":"Newfoundland and Labrador",
+    "code":"NL",
+    "type":"geo"
+  },
+  {
+    "fullName":"St John's International",
+    "code":"YYT",
+    "type":"airport"
+  },
+  {
+    "fullName":"Prince Edward Island",
+    "code":"PE",
+    "type":"geo"
+  },
+  {
+    "fullName":"Charlottetown",
+    "code":"YYG",
+    "type":"airport"
+  },
+  {
+    "fullName":"Nova Scotia",
+    "code":"NS",
+    "type":"geo"
+  },
+  {
+    "fullName":"Halifax/Robert L. Stanfield International",
+    "code":"YHZ",
+    "type":"airport"
+  },
+  {
+    "fullName":"New Brunswick",
+    "code":"NB",
+    "type":"geo"
+  },
+  {
+    "fullName":"Moncton/Greater Moncton International",
+    "code":"YQM",
+    "type":"airport"
+  },
+  {
+    "fullName":"Fredericton International",
+    "code":"YFC",
+    "type":"airport"
+  },
+  {
+    "fullName":"Saint John",
+    "code":"YSJ",
+    "type":"airport"
+  },
+  {
+    "fullName":"Quebec",
+    "code":"QC",
+    "type":"geo"
+  },
+  {
+    "fullName":"Montréal/Pierre Elliott Trudeau International",
+    "code":"YUL",
+    "type":"airport"
+  },
+  {
+    "fullName":"Québec/Jean Lesage International",
+    "code":"YQB",
+    "type":"airport"
+  },
+  {
+    "fullName":"Montréal Mirabel International",
+    "code":"YMX",
+    "type":"airport"
+  },
+  {
+    "fullName":"Ontario",
+    "code":"ON",
+    "type":"geo"
+  },
+  {
+    "fullName":"Ottawa/Macdonald-Cartier International",
+    "code":"YOW",
+    "type":"airport"
+  },
+  {
+    "fullName":"Toronto/Lester B Pearson International",
+    "code":"YYZ",
+    "type":"airport"
+  },
+  {
+    "fullName":"Thunder Bay International",
+    "code":"YQT",
+    "type":"airport"
+  },
+  {
+    "fullName":"London International",
+    "code":"YXU",
+    "type":"airport"
+  },
+  {
+    "fullName":"Manitoba",
+    "code":"MB",
+    "type":"geo"
+  },
+  {
+    "fullName":"Winnipeg/James Armstrong Richardson International",
+    "code":"YWG",
+    "type":"airport"
+  },
+  {
+    "fullName":"Saskatchewan",
+    "code":"SK",
+    "type":"geo"
+  },
+  {
+    "fullName":"Regina International",
+    "code":"YQR",
+    "type":"airport"
+  },
+  {
+    "fullName":"Saskatoon John G. Diefenbaker International",
+    "code":"YXE",
+    "type":"airport"
+  },
+  {
+    "fullName":"Alberta",
+    "code":"AB",
+    "type":"geo"
+  },
+  {
+    "fullName":"Calgary International",
+    "code":"YYC",
+    "type":"airport"
+  },
+  {
+    "fullName":"Edmonton International",
+    "code":"YEG",
+    "type":"airport"
+  },
+  {
+    "fullName":"British Columbia",
+    "code":"BC",
+    "type":"geo"
+  },
+  {
+    "fullName":"Vancouver International",
+    "code":"YVR",
+    "type":"airport"
+  },
+  {
+    "fullName":"Victoria International",
+    "code":"YYJ",
+    "type":"airport"
+  },
+  {
+    "fullName":"Kelowna International",
+    "code":"YLW",
+    "type":"airport"
+  },
+  {
+    "fullName":"Prince George Airport",
+    "code":"YXS",
+    "type":"airport"
+  },
+  {
+    "fullName":"Yukon",
+    "code":"YT",
+    "type":"geo"
+  },
+  {
+    "fullName":"Erik Nielsen Whitehorse International",
+    "code":"YXY",
+    "type":"airport"
+  },
+  {
+    "fullName":"Northwest Territories",
+    "code":"NT",
+    "type":"geo"
+  },
+  {
+    "fullName":"Yellowknife",
+    "code":"YZF",
+    "type":"airport"
+  },
+  {
+    "fullName":"Nunavut",
+    "code":"NU",
+    "type":"geo"
+  },
+  {
+    "fullName":"Iqaluit",
+    "code":"YFB",
+    "type":"airport"
+  }
+];
 let selectedDropdown = passengerDropdownData;
 
 let totals;
@@ -489,6 +752,7 @@ function getData() {
 }
 /* -- plot circles on map -- */
 const refreshMap = function() {
+  //when circles are properly labeled add functionality to move grey dots to the background
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
   airportGroup.selectAll("path")
@@ -500,7 +764,8 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         return "airport " + selectedDataset + " " + d.properties.hasPlanedData;
-      });
+      })
+
 };
 
 function colorMap() {
@@ -669,10 +934,16 @@ function filterDates(data) {
 function createDropdown() {
   const dropdown = $("#groups");
   dropdown.empty(); // remove old options
-  $.each(selectedDropdown, function(key, value) {
-    dropdown.append($("<option></option>")
-        .attr("value", value).text(key));
-  });
+  for(let geo of selectedDropdown){
+    if(geo.type === "geo"){
+      dropdown.append($("<option></option>")
+          .attr("value", geo.code).html("" + geo.fullName));
+    }
+    else{
+      dropdown.append($("<option></option>")
+          .attr("value", geo.code).html("&numsp;&numsp;&numsp;" + geo.fullName));
+    }
+  }
 }
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
