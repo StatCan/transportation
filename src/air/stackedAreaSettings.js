@@ -21,7 +21,7 @@ export default {
 
         // define a flag for previous item if not already flagged as compleley undefined
         item.flag = -999;
-        item.isCopy = true;
+
         if (dataClone[prevIdx].flag !== -999) dataClone[prevIdx].flag = 1;
 
         // console.log("item: ", item);
@@ -35,7 +35,8 @@ export default {
             international: dataClone[prevIdx].international,
             transborder: dataClone[prevIdx].transborder,
             total: dataClone[prevIdx].total,
-            flag: null
+            flag: null,
+            isCopy: true
           });
         }
       }
@@ -123,14 +124,22 @@ export default {
       const keys = Object.keys(object[0]);
       // remove unwanted keys
       keys.splice(keys.indexOf("date"), 1);
-      keys.splice(keys.indexOf("isCopy"), 1);
-      keys.splice(keys.indexOf("isCopy"), 1);
+      if (keys.indexOf("flag") !== -1) { // temporary key to be removed
+        keys.splice(keys.indexOf("flag"), 1);
+      }
+      if (keys.indexOf("isCopy") !== -1) { // temporary key to be removed
+        keys.splice(keys.indexOf("isCopy"), 1);
+      }
+
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
       return keys;
       // return keys.sort();
       // return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
+    },
+    origData: function(data) {
+      return baseDateFilter(data);
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
