@@ -471,7 +471,6 @@ function colorMap() {
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
 function showAreaData() {
-  console.log("IN showAreaData!!!!!!!!!!!!!!!!!!!!!!!");
   updateTitles();
 
   const showChart = () => {

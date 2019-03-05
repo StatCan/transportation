@@ -11,7 +11,7 @@ export default {
     // clone data object
     const dataClone = JSON.parse(JSON.stringify(data));
 
-    // pad out the last year to Dec 31
+    // pad out the last year out to June
     // (year, month, date, hours, minutes, seconds, ms)
     dataClone.push({
       date: new Date(dataClone[dataClone.length - 1].date, 5, 0, 0, 0, 0, 0), // .date, 11, 31, 0, 0, 0, 0),
@@ -40,7 +40,6 @@ export default {
 
       if (item.flag === 1 || item.flag === -999) {
         const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
-        console.log("item: ", item)
 
         if (item.flag === 1 && dataClone[prevIdx].flag === 0) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
@@ -58,8 +57,6 @@ export default {
           const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
           
           if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
-            console.log("this case: ", item)
-            console.log("EXTEND")
             const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
             dataClone.push({date: decDate,
               domestic: dataClone[prevIdx].domestic,
@@ -69,15 +66,9 @@ export default {
               flag: dataClone[prevIdx].flag,
               isCopy: true
             });
-          } 
+          }
           
-           
-
-        } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) { console.log("")
-          console.log("nan item: ", item)
-         
-          console.log("add ", dataClone[prevIdx])
-          console.log("")
+        } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
             domestic: dataClone[prevIdx].domestic,
@@ -87,47 +78,15 @@ export default {
             flag: dataClone[prevIdx].flag,
             isCopy: true
           });
-          
         }
       } 
 
-     
       count++;
     });
-
-    // let count = 0;
-    // dataClone.filter(function(item) {
-    //   item.isCopy = null;
-    //
-    //   // if (!parseFloat(item.domestic) || !parseFloat(item.transborder) || !parseFloat(item.international)) {
-    //   // Case where gap year is undefined in all sectors
-    //   if (!parseFloat(item.domestic) && !parseFloat(item.transborder) && !parseFloat(item.international)) {
-    //     const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
-    //
-    //     if (dataClone[prevIdx].flag !== -999) { // don't add an item that is completely undefined
-    //       const prevDomestic = dataClone[prevIdx].domestic;
-    //       const prevTrans = dataClone[prevIdx].transborder;
-    //       const prevIntl = dataClone[prevIdx].international;
-    //       if ( (parseFloat(prevDomestic) && parseFloat(prevTrans) && parseFloat(prevIntl)) ) {
-    //         const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
-    //         dataClone.push({date: decDate,
-    //           domestic: dataClone[prevIdx].domestic,
-    //           international: dataClone[prevIdx].international,
-    //           transborder: dataClone[prevIdx].transborder,
-    //           total: dataClone[prevIdx].total,
-    //           flag: dataClone[prevIdx].flag,
-    //           isCopy: true
-    //         });
-    //       }
-    //     }
-    //   }
-    //   count++;
-    // });
 
     dataClone.sort(function(a, b) {
       return new Date(a.date) - new Date(b.date);
     });
-    console.log(dataClone)
 
     // Set last year to 1 ms after midnight
     // (year, month, date, hours, minutes, seconds, ms)
@@ -145,7 +104,8 @@ export default {
     getText: function(d) {
       return d.date;
     },
-    ticks: 7
+    ticks: 7,
+    tickSizeOuter: 0
   },
 
   y: {
