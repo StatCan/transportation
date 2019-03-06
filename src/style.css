@@ -47,7 +47,7 @@
 	stroke-width: 0;
 }
 .roadAreaCB text {
-	font-size: 16px;
+	font-size: 13px;
 	fill: #69757c;
 }
 .roadMapHighlight {
@@ -91,7 +91,8 @@
 }
 .roadmapCBlabel {
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -195px;
 	color: #565656;
 	text-align: left;
 }
@@ -127,11 +128,16 @@ table, th, td {
 }
 .airmapCBlabel { /* colour bar label */
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -220px;
 	color: #565656;
 	text-align: left;
 }
-.legendNaN text {
+.classNaN text {
+  fill: #565656;
+  font-size: 13px;
+}
+[lang=fr] .classNaN text {
   fill: #565656;
   font-size: 13px;
 }
@@ -195,6 +201,21 @@ table, th, td {
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
+/* major airports tick classes */
+#svg_areaChartAir .tickJan text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick.Jan line {
+	stroke-width: 5px;
+}
+#svg_areaChartAir .tick.notJan text {
+	opacity: 0;
+}
+/* ---- */
+
 #svg_areaChartAir .axis path  {
   stroke: #aaa;
 }

@@ -34,7 +34,7 @@ const map = d3.select(".dashboard .map")
 
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 510 - margin.left - margin.right;
+const width = 570 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -191,9 +191,13 @@ function areaInteraction() {
             .style("left", (d3.event.pageX) + 10 + "px")
             .style("top", (d3.event.pageY) + 10 + "px")
             .style("pointer-events", "none");
+        hoverLine.style("display", null);
+        hoverLine.style("transform", "translate(" + stackedChart.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.moveToFront();
       })
       .on("mouseout", function(d, i) {
-      // Clear tooltip
+        // Clear tooltip
+        hoverLine.style("display", "none");
         divArea.transition().style("opacity", 0);
       });
 }
@@ -234,8 +238,8 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray);
 
   // colour bar scale and add label
-  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "road"}) + " (" + i18next.t("units", {ns: "road"}) + ")";
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
+  const mapScaleLabel = i18next.t("units", {ns: "road"});
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");
@@ -289,22 +293,6 @@ function plotLegend() {
 }
 
 function plotHoverLine() {
-  const overlayRect = d3.select("#svgFuel .data").append("rect")
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr("class", "overlay")
-      .on("mouseout", function() {
-        hoverLine.style("display", "none");
-      })
-      .on("mousemove", function() {
-        hoverLine.style("display", "inline");
-        hoverLine.style("transform", "translate(" + d3.mouse(this)[0]+ "px)");
-        hoverLine.moveToFront();
-      });
-  overlayRect
-      .attr("width", stackedChart.settings.innerWidth)
-      .attr("height", stackedChart.settings.innerHeight);
-
   hoverLine
       .attr("x1", stackedChart.settings.margin.left)
       .attr("x2", stackedChart.settings.margin.left)

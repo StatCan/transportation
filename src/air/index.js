@@ -152,203 +152,7 @@ const passengerDropdownData = [
     "type":"geo"
   }
 ];
-const majorDropdownData = [
-  {
-    "fullName":"Canada",
-    "code":"CANADA",
-    "type":"geo"
-  },
-  {
-    "fullName":"Newfoundland and Labrador",
-    "code":"NL",
-    "type":"geo"
-  },
-  {
-    "fullName":"St John's International",
-    "code":"YYT",
-    "type":"airport"
-  },
-  {
-    "fullName":"Prince Edward Island",
-    "code":"PE",
-    "type":"geo"
-  },
-  {
-    "fullName":"Charlottetown",
-    "code":"YYG",
-    "type":"airport"
-  },
-  {
-    "fullName":"Nova Scotia",
-    "code":"NS",
-    "type":"geo"
-  },
-  {
-    "fullName":"Halifax/Robert L. Stanfield International",
-    "code":"YHZ",
-    "type":"airport"
-  },
-  {
-    "fullName":"New Brunswick",
-    "code":"NB",
-    "type":"geo"
-  },
-  {
-    "fullName":"Moncton/Greater Moncton International",
-    "code":"YQM",
-    "type":"airport"
-  },
-  {
-    "fullName":"Fredericton International",
-    "code":"YFC",
-    "type":"airport"
-  },
-  {
-    "fullName":"Saint John",
-    "code":"YSJ",
-    "type":"airport"
-  },
-  {
-    "fullName":"Quebec",
-    "code":"QC",
-    "type":"geo"
-  },
-  {
-    "fullName":"Montréal/Pierre Elliott Trudeau International",
-    "code":"YUL",
-    "type":"airport"
-  },
-  {
-    "fullName":"Québec/Jean Lesage International",
-    "code":"YQB",
-    "type":"airport"
-  },
-  {
-    "fullName":"Montréal Mirabel International",
-    "code":"YMX",
-    "type":"airport"
-  },
-  {
-    "fullName":"Ontario",
-    "code":"ON",
-    "type":"geo"
-  },
-  {
-    "fullName":"Ottawa/Macdonald-Cartier International",
-    "code":"YOW",
-    "type":"airport"
-  },
-  {
-    "fullName":"Toronto/Lester B Pearson International",
-    "code":"YYZ",
-    "type":"airport"
-  },
-  {
-    "fullName":"Thunder Bay International",
-    "code":"YQT",
-    "type":"airport"
-  },
-  {
-    "fullName":"London International",
-    "code":"YXU",
-    "type":"airport"
-  },
-  {
-    "fullName":"Manitoba",
-    "code":"MB",
-    "type":"geo"
-  },
-  {
-    "fullName":"Winnipeg/James Armstrong Richardson International",
-    "code":"YWG",
-    "type":"airport"
-  },
-  {
-    "fullName":"Saskatchewan",
-    "code":"SK",
-    "type":"geo"
-  },
-  {
-    "fullName":"Regina International",
-    "code":"YQR",
-    "type":"airport"
-  },
-  {
-    "fullName":"Saskatoon John G. Diefenbaker International",
-    "code":"YXE",
-    "type":"airport"
-  },
-  {
-    "fullName":"Alberta",
-    "code":"AB",
-    "type":"geo"
-  },
-  {
-    "fullName":"Calgary International",
-    "code":"YYC",
-    "type":"airport"
-  },
-  {
-    "fullName":"Edmonton International",
-    "code":"YEG",
-    "type":"airport"
-  },
-  {
-    "fullName":"British Columbia",
-    "code":"BC",
-    "type":"geo"
-  },
-  {
-    "fullName":"Vancouver International",
-    "code":"YVR",
-    "type":"airport"
-  },
-  {
-    "fullName":"Victoria International",
-    "code":"YYJ",
-    "type":"airport"
-  },
-  {
-    "fullName":"Kelowna International",
-    "code":"YLW",
-    "type":"airport"
-  },
-  {
-    "fullName":"Prince George Airport",
-    "code":"YXS",
-    "type":"airport"
-  },
-  {
-    "fullName":"Yukon",
-    "code":"YT",
-    "type":"geo"
-  },
-  {
-    "fullName":"Erik Nielsen Whitehorse International",
-    "code":"YXY",
-    "type":"airport"
-  },
-  {
-    "fullName":"Northwest Territories",
-    "code":"NT",
-    "type":"geo"
-  },
-  {
-    "fullName":"Yellowknife",
-    "code":"YZF",
-    "type":"airport"
-  },
-  {
-    "fullName":"Nunavut",
-    "code":"NU",
-    "type":"geo"
-  },
-  {
-    "fullName":"Iqaluit",
-    "code":"YFB",
-    "type":"airport"
-  }
-];
+
 let selectedDropdown = passengerDropdownData;
 
 let totals;
@@ -386,7 +190,7 @@ const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
-const width = 380 - margin.left - margin.right;
+const width = 570 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
@@ -394,15 +198,6 @@ const svgCB = d3.select("#mapColourScale")
     .attr("width", width)
     .attr("height", height)
     .style("vertical-align", "middle");
-
-const widthNaN = 55;
-const svgNaN = d3.select("#mapColourScaleNaN")
-    .select("svg")
-    .attr("class", "airCB")
-    .attr("width", widthNaN)
-    .attr("height", height)
-    .style("vertical-align", "middle")
-    .attr("transform", "translate(0, 0)");
 
 const chart = d3.select(".data")
     .append("svg")
@@ -420,7 +215,6 @@ const svgLegend = d3.select("#areaLegend")
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
 d3.stcExt.addIEShim(svgLegend, height, 650);
-d3.stcExt.addIEShim(svgNaN, height, widthNaN);
 
 // -----------------------------------------------------------------------------
 /* letiables */
@@ -443,9 +237,9 @@ const div = d3.select("body").append("div")
     .style("opacity", 0);
 
 /* -- for map NaN legend -- */
-const divNaN = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+// const divNaN = d3.select("body").append("div")
+//     .attr("class", "tooltip")
+//     .style("opacity", 0);
 
 /* -- for areaChart 1 -- */
 const divArea = d3.select("body")
@@ -714,8 +508,8 @@ function areaInteraction() {
           "</table>"
         );
         divArea
-            .style("left", ((d3.event.pageX +10) + "px"))
-            .style("top", ((d3.event.pageY +10) + "px"))
+            .style("left", ((d3.event.pageX + 10) + "px"))
+            .style("top", ((d3.event.pageY + 10) + "px"))
             .style("pointer-events", "none");
         hoverLine.style("display", null);
         hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
@@ -725,7 +519,7 @@ function areaInteraction() {
         divArea.style("opacity", .9);
       })
       .on("mouseout", function(d, i) {
-      // Clear tooltip
+        // Clear tooltip
         hoverLine.style("display", "none");
         divArea.style("opacity", 0);
       });
@@ -769,10 +563,10 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656"];
+  const numLevels = 5; // remaining 2 colours in array are for blank and NaN box
 
   let dimExtent = [];
-  // map.selectAll("path").style("stroke", "black");
 
   const totArr = [];
   for (const sales of Object.keys(totals[selectedDate])) {
@@ -783,20 +577,17 @@ function colorMap() {
   dimExtent = d3.extent(totArr);
   const colourMap = d3.scaleQuantile()
       .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray);
+      .range(colourArray.slice(0, numLevels));
 
   for (const key in totals[selectedDate]) {
     if (totals[selectedDate].hasOwnProperty(key)) {
-      // d3.select(".dashboard .map")
       map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
     }
   }
 
   // colour bar scale and add label
-  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"}) + " ("
-    + i18next.t("scalef", {ns: "airPassengers"}) + ")";
-  mapColourScaleFn(svgCB, colourArray, dimExtent);
-  mapColourScaleNaN(svgNaN);
+  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
@@ -809,65 +600,6 @@ function colorMap() {
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
   airportGroup = map.append("g");
-
-  // d3.stcExt.addIEShim(map, 387.1, 457.5);
-}
-
-function mapColourScaleNaN(svg) {
-  const rectDim = 35;
-  const rects = svg
-      .attr("class", "mapCB")
-      .selectAll("rect")
-      .data(["#888"])
-      .enter()
-      .append("g")
-      .attr("class", "legendNaN");
-
-  // Append rects onto the g nodes and fill
-  rects.append("rect")
-      .attr("width", rectDim)
-      .attr("height", rectDim)
-      .attr("y", 5)
-      .attr("x", 10)
-      .attr("fill", "#424242");
-
-  // add text node to rect g
-  rects.append("text");
-
-  // Display text in text node
-  d3.select("#mapColourScaleNaN .mapCB")
-      .selectAll("text")
-      .text("x")
-      // .attr("text-anchor", "end")
-      .attr("transform", function(d, i) {
-        return "translate(24, 60) " + "rotate(0)";
-      })
-      .style("display", function() {
-        return "inline";
-      });
-
-  rects.on("mousemove", () => {
-    // Tooltip
-    divNaN.style("opacity", .9);
-    divNaN.html(
-        "<table>" +
-           "<tr>" +
-             "<td>" + i18next.t("NaNhover1", {ns: "airUI"}) + "</td>" +
-           "</tr>" +
-           "<tr>" +
-             "<td>" + i18next.t("NaNhover2", {ns: "airUI"}) + "</td>" +
-           "</tr>" +
-         "</table>"
-    )
-        .style("pointer-events", "none");
-    divNaN
-        .style("left", ((d3.event.pageX +10) + "px"))
-        .style("top", ((d3.event.pageY +10) + "px"));
-  });
-
-  rects.on("mouseout", () => {
-    divNaN.style("opacity", 0);
-  });
 }
 
 /* -- stackedArea chart for Passenger or Major Airports data -- */
@@ -876,6 +608,20 @@ function showAreaData() {
 
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
+    d3.selectAll(".flag").style("opacity", 0);
+
+    if (selectedDataset === "major_airports") {
+      d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
+          .each(function(d, i) {
+            const thisMonth = d.getMonth();
+            if (thisMonth !== 0) {
+              d3.select(this).attr("class", "tick notJan");
+            } else {
+              d3.select(this).attr("class", "tick Jan");
+            }
+          });
+    }
+
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
@@ -932,6 +678,11 @@ function filterDates(data) {
   }
 }
 function createDropdown() {
+  $("#groups").empty();
+
+  const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
+                    "movementsDropdown";
+
   const dropdown = $("#groups");
   dropdown.empty(); // remove old options
   const indent = "&numsp;&numsp;&numsp;";
