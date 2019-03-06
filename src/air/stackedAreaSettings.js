@@ -55,7 +55,7 @@ export default {
           const sumDomestic = parseFloat(item.domestic) + parseFloat(dataClone[prevIdx].domestic);
           const sumTrans = parseFloat(item.transborder) + parseFloat(dataClone[prevIdx].transborder);
           const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
-          
+
           if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
             const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
             dataClone.push({date: decDate,
@@ -67,7 +67,6 @@ export default {
               isCopy: true
             });
           }
-          
         } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
@@ -79,7 +78,7 @@ export default {
             isCopy: true
           });
         }
-      } 
+      }
 
       count++;
     });
@@ -122,6 +121,7 @@ export default {
       let total;
       let keys;
       const sett = this;
+
       if (!d[sett.y.totalProperty]) {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
@@ -130,12 +130,10 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return d[sett.y.totalProperty];
+      return (isNaN(Number(d[sett.y.totalProperty]))? 0:Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
-      if (d[key]=== "x" || d[key]=== "..") {
-        return d[key];
-      } else return Number(d[key]) * 1.0/ 1000;
+      return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1000;
     },
     ticks: 5
   },

@@ -75,6 +75,14 @@
       "scalef": "en milliers",
       "mapScaleLabel": "milliers"
     },
+    "airPassengerAirports": {
+      "alt": "Mouvements itinérants intérieurs et internationaux, par type",
+      "tableTitle": "Mouvements itinérants intérieurs et internationaux, par type, au / à {{geo}}",
+      "x_label": "Year",
+      "y_label": "Nombre de vols",
+      "enplaned": "Embarqués",
+      "deplaned": "Débarqués"
+    },
     "passengerDropdown": {
       "CANADA": "Canada",
       "NL": "Terre-Neuve-et-Labrador",

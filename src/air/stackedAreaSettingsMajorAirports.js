@@ -36,7 +36,7 @@ export default {
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return 0;
-      } else return Number(d[key]) * 1.0/ 1000;
+      } else return Number(d[key]);
     },
     getTotal: function(d, index, data) {
       let total;
@@ -53,9 +53,10 @@ export default {
       return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
-      if (d[key]=== "x" || d[key]=== "..") {
-        return d[key];
-      } else return Number(d[key]) * 1.0/ 1000;
+      // if (d[key]=== "x" || d[key]=== "..") {
+      //   return d[key];
+      // } else return Number(d[key]);
+      return isNaN(Number(d[key]))? d[key]: Number(d[key]);
     },
     ticks: 5
   },
