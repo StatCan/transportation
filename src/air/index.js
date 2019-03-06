@@ -704,7 +704,7 @@ function areaInteraction() {
         const thisTrans = formatComma(hoverValue.transborder / divFactor);
         const thisInter = formatComma(hoverValue.international / divFactor);
         divArea.html(
-            "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
+            "<b>" + "Passenger movements (" + i18next.t("scalef", {ns: "airPassengers"}) + ") in " + hoverValue.date + ":</b>" + "<br><br>" +
           "<table>" +
             "<tr>" +
               "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
