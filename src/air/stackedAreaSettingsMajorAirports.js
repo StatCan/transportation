@@ -53,9 +53,10 @@ export default {
       return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
-      if (d[key]=== "x" || d[key]=== "..") {
-        return d[key];
-      } else return Number(d[key]);
+      // if (d[key]=== "x" || d[key]=== "..") {
+      //   return d[key];
+      // } else return Number(d[key]);
+      return isNaN(Number(d[key]))? d[key]: Number(d[key]);
     },
     ticks: 5
   },
