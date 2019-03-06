@@ -55,7 +55,7 @@ export default {
           const sumDomestic = parseFloat(item.domestic) + parseFloat(dataClone[prevIdx].domestic);
           const sumTrans = parseFloat(item.transborder) + parseFloat(dataClone[prevIdx].transborder);
           const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
-          
+
           if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
             const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
             dataClone.push({date: decDate,
@@ -67,7 +67,6 @@ export default {
               isCopy: true
             });
           }
-          
         } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
@@ -79,7 +78,7 @@ export default {
             isCopy: true
           });
         }
-      } 
+      }
 
       count++;
     });
