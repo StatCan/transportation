@@ -40,6 +40,7 @@ export default {
       let total;
       let keys;
       const sett = this;
+
       if (!d[sett.y.totalProperty]) {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
@@ -48,12 +49,10 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return d[sett.y.totalProperty];
+      return (isNaN(Number(d[sett.y.totalProperty]))? 0:Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
-      if (d[key]=== "x" || d[key]=== "..") {
-        return d[key];
-      } else return Number(d[key]) * 1.0/ 1000;
+      return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1000;
     },
     ticks: 5
   },

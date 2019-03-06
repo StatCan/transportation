@@ -49,7 +49,7 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return d[sett.y.totalProperty];
+      return d[sett.y.totalProperty] * 1.0/1000;
     },
     getText: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
