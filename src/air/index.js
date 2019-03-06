@@ -366,6 +366,9 @@ let selectedSettings = settings;
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
 const lineDataMajor = {};
+let passengerMetaData;
+let majorMetaData;
+let metaData;
 let lineData = lineDataPassenger;
 
 
@@ -466,6 +469,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "major_airports";
     selectedDropdown = majorDropdownData;
     selectedSettings = settingsMajorAirports;
+    metaData = majorMetaData;
     lineData = lineDataMajor;
     createDropdown();
 
@@ -473,6 +477,8 @@ $(".data_set_selector").on("click", function(event) {
     getData();
     showAreaData();
     colorMap();
+    refreshMap();
+
   //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
@@ -488,6 +494,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "passengers";
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
+    metaData = passengerMetaData;
     lineData = lineDataPassenger;
     createDropdown();
 
@@ -495,6 +502,8 @@ $(".data_set_selector").on("click", function(event) {
     getData();
     showAreaData();
     colorMap();
+    refreshMap();
+
   //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(0)");
   }
 });
@@ -513,12 +522,14 @@ function uiHandler(event) {
       selectedDate = selectedYear;
     }
     colorMap();
+    refreshMap();
     updateTitles()
   }
   if (event.target.id === "monthSelector") {
     selectedMonth = document.getElementById("monthSelector").value;
     selectedDate = selectedYear + "-" + selectedMonth;
     colorMap();
+    refreshMap();
     updateTitles()
   }
 }
@@ -745,6 +756,7 @@ function getData() {
 /* -- plot circles on map -- */
 const refreshMap = function() {
   //when circles are properly labeled add functionality to move grey dots to the background
+  d3.selectAll(".airport").remove();
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
   airportGroup.selectAll("path")
@@ -755,8 +767,16 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
-        return "airport " + selectedDataset + " " + d.properties.hasPlanedData;
+        return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
       })
+      .on("mouseover", (d) => {
+                    selectedAirpt = d.properties.id;
+                    if (metaData[selectedDate][d.properties.id] !== "noData") {
+                      showAirport();
+                    }
+                  });
+
+      d3.selectAll(".noData").moveToBack();
 
 };
 
@@ -1013,14 +1033,19 @@ i18n.load(["src/i18n"], () => {
   settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
+      .defer(d3.json, "data/air/passengers/metaData.json")
       .defer(d3.json, "data/air/major_airports/Annual_Totals.json")
+      .defer(d3.json, "data/air/major_airports/metaData.json")
       .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
       .defer(d3.json, `data/air/passengers/${selectedRegion}.json`)
-      .await(function(error, passengerTotal, majorTotal, airports, areaData) {
+      .await(function(error, passengerTotal,passengerMeta, majorTotal, majorMeta, airports, areaData) {
         if (error) throw error;
         totals = passengerTotal;
         passengerTotals = passengerTotal;
+        passengerMetaData = passengerMeta;
         majorTotals = majorTotal;
+        majorMetaData = majorMeta;
+        metaData = passengerMetaData;
         data[selectedDataset][selectedRegion] = areaData;
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
@@ -1030,7 +1055,6 @@ i18n.load(["src/i18n"], () => {
               allAirports = airports;
 
               colorMap();
-              refreshMap();
 
               airportGroup.selectAll("path")
                   .on("mouseover", (d) => {
@@ -1041,7 +1065,9 @@ i18n.load(["src/i18n"], () => {
                   });
 
               map.style("visibility", "visible");
-              d3.select(".canada-map").moveToBack();
+              d3.select(".canada-map");
+              refreshMap();
+
             });
         // copy button options
         const cButtonOptions = {
