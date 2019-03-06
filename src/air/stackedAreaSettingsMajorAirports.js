@@ -36,7 +36,7 @@ export default {
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return 0;
-      } else return Number(d[key]) * 1.0/ 1000;
+      } else return Number(d[key]);
     },
     getTotal: function(d, index, data) {
       let total;
@@ -50,12 +50,12 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return d[sett.y.totalProperty] * 1.0/1000;
+      return d[sett.y.totalProperty];
     },
     getText: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return d[key];
-      } else return Number(d[key]) * 1.0/ 1000;
+      } else return Number(d[key]);
     },
     ticks: 5
   },
