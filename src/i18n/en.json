@@ -58,7 +58,9 @@
       "alt": "Domestic and international Itinerant movements, by type",
       "tableTitle": "Domestic and international Itinerant movements, by type, in {{geo}}",
       "x_label": "Year",
-      "y_label": "Number of flights"
+      "y_label": "Number of flights",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned"
     },
     "airPassengers": {
       "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
