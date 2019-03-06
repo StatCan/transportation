@@ -19,335 +19,335 @@ const data = {
 
 const passengerDropdownData = [
   {
-    "fullName":"Canada",
-    "code":"CANADA",
-    "type":"geo"
+    "fullName": "Canada",
+    "code": "CANADA",
+    "type": "geo"
   },
   {
-    "fullName":"Newfoundland and Labrador",
-    "code":"NL",
-    "type":"geo"
+    "fullName": "Newfoundland and Labrador",
+    "code": "NL",
+    "type": "geo"
   },
   {
-    "fullName":"St John's International",
-    "code":"YYT",
-    "type":"airport"
+    "fullName": "St John's International",
+    "code": "YYT",
+    "type": "airport"
   },
   {
-    "fullName":"Prince Edward Island",
-    "code":"PE",
-    "type":"geo"
+    "fullName": "Prince Edward Island",
+    "code": "PE",
+    "type": "geo"
   },
   {
-    "fullName":"Nova Scotia",
-    "code":"NS",
+    "fullName": "Nova Scotia",
+    "code": "NS",
     "data": "no",
-    "type":"geo"
+    "type": "geo"
   },
   {
-    "fullName":"Halifax/Robert L. Stanfield International",
-    "code":"YHZ",
-    "type":"airport"
+    "fullName": "Halifax/Robert L. Stanfield International",
+    "code": "YHZ",
+    "type": "airport"
   },
   {
-    "fullName":"New Brunswick",
-    "code":"NB",
+    "fullName": "New Brunswick",
+    "code": "NB",
     "data": "no",
-    "type":"geo"
+    "type": "geo"
   },
   {
-    "fullName":"Moncton/Greater Moncton International",
-    "code":"YQM",
-    "type":"airport"
+    "fullName": "Moncton/Greater Moncton International",
+    "code": "YQM",
+    "type": "airport"
   },
   {
-    "fullName":"Quebec",
-    "code":"QC",
-    "type":"geo"
+    "fullName": "Quebec",
+    "code": "QC",
+    "type": "geo"
   },
   {
-    "fullName":"Montréal/Pierre Elliott Trudeau International",
-    "code":"YUL",
-    "type":"airport"
+    "fullName": "Montréal/Pierre Elliott Trudeau International",
+    "code": "YUL",
+    "type": "airport"
   },
   {
-    "fullName":"Québec/Jean Lesage International",
-    "code":"YQB",
-    "type":"airport"
+    "fullName": "Québec/Jean Lesage International",
+    "code": "YQB",
+    "type": "airport"
   },
   {
-    "fullName":"Ontario",
-    "code":"ON",
-    "type":"geo"
+    "fullName": "Ontario",
+    "code": "ON",
+    "type": "geo"
   },
   {
-    "fullName":"Ottawa/Macdonald-Cartier International",
-    "code":"YOW",
-    "type":"airport"
+    "fullName": "Ottawa/Macdonald-Cartier International",
+    "code": "YOW",
+    "type": "airport"
   },
   {
-    "fullName":"Toronto/Lester B Pearson International",
-    "code":"YYZ",
-    "type":"airport"
+    "fullName": "Toronto/Lester B Pearson International",
+    "code": "YYZ",
+    "type": "airport"
   },
   {
-    "fullName":"Manitoba",
-    "code":"MB",
-    "type":"geo"
+    "fullName": "Manitoba",
+    "code": "MB",
+    "type": "geo"
   },
   {
-    "fullName":"Winnipeg/James Armstrong Richardson International",
-    "code":"YWG",
-    "type":"airport"
+    "fullName": "Winnipeg/James Armstrong Richardson International",
+    "code": "YWG",
+    "type": "airport"
   },
   {
-    "fullName":"Saskatchewan",
-    "code":"SK",
-    "type":"geo"
+    "fullName": "Saskatchewan",
+    "code": "SK",
+    "type": "geo"
   },
   {
-    "fullName":"Alberta",
-    "code":"AB",
-    "type":"geo"
+    "fullName": "Alberta",
+    "code": "AB",
+    "type": "geo"
   },
   {
-    "fullName":"Calgary International",
-    "code":"YYC",
-    "type":"airport"
+    "fullName": "Calgary International",
+    "code": "YYC",
+    "type": "airport"
   },
   {
-    "fullName":"Edmonton International",
-    "code":"YEG",
-    "type":"airport"
+    "fullName": "Edmonton International",
+    "code": "YEG",
+    "type": "airport"
   },
   {
-    "fullName":"British Columbia",
-    "code":"BC",
-    "type":"geo"
+    "fullName": "British Columbia",
+    "code": "BC",
+    "type": "geo"
   },
   {
-    "fullName":"Vancouver International",
-    "code":"YVR",
-    "type":"airport"
+    "fullName": "Vancouver International",
+    "code": "YVR",
+    "type": "airport"
   },
   {
-    "fullName":"Victoria International",
-    "code":"YYJ",
-    "type":"airport"
+    "fullName": "Victoria International",
+    "code": "YYJ",
+    "type": "airport"
   },
   {
-    "fullName":"Yukon",
-    "code":"YT",
+    "fullName": "Yukon",
+    "code": "YT",
     "data": "no",
-    "type":"geo"
+    "type": "geo"
   },
   {
-    "fullName":"Northwest Territories",
-    "code":"NT",
-    "type":"geo"
+    "fullName": "Northwest Territories",
+    "code": "NT",
+    "type": "geo"
   },
   {
-    "fullName":"Nunavut",
-    "code":"NU",
-    "type":"geo"
+    "fullName": "Nunavut",
+    "code": "NU",
+    "type": "geo"
   }
 ];
 
 const majorDropdownData = [
   {
-    "fullName":"Canada",
-    "code":"CANADA",
-    "type":"geo"
+    "fullName": "Canada",
+    "code": "CANADA",
+    "type": "geo"
   },
   {
-    "fullName":"Newfoundland and Labrador",
-    "code":"NL",
-    "type":"geo"
+    "fullName": "Newfoundland and Labrador",
+    "code": "NL",
+    "type": "geo"
   },
   {
-    "fullName":"St John's International",
-    "code":"YYT",
-    "type":"airport"
+    "fullName": "St John's International",
+    "code": "YYT",
+    "type": "airport"
   },
   {
-    "fullName":"Prince Edward Island",
-    "code":"PE",
-    "type":"geo"
+    "fullName": "Prince Edward Island",
+    "code": "PE",
+    "type": "geo"
   },
   {
-    "fullName":"Charlottetown",
-    "code":"YYG",
-    "type":"airport"
+    "fullName": "Charlottetown",
+    "code": "YYG",
+    "type": "airport"
   },
   {
-    "fullName":"Nova Scotia",
-    "code":"NS",
-    "type":"geo"
+    "fullName": "Nova Scotia",
+    "code": "NS",
+    "type": "geo"
   },
   {
-    "fullName":"Halifax/Robert L. Stanfield International",
-    "code":"YHZ",
-    "type":"airport"
+    "fullName": "Halifax/Robert L. Stanfield International",
+    "code": "YHZ",
+    "type": "airport"
   },
   {
-    "fullName":"New Brunswick",
-    "code":"NB",
-    "type":"geo"
+    "fullName": "New Brunswick",
+    "code": "NB",
+    "type": "geo"
   },
   {
-    "fullName":"Moncton/Greater Moncton International",
-    "code":"YQM",
-    "type":"airport"
+    "fullName": "Moncton/Greater Moncton International",
+    "code": "YQM",
+    "type": "airport"
   },
   {
-    "fullName":"Fredericton International",
-    "code":"YFC",
-    "type":"airport"
+    "fullName": "Fredericton International",
+    "code": "YFC",
+    "type": "airport"
   },
   {
-    "fullName":"Saint John",
-    "code":"YSJ",
-    "type":"airport"
+    "fullName": "Saint John",
+    "code": "YSJ",
+    "type": "airport"
   },
   {
-    "fullName":"Quebec",
-    "code":"QC",
-    "type":"geo"
+    "fullName": "Quebec",
+    "code": "QC",
+    "type": "geo"
   },
   {
-    "fullName":"Montréal/Pierre Elliott Trudeau International",
-    "code":"YUL",
-    "type":"airport"
+    "fullName": "Montréal/Pierre Elliott Trudeau International",
+    "code": "YUL",
+    "type": "airport"
   },
   {
-    "fullName":"Québec/Jean Lesage International",
-    "code":"YQB",
-    "type":"airport"
+    "fullName": "Québec/Jean Lesage International",
+    "code": "YQB",
+    "type": "airport"
   },
   {
-    "fullName":"Montréal Mirabel International",
-    "code":"YMX",
-    "type":"airport"
+    "fullName": "Montréal Mirabel International",
+    "code": "YMX",
+    "type": "airport"
   },
   {
-    "fullName":"Ontario",
-    "code":"ON",
-    "type":"geo"
+    "fullName": "Ontario",
+    "code": "ON",
+    "type": "geo"
   },
   {
-    "fullName":"Ottawa/Macdonald-Cartier International",
-    "code":"YOW",
-    "type":"airport"
+    "fullName": "Ottawa/Macdonald-Cartier International",
+    "code": "YOW",
+    "type": "airport"
   },
   {
-    "fullName":"Toronto/Lester B Pearson International",
-    "code":"YYZ",
-    "type":"airport"
+    "fullName": "Toronto/Lester B Pearson International",
+    "code": "YYZ",
+    "type": "airport"
   },
   {
-    "fullName":"Thunder Bay International",
-    "code":"YQT",
-    "type":"airport"
+    "fullName": "Thunder Bay International",
+    "code": "YQT",
+    "type": "airport"
   },
   {
-    "fullName":"London International",
-    "code":"YXU",
-    "type":"airport"
+    "fullName": "London International",
+    "code": "YXU",
+    "type": "airport"
   },
   {
-    "fullName":"Manitoba",
-    "code":"MB",
-    "type":"geo"
+    "fullName": "Manitoba",
+    "code": "MB",
+    "type": "geo"
   },
   {
-    "fullName":"Winnipeg/James Armstrong Richardson International",
-    "code":"YWG",
-    "type":"airport"
+    "fullName": "Winnipeg/James Armstrong Richardson International",
+    "code": "YWG",
+    "type": "airport"
   },
   {
-    "fullName":"Saskatchewan",
-    "code":"SK",
-    "type":"geo"
+    "fullName": "Saskatchewan",
+    "code": "SK",
+    "type": "geo"
   },
   {
-    "fullName":"Regina International",
-    "code":"YQR",
-    "type":"airport"
+    "fullName": "Regina International",
+    "code": "YQR",
+    "type": "airport"
   },
   {
-    "fullName":"Saskatoon John G. Diefenbaker International",
-    "code":"YXE",
-    "type":"airport"
+    "fullName": "Saskatoon John G. Diefenbaker International",
+    "code": "YXE",
+    "type": "airport"
   },
   {
-    "fullName":"Alberta",
-    "code":"AB",
-    "type":"geo"
+    "fullName": "Alberta",
+    "code": "AB",
+    "type": "geo"
   },
   {
-    "fullName":"Calgary International",
-    "code":"YYC",
-    "type":"airport"
+    "fullName": "Calgary International",
+    "code": "YYC",
+    "type": "airport"
   },
   {
-    "fullName":"Edmonton International",
-    "code":"YEG",
-    "type":"airport"
+    "fullName": "Edmonton International",
+    "code": "YEG",
+    "type": "airport"
   },
   {
-    "fullName":"British Columbia",
-    "code":"BC",
-    "type":"geo"
+    "fullName": "British Columbia",
+    "code": "BC",
+    "type": "geo"
   },
   {
-    "fullName":"Vancouver International",
-    "code":"YVR",
-    "type":"airport"
+    "fullName": "Vancouver International",
+    "code": "YVR",
+    "type": "airport"
   },
   {
-    "fullName":"Victoria International",
-    "code":"YYJ",
-    "type":"airport"
+    "fullName": "Victoria International",
+    "code": "YYJ",
+    "type": "airport"
   },
   {
-    "fullName":"Kelowna International",
-    "code":"YLW",
-    "type":"airport"
+    "fullName": "Kelowna International",
+    "code": "YLW",
+    "type": "airport"
   },
   {
-    "fullName":"Prince George Airport",
-    "code":"YXS",
-    "type":"airport"
+    "fullName": "Prince George Airport",
+    "code": "YXS",
+    "type": "airport"
   },
   {
-    "fullName":"Yukon",
-    "code":"YT",
-    "type":"geo"
+    "fullName": "Yukon",
+    "code": "YT",
+    "type": "geo"
   },
   {
-    "fullName":"Erik Nielsen Whitehorse International",
-    "code":"YXY",
-    "type":"airport"
+    "fullName": "Erik Nielsen Whitehorse International",
+    "code": "YXY",
+    "type": "airport"
   },
   {
-    "fullName":"Northwest Territories",
-    "code":"NT",
-    "type":"geo"
+    "fullName": "Northwest Territories",
+    "code": "NT",
+    "type": "geo"
   },
   {
-    "fullName":"Yellowknife",
-    "code":"YZF",
-    "type":"airport"
+    "fullName": "Yellowknife",
+    "code": "YZF",
+    "type": "airport"
   },
   {
-    "fullName":"Nunavut",
-    "code":"NU",
-    "type":"geo"
+    "fullName": "Nunavut",
+    "code": "NU",
+    "type": "geo"
   },
   {
-    "fullName":"Iqaluit",
-    "code":"YFB",
-    "type":"airport"
+    "fullName": "Iqaluit",
+    "code": "YFB",
+    "type": "airport"
   }
 ];
 
@@ -371,9 +371,6 @@ let passengerMetaData;
 let majorMetaData;
 let metaData;
 let lineData = lineDataPassenger;
-
-
-
 
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
@@ -524,14 +521,14 @@ function uiHandler(event) {
     }
     colorMap();
     refreshMap();
-    updateTitles()
+    updateTitles();
   }
   if (event.target.id === "monthSelector") {
     selectedMonth = document.getElementById("monthSelector").value;
     selectedDate = selectedYear + "-" + selectedMonth;
     colorMap();
     refreshMap();
-    updateTitles()
+    updateTitles();
   }
 }
 
@@ -601,7 +598,6 @@ map.on("click", () => {
         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
     if (classes[0] !== "airport") { // to avoid zooming airport cirlces
-
       // ---------------------------------------------------------------------
       // Region highlight
       selectedRegion = classes[0];
@@ -761,7 +757,7 @@ function getData() {
 }
 /* -- plot circles on map -- */
 const refreshMap = function() {
-  //when circles are properly labeled add functionality to move grey dots to the background
+  // when circles are properly labeled add functionality to move grey dots to the background
   d3.selectAll(".airport").remove();
   path = d3.geoPath().projection(canadaMap.settings.projection)
       .pointRadius(defaultPointRadius);
@@ -776,14 +772,13 @@ const refreshMap = function() {
         return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
       })
       .on("mouseover", (d) => {
-                    selectedAirpt = d.properties.id;
-                    if (metaData[selectedDate][d.properties.id] !== "noData") {
-                      showAirport();
-                    }
-                  });
+        selectedAirpt = d.properties.id;
+        if (metaData[selectedDate][d.properties.id] !== "noData") {
+          showAirport();
+        }
+      });
 
-      d3.selectAll(".noData").moveToBack();
-
+  d3.selectAll(".noData").moveToBack();
 };
 
 function colorMap() {
@@ -904,20 +899,23 @@ function filterDates(data) {
 function createDropdown() {
   $("#groups").empty();
 
-  const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
-                    "movementsDropdown";
+  // const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
+  //                   "movementsDropdown";
 
   const dropdown = $("#groups");
   dropdown.empty(); // remove old options
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
-  for(let geo of selectedDropdown){
-    if (geo.type === "airport"){prefix = indent;}else{prefix="";}
-    if(geo.data && geo.data === "no"){
-      dropdown.append($("<option disabled></option>")
-          .attr("value", geo.code).html(prefix + geo.fullName + " (no data)"))
+  for (const geo of selectedDropdown) {
+    if (geo.type === "airport") {
+      prefix = indent;
+    } else {
+      prefix="";
     }
-    else{
+    if (geo.data && geo.data === "no") {
+      dropdown.append($("<option disabled></option>")
+          .attr("value", geo.code).html(prefix + geo.fullName + " (no data)"));
+    } else {
       dropdown.append($("<option></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
     }
@@ -926,19 +924,19 @@ function createDropdown() {
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
   if (!lineData[selectedAirpt]) {
-    loadData(selectedAirpt).then(function(aptData){
+    loadData(selectedAirpt).then(function(aptData) {
       lineData[selectedAirpt] = aptData;
-      airportHover()
-    })
-  }
-  else{
+      airportHover();
+    });
+  } else {
     airportHover();
   }
-}
-function airportHover(){
+};
+
+function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
-  if(selectedDataset === "passengers"){
+  if (selectedDataset === "passengers") {
     div.html( // **** CHANGE ns WITH DATASET ****
         "<b>" + i18next.t(selectedAirpt, {ns: "airports"}) + ", " + divData.date + ":</b>" + "<br><br>" +
           "<table>" +
@@ -948,27 +946,26 @@ function airportHover(){
               "<td><b> Deplaned (" + i18next.t("units", {ns: "airPassengers"}) + "): </b>"+ formatComma(divData.deplaned) + "</td>" +
             "</tr>" +
           "</table>")
-          .style("pointer-events", "none");
-    }
-    else{
-      const thisDomestic = divData.domestic
-      const thisTrans = divData.transborder
-      const thisInter = divData.international
-      div.html(
+        .style("pointer-events", "none");
+  } else {
+    const thisDomestic = divData.domestic;
+    const thisTrans = divData.transborder;
+    const thisInter = divData.international;
+    div.html(
         "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divData.date + ":</b>" + "<br><br>" +
-      "<table>" +
-        "<tr>" +
-          "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
-        "</tr>" +
-        "<tr>" +
-          "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
-        "</tr>" +
-        "<tr>" +
-          "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
-        "</tr>" +
-      "</table>")
-      .style("pointer-events", "none");
-    }
+        "<table>" +
+          "<tr>" +
+            "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
+          "</tr>" +
+          "<tr>" +
+            "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
+          "</tr>" +
+          "<tr>" +
+            "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
+          "</tr>" +
+        "</table>")
+        .style("pointer-events", "none");
+  }
   // airport chart title
   d3.select("#svg_aptChart")
       .select(".areaChartTitle")
@@ -977,13 +974,13 @@ function airportHover(){
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
-  if(selectedDataset === "passengers"){
+  if (selectedDataset === "passengers") {
     d3.select("#mapTitleAir")
         .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
-  }
-  else{
+  } else {
     d3.select("#mapTitleAir")
-        .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + i18next.t(selectedMonth, {ns:"modesMonth"})  + " " + selectedYear);
+        .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + i18next.t(selectedMonth, {ns: "modesMonth"}) +
+        " " + selectedYear);
   }
   d3.select("#areaTitleAir")
       .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
@@ -1044,7 +1041,7 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "data/air/major_airports/metaData.json")
       .defer(d3.json, "geojson/vennAirport_with_dataFlag.geojson")
       .defer(d3.json, `data/air/passengers/${selectedRegion}.json`)
-      .await(function(error, passengerTotal,passengerMeta, majorTotal, majorMeta, airports, areaData) {
+      .await(function(error, passengerTotal, passengerMeta, majorTotal, majorMeta, airports, areaData) {
         if (error) throw error;
         totals = passengerTotal;
         passengerTotals = passengerTotal;
@@ -1073,7 +1070,6 @@ i18n.load(["src/i18n"], () => {
               map.style("visibility", "visible");
               d3.select(".canada-map");
               refreshMap();
-
             });
         // copy button options
         const cButtonOptions = {
