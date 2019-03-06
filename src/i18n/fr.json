@@ -63,7 +63,7 @@
       "alt": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
       "tableTitle": "Trafic aérien de passagers aux aéroports canadiens, annuel (en milliers)",
       "chartTitle": "Trafic aérien de passagers",
-      "mapTitle": "Total, passager secteur",
+      "mapTitle": "Total trafic aérien de passagers",
       "chartHoverPassengers": "Trafic aérien de passagers",
       "units": "personnes",
       "x_label": "An",
@@ -78,6 +78,7 @@
     "airPassengerAirports": {
       "alt": "Mouvements itinérants intérieurs et internationaux, par type",
       "tableTitle": "Mouvements itinérants intérieurs et internationaux, par type, au / à {{geo}}",
+      "mapTitle": "Total nombre de mouvements",
       "x_label": "Year",
       "y_label": "Nombre de vols",
       "enplaned": "Embarqués",

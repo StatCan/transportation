@@ -480,6 +480,7 @@ $(".data_set_selector").on("click", function(event) {
   //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
+    console.log("even.target.id: ", event.target.id)
     movementsButton
         .attr("class", "btn btn-default major data_set_selector")
         .attr("aria-pressed", false);
@@ -826,6 +827,8 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
+    console.log("selectedSettings: ", selectedSettings)
+    console.log("selectedDataset: ", selectedDataset)
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
     d3.selectAll(".flag").style("opacity", 0);
 
@@ -974,17 +977,24 @@ function airportHover() {
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
-  if (selectedDataset === "passengers") {
-    d3.select("#mapTitleAir")
-        .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + selectedDate);
-  } else {
-    d3.select("#mapTitleAir")
-        .text(i18next.t("mapTitle", {ns: "airPassengers"}) + ", " + geography + ", " + i18next.t(selectedMonth, {ns: "modesMonth"}) +
-        " " + selectedYear);
-  }
+  const mapTitle = (selectedDataset === "passengers") ?
+    `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
+    `${i18next.t("mapTitle", {ns: "airPassengerAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
+  const areaTitle = (selectedDataset === "passengers") ?
+    `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
+    `${i18next.t("chartTitle", {ns: "airPassengerAirports"})}, ${geography}`
+  const tableTitle = (selectedDataset === "passengers") ?
+    `${i18next.t("tableTitle", {ns: "airPassengers"})}, ${geography}` :
+    `${i18next.t("tableTitle", {ns: "airPassengerAirports"})}, ${geography}`
+
+
+  d3.select("#mapTitleAir")
+      .text(mapTitle);
+  
   d3.select("#areaTitleAir")
-      .text(i18next.t("chartTitle", {ns: "airPassengers"}) + ", " + geography);
-  selectedSettings.tableTitle = i18next.t("tableTitle", {ns: "airPassengers", geo: geography});
+      .text(areaTitle);
+
+  selectedSettings.tableTitle = tableTitle;
 }
 
 function plotLegend() {
