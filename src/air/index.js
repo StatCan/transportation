@@ -13,6 +13,9 @@ import CopyButton from "../copyButton.js";
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
+const formatComma = d3.format(",d");
+const scalef = 1e3;
+
 const data = {
   "passengers": {},
   "major_airports": {}
@@ -352,6 +355,7 @@ const majorDropdownData = [
   }
 ];
 
+// -- vars that change with dropdown menu selections and toggle button -- //
 let selectedDropdown = passengerDropdownData;
 
 let totals;
@@ -362,12 +366,9 @@ let selectedDataset = "passengers";
 let selectedYear = "2017";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
-let selectedRegion = "CANADA"; // default region for areaChart
+let selectedRegion = "CANADA";
 let selectedSettings = settings;
-
-const defaultYear = "2017";
-const defaultMonth = "01";
-const defaultRegion = "CANADA";
+let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
@@ -380,8 +381,11 @@ let lineData = lineDataPassenger;
 // which data set to use. 0 for passenger, 1 for movements/major airports
 // let dataSet = 0; // TODO
 
-const formatComma = d3.format(",d");
-const scalef = 1e3;
+// -- store default values for selections -- //
+const defaultYear = "2017";
+const defaultMonth = "01";
+const defaultRegion = "CANADA";
+
 let stackedArea; // stores areaChart() call
 
 // -----------------------------------------------------------------------------
@@ -465,6 +469,7 @@ $(".data_set_selector").on("click", function(event) {
   selectedRegion = defaultRegion;
   d3.select("#groups")._groups[0][0].value = selectedRegion;
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+  divFactor = (event.target.id === ("movements")) ? scalef : 1;
 
   if (event.target.id === ("major")) {
     selectedMonth = defaultMonth;
@@ -560,7 +565,6 @@ map.on("mousemove", () => {
             .classed("airMapHighlight", true)
             .moveToFront();
         // Tooltip
-        const divFactor = (selectedDataset === "passengers") ? scalef : 1;
         const value = formatComma(totals[selectedDate][classes[0]] / divFactor);
         div
             .style("opacity", .9);
@@ -706,7 +710,6 @@ function areaInteraction() {
         const mousex = d3.mouse(this)[0];
         const hoverValue = findAreaData(mousex);
 
-        const divFactor = (selectedDataset === "passengers") ? scalef : 1;
         const thisDomestic = Number(hoverValue.domestic) ? formatComma(hoverValue.domestic / divFactor) : hoverValue.domestic;
         const thisTrans = Number(hoverValue.transborder) ? formatComma(hoverValue.transborder / divFactor) : hoverValue.transborder;
         const thisInter = Number(hoverValue.international) ? formatComma(hoverValue.international / divFactor) : hoverValue.international;
@@ -799,16 +802,12 @@ function colorMap() {
 
   const totArr = [];
   totArr.push(totals[selectedDate]);
-  console.log("selectedDate: ", selectedDate)
-  console.log("totals: ", totals)
-  console.log("totals[selectedDate]: ", totals[selectedDate])
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
   const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
-  const divFactor = (selectedDataset === "passengers") ? scalef : 1;
   mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor);
 
   // Colourbar label (need be plotted only once)

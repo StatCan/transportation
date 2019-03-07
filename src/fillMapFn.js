@@ -1,10 +1,6 @@
 export default function(data, colourArray, numLevels) {
   const nullColour = colourArray.slice(-1)[0];
 
-  console.log(data)
-  data.filter((item) => item !== "CANADA");
-  console.log("data after filter: ", data)
-
   // data is an Array
   const thisData = data[0]; // Object
   let dimExtent = [];
@@ -15,7 +11,7 @@ export default function(data, colourArray, numLevels) {
   totArray.sort(function(a, b) {
     return a-b;
   });
-  console.log("totArray: ", totArray)
+
   dimExtent = d3.extent(totArray);
   console.log(dimExtent)
 
@@ -29,7 +25,6 @@ export default function(data, colourArray, numLevels) {
       d3.select(".dashboard .map")
           .select("." + key)
           .style("fill", function() {
-            console.log(key, thisData[key])
             return thisData[key] ? colourMap(thisData[key]) : nullColour;
           });
     }

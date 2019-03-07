@@ -174,7 +174,7 @@
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total air passenger traffic",
       "tableTitle": "Air passenger traffic (in thousands)",
-      "chartHoverPassengers": "Number of passengers",
+      "chartHoverPassengers": "Number of passengers (in thousands)",
       "units": "people",
       "x_label": "Year",
       "y_label": "thousands",
