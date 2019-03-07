@@ -240,7 +240,7 @@ function colorMap() {
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("units", {ns: "road"});
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");

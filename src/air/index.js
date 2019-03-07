@@ -560,7 +560,8 @@ map.on("mousemove", () => {
             .classed("airMapHighlight", true)
             .moveToFront();
         // Tooltip
-        const value = formatComma(totals[selectedDate][classes[0]] / 1e3);
+        const divFactor = (selectedDataset === "passengers") ? scalef : 1;
+        const value = formatComma(totals[selectedDate][classes[0]] / divFactor);
         div
             .style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
@@ -798,13 +799,17 @@ function colorMap() {
 
   const totArr = [];
   totArr.push(totals[selectedDate]);
+  console.log("selectedDate: ", selectedDate)
+  console.log("totals: ", totals)
+  console.log("totals[selectedDate]: ", totals[selectedDate])
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
   const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
-  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels);
+  const divFactor = (selectedDataset === "passengers") ? scalef : 1;
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
