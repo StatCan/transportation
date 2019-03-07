@@ -233,9 +233,10 @@ function colorMap() {
   thisTotalArray.push(mapData[selectedYear]);
 
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const numLevels = colourArray.length;
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
-  const dimExtent = fillMapFn(thisTotalArray, colourArray);
+  const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("units", {ns: "road"});

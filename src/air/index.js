@@ -1,6 +1,7 @@
 import settings from "./stackedAreaSettings.js";
 import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
+import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
 import CopyButton from "../copyButton.js";
 
@@ -364,6 +365,10 @@ let selectedDate = selectedYear;
 let selectedRegion = "CANADA"; // default region for areaChart
 let selectedSettings = settings;
 
+const defaultYear = "2017";
+const defaultMonth = "01";
+const defaultRegion = "CANADA";
+
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
 const lineDataMajor = {};
@@ -454,7 +459,16 @@ const hoverLine = chart.append("line")
 // -----------------------------------------------------------------------------
 /* UI Handler */
 $(".data_set_selector").on("click", function(event) {
+  // Reset to defaults
+  d3.select(".map").selectAll("path").classed("airMapHighlight", false);
+  selectedYear = defaultYear;
+  selectedRegion = defaultRegion;
+  d3.select("#groups")._groups[0][0].value = selectedRegion;
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+
   if (event.target.id === ("major")) {
+    selectedMonth = defaultMonth;
+
     movementsButton
         .attr("class", "btn btn-primary major data_set_selector")
         .attr("aria-pressed", true);
@@ -476,8 +490,6 @@ $(".data_set_selector").on("click", function(event) {
     showAreaData();
     colorMap();
     refreshMap();
-
-  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
     movementsButton
@@ -501,8 +513,6 @@ $(".data_set_selector").on("click", function(event) {
     showAreaData();
     colorMap();
     refreshMap();
-
-  //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(0)");
   }
 });
 function uiHandler(event) {
@@ -782,27 +792,15 @@ const refreshMap = function() {
 };
 
 function colorMap() {
+  // last 2 colours for blank and NaN box
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656"];
-  const numLevels = 5; // remaining 2 colours in array are for blank and NaN box
-
-  let dimExtent = [];
+  const numLevels = 5;
 
   const totArr = [];
-  for (const sales of Object.keys(totals[selectedDate])) {
-    totArr.push(totals[selectedDate][sales]);
-  }
+  totArr.push(totals[selectedDate]);
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
-  dimExtent = d3.extent(totArr);
-  const colourMap = d3.scaleQuantile()
-      .domain([dimExtent[0], dimExtent[1]])
-      .range(colourArray.slice(0, numLevels));
-
-  for (const key in totals[selectedDate]) {
-    if (totals[selectedDate].hasOwnProperty(key)) {
-      map.select("." + key).style("fill", colourMap(totals[selectedDate][key]));
-    }
-  }
+  const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
