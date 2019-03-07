@@ -41,16 +41,14 @@ export default {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
         for (let k = 0; k < keys.length; k++) {
-          total += sett.y.getValue.call(sett, d, keys[k], data);
+          total += sett.y.getValue.call(sett, d, keys[k], data) * 1e3; // keep in orig scale when summing
         }
         d[sett.y.totalProperty] = total;
       }
-      return d[sett.y.totalProperty];
+       return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
-      if (typeof d[key] === "string" || d[key] instanceof String) {
-        return d[key];
-      } else return d[key] * 1.0/ 1e3;
+      return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
     },
     ticks: 5
   },

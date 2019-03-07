@@ -7,15 +7,15 @@
     "road": {
       "chartTitle": "Type de vente de carburant",
       "mapTitle": "Ventes nettes de carburants au canada",
-      "units": "millions de litres",
+      "units": "milliers de litres",
       "mapScaleLabel": "Total"
     },
     "roadArea": {
       "alt": "Ventes de carburants destinés aux véhicules automobiles, annuel",
-      "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, {{geo}} (millions de litres)",
+      "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, {{geo}} (milliers de litres)",
       "hoverTitle": "Ventes de carburants",
       "x_label": "Année",
-      "y_label": "millions de litres",
+      "y_label": "milliers de litres",
       "gas": "Essence",
       "diesel": "Carburant diesel",
       "lpg": "Gaz de pétrole liquéfié",
