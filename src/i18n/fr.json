@@ -19,7 +19,7 @@
       "gas": "Essence",
       "diesel": "Carburant diesel",
       "lpg": "Gaz de pétrole liquéfié",
-      "total": "Total"
+      "total": "Ventes nettes"
     },
     "roadGeography": {
       "CANADA": "Canada",

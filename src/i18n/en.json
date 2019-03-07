@@ -15,7 +15,7 @@
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "Liquid Petroleum Gas",
-      "total": "Total"
+      "total": "Net sales"
     },
     "roadGeography": {
       "CANADA": "Canada",
