@@ -565,14 +565,18 @@ map.on("mousemove", () => {
             .classed("airMapHighlight", true)
             .moveToFront();
         // Tooltip
+        const line1 = (selectedDataset === "passengers") ? `${key} (${i18next.t("scalef", {ns: "airPassengers"})})` :
+          `${key}`;
         const value = formatComma(totals[selectedDate][classes[0]] / divFactor);
+        const line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
+          `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         div
             .style("opacity", .9);
         div.html( // **** CHANGE ns WITH DATASET ****
-            "<b>" + key + " (" + i18next.t("scalef", {ns: "airPassengers"}) + ")</b>"+ "<br><br>" +
+            "<b>" + line1 + "</b>"+ "<br><br>" +
               "<table>" +
                 "<tr>" +
-                  "<td><b>" + value + " " + i18next.t("units", {ns: "airPassengers"}) + "</td>" +
+                  "<td><b>" + line2 + "</td>" +
                 "</tr>" +
               "</table>"
         )
@@ -873,7 +877,7 @@ function showAreaData() {
       showChart();
     })
         .catch(function(error) {
-          console.log(error);
+          console.log("File does not exist", error);
         });
   } else {
     showChart();
@@ -917,7 +921,7 @@ function createDropdown() {
     }
     if (geo.data && geo.data === "no") {
       dropdown.append($("<option disabled></option>")
-          .attr("value", geo.code).html(prefix + geo.fullName + " (no data)"));
+          .attr("value", geo.code).html(prefix + geo.fullName));
     } else {
       dropdown.append($("<option></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
