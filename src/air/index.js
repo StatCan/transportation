@@ -696,9 +696,9 @@ function areaInteraction() {
         const hoverValue = findAreaData(mousex);
 
         const divFactor = (selectedDataset === "passengers") ? scalef : 1;
-        const thisDomestic = formatComma(hoverValue.domestic / divFactor);
-        const thisTrans = formatComma(hoverValue.transborder / divFactor);
-        const thisInter = formatComma(hoverValue.international / divFactor);
+        const thisDomestic = Number(hoverValue.domestic) ? formatComma(hoverValue.domestic / divFactor) : hoverValue.domestic;
+        const thisTrans = Number(hoverValue.transborder) ? formatComma(hoverValue.transborder / divFactor) : hoverValue.transborder;
+        const thisInter = Number(hoverValue.international) ? formatComma(hoverValue.international / divFactor) : hoverValue.international;
 
         const line1 = (selectedDataset === "passengers") ?
           `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
