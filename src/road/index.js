@@ -339,7 +339,7 @@ function uiHandler(event) {
 function dataCopyButton(cButtondata) {
   const lines = [];
   const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
-  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const title = [i18next.t("tableTitle", {ns: "roadArea", geo: geography})];
   const columns = [""];
 
   for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
