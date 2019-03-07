@@ -385,7 +385,7 @@ i18n.load(["src/i18n"], () => {
               colorMap();
             });
         d3.select("#mapTitleRoad")
-         .text(i18next.t("mapTitle", {ns: "road"}));
+            .text(i18next.t("mapTitle", {ns: "road"}));
 
         // Area chart and x-axis position
         stackedChart = areaChart(chart, settings, data[selectedRegion]);

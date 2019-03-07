@@ -979,15 +979,15 @@ function updateTitles() {
     `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
   const areaTitle = (selectedDataset === "passengers") ?
     `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
-    `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`
+    `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`;
   const tableTitle = (selectedDataset === "passengers") ?
     `${i18next.t("tableTitle", {ns: "airPassengers"})}, ${geography}` :
-    `${i18next.t("tableTitle", {ns: "airMajorAirports"})}, ${geography}`
+    `${i18next.t("tableTitle", {ns: "airMajorAirports"})}, ${geography}`;
 
 
   d3.select("#mapTitleAir")
       .text(mapTitle);
-  
+
   d3.select("#areaTitleAir")
       .text(areaTitle);
 
