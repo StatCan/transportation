@@ -11,7 +11,7 @@ export default {
   },
   x: {
     getLabel: function() {
-      return i18next.t("x_label", {ns: "airPassengerAirports"});
+      return i18next.t("x_label", {ns: "airMajorAirports"});
     },
     getValue: function(d, i) {
       // return new Date(d.date + "-01");
@@ -28,9 +28,9 @@ export default {
   },
 
   y: {
-    label: i18next.t("y_label", {ns: "airPassengerAirports"}),
+    label: i18next.t("y_label", {ns: "airMajorAirports"}),
     getLabel: function() {
-      return i18next.t("y_label", {ns: "airPassengerAirports"});
+      return i18next.t("y_label", {ns: "airMajorAirports"});
     },
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
@@ -80,7 +80,7 @@ export default {
       return this.z.getId.apply(this, args);
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "airPassengerAirports"});
+      return i18next.t(d.key, {ns: "airMajorAirports"});
     }
   },
   datatable: true,

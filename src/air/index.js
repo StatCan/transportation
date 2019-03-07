@@ -480,7 +480,6 @@ $(".data_set_selector").on("click", function(event) {
   //  d3.selectAll("g.x.axis .tick text").attr("transform", "rotate(-45)");
   }
   if (event.target.id === ("movements")) {
-    console.log("even.target.id: ", event.target.id)
     movementsButton
         .attr("class", "btn btn-default major data_set_selector")
         .attr("aria-pressed", false);
@@ -702,8 +701,8 @@ function areaInteraction() {
         const thisInter = formatComma(hoverValue.international / divFactor);
 
         const line1 = (selectedDataset === "passengers") ?
-          `Passenger movements (${i18next.t("scalef", {ns: "airPassengers"})}) in ${hoverValue.date}: ` :
-          `Number of flights in ${hoverValue.date}: `;
+          `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
+          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${hoverValue.date}: `;
 
         divArea.html(
             "<b>" + line1 + "</b>" + "<br><br>" +
@@ -827,8 +826,6 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
-    console.log("selectedSettings: ", selectedSettings)
-    console.log("selectedDataset: ", selectedDataset)
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
     d3.selectAll(".flag").style("opacity", 0);
 
@@ -979,13 +976,13 @@ function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
   const mapTitle = (selectedDataset === "passengers") ?
     `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
-    `${i18next.t("mapTitle", {ns: "airPassengerAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
+    `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
   const areaTitle = (selectedDataset === "passengers") ?
     `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
-    `${i18next.t("chartTitle", {ns: "airPassengerAirports"})}, ${geography}`
+    `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`
   const tableTitle = (selectedDataset === "passengers") ?
     `${i18next.t("tableTitle", {ns: "airPassengers"})}, ${geography}` :
-    `${i18next.t("tableTitle", {ns: "airPassengerAirports"})}, ${geography}`
+    `${i18next.t("tableTitle", {ns: "airMajorAirports"})}, ${geography}`
 
 
   d3.select("#mapTitleAir")
@@ -1013,7 +1010,7 @@ function plotLegend() {
 function dataCopyButton(cButtondata) {
   const lines = [];
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
-  const title = [i18next.t("tableTitle", {ns: "airPassengerAirports", geo: geography})];
+  const title = [i18next.t("tableTitle", {ns: "airMajorAirports", geo: geography})];
   const columns = [""];
 
   for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
@@ -1042,8 +1039,8 @@ function dataCopyButton(cButtondata) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
-  settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airPassengers"}),
-  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airPassengers"}),
+  settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airMajorAirports"}),
+  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airMajorAirports"}),
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/passengers/metaData.json")

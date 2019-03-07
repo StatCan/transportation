@@ -159,11 +159,11 @@
       "NaNhover2": "requirements of the Statistics Act",
       "NaNbox": "no data"
     },
-    "airPassengerAirports": {
-      "alt": "Domestic and international Itinerant movements, by type",
-      "tableTitle": "Number of flights, by type",
+    "airMajorAirports": {
       "chartTitle": "Number of flights, by type",
       "mapTitle": "Total flights",
+      "tableTitle": "Number of flights, by type",
+      "chartHoverMajorAirports": "Number of flights",
       "x_label": "Year",
       "y_label": "",
       "domestic": "Domestic",
@@ -173,11 +173,10 @@
       "deplaned": "Deplaned"
     },
     "airPassengers": {
-      "alt": "Air passenger traffic at Canadian airports, annual (in thousands)",
-      "tableTitle": "Air passenger traffic in {{geo}} (in thousands)",
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total air passenger traffic",
-      "chartHoverPassengers": "Passenger movements",
+      "tableTitle": "Air passenger traffic (in thousands)",
+      "chartHoverPassengers": "Number of passengers",
       "units": "people",
       "x_label": "Year",
       "y_label": "thousands",
