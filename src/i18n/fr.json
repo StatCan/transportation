@@ -176,6 +176,8 @@
       "domestic": "Intérieur",
       "international": "Autres internationaux",
       "transborder": "Transfrontalier",
+      "enplaned": "Embarqués",
+      "deplaned": "Débarqués",
       "scalef": "en milliers",
       "mapScaleLabel": "milliers"
     },
@@ -188,9 +190,7 @@
       "y_label": "",
       "domestic": "Intérieur",
       "international": "Autres internationaux",
-      "transborder": "Transfrontalier",
-      "enplaned": "Embarqués",
-      "deplaned": "Débarqués"
+      "transborder": "Transfrontalier"     
     },
     "passengerDropdown": {
       "CANADA": "Canada",

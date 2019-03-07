@@ -941,9 +941,9 @@ function airportHover() {
         "<b>" + i18next.t(selectedAirpt, {ns: "airports"}) + ", " + divData.date + ":</b>" + "<br><br>" +
           "<table>" +
             "<tr>" +
-              "<td><b> Enplaned (" + i18next.t("units", {ns: "airPassengers"}) + "): </b>" + formatComma(divData.enplaned) + " </td>" +
+              "<td><b>" + i18next.t("enplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.enplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + " </td>" +
             "</tr>" +
-              "<td><b> Deplaned (" + i18next.t("units", {ns: "airPassengers"}) + "): </b>"+ formatComma(divData.deplaned) + "</td>" +
+              "<td><b>" + i18next.t("deplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.deplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + "</td>" +
             "</tr>" +
           "</table>")
         .style("pointer-events", "none");

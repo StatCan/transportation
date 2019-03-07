@@ -168,9 +168,7 @@
       "y_label": "",
       "domestic": "Domestic",
       "international": "International",
-      "transborder": "Transborder",
-      "enplaned": "Enplaned",
-      "deplaned": "Deplaned"
+      "transborder": "Transborder"      
     },
     "airPassengers": {
       "chartTitle": "Air passenger traffic",
@@ -184,6 +182,8 @@
       "domestic": "Domestic",
       "international": "International",
       "transborder": "Transborder",
+      "enplaned": "Enplaned",
+      "deplaned": "Deplaned",
       "scalef": "in thousands",
       "mapScaleLabel": "thousands"
     },
