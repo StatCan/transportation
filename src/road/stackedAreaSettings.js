@@ -9,6 +9,11 @@ export default {
   aspectRatio: 16 / 11,
   // creates variable d
   filterData: function(data) {
+    let count = 0;
+    data.filter(function(item) {
+      item.isLast = (count === data.length - 1) ? true : false;
+      count++;
+    });
     // data is an array of objects
     return data;
   },
@@ -17,14 +22,15 @@ export default {
     getValue: function(d, i) {
       // return new Date(d.date + "-01");
       // for first year, start at Jan -01T00:00:00.000Z
-      // for last year, end one ms past midnight so that year label gets plotted
-      return i === 0 ? new Date(d.date + "-01") :
-        new Date(d.date, 0, 1, 0, 0, 0, 1);
+      // for last year, extend to allow vertical line cursor to reach it
+      return d.isLast ? new Date(d.date, 0, 10, 0, 0, 0, 0) : // (year, month, date, hours, minutes, seconds, ms)
+            new Date(d.date + "-01");
     },
     getText: function(d) {
       return d.date;
     },
-    ticks: 8
+    ticks: 8,
+    tickSizeOuter: 0
   },
   y: {
     label: i18next.t("y_label", {ns: "roadArea"}),
@@ -45,17 +51,20 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-       return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
+      return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
       return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
     },
-    ticks: 5
+    ticks: 5,
+    tickSizeOuter: 0
   },
   z: {
     label: i18next.t("z_label", {ns: "roadArea"}),
     getId: function(d) {
-      return d.key;
+      if (d.key !== "isLast") {
+        return d.key;
+      }
     },
     getKeys: function(object) {
       const sett = this;
@@ -63,6 +72,9 @@ export default {
       keys.splice(keys.indexOf("date"), 1);
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+      }
+      if (keys.indexOf("isLast") !== -1) { // temporary key to be removed
+        keys.splice(keys.indexOf("isLast"), 1);
       }
       return keys;
     },

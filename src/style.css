@@ -71,11 +71,11 @@
 }
 #svgFuel .axis .tick line {
   stroke: #aaa;
-	stroke-width: 0px;
+	stroke-width: 2px;
 }
 #svgFuel .axis path  {
   stroke: #aaa;
-	stroke-width: 0px;
+	stroke-width: 2px;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
