@@ -828,6 +828,7 @@ function showAreaData() {
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
     d3.selectAll(".flag").style("opacity", 0);
+    d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 
     if (selectedDataset === "major_airports") {
       d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
