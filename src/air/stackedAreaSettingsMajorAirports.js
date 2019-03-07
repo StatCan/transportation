@@ -7,6 +7,11 @@ export default {
   },
   aspectRatio: 16 / 11,
   filterData: function(data) {
+    let count = 0;
+    data.filter(function(item) {
+      item.isLast = (count === data.length - 1) ? true : false;
+      count++;
+    });
     return baseDateFilter(data);
   },
   x: {
@@ -14,12 +19,15 @@ export default {
       return i18next.t("x_label", {ns: "airMajorAirports"});
     },
     getValue: function(d, i) {
-      // return new Date(d.date + "-01");
-      // for first year, start at Jan -01T00:00:00.000Z
-      // for last year, end one ms past midnight so that year label gets plotted
-      return new Date(d.date + "-01");
-      // return i === 0 ? new Date(d.date + "-01") :
-      //   new Date(d.date, 0, 1, 0, 0, 0, 1);
+      // return new Date(d.date + "-01") for all years except last year
+      // for last year, pad with some extra days so that vertical line can reach it
+      if (d.isLast) {
+        const lastDate = new Date(d.date);
+        const addDays = 10;
+        return lastDate.setDate(lastDate.getDate() + addDays);
+      } else {
+        return new Date(d.date + "-01");
+      }
     },
     getText: function(d) {
       return d.date;
@@ -64,7 +72,9 @@ export default {
   z: {
     // label: i18next.t("z_label", {ns: "airPassengers"}),
     getId: function(d) {
-      return d.key;
+      if (d.key !== "isLast") {
+        return d.key;
+      }
     },
     getKeys: function(object) {
       const sett = this;
@@ -73,9 +83,10 @@ export default {
       if (keys.indexOf(sett.y.totalProperty) !== -1) {
         keys.splice(keys.indexOf(sett.y.totalProperty), 1);
       }
+      if (keys.indexOf("isLast") !== -1) { // temporary key to be removed
+        keys.splice(keys.indexOf("isLast"), 1);
+      }
       return keys;
-      // return keys.sort();
-      // return ["local", "Remaining_local", "itinerant", "Remaining_itinerant"];
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);

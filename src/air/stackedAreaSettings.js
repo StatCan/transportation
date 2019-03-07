@@ -14,7 +14,7 @@ export default {
     // pad out the last year out to June
     // (year, month, date, hours, minutes, seconds, ms)
     dataClone.push({
-      date: new Date(dataClone[dataClone.length - 1].date, 5, 0, 0, 0, 0, 0), // .date, 11, 31, 0, 0, 0, 0),
+      date: new Date(dataClone[dataClone.length - 1].date, 0, 10, 0, 0, 0, 0),
       domestic: dataClone[dataClone.length - 1].domestic,
       international: dataClone[dataClone.length - 1].international,
       transborder: dataClone[dataClone.length - 1].transborder,
