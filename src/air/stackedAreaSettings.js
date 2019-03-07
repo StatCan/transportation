@@ -135,7 +135,8 @@ export default {
     getText: function(d, key) {
       return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1000;
     },
-    ticks: 5
+    ticks: 5,
+    tickSizeOuter: 0
   },
 
   z: {

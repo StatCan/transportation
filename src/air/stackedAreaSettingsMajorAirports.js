@@ -57,7 +57,8 @@ export default {
       // } else return Number(d[key]);
       return isNaN(Number(d[key]))? d[key]: Number(d[key]);
     },
-    ticks: 5
+    ticks: 5,
+    tickSizeOuter: 0
   },
 
   z: {
