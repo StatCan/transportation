@@ -256,6 +256,7 @@ function showData() {
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
+  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 
   areaInteraction();
   plotLegend();
