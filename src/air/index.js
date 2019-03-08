@@ -359,6 +359,7 @@ const majorDropdownData = [
 let selectedDropdown = passengerDropdownData;
 
 let totals;
+let overlayRect;
 let passengerTotals;
 let majorTotals; // TODO
 let canadaMap;
@@ -376,6 +377,7 @@ const lineDataMajor = {};
 let passengerMetaData;
 let majorMetaData;
 let metaData;
+let hoverValue;
 let lineData = lineDataPassenger;
 
 // which data set to use. 0 for passenger, 1 for movements/major airports
@@ -674,6 +676,23 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
+  overlayRect = d3.select("#svg_areaChartAir .data").append("rect")
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr("class", "overlay")
+      .on("mouseout", function() {
+        hoverLine.style("display", "none");
+      })
+      .on("mousemove", function() {
+        hoverLine.style("display", null);
+        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.moveToFront();
+      });
+
+  overlayRect
+      .attr("width", stackedArea.settings.innerWidth)
+      .attr("height", stackedArea.settings.innerHeight);
+
   hoverLine
       .attr("x1", stackedArea.settings.margin.left)
       .attr("x2", stackedArea.settings.margin.left)
@@ -712,7 +731,7 @@ function areaInteraction() {
   d3.select("#svg_areaChartAir .data")
       .on("mousemove", function() {
         const mousex = d3.mouse(this)[0];
-        const hoverValue = findAreaData(mousex);
+        hoverValue = findAreaData(mousex);
 
         const thisDomestic = Number(hoverValue.domestic) ? formatComma(hoverValue.domestic / divFactor) : hoverValue.domestic;
         const thisTrans = Number(hoverValue.transborder) ? formatComma(hoverValue.transborder / divFactor) : hoverValue.transborder;
@@ -740,9 +759,6 @@ function areaInteraction() {
             .style("left", ((d3.event.pageX + 10) + "px"))
             .style("top", ((d3.event.pageY + 10) + "px"))
             .style("pointer-events", "none");
-        hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
-        hoverLine.moveToFront();
       })
       .on("mouseover", function() {
         divArea.style("opacity", .9);
@@ -791,7 +807,7 @@ const refreshMap = function() {
           return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
         }
         else{
-          
+
           return "airport " + selectedDataset + " " + metaData[selectedDate]["noData"];
         }
       })
