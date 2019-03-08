@@ -685,7 +685,9 @@ function plotHoverLine() {
       })
       .on("mousemove", function() {
         hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.style("transform", "translate(" + stackedArea.x(
+          (hoverValue?new Date(hoverValue.date):0)
+        )+ "px)");
         hoverLine.moveToFront();
       });
 
@@ -739,7 +741,7 @@ function areaInteraction() {
 
         const line1 = (selectedDataset === "passengers") ?
           `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
-          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${hoverValue.date}: `;
+          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${`${i18next.t((hoverValue.date).substring(5,7), {ns: "modesMonth"})} ${hoverValue.date.substring(0,4)}`}: `;
 
         divArea.html(
             "<b>" + line1 + "</b>" + "<br><br>" +
@@ -982,8 +984,9 @@ function airportHover() {
     const thisDomestic = divData.domestic;
     const thisTrans = divData.transborder;
     const thisInter = divData.international;
+    let divDate = `${i18next.t((divData.date).substring(5,7), {ns: "modesMonth"})} ${divData.date.substring(0,4)}`;
     div.html(
-        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divData.date + ":</b>" + "<br><br>" +
+        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
         "<table>" +
           "<tr>" +
             "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
