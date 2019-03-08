@@ -1,5 +1,5 @@
-export default function(svgCB, colourArray, dimExtent, numLevels) {
-  const scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
+export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
+  // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 35;
   const formatComma = d3.format(",d");
 

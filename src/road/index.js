@@ -233,13 +233,14 @@ function colorMap() {
   thisTotalArray.push(mapData[selectedYear]);
 
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const numLevels = colourArray.length;
 
   // colour map with fillMapFn and output dimExtent for colour bar scale
-  const dimExtent = fillMapFn(thisTotalArray, colourArray);
+  const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
   const mapScaleLabel = i18next.t("units", {ns: "road"});
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
 
   // Colourbar label (need be plotted only once)
   const label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");
@@ -256,6 +257,7 @@ function showData() {
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
+  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 
   areaInteraction();
   plotLegend();
@@ -274,8 +276,8 @@ function showData() {
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
-  d3.select("#mapTitleRoad")
-      .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
+  // d3.select("#mapTitleRoad")
+  //     .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: geography});
@@ -339,7 +341,7 @@ function uiHandler(event) {
 function dataCopyButton(cButtondata) {
   const lines = [];
   const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
-  const title = [`Sales of fuel in ${geography} used for road motor vehicles, annual (millions of dollars)`];
+  const title = [i18next.t("tableTitle", {ns: "roadArea", geo: geography})];
   const columns = [""];
 
   for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
@@ -384,6 +386,8 @@ i18n.load(["src/i18n"], () => {
             .on("loaded", function() {
               colorMap();
             });
+        d3.select("#mapTitleRoad")
+            .text(i18next.t("mapTitle", {ns: "road"}));
 
         // Area chart and x-axis position
         stackedChart = areaChart(chart, settings, data[selectedRegion]);

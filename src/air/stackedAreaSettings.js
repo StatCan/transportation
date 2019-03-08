@@ -14,7 +14,7 @@ export default {
     // pad out the last year out to June
     // (year, month, date, hours, minutes, seconds, ms)
     dataClone.push({
-      date: new Date(dataClone[dataClone.length - 1].date, 5, 0, 0, 0, 0, 0), // .date, 11, 31, 0, 0, 0, 0),
+      date: new Date(dataClone[dataClone.length - 1].date, 0, 10, 0, 0, 0, 0),
       domestic: dataClone[dataClone.length - 1].domestic,
       international: dataClone[dataClone.length - 1].international,
       transborder: dataClone[dataClone.length - 1].transborder,
@@ -42,20 +42,26 @@ export default {
         const prevIdx = count - 1 >= 0 ? count - 1 : 0; // counter for previous item
 
         if (item.flag === 1 && dataClone[prevIdx].flag === 0) {
-          const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
-          dataClone.push({date: decDate,
-            domestic: dataClone[prevIdx].domestic,
-            international: dataClone[prevIdx].international,
-            transborder: dataClone[prevIdx].transborder,
-            total: dataClone[prevIdx].total,
-            flag: dataClone[prevIdx].flag,
-            isCopy: true
-          });
+          // Don't add previous item if 2 of the attributes are 0
+          const prevSum = Number(dataClone[prevIdx].total);
+          const partSum = Number(dataClone[prevIdx].domestic) + Number(dataClone[prevIdx].transborder) + Number(dataClone[prevIdx].international);
+
+          if (prevSum !== partSum) {
+            const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+            dataClone.push({date: decDate,
+              domestic: dataClone[prevIdx].domestic,
+              international: dataClone[prevIdx].international,
+              transborder: dataClone[prevIdx].transborder,
+              total: dataClone[prevIdx].total,
+              flag: dataClone[prevIdx].flag,
+              isCopy: true
+            });
+          }
         } else if (item.flag === 1 || item.flag === 1) {
           const sumDomestic = parseFloat(item.domestic) + parseFloat(dataClone[prevIdx].domestic);
           const sumTrans = parseFloat(item.transborder) + parseFloat(dataClone[prevIdx].transborder);
           const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
-          
+
           if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
             const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
             dataClone.push({date: decDate,
@@ -67,7 +73,6 @@ export default {
               isCopy: true
             });
           }
-          
         } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) {
           const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
           dataClone.push({date: decDate,
@@ -79,7 +84,7 @@ export default {
             isCopy: true
           });
         }
-      } 
+      }
 
       count++;
     });
@@ -136,7 +141,8 @@ export default {
     getText: function(d, key) {
       return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1000;
     },
-    ticks: 5
+    ticks: 5,
+    tickSizeOuter: 0
   },
 
   z: {
