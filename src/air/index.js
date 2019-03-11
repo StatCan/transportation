@@ -370,6 +370,9 @@ let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
 let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+let majorDateRange = {};
+let passengerDateRange = {};
+let selectedDateRange = {};
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
@@ -488,6 +491,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "major_airports";
     selectedDropdown = majorDropdownData;
     selectedSettings = settingsMajorAirports;
+    selectedDateRange = majorDateRange;
     metaData = majorMetaData;
     lineData = lineDataMajor;
     createDropdown();
@@ -511,6 +515,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "passengers";
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
+    selectedDateRange = passengerDateRange;
     metaData = passengerMetaData;
     lineData = lineDataPassenger;
     createDropdown();
@@ -930,13 +935,11 @@ function filterDates(data) {
   }
 }
 function createDropdown() {
-  $("#groups").empty();
+  const geoDropdown = $("#groups");
+  const yearDropdown = $("#yearSelector");
 
-  // const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
-  //                   "movementsDropdown";
-
-  const dropdown = $("#groups");
-  dropdown.empty(); // remove old options
+  geoDropdown.empty(); // remove old options
+  yearDropdown.empty();
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
@@ -946,13 +949,14 @@ function createDropdown() {
       prefix="";
     }
     if (geo.data && geo.data === "no") {
-      dropdown.append($("<option disabled></option>")
+      geoDropdown.append($("<option disabled></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
     } else {
-      dropdown.append($("<option></option>")
+      geoDropdown.append($("<option></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
     }
   }
+
 }
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
@@ -1038,7 +1042,25 @@ function plotLegend() {
         return i18next.t(classArray[i], {ns: "airPassengers"});
       });
 }
-
+function getDateMinMax() {
+  for(let date in majorTotals){
+    if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)){
+      majorDateRange.min = date;
+    }
+    if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)){
+      majorDateRange.max = date;
+    }
+  }
+  for(let date in passengerTotals){
+    if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)){
+      passengerDateRange.min =  date;
+    }
+    if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)){
+      passengerDateRange.max = date;
+    }
+  }
+  debugger
+}
 // -----------------------------------------------------------------------------
 /* Copy Button*/
 function dataCopyButton(cButtondata) {
@@ -1093,6 +1115,7 @@ i18n.load(["src/i18n"], () => {
         data[selectedDataset][selectedRegion] = areaData;
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
+        getDateMinMax();
         createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
