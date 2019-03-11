@@ -787,22 +787,20 @@ const refreshMap = function() {
         return "airport" + d.properties.id;
       })
       .attr("class", (d, i) => {
-        if(metaData[selectedDate][d.properties.id]){
+        if (metaData[selectedDate][d.properties.id]) {
           return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
-        }
-        else{
-          
+        } else {
           return "airport " + selectedDataset + " " + metaData[selectedDate]["noData"];
         }
       })
       .on("mouseover", (d) => {
-                    selectedAirpt = d.properties.id;
-                    if (metaData[selectedDate][d.properties.id] !== "noData" ) {
-                      showAirport();
-                    }
-                  });
+        selectedAirpt = d.properties.id;
+        if (metaData[selectedDate][d.properties.id] !== "noData" ) {
+          showAirport();
+        }
+      });
 
-      d3.selectAll(".noData").moveToBack();
+  d3.selectAll(".noData").moveToBack();
 
   d3.selectAll(".noData").moveToBack();
 };

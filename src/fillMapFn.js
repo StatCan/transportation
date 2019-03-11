@@ -13,7 +13,6 @@ export default function(data, colourArray, numLevels) {
   });
 
   dimExtent = d3.extent(totArray);
-  console.log(dimExtent)
 
   // colour map to take data value and map it to the colour of the level bin it belongs to
   const colourMap = d3.scaleQuantize()
