@@ -88,6 +88,13 @@ export default {
       }
       return keys;
     },
+    origData: function(data) {
+      // Format date as monthName YYYY
+      data.filter(function(item) {
+        item.date = `${i18next.t((item.date).substring(5, 7), {ns: "modesMonth"})} ${item.date.substring(0, 4)}`;
+      });
+      return data;
+    },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
     },
