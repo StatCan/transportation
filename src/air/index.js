@@ -939,6 +939,11 @@ function createDropdown() {
 
   geoDropdown.empty(); // remove old options
   yearDropdown.empty();
+  debugger
+  // for(var i = selectedDateRange.min; i++; i<=selectedDateRange.max){
+  //   yearDropdown.append($("<option disabled></option>")
+  //       .attr("value", i).html(i));
+  // }
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
@@ -1058,7 +1063,7 @@ function getDateMinMax() {
       passengerDateRange.max = date;
     }
   }
-  debugger
+
 }
 // -----------------------------------------------------------------------------
 /* Copy Button*/
@@ -1115,6 +1120,7 @@ i18n.load(["src/i18n"], () => {
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
         getDateMinMax();
+        selectedDateRange = passengerDateRange;
         createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
