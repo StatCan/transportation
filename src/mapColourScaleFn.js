@@ -1,6 +1,6 @@
 export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
   const rectDim = 35;
-  const formatComma = d3.format(",d");
+  // const formatComma = d3.format(",d");
 
   // text labels (calculate cbValues)
   const delta = (dimExtent[1] - dimExtent[0] ) / numLevels;
@@ -10,8 +10,17 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
     cbValues.push({"quantile": idx + 1, "value": Math.round(( idx ) * delta + dimExtent[0])});
   }
 
+  if (colourArray.length > numLevels) {
+    for (let idx=1; idx < colourArray.length - numLevels + 1; idx++) {
+      cbValues.push({"quantile": -999, "value": -999});
+    }
+  }
+
   const node = svgCB.selectAll(".node")
       .data([0], String); // There is only one umbrella g node
+
+  node
+      .attr("class", "update");
 
   // update
   node
@@ -20,7 +29,6 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .attr("id", "wheat")
       .attr("class", "wheat")
       .each(function(d, i) {
-        // console.log("outer i:", i)
         const single = d3.select(this);
 
         const bubbles = single.selectAll(".bubble")
@@ -31,6 +39,8 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
             .append("g")
             .attr("class", "bubble");
 
+        newBubbles.exit().remove();
+
         // Append a rect to each g
         newBubbles
             .append("rect")
@@ -38,7 +48,6 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
             .attr("height", rectDim)
             .attr("y", 5)
             .attr("x", function(d, i) {
-              // console.log("attr x i: ", i)
               return 160 + i * rectDim;
             })
             .attr("fill", function(d, i) {
@@ -55,10 +64,16 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
               return 0;
             })
             .attr("class", "bubble-text")
+            .merge(newBubbles)
             .text(function(d) {
               return "some text";
             })
             .attr("dominant-baseline", "central");
 
+        newBubbles.exit().remove();
       });
+
+  // node
+  //     .exit()
+  //     .remove();
 }
