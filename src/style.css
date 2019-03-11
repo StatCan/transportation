@@ -135,10 +135,6 @@ table, th, td {
   fill: #565656;
   font-size: 13px;
 }
-[lang=fr] .classNaN text {
-  fill: #565656;
-  font-size: 13px;
-}
 
 /*-- airport circle fill --*/
 .hasData {

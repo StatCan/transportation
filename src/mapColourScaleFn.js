@@ -1,89 +1,64 @@
 export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
-  // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
   const rectDim = 35;
   const formatComma = d3.format(",d");
-  console.log(colourArray)
-  console.log(numLevels)
-
-  // Create the g nodes
-  const rects = svgCB
-      .attr("class", "mapCB")
-      .selectAll("rect")
-      .data(Array.from(Array(colourArray.length).keys()));
-
-  rects.exit().remove();
-
-  // Append rects onto the g nodes and fill
-  rects
-      .enter()
-      .append("g")
-      .attr("class", "classCB")
-      .attr("id", function(d, i) {
-        return `cb${i}`;
-      })
-      .append("rect")
-      .attr("width", rectDim)
-      .attr("height", rectDim)
-      .attr("y", 5)
-      .attr("x", function(d, i) {
-        return 160 + i * rectDim;
-      })
-      .attr("fill", function(d, i) {
-        return colourArray[i];
-      })
-      .attr("class", function(d, i) {
-        if (i === numLevels + 1) {
-          return "classNaN";
-        }
-      });
-
-  // rects.exit().remove();
 
   // text labels (calculate cbValues)
-  const delta =(dimExtent[1] - dimExtent[0] ) / numLevels;
-  const cbValues=[];
-  cbValues[0] = dimExtent[0];
+  const delta = (dimExtent[1] - dimExtent[0] ) / numLevels;
+  const cbValues = [{"quantile": 1, "value": dimExtent[0]}];
+
   for (let idx=1; idx < numLevels; idx++) {
-    cbValues.push(Math.round(( idx ) * delta + dimExtent[0]));
+    cbValues.push({"quantile": idx + 1, "value": Math.round(( idx ) * delta + dimExtent[0])});
   }
 
-  // add text node to rect g
-  rects.append("text");
+  const node = svgCB.selectAll(".node")
+      .data([0], String); // There is only one umbrella g node
 
-  // Display text in text node
-  let updateText;
-
-  const text = d3.selectAll(".mapCB")
-      .data(Array.from(Array(colourArray.length).keys()), ["cb0", "cb1", "cb2", "cb3", "cb4", "cb5", "cb6"]);
-
-
-
-  text
+  // update
+  node
       .enter()
-      .append("text")
+      .append("g")
+      .attr("id", "wheat")
+      .attr("class", "wheat")
+      .each(function(d, i) {
+        // console.log("outer i:", i)
+        const single = d3.select(this);
 
-  // // d3.selectAll(".classCB")
-  // text.enter().selectAll("g").append("text")
-  //     .text(function(i, j) {
-  //       if (i < numLevels) {
-  //         const s0 = formatComma(cbValues[j] / scalef);
-  //         updateText = s0 + "+";
-  //         return updateText;
-  //       } else if (i === numLevels + 1) {
-  //         return i18next.t("NaNbox", {ns: "airUI"});
-  //       }
-  //     })
-  //     .attr("text-anchor", "end")
-  //     .attr("transform", function(d, i) {
-  //       if (i < numLevels) {
-  //         return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
-  //       } else if (i === numLevels + 1) { // NaN box in legend
-  //         return "translate(" + (199 + (i * (rectDim + 0))) + ", 57) ";
-  //       }
-  //     })
-  //     .style("display", function() {
-  //       return "inline";
-  //     });
+        const bubbles = single.selectAll(".bubble")
+            .data(cbValues);
 
-  text.exit().remove();
+        const newBubbles = bubbles
+            .enter()
+            .append("g")
+            .attr("class", "bubble");
+
+        // Append a rect to each g
+        newBubbles
+            .append("rect")
+            .attr("width", rectDim)
+            .attr("height", rectDim)
+            .attr("y", 5)
+            .attr("x", function(d, i) {
+              // console.log("attr x i: ", i)
+              return 160 + i * rectDim;
+            })
+            .attr("fill", function(d, i) {
+              return colourArray[i];
+            });
+
+        // Append a text to each rects// Append bubble text to bubble g node
+        newBubbles
+            .append("text")
+            .attr("dx", function(d) {
+              return 0;
+            })
+            .attr("dy", function(d) {
+              return 0;
+            })
+            .attr("class", "bubble-text")
+            .text(function(d) {
+              return "some text";
+            })
+            .attr("dominant-baseline", "central");
+
+      });
 }
