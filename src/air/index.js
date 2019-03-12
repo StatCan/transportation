@@ -1062,24 +1062,20 @@ function plotLegend() {
       });
 }
 function getDateMinMax() {
-  for (const date in majorTotals) {
-    if ({}.hasOwnProperty.call(majorTotals, date)) {
-      if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)) {
-        majorDateRange.min = date;
-      }
-      if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)) {
-        majorDateRange.max = date;
-      }
+  for (const [date] of Object.entries(majorTotals)) {
+    if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)) {
+      majorDateRange.min = date;
+    }
+    if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)) {
+      majorDateRange.max = date;
     }
   }
-  for (const date in passengerTotals) {
-    if ({}.hasOwnProperty.call(passengerTotals, date)) {
-      if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)) {
-        passengerDateRange.min = date;
-      }
-      if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)) {
-        passengerDateRange.max = date;
-      }
+  for (const [date] of Object.entries(passengerTotals)) {
+    if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)) {
+      passengerDateRange.min = date;
+    }
+    if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)) {
+      passengerDateRange.max = date;
     }
   }
 }
