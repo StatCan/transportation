@@ -67,8 +67,8 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .selectAll(".legend rect")
       .on("mouseover", function(d, i) {
         if (d3.select(this).attr("class") === "classNaN") {
-          const line1 =  i18next.t("NaNhover1", {ns: "airUI"});
-          const line2 =  i18next.t("NaNhover2", {ns: "airUI"});
+          const line1 = i18next.t("NaNhover1", {ns: "airUI"});
+          const line2 = i18next.t("NaNhover2", {ns: "airUI"});
 
           divNaN
               .style("opacity", 0.9)

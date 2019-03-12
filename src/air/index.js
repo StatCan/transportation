@@ -5,9 +5,6 @@ import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
 import CopyButton from "../copyButton.js";
 
-// const passengerMode = "passenger"; // TODO
-// const majorAirportMode = "majorAirport"; // TODO
-
 /* Copy Button */
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
@@ -361,7 +358,7 @@ let selectedDropdown = passengerDropdownData;
 let totals;
 let overlayRect;
 let passengerTotals;
-let majorTotals; // TODO
+let majorTotals;
 let canadaMap;
 let selectedDataset = "passengers";
 let selectedYear = "2017";
@@ -382,9 +379,6 @@ let majorMetaData;
 let metaData;
 let hoverValue;
 let lineData = lineDataPassenger;
-
-// which data set to use. 0 for passenger, 1 for movements/major airports
-// let dataSet = 0; // TODO
 
 // -- store default values for selections -- //
 const defaultYear = "2017";
@@ -447,11 +441,6 @@ let allAirports;
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
-
-/* -- for map NaN legend -- */
-// const divNaN = d3.select("body").append("div")
-//     .attr("class", "tooltip")
-//     .style("opacity", 0);
 
 /* -- for areaChart 1 -- */
 const divArea = d3.select("body")
@@ -571,15 +560,24 @@ map.on("mousemove", () => {
             .select("." + classes[0])
             .classed("airMapHighlight", true)
             .moveToFront();
+
         // Tooltip
         const line1 = (selectedDataset === "passengers") ? `${key} (${i18next.t("scalef", {ns: "airPassengers"})})` :
           `${key}`;
-        const value = formatComma(totals[selectedDate][classes[0]] / divFactor);
-        const line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
-          `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
+        let value;
+        let line2;
+        if (Number(totals[selectedDate][classes[0]])) {
+          value = formatComma(totals[selectedDate][classes[0]] / divFactor);
+          line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
+            `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
+        } else {
+          value = totals[selectedDate][classes[0]]; // "x"
+          line2 = `${value}`;
+        }
+
         div
             .style("opacity", .9);
-        div.html( // **** CHANGE ns WITH DATASET ****
+        div.html(
             "<b>" + line1 + "</b>"+ "<br><br>" +
               "<table>" +
                 "<tr>" +
