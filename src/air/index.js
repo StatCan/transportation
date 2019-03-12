@@ -837,7 +837,7 @@ function colorMap() {
   } else {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
   }
-  const numLevels = 5;
+  const numLevels = 5; // number of levels to divide colourbar into
 
   const totArr = [];
   totArr.push(totals[selectedDate]);
