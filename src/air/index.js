@@ -938,12 +938,24 @@ function createDropdown() {
   const yearDropdown = $("#yearSelector");
 
   geoDropdown.empty(); // remove old options
+
+  //date dropdown creation
   yearDropdown.empty();
-  debugger
-  // for(var i = selectedDateRange.min; i++; i<=selectedDateRange.max){
-  //   yearDropdown.append($("<option disabled></option>")
-  //       .attr("value", i).html(i));
-  // }
+  for(let i = Number(selectedDateRange.min.substring(0,4)); i<=(Number(selectedDateRange.max.substring(0,4))); i++){
+      yearDropdown.append($("<option></option>")
+          .attr("value", i).html(i));
+  }
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+  if(selectedDataset == "major_airports"){
+    let maxMonth = Number(selectedDateRange.max.substring(5,7))
+    $("#monthSelector > option").each(function() {
+      if(Number(this.value) > maxMonth){
+        this.disabled =true
+      }
+
+    });
+  }
+  //end dropdown
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
