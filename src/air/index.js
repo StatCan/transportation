@@ -830,23 +830,12 @@ const refreshMap = function() {
 };
 
 function colorMap() {
-<<<<<<< HEAD
-  let colourArray;
-  if (selectedDataset ==="passengers") {
-    // last 2 colours for blank and NaN box
-    colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656"];
-  } else {
-    console.log(selectedDataset)
-    // no NaN box needed
-    colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
-=======
   // last 2 colours for blank and NaN box
   const colourArray = [];
   if (selectedDataset === "passengers") {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656");
   } else {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
->>>>>>> master
   }
   const numLevels = 5;
 
