@@ -551,7 +551,7 @@ map.on("mousemove", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    if (classes[0] !== "svg-shimmed") {
+    if (classes[0] !== "svg-shimmed" && classes.indexOf("classNaN") === -1) {
       const key = i18next.t(classes[0], {ns: "airGeography"});
 
       if (key !== "airport") {
@@ -610,70 +610,73 @@ map.on("mouseout", () => {
 });
 
 map.on("click", () => {
-  // clear any previous clicks
-  d3.select(".map")
-      .selectAll("path")
-      .classed("airMapHighlight", false);
+  // Do not allow NaN region to be clicked
+  if (d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) {
+    // clear any previous clicks
+    d3.select(".map")
+        .selectAll("path")
+        .classed("airMapHighlight", false);
 
-  // const transition = d3.transition().duration(1000);
+    // const transition = d3.transition().duration(1000);
 
-  // User clicks on region
-  if (d3.select(d3.event.target).attr("class") &&
-        d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
-    const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
-    if (classes[0] !== "airport") { // to avoid zooming airport cirlces
-      // ---------------------------------------------------------------------
-      // Region highlight
-      selectedRegion = classes[0];
-      d3.select(".dashboard .map")
-          .select("." + classes[0])
-          .classed("airMapHighlight", true);
-      // Display selected region in stacked area chart
-      getData();
-      // update region displayed in dropdown menu
-      d3.select("#groups")._groups[0][0].value = selectedRegion;
-
-      // ---------------------------------------------------------------------
-      // zoom
+    // User clicks on region
+    if (d3.select(d3.event.target).attr("class") &&
+          d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
+      const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
       if (classes[0] !== "airport") { // to avoid zooming airport cirlces
-        if (classes[1] === "zoomed" || (classes.length === 0)) {
-          // return circles to original size
+        // ---------------------------------------------------------------------
+        // Region highlight
+        selectedRegion = classes[0];
+        d3.select(".dashboard .map")
+            .select("." + classes[0])
+            .classed("airMapHighlight", true);
+        // Display selected region in stacked area chart
+        getData();
+        // update region displayed in dropdown menu
+        d3.select("#groups")._groups[0][0].value = selectedRegion;
+
+        // ---------------------------------------------------------------------
+        // zoom
+        if (classes[0] !== "airport") { // to avoid zooming airport cirlces
+          if (classes[1] === "zoomed" || (classes.length === 0)) {
+            // return circles to original size
+            path.pointRadius(function(d, i) {
+              return defaultPointRadius;
+            });
+
+            return canadaMap.zoom();
+          }
           path.pointRadius(function(d, i) {
-            return defaultPointRadius;
+            return zoomedPointRadius;
           });
 
-          return canadaMap.zoom();
+          canadaMap.zoom(classes[0]);
         }
-        path.pointRadius(function(d, i) {
-          return zoomedPointRadius;
-        });
+      }
+    } else { // user clicks outside map
+      // reset circle size
+      path.pointRadius(function(d, i) {
+        return defaultPointRadius;
+      });
 
-        canadaMap.zoom(classes[0]);
+      // reset area chart to Canada
+      selectedRegion = "CANADA";
+      showAreaData();
+
+      // update region displayed in dropdown menu
+      d3.select("groups")._groups[0][0].value = selectedRegion;
+      // Chart titles
+      updateTitles();
+
+      if (d3.select("." + selectedRegion + ".zoomed")) {
+        // clear zoom
+        return canadaMap.zoom();
       }
     }
-  } else { // user clicks outside map
-    // reset circle size
-    path.pointRadius(function(d, i) {
-      return defaultPointRadius;
-    });
 
-    // reset area chart to Canada
-    selectedRegion = "CANADA";
-    showAreaData();
-
-    // update region displayed in dropdown menu
-    d3.select("groups")._groups[0][0].value = selectedRegion;
     // Chart titles
     updateTitles();
-
-    if (d3.select("." + selectedRegion + ".zoomed")) {
-      // clear zoom
-      return canadaMap.zoom();
-    }
   }
-
-  // Chart titles
-  updateTitles();
 });
 
 /* --  areaChart interactions -- */

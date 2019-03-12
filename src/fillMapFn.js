@@ -25,6 +25,11 @@ export default function(data, colourArray, numLevels) {
           .select("." + key)
           .style("fill", function() {
             return thisData[key] ? colourMap(thisData[key]) : nullColour;
+          })
+          .classed("classNaN", function() {
+            if (!thisData[key]) {
+              return true;
+            }
           });
     }
   }
