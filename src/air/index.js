@@ -370,8 +370,8 @@ let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
 let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
-let majorDateRange = {};
-let passengerDateRange = {};
+const majorDateRange = {};
+const passengerDateRange = {};
 let selectedDateRange = {};
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
@@ -691,7 +691,7 @@ function plotHoverLine() {
       .on("mousemove", function() {
         hoverLine.style("display", null);
         hoverLine.style("transform", "translate(" + stackedArea.x(
-          (hoverValue?new Date(hoverValue.date):0)
+            (hoverValue?new Date(hoverValue.date):0)
         )+ "px)");
         hoverLine.moveToFront();
       });
@@ -746,7 +746,8 @@ function areaInteraction() {
 
         const line1 = (selectedDataset === "passengers") ?
           `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
-          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${`${i18next.t((hoverValue.date).substring(5,7), {ns: "modesMonth"})} ${hoverValue.date.substring(0,4)}`}: `;
+          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${`${i18next.t((hoverValue.date).substring(5, 7),
+              {ns: "modesMonth"})} ${hoverValue.date.substring(0, 4)}`}: `;
 
         divArea.html(
             "<b>" + line1 + "</b>" + "<br><br>" +
@@ -812,8 +813,7 @@ const refreshMap = function() {
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
           return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
-        }
-        else {
+        } else {
           return "airport " + selectedDataset + " " + metaData[selectedDate]["noData"];
         }
       })
@@ -944,23 +944,22 @@ function createDropdown() {
 
   geoDropdown.empty(); // remove old options
 
-  //date dropdown creation
+  // date dropdown creation
   yearDropdown.empty();
-  for(let i = Number(selectedDateRange.min.substring(0,4)); i<=(Number(selectedDateRange.max.substring(0,4))); i++){
-      yearDropdown.append($("<option></option>")
-          .attr("value", i).html(i));
+  for (let i = Number(selectedDateRange.min.substring(0, 4)); i<=(Number(selectedDateRange.max.substring(0, 4))); i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
   }
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-  if(selectedDataset == "major_airports"){
-    let maxMonth = Number(selectedDateRange.max.substring(5,7))
+  if (selectedDataset == "major_airports") {
+    const maxMonth = Number(selectedDateRange.max.substring(5, 7));
     $("#monthSelector > option").each(function() {
-      if(Number(this.value) > maxMonth){
-        this.disabled =true
+      if (Number(this.value) > maxMonth) {
+        this.disabled = true;
       }
-
     });
   }
-  //end dropdown
+  // end dropdown
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
@@ -977,7 +976,6 @@ function createDropdown() {
           .attr("value", geo.code).html(prefix + geo.fullName));
     }
   }
-
 }
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
@@ -1009,7 +1007,7 @@ function airportHover() {
     const thisDomestic = divData.domestic;
     const thisTrans = divData.transborder;
     const thisInter = divData.international;
-    let divDate = `${i18next.t((divData.date).substring(5,7), {ns: "modesMonth"})} ${divData.date.substring(0,4)}`;
+    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "modesMonth"})} ${divData.date.substring(0, 4)}`;
     div.html(
         "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
         "<table>" +
@@ -1064,23 +1062,26 @@ function plotLegend() {
       });
 }
 function getDateMinMax() {
-  for(let date in majorTotals){
-    if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)){
-      majorDateRange.min = date;
-    }
-    if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)){
-      majorDateRange.max = date;
-    }
-  }
-  for(let date in passengerTotals){
-    if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)){
-      passengerDateRange.min =  date;
-    }
-    if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)){
-      passengerDateRange.max = date;
+  for (const date in majorTotals) {
+    if ({}.hasOwnProperty.call(majorTotals, date)) {
+      if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)) {
+        majorDateRange.min = date;
+      }
+      if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)) {
+        majorDateRange.max = date;
+      }
     }
   }
-
+  for (const date in passengerTotals) {
+    if ({}.hasOwnProperty.call(passengerTotals, date)) {
+      if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)) {
+        passengerDateRange.min = date;
+      }
+      if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)) {
+        passengerDateRange.max = date;
+      }
+    }
+  }
 }
 // -----------------------------------------------------------------------------
 /* Copy Button*/
