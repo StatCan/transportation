@@ -359,6 +359,7 @@ const majorDropdownData = [
 let selectedDropdown = passengerDropdownData;
 
 let totals;
+let overlayRect;
 let passengerTotals;
 let majorTotals; // TODO
 let canadaMap;
@@ -369,6 +370,9 @@ let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
 let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+const majorDateRange = {};
+const passengerDateRange = {};
+let selectedDateRange = {};
 
 let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
@@ -376,6 +380,7 @@ const lineDataMajor = {};
 let passengerMetaData;
 let majorMetaData;
 let metaData;
+let hoverValue;
 let lineData = lineDataPassenger;
 
 // which data set to use. 0 for passenger, 1 for movements/major airports
@@ -486,6 +491,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "major_airports";
     selectedDropdown = majorDropdownData;
     selectedSettings = settingsMajorAirports;
+    selectedDateRange = majorDateRange;
     metaData = majorMetaData;
     lineData = lineDataMajor;
     createDropdown();
@@ -509,6 +515,7 @@ $(".data_set_selector").on("click", function(event) {
     selectedDataset = "passengers";
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
+    selectedDateRange = passengerDateRange;
     metaData = passengerMetaData;
     lineData = lineDataPassenger;
     createDropdown();
@@ -674,6 +681,25 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
+  overlayRect = d3.select("#svg_areaChartAir .data").append("rect")
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr("class", "overlay")
+      .on("mouseout", function() {
+        hoverLine.style("display", "none");
+      })
+      .on("mousemove", function() {
+        hoverLine.style("display", null);
+        hoverLine.style("transform", "translate(" + stackedArea.x(
+            (hoverValue?new Date(hoverValue.date):0)
+        )+ "px)");
+        hoverLine.moveToFront();
+      });
+
+  overlayRect
+      .attr("width", stackedArea.settings.innerWidth)
+      .attr("height", stackedArea.settings.innerHeight);
+
   hoverLine
       .attr("x1", stackedArea.settings.margin.left)
       .attr("x2", stackedArea.settings.margin.left)
@@ -712,7 +738,7 @@ function areaInteraction() {
   d3.select("#svg_areaChartAir .data")
       .on("mousemove", function() {
         const mousex = d3.mouse(this)[0];
-        const hoverValue = findAreaData(mousex);
+        hoverValue = findAreaData(mousex);
 
         const thisDomestic = Number(hoverValue.domestic) ? formatComma(hoverValue.domestic / divFactor) : hoverValue.domestic;
         const thisTrans = Number(hoverValue.transborder) ? formatComma(hoverValue.transborder / divFactor) : hoverValue.transborder;
@@ -720,7 +746,8 @@ function areaInteraction() {
 
         const line1 = (selectedDataset === "passengers") ?
           `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
-          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${hoverValue.date}: `;
+          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${`${i18next.t((hoverValue.date).substring(5, 7),
+              {ns: "modesMonth"})} ${hoverValue.date.substring(0, 4)}`}: `;
 
         divArea.html(
             "<b>" + line1 + "</b>" + "<br><br>" +
@@ -740,9 +767,6 @@ function areaInteraction() {
             .style("left", ((d3.event.pageX + 10) + "px"))
             .style("top", ((d3.event.pageY + 10) + "px"))
             .style("pointer-events", "none");
-        hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
-        hoverLine.moveToFront();
       })
       .on("mouseover", function() {
         divArea.style("opacity", .9);
@@ -806,6 +830,7 @@ const refreshMap = function() {
 };
 
 function colorMap() {
+<<<<<<< HEAD
   let colourArray;
   if (selectedDataset ==="passengers") {
     // last 2 colours for blank and NaN box
@@ -814,6 +839,14 @@ function colorMap() {
     console.log(selectedDataset)
     // no NaN box needed
     colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+=======
+  // last 2 colours for blank and NaN box
+  const colourArray = [];
+  if (selectedDataset === "passengers") {
+    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656");
+  } else {
+    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
+>>>>>>> master
   }
   const numLevels = 5;
 
@@ -917,13 +950,27 @@ function filterDates(data) {
   }
 }
 function createDropdown() {
-  $("#groups").empty();
+  const geoDropdown = $("#groups");
+  const yearDropdown = $("#yearSelector");
 
-  // const i18nDict = selectedDataset === "passengers" ? "passengerDropdown" :
-  //                   "movementsDropdown";
+  geoDropdown.empty(); // remove old options
 
-  const dropdown = $("#groups");
-  dropdown.empty(); // remove old options
+  // date dropdown creation
+  yearDropdown.empty();
+  for (let i = Number(selectedDateRange.min.substring(0, 4)); i<=(Number(selectedDateRange.max.substring(0, 4))); i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+  if (selectedDataset == "major_airports") {
+    const maxMonth = Number(selectedDateRange.max.substring(5, 7));
+    $("#monthSelector > option").each(function() {
+      if (Number(this.value) > maxMonth) {
+        this.disabled = true;
+      }
+    });
+  }
+  // end dropdown
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
@@ -933,10 +980,10 @@ function createDropdown() {
       prefix="";
     }
     if (geo.data && geo.data === "no") {
-      dropdown.append($("<option disabled></option>")
+      geoDropdown.append($("<option disabled></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
     } else {
-      dropdown.append($("<option></option>")
+      geoDropdown.append($("<option></option>")
           .attr("value", geo.code).html(prefix + geo.fullName));
     }
   }
@@ -971,8 +1018,9 @@ function airportHover() {
     const thisDomestic = divData.domestic;
     const thisTrans = divData.transborder;
     const thisInter = divData.international;
+    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "modesMonth"})} ${divData.date.substring(0, 4)}`;
     div.html(
-        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divData.date + ":</b>" + "<br><br>" +
+        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
         "<table>" +
           "<tr>" +
             "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
@@ -1024,7 +1072,24 @@ function plotLegend() {
         return i18next.t(classArray[i], {ns: "airPassengers"});
       });
 }
-
+function getDateMinMax() {
+  for (const [date] of Object.entries(majorTotals)) {
+    if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)) {
+      majorDateRange.min = date;
+    }
+    if (!majorDateRange.max || new Date(date)> new Date(majorDateRange.max)) {
+      majorDateRange.max = date;
+    }
+  }
+  for (const [date] of Object.entries(passengerTotals)) {
+    if (!passengerDateRange.min || new Date(date)< new Date(passengerDateRange.min)) {
+      passengerDateRange.min = date;
+    }
+    if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)) {
+      passengerDateRange.max = date;
+    }
+  }
+}
 // -----------------------------------------------------------------------------
 /* Copy Button*/
 function dataCopyButton(cButtondata) {
@@ -1079,6 +1144,8 @@ i18n.load(["src/i18n"], () => {
         data[selectedDataset][selectedRegion] = areaData;
         selectedYear, selectedDate = document.getElementById("yearSelector").value;
         selectedMonth = document.getElementById("monthSelector").value;
+        getDateMinMax();
+        selectedDateRange = passengerDateRange;
         createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {

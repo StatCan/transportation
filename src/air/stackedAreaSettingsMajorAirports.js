@@ -89,11 +89,12 @@ export default {
       return keys;
     },
     origData: function(data) {
+      const dataClone = JSON.parse(JSON.stringify(data));
       // Format date as monthName YYYY
-      data.filter(function(item) {
+      dataClone.filter(function(item) {
         item.date = `${i18next.t((item.date).substring(5, 7), {ns: "modesMonth"})} ${item.date.substring(0, 4)}`;
       });
-      return data;
+      return dataClone;
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
