@@ -149,6 +149,9 @@ table, th, td {
 	stroke-width: 0.0px;
 	opacity: 0.5
 }
+.dontShow {
+	opacity: 0;
+}
 .airport {
 	/* stroke: black;
 	stroke-width: 0.5px; */
