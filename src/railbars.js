@@ -64,7 +64,7 @@
     return store[key] || (store[key] = value !== undefined ? value : {});
   })('versions', []).push({
     version: _core.version,
-    mode: 'global',
+    mode: _library ? 'pure' : 'global',
     copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
   });
   });

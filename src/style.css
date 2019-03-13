@@ -47,7 +47,7 @@
 	stroke-width: 0;
 }
 .roadAreaCB text {
-	font-size: 16px;
+	font-size: 13px;
 	fill: #69757c;
 }
 .roadMapHighlight {
@@ -71,11 +71,9 @@
 }
 #svgFuel .axis .tick line {
   stroke: #aaa;
-	stroke-width: 0px;
 }
 #svgFuel .axis path  {
   stroke: #aaa;
-	stroke-width: 0px;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
@@ -91,7 +89,8 @@
 }
 .roadmapCBlabel {
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -195px;
 	color: #565656;
 	text-align: left;
 }
@@ -127,51 +126,31 @@ table, th, td {
 }
 .airmapCBlabel { /* colour bar label */
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -220px;
 	color: #565656;
 	text-align: left;
 }
-.legendNaN text {
+.classNaN text {
   fill: #565656;
   font-size: 13px;
 }
 
 /*-- airport circle fill --*/
-.passengers.allYears {
+.hasData {
 	fill: #FFF84C;
-	stroke: black;
-	stroke-width: 0.3px;
+	stroke: white;
+	stroke-width: 0.2px;
 	cursor: pointer;
 }
-.passengers.noYears {
-	fill: #000;
-	stroke: black;
-	stroke-width: 0.3px;
-	opacity: 0;
-}
-.passengers.lastSevenYears {
-	fill: #FFF84C;
-	stroke: black;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.lastSixYears {
-	fill: #FFF84C;
-	stroke: green;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.lastFiveYears {
-	fill: #FFF84C;
-	stroke: black;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.mix {
+.noData {
 	fill: gray;
-	stroke: black;
-	stroke-width: 0.3px;
-	opacity: 0.5;
+	stroke: white;
+	stroke-width: 0.0px;
+	opacity: 0.5
+}
+.dontShow {
+	opacity: 0;
 }
 .airport {
 	/* stroke: black;
@@ -195,6 +174,21 @@ table, th, td {
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
+/* major airports tick classes */
+#svg_areaChartAir .tickJan text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick.Jan line {
+	stroke-width: 5px;
+}
+#svg_areaChartAir .tick.notJan text {
+	opacity: 0;
+}
+/* ---- */
+
 #svg_areaChartAir .axis path  {
   stroke: #aaa;
 }

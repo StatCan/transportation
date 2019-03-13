@@ -1043,237 +1043,165 @@
 	  };
 	});
 
-	var settings = {
-	  alt: i18next.t("alt", {
-	    ns: "roadArea"
-	  }),
-	  margin: {
-	    top: 50,
-	    left: 90,
-	    right: 30,
-	    bottom: 50
-	  },
-	  // creates variable d
-	  filterData: function filterData(data) {
-	    // data is an array of objects
-	    return data;
-	  },
-	  x: {
-	    label: i18next.t("x_label", {
-	      ns: "roadArea"
-	    }),
-	    getValue: function getValue(d, i) {
-	      // return new Date(d.date + "-01");
-	      // for first year, start at Jan -01T00:00:00.000Z
-	      // for last year, end one ms past midnight so that year label gets plotted
-	      return i === 0 ? new Date(d.date + "-01") : new Date(d.date, 0, 1, 0, 0, 0, 1);
-	    },
-	    getText: function getText(d) {
-	      return d.date;
-	    },
-	    ticks: 8
-	  },
-	  y: {
-	    label: i18next.t("y_label", {
-	      ns: "roadArea"
-	    }),
-	    getValue: function getValue(d, key) {
-	      if (typeof d[key] === "string" || d[key] instanceof String) {
-	        return 0;
-	      } else return d[key] * 1.0 / 1e3;
-	    },
-	    getTotal: function getTotal(d, index, data) {
-	      var total;
-	      var keys;
-	      var sett = this;
-
-	      if (!d[sett.y.totalProperty]) {
-	        keys = sett.z.getKeys.call(sett, data);
-	        total = 0;
-
-	        for (var k = 0; k < keys.length; k++) {
-	          total += sett.y.getValue.call(sett, d, keys[k], data);
-	        }
-
-	        d[sett.y.totalProperty] = total;
-	      }
-
-	      return d[sett.y.totalProperty];
-	    },
-	    getText: function getText(d, key) {
-	      if (typeof d[key] === "string" || d[key] instanceof String) {
-	        return d[key];
-	      } else return d[key] * 1.0 / 1e3;
-	    },
-	    ticks: 5
-	  },
-	  z: {
-	    label: i18next.t("z_label", {
-	      ns: "roadArea"
-	    }),
-	    getId: function getId(d) {
-	      return d.key;
-	    },
-	    getKeys: function getKeys(object) {
-	      var sett = this;
-	      var keys = Object.keys(object[0]);
-	      keys.splice(keys.indexOf("date"), 1);
-
-	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
-	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
-	      }
-
-	      return keys;
-	    },
-	    getClass: function getClass() {
-	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	        args[_key] = arguments[_key];
-	      }
-
-	      return this.z.getId.apply(this, args);
-	    },
-	    getText: function getText(d) {
-	      return i18next.t(d.key, {
-	        ns: "roadArea"
-	      });
-	    }
-	  },
-	  datatable: true,
-	  tableTitle: "",
-	  dataTableTotal: true,
-	  // show total in data table
-	  transition: false,
-	  width: 1050
-	};
-
-	function mapColourScaleFn (svgCB, colourArray, dimExtent) {
-	  var scalef = 1e3; // scale factor; MUST BE SAME AS IN AREA CHART SETTINGS
-
-	  var rectDim = 35;
-	  var formatComma = d3.format(",d"); // Create the g nodes
-
-	  var rects = svgCB.attr("class", "mapCB").selectAll("rect").data(colourArray).enter().append("g"); // Append rects onto the g nodes and fill
-
-	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 5).attr("x", function (d, i) {
-	    return 175 + i * rectDim;
-	  }).attr("fill", function (d, i) {
-	    return colourArray[i];
-	  }); // define rect text labels (calculate cbValues)
-
-	  var delta = (dimExtent[1] - dimExtent[0]) / colourArray.length;
-	  var cbValues = [];
-	  cbValues[0] = dimExtent[0];
-
-	  for (var idx = 1; idx < colourArray.length; idx++) {
-	    cbValues.push(Math.round(idx * delta + dimExtent[0]));
-	  } // add text node to rect g
-
-
-	  rects.append("text"); // Display text in text node
-
-	  var updateText;
-	  d3.select("#mapColourScale .mapCB").selectAll("text").text(function (i, j) {
-	    var s0 = formatComma(cbValues[j] / scalef);
-	    updateText = s0 + "+";
-	    return updateText;
-	  }).attr("text-anchor", "end").attr("transform", function (d, i) {
-	    return "translate(" + (180 + i * (rectDim + 0)) + ", 50) " + "rotate(-45)";
-	  }).style("display", function () {
-	    return "inline";
-	  });
-	}
-
-	var $sort = [].sort;
-	var test = [1, 2, 3];
-
-	_export(_export.P + _export.F * (_fails(function () {
-	  // IE8-
-	  test.sort(undefined);
-	}) || !_fails(function () {
-	  // V8 bug
-	  test.sort(null);
-	  // Old WebKit
-	}) || !_strictMethod($sort)), 'Array', {
-	  // 22.1.3.25 Array.prototype.sort(comparefn)
-	  sort: function sort(comparefn) {
-	    return comparefn === undefined
-	      ? $sort.call(_toObject(this))
-	      : $sort.call(_toObject(this), _aFunction(comparefn));
-	  }
-	});
-
 	var f$1 = {}.propertyIsEnumerable;
 
 	var _objectPie = {
 		f: f$1
 	};
 
-	var isEnum = _objectPie.f;
-	var _objectToArray = function (isEntries) {
-	  return function (it) {
-	    var O = _toIobject(it);
-	    var keys = _objectKeys(O);
-	    var length = keys.length;
-	    var i = 0;
-	    var result = [];
-	    var key;
-	    while (length > i) if (isEnum.call(O, key = keys[i++])) {
-	      result.push(isEntries ? [key, O[key]] : O[key]);
-	    } return result;
-	  };
+	var gOPD = Object.getOwnPropertyDescriptor;
+
+	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+	  O = _toIobject(O);
+	  P = _toPrimitive(P, true);
+	  if (_ie8DomDefine) try {
+	    return gOPD(O, P);
+	  } catch (e) { /* empty */ }
+	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
 	};
 
-	// https://github.com/tc39/proposal-object-values-entries
+	var _objectGopd = {
+		f: f$2
+	};
 
-	var $values = _objectToArray(false);
+	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	/* eslint-disable no-proto */
 
-	_export(_export.S, 'Object', {
-	  values: function values(it) {
-	    return $values(it);
-	  }
-	});
 
-	function fillMapFn (data, colourArray) {
-	  // data is an Array
-	  var thisData = data[0]; // Object
+	var check = function (O, proto) {
+	  _anObject(O);
+	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+	};
+	var _setProto = {
+	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+	    function (test, buggy, set) {
+	      try {
+	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+	        set(test, []);
+	        buggy = !(test instanceof Array);
+	      } catch (e) { buggy = true; }
+	      return function setPrototypeOf(O, proto) {
+	        check(O, proto);
+	        if (buggy) O.__proto__ = proto;
+	        else set(O, proto);
+	        return O;
+	      };
+	    }({}, false) : undefined),
+	  check: check
+	};
 
-	  var dimExtent = [];
-	  var totArray = [];
-	  totArray = Object.values(thisData);
-	  totArray.sort(function (a, b) {
-	    return a - b;
+	var setPrototypeOf = _setProto.set;
+	var _inheritIfRequired = function (that, target, C) {
+	  var S = target.constructor;
+	  var P;
+	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+	    setPrototypeOf(that, P);
+	  } return that;
+	};
+
+	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+	  return _objectKeysInternal(O, hiddenKeys);
+	};
+
+	var _objectGopn = {
+		f: f$3
+	};
+
+	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var space = '[' + _stringWs + ']';
+	var non = '\u200b\u0085';
+	var ltrim = RegExp('^' + space + space + '*');
+	var rtrim = RegExp(space + space + '*$');
+
+	var exporter = function (KEY, exec, ALIAS) {
+	  var exp = {};
+	  var FORCE = _fails(function () {
+	    return !!_stringWs[KEY]() || non[KEY]() != non;
 	  });
-	  dimExtent = d3.extent(totArray); // colour map to take data value and map it to the colour of the level bin it belongs to
+	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+	  if (ALIAS) exp[ALIAS] = fn;
+	  _export(_export.P + _export.F * FORCE, 'String', exp);
+	};
 
-	  var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray);
+	// 1 -> String#trimLeft
+	// 2 -> String#trimRight
+	// 3 -> String#trim
+	var trim = exporter.trim = function (string, TYPE) {
+	  string = String(_defined(string));
+	  if (TYPE & 1) string = string.replace(ltrim, '');
+	  if (TYPE & 2) string = string.replace(rtrim, '');
+	  return string;
+	};
 
-	  for (var key in thisData) {
-	    if (thisData.hasOwnProperty(key)) {
-	      d3.select(".dashboard .map").select("." + key).style("fill", colourMap(thisData[key]));
+	var _stringTrim = exporter;
+
+	var gOPN = _objectGopn.f;
+	var gOPD$1 = _objectGopd.f;
+	var dP$1 = _objectDp.f;
+	var $trim = _stringTrim.trim;
+	var NUMBER = 'Number';
+	var $Number = _global[NUMBER];
+	var Base = $Number;
+	var proto$1 = $Number.prototype;
+	// Opera ~12 has broken Object#toString
+	var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
+	var TRIM = 'trim' in String.prototype;
+
+	// 7.1.3 ToNumber(argument)
+	var toNumber = function (argument) {
+	  var it = _toPrimitive(argument, false);
+	  if (typeof it == 'string' && it.length > 2) {
+	    it = TRIM ? it.trim() : $trim(it, 3);
+	    var first = it.charCodeAt(0);
+	    var third, radix, maxCode;
+	    if (first === 43 || first === 45) {
+	      third = it.charCodeAt(2);
+	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+	    } else if (first === 48) {
+	      switch (it.charCodeAt(1)) {
+	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+	        default: return +it;
+	      }
+	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+	        code = digits.charCodeAt(i);
+	        // parseInt parses a string to a first unavailable symbol
+	        // but ToNumber should return NaN if a string contains unavailable symbols
+	        if (code < 48 || code > maxCode) return NaN;
+	      } return parseInt(digits, radix);
+	    }
+	  } return +it;
+	};
+
+	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+	  $Number = function Number(value) {
+	    var it = arguments.length < 1 ? 0 : value;
+	    var that = this;
+	    return that instanceof $Number
+	      // check on 1..constructor(foo) case
+	      && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
+	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+	  };
+	  for (var keys = _descriptors ? gOPN(Base) : (
+	    // ES3:
+	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+	    // ES6 (in case, if modules with ES6 Number statics required before):
+	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+	  ).split(','), j = 0, key$1; keys.length > j; j++) {
+	    if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
+	      dP$1($Number, key$1, gOPD$1(Base, key$1));
 	    }
 	  }
-
-	  return dimExtent;
-	}
-
-	function areaLegendFn (svgLegend, classArray) {
-	  var rectDim = 35; // Create the g nodes
-
-	  var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
-
-	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
-	    return 57 + i * rectDim * 5.2;
-	  }).attr("class", function (d, i) {
-	    return classArray[i];
-	  }); // add text node to rect g
-
-	  rects.append("text"); // Display text in text node
-
-	  d3.select("#areaLegend").selectAll("text").attr("y", 48).attr("x", function (d, i) {
-	    return 57 + i * rectDim * 5.2 + 40;
-	  }).style("display", function () {
-	    return "inline";
-	  });
+	  $Number.prototype = proto$1;
+	  proto$1.constructor = $Number;
+	  _redefine(_global, NUMBER, $Number);
 	}
 
 	// 7.2.2 IsArray(argument)
@@ -1348,6 +1276,416 @@
 	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
 	  };
 	};
+
+	var $filter = _arrayMethods(2);
+
+	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
+	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+	  filter: function filter(callbackfn /* , thisArg */) {
+	    return $filter(this, callbackfn, arguments[1]);
+	  }
+	});
+
+	var settings = {
+	  alt: i18next.t("alt", {
+	    ns: "roadArea"
+	  }),
+	  margin: {
+	    top: 50,
+	    left: 90,
+	    right: 30,
+	    bottom: 50
+	  },
+	  aspectRatio: 16 / 11,
+	  // creates variable d
+	  filterData: function filterData(data) {
+	    var count = 0;
+	    data.filter(function (item) {
+	      item.isLast = count === data.length - 1 ? true : false;
+	      count++;
+	    }); // data is an array of objects
+
+	    return data;
+	  },
+	  x: {
+	    label: i18next.t("x_label", {
+	      ns: "roadArea"
+	    }),
+	    getValue: function getValue(d, i) {
+	      // return new Date(d.date + "-01");
+	      // for first year, start at Jan -01T00:00:00.000Z
+	      // for last year, extend to allow vertical line cursor to reach it
+	      return d.isLast ? new Date(d.date, 0, 10, 0, 0, 0, 0) : // (year, month, date, hours, minutes, seconds, ms)
+	      new Date(d.date + "-01");
+	    },
+	    getText: function getText(d) {
+	      return d.date;
+	    },
+	    ticks: 8,
+	    tickSizeOuter: 0
+	  },
+	  y: {
+	    label: i18next.t("y_label", {
+	      ns: "roadArea"
+	    }),
+	    getValue: function getValue(d, key) {
+	      if (typeof d[key] === "string" || d[key] instanceof String) {
+	        return 0;
+	      } else return d[key] * 1.0 / 1e3;
+	    },
+	    getTotal: function getTotal(d, index, data) {
+	      var total;
+	      var keys;
+	      var sett = this;
+
+	      if (!d[sett.y.totalProperty]) {
+	        keys = sett.z.getKeys.call(sett, data);
+	        total = 0;
+
+	        for (var k = 0; k < keys.length; k++) {
+	          total += sett.y.getValue.call(sett, d, keys[k], data) * 1e3; // keep in orig scale when summing
+	        }
+
+	        d[sett.y.totalProperty] = total;
+	      }
+
+	      return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1000;
+	    },
+	    getText: function getText(d, key) {
+	      return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+	    },
+	    ticks: 5,
+	    tickSizeOuter: 0
+	  },
+	  z: {
+	    label: i18next.t("z_label", {
+	      ns: "roadArea"
+	    }),
+	    getId: function getId(d) {
+	      if (d.key !== "isLast") {
+	        return d.key;
+	      }
+	    },
+	    getKeys: function getKeys(object) {
+	      var sett = this;
+	      var keys = Object.keys(object[0]);
+	      keys.splice(keys.indexOf("date"), 1);
+
+	      if (keys.indexOf(sett.y.totalProperty) !== -1) {
+	        keys.splice(keys.indexOf(sett.y.totalProperty), 1);
+	      }
+
+	      if (keys.indexOf("isLast") !== -1) {
+	        // temporary key to be removed
+	        keys.splice(keys.indexOf("isLast"), 1);
+	      }
+
+	      return keys;
+	    },
+	    getClass: function getClass() {
+	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      return this.z.getId.apply(this, args);
+	    },
+	    getText: function getText(d) {
+	      return i18next.t(d.key, {
+	        ns: "roadArea"
+	      });
+	    }
+	  },
+	  datatable: true,
+	  tableTitle: "",
+	  dataTableTotal: true,
+	  // show total in data table
+	  transition: false,
+	  width: 1050
+	};
+
+	var $at = _stringAt(true);
+
+	// 21.1.3.27 String.prototype[@@iterator]()
+	_iterDefine(String, 'String', function (iterated) {
+	  this._t = String(iterated); // target
+	  this._i = 0;                // next index
+	// 21.1.5.2.1 %StringIteratorPrototype%.next()
+	}, function () {
+	  var O = this._t;
+	  var index = this._i;
+	  var point;
+	  if (index >= O.length) return { value: undefined, done: true };
+	  point = $at(O, index);
+	  this._i += point.length;
+	  return { value: point, done: false };
+	});
+
+	// call something on iterator step with safe closing on error
+
+	var _iterCall = function (iterator, fn, value, entries) {
+	  try {
+	    return entries ? fn(_anObject(value)[0], value[1]) : fn(value);
+	  // 7.4.6 IteratorClose(iterator, completion)
+	  } catch (e) {
+	    var ret = iterator['return'];
+	    if (ret !== undefined) _anObject(ret.call(iterator));
+	    throw e;
+	  }
+	};
+
+	// check on default Array iterator
+
+	var ITERATOR$2 = _wks('iterator');
+	var ArrayProto$1 = Array.prototype;
+
+	var _isArrayIter = function (it) {
+	  return it !== undefined && (_iterators.Array === it || ArrayProto$1[ITERATOR$2] === it);
+	};
+
+	var _createProperty = function (object, index, value) {
+	  if (index in object) _objectDp.f(object, index, _propertyDesc(0, value));
+	  else object[index] = value;
+	};
+
+	var ITERATOR$3 = _wks('iterator');
+
+	var core_getIteratorMethod = _core.getIteratorMethod = function (it) {
+	  if (it != undefined) return it[ITERATOR$3]
+	    || it['@@iterator']
+	    || _iterators[_classof(it)];
+	};
+
+	var ITERATOR$4 = _wks('iterator');
+	var SAFE_CLOSING = false;
+
+	try {
+	  var riter = [7][ITERATOR$4]();
+	  riter['return'] = function () { SAFE_CLOSING = true; };
+	} catch (e) { /* empty */ }
+
+	var _iterDetect = function (exec, skipClosing) {
+	  if (!skipClosing && !SAFE_CLOSING) return false;
+	  var safe = false;
+	  try {
+	    var arr = [7];
+	    var iter = arr[ITERATOR$4]();
+	    iter.next = function () { return { done: safe = true }; };
+	    arr[ITERATOR$4] = function () { return iter; };
+	    exec(arr);
+	  } catch (e) { /* empty */ }
+	  return safe;
+	};
+
+	_export(_export.S + _export.F * !_iterDetect(function (iter) { }), 'Array', {
+	  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+	  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+	    var O = _toObject(arrayLike);
+	    var C = typeof this == 'function' ? this : Array;
+	    var aLen = arguments.length;
+	    var mapfn = aLen > 1 ? arguments[1] : undefined;
+	    var mapping = mapfn !== undefined;
+	    var index = 0;
+	    var iterFn = core_getIteratorMethod(O);
+	    var length, result, step, iterator;
+	    if (mapping) mapfn = _ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+	    // if object isn't iterable or it's array with default iterator - use simple case
+	    if (iterFn != undefined && !(C == Array && _isArrayIter(iterFn))) {
+	      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+	        _createProperty(result, index, mapping ? _iterCall(iterator, mapfn, [step.value, index], true) : step.value);
+	      }
+	    } else {
+	      length = _toLength(O.length);
+	      for (result = new C(length); length > index; index++) {
+	        _createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+	      }
+	    }
+	    result.length = index;
+	    return result;
+	  }
+	});
+
+	function mapColourScaleFn (svgCB, colourArray, dimExtent, numLevels, scalef) {
+	  // Definitions
+	  // ---------------------------------------------------------------------------
+	  var rectDim = 35;
+	  var yRect = 20;
+	  var yText = 65;
+	  var yNaNText = yText + 7;
+	  var formatComma = d3.format(",d"); // text labels (calculate cbValues)
+
+	  var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
+	  var cbValues = [];
+	  cbValues[0] = dimExtent[0];
+
+	  for (var idx = 1; idx < numLevels; idx++) {
+	    cbValues.push(Math.round(idx * delta + dimExtent[0]));
+	  } // rect fill fn
+
+
+	  var getFill = function getFill(d, i) {
+	    return colourArray[i];
+	  }; // text fn
+
+
+	  var getText = function getText(i, j) {
+	    if (i < numLevels) {
+	      var s0 = formatComma(cbValues[j] / scalef);
+	      return s0 + "+";
+	    } else if (i === numLevels + 1) {
+	      // return i18next.t("NaNbox", {ns: "airUI"});
+	      return "x";
+	    }
+	  }; // tooltip for NaN box
+
+
+	  var divNaN = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
+	  // Create the umbrella group
+
+	  var rectGroups = svgCB.attr("class", "mapCB").selectAll(".legend").data(Array.from(Array(colourArray.length).keys())); // Append g nodes (to be filled with a rect and a text) to umbrella group
+
+	  var newGroup = rectGroups.enter().append("g").attr("class", "legend").attr("id", function (d, i) {
+	    return "cb".concat(i);
+	  }); // add rects
+
+	  newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", yRect).attr("x", function (d, i) {
+	    return 160 + i * rectDim;
+	  }).attr("fill", getFill).attr("class", function (d, i) {
+	    if (i === numLevels + 1) {
+	      return "classNaN";
+	    }
+	  }); // hover over NaN rect only
+
+	  newGroup.selectAll(".legend rect").on("mouseover", function (d, i) {
+	    if (d3.select(this).attr("class") === "classNaN") {
+	      var line1 = i18next.t("NaNhover1", {
+	        ns: "airUI"
+	      });
+	      var line2 = i18next.t("NaNhover2", {
+	        ns: "airUI"
+	      });
+	      divNaN.style("opacity", 0.9).html("<br>" + line1 + "<br>" + line2 + "<br><br>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
+	    }
+	  }).on("mouseout", function () {
+	    divNaN.style("opacity", 0);
+	  }); // add text
+
+	  newGroup.append("text").text(getText).attr("text-anchor", "end").attr("transform", function (d, i) {
+	    if (i < numLevels) {
+	      // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+	      return "translate(".concat(165 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
+	    } else if (i === numLevels + 1) {
+	      // NaN box in legend
+	      return "translate(".concat(181 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
+	    }
+	  }).style("display", function () {
+	    return "inline";
+	  }); // Update rect fill for any new colour arrays passed in
+
+	  rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
+
+	  rectGroups.select("text").text(getText);
+	  rectGroups.exit().remove();
+	}
+
+	var $sort = [].sort;
+	var test = [1, 2, 3];
+
+	_export(_export.P + _export.F * (_fails(function () {
+	  // IE8-
+	  test.sort(undefined);
+	}) || !_fails(function () {
+	  // V8 bug
+	  test.sort(null);
+	  // Old WebKit
+	}) || !_strictMethod($sort)), 'Array', {
+	  // 22.1.3.25 Array.prototype.sort(comparefn)
+	  sort: function sort(comparefn) {
+	    return comparefn === undefined
+	      ? $sort.call(_toObject(this))
+	      : $sort.call(_toObject(this), _aFunction(comparefn));
+	  }
+	});
+
+	var isEnum = _objectPie.f;
+	var _objectToArray = function (isEntries) {
+	  return function (it) {
+	    var O = _toIobject(it);
+	    var keys = _objectKeys(O);
+	    var length = keys.length;
+	    var i = 0;
+	    var result = [];
+	    var key;
+	    while (length > i) if (isEnum.call(O, key = keys[i++])) {
+	      result.push(isEntries ? [key, O[key]] : O[key]);
+	    } return result;
+	  };
+	};
+
+	// https://github.com/tc39/proposal-object-values-entries
+
+	var $values = _objectToArray(false);
+
+	_export(_export.S, 'Object', {
+	  values: function values(it) {
+	    return $values(it);
+	  }
+	});
+
+	function fillMapFn (data, colourArray, numLevels) {
+	  var nullColour = colourArray.slice(-1)[0]; // data is an Array
+
+	  var thisData = data[0]; // Object
+
+	  var dimExtent = [];
+	  var totArray = [];
+	  totArray = Object.values(thisData);
+	  totArray.sort(function (a, b) {
+	    return a - b;
+	  });
+	  dimExtent = d3.extent(totArray); // colour map to take data value and map it to the colour of the level bin it belongs to
+
+	  var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, numLevels));
+
+	  var _loop = function _loop(key) {
+	    if (thisData.hasOwnProperty(key)) {
+	      d3.select(".dashboard .map").select("." + key).style("fill", function () {
+	        return Number(thisData[key]) ? colourMap(thisData[key]) : nullColour;
+	      }).classed("classNaN", function () {
+	        if (!Number(thisData[key])) {
+	          return true;
+	        }
+	      });
+	    }
+	  };
+
+	  for (var key in thisData) {
+	    _loop(key);
+	  }
+
+	  return dimExtent;
+	}
+
+	function areaLegendFn (svgLegend, classArray) {
+	  var rectDim = 15;
+	  var x0 = 50;
+	  var scaling = 9.5; // Create the g nodes
+
+	  var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
+
+	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
+	    return x0 + i * rectDim * scaling;
+	  }).attr("class", function (d, i) {
+	    return classArray[i];
+	  }); // add text node to rect g
+
+	  rects.append("text"); // Display text in text node
+
+	  d3.select("#areaLegend").selectAll("text").attr("y", 38).attr("x", function (d, i) {
+	    return x0 + i * rectDim * scaling + 20;
+	  }).style("display", function () {
+	    return "inline";
+	  });
+	}
 
 	var $map = _arrayMethods(1);
 
@@ -1595,7 +1933,7 @@
 	  bottom: 10,
 	  left: 20
 	};
-	var width = 510 - margin.left - margin.right;
+	var width = 570 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
 	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // area chart legend
 
@@ -1698,8 +2036,12 @@
 	    }) + "</b>: $" + thisDiesel + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("lpg", {
 	      ns: "roadArea"
 	    }) + "</b>: $" + thisLPG + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
+	    hoverLine.style("display", null);
+	    hoverLine.style("transform", "translate(" + stackedChart.x(new Date(hoverValue.date)) + "px)");
+	    hoverLine.moveToFront();
 	  }).on("mouseout", function (d, i) {
 	    // Clear tooltip
+	    hoverLine.style("display", "none");
 	    divArea.transition().style("opacity", 0);
 	  });
 	} // -----------------------------------------------------------------------------
@@ -1735,16 +2077,15 @@
 	  // store map data in array and plot colour
 	  var thisTotalArray = [];
 	  thisTotalArray.push(mapData[selectedYear]);
-	  var colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"]; // colour map with fillMapFn and output dimExtent for colour bar scale
+	  var colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+	  var numLevels = colourArray.length; // colour map with fillMapFn and output dimExtent for colour bar scale
 
-	  var dimExtent = fillMapFn(thisTotalArray, colourArray); // colour bar scale and add label
+	  var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
 
-	  var mapScaleLabel = i18next.t("mapScaleLabel", {
+	  var mapScaleLabel = i18next.t("units", {
 	    ns: "road"
-	  }) + " (" + i18next.t("units", {
-	    ns: "road"
-	  }) + ")";
-	  mapColourScaleFn(svgCB, colourArray, dimExtent); // Colourbar label (need be plotted only once)
+	  });
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef); // Colourbar label (need be plotted only once)
 
 	  var label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");
 
@@ -1758,6 +2099,7 @@
 	function showData() {
 	  stackedChart = areaChart(chart, settings, data[selectedRegion]);
 	  d3.select("#svgFuel").select(".x.axis").select("text").attr("display", "none");
+	  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 	  areaInteraction();
 	  plotLegend(); // Highlight region selected from menu on map
 
@@ -1773,10 +2115,9 @@
 	function updateTitles() {
 	  var geography = i18next.t(selectedRegion, {
 	    ns: "roadGeography"
-	  });
-	  d3.select("#mapTitleRoad").text(i18next.t("mapTitle", {
-	    ns: "road"
-	  }) + ", " + geography + ", " + selectedYear);
+	  }); // d3.select("#mapTitleRoad")
+	  //     .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
+
 	  d3.select("#areaTitleRoad").text(i18next.t("chartTitle", {
 	    ns: "road"
 	  }) + ", " + geography);
@@ -1797,14 +2138,6 @@
 	}
 
 	function plotHoverLine() {
-	  var overlayRect = d3.select("#svgFuel .data").append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay").on("mouseout", function () {
-	    hoverLine.style("display", "none");
-	  }).on("mousemove", function () {
-	    hoverLine.style("display", "inline");
-	    hoverLine.style("transform", "translate(" + d3.mouse(this)[0] + "px)");
-	    hoverLine.moveToFront();
-	  });
-	  overlayRect.attr("width", stackedChart.settings.innerWidth).attr("height", stackedChart.settings.innerHeight);
 	  hoverLine.attr("x1", stackedChart.settings.margin.left).attr("x2", stackedChart.settings.margin.left).attr("y1", stackedChart.settings.margin.top).attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
 	} // -----------------------------------------------------------------------------
 
@@ -1850,7 +2183,10 @@
 	  var geography = i18next.t(selectedRegion, {
 	    ns: "roadGeography"
 	  });
-	  var title = ["Sales of fuel in ".concat(geography, " used for road motor vehicles, annual (millions of dollars)")];
+	  var title = [i18next.t("tableTitle", {
+	    ns: "roadArea",
+	    geo: geography
+	  })];
 	  var columns = [""];
 
 	  for (var concept in cButtondata[0]) {
@@ -1898,7 +2234,10 @@
 	    data[selectedRegion] = areafile;
 	    getCanadaMap(map).on("loaded", function () {
 	      colorMap();
-	    }); // Area chart and x-axis position
+	    });
+	    d3.select("#mapTitleRoad").text(i18next.t("mapTitle", {
+	      ns: "road"
+	    })); // Area chart and x-axis position
 
 	    stackedChart = areaChart(chart, settings, data[selectedRegion]);
 	    areaInteraction();

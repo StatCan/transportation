@@ -156,10 +156,10 @@
 	<form onSubmit="return false;">
 		<div class="row">
 			<div class="column form-group col-md-4">
-				<label id="data_set_change">Change Dataset</label>
+				<label id="data_set_change">Change dataset</label>
 				<div><div class="btn-group" role="group" aria-labelledby="data_set_change">
-					<button id="movements" type="button" class="btn btn-primary movements data_set_selector" aria-pressed="true">Passenger Movements</button>
-					<button id="major" type="button" class="btn btn-default major data_set_selector" aria-pressed="false">Major Airports</button>
+					<button id="movements" type="button" class="btn btn-primary movements data_set_selector" aria-pressed="true">Passenger movements</button>
+					<button id="major" type="button" class="btn btn-default major data_set_selector" aria-pressed="false">Major airports</button>
 				</div></div>
 			</div>
 		</div>
@@ -177,7 +177,7 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
-			<div id="months" style= "visibility: hidden" class="col-md-3">
+			<div id="months" style= "visibility: hidden" class="col-md-4">
 				<label for="groups_month">Month</label>
 				<select  id="monthSelector" class="form-control">
 					<option value="01">January</option>
@@ -194,7 +194,7 @@
 					<option value="12">December</option>
 				</select>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-6">
 				<div class="form-group">
 					<label for="groups">Geographic region:</label>
 					<select id="groups" class="form-control">
@@ -209,7 +209,7 @@
 	<div class="row"> <!-- main row 1 -->
         <div class="dashboard">
 
-          	<div class="col-md-5"> <!-- first col in main row 1 -->
+          	<div class="col-md-6"> <!-- first col in main row 1 -->
 	            <div> <!-- first row in col 1 -->
 	              <div id="mapTitleAir">
 	                <h3></h3>
@@ -218,20 +218,15 @@
 	            </div> <!-- /row -->
 
 	            <div> <!-- second row in col 1 -->
-	            <div class="col-md-10">
+
 	              <div id="mapColourScale">
 	                <svg></svg>
 	              </div>
-	            </div>
-	            <div class="col-md-2">
-	              <div id="mapColourScaleNaN">
-	                <svg></svg>
-	              </div>
-	            </div>
+
 	            </div> <!-- /row -->
 	        </div> <!-- /first col -->
 
-	        <div class="col-md-7"> <!-- second col in main row 1 -->
+	        <div class="col-md-6"> <!-- second col in main row 1 -->
 	            <div id="areaTitleAir">
 	              <h3></h3>
 	           </div>
@@ -247,26 +242,12 @@
         </div> <!-- dashboard -->
      </div> <!-- main row 1 -->
 
-    <!-- airport area chart row -->
-    <div class="row">
-		<div class="dashboard">
-			<div id="aptChart" class="data col-md-10">
-				<h4></h4>
-			</div>
-		</div>
-	</div>
-
-    <!-- table row -->
-    <div class="row">
-        <div class="airdata">
-          <div id="areaTable"></div>
-        </div>
-
-        <div class="airdata">
-          <div id="airportTable"></div>
-        </div>
-	</div> <!-- main row 2 -->
-
+     <!-- table row -->
+     <div class="row">
+         <div class="airdata">
+           <div id="areaTable"></div>
+         </div>
+    </div> <!-- main row 2 -->
 
 <!-- End chart -->
 </div>
