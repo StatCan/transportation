@@ -611,7 +611,7 @@ map.on("mouseout", () => {
 });
 
 map.on("click", () => {
-  if (!d3.select(d3.event.target).attr("class")) {
+  if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
     resetZoom();
   } else if (d3.select(d3.event.target).attr("class") &&
       d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
