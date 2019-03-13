@@ -3,7 +3,7 @@ const defaults = {
   aspectRatio: 16 / 10,
   width: 900,
   margin: {
-    top: 10,
+    top: 30,
     right: 10,
     bottom: 30,
     left: 10
