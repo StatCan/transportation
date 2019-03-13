@@ -57,6 +57,7 @@ function uiHandler(event) {
     if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 
     loadData(selectedYear, selectedMonth, () => {
+      createDropdown();
       showData();
     });
   }
@@ -113,6 +114,7 @@ function updateTitles() {
 function createDropdown() {
   const yearDropdown = $("#year");
   // date dropdown creation
+  console.log(dateRange)
   yearDropdown.empty();
   for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
     yearDropdown.append($("<option></option>")
@@ -120,11 +122,17 @@ function createDropdown() {
   }
   d3.select("#year")._groups[0][0].value = selectedYear;
   const maxMonth = Number(dateRange.max.substring(5, 7));
-  $("#month > option").each(function() {
-    if (Number(this.value) > maxMonth) {
-      this.disabled = true;
-    }
-  });
+  const maxYear = Number(dateRange.max.substring(0, 4));
+
+  if (Number(selectedYear) === maxYear) {
+    $("#month > option").each(function() {
+      if (Number(this.value) > maxMonth) {
+        this.disabled = true;
+      }
+    });
+  } else {
+    d3.selectAll("#month > option").property("disabled", false);
+  }
 }
 
 // -----------------------------------------------------------------------------
