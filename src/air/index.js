@@ -457,6 +457,8 @@ const hoverLine = chart.append("line")
 // -----------------------------------------------------------------------------
 /* UI Handler */
 $(".data_set_selector").on("click", function(event) {
+  resetZoom();
+
   // Reset to defaults
   d3.select(".map").selectAll("path").classed("airMapHighlight", false);
   selectedYear = defaultYear;
@@ -609,14 +611,15 @@ map.on("mouseout", () => {
 });
 
 map.on("click", () => {
-  // Do not allow NaN region to be clicked
-  if (d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) {
+  if (!d3.select(d3.event.target).attr("class")) {
+    console.log("outside map");
+    resetZoom();
+  } else if (d3.select(d3.event.target).attr("class") &&
+      d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
     // clear any previous clicks
     d3.select(".map")
         .selectAll("path")
         .classed("airMapHighlight", false);
-
-    // const transition = d3.transition().duration(1000);
 
     // User clicks on region
     if (d3.select(d3.event.target).attr("class") &&
@@ -652,33 +655,15 @@ map.on("click", () => {
 
           canadaMap.zoom(classes[0]);
         }
-      }
-    } else { // user clicks outside map
-      // reset circle size
-      path.pointRadius(function(d, i) {
-        return defaultPointRadius;
-      });
-
-      // reset area chart to Canada
-      selectedRegion = "CANADA";
-      showAreaData();
-
-      // update region displayed in dropdown menu
-      d3.select("groups")._groups[0][0].value = selectedRegion;
-      // Chart titles
-      updateTitles();
-
-      if (d3.select("." + selectedRegion + ".zoomed")) {
-        // clear zoom
-        return canadaMap.zoom();
+        // Chart titles
+        updateTitles();
       }
     }
-
-    // Chart titles
-    updateTitles();
   }
 });
 
+// -----------------------------------------------------------------------------
+/* FNS */
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
@@ -780,7 +765,32 @@ function areaInteraction() {
 }
 
 // -----------------------------------------------------------------------------
-/* FNS */
+/* -- map-related -- */
+const resetZoom = function() {
+  // clear any previous clicks
+  d3.select(".map")
+      .selectAll("path")
+      .classed("airMapHighlight", false);
+
+  // reset circle size
+  path.pointRadius(function(d, i) {
+    return defaultPointRadius;
+  });
+
+  // reset area chart to Canada
+  selectedRegion = "CANADA";
+  showAreaData();
+
+  // update region displayed in dropdown menu
+  d3.select("#groups")._groups[0][0].value = selectedRegion;
+  // Chart titles
+  updateTitles();
+
+  if (d3.select("." + selectedRegion + ".zoomed")) {
+    // clear zoom
+    return canadaMap.zoom();
+  }
+};
 /* -- plot circles on map -- */
 const refreshMap = function() {
   // when circles are properly labeled add functionality to move grey dots to the background
