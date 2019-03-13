@@ -191,7 +191,8 @@
       "y_label": "",
       "domestic": "Intérieur",
       "international": "Autres internationaux",
-      "transborder": "Transfrontalier"
+      "transborder": "Transfrontalier",
+      "total": "Tous"
     },
     "passengerDropdown": {
       "CANADA": "Canada",

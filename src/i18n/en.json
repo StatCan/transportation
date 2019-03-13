@@ -170,7 +170,8 @@
       "y_label": "",
       "domestic": "Domestic",
       "international": "International",
-      "transborder": "Transborder"
+      "transborder": "Transborder",
+      "total": "Total"
     },
     "airPassengers": {
       "chartTitle": "Air passenger traffic",
