@@ -24,10 +24,10 @@ export default function(data, colourArray, numLevels) {
       d3.select(".dashboard .map")
           .select("." + key)
           .style("fill", function() {
-            return thisData[key] ? colourMap(thisData[key]) : nullColour;
+            return Number(thisData[key]) ? colourMap(thisData[key]) : nullColour;
           })
           .classed("classNaN", function() {
-            if (!thisData[key]) {
+            if (!Number(thisData[key])) {
               return true;
             }
           });

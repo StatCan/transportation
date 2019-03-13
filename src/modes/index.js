@@ -109,7 +109,7 @@ function updateTitles() {
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
-//create year dropdown based on data
+// create year dropdown based on data
 function createDropdown() {
   const yearDropdown = $("#year");
   // date dropdown creation
@@ -125,7 +125,6 @@ function createDropdown() {
       this.disabled = true;
     }
   });
-
 }
 
 // -----------------------------------------------------------------------------
@@ -147,7 +146,7 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/modes/dateRange.json")
       .await(function(error, dataDateRange) {
         dateRange = dataDateRange;
-        createDropdown()
+        createDropdown();
       });
   // copy button options
   const cButtonOptions = {

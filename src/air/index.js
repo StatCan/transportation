@@ -395,7 +395,7 @@ const movementsButton = d3.select("#major");
 const passengerButton = d3.select("#movements");
 const monthDropdown = d3.select("#months");
 // map colour bar
-const margin = {top: 20, right: 0, bottom: 10, left: 20};
+const margin = {top: 0, right: 0, bottom: 10, left: 20};
 const width = 570 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
@@ -549,7 +549,8 @@ map.on("mousemove", () => {
     // const classes = d3.event.target.classList;
     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
-    if (classes[0] !== "svg-shimmed" && classes.indexOf("classNaN") === -1) {
+    // if (classes[0] !== "svg-shimmed" && classes.indexOf("classNaN") === -1) {
+    if (classes[0] !== "svg-shimmed") {
       const key = i18next.t(classes[0], {ns: "airGeography"});
 
       if (key !== "airport") {

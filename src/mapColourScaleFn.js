@@ -1,5 +1,10 @@
 export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
+  // Definitions
+  // ---------------------------------------------------------------------------
   const rectDim = 35;
+  const yRect = 20;
+  const yText = 65;
+  const yNaNText = yText + 7;
   const formatComma = d3.format(",d");
 
   // text labels (calculate cbValues)
@@ -31,6 +36,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .attr("class", "tooltip")
       .style("opacity", 0);
 
+  // -----------------------------------------------------------------------------
   // Create the umbrella group
   const rectGroups = svgCB
       .attr("class", "mapCB")
@@ -51,7 +57,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .append("rect")
       .attr("width", rectDim)
       .attr("height", rectDim)
-      .attr("y", 5)
+      .attr("y", yRect)
       .attr("x", function(d, i) {
         return 160 + i * rectDim;
       })
@@ -92,9 +98,10 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .attr("text-anchor", "end")
       .attr("transform", function(d, i) {
         if (i < numLevels) {
-          return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+          // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+          return `translate(${165 + (i * (rectDim + 0))}, ${yText}) rotate(-45)`;
         } else if (i === numLevels + 1) { // NaN box in legend
-          return "translate(" + (181 + (i * (rectDim + 0))) + ", 57) ";
+          return `translate(${181 + (i * (rectDim + 0))}, ${yNaNText}) `;
         }
       })
       .style("display", function() {
