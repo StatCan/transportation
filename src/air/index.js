@@ -486,7 +486,6 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = majorTotals;
-    getData();
     showAreaData();
     colorMap();
     refreshMap();
@@ -510,7 +509,6 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = passengerTotals;
-    getData();
     showAreaData();
     colorMap();
     refreshMap();
@@ -631,8 +629,9 @@ map.on("click", () => {
             .select("." + classes[0])
             .classed("airMapHighlight", true);
         // Display selected region in stacked area chart
-        getData();
-        // update region displayed in dropdown menu
+        showAreaData();
+
+        // upsdate region displayed in dropdown menu
         d3.select("#groups")._groups[0][0].value = selectedRegion;
 
         // ---------------------------------------------------------------------
@@ -781,23 +780,6 @@ function areaInteraction() {
 
 // -----------------------------------------------------------------------------
 /* FNS */
-function getData() {
-  if (!data[selectedDataset][selectedRegion]) {
-    d3.json(`data/air/${selectedDataset}/${selectedRegion}.json`, (err, filedata) => {
-      data[selectedDataset][selectedRegion] = filedata.map((obj) => {
-        const rObj = {};
-        rObj.date = obj.date;
-        rObj.domestic = obj.domestic;
-        rObj.transborder = obj.transborder;
-        rObj.international = obj.international;
-        return rObj;
-      });
-      showAreaData();
-    });
-  } else {
-    showAreaData();
-  }
-}
 /* -- plot circles on map -- */
 const refreshMap = function() {
   // when circles are properly labeled add functionality to move grey dots to the background
@@ -815,7 +797,7 @@ const refreshMap = function() {
         if (metaData[selectedDate][d.properties.id]) {
           return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
         } else {
-          return "airport " + selectedDataset + " " + metaData[selectedDate]["noData"];
+          return "airport " + selectedDataset + " " + "dontShow";
         }
       })
       .on("mouseover", (d) => {
