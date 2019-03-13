@@ -70,7 +70,7 @@ export default {
   },
 
   z: {
-    // label: i18next.t("z_label", {ns: "airPassengers"}),
+    // label: i18next.t("z_label", {ns: "airMajorAirports"}),
     getId: function(d) {
       if (d.key !== "isLast") {
         return d.key;
