@@ -1257,23 +1257,6 @@
 	  ];
 	});
 
-	var dP$2 = _objectDp.f;
-	var FProto = Function.prototype;
-	var nameRE = /^\s*function ([^ (]*)/;
-	var NAME$1 = 'name';
-
-	// 19.2.4.2 name
-	NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
-	  configurable: true,
-	  get: function () {
-	    try {
-	      return ('' + this).match(nameRE)[1];
-	    } catch (e) {
-	      return '';
-	    }
-	  }
-	});
-
 	var $sort = [].sort;
 	var test = [1, 2, 3];
 
@@ -1315,6 +1298,23 @@
 	  return function link(url) {
 	    return createHTML(this, 'a', 'href', url);
 	  };
+	});
+
+	var dP$2 = _objectDp.f;
+	var FProto = Function.prototype;
+	var nameRE = /^\s*function ([^ (]*)/;
+	var NAME$1 = 'name';
+
+	// 19.2.4.2 name
+	NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
+	  configurable: true,
+	  get: function () {
+	    try {
+	      return ('' + this).match(nameRE)[1];
+	    } catch (e) {
+	      return '';
+	    }
+	  }
 	});
 
 	// https://github.com/tc39/Array.prototype.includes
@@ -1470,6 +1470,30 @@
 	      return nonZeroNodes.includes(d.node);
 	    })
 	  };
+
+	  function checkHasFourLevels() {
+	    var thisFlag;
+	    var hasFourLevels = false;
+	    var landNodes = ["USres_land", "cdnFromUS_land"];
+
+	    var _loop = function _loop(idx) {
+	      data.nodes.map(function (item) {
+	        if (item.name === landNodes[idx]) {
+	          if (item.sourceLinks.length > 0) {
+	            thisFlag = true;
+	          }
+	        }
+	      });
+	      hasFourLevels = hasFourLevels || thisFlag;
+	    };
+
+	    for (var idx = 0; idx < landNodes.length; idx++) {
+	      _loop(idx);
+	    }
+
+	    return hasFourLevels;
+	  }
+
 	  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom; // format variables
 
 	  var formatNumber = d3.format(",.0f"); // zero decimal places
@@ -1492,9 +1516,10 @@
 	    if (dataLayer.empty()) {
 	      dataLayer = chartInner.append("g").attr("class", "data");
 	    } // add in the links
+	    // const link = dataLayer.append("g").selectAll(".link") // use only if dragmove is defined
 
 
-	    var link = dataLayer.append("g").selectAll(".link").data(sankey.links()).enter().append("path").attr("class", "link").attr("d", path).style("stroke-width", function (d) {
+	    dataLayer.append("g").selectAll(".link").data(sankey.links()).enter().append("path").attr("class", "link").attr("d", path).style("stroke-width", function (d) {
 	      return Math.max(1, d.dy);
 	    }).sort(function (a, b) {
 	      return b.dy - a.dy;
@@ -1519,11 +1544,15 @@
 	        return "node " + d.name; // d.name to fill by class in css
 	      }).attr("transform", function (d) {
 	        return "translate(".concat(d.x || 0, ", ").concat(d.y || 0, ")");
-	      }).call(d3.drag().subject(function (d) {
-	        return d;
-	      }).on("start", function () {
-	        this.parentNode.appendChild(this);
-	      }).on("drag", dragmove));
+	      }); // .call(d3.drag()
+	      //     .subject(function(d) {
+	      //       return d;
+	      //     })
+	      //     .on("start", function() {
+	      //       this.parentNode.appendChild(this);
+	      //     })
+	      //     .on("drag", dragmove));
+
 	      node.on("mousemove", function (d) {
 	        div.transition().style("opacity", .9);
 	        div.html("<b>" + i18next.t(d.name, {
@@ -1545,9 +1574,25 @@
 	        }) + "\n" + format(d.value);
 	      }); // add in the title for the nodes
 
-	      node.append("text").attr("x", -6).attr("y", function (d) {
+	      node.append("text").attr("x", function (d) {
+	        var hasFourLevels = checkHasFourLevels();
+
+	        if (d.level === 2 && hasFourLevels === true) {
+	          return 40;
+	        } else {
+	          return -6;
+	        }
+	      }).attr("y", function (d) {
 	        return d.dy / 2;
-	      }).attr("dy", ".35em").attr("text-anchor", "end").attr("transform", null).text(function (d) {
+	      }).attr("dy", ".35em").attr("text-anchor", function (d) {
+	        var hasFourLevels = checkHasFourLevels();
+
+	        if (d.level === 2 && hasFourLevels === true) {
+	          return "start";
+	        } else {
+	          return "end";
+	        }
+	      }).attr("transform", null).text(function (d) {
 	        if (d.value != 0) return i18next.t(d.name, {
 	          ns: "modes"
 	        });
@@ -1555,13 +1600,18 @@
 	        return d.x < innerWidth / 2;
 	      }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200);
 	    } // the function for moving the nodes
+	    // function dragmove(d) {
+	    //   d3.select(this)
+	    //       .attr("transform",
+	    //           "translate("
+	    //              + d.x + ","
+	    //              + (d.y = Math.max(
+	    //                  0, Math.min(innerHeight - d.dy, d3.event.y))
+	    //              ) + ")");
+	    //   sankey.relayout();
+	    //   link.attr("d", path);
+	    // }
 
-
-	    function dragmove(d) {
-	      d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(innerHeight - d.dy, d3.event.y))) + ")");
-	      sankey.relayout();
-	      link.attr("d", path);
-	    }
 
 	    function wrap(text, width) {
 	      var xcoord = 40;
@@ -2194,6 +2244,7 @@
 
 	    if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 	    loadData(selectedYear, selectedMonth, function () {
+	      createDropdown();
 	      showData();
 	    });
 	  }
@@ -2269,11 +2320,28 @@
 
 	  d3.select("#year")._groups[0][0].value = selectedYear;
 	  var maxMonth = Number(dateRange.max.substring(5, 7));
-	  $("#month > option").each(function () {
-	    if (Number(this.value) > maxMonth) {
-	      this.disabled = true;
+	  var maxYear = Number(dateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
+
+	  if (Number(selectedYear) === maxYear) {
+	    $("#month > option").each(function () {
+	      if (Number(this.value) > maxMonth) {
+	        this.disabled = true;
+	      }
+	    });
+	  } else {
+	    // Enable all months
+	    d3.selectAll("#month > option").property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+
+	    var currentMonth = Number(d3.select("#month")._groups[0][0].value);
+
+	    if (currentMonth > maxMonth) {
+	      $("#year > option").each(function () {
+	        if (Number(this.value) === maxYear) {
+	          this.disabled = true;
+	        }
+	      });
 	    }
-	  });
+	  }
 	} // -----------------------------------------------------------------------------
 
 	/* Copy Button*/

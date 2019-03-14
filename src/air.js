@@ -3511,11 +3511,28 @@
 
     if (selectedDataset == "major_airports") {
       var maxMonth = Number(selectedDateRange.max.substring(5, 7));
-      $("#monthSelector > option").each(function () {
-        if (Number(this.value) > maxMonth) {
-          this.disabled = true;
+      var maxYear = Number(selectedDateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
+
+      if (Number(selectedYear) === maxYear) {
+        $("#monthSelector > option").each(function () {
+          if (Number(this.value) > maxMonth) {
+            this.disabled = true;
+          }
+        });
+      } else {
+        // Enable all months
+        d3.selectAll("#monthSelector > option").property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+
+        var currentMonth = Number(d3.select("#monthSelector")._groups[0][0].value);
+
+        if (currentMonth > maxMonth) {
+          $("#yearSelector > option").each(function () {
+            if (Number(this.value) === maxYear) {
+              this.disabled = true;
+            }
+          });
         }
-      });
+      }
     } // end dropdown
 
 
