@@ -116,15 +116,15 @@ export default function(svg, settings, data) {
           })
           .attr("transform", function(d) {
             return `translate(${d.x || 0}, ${d.y || 0})`;
-          })
-          .call(d3.drag()
-              .subject(function(d) {
-                return d;
-              })
-              .on("start", function() {
-                this.parentNode.appendChild(this);
-              })
-              .on("drag", dragmove));
+          });
+          // .call(d3.drag()
+          //     .subject(function(d) {
+          //       return d;
+          //     })
+          //     .on("start", function() {
+          //       this.parentNode.appendChild(this);
+          //     })
+          //     .on("drag", dragmove));
 
       node
           .on("mousemove", function(d) {
@@ -180,17 +180,17 @@ export default function(svg, settings, data) {
           .call(wrap, 200);
     }
     // the function for moving the nodes
-    function dragmove(d) {
-      d3.select(this)
-          .attr("transform",
-              "translate("
-                 + d.x + ","
-                 + (d.y = Math.max(
-                     0, Math.min(innerHeight - d.dy, d3.event.y))
-                 ) + ")");
-      sankey.relayout();
-      link.attr("d", path);
-    }
+    // function dragmove(d) {
+    //   d3.select(this)
+    //       .attr("transform",
+    //           "translate("
+    //              + d.x + ","
+    //              + (d.y = Math.max(
+    //                  0, Math.min(innerHeight - d.dy, d3.event.y))
+    //              ) + ")");
+    //   sankey.relayout();
+    //   link.attr("d", path);
+    // }
 
     function wrap(text, width) {
       const xcoord = 40;
