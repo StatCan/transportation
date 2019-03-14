@@ -1536,69 +1536,76 @@
 	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
-	    }); // DO NOT PLOT IF DATA IS COMPLETELY ZERO
+	    }); // add in the nodes
 
-	    if (data.links.length !== 0) {
-	      // add in the nodes
-	      var node = dataLayer.append("g").selectAll(".node").data(sankey.nodes()).enter().append("g").attr("class", function (d) {
-	        return "node " + d.name; // d.name to fill by class in css
-	      }).attr("transform", function (d) {
-	        return "translate(".concat(d.x || 0, ", ").concat(d.y || 0, ")");
-	      }); // .call(d3.drag()
-	      //     .subject(function(d) {
-	      //       return d;
-	      //     })
-	      //     .on("start", function() {
-	      //       this.parentNode.appendChild(this);
-	      //     })
-	      //     .on("drag", dragmove));
+	    var node = dataLayer.append("g").selectAll(".node").data(sankey.nodes()).enter().append("g").attr("class", function (d) {
+	      return "node " + d.name; // d.name to fill by class in css
+	    }).attr("transform", function (d) {
+	      return "translate(".concat(d.x || 0, ", ").concat(d.y || 0, ")");
+	    }); // .call(d3.drag()
+	    //     .subject(function(d) {
+	    //       return d;
+	    //     })
+	    //     .on("start", function() {
+	    //       this.parentNode.appendChild(this);
+	    //     })
+	    //     .on("drag", dragmove));
 
-	      node.on("mousemove", function (d) {
-	        div.transition().style("opacity", .9);
-	        div.html("<b>" + i18next.t(d.name, {
-	          ns: "modes"
-	        }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
-	          ns: "modes_sankey"
-	        }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
-	      }).on("mouseout", function (d) {
-	        div.transition().style("opacity", 0);
-	      }); // add the rectangles for the nodes
+	    node.on("mousemove", function (d) {
+	      div.transition().style("opacity", .9);
+	      div.html("<b>" + i18next.t(d.name, {
+	        ns: "modes"
+	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
+	        ns: "modes_sankey"
+	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	    }).on("mouseout", function (d) {
+	      div.transition().style("opacity", 0);
+	    }); // add the rectangles for the nodes
 
-	      node.append("rect").attr("height", function (d) {
-	        return d.dy;
-	      }).attr("width", sankey.nodeWidth()).style("stroke", function (d) {
-	        return d3.rgb(d.color).darker(2);
-	      }).text(function (d) {
-	        return i18next.t(d.name, {
-	          ns: "modes"
-	        }) + "\n" + format(d.value);
-	      }); // add in the title for the nodes
+	    node.append("rect").attr("height", function (d) {
+	      return d.dy;
+	    }).attr("width", sankey.nodeWidth()).style("stroke", function (d) {
+	      return d3.rgb(d.color).darker(2);
+	    }).text(function (d) {
+	      return i18next.t(d.name, {
+	        ns: "modes"
+	      }) + "\n" + format(d.value);
+	    }); // add in the title for the nodes
 
-	      node.append("text").attr("x", function (d) {
-	        var hasFourLevels = checkHasFourLevels();
+	    node.append("text").attr("x", function (d) {
+	      var hasFourLevels = checkHasFourLevels();
 
-	        if (d.level === 2 && hasFourLevels === true) {
-	          return 40;
-	        } else {
-	          return -6;
-	        }
-	      }).attr("y", function (d) {
-	        return d.dy / 2;
-	      }).attr("dy", ".35em").attr("text-anchor", function (d) {
-	        var hasFourLevels = checkHasFourLevels();
+	      if (d.level === 2 && hasFourLevels === true) {
+	        return 40;
+	      } else {
+	        return -6;
+	      }
+	    }).attr("y", function (d) {
+	      return d.dy / 2;
+	    }).attr("dy", ".35em").attr("text-anchor", function (d) {
+	      var hasFourLevels = checkHasFourLevels();
 
-	        if (d.level === 2 && hasFourLevels === true) {
-	          return "start";
-	        } else {
-	          return "end";
-	        }
-	      }).attr("transform", null).text(function (d) {
-	        if (d.value != 0) return i18next.t(d.name, {
-	          ns: "modes"
-	        });
-	      }).filter(function (d) {
-	        return d.x < innerWidth / 2;
-	      }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200);
+	      if (d.level === 2 && hasFourLevels === true) {
+	        return "start";
+	      } else {
+	        return "end";
+	      }
+	    }).attr("transform", null).text(function (d) {
+	      return i18next.t(d.name, {
+	        ns: "modes"
+	      });
+	    }).filter(function (d) {
+	      return d.x < innerWidth / 2;
+	    }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200); // footnote
+
+	    addFootnote("USres_other");
+	    addFootnote("cdnFromUS_other");
+
+	    function addFootnote(name) {
+	      if (d3.select(".".concat(name))) {
+	        d3.select(".".concat(name)).select("text").text("Other").append("tspan").text("1") // .html('<a href= "http://google.com">' + 1 + "</a>")
+	        .style("font-size", "9px").attr("dx", ".01em").attr("dy", "-.3em");
+	      }
 	    } // the function for moving the nodes
 	    // function dragmove(d) {
 	    //   d3.select(this)
