@@ -2440,7 +2440,14 @@
 
 
     var divNaN = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
-    // Create the umbrella group
+    // g node for colourbar title (text is set in index.js)
+
+    svgCB.append("g").attr("class", "colourbarTitle").attr("id", "cbTitle").append("text") // .text("test")
+    .attr("transform", function (d, i) {
+      return "translate(225, 15)";
+    }).style("display", function () {
+      return "inline";
+    }); // Create the umbrella group
 
     var rectGroups = svgCB.attr("class", "mapCB").selectAll(".legend").data(Array.from(Array(colourArray.length).keys())); // Append g nodes (to be filled with a rect and a text) to umbrella group
 
@@ -3406,18 +3413,13 @@
 
     var dimExtent = fillMapFn(totArr, colourArray, numLevels); // colour bar scale and add label
 
-    var mapScaleLabel = i18next.t("mapScaleLabel", {
-      ns: "airPassengers"
-    });
     mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor); // Colourbar label (need be plotted only once)
 
-    var label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
-
-    if (d3.select(".airmapCBlabel").text() === "") {
-      label.append("text").text(mapScaleLabel);
-    } // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
+    var mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {
+      ns: "airPassengers"
+    }) : "";
+    d3.select("#cbTitle").select("text").text(mapScaleLabel); // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
     // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
-
 
     airportGroup = map.append("g");
   }
