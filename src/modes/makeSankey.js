@@ -199,7 +199,7 @@ export default function(svg, settings, data) {
           }
         })
         .attr("transform", null)
-        .html(function(d) {
+        .text(function(d) {
           return i18next.t(d.name, {ns: "modes"});
         })
         .filter(function(d) {
@@ -217,9 +217,9 @@ export default function(svg, settings, data) {
       if (d3.select(`.${name}`)) {
         d3.select(`.${name}`)
             .select("text")
-            .html("Other")
+            .text("Other")
             .append("tspan")
-            .html("1")
+            .text("1")
             // .html('<a href= "http://google.com">' + 1 + "</a>")
             .style("font-size", "9px")
             .attr("dx", ".01em")
