@@ -611,7 +611,7 @@ map.on("mouseout", () => {
 });
 
 map.on("click", () => {
-  if (!d3.select(d3.event.target).attr("class")) {
+  if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
     resetZoom();
   } else if (d3.select(d3.event.target).attr("class") &&
       d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
@@ -666,7 +666,10 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-  overlayRect = d3.select("#svg_areaChartAir .data").append("rect")
+  const thisSettings = selectedDataset === "passengers" ? settings : settingsMajorAirports;
+
+  overlayRect = d3.select("#svg_areaChartAir .data")
+      .append("rect")
       .style("fill", "none")
       .style("pointer-events", "all")
       .attr("class", "overlay")
@@ -674,23 +677,26 @@ function plotHoverLine() {
         hoverLine.style("display", "none");
       })
       .on("mousemove", function() {
+        // move the transform value into a variable and add the margin left
+        const transform = stackedArea.x(hoverValue ? new Date(hoverValue.date) : 0) + thisSettings.margin.left;
         hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(
-            (hoverValue?new Date(hoverValue.date):0)
-        )+ "px)");
-        hoverLine.moveToFront();
+
+        // use attr.x1 and attr.x2 with the transform value
+        hoverLine.attr("x1", transform)
+            .attr("x2", transform)
+            .moveToFront();
       });
 
   overlayRect
       .attr("width", stackedArea.settings.innerWidth)
       .attr("height", stackedArea.settings.innerHeight);
 
-  hoverLine
-      .attr("x1", stackedArea.settings.margin.left)
+  hoverLine.attr("x1", stackedArea.settings.margin.left)
       .attr("x2", stackedArea.settings.margin.left)
       .attr("y1", stackedArea.settings.margin.top)
       .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 }
+
 
 function findAreaData(mousex) {
   const bisectDate = d3.bisector(function(d) {
@@ -839,16 +845,12 @@ function colorMap() {
   const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
-  const mapScaleLabel = i18next.t("mapScaleLabel", {ns: "airPassengers"});
+
   mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor);
 
   // Colourbar label (need be plotted only once)
-  const label = d3.select("#mapColourScale").append("div").attr("class", "airmapCBlabel");
-  if (d3.select(".airmapCBlabel").text() === "") {
-    label
-        .append("text")
-        .text(mapScaleLabel);
-  }
+  const mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {ns: "airPassengers"}) : "";
+  d3.select("#cbTitle").select("text").text(mapScaleLabel);
 
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
@@ -946,11 +948,29 @@ function createDropdown() {
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
   if (selectedDataset == "major_airports") {
     const maxMonth = Number(selectedDateRange.max.substring(5, 7));
-    $("#monthSelector > option").each(function() {
-      if (Number(this.value) > maxMonth) {
-        this.disabled = true;
+    const maxYear = Number(selectedDateRange.max.substring(0, 4));
+
+    // Disable months in dropdown menu that do not exist for selectedYear
+    if (Number(selectedYear) === maxYear) {
+      $("#monthSelector > option").each(function() {
+        if (Number(this.value) > maxMonth) {
+          this.disabled = true;
+        }
+      });
+    } else {
+      // Enable all months
+      d3.selectAll("#monthSelector > option").property("disabled", false);
+
+      // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+      const currentMonth = Number(d3.select("#monthSelector")._groups[0][0].value);
+      if (currentMonth > maxMonth) {
+        $("#yearSelector > option").each(function() {
+          if (Number(this.value) === maxYear) {
+            this.disabled = true;
+          }
+        });
       }
-    });
+    }
   }
   // end dropdown
   const indent = "&numsp;&numsp;&numsp;";
