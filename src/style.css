@@ -19,7 +19,9 @@
   text-align: right
 }
 
-
+.table td {
+	text-align: right;
+}
 /*road dataset*/
 /*-- tooltip --*/
 .hoverLine {
@@ -45,7 +47,7 @@
 	stroke-width: 0;
 }
 .roadAreaCB text {
-	font-size: 16px;
+	font-size: 13px;
 	fill: #69757c;
 }
 .roadMapHighlight {
@@ -69,11 +71,9 @@
 }
 #svgFuel .axis .tick line {
   stroke: #aaa;
-	stroke-width: 0px;
 }
 #svgFuel .axis path  {
   stroke: #aaa;
-	stroke-width: 0px;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
@@ -89,7 +89,8 @@
 }
 .roadmapCBlabel {
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -195px;
 	color: #565656;
 	text-align: left;
 }
@@ -117,59 +118,39 @@ table, th, td {
 /*-- map --*/
 .airCB rect {
 	stroke: black;
-	stroke-width: 0.3;
+	stroke-width: 0.0;
 }
 .airMapHighlight {
- 	stroke: #467B8D !important;
+ 	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
 .airmapCBlabel { /* colour bar label */
 	position: relative;
-	top: -116px;
+	top: -150px;
+  right: -220px;
 	color: #565656;
 	text-align: left;
 }
-.legendNaN text {
+.classNaN text {
   fill: #565656;
   font-size: 13px;
 }
 
 /*-- airport circle fill --*/
-.passengers.allYears {
-	fill: orange;
-	stroke: black;
-	stroke-width: 0.3px;
+.hasData {
+	fill: #FFF84C;
+	stroke: white;
+	stroke-width: 0.2px;
 	cursor: pointer;
 }
-.passengers.noYears {
-	fill: #000;
-	stroke: black;
-	stroke-width: 0.3px;
+.noData {
+	fill: gray;
+	stroke: white;
+	stroke-width: 0.0px;
+	opacity: 0.5
+}
+.dontShow {
 	opacity: 0;
-}
-.passengers.lastSevenYears {
-	fill: orange;
-	stroke: black;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.lastSixYears {
-	fill: orange;
-	stroke: green;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.lastFiveYears {
-	fill: orange;
-	stroke: black;
-	stroke-width: 0.3px;
-	cursor: pointer;
-}
-.passengers.mix {
-	fill: orange;
-	stroke: black;
-	stroke-width: 0.3px;
-	/*opacity: 0;*/
 }
 .airport {
 	/* stroke: black;
@@ -193,6 +174,21 @@ table, th, td {
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
+/* major airports tick classes */
+#svg_areaChartAir .tickJan text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick.Jan line {
+	stroke-width: 5px;
+}
+#svg_areaChartAir .tick.notJan text {
+	opacity: 0;
+}
+/* ---- */
+
 #svg_areaChartAir .axis path  {
   stroke: #aaa;
 }
@@ -208,11 +204,11 @@ table, th, td {
 	opacity: 0.6;
 }
 
-.trans_border {
+.transborder {
 	fill: #a6611a;
   opacity: 0.6;
 }
-.other_intl {
+.international {
   fill: #83C3F2;
 	opacity: 0.6;
 }

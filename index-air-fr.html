@@ -177,7 +177,7 @@
 					<option value="2010">2010</option>
 				</select>
 			</div>
-			<div id="months" style= "visibility: hidden" class="col-md-3">
+			<div id="months" style= "visibility: hidden" class="col-md-4">
 				<label for="groups_month">Mois</label>
 				<select  id="monthSelector" class="form-control">
           <option value="01">janvier</option>
@@ -194,7 +194,7 @@
           <option value="12">décembre</option>
 				</select>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-6">
 				<div class="form-group">
 					<label for="groups">Trouvez une géographie</label>
 					<select id="groups" class="form-control">
@@ -223,56 +223,50 @@
 	<div class="row"> <!-- main row 1 -->
         <div class="dashboard">
 
-          	<div class="col-md-5"> <!-- first col in main row 1 -->
-	            <div> <!-- first row in col 1 -->
-	              <div id="mapTitleAir">
-	                <h3></h3>
-	              </div>
-	              <div class="map"></div>
-	            </div> <!-- /row -->
+          <div class="col-md-6"> <!-- first col in main row 1 -->
+            <div> <!-- first row in col 1 -->
+              <div id="mapTitleAir">
+                <h3></h3>
+              </div>
+              <div class="map"></div>
+            </div> <!-- /row -->
 
-	            <div> <!-- second row in col 1 -->
-	              <div id="mapColourScale">
-	                <svg></svg>
-	              </div>
-	            </div> <!-- /row -->
-	        </div> <!-- /first col -->
+            <div> <!-- second row in col 1 -->
+            <div class="col-md-10">
+              <div id="mapColourScale">
+                <svg></svg>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div id="mapColourScaleNaN">
+                <svg></svg>
+              </div>
+            </div>
+            </div> <!-- /row -->
+          </div> <!-- /first col -->
 
-	        <div class="col-md-7"> <!-- second col in main row 1 -->
-	            <div id="areaTitleAir">
-	              <h3></h3>
-	           </div>
-	           <div id="annualTimeseries">
-	      			<div class="data airdata"></div>
-	      		</div>
+          <div class="col-md-6"> <!-- second col in main row 1 -->
+              <div id="areaTitleAir">
+                <h3></h3>
+             </div>
+             <div id="annualTimeseries">
+              <div class="data airdata"></div>
+            </div>
             <div> <!-- second row in col 2 -->
-	              <div id="areaLegend">
-	               	<svg></svg>
-	              </div>
-	            </div> <!-- /row -->
-	      	</div> <!-- second col -->
+                <div id="areaLegend">
+                  <svg></svg>
+                </div>
+              </div> <!-- /row -->
+          </div> <!-- second col -->
         </div> <!-- dashboard -->
-     </div> <!-- main row 1 -->
-
-    <!-- airport area chart row -->
-    <div class="row">
-		<div class="dashboard">
-			<div id="aptChart" class="data col-md-10">
-				<h4></h4>
-			</div>
-		</div>
-	</div>
+      </div> <!-- main row 1 -->
 
     <!-- table row -->
     <div class="row">
         <div class="airdata">
           <div id="areaTable"></div>
         </div>
-
-        <div class="airdata">
-          <div id="airportTable"></div>
-        </div>
-	</div> <!-- main row 2 -->
+	  </div> <!-- main row 2 -->
 
 
 <!-- End chart -->

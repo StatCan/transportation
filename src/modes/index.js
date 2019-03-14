@@ -14,6 +14,7 @@ let selectedRegion = "Canada";
 
 let selectedMonth = "01";
 let selectedYear = "2018";
+let dateRange;
 const data = {};
 
 // global used on sankey
@@ -24,6 +25,9 @@ const sankeyNodes = dataTree.toArray();
 const loadData = function(selectedYear, selectedMonth, cb) {
   if (!data[selectedYear + "-" + selectedMonth]) {
     d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, json) {
+      if (err) {
+        console.log("file does not exist");
+      }
       data[selectedYear + "-" + selectedMonth] = json;
       cb();
     });
@@ -105,6 +109,23 @@ function updateTitles() {
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
+// create year dropdown based on data
+function createDropdown() {
+  const yearDropdown = $("#year");
+  // date dropdown creation
+  yearDropdown.empty();
+  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  d3.select("#year")._groups[0][0].value = selectedYear;
+  const maxMonth = Number(dateRange.max.substring(5, 7));
+  $("#month > option").each(function() {
+    if (Number(this.value) > maxMonth) {
+      this.disabled = true;
+    }
+  });
+}
 
 // -----------------------------------------------------------------------------
 /* Copy Button*/
@@ -121,6 +142,12 @@ function dataCopyButton() {
 // -----------------------------------------------------------------------------
 /* Initial page load */
 i18n.load(["src/i18n"], function() {
+  d3.queue()
+      .defer(d3.json, "data/modes/dateRange.json")
+      .await(function(error, dataDateRange) {
+        dateRange = dataDateRange;
+        createDropdown();
+      });
   // copy button options
   const cButtonOptions = {
     pNode: document.getElementById("copy-button-container"),
@@ -130,7 +157,6 @@ i18n.load(["src/i18n"], function() {
   };
   // build nodes on copy button
   cButton.build(cButtonOptions);
-
   loadData(selectedYear, selectedMonth, showData);
 });
 

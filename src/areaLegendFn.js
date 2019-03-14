@@ -1,5 +1,7 @@
 export default function(svgLegend, classArray) {
-  const rectDim = 35;
+  const rectDim = 15;
+  const x0 = 50;
+  const scaling = 9.5;
 
   // Create the g nodes
   const rects = svgLegend.selectAll("rect")
@@ -13,7 +15,7 @@ export default function(svgLegend, classArray) {
       .attr("height", rectDim)
       .attr("y", 25)
       .attr("x", function(d, i) {
-        return 57 + i * rectDim*5.2;
+        return x0 + i * rectDim*scaling;
       })
       .attr("class", function(d, i) {
         return classArray[i];
@@ -26,9 +28,9 @@ export default function(svgLegend, classArray) {
   // Display text in text node
   d3.select("#areaLegend")
       .selectAll("text")
-      .attr("y", 48)
+      .attr("y", 38)
       .attr("x", function(d, i) {
-        return 57 + i * rectDim*5.2 + 40;
+        return x0 + i * rectDim*scaling + 20;
       })
       .style("display", function() {
         return "inline";
