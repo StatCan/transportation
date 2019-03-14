@@ -40,17 +40,23 @@ export default function(svg, settings, data) {
         .filter((d) => nonZeroNodes.includes(d.node))
   };
 
-  function checkNumLevels() {
+  function checkHasFourLevels() {
     let usresFlag = false;
     let cdnFlag = false;
-    data.nodes.map(function (item) {
-      if (item.name === "USres_land") {
-        console.log("length: ", item.sourceLinks.length)
-        if (item.sourceLinks.length > 0) {
-          usresFlag = true;
+
+    let thisFlag = false;
+    let landFlag = false;
+    let hasFourLevels;
+    const landNodes = ["USres_land", "cdnFromUS_land"];
+    for (idx = 0; idx < landNodes.length; idx++) {
+      data.nodes.map(function (item) {
+        if (item.name === "USres_land") {        
+          if (item.sourceLinks.length > 0) {
+            usresFlag = true;
+          }
         }
-      }
-    })
+      })
+    }
     return usresFlag;
   }
 
@@ -177,7 +183,7 @@ export default function(svg, settings, data) {
       // add in the title for the nodes
       node.append("text")
           .attr("x", function(d) {
-            const usresFlag = checkNumLevels();
+            const usresFlag = checkHasFourLevels();
             console.log("usresFlag: ", usresFlag)
             if (d.level === 2 && usresFlag === true) {
               return 40;
@@ -190,7 +196,7 @@ export default function(svg, settings, data) {
           })
           .attr("dy", ".35em")
           .attr("text-anchor", function(d) {
-            const usresFlag = checkNumLevels();
+            const usresFlag = checkHasFourLevels();
             console.log("usresFlag: ", usresFlag)
             if (d.level === 2 && usresFlag === true) {
               return "start";
