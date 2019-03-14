@@ -10,11 +10,18 @@ export default {
   filterData: function(data) {
     // clone data object
     const dataClone = JSON.parse(JSON.stringify(data));
+    const maxYears = dataClone.length;
 
-    // pad out the last year out to June
+    // extend previous year
+    const padFullMonth = 11;
+    const padFullDay = 31;
+
+    // pad out the last year out to Jan 10
+    const padMonth = 0;
+    const padDay = 10;
     // (year, month, date, hours, minutes, seconds, ms)
     dataClone.push({
-      date: new Date(dataClone[dataClone.length - 1].date, 0, 10, 0, 0, 0, 0),
+      date: new Date(dataClone[dataClone.length - 1].date, padMonth, padDay, 0, 0, 0, 0),
       domestic: dataClone[dataClone.length - 1].domestic,
       international: dataClone[dataClone.length - 1].international,
       transborder: dataClone[dataClone.length - 1].transborder,
@@ -47,7 +54,7 @@ export default {
           const partSum = Number(dataClone[prevIdx].domestic) + Number(dataClone[prevIdx].transborder) + Number(dataClone[prevIdx].international);
 
           if (prevSum !== partSum) {
-            const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+            const decDate = new Date(dataClone[prevIdx].date, padFullMonth, padFullDay, 0, 0, 0, 0);
             dataClone.push({date: decDate,
               domestic: dataClone[prevIdx].domestic,
               international: dataClone[prevIdx].international,
@@ -57,13 +64,22 @@ export default {
               isCopy: true
             });
           }
-        } else if (item.flag === 1 || item.flag === 1) {
+        } else if (item.flag === 1 || dataClone[prevIdx].flag === 1) {
           const sumDomestic = parseFloat(item.domestic) + parseFloat(dataClone[prevIdx].domestic);
           const sumTrans = parseFloat(item.transborder) + parseFloat(dataClone[prevIdx].transborder);
           const sumIntl = parseFloat(item.internationa) + parseFloat(dataClone[prevIdx].international);
 
-          if (!sumDomestic && !sumTrans && !sumIntl) { // extend previous year
-            const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+          let thisMonth;
+          let thisDay;
+          if (!sumDomestic && !sumTrans && !sumIntl) { // this is last year therefore extend only out to Jan 31 (e.g. Manitoba)
+            if (count >= maxYears) {
+              thisMonth = padMonth;
+              thisDay = 31;
+            } else { // extend previous year
+              thisMonth = padFullMonth;
+              thisDay = padFullDay;
+            }
+            const decDate = new Date(dataClone[prevIdx].date, thisMonth, thisDay, 0, 0, 0, 0);
             dataClone.push({date: decDate,
               domestic: dataClone[prevIdx].domestic,
               international: dataClone[prevIdx].international,
@@ -74,7 +90,7 @@ export default {
             });
           }
         } else if (item.flag === -999 && dataClone[prevIdx].flag !== -999) {
-          const decDate = new Date(dataClone[prevIdx].date, 11, 31, 0, 0, 0, 0);
+          const decDate = new Date(dataClone[prevIdx].date, padFullMonth, padFullDay, 0, 0, 0, 0);
           dataClone.push({date: decDate,
             domestic: dataClone[prevIdx].domestic,
             international: dataClone[prevIdx].international,
@@ -92,10 +108,6 @@ export default {
     dataClone.sort(function(a, b) {
       return new Date(a.date) - new Date(b.date);
     });
-
-    // Set last year to 1 ms after midnight
-    // (year, month, date, hours, minutes, seconds, ms)
-    // dataClone[dataClone.length - 1].date = new Date(dataClone[dataClone.length - 1].date, 0, 1, 0, 0, 0, 1);
 
     return baseDateFilter(dataClone);
   },
