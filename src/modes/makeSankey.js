@@ -41,23 +41,20 @@ export default function(svg, settings, data) {
   };
 
   function checkHasFourLevels() {
-    let usresFlag = false;
-    let cdnFlag = false;
-
-    let thisFlag = false;
-    let landFlag = false;
-    let hasFourLevels;
+    let thisFlag;
+    let hasFourLevels = false;
     const landNodes = ["USres_land", "cdnFromUS_land"];
-    for (idx = 0; idx < landNodes.length; idx++) {
-      data.nodes.map(function (item) {
-        if (item.name === "USres_land") {        
+    for (let idx = 0; idx < landNodes.length; idx++) {
+      data.nodes.map(function(item) {
+        if (item.name === landNodes[idx]) {
           if (item.sourceLinks.length > 0) {
-            usresFlag = true;
+            thisFlag = true;
           }
         }
-      })
+      });
+      hasFourLevels = hasFourLevels || thisFlag;
     }
-    return usresFlag;
+    return hasFourLevels;
   }
 
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
@@ -92,7 +89,8 @@ export default function(svg, settings, data) {
     }
 
     // add in the links
-    const link = dataLayer.append("g").selectAll(".link")
+    // const link = dataLayer.append("g").selectAll(".link") // use only if dragmove is defined
+    dataLayer.append("g").selectAll(".link")
         .data(sankey.links())
         .enter().append("path")
         .attr("class", "link")
@@ -137,14 +135,14 @@ export default function(svg, settings, data) {
           .attr("transform", function(d) {
             return `translate(${d.x || 0}, ${d.y || 0})`;
           });
-          // .call(d3.drag()
-          //     .subject(function(d) {
-          //       return d;
-          //     })
-          //     .on("start", function() {
-          //       this.parentNode.appendChild(this);
-          //     })
-          //     .on("drag", dragmove));
+        // .call(d3.drag()
+        //     .subject(function(d) {
+        //       return d;
+        //     })
+        //     .on("start", function() {
+        //       this.parentNode.appendChild(this);
+        //     })
+        //     .on("drag", dragmove));
 
       node
           .on("mousemove", function(d) {
@@ -183,9 +181,8 @@ export default function(svg, settings, data) {
       // add in the title for the nodes
       node.append("text")
           .attr("x", function(d) {
-            const usresFlag = checkHasFourLevels();
-            console.log("usresFlag: ", usresFlag)
-            if (d.level === 2 && usresFlag === true) {
+            const hasFourLevels = checkHasFourLevels();
+            if (d.level === 2 && hasFourLevels === true) {
               return 40;
             } else {
               return -6;
@@ -196,9 +193,8 @@ export default function(svg, settings, data) {
           })
           .attr("dy", ".35em")
           .attr("text-anchor", function(d) {
-            const usresFlag = checkHasFourLevels();
-            console.log("usresFlag: ", usresFlag)
-            if (d.level === 2 && usresFlag === true) {
+            const hasFourLevels = checkHasFourLevels();
+            if (d.level === 2 && hasFourLevels === true) {
               return "start";
             } else {
               return "end";

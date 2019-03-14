@@ -127,7 +127,7 @@ function createDropdown() {
   if (Number(selectedYear) === maxYear) {
     $("#month > option").each(function() {
       if (Number(this.value) > maxMonth) {
-        this.disabled = true;        
+        this.disabled = true;
       }
     });
   } else {
@@ -139,7 +139,7 @@ function createDropdown() {
     if (currentMonth > maxMonth) {
       $("#year > option").each(function() {
         if (Number(this.value) === maxYear) {
-          this.disabled = true;        
+          this.disabled = true;
         }
       });
     }
