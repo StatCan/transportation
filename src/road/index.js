@@ -239,16 +239,16 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
-  const mapScaleLabel = i18next.t("units", {ns: "road"});
   mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
 
   // Colourbar label (need be plotted only once)
-  const label = d3.select("#mapColourScale").append("div").attr("class", "roadmapCBlabel");
-  if (d3.select(".roadmapCBlabel").text() === "") {
-    label
-        .append("text")
-        .text(mapScaleLabel);
-  }
+  const mapScaleLabel = i18next.t("units", {ns: "road"});
+  d3.select("#cbTitle")
+      .select("text")
+      .text(mapScaleLabel)
+      .attr("transform", function(d, i) {
+        return "translate(203, 15)";
+      });
 }
 
 /* -- display areaChart -- */

@@ -37,6 +37,19 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
       .style("opacity", 0);
 
   // -----------------------------------------------------------------------------
+  // g node for colourbar title (text is set in index.js)
+  svgCB.append("g")
+      .attr("class", "colourbarTitle")
+      .attr("id", "cbTitle")
+      .append("text")
+      // .text("test")
+      .attr("transform", function(d, i) {
+        return "translate(225, 15)";
+      })
+      .style("display", function() {
+        return "inline";
+      });
+
   // Create the umbrella group
   const rectGroups = svgCB
       .attr("class", "mapCB")
