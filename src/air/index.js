@@ -666,7 +666,10 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
 function plotHoverLine() {
-  overlayRect = d3.select("#svg_areaChartAir .data").append("rect")
+  const thisSettings = selectedDataset === "passengers" ? settings : settingsMajorAirports;
+
+  overlayRect = d3.select("#svg_areaChartAir .data")
+      .append("rect")
       .style("fill", "none")
       .style("pointer-events", "all")
       .attr("class", "overlay")
@@ -674,23 +677,26 @@ function plotHoverLine() {
         hoverLine.style("display", "none");
       })
       .on("mousemove", function() {
+        // move the transform value into a variable and add the margin left
+        const transform = stackedArea.x(hoverValue ? new Date(hoverValue.date) : 0) + thisSettings.margin.left;
         hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(
-            (hoverValue?new Date(hoverValue.date):0)
-        )+ "px)");
-        hoverLine.moveToFront();
+
+        // use attr.x1 and attr.x2 with the transform value
+        hoverLine.attr("x1", transform)
+            .attr("x2", transform)
+            .moveToFront();
       });
 
   overlayRect
       .attr("width", stackedArea.settings.innerWidth)
       .attr("height", stackedArea.settings.innerHeight);
 
-  hoverLine
-      .attr("x1", stackedArea.settings.margin.left)
+  hoverLine.attr("x1", stackedArea.settings.margin.left)
       .attr("x2", stackedArea.settings.margin.left)
       .attr("y1", stackedArea.settings.margin.top)
       .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 }
+
 
 function findAreaData(mousex) {
   const bisectDate = d3.bisector(function(d) {
