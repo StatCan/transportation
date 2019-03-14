@@ -20,135 +20,135 @@ const data = {
 
 const passengerDropdownData = [
   {
-    "fullName": "Canada",
+    "fullName": i18next.t("CANADA", {ns: "airGeography"}),
     "code": "CANADA",
     "type": "geo"
   },
   {
-    "fullName": "Newfoundland and Labrador",
+    "fullName": i18next.t("NL", {ns: "airGeography"}),
     "code": "NL",
     "type": "geo"
   },
   {
-    "fullName": "St John's International",
+    "fullName": i18next.t("YYT", {ns: "airGeography"}),
     "code": "YYT",
     "type": "airport"
   },
   {
-    "fullName": "Prince Edward Island",
+    "fullName": i18next.t("PE", {ns: "airGeography"}),
     "code": "PE",
     "type": "geo"
   },
   {
-    "fullName": "Nova Scotia",
+    "fullName": i18next.t("NS", {ns: "airGeography"}),
     "code": "NS",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": "Halifax/Robert L. Stanfield International",
+    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "YHZ",
     "type": "airport"
   },
   {
-    "fullName": "New Brunswick",
+    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "NB",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": "Moncton/Greater Moncton International",
+    "fullName": i18next.t("YQM", {ns: "airGeography"}),
     "code": "YQM",
     "type": "airport"
   },
   {
-    "fullName": "Quebec",
+    "fullName": i18next.t("QC", {ns: "airGeography"}),
     "code": "QC",
     "type": "geo"
   },
   {
-    "fullName": "Montréal/Pierre Elliott Trudeau International",
+    "fullName": i18next.t("YUL", {ns: "airGeography"}),
     "code": "YUL",
     "type": "airport"
   },
   {
-    "fullName": "Québec/Jean Lesage International",
+    "fullName": i18next.t("YQB", {ns: "airGeography"}),
     "code": "YQB",
     "type": "airport"
   },
   {
-    "fullName": "Ontario",
+    "fullName": i18next.t("ON", {ns: "airGeography"}),
     "code": "ON",
     "type": "geo"
   },
   {
-    "fullName": "Ottawa/Macdonald-Cartier International",
+    "fullName": i18next.t("YOW", {ns: "airGeography"}),
     "code": "YOW",
     "type": "airport"
   },
   {
-    "fullName": "Toronto/Lester B Pearson International",
+    "fullName": i18next.t("YYZ", {ns: "airGeography"}),
     "code": "YYZ",
     "type": "airport"
   },
   {
-    "fullName": "Manitoba",
+    "fullName": i18next.t("MB", {ns: "airGeography"}),
     "code": "MB",
     "type": "geo"
   },
   {
-    "fullName": "Winnipeg/James Armstrong Richardson International",
+    "fullName": i18next.t("YWG", {ns: "airGeography"}),
     "code": "YWG",
     "type": "airport"
   },
   {
-    "fullName": "Saskatchewan",
+    "fullName": i18next.t("SK", {ns: "airGeography"}),
     "code": "SK",
     "type": "geo"
   },
   {
-    "fullName": "Alberta",
+    "fullName": i18next.t("AB", {ns: "airGeography"}),
     "code": "AB",
     "type": "geo"
   },
   {
-    "fullName": "Calgary International",
+    "fullName": i18next.t("YYC", {ns: "airGeography"}),
     "code": "YYC",
     "type": "airport"
   },
   {
-    "fullName": "Edmonton International",
+    "fullName": i18next.t("YEG", {ns: "airGeography"}),
     "code": "YEG",
     "type": "airport"
   },
   {
-    "fullName": "British Columbia",
+    "fullName": i18next.t("BC", {ns: "airGeography"}),
     "code": "BC",
     "type": "geo"
   },
   {
-    "fullName": "Vancouver International",
+    "fullName": i18next.t("YVR", {ns: "airGeography"}),
     "code": "YVR",
     "type": "airport"
   },
   {
-    "fullName": "Victoria International",
+    "fullName": i18next.t("YYJ", {ns: "airGeography"}),
     "code": "YYJ",
     "type": "airport"
   },
   {
-    "fullName": "Yukon",
+    "fullName": i18next.t("YT", {ns: "airGeography"}),
     "code": "YT",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": "Northwest Territories",
+    "fullName": i18next.t("NT", {ns: "airGeography"}),
     "code": "NT",
     "type": "geo"
   },
   {
-    "fullName": "Nunavut",
+    "fullName": i18next.t("NU", {ns: "airGeography"}),
     "code": "NU",
     "type": "geo"
   }
@@ -156,197 +156,197 @@ const passengerDropdownData = [
 
 const majorDropdownData = [
   {
-    "fullName": "Canada",
+    "fullName": i18next.t("CANADA", {ns: "airGeography"}),
     "code": "CANADA",
     "type": "geo"
   },
   {
-    "fullName": "Newfoundland and Labrador",
+    "fullName": i18next.t("NL", {ns: "airGeography"}),
     "code": "NL",
     "type": "geo"
   },
   {
-    "fullName": "St John's International",
+    "fullName": i18next.t("YYT", {ns: "airGeography"}),
     "code": "YYT",
     "type": "airport"
   },
   {
-    "fullName": "Prince Edward Island",
+    "fullName": i18next.t("PE", {ns: "airGeography"}),
     "code": "PE",
     "type": "geo"
   },
   {
-    "fullName": "Charlottetown",
+    "fullName": i18next.t("YYG", {ns: "airGeography"}),
     "code": "YYG",
     "type": "airport"
   },
   {
-    "fullName": "Nova Scotia",
+    "fullName": i18next.t("NS", {ns: "airGeography"}),
     "code": "NS",
     "type": "geo"
   },
   {
-    "fullName": "Halifax/Robert L. Stanfield International",
+    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "YHZ",
     "type": "airport"
   },
   {
-    "fullName": "New Brunswick",
+    "fullName": i18next.t("NB", {ns: "airGeography"}),
     "code": "NB",
     "type": "geo"
   },
   {
-    "fullName": "Moncton/Greater Moncton International",
+    "fullName": i18next.t("YQM", {ns: "airGeography"}),
     "code": "YQM",
     "type": "airport"
   },
   {
-    "fullName": "Fredericton International",
+    "fullName": i18next.t("YFC", {ns: "airGeography"}),
     "code": "YFC",
     "type": "airport"
   },
   {
-    "fullName": "Saint John",
+    "fullName": i18next.t("YSJ", {ns: "airGeography"}),
     "code": "YSJ",
     "type": "airport"
   },
   {
-    "fullName": "Quebec",
+    "fullName": i18next.t("QC", {ns: "airGeography"}),
     "code": "QC",
     "type": "geo"
   },
   {
-    "fullName": "Montréal/Pierre Elliott Trudeau International",
+    "fullName": i18next.t("YUL", {ns: "airGeography"}),
     "code": "YUL",
     "type": "airport"
   },
   {
-    "fullName": "Québec/Jean Lesage International",
+    "fullName": i18next.t("YQB", {ns: "airGeography"}),
     "code": "YQB",
     "type": "airport"
   },
   {
-    "fullName": "Montréal Mirabel International",
+    "fullName": i18next.t("YMX", {ns: "airGeography"}),
     "code": "YMX",
     "type": "airport"
   },
   {
-    "fullName": "Ontario",
+    "fullName": i18next.t("ON", {ns: "airGeography"}),
     "code": "ON",
     "type": "geo"
   },
   {
-    "fullName": "Ottawa/Macdonald-Cartier International",
+    "fullName": i18next.t("YOW", {ns: "airGeography"}),
     "code": "YOW",
     "type": "airport"
   },
   {
-    "fullName": "Toronto/Lester B Pearson International",
+    "fullName": i18next.t("YYZ", {ns: "airGeography"}),
     "code": "YYZ",
     "type": "airport"
   },
   {
-    "fullName": "Thunder Bay International",
+    "fullName": i18next.t("YQT", {ns: "airGeography"}),
     "code": "YQT",
     "type": "airport"
   },
   {
-    "fullName": "London International",
+    "fullName": i18next.t("YXU", {ns: "airGeography"}),
     "code": "YXU",
     "type": "airport"
   },
   {
-    "fullName": "Manitoba",
+    "fullName": i18next.t("MB", {ns: "airGeography"}),
     "code": "MB",
     "type": "geo"
   },
   {
-    "fullName": "Winnipeg/James Armstrong Richardson International",
+    "fullName": i18next.t("YWG", {ns: "airGeography"}),
     "code": "YWG",
     "type": "airport"
   },
   {
-    "fullName": "Saskatchewan",
+    "fullName": i18next.t("SK", {ns: "airGeography"}),
     "code": "SK",
     "type": "geo"
   },
   {
-    "fullName": "Regina International",
+    "fullName": i18next.t("YQR", {ns: "airGeography"}),
     "code": "YQR",
     "type": "airport"
   },
   {
-    "fullName": "Saskatoon John G. Diefenbaker International",
+    "fullName": i18next.t("YXE", {ns: "airGeography"}),
     "code": "YXE",
     "type": "airport"
   },
   {
-    "fullName": "Alberta",
+    "fullName": i18next.t("AB", {ns: "airGeography"}),
     "code": "AB",
     "type": "geo"
   },
   {
-    "fullName": "Calgary International",
+    "fullName": i18next.t("YYC", {ns: "airGeography"}),
     "code": "YYC",
     "type": "airport"
   },
   {
-    "fullName": "Edmonton International",
+    "fullName": i18next.t("YEG", {ns: "airGeography"}),
     "code": "YEG",
     "type": "airport"
   },
   {
-    "fullName": "British Columbia",
+    "fullName": i18next.t("BC", {ns: "airGeography"}),
     "code": "BC",
     "type": "geo"
   },
   {
-    "fullName": "Vancouver International",
+    "fullName": i18next.t("YVR", {ns: "airGeography"}),
     "code": "YVR",
     "type": "airport"
   },
   {
-    "fullName": "Victoria International",
+    "fullName": i18next.t("YYJ", {ns: "airGeography"}),
     "code": "YYJ",
     "type": "airport"
   },
   {
-    "fullName": "Kelowna International",
+    "fullName": i18next.t("YLW", {ns: "airGeography"}),
     "code": "YLW",
     "type": "airport"
   },
   {
-    "fullName": "Prince George Airport",
+    "fullName": i18next.t("YXS", {ns: "airGeography"}),
     "code": "YXS",
     "type": "airport"
   },
   {
-    "fullName": "Yukon",
+    "fullName": i18next.t("YT", {ns: "airGeography"}),
     "code": "YT",
     "type": "geo"
   },
   {
-    "fullName": "Erik Nielsen Whitehorse International",
+    "fullName": i18next.t("YXY", {ns: "airGeography"}),
     "code": "YXY",
     "type": "airport"
   },
   {
-    "fullName": "Northwest Territories",
+    "fullName": i18next.t("NT", {ns: "airGeography"}),
     "code": "NT",
     "type": "geo"
   },
   {
-    "fullName": "Yellowknife",
+    "fullName": i18next.t("YZF", {ns: "airGeography"}),
     "code": "YZF",
     "type": "airport"
   },
   {
-    "fullName": "Nunavut",
+    "fullName": i18next.t("NU", {ns: "airGeography"}),
     "code": "NU",
     "type": "geo"
   },
   {
-    "fullName": "Iqaluit",
+    "fullName": i18next.t("YFB", {ns: "airGeography"}),
     "code": "YFB",
     "type": "airport"
   }
