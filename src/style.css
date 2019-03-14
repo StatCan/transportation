@@ -704,11 +704,11 @@ div.tooltip {
 }
 
 /* copy button */
-.copy-button .copy-confirm {
+.copy-button .copy-confirm {    
 	visibility: hidden;
 	position: absolute;
-	top: 825px;
-	right: 75px;
+	top: 5px;
+	right: 50px;
 	background: #eaebed;
 	line-height: 25px;
 	border-radius: 4px;
@@ -716,6 +716,7 @@ div.tooltip {
 	padding: 5px;
 	color: #333;
 
+	
 	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
@@ -726,6 +727,7 @@ div.tooltip {
 }
 
 .copy-button {
+	position: relative;
 	text-align: right;
 
 }
