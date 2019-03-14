@@ -170,21 +170,22 @@ function areaInteraction() {
       .on("mousemove", function() {
         const mousex = d3.mouse(this)[0];
         const hoverValue = findAreaData(mousex);
+        const thisGas = isNumber(hoverValue.gas, scalef);
+        const thisDiesel = isNumber(hoverValue.diesel, scalef);
+        const thisLPG = isNumber(hoverValue.lpg, scalef);
 
-        const thisGas = formatComma(hoverValue.gas / scalef);
-        const thisDiesel = formatComma(hoverValue.diesel / scalef);
-        const thisLPG = formatComma(hoverValue.lpg / scalef);
+
         divArea.html(
             "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
               "<table>" +
                 "<tr>" +
-                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: $" + thisGas + "</td>" +
+                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: " + thisGas + "</td>" +
                 "</tr>" +
                 "<tr>" +
-                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: $" + thisDiesel + "</td>" +
+                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: " + thisDiesel + "</td>" +
                 "</tr>" +
                 "<tr>" +
-                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: $" + thisLPG + "</td>" +
+                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: " + thisLPG + "</td>" +
                 "</tr>" +
               "</table>"
         )
@@ -204,6 +205,15 @@ function areaInteraction() {
 
 // -----------------------------------------------------------------------------
 /* FNS */
+function isNumber(inputValue, scalef) {
+  let thisValue;
+  if (Number(inputValue)) {
+    thisValue = formatComma(inputValue / scalef);
+  } else {
+    thisValue = inputValue;
+  }
+  return thisValue;
+}
 /* -- find year interval closest to cursor for areaChart tooltip -- */
 function findAreaData(mousex) {
   const bisectDate = d3.bisector(function(d) {
