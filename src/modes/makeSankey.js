@@ -40,6 +40,20 @@ export default function(svg, settings, data) {
         .filter((d) => nonZeroNodes.includes(d.node))
   };
 
+  function checkNumLevels() {
+    let usresFlag = false;
+    let cdnFlag = false;
+    data.nodes.map(function (item) {
+      if (item.name === "USres_land") {
+        console.log("length: ", item.sourceLinks.length)
+        if (item.sourceLinks.length > 0) {
+          usresFlag = true;
+        }
+      }
+    })
+    return usresFlag;
+  }
+
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
   // format variables
@@ -162,12 +176,28 @@ export default function(svg, settings, data) {
 
       // add in the title for the nodes
       node.append("text")
-          .attr("x", -6)
+          .attr("x", function(d) {
+            const usresFlag = checkNumLevels();
+            console.log("usresFlag: ", usresFlag)
+            if (d.level === 2 && usresFlag === true) {
+              return 40;
+            } else {
+              return -6;
+            }
+          })
           .attr("y", function(d) {
             return d.dy / 2;
           })
           .attr("dy", ".35em")
-          .attr("text-anchor", "end")
+          .attr("text-anchor", function(d) {
+            const usresFlag = checkNumLevels();
+            console.log("usresFlag: ", usresFlag)
+            if (d.level === 2 && usresFlag === true) {
+              return "start";
+            } else {
+              return "end";
+            }
+          })
           .attr("transform", null)
           .text(function(d) {
             if (d.value != 0) return i18next.t(d.name, {ns: "modes"});
