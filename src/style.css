@@ -715,7 +715,7 @@ div.tooltip {
 	border: solid thin black;
 	padding: 5px;
 	color: #333;
-
+	font-size: 14px;
 	
 	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
 	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
@@ -725,7 +725,7 @@ div.tooltip {
 .copy-button  .btn.btn-primary.copy .clipboard{
 	font-size: 18px;
 }
-
+/**/
 .copy-button {
 	position: relative;
 	text-align: right;
