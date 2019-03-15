@@ -372,18 +372,18 @@
      },
     "modesGeography": {
       "Canada": "Canada",
-      "Newfoundland and Labrador": "Newfoundland and Labrador",
-      "Prince Edward Island": "Prince Edward Island",
-      "Nova Scotia": "Nova Scotia",
-      "New Brunswick": "New Brunswick",
-      "Quebec": "Quebec",
+      "Newfoundland and Labrador": "Terre-Neuve-et-Labrador",
+      "Prince Edward Island": "Île-du-Prince-Édouard",
+      "Nova Scotia": "Nouvelle-Écosse",
+      "New Brunswick": "Nouveau-Brunswick",
+      "Quebec": "Québec",
       "Ontario": "Ontario",
       "Manitoba": "Manitoba",
       "Saskatchewan": "Saskatchewan",
       "Alberta": "Alberta",
-      "British Columbia": "British Columbia",
+      "British Columbia": "Colombie-Britannique",
       "Yukon": "Yukon",
-      "Northwest Territories": "Northwest Territories",
+      "Northwest Territories": "Territoires du Nord-Ouest",
       "Nunavut": "Nunavut"
     },
     "modesMonth": {
@@ -432,10 +432,26 @@
     "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
     "tableTitle": "Voyageurs internationaux entrant ou revenant au / à",
     "units": "personnes",
-    "byType": "selon le moyen de transport",
     "name": "Caractéristiques des voyageurs",
     "value": "Nombre des voyageurs",
-    "noData": "Pas de voyageurs internationaux au / à "
+    "noData": "Pas de voyageurs internationaux pour "
+    },
+    "modesTable": {
+      "tableTitle": "Voyageurs internationaux entrant ou revenant ",
+      "Canada": "au Canada",
+      "Newfoundland and Labrador": "à Terre-Neuve-et-Laborador",
+      "Prince Edward Island": "à l'Île-du-Prince-Édouard",
+      "Nova Scotia": "en Nouvelle-Écosse",
+      "New Brunswick": "au Nouveau-Brunswick",
+      "Quebec": "au Québec",
+      "Ontario": "en Ontario",
+      "Manitoba": "au Manitoba",
+      "Saskatchewan": "en Saskatchewan",
+      "Alberta": "en Alberta",
+      "British Columbia": "en Colombie-Britanique",
+      "Yukon": "au Yukon",
+      "Nunavut": "au Nunavut",
+      "byType": "selon le moyen de transport"
     }
   }
 }

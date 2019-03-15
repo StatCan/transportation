@@ -103,10 +103,10 @@ function showData() {
 
 /* -- update table title -- */
 function updateTitles() {
-  const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
+  const thisGeo = i18next.t(selectedRegion, {ns: "modesTable"});
   const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
-  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
+  const thisTitle = i18next.t("tableTitle", {ns: "modesTable"}) + " " + thisGeo
+  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
