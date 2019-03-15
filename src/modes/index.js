@@ -149,10 +149,10 @@ function createDropdown() {
 // -----------------------------------------------------------------------------
 /* Copy Button*/
 function dataCopyButton() {
-  const geo = i18next.t(selectedRegion, {ns: "modesGeography"});
+  const geo = i18next.t(selectedRegion, {ns: "modesTable"});
   const month = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
-  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
+  const title = i18next.t("tableTitle", {ns: "modesTable"}) + geo
+  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
   const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
   cButton.data = dataTree.toLines(title, columns);
