@@ -510,7 +510,8 @@
       "cdnFromUS_car": "Automobile",
       "cdnFromUS_bus": "Bus",
       "cdnFromUS_train": "Train",
-      "cdnFromUS_other": "Other"
+      "cdnFromUS_other": "Other",
+      "Other": "Other"
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",

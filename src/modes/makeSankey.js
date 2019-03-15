@@ -217,7 +217,7 @@ export default function(svg, settings, data) {
       if (d3.select(`.${name}`)) {
         d3.select(`.${name}`)
             .select("text")
-            .text("Other")
+            .text(i18next.t("Other", {ns: "modes"}))
             .append("tspan")
             .text("1")
             // .html('<a href= "http://google.com">' + 1 + "</a>")
