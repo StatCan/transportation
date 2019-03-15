@@ -20,135 +20,109 @@ const data = {
 
 const passengerDropdownData = [
   {
-    "fullName": i18next.t("CANADA", {ns: "airGeography"}),
     "code": "CANADA",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("NL", {ns: "airGeography"}),
     "code": "NL",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YYT", {ns: "airGeography"}),
     "code": "YYT",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("PE", {ns: "airGeography"}),
     "code": "PE",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("NS", {ns: "airGeography"}),
     "code": "NS",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "YHZ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "NB",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YQM", {ns: "airGeography"}),
     "code": "YQM",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("QC", {ns: "airGeography"}),
     "code": "QC",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YUL", {ns: "airGeography"}),
     "code": "YUL",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YQB", {ns: "airGeography"}),
     "code": "YQB",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("ON", {ns: "airGeography"}),
     "code": "ON",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YOW", {ns: "airGeography"}),
     "code": "YOW",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YYZ", {ns: "airGeography"}),
     "code": "YYZ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("MB", {ns: "airGeography"}),
     "code": "MB",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YWG", {ns: "airGeography"}),
     "code": "YWG",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("SK", {ns: "airGeography"}),
     "code": "SK",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("AB", {ns: "airGeography"}),
     "code": "AB",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YYC", {ns: "airGeography"}),
     "code": "YYC",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YEG", {ns: "airGeography"}),
     "code": "YEG",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("BC", {ns: "airGeography"}),
     "code": "BC",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YVR", {ns: "airGeography"}),
     "code": "YVR",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YYJ", {ns: "airGeography"}),
     "code": "YYJ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YT", {ns: "airGeography"}),
     "code": "YT",
     "data": "no",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("NT", {ns: "airGeography"}),
     "code": "NT",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("NU", {ns: "airGeography"}),
     "code": "NU",
     "type": "geo"
   }
@@ -156,197 +130,158 @@ const passengerDropdownData = [
 
 const majorDropdownData = [
   {
-    "fullName": i18next.t("CANADA", {ns: "airGeography"}),
     "code": "CANADA",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("NL", {ns: "airGeography"}),
     "code": "NL",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YYT", {ns: "airGeography"}),
     "code": "YYT",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("PE", {ns: "airGeography"}),
     "code": "PE",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YYG", {ns: "airGeography"}),
     "code": "YYG",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("NS", {ns: "airGeography"}),
     "code": "NS",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YHZ", {ns: "airGeography"}),
     "code": "YHZ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("NB", {ns: "airGeography"}),
     "code": "NB",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YQM", {ns: "airGeography"}),
     "code": "YQM",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YFC", {ns: "airGeography"}),
     "code": "YFC",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YSJ", {ns: "airGeography"}),
     "code": "YSJ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("QC", {ns: "airGeography"}),
     "code": "QC",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YUL", {ns: "airGeography"}),
     "code": "YUL",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YQB", {ns: "airGeography"}),
     "code": "YQB",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YMX", {ns: "airGeography"}),
     "code": "YMX",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("ON", {ns: "airGeography"}),
     "code": "ON",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YOW", {ns: "airGeography"}),
     "code": "YOW",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YYZ", {ns: "airGeography"}),
     "code": "YYZ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YQT", {ns: "airGeography"}),
     "code": "YQT",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YXU", {ns: "airGeography"}),
     "code": "YXU",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("MB", {ns: "airGeography"}),
     "code": "MB",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YWG", {ns: "airGeography"}),
     "code": "YWG",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("SK", {ns: "airGeography"}),
     "code": "SK",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YQR", {ns: "airGeography"}),
     "code": "YQR",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YXE", {ns: "airGeography"}),
     "code": "YXE",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("AB", {ns: "airGeography"}),
     "code": "AB",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YYC", {ns: "airGeography"}),
     "code": "YYC",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YEG", {ns: "airGeography"}),
     "code": "YEG",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("BC", {ns: "airGeography"}),
     "code": "BC",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YVR", {ns: "airGeography"}),
     "code": "YVR",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YYJ", {ns: "airGeography"}),
     "code": "YYJ",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YLW", {ns: "airGeography"}),
     "code": "YLW",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YXS", {ns: "airGeography"}),
     "code": "YXS",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("YT", {ns: "airGeography"}),
     "code": "YT",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YXY", {ns: "airGeography"}),
     "code": "YXY",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("NT", {ns: "airGeography"}),
     "code": "NT",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YZF", {ns: "airGeography"}),
     "code": "YZF",
     "type": "airport"
   },
   {
-    "fullName": i18next.t("NU", {ns: "airGeography"}),
     "code": "NU",
     "type": "geo"
   },
   {
-    "fullName": i18next.t("YFB", {ns: "airGeography"}),
     "code": "YFB",
     "type": "airport"
   }
@@ -983,10 +918,10 @@ function createDropdown() {
     }
     if (geo.data && geo.data === "no") {
       geoDropdown.append($("<option disabled></option>")
-          .attr("value", geo.code).html(prefix + geo.fullName));
+          .attr("value", geo.code).html(prefix + i18next.t(geo.code, {ns: "airGeography"})));
     } else {
       geoDropdown.append($("<option></option>")
-          .attr("value", geo.code).html(prefix + geo.fullName));
+          .attr("value", geo.code).html(prefix +i18next.t(geo.code, {ns: "airGeography"})));
     }
   }
 }
