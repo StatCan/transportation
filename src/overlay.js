@@ -1,4 +1,4 @@
-export default function(chartObj, data, cb) {
+export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
   // TEMP
   chartObj.svg.datum(chartObj);
   chartObj.data = data;
@@ -54,8 +54,14 @@ export default function(chartObj, data, cb) {
         line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
         line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
 
-        if (cb && typeof cb === "function") {
-          cb(d);
+        if (onMouseOverCb && typeof onMouseOverCb === "function") {
+          onMouseOverCb(d);
+        }
+      })
+      .on("mouseout", function(e) {
+        d3.selectAll(".tooltip").style("opacity", 0);
+        if (onMouseOutCb && typeof onMouseOutCb === "function") {
+          onMouseOutCb();
         }
       });
 
