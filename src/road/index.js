@@ -12,7 +12,7 @@ let overlayRect;
 const formatComma = d3.format(",d");
 const scalef = 1e3;
 
-let stackedChart; // stores areaChart() call
+let stackedArea; // stores areaChart() call
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -193,7 +193,7 @@ function areaInteraction() {
             .style("top", (d3.event.pageY) + 10 + "px")
             .style("pointer-events", "none");
         hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedChart.x(new Date(hoverValue.date))+ "px)");
+        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
         hoverLine.moveToFront();
       })
       .on("mouseout", function(d, i) {
@@ -219,7 +219,7 @@ function findAreaData(mousex) {
   const bisectDate = d3.bisector(function(d) {
     return d.date;
   }).left;
-  const x0 = stackedChart.x.invert(mousex);
+  const x0 = stackedArea.x.invert(mousex);
   const chartData = data[selectedRegion];
   let d;
   const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
@@ -263,7 +263,7 @@ function colorMap() {
 
 /* -- display areaChart -- */
 function showData() {
-  stackedChart = areaChart(chart, settings, data[selectedRegion]);
+  stackedArea = areaChart(chart, settings, data[selectedRegion]);
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -306,10 +306,10 @@ function plotLegend() {
 
 function plotHoverLine() {
   hoverLine
-      .attr("x1", stackedChart.settings.margin.left)
-      .attr("x2", stackedChart.settings.margin.left)
-      .attr("y1", stackedChart.settings.margin.top)
-      .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
+      .attr("x1", stackedArea.settings.margin.left)
+      .attr("x2", stackedArea.settings.margin.left)
+      .attr("y1", stackedArea.settings.margin.top)
+      .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 }
 // -----------------------------------------------------------------------------
 /* load data fn */
@@ -400,7 +400,7 @@ i18n.load(["src/i18n"], () => {
             .text(i18next.t("mapTitle", {ns: "road"}));
 
         // Area chart and x-axis position
-        stackedChart = areaChart(chart, settings, data[selectedRegion]);
+        stackedArea = areaChart(chart, settings, data[selectedRegion]);
         areaInteraction();
         plotLegend();
 
@@ -418,14 +418,14 @@ i18n.load(["src/i18n"], () => {
             });
 
         overlayRect
-            .attr("width", stackedChart.settings.innerWidth)
-            .attr("height", stackedChart.settings.innerHeight);
+            .attr("width", stackedArea.settings.innerWidth)
+            .attr("height", stackedArea.settings.innerHeight);
 
         hoverLine
-            .attr("x1", stackedChart.settings.margin.left)
-            .attr("x2", stackedChart.settings.margin.left)
-            .attr("y1", stackedChart.settings.margin.top)
-            .attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
+            .attr("x1", stackedArea.settings.margin.left)
+            .attr("x2", stackedArea.settings.margin.left)
+            .attr("y1", stackedArea.settings.margin.top)
+            .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
 
         // Remove x-axis label
         d3.select("#svgFuel").select(".x.axis")
