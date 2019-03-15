@@ -3,6 +3,7 @@ import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import myHoverline from "../myhoverline.js";
 import CopyButton from "../copyButton.js";
 
 /* Copy Button */
@@ -665,10 +666,15 @@ map.on("click", () => {
 /* FNS */
 /* --  areaChart interactions -- */
 // vertical line to attach to cursor
+const thisSettings = selectedDataset === "passengers" ? settings : settingsMajorAirports;
+const svgIdHover = "#svg_areaChartAir";
+myHoverline(thisSettings, svgIdHover);
+
 function plotHoverLine() {
   const thisSettings = selectedDataset === "passengers" ? settings : settingsMajorAirports;
+  const svgIdHover = "#svg_areaChartAir";
 
-  overlayRect = d3.select("#svg_areaChartAir .data")
+  overlayRect = d3.select(`${svgIdHover} .data`)
       .append("rect")
       .style("fill", "none")
       .style("pointer-events", "all")
@@ -911,7 +917,6 @@ function showAreaData() {
         });
   } else {
     showChart();
-    // plotHoverLine();
   }
 }
 
