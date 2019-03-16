@@ -9,22 +9,35 @@ export default {
   aspectRatio: 16 / 11,
   // creates variable d
   filterData: function(data) {
-    let count = 0;
-    data.filter(function(item) {
-      item.isLast = (count === data.length - 1) ? true : false;
-      count++;
-    });
-    // data is an array of objects
+
+    // Flag to check if data has already been padded (i.e. data file has never been loaded)
+    let isOld = false;
+    data.map((item) => {
+      if (item.isLast) {
+        isOld = isOld || true;
+      }
+    })
+
+    // If not padded, pad out the last year out to Jan 10
+    if (!isOld) {      
+      const padMonth = 0;
+      const padDay = 10;
+      // (year, month, date, hours, minutes, seconds, ms)
+      data.push({
+        date: new Date(data[data.length - 1].date, padMonth, padDay, 0, 0, 0, 0),
+        diesel: data[data.length - 1].diesel,
+        gas: data[data.length - 1].gas,
+        lpg: data[data.length - 1].lpg,
+        total: data[data.length - 1].total,
+        isLast: true
+      });
+    }
     return data;
   },
   x: {
     label: i18next.t("x_label", {ns: "roadArea"}),
     getValue: function(d, i) {
-      // return new Date(d.date + "-01");
-      // for first year, start at Jan -01T00:00:00.000Z
-      // for last year, extend to allow vertical line cursor to reach it
-      return d.isLast ? new Date(d.date, 0, 10, 0, 0, 0, 0) : // (year, month, date, hours, minutes, seconds, ms)
-            new Date(d.date + "-01");
+      return new Date(d.date);
     },
     getText: function(d) {
       return d.date;
@@ -54,7 +67,9 @@ export default {
       return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
-      return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
+      if (!d.isLast) {
+        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
+      }
     },
     ticks: 5,
     tickSizeOuter: 0
@@ -77,6 +92,11 @@ export default {
         keys.splice(keys.indexOf("isLast"), 1);
       }
       return keys;
+    },
+    origData: function(data) {
+      // remove last point which was added in filterData (padded date)
+      const origData = data.slice(0, -1);
+      return origData;
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
