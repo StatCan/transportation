@@ -58,8 +58,7 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
           onMouseOverCb(d);
         }
       })
-      .on("mouseout", function(e) {
-        d3.selectAll(".tooltip").style("opacity", 0);
+      .on("mouseout", function() {
         if (onMouseOutCb && typeof onMouseOutCb === "function") {
           onMouseOutCb();
         }

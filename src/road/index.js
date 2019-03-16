@@ -2,6 +2,7 @@ import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
 
 const data = {};
@@ -141,7 +142,7 @@ map.on("click", () => {
 
     // Display selected region in stacked area chart
     loadData(selectedRegion, () => {
-      showData();
+      showAreaData();
     });
 
     // update region displayed in dropdown menu
@@ -150,7 +151,7 @@ map.on("click", () => {
     // reset area chart to Canada
     selectedRegion = "CANADA";
     updateTitles();
-    showData();
+    showAreaData();
 
     // update region displayed in dropdown menu
     d3.select("#groups")._groups[0][0].value = selectedRegion;
@@ -160,48 +161,47 @@ map.on("click", () => {
 /* --  areaChart interactions -- */
 
 
-// const hoverValue;
-function areaInteraction() {
-  d3.select("#svgFuel .data")
-      .on("mouseover", function() {
-        divArea.transition()
-            .style("opacity", .9);
-      })
-      .on("mousemove", function() {
-        const mousex = d3.mouse(this)[0];
-        const hoverValue = findAreaData(mousex);
-        const thisGas = isNumber(hoverValue.gas, scalef);
-        const thisDiesel = isNumber(hoverValue.diesel, scalef);
-        const thisLPG = isNumber(hoverValue.lpg, scalef);
+// function areaInteraction() {
+//   d3.select("#svgFuel .data")
+//       .on("mouseover", function() {
+//         divArea.transition()
+//             .style("opacity", .9);
+//       })
+//       .on("mousemove", function() {
+//         const mousex = d3.mouse(this)[0];
+//         const hoverValue = findAreaData(mousex);
+//         const thisGas = isNumber(hoverValue.gas, scalef);
+//         const thisDiesel = isNumber(hoverValue.diesel, scalef);
+//         const thisLPG = isNumber(hoverValue.lpg, scalef);
 
 
-        divArea.html(
-            "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: " + thisGas + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: " + thisDiesel + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: " + thisLPG + "</td>" +
-                "</tr>" +
-              "</table>"
-        )
-            .style("left", (d3.event.pageX) + 10 + "px")
-            .style("top", (d3.event.pageY) + 10 + "px")
-            .style("pointer-events", "none");
-        hoverLine.style("display", null);
-        hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
-        hoverLine.moveToFront();
-      })
-      .on("mouseout", function(d, i) {
-        // Clear tooltip
-        hoverLine.style("display", "none");
-        divArea.transition().style("opacity", 0);
-      });
-}
+//         divArea.html(
+//             "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + hoverValue.date + ":</b>" + "<br><br>" +
+//               "<table>" +
+//                 "<tr>" +
+//                   "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: " + thisGas + "</td>" +
+//                 "</tr>" +
+//                 "<tr>" +
+//                   "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: " + thisDiesel + "</td>" +
+//                 "</tr>" +
+//                 "<tr>" +
+//                   "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: " + thisLPG + "</td>" +
+//                 "</tr>" +
+//               "</table>"
+//         )
+//             .style("left", (d3.event.pageX) + 10 + "px")
+//             .style("top", (d3.event.pageY) + 10 + "px")
+//             .style("pointer-events", "none");
+//         hoverLine.style("display", null);
+//         hoverLine.style("transform", "translate(" + stackedArea.x(new Date(hoverValue.date))+ "px)");
+//         hoverLine.moveToFront();
+//       })
+//       .on("mouseout", function(d, i) {
+//         // Clear tooltip
+//         hoverLine.style("display", "none");
+//         divArea.transition().style("opacity", 0);
+//       });
+// }
 
 // -----------------------------------------------------------------------------
 /* FNS */
@@ -215,27 +215,27 @@ function isNumber(inputValue, scalef) {
   return thisValue;
 }
 /* -- find year interval closest to cursor for areaChart tooltip -- */
-function findAreaData(mousex) {
-  const bisectDate = d3.bisector(function(d) {
-    return d.date;
-  }).left;
-  const x0 = stackedArea.x.invert(mousex);
-  const chartData = data[selectedRegion];
-  let d;
-  const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
+// function findAreaData(mousex) {
+//   const bisectDate = d3.bisector(function(d) {
+//     return d.date;
+//   }).left;
+//   const x0 = stackedArea.x.invert(mousex);
+//   const chartData = data[selectedRegion];
+//   let d;
+//   const i = bisectDate(chartData, x0.toISOString().substring(0, 4));
 
-  const d0 = chartData[i - 1];
-  const d1 = chartData[i];
+//   const d0 = chartData[i - 1];
+//   const d1 = chartData[i];
 
-  if (d0 && d1) {
-    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-  } else if (d0) {
-    d = d0;
-  } else {
-    d = d1;
-  }
-  return d;
-}
+//   if (d0 && d1) {
+//     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+//   } else if (d0) {
+//     d = d0;
+//   } else {
+//     d = d1;
+//   }
+//   return d;
+// }
 
 function colorMap() {
   // store map data in array and plot colour
@@ -262,7 +262,7 @@ function colorMap() {
 }
 
 /* -- display areaChart -- */
-function showData() {
+function showAreaData() {
   stackedArea = areaChart(chart, settings, data[selectedRegion]);
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
@@ -336,7 +336,7 @@ function uiHandler(event) {
     updateTitles();
 
     loadData(selectedRegion, () => {
-      showData();
+      showAreaData();
     });
   }
 
@@ -444,8 +444,8 @@ i18n.load(["src/i18n"], () => {
         };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-        showData(); // plot area chart, legend, and hover line
-        plotHoverLine();
+        showAreaData(); // plot area chart, legend, and hover line
+        // plotHoverLine();
         updateTitles(); // update chart, map and table titles
       });
 });
