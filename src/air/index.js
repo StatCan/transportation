@@ -711,9 +711,9 @@ function showAreaData() {
           .style("left", ((d3.event.pageX + 10) + "px"))
           .style("top", ((d3.event.pageY + 10) + "px"))
           .style("pointer-events", "none");
-    }), (e) => {
+    }, () => {
       divArea.style("opacity", 0);
-    };
+    });
     d3.selectAll(".flag").style("opacity", 0);
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 

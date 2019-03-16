@@ -7,6 +7,17 @@ export default {
     bottom: 50
   },
   aspectRatio: 16 / 11,
+  formatNum: function() {
+    const formatNumber = d3.format(",d");
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+      return d;
+      }
+    };
+    return format;
+  },
   // creates variable d
   filterData: function(data) {
 
@@ -67,7 +78,7 @@ export default {
       return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
     },
     getText: function(d, key) {
-      if (!d.isLast) {
+      if (!d.isLast) {        
         return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
       }
     },

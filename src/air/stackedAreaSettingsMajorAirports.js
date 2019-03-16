@@ -6,6 +6,17 @@ export default {
     bottom: 50
   },
   aspectRatio: 16 / 11,
+    formatNum: function() {
+    const formatNumber = d3.format(",d");
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+      return d;
+      }
+    };
+    return format;
+  },
   filterData: function(data) {
     let count = 0;
     data.filter(function(item) {
