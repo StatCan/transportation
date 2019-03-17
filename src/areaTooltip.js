@@ -1,4 +1,21 @@
-export default function(settings, keys, div, d, line1, divFactor) {
+export default function(settings, div, d) {
+  const divFactor = settings.scalef ? settings.scalef : 1;
+  const thisMonth = (d.date).substring(5, 7) ? i18next.t((d.date).substring(5, 7), {ns: "months"}) : null;
+  const thisYear = d.date.substring(0, 4);
+
+  const line1 = thisMonth ? `${i18next.t("chartHover", {ns: settings.ns})}, ${thisMonth} ${thisYear}: `:
+        `${i18next.t("chartHover", {ns: settings.ns})}, ${d.date}: ` ;
+
+  const keys = Object.keys(d);
+  // remove unwanted keys
+  keys.splice(keys.indexOf("date"), 1);
+   if (keys.indexOf("total") !== -1) {
+    keys.splice(keys.indexOf("total"), 1);
+  }
+  if (keys.indexOf("isLast") !== -1) {
+    keys.splice(keys.indexOf("isLast"), 1);
+  }
+ 
   const makeTable = function(line1) {
     let keyValues = [];
     for (let idx = 0; idx < keys.length; idx++) {

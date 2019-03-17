@@ -303,7 +303,7 @@ let selectedMonth = "01";
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
-let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+let divFactor = settings.scalef; // corresponds to passenger dataset; will change when toggled to major_airports
 const majorDateRange = {};
 const passengerDateRange = {};
 let selectedDateRange = {};
@@ -684,19 +684,15 @@ function showAreaData() {
 
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
-    const keys = stackedArea.settings.z.getKeys.call(settings, data[selectedDataset][selectedRegion]);
-    keys.splice(keys.indexOf("total"), 1);
 
+    // areaChart hoverLine and tooltip
     createOverlay(stackedArea, data[selectedDataset][selectedRegion], (d) => {
-      const line1 = (selectedDataset === "passengers") ?
-        `${i18next.t("chartHoverPassengers", {ns: stackedArea.settings.ns})}, ${d.date}: ` :
-        `${i18next.t("chartHoverMajorAirports", {ns: stackedArea.settings.ns})}, ${`${i18next.t((d.date).substring(5, 7),
-            {ns: "modesMonth"})} ${d.date.substring(0, 4)}`}: `;
-
-      areaTooltip(stackedArea.settings, keys, divArea, d, line1, divFactor);
-    }, () => {
-      divArea.style("opacity", 0);
-    });
+      areaTooltip(stackedArea.settings, divArea, d);
+      }, 
+      () => {
+        divArea.style("opacity", 0);
+      }
+    );
     d3.selectAll(".flag").style("opacity", 0);
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 

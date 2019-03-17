@@ -1,5 +1,19 @@
 {
   "en": {
+    "months": {
+      "01": "January",
+      "02": "February",
+      "03": "March",
+      "04": "April",
+      "05": "May",
+      "06": "June",
+      "07": "July",
+      "08": "August",
+      "09": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
     "road": {
       "chartTitle": "Type of fuel sales",
       "mapTitle": "Net fuel sales across Canada",
@@ -164,7 +178,7 @@
       "chartTitle": "Number of flights, by type",
       "mapTitle": "Total flights",
       "tableTitle": "Number of flights, by type",
-      "chartHoverMajorAirports": "Number of flights",
+      "chartHover": "Number of flights",
       "units": "flights",
       "x_label": "Year",
       "y_label": "",
@@ -177,7 +191,7 @@
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total air passenger traffic",
       "tableTitle": "Air passenger traffic (in thousands)",
-      "chartHoverPassengers": "Number of passengers (in thousands)",
+      "chartHover": "Number of passengers (in thousands)",
       "units": "people",
       "x_label": "Year",
       "y_label": "thousands",

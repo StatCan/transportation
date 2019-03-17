@@ -7,6 +7,7 @@ export default {
     right: 30,
     bottom: 50
   },
+  scalef: 1e3,
   aspectRatio: 16 / 11,
     formatNum: function() {
     const formatNumber = d3.format(",d");
