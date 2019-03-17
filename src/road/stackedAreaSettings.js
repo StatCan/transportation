@@ -7,6 +7,7 @@ export default {
     right: 30,
     bottom: 50
   },
+  scalef: 1e3,
   aspectRatio: 16 / 11,
   formatNum: function() {
     const formatNumber = d3.format(",d");
@@ -76,11 +77,11 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0/1000);
+      return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0 / 1000);
     },
     getText: function(d, key) {
       if (!d.isLast) {        
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0/ 1000;
+        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
       }
     },
     ticks: 5,

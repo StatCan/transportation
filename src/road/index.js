@@ -2,6 +2,7 @@ import settings from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
 
@@ -184,29 +185,7 @@ function showAreaData() {
   d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 
   createOverlay(stackedArea, data[selectedRegion], (d) => {
-      const thisGas = Number(d.gas) ? formatComma(d.gas / scalef) : d.gas;
-      const thisDiesel = Number(d.diesel) ? formatComma(d.diesel / scalef) : d.diesel;
-      const thisLPG = Number(d.lpg) ? formatComma(d.lpg / scalef) : d.lpg;
-
-      divArea.html(
-            "<b>" + i18next.t("hoverTitle", {ns: "roadArea"}) + " (" + i18next.t("units", {ns: "road"}) + "), " + d.date + ":</b>" + "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("gas", {ns: "roadArea"}) + "</b>: " + thisGas + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("diesel", {ns: "roadArea"}) + "</b>: " + thisDiesel + "</td>" +
-                "</tr>" +
-                "<tr>" +
-                  "<td><b>" + i18next.t("lpg", {ns: "roadArea"}) + "</b>: " + thisLPG + "</td>" +
-                "</tr>" +
-              "</table>"
-      );
-      divArea.style("opacity", .9);
-      divArea
-          .style("left", ((d3.event.pageX + 10) + "px"))
-          .style("top", ((d3.event.pageY + 10) + "px"))
-          .style("pointer-events", "none");
+    areaTooltip(stackedArea.settings, divArea, d);
     }, () => {
       divArea.style("opacity", 0);
     });
