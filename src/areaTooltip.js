@@ -3,8 +3,8 @@ export default function(settings, div, d) {
   const thisMonth = (d.date).substring(5, 7) ? i18next.t((d.date).substring(5, 7), {ns: "months"}) : null;
   const thisYear = d.date.substring(0, 4);
 
-  const line1 = thisMonth ? `${i18next.t("chartHover", {ns: settings.ns})}, ${thisMonth} ${thisYear}: `:
-        `${i18next.t("chartHover", {ns: settings.ns})}, ${d.date}: ` ;
+  const line1 = thisMonth ? `${i18next.t("hoverTitle", {ns: settings.ns})}, ${thisMonth} ${thisYear}: `:
+        `${i18next.t("hoverTitle", {ns: settings.ns})}, ${d.date}: ` ;
 
   const keys = Object.keys(d);
   // remove unwanted keys
