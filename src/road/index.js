@@ -84,7 +84,7 @@ map.on("mousemove", () => {
           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
             "<table>" +
               "<tr>" +
-                "<td><b>$" + value + "</td>" +
+                "<td><b>" + value + "</td>" +
               "</tr>" +
             "</table>"
       );
