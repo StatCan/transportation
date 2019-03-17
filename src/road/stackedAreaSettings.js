@@ -1,5 +1,6 @@
 export default {
   alt: i18next.t("alt", {ns: "roadArea"}),
+  ns: "roadArea",
   margin: {
     top: 50,
     left: 90,

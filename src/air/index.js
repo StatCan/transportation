@@ -3,6 +3,7 @@ import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import dropdownCheck from "../dropdownCheck.js";
 import CopyButton from "../copyButton.js";
@@ -683,35 +684,16 @@ function showAreaData() {
 
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
-    console.log(stackedArea.settings)
-
-    const keys = stackedArea.settings.z.getKeys.call(stackedArea.settings, data[selectedDataset][selectedRegion]);
-
-    const areaTooltip = function(line1, keys, keyValues) {
-      let rtnTable = `<b>${line1}<b><br><br><table>`;
-      for (let idx = 0; idx < keys.length; idx++) {
-        rtnTable = rtnTable.concat(`<tr><td><b>${i18next.t(keys[idx], {ns: stackedArea.settings.ns})}</b>: ${keyValues[idx]}</td></tr>`);
-      }
-      rtnTable = rtnTable.concat(`</table>`);
-      return rtnTable;
-    }
+    const keys = stackedArea.settings.z.getKeys.call(settings, data[selectedDataset][selectedRegion]);
+    keys.splice(keys.indexOf("total"), 1);
 
     createOverlay(stackedArea, data[selectedDataset][selectedRegion], (d) => {
-      let keyValues = [];
-      for (let idx = 0; idx < keys.length; idx++) {
-        keyValues.push(Number(d[keys[idx]]) ? formatComma(d[keys[idx]] / divFactor) : d[keys[idx]]);
-      }
-
       const line1 = (selectedDataset === "passengers") ?
         `${i18next.t("chartHoverPassengers", {ns: stackedArea.settings.ns})}, ${d.date}: ` :
         `${i18next.t("chartHoverMajorAirports", {ns: stackedArea.settings.ns})}, ${`${i18next.t((d.date).substring(5, 7),
             {ns: "modesMonth"})} ${d.date.substring(0, 4)}`}: `;
-     
-      divArea.html(areaTooltip(line1, keys, keyValues))
-          .style("opacity", .9)
-          .style("left", ((d3.event.pageX + 10) + "px"))
-          .style("top", ((d3.event.pageY + 10) + "px"))
-          .style("pointer-events", "none");
+
+      areaTooltip(stackedArea.settings, keys, divArea, d, line1, divFactor);
     }, () => {
       divArea.style("opacity", 0);
     });
