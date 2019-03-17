@@ -1,5 +1,6 @@
 export default {
   alt: i18next.t("alt", {ns: "airPassengers"}),
+  ns: "airPassengers",
   margin: {
     top: 50,
     left: 90,

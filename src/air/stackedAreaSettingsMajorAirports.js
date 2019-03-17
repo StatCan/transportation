@@ -1,4 +1,5 @@
 export default {
+  ns: "airMajorAirports",
   margin: {
     top: 50,
     left: 90,
