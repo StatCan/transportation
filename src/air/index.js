@@ -818,7 +818,7 @@ function airportHover() {
     const thisDomestic = divData.domestic;
     const thisTrans = divData.transborder;
     const thisInter = divData.international;
-    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "modesMonth"})} ${divData.date.substring(0, 4)}`;
+    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
         "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
         "<table>" +
@@ -844,7 +844,7 @@ function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
   const mapTitle = (selectedDataset === "passengers") ?
     `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
-    `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
+    `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "months"})} ${selectedYear}`;
   const areaTitle = (selectedDataset === "passengers") ?
     `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
     `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`;

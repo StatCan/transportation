@@ -43,7 +43,6 @@ const sankeyChart = d3.select("#sankeyGraph")
     .attr("id", "svg_sankeyChart");
 
 const table = d3.select(".tabledata");
-// .attr("id", "modesTable");
 
 function uiHandler(event) {
   // clear any tooltips
@@ -65,8 +64,8 @@ function uiHandler(event) {
 }
 
 function showData() {
-  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisRegion = i18next.t(selectedRegion, {ns: "modesGeography"});
+  const thisMonth = i18next.t(selectedMonth, {ns: "months"});
+  const thisRegion = i18next.t(selectedRegion, {ns: "modesTable"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
@@ -105,7 +104,7 @@ function showData() {
 /* -- update table title -- */
 function updateTitles() {
   const thisGeo = i18next.t(selectedRegion, {ns: "modesTable"});
-  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const thisMonth = i18next.t(selectedMonth, {ns: "months"});
   const thisTitle = i18next.t("tableTitle", {ns: "modesTable"}) + " " + thisGeo
   + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
@@ -123,7 +122,7 @@ function createDropdown() {
 /* Copy Button*/
 function dataCopyButton() {
   const geo = i18next.t(selectedRegion, {ns: "modesTable"});
-  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
+  const month = i18next.t(selectedMonth, {ns: "months"});
   const title = i18next.t("tableTitle", {ns: "modesTable"}) + geo
   + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 

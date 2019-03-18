@@ -384,36 +384,6 @@
       "YWL":"Williams Lake, Colombie-Britannique",
       "QYI":"Yarmouth, Nouvelle-Écosse"
      },
-    "modesGeography": {
-      "Canada": "Canada",
-      "Newfoundland and Labrador": "Terre-Neuve-et-Labrador",
-      "Prince Edward Island": "Île-du-Prince-Édouard",
-      "Nova Scotia": "Nouvelle-Écosse",
-      "New Brunswick": "Nouveau-Brunswick",
-      "Quebec": "Québec",
-      "Ontario": "Ontario",
-      "Manitoba": "Manitoba",
-      "Saskatchewan": "Saskatchewan",
-      "Alberta": "Alberta",
-      "British Columbia": "Colombie-Britannique",
-      "Yukon": "Yukon",
-      "Northwest Territories": "Territoires du Nord-Ouest",
-      "Nunavut": "Nunavut"
-    },
-    "modesMonth": {
-      "01": "janvier",
-      "02": "février",
-      "03": "mars",
-      "04": "avril",
-      "05": "mai",
-      "06": "juin",
-      "07": "juillet",
-      "08": "août",
-      "09": "septembre",
-      "10": "octobre",
-      "11": "novembre",
-      "12": "décembre"
-    },
     "modes": {
       "intl": "Voyageurs internationaux",
       "USres": "Résidents des États-Unis entrant au Canada.",
@@ -448,7 +418,7 @@
     "units": "personnes",
     "name": "Caractéristiques des voyageurs",
     "value": "Nombre des voyageurs",
-    "noData": "Pas de voyageurs internationaux pour "
+    "noData": "Pas de voyageurs internationaux "
     },
     "modesTable": {
       "tableTitle": "Voyageurs internationaux entrant ou revenant ",
