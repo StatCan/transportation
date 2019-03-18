@@ -2,13 +2,15 @@ import settings from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
 
-// const data = {};
+let allCommArr = []; // passed into bubbleTable()
 let selectedRegion = "ON";
 let selectedComm = "chems"; // "coal";
+let commodityGrid; // stores bubbleTable() call
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
+const commList = ["coal", "mixed", "wheat", "ores", "lumber", "canola", "oils", "chems", "pulp", "other"];
 
 // ---------------------------------------------------------------------
 /* globals lineChart */
@@ -42,6 +44,11 @@ function uiHandler(event) {
 }
 
 // ---------------------------------------------------------------------
+/* -- display areaChart -- */
+function showBubbleTable() {
+  commodityGrid = bubbleTable(commTable, settBubble, allCommArr);
+}
+
 function showComm(region) {
   const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
   d3.select("#commTableTitle")
@@ -75,6 +82,19 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/All_pulp.json")
       .defer(d3.json, "data/rail/All_other.json")
       .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp, allother) {
+        allCommArr.push({"coal": allcoal});
+        allCommArr.push({"mixed": allmixed});
+        allCommArr.push({"ores": allores});
+        // allCommArr.push({"potash": allpotash});
+        allCommArr.push({"lumber": alllumber});
+        allCommArr.push({"canola": allcanola});
+        allCommArr.push({"oils": alloils});
+        allCommArr.push({"chems": allchems});
+        allCommArr.push({"pulp": allpulp});
+        allCommArr.push({"other": allother});
+     
+        showBubbleTable();
+
 
         d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
           console.log("json1: ", json1);
@@ -97,7 +117,7 @@ i18n.load(["src/i18n"], function() {
           } // for loop
         }); // outer d3.json
 
-        showComm(selectedRegion);
+        // showComm(selectedRegion);
       });
 });
 

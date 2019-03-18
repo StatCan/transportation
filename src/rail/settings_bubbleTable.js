@@ -9,21 +9,26 @@ export default {
   alt: i18next.t("alt", {ns: "commodities"}),
   filterData: function(data) {
     const obj = {};
-    data.map((d) => {
-      const keys = Object.keys(d);
-      keys.splice(keys.indexOf("year"), 1);
 
-      for (const key of keys) {
-        if (!obj[key]) {
-          obj[key] = [];
-        }
+    data.map((d) => {
+      const key = Object.keys(d)[0];
+      const yearList = Object.keys(d[key]);
+ 
+      // set key once
+      if (!obj[key]) {
+        obj[key] = [];
+      }
+      // push year-value pairs for each year into obj
+      for (let idx = 0; idx < yearList.length; idx++) {
         obj[key].push({
-          year: d.year,
-          value: d[key] // format(d[key] * 1.0 / 1e6)
+          year: Object.keys(d[key])[idx],
+          value: Object.values(d[key])[idx].All
         });
       }
     });
 
+    // re-arrange obj so that each element object has an id and 
+    // a dataPoints array containing the year-value pairs created above
     return Object.keys(obj).map(function(k) {
       return {
         id: k,
