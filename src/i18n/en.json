@@ -552,7 +552,7 @@
       "12": "December"
     },
 	"CopyButton": {
-      "CopyButton_Title":  "Copy contents to clipboard",
+      "CopyButton_Title":  "Copy data table contents to clipboard",
       "CopyButton_Confirm": "Data copied (you can now paste into other applications)"
 	}
   }
