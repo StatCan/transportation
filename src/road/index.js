@@ -136,7 +136,8 @@ map.on("click", () => {
     selectedRegion = classes[0];
     d3.select(".dashboard .map")
         .select("." + classes[0])
-        .classed("roadMapHighlight", true);
+        .classed("roadMapHighlight", true)
+        .moveToFront();
     updateTitles();
 
     // Display selected region in stacked area chart
@@ -275,7 +276,8 @@ function showData() {
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
       .select("." + selectedRegion)
-      .classed("roadMapHighlight", true);
+      .classed("roadMapHighlight", true)
+      .moveToFront();
 
   updateTitles();
   plotLegend();
