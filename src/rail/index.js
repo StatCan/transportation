@@ -62,30 +62,43 @@ function sortComm(data) {
 i18n.load(["src/i18n"], function() {
   settings.x.label = i18next.t("x_label", {ns: "railArea"}),
   settings.y.label = i18next.t("y_label", {ns: "railArea"}),
-  // settBubble.z.getText = i18next.t("y_label", {ns: "commodities"}),
+  d3.queue()
+      .defer(d3.json, "data/rail/All_coal.json")
+      .defer(d3.json, "data/rail/All_mixed.json")
+      .defer(d3.json, "data/rail/All_wheat.json")
+      .defer(d3.json, "data/rail/All_ores.json")
+      // .defer(d3.json, "data/rail/All_potash.json") // MISSING
+      .defer(d3.json, "data/rail/All_lumber.json")
+      .defer(d3.json, "data/rail/All_canola.json")
+      .defer(d3.json, "data/rail/All_oils.json")
+      .defer(d3.json, "data/rail/All_chems.json")
+      .defer(d3.json, "data/rail/All_pulp.json")
+      .defer(d3.json, "data/rail/All_other.json")
+      .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp, allother) {
 
-  d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
-    console.log("json1: ", json1);
-    const numYears = Object.keys(json1).length;
+        d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
+          console.log("json1: ", json1);
+          const numYears = Object.keys(json1).length;
 
-    for (let idx = 0; idx < remainingRegions.length; idx++) {
-      const targetRegion = remainingRegions[idx];
-      d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
-        // Construct data object pair to send to stacked area chart
-        const arrPair = [];
-        for (let idx = 0; idx < numYears; idx++) {
-          const thisYear = Object.keys(json1)[idx];
-          arrPair.push({
-            year: thisYear,
-            [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
-            [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
-          });
-        }
-      }); // inner d3.json
-    } // for loop
-  }); // outer d3.json
+          for (let idx = 0; idx < remainingRegions.length; idx++) {
+            const targetRegion = remainingRegions[idx];
+            d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
+              // Construct data object pair to send to stacked area chart
+              const arrPair = [];
+              for (let idx = 0; idx < numYears; idx++) {
+                const thisYear = Object.keys(json1)[idx];
+                arrPair.push({
+                  year: thisYear,
+                  [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
+                  [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
+                });
+              }
+            }); // inner d3.json
+          } // for loop
+        }); // outer d3.json
 
-  showComm(selectedRegion);
+        showComm(selectedRegion);
+      });
 });
 
 $(document).on("change", uiHandler);
