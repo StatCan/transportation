@@ -688,11 +688,10 @@ function showAreaData() {
     // areaChart hoverLine and tooltip
     createOverlay(stackedArea, data[selectedDataset][selectedRegion], (d) => {
       areaTooltip(stackedArea.settings, divArea, d);
-      }, 
-      () => {
-        divArea.style("opacity", 0);
-      }
-    );
+    },
+    () => {
+      divArea.style("opacity", 0);
+    });
     d3.selectAll(".flag").style("opacity", 0);
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 

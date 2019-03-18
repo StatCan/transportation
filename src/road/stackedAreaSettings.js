@@ -15,24 +15,23 @@ export default {
       if (Number(d)) {
         return formatNumber(d);
       } else {
-      return d;
+        return d;
       }
     };
     return format;
   },
   // creates variable d
   filterData: function(data) {
-
     // Flag to check if data has already been padded (i.e. data file has never been loaded)
     let isOld = false;
     data.map((item) => {
       if (item.isLast) {
         isOld = isOld || true;
       }
-    })
+    });
 
     // If not padded, pad out the last year out to Jan 10
-    if (!isOld) {      
+    if (!isOld) {
       const padMonth = 0;
       const padDay = 10;
       // (year, month, date, hours, minutes, seconds, ms)
@@ -80,7 +79,7 @@ export default {
       return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0 / 1000);
     },
     getText: function(d, key) {
-      if (!d.isLast) {        
+      if (!d.isLast) {
         return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
       }
     },

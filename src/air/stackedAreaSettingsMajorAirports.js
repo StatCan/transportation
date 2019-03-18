@@ -7,13 +7,13 @@ export default {
     bottom: 50
   },
   aspectRatio: 16 / 11,
-    formatNum: function() {
+  formatNum: function() {
     const formatNumber = d3.format(",d");
     const format = function(d) {
       if (Number(d)) {
         return formatNumber(d);
       } else {
-      return d;
+        return d;
       }
     };
     return format;

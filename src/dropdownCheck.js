@@ -1,6 +1,6 @@
 export default function(yearId, monthId, dateRange, selectedYear) {
   const yearDropdown = $(yearId);
-  
+
   // date dropdown creation
   yearDropdown.empty();
 

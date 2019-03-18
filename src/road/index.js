@@ -186,9 +186,9 @@ function showAreaData() {
 
   createOverlay(stackedArea, data[selectedRegion], (d) => {
     areaTooltip(stackedArea.settings, divArea, d);
-    }, () => {
-      divArea.style("opacity", 0);
-    });
+  }, () => {
+    divArea.style("opacity", 0);
+  });
 
   // Highlight region selected from menu on map
   d3.select(".dashboard .map")
