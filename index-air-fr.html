@@ -165,7 +165,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-2">
-				<label for="groups_yr">Annnée</label>
+				<label for="yearSelector">Annnée</label>
 				<select id="yearSelector" class="form-control">
 					<option value="2017">2017</option>
 					<option value="2016">2016</option>
@@ -178,7 +178,7 @@
 				</select>
 			</div>
 			<div id="months" style= "visibility: hidden" class="col-md-4">
-				<label for="groups_month">Mois</label>
+				<label for="monthSelector">Mois</label>
 				<select  id="monthSelector" class="form-control">
           <option value="01">janvier</option>
           <option value="02">février</option>
@@ -225,9 +225,8 @@
 
           <div class="col-md-6"> <!-- first col in main row 1 -->
             <div> <!-- first row in col 1 -->
-              <div id="mapTitleAir">
-                <h3></h3>
-              </div>
+              <h3 id="mapTitleAir">
+              </h3>
               <div class="map"></div>
             </div> <!-- /row -->
 
@@ -246,9 +245,8 @@
           </div> <!-- /first col -->
 
           <div class="col-md-6"> <!-- second col in main row 1 -->
-              <div id="areaTitleAir">
-                <h3></h3>
-             </div>
+              <h3 id="areaTitleAir">
+             </h3>
              <div id="annualTimeseries">
               <div class="data airdata"></div>
             </div>

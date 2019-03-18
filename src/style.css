@@ -48,7 +48,7 @@
 }
 .roadAreaCB text {
 	font-size: 13px;
-	fill: #69757c;
+	fill: #000;
 }
 .roadMapHighlight {
 	stroke: #9e9d9d !important;
@@ -61,19 +61,19 @@
 }
 #svgFuel .chart-label {
 	font-size: 24px;
-	fill: #69757c;
+	fill: #000;
 }
 #svgFuel .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svgFuel .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svgFuel .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
@@ -160,7 +160,7 @@ table, th, td {
 /*-- area chart --*/
 .airAreaCB text {
 	font-size: 14px;
-	fill: #69757c;
+	fill: #000;
 }
 
 #svg_areaChartAir .area-label {
@@ -169,14 +169,14 @@ table, th, td {
   opacity: 0;
 }
 #svg_areaChartAir .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 /* major airports tick classes */
 #svg_areaChartAir .tickJan text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
@@ -190,10 +190,10 @@ table, th, td {
 /* ---- */
 
 #svg_areaChartAir .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_areaChartAir .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_areaChartAir .chart-label {
 	font-size: 22px;
@@ -223,7 +223,7 @@ table, th, td {
 	display: none;
 }
 .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 10px;
 	font-family: "Noto Sans", sans-serif;
@@ -281,10 +281,10 @@ table, th, td {
 	display: inline;
 }
 #svg_aptChart .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_aptChart .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_aptChart .areaChartTitle {
   font-size: 8px;
@@ -569,7 +569,7 @@ div.tooltip {
 	text-align: left;
 	font: 12px sans-serif;
 	color: #000;
-	background: #AAA;
+	background: #000;
 	border-style: solid;
 	border-width: 2px;
 	border-color: #000;
