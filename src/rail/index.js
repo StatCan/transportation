@@ -1,4 +1,4 @@
-import settings from "./settings_lineChart.js";
+import settings from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
 
@@ -10,44 +10,13 @@ let selectedComm = "chems"; // "coal";
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
 
-// const formatNumber = d3.format(","); // d3.format(".2f");
-// const format = function(d) {
-//   return formatNumber(d);
-// };
-
 // ---------------------------------------------------------------------
 /* globals lineChart */
 const chartPair1 = d3.select("#pair1")
     .append("svg")
     .attr("id", "svg_pair1");
-const chartPair2 = d3.select("#pair2")
-    .append("svg")
-    .attr("id", "svg_pair2");
-const chartPair3 = d3.select("#pair3")
-    .append("svg")
-    .attr("id", "svg_pair3");
-const chartPair4 = d3.select("#pair4")
-    .append("svg")
-    .attr("id", "svg_pair4");
-const chartPair5 = d3.select("#pair5")
-    .append("svg")
-    .attr("id", "svg_pair5");
-const chartPair6 = d3.select("#pair6")
-    .append("svg")
-    .attr("id", "svg_pair6");
-// const chartPair7 = d3.select("#pair7")
-//     .append("svg")
-//     .attr("id", "svg_pair7");
-// const chartPair8 = d3.select("#pair8")
-//     .append("svg")
-//     .attr("id", "svg_pair8");
+
 // ---------------------------------------------------------------------
-// global variables for commodities bubble table
-// const rankedCommData = [];
-// let count = 0;
-// let years;
-// let maxVal;
-// let rankedCommNames; // temp
 const commTable = d3.select("#commgrid")
     .append("svg")
     .attr("id", "svg_commgrid");
@@ -57,8 +26,8 @@ function uiHandler(event) {
   if (event.target.id === "commodity") {
     selectedComm = document.getElementById("commodity").value;
   }
-  if (event.target.id === "region") {
-    selectedRegion= document.getElementById("region").value;
+  if (event.target.id === "originGeo") {
+    selectedRegion= document.getElementById("originGeo").value;
   }
 
   // TO DO
@@ -73,9 +42,6 @@ function uiHandler(event) {
 }
 
 // ---------------------------------------------------------------------
-// function showArea() {
-//   lineChart(chartPair1, settings, data[selectedRegion]);
-// }
 function showComm(region) {
   const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
   d3.select("#commTableTitle")
@@ -114,28 +80,6 @@ i18n.load(["src/i18n"], function() {
             [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
             [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
           });
-        }
-        // console.log("arrPair: ", arrPair);
-
-        // send to lineChart
-        if (idx == 0) {
-          lineChart(chartPair1, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend1");
-        } else if (idx == 1) {
-          lineChart(chartPair2, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend2");
-        } else if (idx == 2) {
-          lineChart(chartPair3, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend3");
-        } else if (idx == 3) {
-          lineChart(chartPair4, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend4");
-        } else if (idx == 4) {
-          lineChart(chartPair5, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend5");
-        } else if (idx == 5) {
-          lineChart(chartPair6, settings, arrPair);
-          createLegend([selectedRegion, targetRegion], "#legend6");
         }
       }); // inner d3.json
     } // for loop
