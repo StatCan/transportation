@@ -3,12 +3,14 @@ import settBubble from "./settings_bubbleTable.js";
 import createLegend from "./createLegend.js";
 
 // const data = {};
+let allComm = {};
 let selectedRegion = "ON";
 let selectedComm = "chems"; // "coal";
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
+const commList = ["coal", "mixed", "wheat", "ores", "lumber", "canola", "oils", "chems", "pulp", "other"];
 
 // ---------------------------------------------------------------------
 /* globals lineChart */
@@ -76,6 +78,16 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/All_other.json")
       .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp, allother) {
 
+        // const coalTot = getCommTot(allcoal, "coal");
+
+        let allCommArr = [];
+        allCommArr.push({"coal": allcoal});
+        allCommArr.push({"mixed": allmixed});
+        console.log(allCommArr)
+        // getCommTot(allcoal, "coal");
+        console.log(getCommTot(allCommArr))
+
+
         d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
           console.log("json1: ", json1);
           const numYears = Object.keys(json1).length;
@@ -102,3 +114,31 @@ i18n.load(["src/i18n"], function() {
 });
 
 $(document).on("change", uiHandler);
+
+function getCommTot(object) {
+  let totComm = [];
+  const years = Object.keys(object[0]["coal"]);
+  for (let idx = 0; idx < years.length; idx++) {
+    const eachObj = {
+      "year": years[idx],
+      [thisComm]: thisComm
+    };
+
+    for (let jdx = 0; jdx < object.length; jdx++) {
+      let thisComm = Object.keys(object[jdx])[0];
+      const eachObj = {
+        "year": years[idx],
+        [thisComm]: thisComm
+      };
+      console.log(eachObj)
+    }
+
+    // totComm.push({keys[idx]: })
+  }
+
+  // let all = 0;
+  // for (let idx = 0; idx < Object.keys(object).length; idx++) {
+  //   all = all + object[Object.keys(object)[idx]].All;
+  // }
+  // return all;
+}
