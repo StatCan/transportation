@@ -207,41 +207,6 @@
 	$export.R = 128; // real proto method for `library`
 	var _export = $export;
 
-	// 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
-
-	var getTime = Date.prototype.getTime;
-	var $toISOString = Date.prototype.toISOString;
-
-	var lz = function (num) {
-	  return num > 9 ? num : '0' + num;
-	};
-
-	// PhantomJS / old WebKit has a broken implementations
-	var _dateToIsoString = (_fails(function () {
-	  return $toISOString.call(new Date(-5e13 - 1)) != '0385-07-25T07:06:39.999Z';
-	}) || !_fails(function () {
-	  $toISOString.call(new Date(NaN));
-	})) ? function toISOString() {
-	  if (!isFinite(getTime.call(this))) throw RangeError('Invalid time value');
-	  var d = this;
-	  var y = d.getUTCFullYear();
-	  var m = d.getUTCMilliseconds();
-	  var s = y < 0 ? '-' : y > 9999 ? '+' : '';
-	  return s + ('00000' + Math.abs(y)).slice(s ? -6 : -4) +
-	    '-' + lz(d.getUTCMonth() + 1) + '-' + lz(d.getUTCDate()) +
-	    'T' + lz(d.getUTCHours()) + ':' + lz(d.getUTCMinutes()) +
-	    ':' + lz(d.getUTCSeconds()) + '.' + (m > 99 ? m : '0' + lz(m)) + 'Z';
-	} : $toISOString;
-
-	// 20.3.4.36 / 15.9.5.43 Date.prototype.toISOString()
-
-
-
-	// PhantomJS / old WebKit has a broken implementations
-	_export(_export.P + _export.F * (Date.prototype.toISOString !== _dateToIsoString), 'Date', {
-	  toISOString: _dateToIsoString
-	});
-
 	var toString = {}.toString;
 
 	var _cof = function (it) {
@@ -1043,6 +1008,88 @@
 	  };
 	});
 
+	// 7.2.2 IsArray(argument)
+
+	var _isArray = Array.isArray || function isArray(arg) {
+	  return _cof(arg) == 'Array';
+	};
+
+	var SPECIES$2 = _wks('species');
+
+	var _arraySpeciesConstructor = function (original) {
+	  var C;
+	  if (_isArray(original)) {
+	    C = original.constructor;
+	    // cross-realm fallback
+	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
+	    if (_isObject(C)) {
+	      C = C[SPECIES$2];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array : C;
+	};
+
+	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+
+
+	var _arraySpeciesCreate = function (original, length) {
+	  return new (_arraySpeciesConstructor(original))(length);
+	};
+
+	// 0 -> Array#forEach
+	// 1 -> Array#map
+	// 2 -> Array#filter
+	// 3 -> Array#some
+	// 4 -> Array#every
+	// 5 -> Array#find
+	// 6 -> Array#findIndex
+
+
+
+
+
+	var _arrayMethods = function (TYPE, $create) {
+	  var IS_MAP = TYPE == 1;
+	  var IS_FILTER = TYPE == 2;
+	  var IS_SOME = TYPE == 3;
+	  var IS_EVERY = TYPE == 4;
+	  var IS_FIND_INDEX = TYPE == 6;
+	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+	  var create = $create || _arraySpeciesCreate;
+	  return function ($this, callbackfn, that) {
+	    var O = _toObject($this);
+	    var self = _iobject(O);
+	    var f = _ctx(callbackfn, that, 3);
+	    var length = _toLength(self.length);
+	    var index = 0;
+	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+	    var val, res;
+	    for (;length > index; index++) if (NO_HOLES || index in self) {
+	      val = self[index];
+	      res = f(val, index, O);
+	      if (TYPE) {
+	        if (IS_MAP) result[index] = res;   // map
+	        else if (res) switch (TYPE) {
+	          case 3: return true;             // some
+	          case 5: return val;              // find
+	          case 6: return index;            // findIndex
+	          case 2: result.push(val);        // filter
+	        } else if (IS_EVERY) return false; // every
+	      }
+	    }
+	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+	  };
+	};
+
+	var $map = _arrayMethods(1);
+
+	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
+	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map(this, callbackfn, arguments[1]);
+	  }
+	});
+
 	var f$1 = {}.propertyIsEnumerable;
 
 	var _objectPie = {
@@ -1204,106 +1251,55 @@
 	  _redefine(_global, NUMBER, $Number);
 	}
 
-	// 7.2.2 IsArray(argument)
-
-	var _isArray = Array.isArray || function isArray(arg) {
-	  return _cof(arg) == 'Array';
-	};
-
-	var SPECIES$2 = _wks('species');
-
-	var _arraySpeciesConstructor = function (original) {
-	  var C;
-	  if (_isArray(original)) {
-	    C = original.constructor;
-	    // cross-realm fallback
-	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
-	    if (_isObject(C)) {
-	      C = C[SPECIES$2];
-	      if (C === null) C = undefined;
-	    }
-	  } return C === undefined ? Array : C;
-	};
-
-	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-
-
-	var _arraySpeciesCreate = function (original, length) {
-	  return new (_arraySpeciesConstructor(original))(length);
-	};
-
-	// 0 -> Array#forEach
-	// 1 -> Array#map
-	// 2 -> Array#filter
-	// 3 -> Array#some
-	// 4 -> Array#every
-	// 5 -> Array#find
-	// 6 -> Array#findIndex
-
-
-
-
-
-	var _arrayMethods = function (TYPE, $create) {
-	  var IS_MAP = TYPE == 1;
-	  var IS_FILTER = TYPE == 2;
-	  var IS_SOME = TYPE == 3;
-	  var IS_EVERY = TYPE == 4;
-	  var IS_FIND_INDEX = TYPE == 6;
-	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-	  var create = $create || _arraySpeciesCreate;
-	  return function ($this, callbackfn, that) {
-	    var O = _toObject($this);
-	    var self = _iobject(O);
-	    var f = _ctx(callbackfn, that, 3);
-	    var length = _toLength(self.length);
-	    var index = 0;
-	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-	    var val, res;
-	    for (;length > index; index++) if (NO_HOLES || index in self) {
-	      val = self[index];
-	      res = f(val, index, O);
-	      if (TYPE) {
-	        if (IS_MAP) result[index] = res;   // map
-	        else if (res) switch (TYPE) {
-	          case 3: return true;             // some
-	          case 5: return val;              // find
-	          case 6: return index;            // findIndex
-	          case 2: result.push(val);        // filter
-	        } else if (IS_EVERY) return false; // every
-	      }
-	    }
-	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-	  };
-	};
-
-	var $filter = _arrayMethods(2);
-
-	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
-	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
-	  filter: function filter(callbackfn /* , thisArg */) {
-	    return $filter(this, callbackfn, arguments[1]);
-	  }
-	});
-
 	var settings = {
 	  alt: i18next.t("alt", {
 	    ns: "roadArea"
 	  }),
+	  ns: "roadArea",
 	  margin: {
 	    top: 50,
 	    left: 90,
 	    right: 30,
 	    bottom: 50
 	  },
+	  scalef: 1e3,
 	  aspectRatio: 16 / 11,
+	  formatNum: function formatNum() {
+	    var formatNumber = d3.format(",d");
+
+	    var format = function format(d) {
+	      if (Number(d)) {
+	        return formatNumber(d);
+	      } else {
+	        return d;
+	      }
+	    };
+
+	    return format;
+	  },
 	  // creates variable d
 	  filterData: function filterData(data) {
-	    var count = 0;
-	    data.filter(function (item) {
-	      item.isLast = count === data.length - 1 ? true : false;
-	      count++;
-	    }); // data is an array of objects
+	    // Flag to check if data has already been padded (i.e. data file has never been loaded)
+	    var isOld = false;
+	    data.map(function (item) {
+	      if (item.isLast) {
+	        isOld = isOld || true;
+	      }
+	    }); // If not padded, pad out the last year out to Jan 10
+
+	    if (!isOld) {
+	      var padMonth = 0;
+	      var padDay = 10; // (year, month, date, hours, minutes, seconds, ms)
+
+	      data.push({
+	        date: new Date(data[data.length - 1].date, padMonth, padDay, 0, 0, 0, 0),
+	        diesel: data[data.length - 1].diesel,
+	        gas: data[data.length - 1].gas,
+	        lpg: data[data.length - 1].lpg,
+	        total: data[data.length - 1].total,
+	        isLast: true
+	      });
+	    }
 
 	    return data;
 	  },
@@ -1312,11 +1308,7 @@
 	      ns: "roadArea"
 	    }),
 	    getValue: function getValue(d, i) {
-	      // return new Date(d.date + "-01");
-	      // for first year, start at Jan -01T00:00:00.000Z
-	      // for last year, extend to allow vertical line cursor to reach it
-	      return d.isLast ? new Date(d.date, 0, 10, 0, 0, 0, 0) : // (year, month, date, hours, minutes, seconds, ms)
-	      new Date(d.date + "-01");
+	      return new Date(d.date);
 	    },
 	    getText: function getText(d) {
 	      return d.date;
@@ -1352,7 +1344,9 @@
 	      return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1000;
 	    },
 	    getText: function getText(d, key) {
-	      return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+	      if (!d.isLast) {
+	        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+	      }
 	    },
 	    ticks: 5,
 	    tickSizeOuter: 0
@@ -1381,6 +1375,11 @@
 	      }
 
 	      return keys;
+	    },
+	    origData: function origData(data) {
+	      // remove last point which was added in filterData (padded date)
+	      var origData = data.slice(0, -1);
+	      return origData;
 	    },
 	    getClass: function getClass() {
 	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -1694,15 +1693,6 @@
 	  });
 	}
 
-	var $map = _arrayMethods(1);
-
-	_export(_export.P + _export.F * !_strictMethod([].map, true), 'Array', {
-	  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
-	  map: function map(callbackfn /* , thisArg */) {
-	    return $map(this, callbackfn, arguments[1]);
-	  }
-	});
-
 	// fast apply, http://jsperf.lnkit.com/fast-apply/5
 	var _invoke = function (fn, args, that) {
 	  var un = that === undefined;
@@ -1746,6 +1736,102 @@
 
 
 	_export(_export.P, 'Function', { bind: _bind });
+
+	function areaTooltip (settings, div, d) {
+	  var divFactor = settings.scalef ? settings.scalef : 1;
+	  var thisMonth = d.date.substring(5, 7) ? i18next.t(d.date.substring(5, 7), {
+	    ns: "months"
+	  }) : null;
+	  var thisYear = d.date.substring(0, 4);
+	  var line1 = thisMonth ? "".concat(i18next.t("hoverTitle", {
+	    ns: settings.ns
+	  }), ", ").concat(thisMonth, " ").concat(thisYear, ": ") : "".concat(i18next.t("hoverTitle", {
+	    ns: settings.ns
+	  }), ", ").concat(d.date, ": ");
+	  var keys = Object.keys(d); // remove unwanted keys
+
+	  keys.splice(keys.indexOf("date"), 1);
+
+	  if (keys.indexOf("total") !== -1) {
+	    keys.splice(keys.indexOf("total"), 1);
+	  }
+
+	  if (keys.indexOf("isLast") !== -1) {
+	    keys.splice(keys.indexOf("isLast"), 1);
+	  }
+
+	  var makeTable = function makeTable(line1) {
+	    var keyValues = [];
+
+	    for (var idx = 0; idx < keys.length; idx++) {
+	      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]] / divFactor) : d[keys[idx]]);
+	    }
+
+	    var rtnTable = "<b>".concat(line1, "</b><br><br><table>");
+
+	    for (var _idx = 0; _idx < keys.length; _idx++) {
+	      rtnTable = rtnTable.concat("<tr><td><b>".concat(i18next.t(keys[_idx], {
+	        ns: settings.ns
+	      }), "</b>: ").concat(keyValues[_idx], "</td></tr>"));
+	    }
+
+	    rtnTable = rtnTable.concat("</table>");
+	    return rtnTable;
+	  };
+
+	  div.html(makeTable(line1)).style("opacity", .9).style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
+	}
+
+	function createOverlay (chartObj, data, onMouseOverCb, onMouseOutCb) {
+	  // TEMP
+	  chartObj.svg.datum(chartObj);
+	  chartObj.data = data;
+	  var bisect = d3.bisector(function (d) {
+	    return chartObj.settings.x.getValue(d);
+	  }).left;
+	  var overlay = chartObj.svg.select(".data .overlay");
+	  var rect;
+	  var line;
+
+	  if (overlay.empty()) {
+	    overlay = chartObj.svg.select(".data").append("g").attr("class", "overlay");
+	    rect = overlay.append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay");
+	    line = overlay.append("line").attr("class", "hoverLine").style("display", "inline");
+	  } else {
+	    rect = overlay.select("rect");
+	    line = overlay.select("line");
+	  }
+
+	  rect.attr("width", chartObj.settings.innerWidth).attr("height", chartObj.settings.innerHeight).on("mousemove", function (e) {
+	    var chartObj = d3.select(this.ownerSVGElement).datum();
+	    var x = d3.mouse(this)[0];
+	    var xD = chartObj.x.invert(x);
+	    var i = bisect(chartObj.data, xD);
+	    var d0 = chartObj.data[i - 1];
+	    var d1 = chartObj.data[i];
+	    var d;
+
+	    if (d0 && d1) {
+	      d = xD - chartObj.settings.x.getValue(d0) > d1 - xD ? chartObj.settings.x.getValue(d1) : d0;
+	    } else if (d0) {
+	      d = d0;
+	    } else {
+	      d = d1;
+	    }
+
+	    line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
+	    line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
+
+	    if (onMouseOverCb && typeof onMouseOverCb === "function") {
+	      onMouseOverCb(d);
+	    }
+	  }).on("mouseout", function () {
+	    if (onMouseOutCb && typeof onMouseOutCb === "function") {
+	      onMouseOutCb();
+	    }
+	  });
+	  line.attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", chartObj.settings.innerHeight);
+	}
 
 	function _classCallCheck(instance, Constructor) {
 	  if (!(instance instanceof Constructor)) {
@@ -1912,27 +1998,24 @@
 	CopyButton.n = 0;
 
 	var data = {};
+	var stackedArea; // stores areaChart() call
+
 	var mapData = {};
 	var selectedRegion = "CANADA";
 	var selectedYear = "2017";
-	var overlayRect;
 	var formatComma = d3.format(",d");
 	var scalef = 1e3;
-	var stackedChart; // stores areaChart() call
-
 	/* Copy Button */
 	// -----------------------------------------------------------------------------
 
 	var cButton = new CopyButton(); // -----------------------------------------------------------------------------
 
 	/* SVGs */
-	// fuel sales stacked area chart
+	// Fuel sales stacked area chart
 
-	var chart = d3.select(".data").append("svg").attr("id", "svgFuel"); // vertical line
+	var chart = d3.select(".data").append("svg").attr("id", "svgFuel"); // Canada map
 
-	var hoverLine = chart.append("line").attr("class", "hoverLine").style("display", "none"); // Canada map
-
-	var map = d3.select(".dashboard .map").append("svg"); // map colour bar
+	var map = d3.select(".dashboard .map").append("svg"); // Map colour bar
 
 	var margin = {
 	  top: 20,
@@ -1942,10 +2025,10 @@
 	};
 	var width = 570 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
-	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // area chart legend
+	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // Area chart legend
 
 	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "roadAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
-	/* -- shim all the SVGs -- */
+	/* -- shim all the SVGs (chart is already shimmed in component) -- */
 
 	d3.stcExt.addIEShim(map, 387.1, 457.5);
 	d3.stcExt.addIEShim(svgCB, height, width);
@@ -1955,8 +2038,6 @@
 
 	var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 	var divArea = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
-
-	/* Interactions */
 
 	/* -- Map interactions -- */
 
@@ -1978,7 +2059,7 @@
 	      div.style("opacity", .9);
 	      div.html("<b>" + key + " (" + i18next.t("units", {
 	        ns: "road"
-	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>$" + value + "</td>" + "</tr>" + "</table>");
+	      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + "</tr>" + "</table>");
 	      div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	    } else {
 	      // clear tooltip for IE
@@ -2007,7 +2088,7 @@
 	    updateTitles(); // Display selected region in stacked area chart
 
 	    loadData(selectedRegion, function () {
-	      showData();
+	      showAreaData();
 	    }); // update region displayed in dropdown menu
 
 	    d3.select("#groups")._groups[0][0].value = selectedRegion;
@@ -2015,70 +2096,13 @@
 	    // reset area chart to Canada
 	    selectedRegion = "CANADA";
 	    updateTitles();
-	    showData(); // update region displayed in dropdown menu
+	    showAreaData(); // update region displayed in dropdown menu
 
 	    d3.select("#groups")._groups[0][0].value = selectedRegion;
 	  }
-	});
-	/* --  areaChart interactions -- */
-	// const hoverValue;
-
-	function areaInteraction() {
-	  d3.select("#svgFuel .data").on("mouseover", function () {
-	    divArea.transition().style("opacity", .9);
-	  }).on("mousemove", function () {
-	    var mousex = d3.mouse(this)[0];
-	    var hoverValue = findAreaData(mousex);
-	    var thisGas = formatComma(hoverValue.gas / scalef);
-	    var thisDiesel = formatComma(hoverValue.diesel / scalef);
-	    var thisLPG = formatComma(hoverValue.lpg / scalef);
-	    divArea.html("<b>" + i18next.t("hoverTitle", {
-	      ns: "roadArea"
-	    }) + " (" + i18next.t("units", {
-	      ns: "road"
-	    }) + "), " + hoverValue.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("gas", {
-	      ns: "roadArea"
-	    }) + "</b>: $" + thisGas + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("diesel", {
-	      ns: "roadArea"
-	    }) + "</b>: $" + thisDiesel + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("lpg", {
-	      ns: "roadArea"
-	    }) + "</b>: $" + thisLPG + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px").style("pointer-events", "none");
-	    hoverLine.style("display", null);
-	    hoverLine.style("transform", "translate(" + stackedChart.x(new Date(hoverValue.date)) + "px)");
-	    hoverLine.moveToFront();
-	  }).on("mouseout", function (d, i) {
-	    // Clear tooltip
-	    hoverLine.style("display", "none");
-	    divArea.transition().style("opacity", 0);
-	  });
-	} // -----------------------------------------------------------------------------
+	}); // -----------------------------------------------------------------------------
 
 	/* FNS */
-
-	/* -- find year interval closest to cursor for areaChart tooltip -- */
-
-
-	function findAreaData(mousex) {
-	  var bisectDate = d3.bisector(function (d) {
-	    return d.date;
-	  }).left;
-	  var x0 = stackedChart.x.invert(mousex);
-	  var chartData = data[selectedRegion];
-	  var d;
-	  var i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-	  var d0 = chartData[i - 1];
-	  var d1 = chartData[i];
-
-	  if (d0 && d1) {
-	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-	  } else if (d0) {
-	    d = d0;
-	  } else {
-	    d = d1;
-	  }
-
-	  return d;
-	}
 
 	function colorMap() {
 	  // store map data in array and plot colour
@@ -2101,12 +2125,15 @@
 	/* -- display areaChart -- */
 
 
-	function showData() {
-	  stackedChart = areaChart(chart, settings, data[selectedRegion]);
+	function showAreaData() {
+	  stackedArea = areaChart(chart, settings, data[selectedRegion]);
 	  d3.select("#svgFuel").select(".x.axis").select("text").attr("display", "none");
 	  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
-	  areaInteraction();
-	  plotLegend(); // Highlight region selected from menu on map
+	  createOverlay(stackedArea, data[selectedRegion], function (d) {
+	    areaTooltip(stackedArea.settings, divArea, d);
+	  }, function () {
+	    divArea.style("opacity", 0);
+	  }); // Highlight region selected from menu on map
 
 	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true);
 	  updateTitles();
@@ -2120,9 +2147,7 @@
 	function updateTitles() {
 	  var geography = i18next.t(selectedRegion, {
 	    ns: "roadGeography"
-	  }); // d3.select("#mapTitleRoad")
-	  //     .text(i18next.t("mapTitle", {ns: "road"}) + ", " + geography + ", " + selectedYear);
-
+	  });
 	  d3.select("#areaTitleRoad").text(i18next.t("chartTitle", {
 	    ns: "road"
 	  }) + ", " + geography);
@@ -2140,10 +2165,6 @@
 	      ns: "roadArea"
 	    });
 	  });
-	}
-
-	function plotHoverLine() {
-	  hoverLine.attr("x1", stackedChart.settings.margin.left).attr("x2", stackedChart.settings.margin.left).attr("y1", stackedChart.settings.margin.top).attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top);
 	} // -----------------------------------------------------------------------------
 
 	/* load data fn */
@@ -2170,7 +2191,7 @@
 
 	    updateTitles();
 	    loadData(selectedRegion, function () {
-	      showData();
+	      showAreaData();
 	    });
 	  }
 
@@ -2242,25 +2263,7 @@
 	    });
 	    d3.select("#mapTitleRoad").text(i18next.t("mapTitle", {
 	      ns: "road"
-	    })); // Area chart and x-axis position
-
-	    stackedChart = areaChart(chart, settings, data[selectedRegion]);
-	    areaInteraction();
-	    plotLegend();
-	    overlayRect = d3.select("#svgFuel .data").append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay").on("mouseout", function () {
-	      hoverLine.style("display", "none");
-	    }).on("mousemove", function () {
-	      hoverLine.style("display", null);
-	      hoverLine.style("transform", "translate(" + d3.mouse(this)[0] + "px)");
-	      hoverLine.moveToFront();
-	    });
-	    overlayRect.attr("width", stackedChart.settings.innerWidth).attr("height", stackedChart.settings.innerHeight);
-	    hoverLine.attr("x1", stackedChart.settings.margin.left).attr("x2", stackedChart.settings.margin.left).attr("y1", stackedChart.settings.margin.top).attr("y2", stackedChart.settings.innerHeight + stackedChart.settings.margin.top); // Remove x-axis label
-
-	    d3.select("#svgFuel").select(".x.axis").select("text") // .attr("dy", xaxisLabeldy)
-	    .attr("display", "none"); // Show chart titles based on default menu options
-
-	    updateTitles(); // copy button options
+	    })); // copy button options
 
 	    var cButtonOptions = {
 	      pNode: document.getElementById("copy-button-container"),
@@ -2276,10 +2279,9 @@
 	    }; // build nodes on copy button
 
 	    cButton.build(cButtonOptions);
-	    showData(); // plot area chart, legend, and hover line
-
-	    plotHoverLine();
-	    updateTitles(); // update chart, map and table titles
+	    showAreaData();
+	    plotLegend();
+	    updateTitles();
 	  });
 	});
 	$(document).on("change", uiHandler);

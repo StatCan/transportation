@@ -1,12 +1,26 @@
 {
   "fr": {
+    "months": {
+      "01": "janvier",
+      "02": "février",
+      "03": "mars",
+      "04": "avril",
+      "05": "mai",
+      "06": "juin",
+      "07": "juillet",
+      "08": "août",
+      "09": "septembre",
+      "10": "octobre",
+      "11": "novembre",
+      "12": "décembre"
+    },
     "CopyButton": {
       "CopyButton_Title":  "Copier le contenu vers le presse-papier",
       "CopyButton_Confirm": "Les données sont copiées (vous pouvez maintenant les coller dans une autre application)"
     },
     "road": {
       "chartTitle": "Type de vente de carburant",
-      "mapTitle": "Ventes nettes de carburants au canada",
+      "mapTitle": "Ventes nettes de carburants au Canada",
       "units": "millions de litres",
       "mapScaleLabel": "Total"
     },
@@ -168,7 +182,7 @@
       "chartTitle": "Trafic aérien de passagers",
       "mapTitle": "Total trafic aérien de passagers",
       "tableTitle": "Trafic aérien de passagers (en milliers)",
-      "chartHoverPassengers": "Nombre de passagers (en milliers)",
+      "hoverTitle": "Nombre de passagers (en milliers)",
       "units": "personnes",
       "x_label": "An",
       "y_label": "milliers",
@@ -185,7 +199,7 @@
       "chartTitle": "Nombre de vols, par type",
       "mapTitle": "Total nombre de vols",
       "tableTitle": "Nombre de vols, par type",
-      "chartHoverMajorAirports": "Nombre de vols",
+      "hoverTitle": "Nombre de vols",
       "units": "vols",
       "x_label": "Year",
       "y_label": "",
@@ -370,42 +384,12 @@
       "YWL":"Williams Lake, Colombie-Britannique",
       "QYI":"Yarmouth, Nouvelle-Écosse"
      },
-    "modesGeography": {
-      "Canada": "Canada",
-      "Newfoundland and Labrador": "Newfoundland and Labrador",
-      "Prince Edward Island": "Prince Edward Island",
-      "Nova Scotia": "Nova Scotia",
-      "New Brunswick": "New Brunswick",
-      "Quebec": "Quebec",
-      "Ontario": "Ontario",
-      "Manitoba": "Manitoba",
-      "Saskatchewan": "Saskatchewan",
-      "Alberta": "Alberta",
-      "British Columbia": "British Columbia",
-      "Yukon": "Yukon",
-      "Northwest Territories": "Northwest Territories",
-      "Nunavut": "Nunavut"
-    },
-    "modesMonth": {
-      "01": "janvier",
-      "02": "février",
-      "03": "mars",
-      "04": "avril",
-      "05": "mai",
-      "06": "juin",
-      "07": "juillet",
-      "08": "août",
-      "09": "septembre",
-      "10": "octobre",
-      "11": "novembre",
-      "12": "décembre"
-    },
     "modes": {
-      "intl": "Total des voyageurs internationaux",
-      "USres": "Résidents des États-Unis",
+      "intl": "Voyageurs internationaux",
+      "USres": "Résidents des États-Unis entrant au Canada.",
       "nonUSres": "Résidents de pays autres que les États-Unis",
       "cdnFromUS": "Résidents du Canada revenant des États-Unis",
-      "cdnFromOther": "Résidents du Canada revenant de pays autres que les États-Unis",
+      "cdnFromOther": "Résidents de pays autres que les États-Unis entrant au Canada",
       "USres_air": "Par air",
       "USres_marine": "Par mer",
       "USres_land": "Par terre",
@@ -425,16 +409,33 @@
       "cdnFromUS_car": "Automobile",
       "cdnFromUS_bus": "Autocar",
       "cdnFromUS_train": "Train",
-      "cdnFromUS_other": "Autres moyens"
+      "cdnFromUS_other": "Autres moyens",
+      "Other": "Autre"
     },
     "modes_sankey": {
     "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",
     "tableTitle": "Voyageurs internationaux entrant ou revenant au / à",
     "units": "personnes",
-    "byType": "selon le moyen de transport",
     "name": "Caractéristiques des voyageurs",
     "value": "Nombre des voyageurs",
-    "noData": "Pas de voyageurs internationaux au / à "
+    "noData": "Pas de voyageurs internationaux "
+    },
+    "modesTable": {
+      "tableTitle": "Voyageurs internationaux entrant ou revenant ",
+      "Canada": "au Canada",
+      "Newfoundland and Labrador": "à Terre-Neuve-et-Laborador",
+      "Prince Edward Island": "à l'Île-du-Prince-Édouard",
+      "Nova Scotia": "en Nouvelle-Écosse",
+      "New Brunswick": "au Nouveau-Brunswick",
+      "Quebec": "au Québec",
+      "Ontario": "en Ontario",
+      "Manitoba": "au Manitoba",
+      "Saskatchewan": "en Saskatchewan",
+      "Alberta": "en Alberta",
+      "British Columbia": "en Colombie-Britanique",
+      "Yukon": "au Yukon",
+      "Nunavut": "au Nunavut",
+      "byType": "selon le moyen de transport"
     }
   }
 }

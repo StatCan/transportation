@@ -1,5 +1,19 @@
 {
   "en": {
+    "months": {
+      "01": "January",
+      "02": "February",
+      "03": "March",
+      "04": "April",
+      "05": "May",
+      "06": "June",
+      "07": "July",
+      "08": "August",
+      "09": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
     "road": {
       "chartTitle": "Type of fuel sales",
       "mapTitle": "Net fuel sales across Canada",
@@ -164,7 +178,7 @@
       "chartTitle": "Number of flights, by type",
       "mapTitle": "Total flights",
       "tableTitle": "Number of flights, by type",
-      "chartHoverMajorAirports": "Number of flights",
+      "hoverTitle": "Number of flights",
       "units": "flights",
       "x_label": "Year",
       "y_label": "",
@@ -177,7 +191,7 @@
       "chartTitle": "Air passenger traffic",
       "mapTitle": "Total air passenger traffic",
       "tableTitle": "Air passenger traffic (in thousands)",
-      "chartHoverPassengers": "Number of passengers (in thousands)",
+      "hoverTitle": "Number of passengers (in thousands)",
       "units": "people",
       "x_label": "Year",
       "y_label": "thousands",
@@ -510,46 +524,33 @@
       "cdnFromUS_car": "Automobile",
       "cdnFromUS_bus": "Bus",
       "cdnFromUS_train": "Train",
-      "cdnFromUS_other": "Other"
+      "cdnFromUS_other": "Other",
+      "Other": "Other"
     },
     "modes_sankey": {
       "alt": "International travellers entering or returning to Canada, by type of transport",
       "tableTitle": "International travellers entering or returning to",
       "units": "people",
-      "byType": "by type of transport",
       "name": "Traveller characteristics",
       "value": "Number of travellers",
-      "noData": "Zero international travellers for "
+      "noData": "Zero international travellers "
     },
-    "modesGeography": {
-      "Canada": "Canada",
-      "Newfoundland and Labrador": "Newfoundland and Labrador",
-      "Prince Edward Island": "Prince Edward Island",
-      "Nova Scotia": "Nova Scotia",
-      "New Brunswick": "New Brunswick",
-      "Quebec": "Quebec",
-      "Ontario": "Ontario",
-      "Manitoba": "Manitoba",
-      "Saskatchewan": "Saskatchewan",
-      "Alberta": "Alberta",
-      "British Columbia": "British Columbia",
-      "Yukon": "Yukon",
-      "Northwest Territories": "Northwest Territories",
-      "Nunavut": "Nunavut"
-    },
-    "modesMonth": {
-      "01": "January",
-      "02": "February",
-      "03": "March",
-      "04": "April",
-      "05": "May",
-      "06": "June",
-      "07": "July",
-      "08": "August",
-      "09": "September",
-      "10": "October",
-      "11": "November",
-      "12": "December"
+    "modesTable": {
+      "tableTitle": "International travellers entering or returning ",
+      "Canada": "to Canada",
+      "Newfoundland and Labrador": "to Newfoundland and Labrador",
+      "Prince Edward Island": "to Prince Edward Island",
+      "Nova Scotia": "to Nova Scotia",
+      "New Brunswick": "to New Brunswick",
+      "Quebec": "to Quebec",
+      "Ontario": "to Ontario",
+      "Manitoba": "to Manitoba",
+      "Saskatchewan": "to Saskatchewan",
+      "Alberta": "to Alberta",
+      "British Columbia": "to British Columbia",
+      "Yukon": "to Yukon",
+      "Nunavut": "to Nunavut",
+      "byType": "by type of transport"
     },
 	"CopyButton": {
       "CopyButton_Title":  "Copy contents to clipboard",
