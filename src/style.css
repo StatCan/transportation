@@ -571,7 +571,7 @@ Show only for top 2 charts
   	border: 1px solid #CECECE;
 }
 #nextButton {
-	position: relative;
+	position: relative;}
   	top: -3px;
   	left: 970px;
   	border: 1px solid #CECECE;
@@ -591,7 +591,7 @@ div.tooltip {
 	text-align: left;
 	font: 12px sans-serif;
 	color: #000;
-	background: #000;
+	background: #AAA;
 	border-style: solid;
 	border-width: 2px;
 	border-color: #000;

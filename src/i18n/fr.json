@@ -15,7 +15,7 @@
       "12": "décembre"
     },
     "CopyButton": {
-      "CopyButton_Title":  "Copier le contenu vers le presse-papier",
+      "CopyButton_Title":  "Copiez le contenu de table de données dans le presse-papiers",
       "CopyButton_Confirm": "Les données sont copiées (vous pouvez maintenant les coller dans une autre application)"
     },
     "road": {
