@@ -1,0 +1,775 @@
+/* all tables */
+.details .chart-data-table {
+  padding-bottom: 0em;
+}
+.table {
+	margin-bottom: 0px;
+}
+
+.area svg text {
+	fill: currentColor;
+}
+
+.area svg .tick line,
+.area svg .domain {
+	stroke: currentColor;
+}
+
+.tblHeader{
+  text-align: right
+}
+
+.table td {
+	text-align: right;
+}
+/*road dataset*/
+/*-- tooltip --*/
+.hoverLine {
+   stroke: #000;
+   stroke-width: 1px;
+   opacity: 1;
+   pointer-events: none;
+}
+.linecursor {
+	margin-left: 63px;
+}
+.gas {
+	fill: #EDDB7C;
+}
+.diesel {
+	fill: #F99691;
+}
+.lpg {
+	fill: #5DC1BE;
+}
+.mapCB rect {
+	stroke: black;
+	stroke-width: 0;
+}
+.roadAreaCB text {
+	font-size: 13px;
+	fill: #69757c;
+}
+.roadMapHighlight {
+	stroke: #9e9d9d !important;
+	stroke-width: 0.5 !important;
+}
+#svgFuel .area-label {
+	font-size: 20px;
+	fill: #555;
+	opacity: 0;
+}
+#svgFuel .chart-label {
+	font-size: 24px;
+	fill: #69757c;
+}
+#svgFuel .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svgFuel .axis .tick line {
+  stroke: #aaa;
+}
+#svgFuel .axis path  {
+  stroke: #aaa;
+}
+.fueldata #chrt-dt-tbl  {
+  font-size: 18px;
+}
+#mapTitleRoad, #areaTitleRoad {
+  font-weight: bold;
+}
+/* -- map colour bar related -- */
+#mapColourScale text {
+	fill: #565656;
+	stroke: "none";
+	font-size: 13px;
+}
+.roadmapCBlabel {
+	position: relative;
+	top: -150px;
+  right: -195px;
+	color: #565656;
+	text-align: left;
+}
+table, th, td {
+  font-size: 12px;
+}
+
+/*air dataset*/
+/*-- titles for map and charts --*/
+#mapTitleAir, #areaTitleAir {
+  font-weight: bold;
+}
+/*-- table --*/
+.airdata #chrt-dt-tbl  {
+/*  position: relative;
+  top: -150px;*/
+  font-size: 18px;
+}
+.airdata #chrt-dt-tbl1  {
+/*  position: relative;
+  top: -150px;*/
+  font-size: 18px;
+}
+
+/*-- map --*/
+.airCB rect {
+	stroke: black;
+	stroke-width: 0.0;
+}
+.airMapHighlight {
+ 	stroke: #9e9d9d !important;
+	stroke-width: 0.5 !important;
+}
+.airmapCBlabel { /* colour bar label */
+	position: relative;
+	top: -150px;
+  right: -220px;
+	color: #565656;
+	text-align: left;
+}
+.classNaN text {
+  fill: #565656;
+  font-size: 13px;
+}
+
+/*-- airport circle fill --*/
+.hasData {
+	fill: #FFF84C;
+	stroke: white;
+	stroke-width: 0.2px;
+	cursor: pointer;
+}
+.noData {
+	fill: gray;
+	stroke: white;
+	stroke-width: 0.0px;
+	opacity: 0.5
+}
+.dontShow {
+	opacity: 0;
+}
+.airport {
+	/* stroke: black;
+	stroke-width: 0.5px; */
+}
+
+/*-- area chart --*/
+.airAreaCB text {
+	font-size: 14px;
+	fill: #69757c;
+}
+
+#svg_areaChartAir .area-label {
+	font-size: 20px;
+	fill: #3D3D3D;
+  opacity: 0;
+}
+#svg_areaChartAir .tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+/* major airports tick classes */
+#svg_areaChartAir .tickJan text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 22px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svg_areaChartAir .tick.Jan line {
+	stroke-width: 5px;
+}
+#svg_areaChartAir .tick.notJan text {
+	opacity: 0;
+}
+/* ---- */
+
+#svg_areaChartAir .axis path  {
+  stroke: #aaa;
+}
+#svg_areaChartAir .axis .tick line {
+  stroke: #aaa;
+}
+#svg_areaChartAir .chart-label {
+	font-size: 22px;
+	fill: #555;
+}
+.domestic {
+	fill: #F6CF22;
+	opacity: 0.6;
+}
+
+.transborder {
+	fill: #a6611a;
+  opacity: 0.6;
+}
+.international {
+  fill: #83C3F2;
+	opacity: 0.6;
+}
+.areaChartTitle {
+	font-size: 14px;
+	font-weight: bold;
+}
+.total {
+	fill: #C1D699;
+}
+.domain {
+	display: none;
+}
+.tick text {
+	fill: #69757c;
+	stroke: none;
+	font-size: 10px;
+	font-family: "Noto Sans", sans-serif;
+}
+.tick line {
+	stroke: none;
+}
+/* line chart for air */
+.line svg text {
+	fill: black;
+}
+.line svg .tick line,
+.line svg .domain {
+	stroke: black;
+}
+#svg_aptChart {
+  position: relative;
+  top: -70px;
+}
+#svg_aptChart .area  {
+  opacity: 0.5;
+}
+#svg_aptChart .area2  {
+  fill: #046D8B;
+	opacity: 0.7;
+}
+#svg_aptChart .area1  {
+  fill: #D4C098;
+	opacity: 1;
+}
+#svg_aptChart .chart-label {
+	font-size: 7px;
+	fill: #555;
+}
+#svg_aptChart .tick text {
+	font-size: 8px;
+}
+#svg_aptChart .area-label {
+	font-size: 7px;
+	fill: #333333;
+}
+.line-label, .chart-label {
+	font-size: 9px;
+	fill: #555;
+}
+.area-label {
+	font-size: 12px;
+	fill: #555;
+}
+
+.tick text {
+	font-size: 8px;
+}
+.domain {
+	display: inline;
+}
+#svg_aptChart .axis path  {
+  stroke: #aaa;
+}
+#svg_aptChart .axis .tick line {
+  stroke: #aaa;
+}
+#svg_aptChart .areaChartTitle {
+  font-size: 8px;
+  fill: #555;
+  font-weight: bold;
+}
+
+/*rail dataset*/
+/*-- barChart --*/
+#barChartTitle {
+  font-weight: bold;
+}
+.barChartTitle {
+	font-size: 12px;
+	font-weight: bold;
+}
+.bar {
+  fill: #0278A4;
+}
+.railBar .tick text {
+	font-size: 58px;
+}
+/* SOLID LINES */
+.legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,
+.dline.ABtoON, .dline.ABtoQC, .dline.ABtoSK, .dline.ABtoUS-MEX {
+  stroke: #c994c7;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine.ATto, .dline.ATtoAB, .dline.ATtoAT, .dline.ATtoBC, .dline.ATtoMB,
+.dline.ATtoON, .dline.ATtoQC, .dline.ATtoSK, .dline.ATtoUS-MEX
+ {
+  stroke: #555;
+  stroke-width: 3px;
+}
+.legendLine.BCto, .dline.BCtoAB, .dline.BCtoAT, .dline.BCtoBC, .dline.BCtoMB,
+.dline.BCtoON, .dline.BCtoQC, .dline.BCtoSK, .dline.BCtoUS-MEX {
+  stroke: #1B676B;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine.MBto, .dline.MBtoAT, .dline.MBtoAB, .dline.MBtoBC, .dline.MBtoMB,
+.dline.MBtoON, .dline.MBtoQC, .dline.MBtoSK, .dline.MBtoUS-MEX {
+  stroke: #31a354;
+  stroke-width: 2px;
+}
+.legendLine.ONto, .dline.ONtoAT, .dline.ONtoAB, .dline.ONtoBC, .dline.ONtoMB,
+.dline.ONtoON, .dline.ONtoQC, .dline.ONtoSK, .dline.ONtoUS-MEX  {
+  stroke: #555;
+  stroke-width: 2px;
+}
+.legendLine.QCto, .dline.QCtoAT, .dline.QCtoAB, .dline.QCtoBC, .dline.QCtoMB,
+.dline.QCtoON, .dline.QCtoQC, .dline.QCtoSK, .dline.QCtoUS-MEX  {
+  stroke: #3182bd;
+  stroke-width: 4px;
+}
+.legendLine.SKto, .dline.SKtoAT, .dline.SKtoAB, .dline.SKtoBC, .dline.SKtoMB,
+.dline.SKtoON, .dline.SKtoQC, .dline.SKtoSK, .dline.SKtoUS-MEX {
+  stroke: #dd1c77;
+  stroke-width: 4px;
+}
+/* DASHED LINES dline2 */
+.legendLine2.ABto, .dline2.ABtoAB, .dline2.ABtoAT, .dline2.ABtoBC, .dline2.ABtoMB,
+.dline2.ABtoON, .dline2.ABtoQC, .dline2.ABtoSK, .dline2.ABtoUS-MEX {
+  stroke: #c994c7;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.ATto, .dline2.ATtoAB, .dline2.ATtoAT, .dline2.ATtoBC, .dline2.ATtoMB,
+.dline2.ATtoON, .dline2.ATtoQC, .dline2.ATtoSK, .dline2.ATtoUS-MEX
+ {
+  stroke: #555;
+  stroke-width: 3px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.BCto, .dline2.BCtoAB, .dline2.BCtoAT, .dline2.BCtoBC, .dline2.BCtoMB,
+.dline2.BCtoON, .dline2.BCtoQC, .dline2.BCtoSK, .dline2.BCtoUS-MEX {
+  stroke: #1B676B;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.MBto, .dline2.MBtoAT, .dline2.MBtoAB, .dline2.MBtoBC, .dline2.MBtoMB,
+.dline2.MBtoON, .dline2.MBtoQC, .dline2.MBtoSK, .dline2.MBtoUS-MEX {
+  stroke: #31a354;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.ONto, .dline2.ONtoAT, .dline2.ONtoAB, .dline2.ONtoBC, .dline2.ONtoMB,
+.dline2.ONtoON, .dline2.ONtoQC, .dline2.ONtoSK, .dline2.ONtoUS-MEX  {
+  stroke: #555;
+  stroke-width: 2px;
+  stroke-dasharray: 2px;
+}
+.legendLine2.QCto, .dline2.QCtoAT, .dline2.QCtoAB, .dline2.QCtoBC, .dline2.QCtoMB,
+.dline2.QCtoON, .dline2.QCtoQC, .dline2.QCtoSK, .dline2.QCtoUS-MEX  {
+  stroke: #3182bd;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+.legendLine2.SKto, .dline2.SKtoAT, .dline2.SKtoAB, .dline2.SKtoBC, .dline2.SKtoMB,
+.dline2.SKtoON, .dline2.SKtoQC, .dline2.SKtoSK, .dline2.SKtoUS-MEX {
+  stroke: #dd1c77;
+  stroke-width: 4px;
+  stroke-dasharray: 4px;
+}
+
+#tonnageDivIdLines .line-label {
+  opacity: 0;
+}
+#tonnageDivIdLines .chart-label {
+  font-size: 8px;
+  fill: #555;
+}
+#tonnageDivIdLines .tick text {
+	font-size: 6px;
+}
+/* END LINES */
+
+.legendTextRail text {
+  font-size: 16px;
+  fill: #555;
+}
+#tonnageDivId .line-label {
+  opacity: 0;
+}
+
+/* x-axis tick labels (years) */
+#tonnageDivId .tick text {
+	font-size: 20px;
+}
+/* y-axis label (Tonnage)
+Show only for top 2 charts
+*/
+#tonnageDivId .chart-label {
+  font-size: 20px;
+  fill: #555;
+}
+#svg_pair3 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair4 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair5 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair6 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair7 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair8 .y.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair1 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair2 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair3 .x.axis .chart-label {
+  opacity: 0;
+}
+#svg_pair4 .x.axis .chart-label {
+  opacity: 0;
+}
+
+
+#commTableTitle {
+	font-size: 20px;
+	color: #333;
+  font-weight: bold;
+}
+.ATR {
+	fill: #e5c494;
+}
+.QC {
+	fill: #ffd92f;;
+}
+.ON {
+	fill: #a6d854;
+}
+.MB {
+	fill: #e78ac3;
+}
+.SK {
+	fill: #8da0cb;
+}
+.AB {
+	fill: #fc8d62;
+}
+.BC {
+	fill: #66c2a5;
+}
+.US {
+	fill: #7fbc41;
+}
+.USMX {
+	fill: #4d9221;
+}
+.USMX {
+	fill: #737373;
+}
+.inactive-region {
+	opacity: 0.1 !important;
+}
+
+.comm_yr {
+	fill: #666666;
+  	stroke: none;
+	font-size: 16px;
+}
+.comm_type {
+	fill: #666666;
+  	stroke: none;
+	font-size: 14px;
+}
+.comm_value {
+	fill: #666666;
+  stroke: none;
+	font-size: 14px;
+
+}
+.bubble-row-text {
+  font-size: 10px;
+  text-anchor: start;
+}
+.bubble-text {
+  font-size: 10px;
+  text-anchor: middle;
+}
+.bubble-col {
+  font-size: 12px;
+}
+.bubble-col .tick {
+  text-anchor: middle;
+}
+.bubble-col .tick text {
+  font-size: 12px;
+  fill: #333;
+}
+.wheat circle {
+	fill:  #024571;
+}
+.iron circle {
+	fill:  #5DC1BE;
+}
+.coal circle {
+	fill:  #F6CF22;
+}
+.potash circle {
+	fill:  #555;
+}
+.mixedloads circle {
+	fill:  #BF4D28;
+}
+#prevButton {
+	position: relative;
+  	top: -3px;
+  	left: 960px;
+  	border: 1px solid #CECECE;
+}
+#nextButton {
+	position: relative;
+  	top: -3px;
+  	left: 970px;
+  	border: 1px solid #CECECE;
+}
+.inactive {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.active {
+	pointer-events: auto;
+}
+
+/*expt rail dataset*/
+div.tooltip {
+	position: absolute;
+	padding: 5px;
+	text-align: left;
+	font: 12px sans-serif;
+	color: #000;
+	background: #AAA;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000;
+	border-radius: 8px;
+}
+
+
+/*map*/
+.canada-map path {
+	fill: #94a6b2;
+	stroke: #fff;
+	stroke-width: 0.3;
+	opacity: 1;
+}
+
+/*modes dataset*/
+/*-- table --*/
+/* #modesTable summary {
+	font-size: 18px;
+}
+#modesTable #only-dt-tbl  {
+  font-size: 18px;
+} */
+
+
+/*-- Sankey --*/
+/*-- div that displays zero data message --*/
+#zeroFlag {
+	font-weight: bold;
+	text-align: center;
+	position: absolute;
+	top: 20%;
+
+}
+
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+	font-size: 12px;
+}
+
+.link {
+  fill: none;
+  stroke: #999;
+  stroke-opacity: .3;
+}
+
+.link:hover {
+  stroke-opacity: .5;
+}
+/* node rect colours */
+.intl rect {
+  fill: #607890;
+}
+.USres rect {
+	fill: #CC982A;
+	}
+.nonUSres rect {
+	fill: #928941;
+	}
+.cdnFromUS rect {
+	fill: #FFDC68;
+	}
+.cdnFromOther rect {
+	fill: #FAB491;
+}
+.USres_land rect {
+	fill: #CC982A;
+}
+.USres_air rect {
+	fill: #CC982A;
+}
+.USres_marine rect {
+	fill: #CC982A;
+}
+.USres_car rect {
+	fill: #CC982A;
+}
+.USres_bus rect {
+	fill: #CC982A;
+}
+.USres_train rect {
+	fill: #CC982A;
+}
+.USres_other rect {
+		fill: #CC982A;
+}
+.nonUSres_land rect {
+	fill: #928941;
+}
+.nonUSres_air rect {
+	fill: #928941;
+}
+.nonUSres_marine rect {
+	fill: #928941;
+}
+.cdnFromUS_land rect {
+ fill: #FFDC68;
+}
+.cdnFromUS_air rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_marine rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_car rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_bus rect {
+	 fill: #FFDC68;
+}
+.cdnFromUS_train rect {
+	fill: #FFDC68;
+}
+.cdnFromUS_other rect {
+	fill: #FFDC68;
+}
+.cdnFromOther_land rect {
+	fill: #FAB491;
+}
+.cdnFromOther_air rect {
+	fill: #FAB491;
+}
+.cdnFromOther_marine rect {
+	fill: #FAB491;
+}
+
+/* copy button */
+.copy-button .copy-confirm {
+	visibility: hidden;
+	position: absolute;
+	top: 5px;
+	right: 50px;
+	background: #eaebed;
+	line-height: 25px;
+	border-radius: 4px;
+	border: solid thin black;
+	padding: 5px;
+	color: #333;
+  font-size: 14px;
+
+	box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-moz-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+	-webkit-box-shadow: -2px 2px 6px rgba(35, 35, 35, 0.5);
+}
+
+.copy-button  .btn.btn-primary.copy .clipboard{
+	font-size: 18px;
+}
+
+.copy-button {
+  position: relative;
+	text-align: right;
+
+}
+/* Fade In Fade Out */
+.fadeIn {
+	-webkit-animation: fadeIn 0.5s forwards;
+	animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+@-webkit-keyframes fadeIn {
+	0% 	 { opacity: 0; visibility:visible }
+	100% { opacity: 1; visibility:visible }
+}
+
+.fadeOut {
+	-webkit-animation: fadeOut 0.5s forwards;
+	animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+@-webkit-keyframes fadeOut {
+	0% 	 { opacity: 1; visibility:visible }
+	100% { opacity: 0; visibility:hidden; z-index:1; }
+}
+
+.tabledata .row-level-1 th{
+ padding-left: 20px;
+}
+
+.tabledata .row-level-2 th{
+	padding-left: 40px;
+}
+
+.tabledata .row-level-3 th{
+	padding-left: 60px;
+}
