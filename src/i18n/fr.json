@@ -384,6 +384,19 @@
       "YWL":"Williams Lake, Colombie-Britannique",
       "QYI":"Yarmouth, Nouvelle-Écosse"
      },
+      "commodities": {
+        "coal": "Charbon",
+        "mixed": "Chargements mixtes ou fret non identifié",
+        "wheat": "Blé",
+        "ores": "Minerais de fer et leurs concentrés",
+        "potash": "Potasse",
+        "lumber": "Bois d'oeuvre",
+        "canola": "Grains de colza (canola)",
+        "oils": "Mazout et pétrole brut",
+        "chems": "Autres produits chimiques de base",
+        "woodpulp": "Pâte de bois",
+        "other": "Autre"
+    },
     "modes": {
       "intl": "Voyageurs internationaux",
       "USres": "Résidents des États-Unis entrant au Canada.",
