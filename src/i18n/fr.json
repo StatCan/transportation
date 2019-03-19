@@ -394,7 +394,7 @@
         "canola": "Grains de colza (canola)",
         "oils": "Mazout et pétrole brut",
         "chems": "Autres produits chimiques de base",
-        "woodpulp": "Pâte de bois",
+        "pulp": "Pâte de bois",
         "other": "Autre"
     },
     "modes": {
