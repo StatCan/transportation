@@ -397,6 +397,7 @@ $(".data_set_selector").on("click", function(event) {
 
   if (event.target.id === ("major")) {
     selectedMonth = defaultMonth;
+    d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
 
     movementsButton
         .attr("class", "btn btn-primary major data_set_selector")

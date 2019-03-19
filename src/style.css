@@ -144,10 +144,10 @@ table, th, td {
 	cursor: pointer;
 }
 .noData {
-	fill: gray;
+	fill: #565656;
 	stroke: white;
 	stroke-width: 0.0px;
-	opacity: 0.5
+	/* opacity: 0.5 */
 }
 .dontShow {
 	opacity: 0;
