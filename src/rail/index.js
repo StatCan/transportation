@@ -80,8 +80,8 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/All_oils.json")
       .defer(d3.json, "data/rail/All_chems.json")
       .defer(d3.json, "data/rail/All_pulp.json")
-      .defer(d3.json, "data/rail/All_other.json")
-      .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp, allother) {
+      // .defer(d3.json, "data/rail/All_other.json")
+      .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp) {
         allCommArr.push({"coal": allcoal});
         allCommArr.push({"mixed": allmixed});
         allCommArr.push({"ores": allores});
@@ -91,7 +91,7 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"oils": alloils});
         allCommArr.push({"chems": allchems});
         allCommArr.push({"pulp": allpulp});
-        allCommArr.push({"other": allother});
+        // allCommArr.push({"other": allother});
      
         showBubbleTable();
 
