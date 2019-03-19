@@ -565,7 +565,8 @@ map.on("click", () => {
         selectedRegion = classes[0];
         d3.select(".dashboard .map")
             .select("." + classes[0])
-            .classed("airMapHighlight", true);
+            .classed("airMapHighlight", true)
+            .moveToFront();
         // Display selected region in stacked area chart
         showAreaData();
 
@@ -816,7 +817,8 @@ function showAreaData() {
     // Highlight region selected from menu on map
     d3.select(".dashboard .map")
         .select("." + selectedRegion)
-        .classed("airMapHighlight", true);
+        .classed("airMapHighlight", true)
+        .moveToFront();
 
     // ------------------copy button---------------------------------
     // need to re-apend the button since table is being re-build
