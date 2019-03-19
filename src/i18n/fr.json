@@ -28,7 +28,7 @@
       "alt": "Ventes de carburants destinés aux véhicules automobiles, annuel",
       "tableTitle": "Ventes de carburants destinés aux véhicules automobiles, {{geo}} (millions de litres)",
       "hoverTitle": "Ventes de carburants",
-      "x_label": "Année",
+      "x_label": "",
       "y_label": "millions de litres",
       "gas": "Essence",
       "diesel": "Carburant diesel",
