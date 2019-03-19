@@ -1,22 +1,14 @@
 import settings from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
-import createLegend from "./createLegend.js";
+// import createLegend from "./createLegend.js";
 
-let allCommArr = []; // passed into bubbleTable()
+const allCommArr = []; // passed into bubbleTable()
 let selectedRegion = "ON";
-let selectedComm = "chems"; // "coal";
-let commodityGrid; // stores bubbleTable() call
+let selectedComm = "chems";
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
 const remainingRegions = regions.filter((item) => item !== selectedRegion);
-const commList = ["coal", "mixed", "wheat", "ores", "lumber", "canola", "oils", "chems", "pulp", "other"];
-
-// ---------------------------------------------------------------------
-/* globals lineChart */
-const chartPair1 = d3.select("#pair1")
-    .append("svg")
-    .attr("id", "svg_pair1");
 
 // ---------------------------------------------------------------------
 const commTable = d3.select("#commgrid")
@@ -46,22 +38,11 @@ function uiHandler(event) {
 // ---------------------------------------------------------------------
 /* -- display areaChart -- */
 function showBubbleTable() {
-  commodityGrid = bubbleTable(commTable, settBubble, allCommArr);
-}
-
-function showComm(region) {
   const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
   d3.select("#commTableTitle")
       .text(thisText);
 
-  // Read commodities file for selected region
-  d3.json("data/rail/commdata_allOrig_allDest.json", function(err, json) {
-    sortComm(json);
-    bubbleTable(commTable, settBubble, json);
-  });
-}
-function sortComm(data) {
-  console.log("sort the data!");
+  bubbleTable(commTable, settBubble, allCommArr);
 }
 
 // ---------------------------------------------------------------------

@@ -9,9 +9,8 @@ export default {
   alt: i18next.t("alt", {ns: "commodities"}),
   filterData: function(data) {
     const obj = {};
-    const sortedObj = {};
     let yearList;
-    let lastYearArray = [];
+    const lastYearArray = [];
 
     data.map((d) => {
       const key = Object.keys(d)[0];
@@ -19,12 +18,12 @@ export default {
         yearList = Object.keys(d[key]);
       }
       const lastYear = yearList[yearList.length - 1];
- 
+
       // set key once
       if (!obj[key]) {
         obj[key] = [];
       }
-      
+
       // Store lastYear value for each commodity for sorting later
       lastYearArray.push({
         key: key,
@@ -41,7 +40,7 @@ export default {
     });
 
     // Sort by value in last year (descending order)
-    lastYearArray.sort(function(a, b){
+    lastYearArray.sort(function(a, b) {
       return a.lastYearValue < b.lastYearValue;
     });
     // Define array of ordered commodities
@@ -49,14 +48,14 @@ export default {
 
     // Define mapping between old order and new order (to be used in final obj return)
     let count = 0;
-    let mapping = [];
+    const mapping = [];
     Object.keys(obj).map(function(k) {
       const thisComm = orderedComm[count];
       mapping.push({[k]: thisComm});
       count++;
     });
-    
-    // Re-arrange obj so that each element object has an id and 
+
+    // Re-arrange obj so that each element object has an id and
     // a dataPoints array containing the year-value pairs created above.
     // Note that object is ordered according to sorted commodity list.
     let match;
