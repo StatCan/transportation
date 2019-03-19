@@ -44,7 +44,8 @@ export default {
     getText: function(d) {
       return d.date;
     },
-    ticks: 7*6
+    ticks: 7*6,
+    tickSizeOuter: 0
   },
 
   y: {
