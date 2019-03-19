@@ -96,16 +96,6 @@ i18n.load(["src/i18n"], function() {
         showBubbleTable();
 
 
-        // const coalTot = getCommTot(allcoal, "coal");
-
-        let allCommArr = [];
-        allCommArr.push({"coal": allcoal});
-        allCommArr.push({"mixed": allmixed});
-        console.log(allCommArr)
-        // getCommTot(allcoal, "coal");
-        console.log(getCommTot(allCommArr))
-
-
         d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
           console.log("json1: ", json1);
           const numYears = Object.keys(json1).length;
@@ -132,31 +122,3 @@ i18n.load(["src/i18n"], function() {
 });
 
 $(document).on("change", uiHandler);
-
-function getCommTot(object) {
-  let totComm = [];
-  const years = Object.keys(object[0]["coal"]);
-  for (let idx = 0; idx < years.length; idx++) {
-    const eachObj = {
-      "year": years[idx],
-      [thisComm]: thisComm
-    };
-
-    for (let jdx = 0; jdx < object.length; jdx++) {
-      let thisComm = Object.keys(object[jdx])[0];
-      const eachObj = {
-        "year": years[idx],
-        [thisComm]: thisComm
-      };
-      console.log(eachObj)
-    }
-
-    // totComm.push({keys[idx]: })
-  }
-
-  // let all = 0;
-  // for (let idx = 0; idx < Object.keys(object).length; idx++) {
-  //   all = all + object[Object.keys(object)[idx]].All;
-  // }
-  // return all;
-}
