@@ -183,7 +183,7 @@
       "x_label": "Year",
       "y_label": "",
       "domestic": "Domestic",
-      "international": "International",
+      "international": "Other International",
       "transborder": "Transborder",
       "total": "Total"
     },
@@ -197,7 +197,7 @@
       "y_label": "thousands",
       "total": "Total",
       "domestic": "Domestic",
-      "international": "International",
+      "international": "Other International",
       "transborder": "Transborder",
       "enplaned": "Enplaned",
       "deplaned": "Deplaned",
