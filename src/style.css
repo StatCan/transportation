@@ -527,21 +527,43 @@ Show only for top 2 charts
   font-size: 12px;
   fill: #333;
 }
+
+/* rail commodities */
 .wheat circle {
-	fill:  #024571;
+	fill: #024571;
 }
-.iron circle {
-	fill:  #5DC1BE;
+.ores circle {
+	fill: #5DC1BE;
 }
 .coal circle {
-	fill:  #F6CF22;
+	fill: #F6CF22;
 }
 .potash circle {
-	fill:  #555;
+	fill: #2A2C31;
 }
-.mixedloads circle {
-	fill:  #BF4D28;
+.mixed circle {
+	fill: #BF4D28;
 }
+.lumber circle {
+	fill: #5A2E2E;
+}
+.canola circle {
+	fill: #F1A930;
+}
+.oils circle {
+	fill: #FC557D;
+}
+.chems circle {
+	fill: #A2BF76;
+}
+.woodpulp circle {
+	fill: #DFBA69;
+}
+.other circle {
+	fill: #64997D;
+}
+
+
 #prevButton {
 	position: relative;
   	top: -3px;
