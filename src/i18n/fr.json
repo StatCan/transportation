@@ -386,7 +386,7 @@
      },
       "commodities": {
         "coal": "Charbon",
-        "mixed": "Chargements mixtes ou fret non identifié",
+        "mixed": "Chargements mixtes",
         "wheat": "Blé",
         "ores": "Minerais de fer et leurs concentrés",
         "potash": "Potasse",
