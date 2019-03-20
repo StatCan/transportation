@@ -43,6 +43,7 @@ export default {
     lastYearArray.sort(function(a, b) {
       return a.lastYearValue < b.lastYearValue;
     });
+
     // Define array of ordered commodities
     const orderedComm = lastYearArray.map((item) => item.key);
 
