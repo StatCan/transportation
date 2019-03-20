@@ -399,7 +399,7 @@
     },
     "modes": {
       "intl": "Voyageurs internationaux",
-      "USres": "Résidents des États-Unis entrant au Canada.",
+      "USres": "Résidents des États-Unis entrant au Canada",
       "nonUSres": "Résidents de pays autres que les États-Unis",
       "cdnFromUS": "Résidents du Canada revenant des États-Unis",
       "cdnFromOther": "Résidents de pays autres que les États-Unis entrant au Canada",
