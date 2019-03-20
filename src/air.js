@@ -2250,7 +2250,8 @@
       getText: function getText(d) {
         return d.date;
       },
-      ticks: 7 * 6
+      ticks: 7 * 6,
+      tickSizeOuter: 0
     },
     y: {
       label: i18next.t("y_label", {
@@ -3169,6 +3170,7 @@
 
     if (event.target.id === "major") {
       selectedMonth = defaultMonth;
+      d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
       movementsButton.attr("class", "btn btn-primary major data_set_selector").attr("aria-pressed", true);
       passengerButton.attr("class", "btn btn-default movements data_set_selector").attr("aria-pressed", false);
       monthDropdown.style("visibility", "visible");

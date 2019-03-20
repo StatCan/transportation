@@ -2084,7 +2084,7 @@
 	    var classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
 
 	    selectedRegion = classes[0];
-	    d3.select(".dashboard .map").select("." + classes[0]).classed("roadMapHighlight", true);
+	    d3.select(".dashboard .map").select("." + classes[0]).classed("roadMapHighlight", true).moveToFront();
 	    updateTitles(); // Display selected region in stacked area chart
 
 	    loadData(selectedRegion, function () {
@@ -2135,7 +2135,7 @@
 	    divArea.style("opacity", 0);
 	  }); // Highlight region selected from menu on map
 
-	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true);
+	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true).moveToFront();
 	  updateTitles();
 	  plotLegend();
 	  cButton.appendTo(document.getElementById("copy-button-container"));

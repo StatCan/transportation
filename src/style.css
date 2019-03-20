@@ -15,8 +15,8 @@
 	stroke: currentColor;
 }
 
-.tblHeader{
-  text-align: right
+.tblHeader {
+  text-align: right;
 }
 
 .table td {
@@ -48,7 +48,7 @@
 }
 .roadAreaCB text {
 	font-size: 13px;
-	fill: #69757c;
+	fill: #000;
 }
 .roadMapHighlight {
 	stroke: #9e9d9d !important;
@@ -61,19 +61,19 @@
 }
 #svgFuel .chart-label {
 	font-size: 24px;
-	fill: #69757c;
+	fill: #000;
 }
 #svgFuel .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svgFuel .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svgFuel .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 .fueldata #chrt-dt-tbl  {
   font-size: 18px;
@@ -144,10 +144,10 @@ table, th, td {
 	cursor: pointer;
 }
 .noData {
-	fill: gray;
+	fill: #565656;
 	stroke: white;
 	stroke-width: 0.0px;
-	opacity: 0.5
+	/* opacity: 0.5 */
 }
 .dontShow {
 	opacity: 0;
@@ -160,7 +160,7 @@ table, th, td {
 /*-- area chart --*/
 .airAreaCB text {
 	font-size: 14px;
-	fill: #69757c;
+	fill: #000;
 }
 
 #svg_areaChartAir .area-label {
@@ -169,14 +169,14 @@ table, th, td {
   opacity: 0;
 }
 #svg_areaChartAir .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
 }
 /* major airports tick classes */
 #svg_areaChartAir .tickJan text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 22px;
 	font-family: "Noto Sans", sans-serif;
@@ -190,10 +190,10 @@ table, th, td {
 /* ---- */
 
 #svg_areaChartAir .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_areaChartAir .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_areaChartAir .chart-label {
 	font-size: 22px;
@@ -223,7 +223,7 @@ table, th, td {
 	display: none;
 }
 .tick text {
-	fill: #69757c;
+	fill: #000;
 	stroke: none;
 	font-size: 10px;
 	font-family: "Noto Sans", sans-serif;
@@ -281,10 +281,10 @@ table, th, td {
 	display: inline;
 }
 #svg_aptChart .axis path  {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_aptChart .axis .tick line {
-  stroke: #aaa;
+  stroke: #000;
 }
 #svg_aptChart .areaChartTitle {
   font-size: 8px;
@@ -527,21 +527,43 @@ Show only for top 2 charts
   font-size: 12px;
   fill: #333;
 }
+
+/* rail commodities */
 .wheat circle {
-	fill:  #024571;
+	fill: #024571;
 }
-.iron circle {
-	fill:  #5DC1BE;
+.ores circle {
+	fill: #5DC1BE;
 }
 .coal circle {
-	fill:  #F6CF22;
+	fill: #F6CF22;
 }
 .potash circle {
-	fill:  #555;
+	fill: #2A2C31;
 }
-.mixedloads circle {
-	fill:  #BF4D28;
+.mixed circle {
+	fill: #BF4D28;
 }
+.lumber circle {
+	fill: #5A2E2E;
+}
+.canola circle {
+	fill: #F1A930;
+}
+.oils circle {
+	fill: #FC557D;
+}
+.chems circle {
+	fill: #A2BF76;
+}
+.pulp circle {
+	fill: #DFBA69;
+}
+.other circle {
+	fill: #64997D;
+}
+
+
 #prevButton {
 	position: relative;
   	top: -3px;
@@ -549,7 +571,7 @@ Show only for top 2 charts
   	border: 1px solid #CECECE;
 }
 #nextButton {
-	position: relative;
+	position: relative;}
   	top: -3px;
   	left: 970px;
   	border: 1px solid #CECECE;
