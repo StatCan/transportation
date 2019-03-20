@@ -3310,7 +3310,7 @@
           // ---------------------------------------------------------------------
           // Region highlight
           selectedRegion = classes[0];
-          d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true); // Display selected region in stacked area chart
+          d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true).moveToFront(); // Display selected region in stacked area chart
 
           showAreaData(); // upsdate region displayed in dropdown menu
 
@@ -3445,7 +3445,7 @@
       } // Highlight region selected from menu on map
 
 
-      d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true); // ------------------copy button---------------------------------
+      d3.select(".dashboard .map").select("." + selectedRegion).classed("airMapHighlight", true).moveToFront(); // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
 
       if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
