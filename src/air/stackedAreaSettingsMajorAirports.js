@@ -1,4 +1,5 @@
 export default {
+  ns: "airMajorAirports",
   margin: {
     top: 50,
     left: 90,
@@ -6,6 +7,17 @@ export default {
     bottom: 50
   },
   aspectRatio: 16 / 11,
+  formatNum: function() {
+    const formatNumber = d3.format(",d");
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  },
   filterData: function(data) {
     let count = 0;
     data.filter(function(item) {
@@ -32,7 +44,8 @@ export default {
     getText: function(d) {
       return d.date;
     },
-    ticks: 7*6
+    ticks: 7*6,
+    tickSizeOuter: 0
   },
 
   y: {
@@ -92,7 +105,7 @@ export default {
       const dataClone = JSON.parse(JSON.stringify(data));
       // Format date as monthName YYYY
       dataClone.filter(function(item) {
-        item.date = `${i18next.t((item.date).substring(5, 7), {ns: "modesMonth"})} ${item.date.substring(0, 4)}`;
+        item.date = `${i18next.t((item.date).substring(5, 7), {ns: "months"})} ${item.date.substring(0, 4)}`;
       });
       return dataClone;
     },

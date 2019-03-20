@@ -2,6 +2,7 @@ import makeSankey from "./makeSankey.js";
 import tableSettings from "./tableSettings.js";
 import CopyButton from "../copyButton.js";
 import NodesTree from "./nodesTree.js";
+import dropdownCheck from "../dropdownCheck.js";
 
 /* Copy Button and DataTree*/
 // -----------------------------------------------------------------------------
@@ -42,7 +43,6 @@ const sankeyChart = d3.select("#sankeyGraph")
     .attr("id", "svg_sankeyChart");
 
 const table = d3.select(".tabledata");
-// .attr("id", "modesTable");
 
 function uiHandler(event) {
   // clear any tooltips
@@ -64,8 +64,8 @@ function uiHandler(event) {
 }
 
 function showData() {
-  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisRegion = i18next.t(selectedRegion, {ns: "modesGeography"});
+  const thisMonth = i18next.t(selectedMonth, {ns: "months"});
+  const thisRegion = i18next.t(selectedRegion, {ns: "modesTable"});
   const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
@@ -103,56 +103,28 @@ function showData() {
 
 /* -- update table title -- */
 function updateTitles() {
-  const thisGeo = i18next.t(selectedRegion, {ns: "modesGeography"});
-  const thisMonth = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const thisTitle = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + thisGeo
-  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
+  const thisGeo = i18next.t(selectedRegion, {ns: "modesTable"});
+  const thisMonth = i18next.t(selectedMonth, {ns: "months"});
+  const thisTitle = i18next.t("tableTitle", {ns: "modesTable"}) + " " + thisGeo
+  + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
 }
 // create year dropdown based on data
 function createDropdown() {
-  const yearDropdown = $("#year");
-  // date dropdown creation
-  yearDropdown.empty();
-  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
-    yearDropdown.append($("<option></option>")
-        .attr("value", i).html(i));
-  }
-  d3.select("#year")._groups[0][0].value = selectedYear;
-  const maxMonth = Number(dateRange.max.substring(5, 7));
-  const maxYear = Number(dateRange.max.substring(0, 4));
+  const yearId = `#${"year"}`;
+  const monthId = `#${"month"}`;
 
-  // Disable months in dropdown menu that do not exist for selectedYear
-  if (Number(selectedYear) === maxYear) {
-    $("#month > option").each(function() {
-      if (Number(this.value) > maxMonth) {
-        this.disabled = true;
-      }
-    });
-  } else {
-    // Enable all months
-    d3.selectAll("#month > option").property("disabled", false);
-
-    // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
-    const currentMonth = Number(d3.select("#month")._groups[0][0].value);
-    if (currentMonth > maxMonth) {
-      $("#year > option").each(function() {
-        if (Number(this.value) === maxYear) {
-          this.disabled = true;
-        }
-      });
-    }
-  }
+  dropdownCheck(yearId, monthId, dateRange, selectedYear);
 }
 
 // -----------------------------------------------------------------------------
 /* Copy Button*/
 function dataCopyButton() {
-  const geo = i18next.t(selectedRegion, {ns: "modesGeography"});
-  const month = i18next.t(selectedMonth, {ns: "modesMonth"});
-  const title = i18next.t("tableTitle", {ns: "modes_sankey"}) + " " + geo
-  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modes_sankey"});
+  const geo = i18next.t(selectedRegion, {ns: "modesTable"});
+  const month = i18next.t(selectedMonth, {ns: "months"});
+  const title = i18next.t("tableTitle", {ns: "modesTable"}) + geo
+  + ", " + month + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
   const columns = [i18next.t("name", {ns: "modes_sankey"}), i18next.t("value", {ns: "modes_sankey"})];
   cButton.data = dataTree.toLines(title, columns);

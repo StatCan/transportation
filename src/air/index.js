@@ -3,6 +3,9 @@ import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
+import areaTooltip from "../areaTooltip.js";
+import createOverlay from "../overlay.js";
+import dropdownCheck from "../dropdownCheck.js";
 import CopyButton from "../copyButton.js";
 
 /* Copy Button */
@@ -291,7 +294,6 @@ const majorDropdownData = [
 let selectedDropdown = passengerDropdownData;
 
 let totals;
-let overlayRect;
 let passengerTotals;
 let majorTotals;
 let canadaMap;
@@ -301,7 +303,7 @@ let selectedMonth = "01";
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
-let divFactor = scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+let divFactor = settings.scalef; // corresponds to passenger dataset; will change when toggled to major_airports
 const majorDateRange = {};
 const passengerDateRange = {};
 let selectedDateRange = {};
@@ -312,7 +314,6 @@ const lineDataMajor = {};
 let passengerMetaData;
 let majorMetaData;
 let metaData;
-let hoverValue;
 let lineData = lineDataPassenger;
 
 // -- store default values for selections -- //
@@ -366,8 +367,6 @@ const zoomedPointRadius = 0.9;
 
 // const airportGroup = map.append("g");
 let airportGroup;
-
-
 let allAirports;
 
 // -----------------------------------------------------------------------------
@@ -384,16 +383,10 @@ const divArea = d3.select("body")
     .style("pointer-events", "none")
     .style("opacity", 0);
 
-/* vertical line to attach to cursor */
-const hoverLine = chart.append("line")
-    .attr("class", "hoverLine")
-    .style("display", "none");
 
 // -----------------------------------------------------------------------------
 /* UI Handler */
 $(".data_set_selector").on("click", function(event) {
-  resetZoom();
-
   // Reset to defaults
   d3.select(".map").selectAll("path").classed("airMapHighlight", false);
   selectedYear = defaultYear;
@@ -404,6 +397,7 @@ $(".data_set_selector").on("click", function(event) {
 
   if (event.target.id === ("major")) {
     selectedMonth = defaultMonth;
+    d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
 
     movementsButton
         .attr("class", "btn btn-primary major data_set_selector")
@@ -423,6 +417,7 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = majorTotals;
+    resetZoom();
     showAreaData();
     colorMap();
     refreshMap();
@@ -598,114 +593,6 @@ map.on("click", () => {
 });
 
 // -----------------------------------------------------------------------------
-/* FNS */
-/* --  areaChart interactions -- */
-// vertical line to attach to cursor
-function plotHoverLine() {
-  const thisSettings = selectedDataset === "passengers" ? settings : settingsMajorAirports;
-
-  overlayRect = d3.select("#svg_areaChartAir .data")
-      .append("rect")
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .attr("class", "overlay")
-      .on("mouseout", function() {
-        hoverLine.style("display", "none");
-      })
-      .on("mousemove", function() {
-        // move the transform value into a variable and add the margin left
-        const transform = stackedArea.x(hoverValue ? new Date(hoverValue.date) : 0) + thisSettings.margin.left;
-        hoverLine.style("display", null);
-
-        // use attr.x1 and attr.x2 with the transform value
-        hoverLine.attr("x1", transform)
-            .attr("x2", transform)
-            .moveToFront();
-      });
-
-  overlayRect
-      .attr("width", stackedArea.settings.innerWidth)
-      .attr("height", stackedArea.settings.innerHeight);
-
-  hoverLine.attr("x1", stackedArea.settings.margin.left)
-      .attr("x2", stackedArea.settings.margin.left)
-      .attr("y1", stackedArea.settings.margin.top)
-      .attr("y2", stackedArea.settings.innerHeight + stackedArea.settings.margin.top);
-}
-
-
-function findAreaData(mousex) {
-  const bisectDate = d3.bisector(function(d) {
-    return d.date;
-  }).left;
-  const x0 = stackedArea.x.invert(mousex);
-  const chartData = data[selectedDataset][selectedRegion];
-  let d;
-  let i;
-  if (selectedDataset === "passenger" ) {
-    i = bisectDate(chartData, x0.toISOString().substring(0, 4));
-  } else {
-    i = bisectDate(chartData, x0.toISOString().substring(0, 7));
-  }
-
-  const d0 = chartData[i - 1];
-  const d1 = chartData[i];
-
-  if (d0 && d1) {
-    d = x0 - new Date(d0.date ) > new Date(d1.date ) - x0 ? d1 : d0;
-  } else if (d0) {
-    d = d0;
-  } else {
-    d = d1;
-  }
-  return d;
-}
-// area chart hover
-function areaInteraction() {
-  d3.select("#svg_areaChartAir .data")
-      .on("mousemove", function() {
-        const mousex = d3.mouse(this)[0];
-        hoverValue = findAreaData(mousex);
-
-        const thisDomestic = Number(hoverValue.domestic) ? formatComma(hoverValue.domestic / divFactor) : hoverValue.domestic;
-        const thisTrans = Number(hoverValue.transborder) ? formatComma(hoverValue.transborder / divFactor) : hoverValue.transborder;
-        const thisInter = Number(hoverValue.international) ? formatComma(hoverValue.international / divFactor) : hoverValue.international;
-
-        const line1 = (selectedDataset === "passengers") ?
-          `${i18next.t("chartHoverPassengers", {ns: "airPassengers"})}, ${hoverValue.date}: ` :
-          `${i18next.t("chartHoverMajorAirports", {ns: "airMajorAirports"})}, ${`${i18next.t((hoverValue.date).substring(5, 7),
-              {ns: "modesMonth"})} ${hoverValue.date.substring(0, 4)}`}: `;
-
-        divArea.html(
-            "<b>" + line1 + "</b>" + "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
-            "</tr>" +
-            "<tr>" +
-              "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
-            "</tr>" +
-            "<tr>" +
-              "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
-            "</tr>" +
-          "</table>"
-        );
-        divArea
-            .style("left", ((d3.event.pageX + 10) + "px"))
-            .style("top", ((d3.event.pageY + 10) + "px"))
-            .style("pointer-events", "none");
-      })
-      .on("mouseover", function() {
-        divArea.style("opacity", .9);
-      })
-      .on("mouseout", function(d, i) {
-        // Clear tooltip
-        hoverLine.style("display", "none");
-        divArea.style("opacity", 0);
-      });
-}
-
-// -----------------------------------------------------------------------------
 /* -- map-related -- */
 const resetZoom = function() {
   // clear any previous clicks
@@ -799,6 +686,14 @@ function showAreaData() {
 
   const showChart = () => {
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
+
+    // areaChart hoverLine and tooltip
+    createOverlay(stackedArea, data[selectedDataset][selectedRegion], (d) => {
+      areaTooltip(stackedArea.settings, divArea, d);
+    },
+    () => {
+      divArea.style("opacity", 0);
+    });
     d3.selectAll(".flag").style("opacity", 0);
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
 
@@ -826,7 +721,6 @@ function showAreaData() {
     dataCopyButton(data[selectedDataset][selectedRegion]);
     // ---------------------------------------------------------------
 
-    areaInteraction();
     plotLegend();
   };
 
@@ -848,7 +742,6 @@ function showAreaData() {
         });
   } else {
     showChart();
-    // plotHoverLine();
   }
 }
 
@@ -872,44 +765,14 @@ function filterDates(data) {
 }
 function createDropdown() {
   const geoDropdown = $("#groups");
-  const yearDropdown = $("#yearSelector");
-
   geoDropdown.empty(); // remove old options
 
-  // date dropdown creation
-  yearDropdown.empty();
-  for (let i = Number(selectedDateRange.min.substring(0, 4)); i<=(Number(selectedDateRange.max.substring(0, 4))); i++) {
-    yearDropdown.append($("<option></option>")
-        .attr("value", i).html(i));
-  }
-  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-  if (selectedDataset == "major_airports") {
-    const maxMonth = Number(selectedDateRange.max.substring(5, 7));
-    const maxYear = Number(selectedDateRange.max.substring(0, 4));
+  // check available month/year combinations
+  const yearId = `#${"yearSelector"}`;
+  const monthId = `#${"monthSelector"}`;
+  dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
 
-    // Disable months in dropdown menu that do not exist for selectedYear
-    if (Number(selectedYear) === maxYear) {
-      $("#monthSelector > option").each(function() {
-        if (Number(this.value) > maxMonth) {
-          this.disabled = true;
-        }
-      });
-    } else {
-      // Enable all months
-      d3.selectAll("#monthSelector > option").property("disabled", false);
-
-      // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
-      const currentMonth = Number(d3.select("#monthSelector")._groups[0][0].value);
-      if (currentMonth > maxMonth) {
-        $("#yearSelector > option").each(function() {
-          if (Number(this.value) === maxYear) {
-            this.disabled = true;
-          }
-        });
-      }
-    }
-  }
-  // end dropdown
+  // indent airports under each geographic region
   const indent = "&numsp;&numsp;&numsp;";
   let prefix;
   for (const geo of selectedDropdown) {
@@ -927,6 +790,7 @@ function createDropdown() {
     }
   }
 }
+
 /* -- stackedArea chart for airports -- */
 const showAirport = function() {
   if (!lineData[selectedAirpt]) {
@@ -957,7 +821,7 @@ function airportHover() {
     const thisDomestic = divData.domestic;
     const thisTrans = divData.transborder;
     const thisInter = divData.international;
-    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "modesMonth"})} ${divData.date.substring(0, 4)}`;
+    const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
         "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
         "<table>" +
@@ -983,14 +847,13 @@ function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "airGeography"});
   const mapTitle = (selectedDataset === "passengers") ?
     `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
-    `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "modesMonth"})} ${selectedYear}`;
+    `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "months"})} ${selectedYear}`;
   const areaTitle = (selectedDataset === "passengers") ?
     `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
     `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`;
   const tableTitle = (selectedDataset === "passengers") ?
     `${i18next.t("tableTitle", {ns: "airPassengers"})}, ${geography}` :
     `${i18next.t("tableTitle", {ns: "airMajorAirports"})}, ${geography}`;
-
 
   d3.select("#mapTitleAir")
       .text(mapTitle);
@@ -1115,8 +978,7 @@ i18n.load(["src/i18n"], () => {
         cButton.build(cButtonOptions);
         showAreaData();
         plotLegend();
-        areaInteraction();
-        plotHoverLine();
+
         // Show chart titles based on default menu options
         updateTitles();
       });

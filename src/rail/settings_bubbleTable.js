@@ -1,5 +1,5 @@
 export default {
-  aspectRatio: 19 / 3,
+  aspectRatio: 19 / 6,
   margin: {
     top: 30,
     right: 0,
@@ -9,25 +9,66 @@ export default {
   alt: i18next.t("alt", {ns: "commodities"}),
   filterData: function(data) {
     const obj = {};
-    data.map((d) => {
-      const keys = Object.keys(d);
-      keys.splice(keys.indexOf("year"), 1);
+    let yearList;
+    const lastYearArray = [];
 
-      for (const key of keys) {
-        if (!obj[key]) {
-          obj[key] = [];
-        }
+    data.map((d) => {
+      const key = Object.keys(d)[0];
+      if (!yearList) {
+        yearList = Object.keys(d[key]);
+      }
+      const lastYear = yearList[yearList.length - 1];
+
+      // set key once
+      if (!obj[key]) {
+        obj[key] = [];
+      }
+
+      // Store lastYear value for each commodity for sorting later
+      lastYearArray.push({
+        key: key,
+        lastYearValue: d[key][lastYear].All
+      });
+
+      // push year-value pairs for each year into obj
+      for (let idx = 0; idx < yearList.length; idx++) {
         obj[key].push({
-          year: d.year,
-          value: d[key] // format(d[key] * 1.0 / 1e6)
+          year: Object.keys(d[key])[idx],
+          value: Object.values(d[key])[idx].All
         });
       }
     });
 
+    // Sort by value in last year (descending order)
+    lastYearArray.sort(function(a, b) {
+      return a.lastYearValue < b.lastYearValue;
+    });
+    // Define array of ordered commodities
+    const orderedComm = lastYearArray.map((item) => item.key);
+
+    // Define mapping between old order and new order (to be used in final obj return)
+    let count = 0;
+    const mapping = [];
+    Object.keys(obj).map(function(k) {
+      const thisComm = orderedComm[count];
+      mapping.push({[k]: thisComm});
+      count++;
+    });
+
+    // Re-arrange obj so that each element object has an id and
+    // a dataPoints array containing the year-value pairs created above.
+    // Note that object is ordered according to sorted commodity list.
+    let match;
     return Object.keys(obj).map(function(k) {
+      mapping.map((d) => {
+        if (Object.keys(d)[0] === k) {
+          match = Object.values(d)[0];
+          return match;
+        }
+      });
       return {
-        id: k,
-        dataPoints: obj[k]
+        id: match,
+        dataPoints: obj[match]
       };
     });
   },
@@ -59,5 +100,5 @@ export default {
       return d.dataPoints;
     },
   },
-  width: 900
+  width: 800
 };
