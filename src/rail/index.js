@@ -6,6 +6,7 @@ const allCommArr = []; // passed into bubbleTable()
 let selectedOrig = "AT";
 let selectedDest = "QC";
 let selectedComm = "chems";
+let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const scalef = 1e3;
 
 const data = {}; // stores data for barChart
@@ -23,11 +24,10 @@ const commTable = d3.select("#commgrid")
 
 // ---------------------------------------------------------------------
 /* load data fn */
-const loadData = function(selectedOrig, selectedComm, cb) {
-  console.log("data: ", data)
-  if (!data[selectedOrig]) {
+const loadBarData = function(selectedOrig, selectedComm, cb) {
+  if (!data[dataTag]) {
     d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
-      data[selectedOrig] = filedata;
+      data[dataTag] = filedata;
       const s = {
         ...settingsBar,
         filterData: filterDataBar
@@ -54,23 +54,18 @@ function uiHandler(event) {
     selectedDest = document.getElementById("destGeo").value;
   }
 
+  dataTag = `${selectedOrig}_${selectedComm}`;
   updateTitles();
 
-  loadData( selectedOrig, selectedComm, (s) => {
-    console.log("s: ", s)
-    console.log("data here: ", data)
-    showBarChartData(s, data);
+  loadBarData( selectedOrig, selectedComm, (s) => {
+    showBarChartData(s);
   });
 }
 
 // ---------------------------------------------------------------------
 /* -- display barChart -- */
-function filterDataBar(data) {
-  console.log("commm: ", selectedComm)
-  console.log("orig: ", selectedOrig)
-  console.log("dest: ", selectedDest)
-  console.log("d: ", data[selectedOrig])
-  const d = data[selectedOrig];
+function filterDataBar() {
+  const d = data[dataTag];
   return [{
     category: `${this.selectedOrig}`,
     values: Object.keys(d).map((p) => {
@@ -82,8 +77,8 @@ function filterDataBar(data) {
   }];
 }
 
-function showBarChartData(s, data) {
-  bar = barChart(chart, {...s, selectedOrig, selectedDest}, data);
+function showBarChartData(s) {
+  bar = barChart(chart, {...s, selectedOrig, selectedDest});
   d3.select("#svgBar").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -160,7 +155,8 @@ i18n.load(["src/i18n"], function() {
 
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           console.log("json1: ", origJSON);
-          data[selectedOrig] = origJSON;
+          dataTag = `${selectedOrig}_${selectedComm}`;
+          data[dataTag] = origJSON;
 
           const s = {
             ...settingsBar,
