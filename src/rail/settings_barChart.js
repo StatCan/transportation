@@ -1,9 +1,9 @@
 export default {
-  aspectRatio: 16 / 9,
+  aspectRatio: 16 / 8,
   margin: {
     top: 50,
-    left: 100,
-    bottom: 150
+    left: 40,
+    bottom: 50
   },
   x: {
     label: i18next.t("x_label", {ns: "railBar"}),
@@ -29,7 +29,8 @@ export default {
     getText: function(d) {
       return (Math.round(d.value));
     },
-    ticks: 5
+    ticks: 10,
+    tickSizeOuter: 0
   },
 
   z: {
@@ -47,5 +48,5 @@ export default {
       return i18next.t(d.id, {ns: "railGeography"});
     }
   },
-  width: 900
+  width: 800
 };

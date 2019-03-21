@@ -3,15 +3,12 @@ import settBubble from "./settings_bubbleTable.js";
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
-let selectedOrig = "ON";
+let selectedOrig = "AT";
 let selectedDest = "QC";
 let selectedComm = "chems";
 const scalef = 1e3;
 
-// const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
-
 const data = {}; // stores data for barChart
-let domain; // Stores domain of flattened origJSON
 let bar; // stores barChart() call
 
 // ---------------------------------------------------------------------
@@ -142,16 +139,10 @@ i18n.load(["src/i18n"], function() {
           console.log("json1: ", origJSON);
           data[selectedOrig] = origJSON;
 
-          domain = [0, 65]; // TEMP!!!
-
           const s = {
             ...settingsBar,
             filterData: filterDataBar
           };
-          settingsBar.y.getDomain = () => {
-            return domain;
-          };
-
           showBarChartData(s, data);
         }); // outer d3.json
 

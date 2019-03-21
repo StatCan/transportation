@@ -382,7 +382,7 @@
     },
     "railBar": {
       "x_label": "Year",
-      "y_label": "Tonnage"
+      "y_label": "Tonnage (in thousands)"
     },
     "railBubbleTable": {
       "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 10 commodities, sorted by most recent year"

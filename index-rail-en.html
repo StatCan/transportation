@@ -165,10 +165,16 @@
 						<div class="form-group">
 							<label for="groups_comm">Select a commodity</label>
 							<select id="commodity" class="form-control">
-								<!--<option value="coal">Coal</option>-->
-								<option value="chems">Other basic chemicals</option>
-								<!--<option value="canola">Colza seeds (canola)</option>-->
-								<!--<option value="oilseeds">Other oil seeds and nuts, other agricultural products</option>-->
+                <option value="chems">Other basic chemicals</option>
+								<option value="coal">Coal</option>
+                <option value="mixed">Mixed loads</option>
+                <option value="wheat">Wheat</option>
+                <option value="ores">Iron ores and concentrates</option>
+                <option value="potash">Potash</option>
+                <option value="lumber">Lumber</option>
+                <option value="canola">Colza seeds (canola)</option>
+                <option value="oils">Fuel oils and crude petroleum</option>
+								<option value="pulp">Wood pulp</option>
 							</select>
 						</div>
 					</div>
@@ -176,15 +182,13 @@
 						<div class="form-group">
 							<label for="groups_orig">Select an origin by geography</label>
 							<select id="originGeo" class="form-control">
+                <option value="AT">Atlantic region</option>
+                <option value="QC">Quebec</option>
 								<option value="ON">Ontario</option>
-								<option value="QC">Quebec</option>
-								<option value="AT">Atlantic region</option>
 								<option value="MB">Manitoba</option>
 								<option value="SK">Saskatchewan</option>
 								<option value="AB">Alberta</option>
 								<option value="BC">British Columbia</option>
-								<option value="US">United States</option>
-								<option value="MX">Mexico</option>
 								<option value="USMX">United States & Mexico</option>
 							</select>
 						</div>
@@ -193,15 +197,13 @@
             <div class="form-group">
               <label for="groups_dest">Select a destination by geography</label>
               <select id="destGeo" class="form-control">
-                <option value="ON">Ontario</option>
                 <option value="QC">Quebec</option>
+                <option value="ON">Ontario</option>
                 <option value="AT">Atlantic region</option>
                 <option value="MB">Manitoba</option>
                 <option value="SK">Saskatchewan</option>
                 <option value="AB">Alberta</option>
                 <option value="BC">British Columbia</option>
-                <option value="US">United States</option>
-                <option value="MX">Mexico</option>
                 <option value="USMX">United States & Mexico</option>
               </select>
             </div>
@@ -317,7 +319,7 @@
 
 <!-- CustomScriptsJSStart -->
 <script src="lib/stc_visualization_components/utils.min.js"></script>
-<script src="lib/stc_visualization_components/bar.min.js"></script>
+<script src="lib/stc_visualization_components/bar.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
 <script type="module" src="src/bubbleTable.js"></script>
 <script type="module" src="src/rail/index.js"></script>

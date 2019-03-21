@@ -396,7 +396,7 @@
      },
      "railBar": {
        "x_label": "Année",
-       "y_label": "Tonnage"
+       "y_label": "Tonnage (en milliers)"
      },
      "railBubbleTable": {
        "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 10 produits, trié par l'année la plus récente"
