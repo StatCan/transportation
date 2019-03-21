@@ -22,6 +22,27 @@ const commTable = d3.select("#commgrid")
     .attr("id", "svg_commgrid");
 
 // ---------------------------------------------------------------------
+/* load data fn */
+const loadData = function(selectedOrig, selectedComm, cb) {
+  console.log("data: ", data)
+  if (!data[selectedOrig]) {
+    d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
+      data[selectedOrig] = filedata;
+      const s = {
+        ...settingsBar,
+        filterData: filterDataBar
+      };
+      cb(s);
+    });
+  } else {
+    const s = {
+      ...settingsBar,
+      filterData: filterDataBar
+    };
+    cb(s);
+  }
+};
+// ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
     selectedComm = document.getElementById("commodity").value;
@@ -33,20 +54,22 @@ function uiHandler(event) {
     selectedDest = document.getElementById("destGeo").value;
   }
 
-  // TO DO
-  // if (!data[selectedRegion]) {
-  //   // Read in chosen region as ORIGIN
-  //   d3.json("data/rail/rail_" + selectedComm + "_orig" + selectedRegion+ "_all_dest.json", function(err, fileorig) {
-  //     data[selectedRegion] = fileorig;
-  //   });
-  // } else {
-  //   showArea();
-  // }
+  updateTitles();
+
+  loadData( selectedOrig, selectedComm, (s) => {
+    console.log("s: ", s)
+    console.log("data here: ", data)
+    showBarChartData(s, data);
+  });
 }
 
 // ---------------------------------------------------------------------
 /* -- display barChart -- */
 function filterDataBar(data) {
+  console.log("commm: ", selectedComm)
+  console.log("orig: ", selectedOrig)
+  console.log("dest: ", selectedDest)
+  console.log("d: ", data[selectedOrig])
   const d = data[selectedOrig];
   return [{
     category: `${this.selectedOrig}`,
