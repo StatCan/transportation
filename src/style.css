@@ -294,13 +294,11 @@ table, th, td {
 
 /*rail dataset*/
 /*-- barChart --*/
-#barChartTitle {
+#railTitleBarChart {
   font-weight: bold;
+  font-size: 12px;
 }
-.barChartTitle {
-	font-size: 12px;
-	font-weight: bold;
-}
+
 .bar {
   fill: #0278A4;
 }
@@ -391,30 +389,10 @@ table, th, td {
   stroke-dasharray: 4px;
 }
 
-#tonnageDivIdLines .line-label {
-  opacity: 0;
-}
-#tonnageDivIdLines .chart-label {
-  font-size: 8px;
-  fill: #555;
-}
-#tonnageDivIdLines .tick text {
-	font-size: 6px;
-}
+
 /* END LINES */
 
-.legendTextRail text {
-  font-size: 16px;
-  fill: #555;
-}
-#tonnageDivId .line-label {
-  opacity: 0;
-}
 
-/* x-axis tick labels (years) */
-#tonnageDivId .tick text {
-	font-size: 20px;
-}
 /* y-axis label (Tonnage)
 Show only for top 2 charts
 */
@@ -422,37 +400,6 @@ Show only for top 2 charts
   font-size: 20px;
   fill: #555;
 }
-#svg_pair3 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair4 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair5 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair6 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair7 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair8 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair1 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair2 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair3 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair4 .x.axis .chart-label {
-  opacity: 0;
-}
-
 
 #commTableTitle {
 	font-size: 20px;

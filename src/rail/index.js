@@ -1,16 +1,25 @@
-import settings from "./settings_barChart.js";
+import settingsBar from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
-let selectedRegion = "ON";
+let selectedOrig = "ON";
+let selectedDest = "QC";
 let selectedComm = "chems";
+const scalef = 1e3;
 
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
-const regions = ["AT", "ON", "QC", "MB", "SK", "AB", "BC"];
-const remainingRegions = regions.filter((item) => item !== selectedRegion);
+
+const data = {}; // stores data for barChart
+let domain; // Stores domain of flattened origJSON
+let bar; // stores barChart() call
 
 // ---------------------------------------------------------------------
+/* SVGs */
+const chart = d3.select(".data.raildata")
+    .append("svg")
+    .attr("id", "svgBar");
+
 const commTable = d3.select("#commgrid")
     .append("svg")
     .attr("id", "svg_commgrid");
@@ -21,7 +30,10 @@ function uiHandler(event) {
     selectedComm = document.getElementById("commodity").value;
   }
   if (event.target.id === "originGeo") {
-    selectedRegion= document.getElementById("originGeo").value;
+    selectedOrig = document.getElementById("originGeo").value;
+  }
+  if (event.target.id === "destGeo") {
+    selectedDest = document.getElementById("destGeo").value;
   }
 
   // TO DO
@@ -36,20 +48,68 @@ function uiHandler(event) {
 }
 
 // ---------------------------------------------------------------------
+/* -- display barChart -- */
+function filterDataBar(data) {
+  const d = data[selectedOrig];
+  return [{
+    category: `${this.selectedOrig}`,
+    values: Object.keys(d).map((p) => {
+      return {
+        year: p,
+        value: d[p][this.selectedDest] / scalef
+      };
+    })
+  }];
+}
+
+function showBarChartData(s, data) {
+  bar = barChart(chart, {...s, selectedOrig, selectedDest}, data);
+  d3.select("#svgBar").select(".x.axis")
+      .select("text")
+      .attr("display", "none");
+  d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+
+  // createOverlay(stackedArea, data[selectedRegion], (d) => {
+  //   areaTooltip(stackedArea.settings, divArea, d);
+  // }, () => {
+  //   divArea.style("opacity", 0);
+  // });
+
+  // // Highlight region selected from menu on map
+  // d3.select(".dashboard .map")
+  //     .select("." + selectedRegion)
+  //     .classed("roadMapHighlight", true)
+  //     .moveToFront();
+
+  updateTitles();
+  // plotLegend();
+  // cButton.appendTo(document.getElementById("copy-button-container"));
+  // dataCopyButton(data[selectedRegion]);
+}
+
 /* -- display areaChart -- */
 function showBubbleTable() {
-  const thisText = "Total tonnage from all origins to all destinations (x 1M) for 10 commodities";
+  const thisText = i18next.t("tableTitle", {ns: "railBubbleTable"});
   d3.select("#commTableTitle")
       .text(thisText);
 
   bubbleTable(commTable, settBubble, allCommArr);
 }
 
+/* -- update map and areaChart titles -- */
+function updateTitles() {
+  const thisComm = i18next.t(selectedComm, {ns: "commodities"});
+  const thisOrig = i18next.t(selectedOrig, {ns: "railGeography"});
+  const thisDest = i18next.t(selectedDest, {ns: "railGeography"});
+  d3.select("#railTitleBarChart")
+      .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
+}
+
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
-  settings.x.label = i18next.t("x_label", {ns: "railArea"}),
-  settings.y.label = i18next.t("y_label", {ns: "railArea"}),
+  settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
+  settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
   d3.queue()
       .defer(d3.json, "data/rail/All_coal.json")
       .defer(d3.json, "data/rail/All_mixed.json")
@@ -77,28 +137,25 @@ i18n.load(["src/i18n"], function() {
         showBubbleTable();
 
 
-        d3.json("data/rail/" + selectedRegion + "_" + selectedComm + ".json", function(err, json1) {
-          console.log("json1: ", json1);
-          const numYears = Object.keys(json1).length;
+        d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
+          console.log("json1: ", origJSON);
+          data[selectedOrig] = origJSON;
 
-          for (let idx = 0; idx < remainingRegions.length; idx++) {
-            const targetRegion = remainingRegions[idx];
-            d3.json("data/rail/" + targetRegion + "_" + selectedComm + ".json", function(err, json2) {
-              // Construct data object pair to send to stacked area chart
-              const arrPair = [];
-              for (let idx = 0; idx < numYears; idx++) {
-                const thisYear = Object.keys(json1)[idx];
-                arrPair.push({
-                  year: thisYear,
-                  [selectedRegion + "to" + targetRegion]: json1[thisYear][targetRegion],
-                  [targetRegion + "to" + selectedRegion]: json2[thisYear][selectedRegion]
-                });
-              }
-            }); // inner d3.json
-          } // for loop
+          domain = [0, 65]; // TEMP!!!
+
+          const s = {
+            ...settingsBar,
+            filterData: filterDataBar
+          };
+          settingsBar.y.getDomain = () => {
+            return domain;
+          };
+
+          showBarChartData(s, data);
         }); // outer d3.json
 
-        // showComm(selectedRegion);
+
+        updateTitles();
       });
 });
 

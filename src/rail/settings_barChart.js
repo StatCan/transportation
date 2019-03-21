@@ -1,14 +1,10 @@
 export default {
-  aspectRatio: 16 / 16,
+  aspectRatio: 16 / 9,
   margin: {
     top: 50,
     left: 100,
     bottom: 150
   },
-  // alt: i18next.t("alt", {ns: "railBar"}),
-  // datatable: {
-  //   title: i18next.t("datatableTitle", {ns: "railBar"})
-  // },
   x: {
     label: i18next.t("x_label", {ns: "railBar"}),
     getId: function(d) {
@@ -48,7 +44,7 @@ export default {
       return d.values;
     },
     getText: function(d) {
-      return i18next.t(d.id, {ns: "railBar"});
+      return i18next.t(d.id, {ns: "railGeography"});
     }
   },
   width: 900

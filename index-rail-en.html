@@ -174,58 +174,51 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="groups_region">Select an origin by geography</label>
+							<label for="groups_orig">Select an origin by geography</label>
 							<select id="originGeo" class="form-control">
 								<option value="ON">Ontario</option>
-								<!--<option value="QC">Quebec</option>-->
-								<!--<option value="AT">Atlantic region</option>-->
-								<!--<option value="MB">Manitoba</option>-->
-								<!--<option value="SK">Saskatchewan</option>-->
-								<!--<option value="AB">Alberta</option>-->
-								<!--<option value="BC">British Columbia</option>-->
-								<!--<option value="US">United States</option>-->
-								<!--<option value="MX">Mexico</option>-->
-								<!--<option value="USMX">United States & Mexico</option>-->
+								<option value="QC">Quebec</option>
+								<option value="AT">Atlantic region</option>
+								<option value="MB">Manitoba</option>
+								<option value="SK">Saskatchewan</option>
+								<option value="AB">Alberta</option>
+								<option value="BC">British Columbia</option>
+								<option value="US">United States</option>
+								<option value="MX">Mexico</option>
+								<option value="USMX">United States & Mexico</option>
 							</select>
 						</div>
 					</div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="groups_region">Select a destination by geography</label>
+              <label for="groups_dest">Select a destination by geography</label>
               <select id="destGeo" class="form-control">
-                <!--<option value="ON">Ontario</option>-->
-                <!--<option value="QC">Quebec</option>-->
-                <!--<option value="AT">Atlantic region</option>-->
-                <!--<option value="MB">Manitoba</option>-->
-                <!--<option value="SK">Saskatchewan</option>-->
+                <option value="ON">Ontario</option>
+                <option value="QC">Quebec</option>
+                <option value="AT">Atlantic region</option>
+                <option value="MB">Manitoba</option>
+                <option value="SK">Saskatchewan</option>
                 <option value="AB">Alberta</option>
-                <!--<option value="BC">British Columbia</option>-->
-                <!--<option value="US">United States</option>-->
-                <!--<option value="MX">Mexico</option>-->
-                <!--<option value="USMX">United States & Mexico</option>-->
+                <option value="BC">British Columbia</option>
+                <option value="US">United States</option>
+                <option value="MX">Mexico</option>
+                <option value="USMX">United States & Mexico</option>
               </select>
             </div>
           </div>
 				</div>
 			</form>
-			<div class="row">
-				<div class="col-md-8">
+      <div class="wb-inv wb-show-onfocus wb-sl">Changing any selection will automatically update the page content. These changes are reflected in the <a href="#chrt-dt-tbl">data table</a> as well.</div>
+
+      <div class="row">
+        <div class="dashboard">
+          <div class="col-md-12">
+            <h3 id="railTitleBarChart"></h3>
+            <div class="data raildata"></div>
+          </div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="dashboard">
-					<div class="data col-md-12">
 
-            <div class="col-md-12">
-              <div id="barTitleRail">
-	              <h3></h3>
-	           	</div>
-              <div id="origDestBarChart" class="data"></div>
-            </div>
-
-					</div>
-				</div>
-			</div>
 
 			<div class="row">
 				<div class="commTable data col-md-12">
@@ -324,7 +317,7 @@
 
 <!-- CustomScriptsJSStart -->
 <script src="lib/stc_visualization_components/utils.min.js"></script>
-<script src="lib/stc_visualization_components/line.js"></script>
+<script src="lib/stc_visualization_components/bar.min.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
 <script type="module" src="src/bubbleTable.js"></script>
 <script type="module" src="src/rail/index.js"></script>

@@ -384,6 +384,23 @@
       "YWL":"Williams Lake, Colombie-Britannique",
       "QYI":"Yarmouth, Nouvelle-Écosse"
      },
+     "railGeography": {
+        "AT": "Région de l'Atlantique",
+        "QC": "Québec",
+        "ON": "Ontario",
+        "MB": "Manitoba",
+        "SK": "Saskatchewan",
+        "AB": "Alberta",
+        "BC": "Colombie-Britannique",
+        "USMEX": "États-Unis et le Mexique"
+     },
+     "railBar": {
+       "x_label": "Année",
+       "y_label": "Tonnage"
+     },
+     "railBubbleTable": {
+       "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 9 produits, trié par l'année la plus récente"
+     },
       "commodities": {
         "coal": "Charbon",
         "mixed": "Chargements mixtes",

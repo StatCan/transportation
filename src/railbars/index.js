@@ -89,9 +89,20 @@ function sortComm(data) {
   console.log("sort the data!");
 }
 function filterDataBar(d) {
+  console.log("rtn: ", [{
+    category: `${this.selectedRegion}to${this.targetRegion}`,
+    values: Object.keys(d).map((p) => {
+      return {
+        year: p,
+        value: d[parseInt(p, 10)][this.targetRegion] / scalef
+      };
+    })
+  }])
   return [{
     category: `${this.selectedRegion}to${this.targetRegion}`,
     values: Object.keys(d).map((p) => {
+      console.log("p: ", p)
+      console.log("d[p]: ",d[p])
       return {
         year: p,
         value: d[parseInt(p, 10)][this.targetRegion] / scalef

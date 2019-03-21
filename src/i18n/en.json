@@ -380,16 +380,12 @@
       "YWL":"Williams Lake, British Columbia",
       "QYI":"Yarmouth, Nova Scotia"
     },
-    "railArea": {
-      "alt": "Rail industry origin and destination of transported commodities, annual",
-      "x_label": "Year",
-      "y_label": "Tonnage (in thousands)"
-    },
     "railBar": {
-      "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
-      "y_label": "Tonnage",
-      "ONtoAT": "Ontario to Atlantic Region"
+      "y_label": "Tonnage"
+    },
+    "railBubbleTable": {
+      "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 9 commodities, sorted by most recent year"
     },
     "railGeography": {
        "AT": "Atlantic Region",
