@@ -399,7 +399,7 @@
        "y_label": "Tonnage"
      },
      "railBubbleTable": {
-       "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 9 produits, trié par l'année la plus récente"
+       "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 10 produits, trié par l'année la plus récente"
      },
       "commodities": {
         "coal": "Charbon",

@@ -115,18 +115,19 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/All_mixed.json")
       .defer(d3.json, "data/rail/All_wheat.json")
       .defer(d3.json, "data/rail/All_ores.json")
-      // .defer(d3.json, "data/rail/All_potash.json") // MISSING
+      .defer(d3.json, "data/rail/All_potash.json")
       .defer(d3.json, "data/rail/All_lumber.json")
       .defer(d3.json, "data/rail/All_canola.json")
       .defer(d3.json, "data/rail/All_oils.json")
       .defer(d3.json, "data/rail/All_chems.json")
       .defer(d3.json, "data/rail/All_pulp.json")
       // .defer(d3.json, "data/rail/All_other.json")
-      .await(function(error, allcoal, allmixed, allwheat, allores, alllumber, allcanola, alloils, allchems, allpulp) {
+      .await(function(error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
         allCommArr.push({"coal": allcoal});
         allCommArr.push({"mixed": allmixed});
+        allCommArr.push({"wheat": allwheat});
         allCommArr.push({"ores": allores});
-        // allCommArr.push({"potash": allpotash});
+        allCommArr.push({"potash": allpotash});
         allCommArr.push({"lumber": alllumber});
         allCommArr.push({"canola": allcanola});
         allCommArr.push({"oils": alloils});

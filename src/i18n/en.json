@@ -385,7 +385,7 @@
       "y_label": "Tonnage"
     },
     "railBubbleTable": {
-      "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 9 commodities, sorted by most recent year"
+      "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 10 commodities, sorted by most recent year"
     },
     "railGeography": {
        "AT": "Atlantic Region",
