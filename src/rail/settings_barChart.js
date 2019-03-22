@@ -2,8 +2,8 @@ export default {
   aspectRatio: 1 / 1,
   margin: {
     top: 50,
-    left: 100,
-    bottom: 150
+    left: 50,
+    bottom: 50
   },
   x: {
     label: i18next.t("x_label", {ns: "railBar"}),
@@ -27,15 +27,24 @@ export default {
       return d.value;
     },
     getText: function(d) {
-      return (Math.round(d.value));
+      return d.value;
     },
-    ticks: 5
+    ticks: 10,
+    tickSizeOuter: 0
   },
 
   z: {
-    // label: i18next.t("z_label", {ns: "railBar"}),
+    label: i18next.t("z_label", {ns: "railTable"}),
     getId: function(d) {
       return d.category;
+    },
+    getKeys: function(object) {
+      const keys = Object.keys(object[0]);
+      keys.splice(keys.indexOf("category"), 1);
+      return keys;
+    },
+    formatData: function(data) {
+      return data[0].values;
     },
     getClass: function(...args) {
       return this.z.getId.apply(this, args);
@@ -44,8 +53,10 @@ export default {
       return d.values;
     },
     getText: function(d) {
-      return i18next.t(d.id, {ns: "railGeography"});
+      return i18next.t(d.key, {ns: "railTable"});
     }
   },
-  width: 900
+  width: 800,
+  datatable: true,
+  tableTitle: ""
 };

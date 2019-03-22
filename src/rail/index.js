@@ -5,18 +5,19 @@ import fillMapFn from "../fillMapFn.js";
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
-let selectedOrig = "ON";
+let selectedOrig = "AT";
 let selectedDest = "QC";
 let selectedComm = "chems";
+let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const scalef = 1e3;
-
-// const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 
 const data = {}; // stores data for barChart
 let selectedYear = "2016"
 let domain; // Stores domain of flattened origJSON
 let bar; // stores barChart() call
 let mapData = {};
+let canadaMap;
+
 
 
 // ---------------------------------------------------------------------
@@ -51,6 +52,26 @@ const commTable = d3.select("#commgrid")
     .attr("id", "svg_commgrid");
 
 // ---------------------------------------------------------------------
+/* load data fn */
+const loadBarData = function(selectedOrig, selectedComm, cb) {
+  if (!data[dataTag]) {
+    d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
+      data[dataTag] = filedata;
+      const s = {
+        ...settingsBar,
+        filterData: filterDataBar
+      };
+      cb(s);
+    });
+  } else {
+    const s = {
+      ...settingsBar,
+      filterData: filterDataBar
+    };
+    cb(s);
+  }
+};
+// ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
     selectedComm = document.getElementById("commodity").value;
@@ -62,15 +83,12 @@ function uiHandler(event) {
     selectedDest = document.getElementById("destGeo").value;
   }
 
-  // TO DO
-  // if (!data[selectedRegion]) {
-  //   // Read in chosen region as ORIGIN
-  //   d3.json("data/rail/rail_" + selectedComm + "_orig" + selectedRegion+ "_all_dest.json", function(err, fileorig) {
-  //     data[selectedRegion] = fileorig;
-  //   });
-  // } else {
-  //   showArea();
-  // }
+  dataTag = `${selectedOrig}_${selectedComm}`;
+  updateTitles();
+
+  loadBarData( selectedOrig, selectedComm, (s) => {
+    showBarChartData(s);
+  });
 }
 // -----------------------------------------------------------------------------
 /* -- Map interactions -- */
@@ -189,8 +207,8 @@ function colorMap() {
 
 // ---------------------------------------------------------------------
 /* -- display barChart -- */
-function filterDataBar(data) {
-  const d = data[selectedOrig];
+function filterDataBar() {
+  const d = data[dataTag];
   return [{
     category: `${this.selectedOrig}`,
     values: Object.keys(d).map((p) => {
@@ -202,8 +220,8 @@ function filterDataBar(data) {
   }];
 }
 
-function showBarChartData(s, data) {
-  bar = barChart(chart, {...s, selectedOrig, selectedDest}, data);
+function showBarChartData(s) {
+  barChart(chart, {...s, selectedOrig, selectedDest});
   d3.select("#svgBar").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -243,6 +261,9 @@ function updateTitles() {
   const thisDest = i18next.t(selectedDest, {ns: "railGeography"});
   d3.select("#railTitleBarChart")
       .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
+
+  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "railTable",
+    comm: thisComm, orig: thisOrig, dest: thisDest});
 }
 
 // ---------------------------------------------------------------------
@@ -250,6 +271,7 @@ function updateTitles() {
 i18n.load(["src/i18n"], function() {
   settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
   settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
+  settingsBar.z.label = i18next.t("z_label", {ns: "railTable"}),
   d3.queue()
       .defer(d3.json, "data/rail/All_coal.json")
       .defer(d3.json, "data/rail/All_mixed.json")
@@ -287,19 +309,13 @@ i18n.load(["src/i18n"], function() {
 
 
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
-          console.log("json1: ", origJSON);
-          data[selectedOrig] = origJSON;
-
-          domain = [0, 65]; // TEMP!!!
+          dataTag = `${selectedOrig}_${selectedComm}`;
+          data[dataTag] = origJSON;
 
           const s = {
             ...settingsBar,
             filterData: filterDataBar
           };
-          settingsBar.y.getDomain = () => {
-            return domain;
-          };
-
           showBarChartData(s, data);
         }); // outer d3.json
 

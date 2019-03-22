@@ -381,8 +381,13 @@
       "QYI":"Yarmouth, Nova Scotia"
     },
     "railBar": {
-      "x_label": "Year",
-      "y_label": "Tonnage"
+      "x_label": "",
+      "y_label": "Tonnage (in thousands)"
+    },
+    "railTable": {
+      "tableTitle": "Tonnage of {{comm}} from {{orig}} to {{dest}} (in thousands)",
+      "z_label": "",
+      "values": "Tonnage (in thousands)"
     },
     "railBubbleTable": {
       "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 10 commodities, sorted by most recent year"
