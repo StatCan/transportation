@@ -441,6 +441,7 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = passengerTotals;
+    resetZoom();
     showAreaData();
     colorMap();
     refreshMap();
