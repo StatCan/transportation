@@ -395,8 +395,13 @@
         "USMEX": "États-Unis et le Mexique"
      },
      "railBar": {
-       "x_label": "Année",
+       "x_label": "",
        "y_label": "Tonnage (en milliers)"
+     },
+     "railTable": {
+       "tableTitle": "Tonnage de {{comm}} de {{orig}} à {{dest}} (en milliers)",
+       "z_label": "",
+       "values": "Tonnage (en milliers)"
      },
      "railBubbleTable": {
        "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 10 produits, trié par l'année la plus récente"

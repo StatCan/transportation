@@ -3,7 +3,7 @@ export default {
   margin: {
     top: 30,
     right: 0,
-    bottom: 0,
+    bottom: 20,
     left: 120
   },
   alt: i18next.t("alt", {ns: "commodities"}),

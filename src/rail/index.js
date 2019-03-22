@@ -10,7 +10,6 @@ let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const scalef = 1e3;
 
 const data = {}; // stores data for barChart
-let bar; // stores barChart() call
 
 // ---------------------------------------------------------------------
 /* SVGs */
@@ -78,7 +77,7 @@ function filterDataBar() {
 }
 
 function showBarChartData(s) {
-  bar = barChart(chart, {...s, selectedOrig, selectedDest});
+  barChart(chart, {...s, selectedOrig, selectedDest});
   d3.select("#svgBar").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -118,6 +117,9 @@ function updateTitles() {
   const thisDest = i18next.t(selectedDest, {ns: "railGeography"});
   d3.select("#railTitleBarChart")
       .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
+
+  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "railTable",
+    comm: thisComm, orig: thisOrig, dest: thisDest});
 }
 
 // ---------------------------------------------------------------------
@@ -125,6 +127,7 @@ function updateTitles() {
 i18n.load(["src/i18n"], function() {
   settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
   settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
+  settingsBar.z.label = i18next.t("z_label", {ns: "railTable"}),
   d3.queue()
       .defer(d3.json, "data/rail/All_coal.json")
       .defer(d3.json, "data/rail/All_mixed.json")
