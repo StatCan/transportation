@@ -509,12 +509,12 @@ map.on("mousemove", () => {
         div
             .style("opacity", .9);
         div.html(
-            "<b>" + line1 + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b>" + line2 + "</td>" +
-                "</tr>" +
-              "</table>"
+            `<b> ${line1} </b> <br><br>
+              <table>
+                <tr>
+                  <td><b> ${line2} </td>
+                </tr>
+              </table>`
         )
             .style("pointer-events", "none");
         div
@@ -634,16 +634,14 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
+          return `airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return "airport " + selectedDataset + " " + "dontShow";
+          return `airport ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
         selectedAirpt = d.properties.id;
-        if (metaData[selectedDate][d.properties.id] !== "noData" ) {
-          showAirport();
-        }
+        showAirport();
       });
 
   d3.selectAll(".noData").moveToBack();
@@ -807,15 +805,19 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    div.html( // **** CHANGE ns WITH DATASET ****
-        "<b>" + i18next.t(selectedAirpt, {ns: "airports"}) + ", " + divData.date + ":</b>" + "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>" + i18next.t("enplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.enplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + " </td>" +
-            "</tr>" +
-              "<td><b>" + i18next.t("deplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.deplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + "</td>" +
-            "</tr>" +
-          "</table>")
+    const thisEnplaned = Number(divData.enplaned) ? formatComma(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ? formatComma(divData.deplaned) : divData.deplaned;
+    const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
+    div.html(
+        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divData.date}:</b> <br><br>
+          <table>
+            <tr>
+              <td><b> ${i18next.t("enplaned", {ns: "airPassengers"})}: </b> ${thisEnplaned} ${showUnits} </td>
+            </tr>
+              <td><b> ${i18next.t("deplaned", {ns: "airPassengers"})}: </b> ${thisDeplaned} ${showUnits} </td>
+            </tr>
+         </table>`
+    )
         .style("pointer-events", "none");
   } else {
     const thisDomestic = divData.domestic;
@@ -823,18 +825,19 @@ function airportHover() {
     const thisInter = divData.international;
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
-        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
-        "<table>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
-          "</tr>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
-          "</tr>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
-          "</tr>" +
-        "</table>")
+        `<b> Passenger movements (${i18next.t("units", {ns: "airPassengers"})}) in ${divDate}:</b> <br><br>
+          <table>
+            <tr>
+              <td><b> ${i18next.t("domestic", {ns: "airPassengers"})} </b>: ${thisDomestic} </td>
+            </tr>
+            <tr>
+              <td><b> ${i18next.t("transborder", {ns: "airPassengers"})} </b>: ${thisTrans} </td>
+            </tr>
+          <tr>
+            <td><b> ${i18next.t("international", {ns: "airPassengers"})} </b>: ${thisInter} </td>
+          </tr>
+        </table>`
+    )
         .style("pointer-events", "none");
   }
   // airport chart title
