@@ -655,7 +655,7 @@ function colorMap() {
   // last 2 colours for blank and NaN box
   const colourArray = [];
   if (selectedDataset === "passengers") {
-    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656");
+    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#F9F9F9", "#565656");
   } else {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
   }
