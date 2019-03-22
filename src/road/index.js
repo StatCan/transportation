@@ -253,6 +253,8 @@ function uiHandler(event) {
 
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
+    d3.select("#mapTitleRoad")
+        .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
     colorMap();
   }
 }
@@ -307,8 +309,9 @@ i18n.load(["src/i18n"], () => {
             .on("loaded", function() {
               colorMap();
             });
+
         d3.select("#mapTitleRoad")
-            .text(i18next.t("mapTitle", {ns: "road"}));
+            .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
 
         // copy button options
         const cButtonOptions = {

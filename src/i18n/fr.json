@@ -20,7 +20,7 @@
     },
     "road": {
       "chartTitle": "Type de vente de carburant",
-      "mapTitle": "Ventes nettes de carburants au Canada",
+      "mapTitle": "Ventes nettes de carburants, Canada, {{year}}",
       "units": "millions de litres",
       "mapScaleLabel": "Total"
     },
