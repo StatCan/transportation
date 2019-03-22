@@ -825,7 +825,7 @@ function airportHover() {
     const thisInter = divData.international;
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
-        `<b> Passenger movements (${i18next.t("units", {ns: "airPassengers"})}) in ${divDate}:</b> <br><br>
+        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divDate}:</b> <br><br>
           <table>
             <tr>
               <td><b> ${i18next.t("domestic", {ns: "airPassengers"})} </b>: ${thisDomestic} </td>
