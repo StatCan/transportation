@@ -8,6 +8,7 @@ let selectedDest = "QC";
 let selectedComm = "chems";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const scalef = 1e3;
+const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 const data = {}; // stores data for barChart
 
@@ -81,7 +82,7 @@ function showBarChartData(s) {
   d3.select("#svgBar").select(".x.axis")
       .select("text")
       .attr("display", "none");
-  d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+  d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
   // createOverlay(stackedArea, data[selectedRegion], (d) => {
   //   areaTooltip(stackedArea.settings, divArea, d);

@@ -15,6 +15,7 @@ const cButton = new CopyButton();
 
 const formatComma = d3.format(",d");
 const scalef = 1e3;
+const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 const data = {
   "passengers": {},
@@ -694,7 +695,7 @@ function showAreaData() {
       divArea.style("opacity", 0);
     });
     d3.selectAll(".flag").style("opacity", 0);
-    d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+    d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
     if (selectedDataset === "major_airports") {
       d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")

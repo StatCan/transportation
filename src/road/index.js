@@ -13,6 +13,7 @@ let selectedRegion = "CANADA";
 let selectedYear = "2017";
 const formatComma = d3.format(",d");
 const scalef = 1e3;
+const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -183,7 +184,7 @@ function showAreaData() {
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
-  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
   createOverlay(stackedArea, data[selectedRegion], (d) => {
     areaTooltip(stackedArea.settings, divArea, d);
