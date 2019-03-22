@@ -294,13 +294,11 @@ table, th, td {
 
 /*rail dataset*/
 /*-- barChart --*/
-#barChartTitle {
+#railTitleBarChart {
   font-weight: bold;
+  font-size: 22px;
 }
-.barChartTitle {
-	font-size: 12px;
-	font-weight: bold;
-}
+
 .bar {
   fill: #0278A4;
 }
@@ -391,30 +389,10 @@ table, th, td {
   stroke-dasharray: 4px;
 }
 
-#tonnageDivIdLines .line-label {
-  opacity: 0;
-}
-#tonnageDivIdLines .chart-label {
-  font-size: 8px;
-  fill: #555;
-}
-#tonnageDivIdLines .tick text {
-	font-size: 6px;
-}
+
 /* END LINES */
 
-.legendTextRail text {
-  font-size: 16px;
-  fill: #555;
-}
-#tonnageDivId .line-label {
-  opacity: 0;
-}
 
-/* x-axis tick labels (years) */
-#tonnageDivId .tick text {
-	font-size: 20px;
-}
 /* y-axis label (Tonnage)
 Show only for top 2 charts
 */
@@ -422,37 +400,6 @@ Show only for top 2 charts
   font-size: 20px;
   fill: #555;
 }
-#svg_pair3 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair4 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair5 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair6 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair7 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair8 .y.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair1 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair2 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair3 .x.axis .chart-label {
-  opacity: 0;
-}
-#svg_pair4 .x.axis .chart-label {
-  opacity: 0;
-}
-
 
 #commTableTitle {
 	font-size: 20px;
@@ -466,7 +413,8 @@ Show only for top 2 charts
 	fill: #ffd92f;;
 }
 .ON {
-	fill: #a6d854;
+	fill: #137991
+;
 }
 .MB {
 	fill: #e78ac3;
@@ -545,7 +493,7 @@ Show only for top 2 charts
 	fill: #BF4D28;
 }
 .lumber circle {
-	fill: #5A2E2E;
+	fill: #96A8B2;
 }
 .canola circle {
 	fill: #F1A930;
@@ -563,19 +511,29 @@ Show only for top 2 charts
 	fill: #64997D;
 }
 
+#svgBar .bar-label {
+	font-size: 14px;
+	fill: #555;
+	opacity: 0;
+}
+#svgBar .chart-label {
+	font-size: 14px;
+	fill: #000;
+}
+#svgBar .tick text {
+	fill: #000;
+	stroke: none;
+	font-size: 14px;
+	font-family: "Noto Sans", sans-serif;
+}
+#svgBar .axis .tick line {
+  stroke: #000;
+}
+#svgBar .axis path  {
+  stroke: #000;
+}
 
-#prevButton {
-	position: relative;
-  	top: -3px;
-  	left: 960px;
-  	border: 1px solid #CECECE;
-}
-#nextButton {
-	position: relative;}
-  	top: -3px;
-  	left: 970px;
-  	border: 1px solid #CECECE;
-}
+
 .inactive {
 	pointer-events: none;
 	opacity: 0.5;
