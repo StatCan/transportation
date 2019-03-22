@@ -582,7 +582,9 @@ div.tooltip {
 
 .node rect {
   fill-opacity: .9;
-  shape-rendering: crispEdges;
+  stroke: #fff;
+  stroke-width: 0.5px;
+  /* shape-rendering: crispEdges; */
 }
 
 .node text {
