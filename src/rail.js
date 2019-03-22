@@ -1003,6 +1003,8 @@
 	var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
 	var scalef = 1e3;
+	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
 	var data = {}; // stores data for barChart
 	// ---------------------------------------------------------------------
 
@@ -1078,7 +1080,7 @@
 	    selectedDest: selectedDest
 	  }));
 	  d3.select("#svgBar").select(".x.axis").select("text").attr("display", "none");
-	  d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em"); // createOverlay(stackedArea, data[selectedRegion], (d) => {
+	  d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em")); // createOverlay(stackedArea, data[selectedRegion], (d) => {
 	  //   areaTooltip(stackedArea.settings, divArea, d);
 	  // }, () => {
 	  //   divArea.style("opacity", 0);

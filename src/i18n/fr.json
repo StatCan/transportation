@@ -20,7 +20,7 @@
     },
     "road": {
       "chartTitle": "Type de vente de carburant",
-      "mapTitle": "Ventes nettes de carburants au Canada",
+      "mapTitle": "Ventes nettes de carburants, Canada, {{year}}",
       "units": "millions de litres",
       "mapScaleLabel": "Total"
     },
@@ -206,7 +206,7 @@
       "domestic": "Intérieur",
       "international": "Autres internationaux",
       "transborder": "Transfrontalier",
-      "total": "Tous"
+      "total": "Total"
     },
     "passengerDropdown": {
       "CANADA": "Canada",
@@ -417,7 +417,7 @@
         "oils": "Mazout et pétrole brut",
         "chems": "Autres produits chimiques de base",
         "pulp": "Pâte de bois",
-        "other": "Autre"
+        "other": "Autres moyens"
     },
     "modes": {
       "intl": "Voyageurs internationaux",
@@ -445,7 +445,7 @@
       "cdnFromUS_bus": "Autocar",
       "cdnFromUS_train": "Train",
       "cdnFromUS_other": "Autres moyens",
-      "Other": "Autre"
+      "Other": "Autres moyens"
     },
     "modes_sankey": {
     "alt": "Voyageurs internationaux entrant ou revenant au Canada selon le moyen de transport",

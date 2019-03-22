@@ -2877,6 +2877,8 @@
 
   var formatComma = d3.format(",d");
   var scalef = 1e3;
+  var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
   var data = {
     "passengers": {},
     "major_airports": {}
@@ -3202,6 +3204,7 @@
       lineData = lineDataPassenger;
       createDropdown();
       totals = passengerTotals;
+      resetZoom();
       showAreaData();
       colorMap();
       refreshMap();
@@ -3279,7 +3282,7 @@
           }
 
           div.style("opacity", .9);
-          div.html("<b>" + line1 + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + line2 + "</td>" + "</tr>" + "</table>").style("pointer-events", "none");
+          div.html("<b> ".concat(line1, " </b> <br><br>\n              <table>\n                <tr>\n                  <td><b> ").concat(line2, " </td>\n                </tr>\n              </table>")).style("pointer-events", "none");
           div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
         }
       }
@@ -3373,16 +3376,13 @@
       return "airport" + d.properties.id;
     }).attr("class", function (d, i) {
       if (metaData[selectedDate][d.properties.id]) {
-        return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
+        return "airport ".concat(selectedDataset, " ").concat(metaData[selectedDate][d.properties.id]);
       } else {
-        return "airport " + selectedDataset + " " + "dontShow";
+        return "airport ".concat(selectedDataset, " dontShow");
       }
     }).on("mouseover", function (d) {
       selectedAirpt = d.properties.id;
-
-      if (metaData[selectedDate][d.properties.id] !== "noData") {
-        showAirport();
-      }
+      showAirport();
     });
     d3.selectAll(".noData").moveToBack();
     d3.selectAll(".noData").moveToBack();
@@ -3430,7 +3430,7 @@
         divArea.style("opacity", 0);
       });
       d3.selectAll(".flag").style("opacity", 0);
-      d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+      d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
 
       if (selectedDataset === "major_airports") {
         d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick").each(function (d, i) {
@@ -3545,18 +3545,18 @@
     div.style("opacity", .9);
 
     if (selectedDataset === "passengers") {
-      div.html( // **** CHANGE ns WITH DATASET ****
-      "<b>" + i18next.t(selectedAirpt, {
+      var thisEnplaned = Number(divData.enplaned) ? formatComma(divData.enplaned) : divData.enplaned;
+      var thisDeplaned = Number(divData.deplaned) ? formatComma(divData.deplaned) : divData.deplaned;
+      var showUnits = Number(divData.enplaned) ? i18next.t("units", {
+        ns: "airPassengers"
+      }) : "";
+      div.html("<b> ".concat(i18next.t(selectedAirpt, {
         ns: "airports"
-      }) + ", " + divData.date + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("enplaned", {
+      }), ", ").concat(divData.date, ":</b> <br><br>\n          <table>\n            <tr>\n              <td><b> ").concat(i18next.t("enplaned", {
         ns: "airPassengers"
-      }) + ": </b>" + "".concat(formatComma(divData.enplaned), " ").concat(i18next.t("units", {
+      }), ": </b> ").concat(thisEnplaned, " ").concat(showUnits, " </td>\n            </tr>\n              <td><b> ").concat(i18next.t("deplaned", {
         ns: "airPassengers"
-      })) + " </td>" + "</tr>" + "<td><b>" + i18next.t("deplaned", {
-        ns: "airPassengers"
-      }) + ": </b>" + "".concat(formatComma(divData.deplaned), " ").concat(i18next.t("units", {
-        ns: "airPassengers"
-      })) + "</td>" + "</tr>" + "</table>").style("pointer-events", "none");
+      }), ": </b> ").concat(thisDeplaned, " ").concat(showUnits, " </td>\n            </tr>\n         </table>")).style("pointer-events", "none");
     } else {
       var thisDomestic = divData.domestic;
       var thisTrans = divData.transborder;
@@ -3564,15 +3564,15 @@
       var divDate = "".concat(i18next.t(divData.date.substring(5, 7), {
         ns: "months"
       }), " ").concat(divData.date.substring(0, 4));
-      div.html("<b>" + "Passenger movements (" + i18next.t("units", {
+      div.html("<b> ".concat(i18next.t(selectedAirpt, {
+        ns: "airports"
+      }), ", ").concat(divDate, ":</b> <br><br>\n          <table>\n            <tr>\n              <td><b> ").concat(i18next.t("domestic", {
         ns: "airPassengers"
-      }) + ") in " + divDate + ":</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t("domestic", {
+      }), " </b>: ").concat(thisDomestic, " </td>\n            </tr>\n            <tr>\n              <td><b> ").concat(i18next.t("transborder", {
         ns: "airPassengers"
-      }) + "</b>: " + thisDomestic + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("transborder", {
+      }), " </b>: ").concat(thisTrans, " </td>\n            </tr>\n          <tr>\n            <td><b> ").concat(i18next.t("international", {
         ns: "airPassengers"
-      }) + "</b>: " + thisTrans + "</td>" + "</tr>" + "<tr>" + "<td><b>" + i18next.t("international", {
-        ns: "airPassengers"
-      }) + "</b>: " + thisInter + "</td>" + "</tr>" + "</table>").style("pointer-events", "none");
+      }), " </b>: ").concat(thisInter, " </td>\n          </tr>\n        </table>")).style("pointer-events", "none");
     } // airport chart title
 
 

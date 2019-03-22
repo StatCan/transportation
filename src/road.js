@@ -2005,6 +2005,8 @@
 	var selectedYear = "2017";
 	var formatComma = d3.format(",d");
 	var scalef = 1e3;
+	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
 	/* Copy Button */
 	// -----------------------------------------------------------------------------
 
@@ -2128,7 +2130,7 @@
 	function showAreaData() {
 	  stackedArea = areaChart(chart, settings, data[selectedRegion]);
 	  d3.select("#svgFuel").select(".x.axis").select("text").attr("display", "none");
-	  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+	  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
 	  createOverlay(stackedArea, data[selectedRegion], function (d) {
 	    areaTooltip(stackedArea.settings, divArea, d);
 	  }, function () {
@@ -2197,6 +2199,10 @@
 
 	  if (event.target.id === "year") {
 	    selectedYear = document.getElementById("year").value;
+	    d3.select("#mapTitleRoad").text(i18next.t("mapTitle", {
+	      ns: "road",
+	      year: selectedYear
+	    }));
 	    colorMap();
 	  }
 	} // -----------------------------------------------------------------------------
@@ -2262,7 +2268,8 @@
 	      colorMap();
 	    });
 	    d3.select("#mapTitleRoad").text(i18next.t("mapTitle", {
-	      ns: "road"
+	      ns: "road",
+	      year: selectedYear
 	    })); // copy button options
 
 	    var cButtonOptions = {
