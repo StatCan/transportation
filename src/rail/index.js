@@ -157,7 +157,6 @@ i18n.load(["src/i18n"], function() {
 
 
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
-          console.log("json1: ", origJSON);
           dataTag = `${selectedOrig}_${selectedComm}`;
           data[dataTag] = origJSON;
 
