@@ -78,7 +78,7 @@ map.on("mousemove", () => {
       selectedPath.moveToFront();
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
-      const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+      const value = formatComma(data[selectedYear][classes[0]] / scalef);
       div
           .style("opacity", .9);
       div.html(

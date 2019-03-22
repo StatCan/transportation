@@ -294,16 +294,19 @@ table, th, td {
 
 /*rail dataset*/
 /*-- barChart --*/
-#railTitleBarChart {
+/* #railTitleBarChart {
   font-weight: bold;
   font-size: 12px;
-}
+} */
 
 .bar {
   fill: #0278A4;
 }
 .railBar .tick text {
 	font-size: 58px;
+}
+.raildata text {
+	font-size: 22px;
 }
 /* SOLID LINES */
 .legendLine.ABto, .dline.ABtoAB, .dline.ABtoAT, .dline.ABtoBC, .dline.ABtoMB,

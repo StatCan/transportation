@@ -1,5 +1,7 @@
 import settingsBar from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
+import mapColourScaleFn from "../mapColourScaleFn.js";
+import fillMapFn from "../fillMapFn.js";
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
@@ -11,11 +13,35 @@ const scalef = 1e3;
 // const regions = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "US-MEX"];
 
 const data = {}; // stores data for barChart
+let selectedYear = "2016"
 let domain; // Stores domain of flattened origJSON
 let bar; // stores barChart() call
+let mapData = {};
+
 
 // ---------------------------------------------------------------------
 /* SVGs */
+// Canada map
+const map = d3.select(".dashboard .map")
+    .append("svg");
+
+// Map colour bar
+const margin = {top: 20, right: 0, bottom: 10, left: 20};
+const width = 570 - margin.left - margin.right;
+const height = 150 - margin.top - margin.bottom;
+const svgCB = d3.select("#mapColourScale")
+    .select("svg")
+    .attr("class", "mapCB")
+    .attr("width", width)
+    .attr("height", height)
+    .style("vertical-align", "middle");
+
+/* -- shim all the SVGs (chart is already shimmed in component) -- */
+d3.stcExt.addIEShim(map, 387.1, 457.5);
+const div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 const chart = d3.select(".data.raildata")
     .append("svg")
     .attr("id", "svgBar");
@@ -45,6 +71,120 @@ function uiHandler(event) {
   // } else {
   //   showArea();
   // }
+}
+// -----------------------------------------------------------------------------
+/* -- Map interactions -- */
+// map.on("mousemove", () => {
+//   if (d3.select(d3.event.target).attr("class")) {
+//     // const classes = d3.event.target.classList;
+//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+//
+//     if (classes[0] !== "svg-shimmed") {
+//       // Highlight map region
+//       const selectedPath = d3.select(".dashboard .map")
+//           .select("." + classes[0]);
+//
+//       selectedPath.classed("roadMapHighlight", true);
+//       selectedPath.moveToFront();
+//       // Tooltip
+//       const key = i18next.t(classes[0], {ns: "roadGeography"});
+//       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+//       div
+//           .style("opacity", .9);
+//       div.html(
+//           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+//             "<table>" +
+//               "<tr>" +
+//                 "<td><b>" + value + "</td>" +
+//               "</tr>" +
+//             "</table>"
+//       );
+//
+//       div
+//           .style("left", ((d3.event.pageX +10) + "px"))
+//           .style("top", ((d3.event.pageY +10) + "px"));
+//     } else {
+//       // clear tooltip for IE
+//       div
+//           .style("opacity", 0);
+//     }
+//   }
+// });
+//
+// map.on("mouseout", () => {
+//   div.transition()
+//       .style("opacity", 0);
+//
+//   if (selectedRegion) {
+//     d3.select(".map")
+//         .selectAll("path:not(." + selectedRegion + ")")
+//         .classed("roadMapHighlight", false);
+//   } else {
+//     d3.select(".map")
+//         .selectAll("path")
+//         .classed("roadMapHighlight", false);
+//   }
+// });
+//
+// map.on("click", () => {
+//   // clear any previous clicks
+//   d3.select(".map")
+//       .selectAll("path")
+//       .classed("roadMapHighlight", false);
+//
+//   if (d3.select(d3.event.target).attr("class") &&
+//         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
+//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+//
+//     selectedRegion = classes[0];
+//     d3.select(".dashboard .map")
+//         .select("." + classes[0])
+//         .classed("roadMapHighlight", true)
+//         .moveToFront();
+//     updateTitles();
+//
+//     // Display selected region in stacked area chart
+//     loadData(selectedRegion, () => {
+//       showAreaData();
+//     });
+//
+//     // update region displayed in dropdown menu
+//     d3.select("#groups")._groups[0][0].value = selectedRegion;
+//   } else {
+//     // reset area chart to Canada
+//     selectedRegion = "CANADA";
+//     updateTitles();
+//     showAreaData();
+//
+//     // update region displayed in dropdown menu
+//     d3.select("#groups")._groups[0][0].value = selectedRegion;
+//   }
+// });
+
+// -----------------------------------------------------------------------------
+/* FNS */
+function colorMap() {
+  // store map data in array and plot colour
+  const thisTotalArray = [];
+  thisTotalArray.push(data[selectedOrig][selectedYear]);
+
+  const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+  const numLevels = colourArray.length;
+
+  // colour map with fillMapFn and output dimExtent for colour bar scale
+  const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
+
+  // colour bar scale and add label
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
+
+  // Colourbar label (need be plotted only once)
+  const mapScaleLabel = i18next.t("units", {ns: "rail"});
+  d3.select("#cbTitle")
+      .select("text")
+      .text(mapScaleLabel)
+      .attr("transform", function(d, i) {
+        return "translate(203, 15)";
+      });
 }
 
 // ---------------------------------------------------------------------
@@ -135,6 +275,14 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"pulp": allpulp});
         // allCommArr.push({"other": allother});
 
+        getCanadaMap(map)
+            .on("loaded", function() {
+              colorMap();
+            });
+        d3.select("#mapTitleRail")
+            .text(i18next.t("mapTitle", {ns: "rail"}));
+
+
         showBubbleTable();
 
 
@@ -161,3 +309,17 @@ i18n.load(["src/i18n"], function() {
 });
 
 $(document).on("change", uiHandler);
+$(document).on("change", uiHandler);
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function() {
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {
+  return this.each(function() {
+    const firstChild = this.parentNode.firstChild;
+    if (firstChild) {
+      this.parentNode.insertBefore(this, firstChild);
+    }
+  });
+};

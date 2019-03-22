@@ -1,5 +1,5 @@
 export default {
-  aspectRatio: 16 / 9,
+  aspectRatio: 1 / 1,
   margin: {
     top: 50,
     left: 100,
