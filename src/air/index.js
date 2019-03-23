@@ -1,5 +1,5 @@
-import settings from "./stackedAreaSettings.js";
-import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
+import settingsInit from "./stackedAreaSettings.js";
+import settingsMajorAirportsInit from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
@@ -13,9 +13,40 @@ import CopyButton from "../copyButton.js";
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
-const formatComma = d3.format(",d");
-const scalef = 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
+// Add number formatter to stackedArea settings file
+const thisLang = document.getElementsByTagName('html')[0].getAttribute('lang'); // document.documentElement.lang
+const settingsAux = {
+  formatNum: function() {
+    let formatNumber;
+    if (thisLang === "fr") {
+      var locale = d3.formatLocale({
+        decimal: ",",
+        thousands: " ",
+        grouping: [3]
+      });
+      
+      formatNumber = locale.format(",d");
+
+    } else {
+      formatNumber = d3.format(",d");
+    }
+
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  }
+};
+
+const settings = $.extend({}, settingsInit, settingsAux);
+const settingsMajorAirports = $.extend({}, settingsMajorAirportsInit, settingsAux);
+const scalef = settings.scalef ? settings.scalef : 1;
 
 const data = {
   "passengers": {},
@@ -298,18 +329,9 @@ let totals;
 let passengerTotals;
 let majorTotals;
 let canadaMap;
-let selectedDataset = "passengers";
-let selectedYear = "2017";
-let selectedMonth = "01";
-let selectedDate = selectedYear;
-let selectedRegion = "CANADA";
-let selectedSettings = settings;
-let divFactor = settings.scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+
 const majorDateRange = {};
 const passengerDateRange = {};
-let selectedDateRange = {};
-
-let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
 const lineDataMajor = {};
 let passengerMetaData;
@@ -321,6 +343,14 @@ let lineData = lineDataPassenger;
 const defaultYear = "2017";
 const defaultMonth = "01";
 const defaultRegion = "CANADA";
+let selectedDataset = "passengers";
+let selectedYear = "2017";
+let selectedMonth = "01";
+let selectedDate = selectedYear;
+let selectedRegion = "CANADA";
+let selectedSettings = settings;
+let selectedDateRange = {};
+let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 
 let stackedArea; // stores areaChart() call
 
@@ -394,7 +424,6 @@ $(".data_set_selector").on("click", function(event) {
   selectedRegion = defaultRegion;
   d3.select("#groups")._groups[0][0].value = selectedRegion;
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-  divFactor = (event.target.id === ("movements")) ? scalef : 1;
 
   if (event.target.id === ("major")) {
     selectedMonth = defaultMonth;
@@ -500,7 +529,7 @@ map.on("mousemove", () => {
         let value;
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
-          value = formatComma(totals[selectedDate][classes[0]] / divFactor);
+          value =  selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
           line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {
@@ -669,7 +698,7 @@ function colorMap() {
 
   // colour bar scale and add label
 
-  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, settings);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {ns: "airPassengers"}) : "";
@@ -807,8 +836,8 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    const thisEnplaned = Number(divData.enplaned) ? formatComma(divData.enplaned) : divData.enplaned;
-    const thisDeplaned = Number(divData.deplaned) ? formatComma(divData.deplaned) : divData.deplaned;
+    const thisEnplaned = Number(divData.enplaned) ?  selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ?  selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divData.date}:</b> <br><br>
