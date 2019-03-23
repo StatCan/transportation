@@ -1,4 +1,4 @@
-import settings from "./stackedAreaSettings.js";
+import settingsInit from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
@@ -11,9 +11,40 @@ let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
 let selectedYear = "2017";
-const formatComma = d3.format(",d");
 const scalef = 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+const thisLang = document.getElementsByTagName('html')[0].getAttribute('lang'); // document.documentElement.lang
+
+// Add number formatter to stackedArea settings file
+const settingsAux = {
+  formatNum: function() {
+    let formatNumber;
+    if (thisLang === "fr") {
+      var locale = d3.formatLocale({
+        decimal: ",",
+        thousands: " ",
+        grouping: [3]
+      });
+      
+      formatNumber = locale.format(",d");
+
+    } else {
+      formatNumber = d3.format(",d");
+    }
+
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  }
+};
+
+const settings = $.extend({}, settingsInit, settingsAux);
+
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -79,7 +110,7 @@ map.on("mousemove", () => {
       selectedPath.moveToFront();
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
-      const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+      const value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
       div
           .style("opacity", .9);
       div.html(
@@ -166,7 +197,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settings);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "road"});

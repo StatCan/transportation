@@ -1,11 +1,12 @@
-export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
+export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   // Definitions
   // ---------------------------------------------------------------------------
+  console.log("fn: ", settings.scalef)
   const rectDim = 35;
   const yRect = 20;
   const yText = 65;
   const yNaNText = yText + 7;
-  const formatComma = d3.format(",d");
+  const scalef = settings.scalef ? settings.scalef : 1;
 
   // text labels (calculate cbValues)
   const delta =(dimExtent[1] - dimExtent[0] ) / numLevels;
@@ -23,10 +24,9 @@ export default function(svgCB, colourArray, dimExtent, numLevels, scalef) {
   // text fn
   const getText = function(i, j) {
     if (i < numLevels) {
-      const s0 = formatComma(cbValues[j] / scalef);
+      const s0 = settings.formatNum()(cbValues[j] / scalef);
       return s0 + "+";
     } else if (i === numLevels + 1) {
-      // return i18next.t("NaNbox", {ns: "airUI"});
       return "x";
     }
   };
