@@ -1,7 +1,6 @@
 export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   // Definitions
   // ---------------------------------------------------------------------------
-  console.log("fn: ", settings.scalef)
   const rectDim = 35;
   const yRect = 20;
   const yText = 65;

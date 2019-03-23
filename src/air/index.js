@@ -697,8 +697,7 @@ function colorMap() {
   const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
-
-  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, settings);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, selectedSettings);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {ns: "airPassengers"}) : "";
