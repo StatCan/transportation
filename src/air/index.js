@@ -735,6 +735,9 @@ function showAreaData() {
               d3.select(this).attr("class", "tick Jan");
             }
           });
+    } else {
+      d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
+          .attr("class", "tick");
     }
 
     // Highlight region selected from menu on map
