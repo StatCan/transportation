@@ -43,7 +43,7 @@ const settingsAux = {
   }
 };
 
-const settings = $.extend({}, settingsInit, settingsAux);
+const settings = {...settingsInit, ...settingsAux};
 
 
 /* Copy Button */

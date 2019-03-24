@@ -44,8 +44,8 @@ const settingsAux = {
   }
 };
 
-const settings = $.extend({}, settingsInit, settingsAux);
-const settingsMajorAirports = $.extend({}, settingsMajorAirportsInit, settingsAux);
+const settings = {...settingsInit, ...settingsAux};
+const settingsMajorAirports = {...settingsMajorAirportsInit, ...settingsAux};
 const scalef = settings.scalef ? settings.scalef : 1;
 
 const data = {
