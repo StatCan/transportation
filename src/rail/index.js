@@ -283,6 +283,7 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/rail/All_oils.json")
       .defer(d3.json, "data/rail/All_chems.json")
       .defer(d3.json, "data/rail/All_pulp.json")
+      .defer(d3.json, "data/road/CANADA.json")
       // .defer(d3.json, "data/rail/All_other.json")
       .await(function(error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
         allCommArr.push({"coal": allcoal});
@@ -297,7 +298,7 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"pulp": allpulp});
         // allCommArr.push({"other": allother});
 
-        getCanadaMap(map)
+        canadaMap = getCanadaMap(map)
             .on("loaded", function() {
               colorMap();
             });

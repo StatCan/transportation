@@ -44,7 +44,7 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
         let d;
 
         if (d0 && d1) {
-          d = xD - chartObj.settings.x.getValue(d0) > d1 - xD ? chartObj.settings.x.getValue(d1) : d0;
+          d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
         } else if (d0) {
           d = d0;
         } else {
