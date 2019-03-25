@@ -30,7 +30,7 @@
 	  return store[key] || (store[key] = value !== undefined ? value : {});
 	})('versions', []).push({
 	  version: _core.version,
-	  mode: 'global',
+	  mode: _library ? 'pure' : 'global',
 	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
@@ -750,7 +750,7 @@
 	});
 
 	var settingsBar = {
-	  aspectRatio: 16 / 8,
+	  aspectRatio: 1 / 1,
 	  margin: {
 	    top: 50,
 	    left: 50,
@@ -995,6 +995,425 @@
 	  width: 800
 	};
 
+	// true  -> String#at
+	// false -> String#codePointAt
+	var _stringAt = function (TO_STRING) {
+	  return function (that, pos) {
+	    var s = String(_defined(that));
+	    var i = _toInteger(pos);
+	    var l = s.length;
+	    var a, b;
+	    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
+	    a = s.charCodeAt(i);
+	    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+	      ? TO_STRING ? s.charAt(i) : a
+	      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+	  };
+	};
+
+	var $at = _stringAt(true);
+
+	// 21.1.3.27 String.prototype[@@iterator]()
+	_iterDefine(String, 'String', function (iterated) {
+	  this._t = String(iterated); // target
+	  this._i = 0;                // next index
+	// 21.1.5.2.1 %StringIteratorPrototype%.next()
+	}, function () {
+	  var O = this._t;
+	  var index = this._i;
+	  var point;
+	  if (index >= O.length) return { value: undefined, done: true };
+	  point = $at(O, index);
+	  this._i += point.length;
+	  return { value: point, done: false };
+	});
+
+	// call something on iterator step with safe closing on error
+
+	var _iterCall = function (iterator, fn, value, entries) {
+	  try {
+	    return entries ? fn(_anObject(value)[0], value[1]) : fn(value);
+	  // 7.4.6 IteratorClose(iterator, completion)
+	  } catch (e) {
+	    var ret = iterator['return'];
+	    if (ret !== undefined) _anObject(ret.call(iterator));
+	    throw e;
+	  }
+	};
+
+	// check on default Array iterator
+
+	var ITERATOR$2 = _wks('iterator');
+	var ArrayProto$1 = Array.prototype;
+
+	var _isArrayIter = function (it) {
+	  return it !== undefined && (_iterators.Array === it || ArrayProto$1[ITERATOR$2] === it);
+	};
+
+	var _createProperty = function (object, index, value) {
+	  if (index in object) _objectDp.f(object, index, _propertyDesc(0, value));
+	  else object[index] = value;
+	};
+
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+
+	var TAG$1 = _wks('toStringTag');
+	// ES3 wrong here
+	var ARG = _cof(function () { return arguments; }()) == 'Arguments';
+
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function (it, key) {
+	  try {
+	    return it[key];
+	  } catch (e) { /* empty */ }
+	};
+
+	var _classof = function (it) {
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG$1)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? _cof(O)
+	    // ES3 arguments fallback
+	    : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+	var ITERATOR$3 = _wks('iterator');
+
+	var core_getIteratorMethod = _core.getIteratorMethod = function (it) {
+	  if (it != undefined) return it[ITERATOR$3]
+	    || it['@@iterator']
+	    || _iterators[_classof(it)];
+	};
+
+	var ITERATOR$4 = _wks('iterator');
+	var SAFE_CLOSING = false;
+
+	try {
+	  var riter = [7][ITERATOR$4]();
+	  riter['return'] = function () { SAFE_CLOSING = true; };
+	} catch (e) { /* empty */ }
+
+	var _iterDetect = function (exec, skipClosing) {
+	  if (!skipClosing && !SAFE_CLOSING) return false;
+	  var safe = false;
+	  try {
+	    var arr = [7];
+	    var iter = arr[ITERATOR$4]();
+	    iter.next = function () { return { done: safe = true }; };
+	    arr[ITERATOR$4] = function () { return iter; };
+	    exec(arr);
+	  } catch (e) { /* empty */ }
+	  return safe;
+	};
+
+	_export(_export.S + _export.F * !_iterDetect(function (iter) { }), 'Array', {
+	  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+	  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+	    var O = _toObject(arrayLike);
+	    var C = typeof this == 'function' ? this : Array;
+	    var aLen = arguments.length;
+	    var mapfn = aLen > 1 ? arguments[1] : undefined;
+	    var mapping = mapfn !== undefined;
+	    var index = 0;
+	    var iterFn = core_getIteratorMethod(O);
+	    var length, result, step, iterator;
+	    if (mapping) mapfn = _ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+	    // if object isn't iterable or it's array with default iterator - use simple case
+	    if (iterFn != undefined && !(C == Array && _isArrayIter(iterFn))) {
+	      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+	        _createProperty(result, index, mapping ? _iterCall(iterator, mapfn, [step.value, index], true) : step.value);
+	      }
+	    } else {
+	      length = _toLength(O.length);
+	      for (result = new C(length); length > index; index++) {
+	        _createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+	      }
+	    }
+	    result.length = index;
+	    return result;
+	  }
+	});
+
+	function mapColourScaleFn (svgCB, colourArray, dimExtent, numLevels, settings) {
+	  // Definitions
+	  // ---------------------------------------------------------------------------
+	  var rectDim = 35;
+	  var yRect = 20;
+	  var yText = 65;
+	  var yNaNText = yText + 7;
+	  var scalef = settings.scalef ? settings.scalef : 1; // text labels (calculate cbValues)
+
+	  var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
+	  var cbValues = [];
+	  cbValues[0] = dimExtent[0];
+
+	  for (var idx = 1; idx < numLevels; idx++) {
+	    cbValues.push(Math.round(idx * delta + dimExtent[0]));
+	  } // rect fill fn
+
+
+	  var getFill = function getFill(d, i) {
+	    return colourArray[i];
+	  }; // text fn
+
+
+	  var getText = function getText(i, j) {
+	    if (i < numLevels) {
+	      var s0 = settings.formatNum()(cbValues[j] / scalef);
+	      return s0 + "+";
+	    } else if (i === numLevels + 1) {
+	      return "x";
+	    }
+	  }; // tooltip for NaN box
+
+
+	  var divNaN = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // -----------------------------------------------------------------------------
+	  // g node for colourbar title (text is set in index.js)
+
+	  svgCB.append("g").attr("class", "colourbarTitle").attr("id", "cbTitle").append("text") // .text("test")
+	  .attr("transform", function (d, i) {
+	    return "translate(225, 15)";
+	  }).style("display", function () {
+	    return "inline";
+	  }); // Create the umbrella group
+
+	  var rectGroups = svgCB.attr("class", "mapCB").selectAll(".legend").data(Array.from(Array(colourArray.length).keys())); // Append g nodes (to be filled with a rect and a text) to umbrella group
+
+	  var newGroup = rectGroups.enter().append("g").attr("class", "legend").attr("id", function (d, i) {
+	    return "cb".concat(i);
+	  }); // add rects
+
+	  newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", yRect).attr("x", function (d, i) {
+	    return 160 + i * rectDim;
+	  }).attr("fill", getFill).attr("class", function (d, i) {
+	    if (i === numLevels + 1) {
+	      return "classNaN";
+	    }
+	  }); // hover over NaN rect only
+
+	  newGroup.selectAll(".legend rect").on("mouseover", function (d, i) {
+	    if (d3.select(this).attr("class") === "classNaN") {
+	      var line1 = i18next.t("NaNhover1", {
+	        ns: "airUI"
+	      });
+	      var line2 = i18next.t("NaNhover2", {
+	        ns: "airUI"
+	      });
+	      divNaN.style("opacity", 0.9).html("<br>" + line1 + "<br>" + line2 + "<br><br>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
+	    }
+	  }).on("mouseout", function () {
+	    divNaN.style("opacity", 0);
+	  }); // add text
+
+	  newGroup.append("text").text(getText).attr("text-anchor", "end").attr("transform", function (d, i) {
+	    if (i < numLevels) {
+	      // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
+	      return "translate(".concat(165 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
+	    } else if (i === numLevels + 1) {
+	      // NaN box in legend
+	      return "translate(".concat(181 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
+	    }
+	  }).style("display", function () {
+	    return "inline";
+	  }); // Update rect fill for any new colour arrays passed in
+
+	  rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
+
+	  rectGroups.select("text").text(getText);
+	  rectGroups.exit().remove();
+	}
+
+	var gOPD = Object.getOwnPropertyDescriptor;
+
+	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+	  O = _toIobject(O);
+	  P = _toPrimitive(P, true);
+	  if (_ie8DomDefine) try {
+	    return gOPD(O, P);
+	  } catch (e) { /* empty */ }
+	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+	};
+
+	var _objectGopd = {
+		f: f$2
+	};
+
+	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	/* eslint-disable no-proto */
+
+
+	var check = function (O, proto) {
+	  _anObject(O);
+	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+	};
+	var _setProto = {
+	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+	    function (test, buggy, set) {
+	      try {
+	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+	        set(test, []);
+	        buggy = !(test instanceof Array);
+	      } catch (e) { buggy = true; }
+	      return function setPrototypeOf(O, proto) {
+	        check(O, proto);
+	        if (buggy) O.__proto__ = proto;
+	        else set(O, proto);
+	        return O;
+	      };
+	    }({}, false) : undefined),
+	  check: check
+	};
+
+	var setPrototypeOf = _setProto.set;
+	var _inheritIfRequired = function (that, target, C) {
+	  var S = target.constructor;
+	  var P;
+	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+	    setPrototypeOf(that, P);
+	  } return that;
+	};
+
+	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+	  return _objectKeysInternal(O, hiddenKeys);
+	};
+
+	var _objectGopn = {
+		f: f$3
+	};
+
+	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var space = '[' + _stringWs + ']';
+	var non = '\u200b\u0085';
+	var ltrim = RegExp('^' + space + space + '*');
+	var rtrim = RegExp(space + space + '*$');
+
+	var exporter = function (KEY, exec, ALIAS) {
+	  var exp = {};
+	  var FORCE = _fails(function () {
+	    return !!_stringWs[KEY]() || non[KEY]() != non;
+	  });
+	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+	  if (ALIAS) exp[ALIAS] = fn;
+	  _export(_export.P + _export.F * FORCE, 'String', exp);
+	};
+
+	// 1 -> String#trimLeft
+	// 2 -> String#trimRight
+	// 3 -> String#trim
+	var trim = exporter.trim = function (string, TYPE) {
+	  string = String(_defined(string));
+	  if (TYPE & 1) string = string.replace(ltrim, '');
+	  if (TYPE & 2) string = string.replace(rtrim, '');
+	  return string;
+	};
+
+	var _stringTrim = exporter;
+
+	var gOPN = _objectGopn.f;
+	var gOPD$1 = _objectGopd.f;
+	var dP$1 = _objectDp.f;
+	var $trim = _stringTrim.trim;
+	var NUMBER = 'Number';
+	var $Number = _global[NUMBER];
+	var Base = $Number;
+	var proto$1 = $Number.prototype;
+	// Opera ~12 has broken Object#toString
+	var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
+	var TRIM = 'trim' in String.prototype;
+
+	// 7.1.3 ToNumber(argument)
+	var toNumber = function (argument) {
+	  var it = _toPrimitive(argument, false);
+	  if (typeof it == 'string' && it.length > 2) {
+	    it = TRIM ? it.trim() : $trim(it, 3);
+	    var first = it.charCodeAt(0);
+	    var third, radix, maxCode;
+	    if (first === 43 || first === 45) {
+	      third = it.charCodeAt(2);
+	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+	    } else if (first === 48) {
+	      switch (it.charCodeAt(1)) {
+	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+	        default: return +it;
+	      }
+	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+	        code = digits.charCodeAt(i);
+	        // parseInt parses a string to a first unavailable symbol
+	        // but ToNumber should return NaN if a string contains unavailable symbols
+	        if (code < 48 || code > maxCode) return NaN;
+	      } return parseInt(digits, radix);
+	    }
+	  } return +it;
+	};
+
+	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+	  $Number = function Number(value) {
+	    var it = arguments.length < 1 ? 0 : value;
+	    var that = this;
+	    return that instanceof $Number
+	      // check on 1..constructor(foo) case
+	      && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
+	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+	  };
+	  for (var keys = _descriptors ? gOPN(Base) : (
+	    // ES3:
+	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+	    // ES6 (in case, if modules with ES6 Number statics required before):
+	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+	  ).split(','), j = 0, key$1; keys.length > j; j++) {
+	    if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
+	      dP$1($Number, key$1, gOPD$1(Base, key$1));
+	    }
+	  }
+	  $Number.prototype = proto$1;
+	  proto$1.constructor = $Number;
+	  _redefine(_global, NUMBER, $Number);
+	}
+
+	function fillMapFn (data, colourArray, numLevels) {
+	  var nullColour = colourArray.slice(-1)[0]; // data is an Array
+
+	  var thisData = data[0]; // Object
+
+	  var dimExtent = [];
+	  var totArray = [];
+	  totArray = Object.values(thisData);
+	  totArray.sort(function (a, b) {
+	    return a - b;
+	  });
+	  dimExtent = d3.extent(totArray); // colour map to take data value and map it to the colour of the level bin it belongs to
+
+	  var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, numLevels));
+
+	  var _loop = function _loop(key) {
+	    if (thisData.hasOwnProperty(key)) {
+	      d3.select(".dashboard .map").select("." + key).style("fill", function () {
+	        return Number(thisData[key]) ? colourMap(thisData[key]) : nullColour;
+	      }).classed("classNaN", function () {
+	        if (!Number(thisData[key])) {
+	          return true;
+	        }
+	      });
+	    }
+	  };
+
+	  for (var key in thisData) {
+	    _loop(key);
+	  }
+
+	  return dimExtent;
+	}
+
 	var allCommArr = []; // passed into bubbleTable()
 
 	var selectedOrig = "AT";
@@ -1006,10 +1425,31 @@
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 	var data = {}; // stores data for barChart
+
+	var selectedYear = "2016"; // let domain; // Stores domain of flattened origJSON
+	// let bar; // stores barChart() call
+	// let mapData = {};
+	// let canadaMap;
 	// ---------------------------------------------------------------------
 
 	/* SVGs */
+	// Canada map
 
+	var map = d3.select(".dashboard .map").append("svg"); // Map colour bar
+
+	var margin = {
+	  top: 20,
+	  right: 0,
+	  bottom: 10,
+	  left: 20
+	};
+	var width = 570 - margin.left - margin.right;
+	var height = 150 - margin.top - margin.bottom;
+	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
+	/* -- shim all the SVGs (chart is already shimmed in component) -- */
+
+	d3.stcExt.addIEShim(map, 387.1, 457.5);
+	d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 	var chart = d3.select(".data.raildata").append("svg").attr("id", "svgBar");
 	var commTable = d3.select("#commgrid").append("svg").attr("id", "svg_commgrid"); // ---------------------------------------------------------------------
 
@@ -1053,6 +1493,117 @@
 	  updateTitles();
 	  loadBarData(selectedOrig, selectedComm, function (s) {
 	    showBarChartData(s);
+	  });
+	} // -----------------------------------------------------------------------------
+
+	/* -- Map interactions -- */
+	// map.on("mousemove", () => {
+	//   if (d3.select(d3.event.target).attr("class")) {
+	//     // const classes = d3.event.target.classList;
+	//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+	//
+	//     if (classes[0] !== "svg-shimmed") {
+	//       // Highlight map region
+	//       const selectedPath = d3.select(".dashboard .map")
+	//           .select("." + classes[0]);
+	//
+	//       selectedPath.classed("roadMapHighlight", true);
+	//       selectedPath.moveToFront();
+	//       // Tooltip
+	//       const key = i18next.t(classes[0], {ns: "roadGeography"});
+	//       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+	//       div
+	//           .style("opacity", .9);
+	//       div.html(
+	//           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
+	//             "<table>" +
+	//               "<tr>" +
+	//                 "<td><b>" + value + "</td>" +
+	//               "</tr>" +
+	//             "</table>"
+	//       );
+	//
+	//       div
+	//           .style("left", ((d3.event.pageX +10) + "px"))
+	//           .style("top", ((d3.event.pageY +10) + "px"));
+	//     } else {
+	//       // clear tooltip for IE
+	//       div
+	//           .style("opacity", 0);
+	//     }
+	//   }
+	// });
+	//
+	// map.on("mouseout", () => {
+	//   div.transition()
+	//       .style("opacity", 0);
+	//
+	//   if (selectedRegion) {
+	//     d3.select(".map")
+	//         .selectAll("path:not(." + selectedRegion + ")")
+	//         .classed("roadMapHighlight", false);
+	//   } else {
+	//     d3.select(".map")
+	//         .selectAll("path")
+	//         .classed("roadMapHighlight", false);
+	//   }
+	// });
+	//
+	// map.on("click", () => {
+	//   // clear any previous clicks
+	//   d3.select(".map")
+	//       .selectAll("path")
+	//       .classed("roadMapHighlight", false);
+	//
+	//   if (d3.select(d3.event.target).attr("class") &&
+	//         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
+	//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
+	//
+	//     selectedRegion = classes[0];
+	//     d3.select(".dashboard .map")
+	//         .select("." + classes[0])
+	//         .classed("roadMapHighlight", true)
+	//         .moveToFront();
+	//     updateTitles();
+	//
+	//     // Display selected region in stacked area chart
+	//     loadData(selectedRegion, () => {
+	//       showAreaData();
+	//     });
+	//
+	//     // update region displayed in dropdown menu
+	//     d3.select("#groups")._groups[0][0].value = selectedRegion;
+	//   } else {
+	//     // reset area chart to Canada
+	//     selectedRegion = "CANADA";
+	//     updateTitles();
+	//     showAreaData();
+	//
+	//     // update region displayed in dropdown menu
+	//     d3.select("#groups")._groups[0][0].value = selectedRegion;
+	//   }
+	// });
+	// -----------------------------------------------------------------------------
+
+	/* FNS */
+
+
+	function colorMap() {
+	  // store map data in array and plot colour
+	  var thisTotalArray = [];
+	  thisTotalArray.push(data[selectedOrig][selectedYear]);
+	  var colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
+	  var numLevels = colourArray.length; // colour map with fillMapFn and output dimExtent for colour bar scale
+
+	  var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
+
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef); // Colourbar label (need be plotted only once)
+
+	  var mapScaleLabel = i18next.t("units", {
+	    ns: "rail"
+	  });
+	  d3.select("#cbTitle").select("text").text(mapScaleLabel).attr("transform", function (d, i) {
+	    return "translate(203, 15)";
 	  });
 	} // ---------------------------------------------------------------------
 
@@ -1136,7 +1687,7 @@
 	    ns: "railBar"
 	  }), settingsBar.z.label = i18next.t("z_label", {
 	    ns: "railTable"
-	  }), d3.queue().defer(d3.json, "data/rail/All_coal.json").defer(d3.json, "data/rail/All_mixed.json").defer(d3.json, "data/rail/All_wheat.json").defer(d3.json, "data/rail/All_ores.json").defer(d3.json, "data/rail/All_potash.json").defer(d3.json, "data/rail/All_lumber.json").defer(d3.json, "data/rail/All_canola.json").defer(d3.json, "data/rail/All_oils.json").defer(d3.json, "data/rail/All_chems.json").defer(d3.json, "data/rail/All_pulp.json") // .defer(d3.json, "data/rail/All_other.json")
+	  }), d3.queue().defer(d3.json, "data/rail/All_coal.json").defer(d3.json, "data/rail/All_mixed.json").defer(d3.json, "data/rail/All_wheat.json").defer(d3.json, "data/rail/All_ores.json").defer(d3.json, "data/rail/All_potash.json").defer(d3.json, "data/rail/All_lumber.json").defer(d3.json, "data/rail/All_canola.json").defer(d3.json, "data/rail/All_oils.json").defer(d3.json, "data/rail/All_chems.json").defer(d3.json, "data/rail/All_pulp.json").defer(d3.json, "data/road/CANADA.json") // .defer(d3.json, "data/rail/All_other.json")
 	  .await(function (error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
 	    allCommArr.push({
 	      "coal": allcoal
@@ -1169,6 +1720,12 @@
 	      "pulp": allpulp
 	    }); // allCommArr.push({"other": allother});
 
+	    getCanadaMap(map).on("loaded", function () {
+	      colorMap();
+	    });
+	    d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
+	      ns: "rail"
+	    }));
 	    showBubbleTable();
 	    d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function (err, origJSON) {
 	      dataTag = "".concat(selectedOrig, "_").concat(selectedComm);
@@ -1185,5 +1742,22 @@
 	  });
 	});
 	$(document).on("change", uiHandler);
+	$(document).on("change", uiHandler);
+
+	d3.selection.prototype.moveToFront = function () {
+	  return this.each(function () {
+	    this.parentNode.appendChild(this);
+	  });
+	};
+
+	d3.selection.prototype.moveToBack = function () {
+	  return this.each(function () {
+	    var firstChild = this.parentNode.firstChild;
+
+	    if (firstChild) {
+	      this.parentNode.insertBefore(this, firstChild);
+	    }
+	  });
+	};
 
 }());

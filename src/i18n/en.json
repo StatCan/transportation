@@ -17,15 +17,15 @@
     "road": {
       "chartTitle": "Type of fuel sales",
       "mapTitle": "Net fuel sales, Canada, {{year}}",
-      "units": "millions of litres",
+      "units": "thousands of litres",
       "mapScaleLabel": "Total"
     },
     "roadArea": {
       "alt": "Fuel sales for road motor vehicles, annual",
-      "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (millions of litres)",
+      "tableTitle": "Sales of fuel used for road motor vehicles, {{geo}} (thousands of litres)",
       "hoverTitle": "Fuel sales",
       "x_label": "Year",
-      "y_label": "millions of litres",
+      "y_label": "thousands of litres",
       "gas": "Gas",
       "diesel": "Diesel",
       "lpg": "Liquid Petroleum Gas",
@@ -401,6 +401,11 @@
        "AB": "Alberta",
        "BC": "British Columbia",
        "USMEX": "US and Mexico"
+    },
+    "rail": {
+      "units": "millions of tonnnes",
+      "mapTitle": "Map Title",
+      "barChartTitle" : "Bar Chart Title"
     },
     "provinces": {
        "CANADA": "Canada, all provinces and territories",

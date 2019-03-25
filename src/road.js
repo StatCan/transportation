@@ -1314,11 +1314,11 @@
 	  ns: "roadArea",
 	  margin: {
 	    top: 50,
-	    left: 90,
+	    left: 130,
 	    right: 30,
 	    bottom: 50
 	  },
-	  scalef: 1e3,
+	  scalef: 1,
 	  aspectRatio: 16 / 11,
 	  // creates variable d
 	  filterData: function filterData(data) {
@@ -1366,7 +1366,7 @@
 	    getValue: function getValue(d, key) {
 	      if (typeof d[key] === "string" || d[key] instanceof String) {
 	        return 0;
-	      } else return d[key] * 1.0 / 1e3;
+	      } else return d[key] * 1.0 / 1;
 	    },
 	    getTotal: function getTotal(d, index, data) {
 	      var total;
@@ -1378,17 +1378,17 @@
 	        total = 0;
 
 	        for (var k = 0; k < keys.length; k++) {
-	          total += sett.y.getValue.call(sett, d, keys[k], data) * 1e3; // keep in orig scale when summing
+	          total += sett.y.getValue.call(sett, d, keys[k], data) * 1; // keep in orig scale when summing
 	        }
 
 	        d[sett.y.totalProperty] = total;
 	      }
 
-	      return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1000;
+	      return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1;
 	    },
 	    getText: function getText(d, key) {
 	      if (!d.isLast) {
-	        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+	        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1;
 	      }
 	    },
 	    ticks: 5,
@@ -1838,7 +1838,7 @@
 	  if (overlay.empty()) {
 	    overlay = chartObj.svg.select(".data").append("g").attr("class", "overlay");
 	    rect = overlay.append("rect").style("fill", "none").style("pointer-events", "all").attr("class", "overlay");
-	    line = overlay.append("line").attr("class", "hoverLine").style("display", "inline");
+	    line = overlay.append("line").attr("class", "hoverLine").style("display", "inline").style("visibility", "hidden");
 	  } else {
 	    rect = overlay.select("rect");
 	    line = overlay.select("line");
@@ -1854,7 +1854,7 @@
 	    var d;
 
 	    if (d0 && d1) {
-	      d = xD - chartObj.settings.x.getValue(d0) > d1 - xD ? chartObj.settings.x.getValue(d1) : d0;
+	      d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
 	    } else if (d0) {
 	      d = d0;
 	    } else {
@@ -1863,11 +1863,14 @@
 
 	    line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
 	    line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
+	    line.style("visibility", "visible");
 
 	    if (onMouseOverCb && typeof onMouseOverCb === "function") {
 	      onMouseOverCb(d);
 	    }
 	  }).on("mouseout", function () {
+	    line.style("visibility", "hidden");
+
 	    if (onMouseOutCb && typeof onMouseOutCb === "function") {
 	      onMouseOutCb();
 	    }
@@ -2023,7 +2026,8 @@
 	var mapData = {};
 	var selectedRegion = "CANADA";
 	var selectedYear = "2017";
-	var scalef = 1e3;
+	var scalef = 1; // 1e3;
+
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 	// Add number formatter to stackedArea settings file
 
@@ -2286,7 +2290,7 @@
 	      for (var column in cButtondata[row]) {
 	        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
 	          var value = cButtondata[row][column];
-	          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+	          if (column != "date" && column != "total" && !isNaN(value)) value /= scalef;
 	          auxRow.push(value);
 	        }
 	      }

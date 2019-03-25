@@ -1351,6 +1351,20 @@
 	  ];
 	});
 
+	var $indexOf = _arrayIncludes(false);
+	var $native = [].indexOf;
+	var NEGATIVE_ZERO = !!$native && 1 / [1].indexOf(1, -0) < 0;
+
+	_export(_export.P + _export.F * (NEGATIVE_ZERO || !_strictMethod($native)), 'Array', {
+	  // 22.1.3.11 / 15.4.4.14 Array.prototype.indexOf(searchElement [, fromIndex])
+	  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
+	    return NEGATIVE_ZERO
+	      // convert -0 to +0
+	      ? $native.apply(this, arguments) || 0
+	      : $indexOf(this, searchElement, arguments[1]);
+	  }
+	});
+
 	var $sort = [].sort;
 	var test = [1, 2, 3];
 
@@ -1521,9 +1535,9 @@
 	      div.transition().style("opacity", .9);
 	      div.html("<b>" + i18next.t(sourceName, {
 	        ns: "modes"
-	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + i18next.t(d.target.name, {
+	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + i18next.t(d.target.name, {
 	        ns: "modes"
-	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {
+	      }) + ": </b></td>" + "<td style='padding: 5px 10px 5px 5px;'>" + settings.formatNum()(d.value) + " " + i18next.t("units", {
 	        ns: "modes_sankey"
 	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + tooltipShiftX + "px").style("top", d3.event.pageY + "px");
 	    }).on("mouseout", function (d) {
@@ -1544,12 +1558,15 @@
 	    //     .on("drag", dragmove));
 
 	    node.on("mousemove", function (d) {
-	      div.transition().style("opacity", .9);
-	      div.html("<b>" + i18next.t(d.name, {
+	      var modeName = d.name.indexOf("other") !== -1 ? "".concat(i18next.t(d.name, {
 	        ns: "modes"
-	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {
+	      }), "<sup>1</sup>") : i18next.t(d.name, {
+	        ns: "modes"
+	      });
+	      div.transition().style("opacity", .9);
+	      div.html("<b>".concat(modeName, "</b><br><br>\n                <table>\n                  <tr>\n                    <td><b> Total: </b></td>\n                    <td style='padding: 5px 10px 5px 5px;'> ").concat(settings.formatNum()(d.value), " ").concat(i18next.t("units", {
 	        ns: "modes_sankey"
-	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + tooltipShiftX + "px").style("top", d3.event.pageY + "px");
+	      }), " </td>\n                    </tr>\n              </table>")).style("left", d3.event.pageX + tooltipShiftX + "px").style("top", d3.event.pageY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
 	    }); // add the rectangles for the nodes
@@ -1588,19 +1605,24 @@
 	      });
 	    }).filter(function (d) {
 	      return d.x < innerWidth / 2;
-	    }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200); // footnote
-
-	    addFootnote("USres_other");
-	    addFootnote("cdnFromUS_other");
-
-	    function addFootnote(name) {
-	      if (d3.select(".".concat(name))) {
-	        d3.select(".".concat(name)).select("text").text(i18next.t("Other", {
-	          ns: "modes"
-	        })).append("tspan").text("1") // .html('<a href= "http://google.com">' + 1 + "</a>")
-	        .style("font-size", "9px").attr("dx", ".01em").attr("dy", "-.3em");
-	      }
-	    } // the function for moving the nodes
+	    }).attr("x", 6 + sankey.nodeWidth()).attr("text-anchor", "start").call(wrap, 200); // // footnote
+	    // addFootnote("USres_other");
+	    // addFootnote("cdnFromUS_other");
+	    //
+	    // function addFootnote(name) {
+	    //   if (d3.select(`.${name}`)) {
+	    //     d3.select(`.${name}`)
+	    //         .select("text")
+	    //         .text(i18next.t("Other", {ns: "modes"}))
+	    //         .append("tspan")
+	    //         .text("1")
+	    //         // .html('<a href= "http://google.com">' + 1 + "</a>")
+	    //         .style("font-size", "9px")
+	    //         .attr("dx", ".01em")
+	    //         .attr("dy", "-.3em");
+	    //   }
+	    // }
+	    // the function for moving the nodes
 	    // function dragmove(d) {
 	    //   d3.select(this)
 	    //       .attr("transform",
@@ -1612,7 +1634,6 @@
 	    //   sankey.relayout();
 	    //   link.attr("d", path);
 	    // }
-
 
 	    function wrap(text, width) {
 	      var xcoord = 40;
@@ -1658,20 +1679,6 @@
 	  make();
 	} // end makeSankey()
 
-	var $indexOf = _arrayIncludes(false);
-	var $native = [].indexOf;
-	var NEGATIVE_ZERO = !!$native && 1 / [1].indexOf(1, -0) < 0;
-
-	_export(_export.P + _export.F * (NEGATIVE_ZERO || !_strictMethod($native)), 'Array', {
-	  // 22.1.3.11 / 15.4.4.14 Array.prototype.indexOf(searchElement [, fromIndex])
-	  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
-	    return NEGATIVE_ZERO
-	      // convert -0 to +0
-	      ? $native.apply(this, arguments) || 0
-	      : $indexOf(this, searchElement, arguments[1]);
-	  }
-	});
-
 	var tableSettingsInit = {
 	  tableTitle: i18next.t("alt", {
 	    ns: "modes"
@@ -1702,7 +1709,10 @@
 	      });
 	    },
 	    getText: function getText(d) {
-	      return i18next.t(d.name, {
+	      var footnote = "<sup id='fn1-rf'><a class='fn-lnk' href='#fn1'><span class='wb-inv'>Footnote </span>1</a></sup>";
+	      return d.name.indexOf("other") !== -1 ? "".concat(i18next.t(d.name, {
+	        ns: "modes"
+	      })).concat(footnote) : i18next.t(d.name, {
 	        ns: "modes"
 	      });
 	    }
@@ -2374,6 +2384,7 @@
 	    ns: "modesTable"
 	  });
 	  d3.select("#only-dt-tbl").text(thisTitle);
+	  d3.select("#table-caption").text(thisTitle);
 	} // create year dropdown based on data
 
 

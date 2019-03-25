@@ -16,8 +16,8 @@
 	<!--[if gte IE 9 | !IE ]><!-->
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
 	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
-	<link rel="stylesheet" type="text/css" href="/wet-boew4b/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+	<link rel="stylesheet" href="src/style.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<!--<![endif]-->
 	<!--[if lt IE 9]>
 	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
@@ -162,6 +162,19 @@
 			<form onSubmit="return false;">
 				<div class="row">
 					<div class="col-md-3">
+						<label for="year">Year</label>
+						<select id="year" class="form-control">
+							<option value="2017">2017</option>
+							<option value="2016">2016</option>
+							<option value="2015">2015</option>
+							<option value="2014">2014</option>
+							<option value="2013">2013</option>
+							<option value="2012">2012</option>
+							<option value="2011">2011</option>
+							<option value="2010">2010</option>
+						</select>
+					</div>
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="groups_comm">Select a commodity</label>
 							<select id="commodity" class="form-control">
@@ -193,7 +206,7 @@
 							</select>
 						</div>
 					</div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="groups_dest">Select a destination by geography</label>
               <select id="destGeo" class="form-control">
@@ -214,7 +227,22 @@
 
       <div class="row">
         <div class="dashboard">
-          <div class="col-md-12">
+					<div class="col-md-6"> <!-- first col in main row 1 -->
+						<div> <!-- first row in col 1 -->
+							<h3 id="mapTitleRail">
+							</h3>
+							<div class="map"></div>
+						</div> <!-- /row -->
+
+						<div> <!-- second row in col 1 -->
+
+							<div id="mapColourScale">
+								<svg></svg>
+							</div>
+
+						</div> <!-- /row -->
+				</div> <!-- /first col -->
+          <div class="col-md-6">
             <h3 id="railTitleBarChart"></h3>
             <div class="data raildata"></div>
           </div>
@@ -327,6 +355,7 @@
 <script src="lib/stc_visualization_components/utils.min.js"></script>
 <script src="lib/stc_visualization_components/bar.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
+<script src="lib/d3-canada-map.js"></script>
 <script src="src/bubbleTable.js"></script>
 <script src="src/rail.js"></script>
 
