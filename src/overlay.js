@@ -24,7 +24,8 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
 
     line = overlay.append("line")
         .attr("class", "hoverLine")
-        .style("display", "inline");
+        .style("display", "inline")
+        .style("visibility", "hidden");
   } else {
     rect = overlay.select("rect");
     line = overlay.select("line");
@@ -44,7 +45,7 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
         let d;
 
         if (d0 && d1) {
-          d = xD - chartObj.settings.x.getValue(d0) > d1 - xD ? chartObj.settings.x.getValue(d1) : d0;
+          d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
         } else if (d0) {
           d = d0;
         } else {
@@ -53,12 +54,14 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
 
         line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
         line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
+        line.style("visibility", "visible");
 
         if (onMouseOverCb && typeof onMouseOverCb === "function") {
           onMouseOverCb(d);
         }
       })
       .on("mouseout", function() {
+        line.style("visibility", "hidden");
         if (onMouseOutCb && typeof onMouseOutCb === "function") {
           onMouseOutCb();
         }

@@ -137,6 +137,7 @@ function updateTitles() {
   + ", " + thisMonth + " " + selectedYear + ", " + i18next.t("byType", {ns: "modesTable"});
 
   d3.select("#only-dt-tbl").text(thisTitle);
+  d3.select("#table-caption").text(thisTitle);
 }
 // create year dropdown based on data
 function createDropdown() {
