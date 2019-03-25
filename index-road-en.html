@@ -1,340 +1,318 @@
+
+
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en" dir="ltr">
-<!--<![endif]-->
-
-<head>
-	<meta charset="utf-8">
-	<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
-	wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-	<title>Fuel Sales</title>
-	<meta content="width=device-width,initial-scale=1" name="viewport">
-	<!-- Meta data -->
-	<meta name="description" content="">
-	<!-- Meta data-->
-	<!--[if gte IE 9 | !IE ]><!-->
-	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
-	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
-	<link rel="stylesheet" href="src/style.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<!--<![endif]-->
-	<!--[if lt IE 9]>
-	<link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
-	<link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/ie8-theme.min.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/ie8-wet-boew.min.js"></script>
-	<![endif]-->
-	<!--[if lte IE 9]>-->
-	<!--<![endif]--><noscript><link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/css/noscript.min.css" /></noscript>
-</head>
-
-<script>dataLayer1 = [];</script>
-<!-- CustomScriptsCSSStart -->
-<link rel="stylesheet" href="src/style.css">
-<style>
-.legend li{
-	list-style:none;
-	}
-.alert, .wetlabel {
-    border-radius: 0;
-    border-style: solid;
-    border-width: 0 0 0 4px;
-}
-.wetlabel {
-    display: inline;
-    padding: .2em .6em .3em;
-    font-size: 75%;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-}
-</style>
-<!-- CustomScriptsCSSEnd -->
-</head>
-
-<body vocab="http://schema.org/" typeof="WebPage">
-
-
-﻿<ul id="wb-tphp">
-<li class="wb-slc">
-<a class="wb-sl" href="#wb-cont">Skip to main content</a>
-</li>
-<li class="wb-slc visible-sm visible-md visible-lg">
-<a class="wb-sl" href="#wb-info">Skip to "About this site"</a>
-</li>
-</ul>
-<header role="banner">
-<div id="wb-bnr" class="container">
-<section id="wb-lng" class="visible-md visible-lg text-right">
-<h2 class="wb-inv">Language selection</h2>
-<div class="row">
-<div class="col-md-12">
-<ul class="list-inline margin-bottom-none">
-<li><a lang="fr" href="index-fr.html">Fran&#231;ais</a></li>
-</ul>
-</div>
-</div>
-</section>
-<div class="row">
-<div class="brand col-xs-8 col-sm-9 col-md-6">
-<!-- <a href="https://www.statcan.gc.ca/eng/start"><img src="/wet-boew4b/assets/sig-blk-en.svg" alt="Symbol of Statistics Canada"><span class="wb-inv">Government of Canada, Statistics Canada</span></a> -->
-</div>
-<section class="wb-mb-links col-xs-4 col-sm-3 visible-sm visible-xs" id="wb-glb-mn">
-<h2>Search and menus</h2>
-<ul class="list-inline text-right chvrn">
-<li><a href="#mb-pnl" title="Search and menus" aria-controls="mb-pnl" class="overlay-lnk" role="button"><span class="glyphicon glyphicon-search"><span class="glyphicon glyphicon-th-list"><span class="wb-inv">Search and menus</span></span></span></a></li>
-</ul>
-<div id="mb-pnl"></div>
-</section>
-
-<section id="wb-srch" class="col-xs-6 text-right visible-md visible-lg">
-<h2 class="wb-inv">Search</h2>
-<form action="https://www120.statcan.gc.ca/stcsr/en/sr1/srs" method="get" name="cse-search-box" role="search" class="form-inline">
-<div class="form-group">
-<label for="wb-srch-q" class="wb-inv">Search website</label>
-<input type="hidden" name="fq" value="stclac:2" />
-<input id="wb-srch-q" list="wb-srch-q-ac" class="wb-srch-q form-control" name="q" type="search" value="" size="27" maxlength="150" placeholder="Search website">
-<datalist id="wb-srch-q-ac">
-<!--[if lte IE 9]><select><![endif]-->
-<!--[if lte IE 9]></select><![endif]-->
-</datalist>
-</div>
-<div class="form-group submit">
-<button type="submit" id="wb-srch-sub" class="btn btn-primary btn-small" name="wb-srch-sub"><span class="glyphicon-search glyphicon"></span><span class="wb-inv">Search</span></button>
-</div>
-</form>
-</section>
-</div>
-</div>
-
-<nav role="navigation" id="wb-sm" data-ajax-replace="https://wet-boew.github.io/themes-dist/GCWeb/ajax/sitemenu-en.html" data-trgt="mb-pnl" class="wb-menu visible-md visible-lg" typeof="SiteNavigationElement">
-	<div class="container nvbar">
-		<h2 class="wb-inv">Topics menu</h2>
-		<div class="row">
-			<ul class="list-inline menu">
-				<li><a href="https://www150.statcan.gc.ca/n1/en/subjects?MM=1">Subjects</a></li>
-				<li><a href="https://www150.statcan.gc.ca/n1/en/type/data?MM=1">Data</a></li>
-				<li><a href="https://www150.statcan.gc.ca/n1/en/type/analysis?MM=1">Analysis</a></li>
-				<li><a href="https://www150.statcan.gc.ca/n1/en/type/reference?MM=1">Reference</a></li>
-				<li><a href="https://www150.statcan.gc.ca/n1/en/geo?MM=1">Geography</a></li>
-				<li><a href="https://www12.statcan.gc.ca/census-recensement/index-eng.cfm?MM=1">Census program</a></li>
-				<li><a href="#">Surveys and statistical programs</a></li>
-				<li><a href="https://www.statcan.gc.ca/eng/about/statcan?MM=1">About StatCan</a></li>
-				<li><a href="https://www.canada.ca/en.html">Canada.ca</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-<nav role="navigation" id="wb-bc" class="" property="breadcrumb">
-	<div class="container">
-		<div class="row">
-
-<!-- Breadcrumb trail -->
-<ol class="breadcrumb">
-	<li><a href="http://www.statcan.gc.ca/eng/start">Home</a></li>
-	<li><a href="/census-recensement/index-eng.cfm">Census Program</a></li>
-    <li><a href="/census-recensement/2016/dp-pd/index-eng.cfm">Data products, 2016 Census</a></li>
-	<li>Sales of fuel used for road motor vehicles, annual</li>
-</ol>
-
-﻿</div>
-</div>
-</nav>
-</header>
-
-<main role="main" property="mainContentOfPage" class="container">
-
-<div class="scatter">
-<h1 property="name" id="wb-cont">Sales of fuel used for road motor vehicles, annual</h1>
-
-<!--startindex-->
-<div class="row mrgn-bttm-sm">
-
-</div>
-
-		<form onSubmit="return false;">
-			<div class="row">
-				<div class="col-md-6">
-					<label for="year">Year</label>
-					<select id="year" class="form-control">
-						<option value="2017">2017</option>
-						<option value="2016">2016</option>
-						<option value="2015">2015</option>
-						<option value="2014">2014</option>
-						<option value="2013">2013</option>
-						<option value="2012">2012</option>
-						<option value="2011">2011</option>
-						<option value="2010">2010</option>
-					</select>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="groups">Select a province or territory</label>
-						<select id="groups" class="form-control">
-							<option value="CANADA">Canada</option>
-							<option value="NL">Newfoundland and Labrador</option>
-							<option value="PE">Prince Edward Island</option>
-							<option value="NS">Nova Scotia</option>
-							<option value="NB">New Brunswick</option>
-							<option value="QC">Quebec</option>
-							<option value="ON">Ontario</option>
-							<option value="MB">Manitoba</option>
-							<option value="SK">Saskatchewan</option>
-							<option value="AB">Alberta</option>
-							<option value="BC">British Columbia</option>
-							<option value="YT">Yukon</option>
-							<option value="NT">Northwest Territories</option>
-							<option value="NU">Nunavut</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</form>
-
-    <div class="wb-inv wb-show-onfocus wb-sl">Changing any selection will automatically update the page content. These changes are reflected in the <a href="#chrt-dt-tbl">data table</a> as well.</div>
-
-		<div class="row"> <!--container row-->
-      <div class="row"> <!-- main row 1 -->
-        <div class="dashboard">
-
-	        <div class="col-md-6"> <!-- first col in main row 1 -->
-	            <div> <!-- first row in col 1 -->
-	              	<h3 id="mapTitleRoad">
-
-	              	</h3>
-	              	<div class="map"></div>
-	            </div> <!-- /row -->
-
-	            <div> <!-- second row in col 1 -->
-	              	<div id="mapColourScale">
-	                	<svg></svg>
-	              	</div>
-	            </div> <!-- /row -->
-	        </div> <!-- /first col -->
-
-	        <div class="col-md-6"> <!-- second col in main row 1 -->
-	            <h3 id="areaTitleRoad">
-	           	</h3>
-	           	<div id="annualTimeseries">
-	      			<div class="data fueldata"></div>
-	      		</div>
-
-	      		<div> <!-- second row in col 2 -->
-	              	<div id="areaLegend">
-	                	<svg></svg>
-	              	</div>
-	            </div> <!-- /row -->
-	      	</div> <!-- second col -->
-
-        </div> <!-- dashboard -->
-     </div> <!-- main row 1 -->
-
-    <div class="row"> <!-- main row 2 -->
-        <div class="fueldata">
-          	<div id="areaTable">
-        </div>
-    </div> <!-- main row 2 -->
-
-<!-- End chart -->
-			</div>
-	</div><!-- End container row -->
-
-<!--stopindex-->
-
-﻿<div class="row pagedetails">
-	<div class="col-sm-6 col-lg-4 mrgn-tp-sm">
-		<a href="https://www.canada.ca/en/report-problem.html" class="btn btn-default btn-block">Report a problem or mistake on this page</a>
-	</div>
-	<div class="col-sm-3 text-right pull-right mrgn-tp-sm">
-		<div class="wb-share" data-wb-share='{"filter": ["email", "facebook","twitter","linkedin","googleplus","reddit","tumblr"], "pnlId": "pnl6", "lnkClass": "btn btn-default btn-block"}'></div>
-	</div>
-	<div class="datemod col-xs-12 mrgn-tp-lg">
-		<dl id="wb-dtmd">
-			<dt>Date modified:&#32;</dt>
-			<dd>
-				<time property="dateModified">
-  2018-11-22
-﻿				</time>
-			</dd>
-		</dl>
-	</div>
-</div>
-</main>
-
-<footer role="contentinfo" id="wb-info">
-	<nav role="navigation" class="container wb-navcurr">
-		<h2 class="wb-inv">About government</h2>
-		<ul class="list-unstyled colcount-sm-2 colcount-md-3">
-			<li><a href="https://www.statcan.gc.ca/eng/reference/refcentre/index?MM=1">Contact us</a></li>
-			<li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
-			<li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
-			<li><a href="https://www.canada.ca/en/news.html">News</a></li>
-			<li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
-			<li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
-			<li><a href="http://pm.gc.ca/eng">Prime Minister</a></li>
-			<li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
-			<li><a href="http://open.canada.ca/en/">Open government</a></li>
-		</ul>
-	</nav>
-	<div class="brand">
-		<div class="container">
-			<div class="row">
-				<nav class="col-md-10 ftr-urlt-lnk">
-					<h2 class="wb-inv">About this site</h2>
-					<ul>
-						<li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
-						<li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
-						<li><a href="https://www.canada.ca/en/government/about.html">About Canada.ca</a></li>
-						<li><a href="https://www.statcan.gc.ca/eng/reference/important-notices?MM=1">Terms and conditions</a></li>
-						<li><a href="https://www.statcan.gc.ca/eng/reference/privacy?MM=1">Privacy</a></li>
-					</ul>
-				</nav>
-				<div class="col-xs-6 visible-sm visible-xs tofpg">
-					<a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
-				</div>
-				<div class="col-xs-6 col-md-2 text-right">
-					<!-- <img src="/wet-boew4b/assets/wmms-blk.svg" alt="Symbol of the Government of Canada"><span class="wb-inv">Government of Canada</span> -->
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
-
-<!--[if gte IE 9 | !IE ]><!-->
-<!--<script src="https://cdn.jsdelivr.net/combine/npm/jquery@2.1.4/dist/jquery.min.js,npm/i18next@7.1.3/i18next.min.js,npm/d3@4.7.4"></script>-->
-<script src="lib/i18next.min.js">
-<!-- map -->
-<script src="lib/d3-geo.v1.min.js"></script>
-<script src="lib/d3-geo-projection.v2.min.js"></script>
-<script src="https://d3js.org/topojson.v2.min.js" charset="utf-8"></script>
-
-
-<!--OFFLINE-->
-<script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/wet-boew.min.js"></script>
-<!-- <script src="wet-boew.min.js"></script> -->
-
-
-
-<!-->
-<!--<![endif]-->
 <!--[if lt IE 9]>
-<script src="lib/wet-boew/js/ie8-wet-boew2.min.js"></script>
-<![endif]-->
+<html class="no-js lt-ie9" lang="en" dir="ltr">
+   <![endif]-->
+   <!--[if gt IE 8]><!-->
+   <html class="no-js" lang="en" dir="ltr">
+      <!--<![endif]-->
+      <head>
+         <meta charset="utf-8">
+         <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
+            wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
+         <title>Fuel Sales</title>
+         <meta content="width=device-width,initial-scale=1" name="viewport">
+         <!-- Meta data -->
+         <meta name="description" content="">
+         <!-- Meta data-->
+         <!--[if gte IE 9 | !IE ]><!-->
+         <link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
+         <link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/theme.min.css">
+         <link rel="stylesheet" href="src/style.css">
+         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+         <!--<![endif]-->
+         <!--[if lt IE 9]>
+         <link href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
+         <link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/GCWeb/css/ie8-theme.min.css" />
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+         <script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/ie8-wet-boew.min.js"></script>
+         <![endif]-->
+         <!--[if lte IE 9]>-->
+         <!--<![endif]-->
+         <noscript>
+            <link rel="stylesheet" href="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/css/noscript.min.css" />
+         </noscript>
+      </head>
+      <script>dataLayer1 = [];</script>
+      <!-- CustomScriptsCSSStart -->
+      <link rel="stylesheet" href="src/style.css">
+      <style>
+         .legend li{
+         list-style:none;
+         }
+         .alert, .wetlabel {
+         border-radius: 0;
+         border-style: solid;
+         border-width: 0 0 0 4px;
+         }
+         .wetlabel {
+         display: inline;
+         padding: .2em .6em .3em;
+         font-size: 75%;
+         font-weight: 700;
+         line-height: 1;
+         text-align: center;
+         white-space: nowrap;
+         vertical-align: baseline;
+         }
+      </style>
+      <!-- CustomScriptsCSSEnd -->
+      </head>
+      <body vocab="http://schema.org/" typeof="WebPage">
+         ﻿
+         <ul id="wb-tphp">
+            <li class="wb-slc">
+               <a class="wb-sl" href="#wb-cont">Skip to main content</a>
+            </li>
+            <li class="wb-slc visible-sm visible-md visible-lg">
+               <a class="wb-sl" href="#wb-info">Skip to "About this site"</a>
+            </li>
+         </ul>
+         <header role="banner">
+            <div id="wb-bnr" class="container">
+               <section id="wb-lng" class="visible-md visible-lg text-right">
+                  <h2 class="wb-inv">Language selection</h2>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <ul class="list-inline margin-bottom-none">
+                           <li><a lang="fr" href="index-fr.html">Fran&#231;ais</a></li>
+                        </ul>
+                     </div>
+                  </div>
+               </section>
+               <div class="row">
+                  <div class="brand col-xs-8 col-sm-9 col-md-6">
+                     <!-- <a href="https://www.statcan.gc.ca/eng/start"><img src="/wet-boew4b/assets/sig-blk-en.svg" alt="Symbol of Statistics Canada"><span class="wb-inv">Government of Canada, Statistics Canada</span></a> -->
+                  </div>
+                  <section class="wb-mb-links col-xs-4 col-sm-3 visible-sm visible-xs" id="wb-glb-mn">
+                     <h2>Search and menus</h2>
+                     <ul class="list-inline text-right chvrn">
+                        <li><a href="#mb-pnl" title="Search and menus" aria-controls="mb-pnl" class="overlay-lnk" role="button"><span class="glyphicon glyphicon-search"><span class="glyphicon glyphicon-th-list"><span class="wb-inv">Search and menus</span></span></span></a></li>
+                     </ul>
+                     <div id="mb-pnl"></div>
+                  </section>
+                  <section id="wb-srch" class="col-xs-6 text-right visible-md visible-lg">
+                     <h2 class="wb-inv">Search</h2>
+                     <form action="https://www120.statcan.gc.ca/stcsr/en/sr1/srs" method="get" name="cse-search-box" role="search" class="form-inline">
+                        <div class="form-group">
+                           <label for="wb-srch-q" class="wb-inv">Search website</label>
+                           <input type="hidden" name="fq" value="stclac:2" />
+                           <input id="wb-srch-q" list="wb-srch-q-ac" class="wb-srch-q form-control" name="q" type="search" value="" size="27" maxlength="150" placeholder="Search website">
+                           <datalist id="wb-srch-q-ac">
+                              <!--[if lte IE 9]>
+                              <select>
+                                 <![endif]-->
+                                 <!--[if lte IE 9]>
+                              </select>
+                              <![endif]-->
+                           </datalist>
+                        </div>
+                        <div class="form-group submit">
+                           <button type="submit" id="wb-srch-sub" class="btn btn-primary btn-small" name="wb-srch-sub"><span class="glyphicon-search glyphicon"></span><span class="wb-inv">Search</span></button>
+                        </div>
+                     </form>
+                  </section>
+               </div>
+            </div>
+            <nav role="navigation" id="wb-sm" data-ajax-replace="https://wet-boew.github.io/themes-dist/GCWeb/ajax/sitemenu-en.html" data-trgt="mb-pnl" class="wb-menu visible-md visible-lg" typeof="SiteNavigationElement">
+               <div class="container nvbar">
+                  <h2 class="wb-inv">Topics menu</h2>
+                  <div class="row">
+                     <ul class="list-inline menu">
+                        <li><a href="https://www150.statcan.gc.ca/n1/en/subjects?MM=1">Subjects</a></li>
+                        <li><a href="https://www150.statcan.gc.ca/n1/en/type/data?MM=1">Data</a></li>
+                        <li><a href="https://www150.statcan.gc.ca/n1/en/type/analysis?MM=1">Analysis</a></li>
+                        <li><a href="https://www150.statcan.gc.ca/n1/en/type/reference?MM=1">Reference</a></li>
+                        <li><a href="https://www150.statcan.gc.ca/n1/en/geo?MM=1">Geography</a></li>
+                        <li><a href="https://www12.statcan.gc.ca/census-recensement/index-eng.cfm?MM=1">Census program</a></li>
+                        <li><a href="#">Surveys and statistical programs</a></li>
+                        <li><a href="https://www.statcan.gc.ca/eng/about/statcan?MM=1">About StatCan</a></li>
+                        <li><a href="https://www.canada.ca/en.html">Canada.ca</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </nav>
+            <nav role="navigation" id="wb-bc" class="" property="breadcrumb">
+               <div class="container">
+                  <div class="row">
+                     <!-- Breadcrumb trail -->
+                     <ol class="breadcrumb">
+                        <li><a href="http://www.statcan.gc.ca/eng/start">Home</a></li>
+                        <li><a href="/census-recensement/index-eng.cfm">Census Program</a></li>
+                        <li><a href="/census-recensement/2016/dp-pd/index-eng.cfm">Data products, 2016 Census</a></li>
+                        <li>Sales of fuel used for road motor vehicles, annual</li>
+                     </ol>
+                     ﻿
+                  </div>
+               </div>
+            </nav>
+         </header>
+         <main role="main" property="mainContentOfPage" class="container">
+            <div class="scatter">
+            <h1 property="name" id="wb-cont">Sales of fuel used for road motor vehicles, annual</h1>
+            <!--startindex-->
+            <div class="row mrgn-bttm-sm">
+            </div>
+            <form onSubmit="return false;">
+               <div class="row">
+                  <div class="col-md-6">
+                     <label for="year">Year</label>
+                     <select id="year" class="form-control">
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        <option value="2012">2012</option>
+                        <option value="2011">2011</option>
+                        <option value="2010">2010</option>
+                     </select>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label for="groups">Select a province or territory</label>
+                        <select id="groups" class="form-control">
+                           <option value="CANADA">Canada</option>
+                           <option value="NL">Newfoundland and Labrador</option>
+                           <option value="PE">Prince Edward Island</option>
+                           <option value="NS">Nova Scotia</option>
+                           <option value="NB">New Brunswick</option>
+                           <option value="QC">Quebec</option>
+                           <option value="ON">Ontario</option>
+                           <option value="MB">Manitoba</option>
+                           <option value="SK">Saskatchewan</option>
+                           <option value="AB">Alberta</option>
+                           <option value="BC">British Columbia</option>
+                           <option value="YT">Yukon</option>
+                           <option value="NT">Northwest Territories</option>
+                           <option value="NU">Nunavut</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+            </form>
+            <div class="wb-inv wb-show-onfocus wb-sl">Changing any selection will automatically update the page content. These changes are reflected in the <a href="#chrt-dt-tbl">data table</a> as well.</div>
+            <div class="row">
+               <!--container row-->
+               <div class="row">                  
+                  <div class="dashboard">
+                     <div class="col-md-6">                        
+                        <div>                           
+                           <h3 id="mapTitleRoad">
+                           </h3>
+                           <div class="map"></div>
+                        </div>                        
+                        <div>                          
+                           <div id="mapColourScale">
+                              <svg></svg>
+                           </div>
+                        </div>                        
+                     </div>                     
+                     <div class="col-md-6">                       
+                        <h3 id="areaTitleRoad">
+                        </h3>
+                        <div id="annualTimeseries">
+                           <div class="data fueldata"></div>
+                        </div>
+                        <div>
+                           <div id="areaLegend">
+                              <svg></svg>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+     
+               <div class="row">
+                  <!-- main row 2 -->
+                  <div class="fueldata">
+                     <div id="areaTable"></div>
+                  </div>
+               </div>
+            </div>
+            ﻿
+            <div class="row pagedetails">
+               <div class="col-sm-6 col-lg-4 mrgn-tp-sm">
+                  <a href="https://www.canada.ca/en/report-problem.html" class="btn btn-default btn-block">Report a problem or mistake on this page</a>
+               </div>
+               <div class="col-sm-3 text-right pull-right mrgn-tp-sm">
+                  <div class="wb-share" data-wb-share='{"filter": ["email", "facebook","twitter","linkedin","googleplus","reddit","tumblr"], "pnlId": "pnl6", "lnkClass": "btn btn-default btn-block"}'></div>
+               </div>
+               <div class="datemod col-xs-12 mrgn-tp-lg">
+                  <dl id="wb-dtmd">
+                     <dt>Date modified:&#32;</dt>
+                     <dd>
+                        <time property="dateModified">
+                        2018-11-22
+                        ﻿				</time>
+                     </dd>
+                  </dl>
+               </div>
+            </div>
+         </main>
+         <footer role="contentinfo" id="wb-info">
+            <nav role="navigation" class="container wb-navcurr">
+               <h2 class="wb-inv">About government</h2>
+               <ul class="list-unstyled colcount-sm-2 colcount-md-3">
+                  <li><a href="https://www.statcan.gc.ca/eng/reference/refcentre/index?MM=1">Contact us</a></li>
+                  <li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
+                  <li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
+                  <li><a href="https://www.canada.ca/en/news.html">News</a></li>
+                  <li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
+                  <li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
+                  <li><a href="http://pm.gc.ca/eng">Prime Minister</a></li>
+                  <li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
+                  <li><a href="http://open.canada.ca/en/">Open government</a></li>
+               </ul>
+            </nav>
+            <div class="brand">
+               <div class="container">
+                  <div class="row">
+                     <nav class="col-md-10 ftr-urlt-lnk">
+                        <h2 class="wb-inv">About this site</h2>
+                        <ul>
+                           <li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
+                           <li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
+                           <li><a href="https://www.canada.ca/en/government/about.html">About Canada.ca</a></li>
+                           <li><a href="https://www.statcan.gc.ca/eng/reference/important-notices?MM=1">Terms and conditions</a></li>
+                           <li><a href="https://www.statcan.gc.ca/eng/reference/privacy?MM=1">Privacy</a></li>
+                        </ul>
+                     </nav>
+                     <div class="col-xs-6 visible-sm visible-xs tofpg">
+                        <a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
+                     </div>
+                     <div class="col-xs-6 col-md-2 text-right">
+                        <!-- <img src="/wet-boew4b/assets/wmms-blk.svg" alt="Symbol of the Government of Canada"><span class="wb-inv">Government of Canada</span> -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </footer>
+         <!--[if gte IE 9 | !IE ]><!-->
+         <!--<script src="https://cdn.jsdelivr.net/combine/npm/jquery@2.1.4/dist/jquery.min.js,npm/i18next@7.1.3/i18next.min.js,npm/d3@4.7.4"></script>-->
+         <script src="lib/i18next.min.js">
+            <!-- map -->
+            <script src="lib/d3-geo.v1.min.js">
+         </script>
+         <script src="lib/d3-geo-projection.v2.min.js"></script>
+         <script src="https://d3js.org/topojson.v2.min.js" charset="utf-8"></script>
+         <!--OFFLINE-->
+         <script src="https://wet-boew.github.io/themes-dist/GCWeb/wet-boew/js/wet-boew.min.js"></script>
+         <!-->
+         <!-- <script src="wet-boew.min.js"></script> -->
+         <!--<![endif]-->
+         <!--[if lt IE 9]>
+         <script src="lib/wet-boew/js/ie8-wet-boew2.min.js"></script>
+         <![endif]-->
+         <!--<script type="text/javascript">_satellite.pageBottom();</script>-->
+         <!-- CustomScriptsJSStart -->
+         <script src="lib/stc_visualization_components/utils.min.js"></script>
+         <script src="lib/stc_visualization_components/area.js"></script>
+         <script src="lib/d3-canada-map.js"></script>
+         <script src="lib/statcan_sgc/sgc.min.js"></script>
+         <script src="src/road.js"></script>
+         <!-- CustomScriptsJSEnd -->
+      </body>
+   </html>
 
-<!--<script type="text/javascript">_satellite.pageBottom();</script>-->
-
-<!-- CustomScriptsJSStart -->
-	<script src="lib/stc_visualization_components/utils.min.js"></script>
-	<script src="lib/stc_visualization_components/area.js"></script>
-	<script src="lib/d3-canada-map.js"></script>
-	<script src="lib/statcan_sgc/sgc.min.js"></script>
-	<script src="src/road.js"></script>
-
-<!-- CustomScriptsJSEnd -->
-
-</body>
-</html>

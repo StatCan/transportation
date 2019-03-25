@@ -703,19 +703,117 @@
 	  ];
 	});
 
-	// 22.1.3.31 Array.prototype[@@unscopables]
-	var UNSCOPABLES = _wks('unscopables');
-	var ArrayProto = Array.prototype;
-	if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
-	var _addToUnscopables = function (key) {
-	  ArrayProto[UNSCOPABLES][key] = true;
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	}
+
+	function _objectSpread(target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i] != null ? arguments[i] : {};
+	    var ownKeys = Object.keys(source);
+
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+	      }));
+	    }
+
+	    ownKeys.forEach(function (key) {
+	      _defineProperty(target, key, source[key]);
+	    });
+	  }
+
+	  return target;
+	}
+
+	var f$1 = {}.propertyIsEnumerable;
+
+	var _objectPie = {
+		f: f$1
 	};
 
-	var _iterStep = function (done, value) {
-	  return { value: value, done: !!done };
+	var gOPD = Object.getOwnPropertyDescriptor;
+
+	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+	  O = _toIobject(O);
+	  P = _toPrimitive(P, true);
+	  if (_ie8DomDefine) try {
+	    return gOPD(O, P);
+	  } catch (e) { /* empty */ }
+	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
 	};
 
-	var _iterators = {};
+	var _objectGopd = {
+		f: f$2
+	};
+
+	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	/* eslint-disable no-proto */
+
+
+	var check = function (O, proto) {
+	  _anObject(O);
+	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+	};
+	var _setProto = {
+	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+	    function (test, buggy, set) {
+	      try {
+	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+	        set(test, []);
+	        buggy = !(test instanceof Array);
+	      } catch (e) { buggy = true; }
+	      return function setPrototypeOf(O, proto) {
+	        check(O, proto);
+	        if (buggy) O.__proto__ = proto;
+	        else set(O, proto);
+	        return O;
+	      };
+	    }({}, false) : undefined),
+	  check: check
+	};
+
+	var setPrototypeOf = _setProto.set;
+	var _inheritIfRequired = function (that, target, C) {
+	  var S = target.constructor;
+	  var P;
+	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+	    setPrototypeOf(that, P);
+	  } return that;
+	};
 
 	var shared = _shared('keys');
 
@@ -743,6 +841,48 @@
 	var _enumBugKeys = (
 	  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 	).split(',');
+
+	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+	  return _objectKeysInternal(O, hiddenKeys);
+	};
+
+	var _objectGopn = {
+		f: f$3
+	};
+
+	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var space = '[' + _stringWs + ']';
+	var non = '\u200b\u0085';
+	var ltrim = RegExp('^' + space + space + '*');
+	var rtrim = RegExp(space + space + '*$');
+
+	var exporter = function (KEY, exec, ALIAS) {
+	  var exp = {};
+	  var FORCE = _fails(function () {
+	    return !!_stringWs[KEY]() || non[KEY]() != non;
+	  });
+	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+	  if (ALIAS) exp[ALIAS] = fn;
+	  _export(_export.P + _export.F * FORCE, 'String', exp);
+	};
+
+	// 1 -> String#trimLeft
+	// 2 -> String#trimRight
+	// 3 -> String#trim
+	var trim = exporter.trim = function (string, TYPE) {
+	  string = String(_defined(string));
+	  if (TYPE & 1) string = string.replace(ltrim, '');
+	  if (TYPE & 2) string = string.replace(rtrim, '');
+	  return string;
+	};
+
+	var _stringTrim = exporter;
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
 
@@ -806,6 +946,83 @@
 	  } else result = createDict();
 	  return Properties === undefined ? result : _objectDps(result, Properties);
 	};
+
+	var gOPN = _objectGopn.f;
+	var gOPD$1 = _objectGopd.f;
+	var dP$1 = _objectDp.f;
+	var $trim = _stringTrim.trim;
+	var NUMBER = 'Number';
+	var $Number = _global[NUMBER];
+	var Base = $Number;
+	var proto = $Number.prototype;
+	// Opera ~12 has broken Object#toString
+	var BROKEN_COF = _cof(_objectCreate(proto)) == NUMBER;
+	var TRIM = 'trim' in String.prototype;
+
+	// 7.1.3 ToNumber(argument)
+	var toNumber = function (argument) {
+	  var it = _toPrimitive(argument, false);
+	  if (typeof it == 'string' && it.length > 2) {
+	    it = TRIM ? it.trim() : $trim(it, 3);
+	    var first = it.charCodeAt(0);
+	    var third, radix, maxCode;
+	    if (first === 43 || first === 45) {
+	      third = it.charCodeAt(2);
+	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+	    } else if (first === 48) {
+	      switch (it.charCodeAt(1)) {
+	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+	        default: return +it;
+	      }
+	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+	        code = digits.charCodeAt(i);
+	        // parseInt parses a string to a first unavailable symbol
+	        // but ToNumber should return NaN if a string contains unavailable symbols
+	        if (code < 48 || code > maxCode) return NaN;
+	      } return parseInt(digits, radix);
+	    }
+	  } return +it;
+	};
+
+	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+	  $Number = function Number(value) {
+	    var it = arguments.length < 1 ? 0 : value;
+	    var that = this;
+	    return that instanceof $Number
+	      // check on 1..constructor(foo) case
+	      && (BROKEN_COF ? _fails(function () { proto.valueOf.call(that); }) : _cof(that) != NUMBER)
+	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+	  };
+	  for (var keys = _descriptors ? gOPN(Base) : (
+	    // ES3:
+	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+	    // ES6 (in case, if modules with ES6 Number statics required before):
+	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+	  ).split(','), j = 0, key; keys.length > j; j++) {
+	    if (_has(Base, key = keys[j]) && !_has($Number, key)) {
+	      dP$1($Number, key, gOPD$1(Base, key));
+	    }
+	  }
+	  $Number.prototype = proto;
+	  proto.constructor = $Number;
+	  _redefine(_global, NUMBER, $Number);
+	}
+
+	// 22.1.3.31 Array.prototype[@@unscopables]
+	var UNSCOPABLES = _wks('unscopables');
+	var ArrayProto = Array.prototype;
+	if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
+	var _addToUnscopables = function (key) {
+	  ArrayProto[UNSCOPABLES][key] = true;
+	};
+
+	var _iterStep = function (done, value) {
+	  return { value: value, done: !!done };
+	};
+
+	var _iterators = {};
 
 	var def = _objectDp.f;
 
@@ -977,13 +1194,13 @@
 	  var NAME = collections[i];
 	  var explicit = DOMIterables[NAME];
 	  var Collection = _global[NAME];
-	  var proto = Collection && Collection.prototype;
-	  var key;
-	  if (proto) {
-	    if (!proto[ITERATOR$1]) _hide(proto, ITERATOR$1, ArrayValues);
-	    if (!proto[TO_STRING_TAG]) _hide(proto, TO_STRING_TAG, NAME);
+	  var proto$1 = Collection && Collection.prototype;
+	  var key$1;
+	  if (proto$1) {
+	    if (!proto$1[ITERATOR$1]) _hide(proto$1, ITERATOR$1, ArrayValues);
+	    if (!proto$1[TO_STRING_TAG]) _hide(proto$1, TO_STRING_TAG, NAME);
 	    _iterators[NAME] = ArrayValues;
-	    if (explicit) for (key in es6_array_iterator) if (!proto[key]) _redefine(proto, key, es6_array_iterator[key], true);
+	    if (explicit) for (key$1 in es6_array_iterator) if (!proto$1[key$1]) _redefine(proto$1, key$1, es6_array_iterator[key$1], true);
 	  }
 	}
 
@@ -1090,168 +1307,7 @@
 	  }
 	});
 
-	var f$1 = {}.propertyIsEnumerable;
-
-	var _objectPie = {
-		f: f$1
-	};
-
-	var gOPD = Object.getOwnPropertyDescriptor;
-
-	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
-	  O = _toIobject(O);
-	  P = _toPrimitive(P, true);
-	  if (_ie8DomDefine) try {
-	    return gOPD(O, P);
-	  } catch (e) { /* empty */ }
-	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
-	};
-
-	var _objectGopd = {
-		f: f$2
-	};
-
-	// Works with __proto__ only. Old v8 can't work with null proto objects.
-	/* eslint-disable no-proto */
-
-
-	var check = function (O, proto) {
-	  _anObject(O);
-	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-	};
-	var _setProto = {
-	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-	    function (test, buggy, set) {
-	      try {
-	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
-	        set(test, []);
-	        buggy = !(test instanceof Array);
-	      } catch (e) { buggy = true; }
-	      return function setPrototypeOf(O, proto) {
-	        check(O, proto);
-	        if (buggy) O.__proto__ = proto;
-	        else set(O, proto);
-	        return O;
-	      };
-	    }({}, false) : undefined),
-	  check: check
-	};
-
-	var setPrototypeOf = _setProto.set;
-	var _inheritIfRequired = function (that, target, C) {
-	  var S = target.constructor;
-	  var P;
-	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
-	    setPrototypeOf(that, P);
-	  } return that;
-	};
-
-	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-
-	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
-
-	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-	  return _objectKeysInternal(O, hiddenKeys);
-	};
-
-	var _objectGopn = {
-		f: f$3
-	};
-
-	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-	var space = '[' + _stringWs + ']';
-	var non = '\u200b\u0085';
-	var ltrim = RegExp('^' + space + space + '*');
-	var rtrim = RegExp(space + space + '*$');
-
-	var exporter = function (KEY, exec, ALIAS) {
-	  var exp = {};
-	  var FORCE = _fails(function () {
-	    return !!_stringWs[KEY]() || non[KEY]() != non;
-	  });
-	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
-	  if (ALIAS) exp[ALIAS] = fn;
-	  _export(_export.P + _export.F * FORCE, 'String', exp);
-	};
-
-	// 1 -> String#trimLeft
-	// 2 -> String#trimRight
-	// 3 -> String#trim
-	var trim = exporter.trim = function (string, TYPE) {
-	  string = String(_defined(string));
-	  if (TYPE & 1) string = string.replace(ltrim, '');
-	  if (TYPE & 2) string = string.replace(rtrim, '');
-	  return string;
-	};
-
-	var _stringTrim = exporter;
-
-	var gOPN = _objectGopn.f;
-	var gOPD$1 = _objectGopd.f;
-	var dP$1 = _objectDp.f;
-	var $trim = _stringTrim.trim;
-	var NUMBER = 'Number';
-	var $Number = _global[NUMBER];
-	var Base = $Number;
-	var proto$1 = $Number.prototype;
-	// Opera ~12 has broken Object#toString
-	var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
-	var TRIM = 'trim' in String.prototype;
-
-	// 7.1.3 ToNumber(argument)
-	var toNumber = function (argument) {
-	  var it = _toPrimitive(argument, false);
-	  if (typeof it == 'string' && it.length > 2) {
-	    it = TRIM ? it.trim() : $trim(it, 3);
-	    var first = it.charCodeAt(0);
-	    var third, radix, maxCode;
-	    if (first === 43 || first === 45) {
-	      third = it.charCodeAt(2);
-	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
-	    } else if (first === 48) {
-	      switch (it.charCodeAt(1)) {
-	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
-	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
-	        default: return +it;
-	      }
-	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
-	        code = digits.charCodeAt(i);
-	        // parseInt parses a string to a first unavailable symbol
-	        // but ToNumber should return NaN if a string contains unavailable symbols
-	        if (code < 48 || code > maxCode) return NaN;
-	      } return parseInt(digits, radix);
-	    }
-	  } return +it;
-	};
-
-	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
-	  $Number = function Number(value) {
-	    var it = arguments.length < 1 ? 0 : value;
-	    var that = this;
-	    return that instanceof $Number
-	      // check on 1..constructor(foo) case
-	      && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
-	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
-	  };
-	  for (var keys = _descriptors ? gOPN(Base) : (
-	    // ES3:
-	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
-	    // ES6 (in case, if modules with ES6 Number statics required before):
-	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
-	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
-	  ).split(','), j = 0, key$1; keys.length > j; j++) {
-	    if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
-	      dP$1($Number, key$1, gOPD$1(Base, key$1));
-	    }
-	  }
-	  $Number.prototype = proto$1;
-	  proto$1.constructor = $Number;
-	  _redefine(_global, NUMBER, $Number);
-	}
-
-	var settings = {
+	var settingsInit = {
 	  alt: i18next.t("alt", {
 	    ns: "roadArea"
 	  }),
@@ -1264,19 +1320,6 @@
 	  },
 	  scalef: 1e3,
 	  aspectRatio: 16 / 11,
-	  formatNum: function formatNum() {
-	    var formatNumber = d3.format(",d");
-
-	    var format = function format(d) {
-	      if (Number(d)) {
-	        return formatNumber(d);
-	      } else {
-	        return d;
-	      }
-	    };
-
-	    return format;
-	  },
 	  // creates variable d
 	  filterData: function filterData(data) {
 	    // Flag to check if data has already been padded (i.e. data file has never been loaded)
@@ -1503,14 +1546,14 @@
 	  }
 	});
 
-	function mapColourScaleFn (svgCB, colourArray, dimExtent, numLevels, scalef) {
+	function mapColourScaleFn (svgCB, colourArray, dimExtent, numLevels, settings) {
 	  // Definitions
 	  // ---------------------------------------------------------------------------
 	  var rectDim = 35;
 	  var yRect = 20;
 	  var yText = 65;
 	  var yNaNText = yText + 7;
-	  var formatComma = d3.format(",d"); // text labels (calculate cbValues)
+	  var scalef = settings.scalef ? settings.scalef : 1; // text labels (calculate cbValues)
 
 	  var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
 	  var cbValues = [];
@@ -1528,10 +1571,9 @@
 
 	  var getText = function getText(i, j) {
 	    if (i < numLevels) {
-	      var s0 = formatComma(cbValues[j] / scalef);
+	      var s0 = settings.formatNum()(cbValues[j] / scalef);
 	      return s0 + "+";
 	    } else if (i === numLevels + 1) {
-	      // return i18next.t("NaNbox", {ns: "airUI"});
 	      return "x";
 	    }
 	  }; // tooltip for NaN box
@@ -1833,28 +1875,6 @@
 	  line.attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", chartObj.settings.innerHeight);
 	}
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	}
-
-	function _defineProperties(target, props) {
-	  for (var i = 0; i < props.length; i++) {
-	    var descriptor = props[i];
-	    descriptor.enumerable = descriptor.enumerable || false;
-	    descriptor.configurable = true;
-	    if ("value" in descriptor) descriptor.writable = true;
-	    Object.defineProperty(target, descriptor.key, descriptor);
-	  }
-	}
-
-	function _createClass(Constructor, protoProps, staticProps) {
-	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-	  if (staticProps) _defineProperties(Constructor, staticProps);
-	  return Constructor;
-	}
-
 	var CopyButton =
 	/*#__PURE__*/
 	function () {
@@ -2003,12 +2023,42 @@
 	var mapData = {};
 	var selectedRegion = "CANADA";
 	var selectedYear = "2017";
-	var formatComma = d3.format(",d");
 	var scalef = 1e3;
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+	// Add number formatter to stackedArea settings file
 
+	var thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+	var settingsAux = {
+	  formatNum: function formatNum() {
+	    var formatNumber;
+
+	    if (thisLang === "fr") {
+	      var locale = d3.formatLocale({
+	        decimal: ",",
+	        thousands: " ",
+	        grouping: [3]
+	      });
+	      formatNumber = locale.format(",d");
+	    } else {
+	      formatNumber = d3.format(",d");
+	    }
+
+	    var format = function format(d) {
+	      if (Number(d)) {
+	        return formatNumber(d);
+	      } else {
+	        return d;
+	      }
+	    };
+
+	    return format;
+	  }
+	};
+
+	var settings = _objectSpread({}, settingsInit, settingsAux);
 	/* Copy Button */
 	// -----------------------------------------------------------------------------
+
 
 	var cButton = new CopyButton(); // -----------------------------------------------------------------------------
 
@@ -2057,7 +2107,7 @@
 	      var key = i18next.t(classes[0], {
 	        ns: "roadGeography"
 	      });
-	      var value = formatComma(mapData[selectedYear][classes[0]] / scalef);
+	      var value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
 	      div.style("opacity", .9);
 	      div.html("<b>" + key + " (" + i18next.t("units", {
 	        ns: "road"
@@ -2115,7 +2165,7 @@
 
 	  var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
 
-	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef); // Colourbar label (need be plotted only once)
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settings); // Colourbar label (need be plotted only once)
 
 	  var mapScaleLabel = i18next.t("units", {
 	    ns: "road"

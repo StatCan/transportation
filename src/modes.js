@@ -721,6 +721,261 @@
 	  }
 	});
 
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	}
+
+	function _objectSpread(target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i] != null ? arguments[i] : {};
+	    var ownKeys = Object.keys(source);
+
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+	      }));
+	    }
+
+	    ownKeys.forEach(function (key) {
+	      _defineProperty(target, key, source[key]);
+	    });
+	  }
+
+	  return target;
+	}
+
+	function _slicedToArray(arr, i) {
+	  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+	}
+
+	function _arrayWithHoles(arr) {
+	  if (Array.isArray(arr)) return arr;
+	}
+
+	function _iterableToArrayLimit(arr, i) {
+	  var _arr = [];
+	  var _n = true;
+	  var _d = false;
+	  var _e = undefined;
+
+	  try {
+	    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+	      _arr.push(_s.value);
+
+	      if (i && _arr.length === i) break;
+	    }
+	  } catch (err) {
+	    _d = true;
+	    _e = err;
+	  } finally {
+	    try {
+	      if (!_n && _i["return"] != null) _i["return"]();
+	    } finally {
+	      if (_d) throw _e;
+	    }
+	  }
+
+	  return _arr;
+	}
+
+	function _nonIterableRest() {
+	  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+	}
+
+	var f$1 = {}.propertyIsEnumerable;
+
+	var _objectPie = {
+		f: f$1
+	};
+
+	var gOPD = Object.getOwnPropertyDescriptor;
+
+	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+	  O = _toIobject(O);
+	  P = _toPrimitive(P, true);
+	  if (_ie8DomDefine) try {
+	    return gOPD(O, P);
+	  } catch (e) { /* empty */ }
+	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+	};
+
+	var _objectGopd = {
+		f: f$2
+	};
+
+	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	/* eslint-disable no-proto */
+
+
+	var check = function (O, proto) {
+	  _anObject(O);
+	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+	};
+	var _setProto = {
+	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+	    function (test, buggy, set) {
+	      try {
+	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+	        set(test, []);
+	        buggy = !(test instanceof Array);
+	      } catch (e) { buggy = true; }
+	      return function setPrototypeOf(O, proto) {
+	        check(O, proto);
+	        if (buggy) O.__proto__ = proto;
+	        else set(O, proto);
+	        return O;
+	      };
+	    }({}, false) : undefined),
+	  check: check
+	};
+
+	var setPrototypeOf = _setProto.set;
+	var _inheritIfRequired = function (that, target, C) {
+	  var S = target.constructor;
+	  var P;
+	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+	    setPrototypeOf(that, P);
+	  } return that;
+	};
+
+	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+	  return _objectKeysInternal(O, hiddenKeys);
+	};
+
+	var _objectGopn = {
+		f: f$3
+	};
+
+	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var space = '[' + _stringWs + ']';
+	var non = '\u200b\u0085';
+	var ltrim = RegExp('^' + space + space + '*');
+	var rtrim = RegExp(space + space + '*$');
+
+	var exporter = function (KEY, exec, ALIAS) {
+	  var exp = {};
+	  var FORCE = _fails(function () {
+	    return !!_stringWs[KEY]() || non[KEY]() != non;
+	  });
+	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+	  if (ALIAS) exp[ALIAS] = fn;
+	  _export(_export.P + _export.F * FORCE, 'String', exp);
+	};
+
+	// 1 -> String#trimLeft
+	// 2 -> String#trimRight
+	// 3 -> String#trim
+	var trim = exporter.trim = function (string, TYPE) {
+	  string = String(_defined(string));
+	  if (TYPE & 1) string = string.replace(ltrim, '');
+	  if (TYPE & 2) string = string.replace(rtrim, '');
+	  return string;
+	};
+
+	var _stringTrim = exporter;
+
+	var gOPN = _objectGopn.f;
+	var gOPD$1 = _objectGopd.f;
+	var dP$1 = _objectDp.f;
+	var $trim = _stringTrim.trim;
+	var NUMBER = 'Number';
+	var $Number = _global[NUMBER];
+	var Base = $Number;
+	var proto$1 = $Number.prototype;
+	// Opera ~12 has broken Object#toString
+	var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
+	var TRIM = 'trim' in String.prototype;
+
+	// 7.1.3 ToNumber(argument)
+	var toNumber = function (argument) {
+	  var it = _toPrimitive(argument, false);
+	  if (typeof it == 'string' && it.length > 2) {
+	    it = TRIM ? it.trim() : $trim(it, 3);
+	    var first = it.charCodeAt(0);
+	    var third, radix, maxCode;
+	    if (first === 43 || first === 45) {
+	      third = it.charCodeAt(2);
+	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+	    } else if (first === 48) {
+	      switch (it.charCodeAt(1)) {
+	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+	        default: return +it;
+	      }
+	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+	        code = digits.charCodeAt(i);
+	        // parseInt parses a string to a first unavailable symbol
+	        // but ToNumber should return NaN if a string contains unavailable symbols
+	        if (code < 48 || code > maxCode) return NaN;
+	      } return parseInt(digits, radix);
+	    }
+	  } return +it;
+	};
+
+	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+	  $Number = function Number(value) {
+	    var it = arguments.length < 1 ? 0 : value;
+	    var that = this;
+	    return that instanceof $Number
+	      // check on 1..constructor(foo) case
+	      && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
+	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+	  };
+	  for (var keys = _descriptors ? gOPN(Base) : (
+	    // ES3:
+	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+	    // ES6 (in case, if modules with ES6 Number statics required before):
+	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+	  ).split(','), j = 0, key$1; keys.length > j; j++) {
+	    if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
+	      dP$1($Number, key$1, gOPD$1(Base, key$1));
+	    }
+	  }
+	  $Number.prototype = proto$1;
+	  proto$1.constructor = $Number;
+	  _redefine(_global, NUMBER, $Number);
+	}
+
 	// 7.2.8 IsRegExp(argument)
 
 
@@ -1139,13 +1394,13 @@
 	  };
 	});
 
-	var dP$1 = _objectDp.f;
+	var dP$2 = _objectDp.f;
 	var FProto = Function.prototype;
 	var nameRE = /^\s*function ([^ (]*)/;
 	var NAME$1 = 'name';
 
 	// 19.2.4.2 name
-	NAME$1 in FProto || _descriptors && dP$1(FProto, NAME$1, {
+	NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
 	  configurable: true,
 	  get: function () {
 	    try {
@@ -1168,100 +1423,6 @@
 
 	_addToUnscopables('includes');
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	}
-
-	function _defineProperties(target, props) {
-	  for (var i = 0; i < props.length; i++) {
-	    var descriptor = props[i];
-	    descriptor.enumerable = descriptor.enumerable || false;
-	    descriptor.configurable = true;
-	    if ("value" in descriptor) descriptor.writable = true;
-	    Object.defineProperty(target, descriptor.key, descriptor);
-	  }
-	}
-
-	function _createClass(Constructor, protoProps, staticProps) {
-	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-	  if (staticProps) _defineProperties(Constructor, staticProps);
-	  return Constructor;
-	}
-
-	function _defineProperty(obj, key, value) {
-	  if (key in obj) {
-	    Object.defineProperty(obj, key, {
-	      value: value,
-	      enumerable: true,
-	      configurable: true,
-	      writable: true
-	    });
-	  } else {
-	    obj[key] = value;
-	  }
-
-	  return obj;
-	}
-
-	function _objectSpread(target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i] != null ? arguments[i] : {};
-	    var ownKeys = Object.keys(source);
-
-	    if (typeof Object.getOwnPropertySymbols === 'function') {
-	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-	      }));
-	    }
-
-	    ownKeys.forEach(function (key) {
-	      _defineProperty(target, key, source[key]);
-	    });
-	  }
-
-	  return target;
-	}
-
-	function _slicedToArray(arr, i) {
-	  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-	}
-
-	function _arrayWithHoles(arr) {
-	  if (Array.isArray(arr)) return arr;
-	}
-
-	function _iterableToArrayLimit(arr, i) {
-	  var _arr = [];
-	  var _n = true;
-	  var _d = false;
-	  var _e = undefined;
-
-	  try {
-	    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-	      _arr.push(_s.value);
-
-	      if (i && _arr.length === i) break;
-	    }
-	  } catch (err) {
-	    _d = true;
-	    _e = err;
-	  } finally {
-	    try {
-	      if (!_n && _i["return"] != null) _i["return"]();
-	    } finally {
-	      if (_d) throw _e;
-	    }
-	  }
-
-	  return _arr;
-	}
-
-	function _nonIterableRest() {
-	  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-	}
-
 	var $filter = _arrayMethods(2);
 
 	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
@@ -1271,7 +1432,6 @@
 	  }
 	});
 
-	// function makeSankey(svgID, graph) {
 	var defaults = {
 	  aspectRatio: 16 / 10,
 	  width: 900,
@@ -1333,15 +1493,8 @@
 	    return hasFourLevels;
 	  }
 
-	  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom; // format variables
-
-	  var formatNumber = d3.format(",.0f"); // zero decimal places
-
-	  var format = function format(d) {
-	    return formatNumber(d);
-	  };
-
-	  var tooltipShiftY = 90; // amount to raise tooltip in y-dirn
+	  mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
+	  var tooltipShiftX = 15; // amount to raise tooltip in y-dirn
 	  // Set the sankey diagram properties
 
 	  var sankey = d3.sankey().size([innerWidth, innerHeight]);
@@ -1370,9 +1523,9 @@
 	        ns: "modes"
 	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + i18next.t(d.target.name, {
 	        ns: "modes"
-	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
+	      }) + ": </td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {
 	        ns: "modes_sankey"
-	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + tooltipShiftX + "px").style("top", d3.event.pageY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
 	    }); // add in the nodes
@@ -1394,9 +1547,9 @@
 	      div.transition().style("opacity", .9);
 	      div.html("<b>" + i18next.t(d.name, {
 	        ns: "modes"
-	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {
+	      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td>" + "Total:" + "</td>" + "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {
 	        ns: "modes_sankey"
-	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + "px").style("top", d3.event.pageY - tooltipShiftY + "px");
+	      }) + "</td>" + "</tr>" + "</table>").style("left", d3.event.pageX + tooltipShiftX + "px").style("top", d3.event.pageY + "px");
 	    }).on("mouseout", function (d) {
 	      div.transition().style("opacity", 0);
 	    }); // add the rectangles for the nodes
@@ -1408,7 +1561,7 @@
 	    }).text(function (d) {
 	      return i18next.t(d.name, {
 	        ns: "modes"
-	      }) + "\n" + format(d.value);
+	      }) + "\n" + settings.formatNum()(d.value);
 	    }); // add in the title for the nodes
 
 	    node.append("text").attr("x", function (d) {
@@ -1519,7 +1672,7 @@
 	  }
 	});
 
-	var tableSettings = {
+	var tableSettingsInit = {
 	  tableTitle: i18next.t("alt", {
 	    ns: "modes"
 	  }),
@@ -1741,12 +1894,6 @@
 	  return CopyButton;
 	}();
 	CopyButton.n = 0;
-
-	var f$1 = {}.propertyIsEnumerable;
-
-	var _objectPie = {
-		f: f$1
-	};
 
 	var isEnum = _objectPie.f;
 	var _objectToArray = function (isEntries) {
@@ -2054,161 +2201,6 @@
 	  return NodesTree;
 	}();
 
-	var gOPD = Object.getOwnPropertyDescriptor;
-
-	var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
-	  O = _toIobject(O);
-	  P = _toPrimitive(P, true);
-	  if (_ie8DomDefine) try {
-	    return gOPD(O, P);
-	  } catch (e) { /* empty */ }
-	  if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
-	};
-
-	var _objectGopd = {
-		f: f$2
-	};
-
-	// Works with __proto__ only. Old v8 can't work with null proto objects.
-	/* eslint-disable no-proto */
-
-
-	var check = function (O, proto) {
-	  _anObject(O);
-	  if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-	};
-	var _setProto = {
-	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-	    function (test, buggy, set) {
-	      try {
-	        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
-	        set(test, []);
-	        buggy = !(test instanceof Array);
-	      } catch (e) { buggy = true; }
-	      return function setPrototypeOf(O, proto) {
-	        check(O, proto);
-	        if (buggy) O.__proto__ = proto;
-	        else set(O, proto);
-	        return O;
-	      };
-	    }({}, false) : undefined),
-	  check: check
-	};
-
-	var setPrototypeOf = _setProto.set;
-	var _inheritIfRequired = function (that, target, C) {
-	  var S = target.constructor;
-	  var P;
-	  if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
-	    setPrototypeOf(that, P);
-	  } return that;
-	};
-
-	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-
-	var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
-
-	var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-	  return _objectKeysInternal(O, hiddenKeys);
-	};
-
-	var _objectGopn = {
-		f: f$3
-	};
-
-	var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-	  '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-	var space = '[' + _stringWs + ']';
-	var non = '\u200b\u0085';
-	var ltrim = RegExp('^' + space + space + '*');
-	var rtrim = RegExp(space + space + '*$');
-
-	var exporter = function (KEY, exec, ALIAS) {
-	  var exp = {};
-	  var FORCE = _fails(function () {
-	    return !!_stringWs[KEY]() || non[KEY]() != non;
-	  });
-	  var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
-	  if (ALIAS) exp[ALIAS] = fn;
-	  _export(_export.P + _export.F * FORCE, 'String', exp);
-	};
-
-	// 1 -> String#trimLeft
-	// 2 -> String#trimRight
-	// 3 -> String#trim
-	var trim = exporter.trim = function (string, TYPE) {
-	  string = String(_defined(string));
-	  if (TYPE & 1) string = string.replace(ltrim, '');
-	  if (TYPE & 2) string = string.replace(rtrim, '');
-	  return string;
-	};
-
-	var _stringTrim = exporter;
-
-	var gOPN = _objectGopn.f;
-	var gOPD$1 = _objectGopd.f;
-	var dP$2 = _objectDp.f;
-	var $trim = _stringTrim.trim;
-	var NUMBER = 'Number';
-	var $Number = _global[NUMBER];
-	var Base = $Number;
-	var proto$1 = $Number.prototype;
-	// Opera ~12 has broken Object#toString
-	var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
-	var TRIM = 'trim' in String.prototype;
-
-	// 7.1.3 ToNumber(argument)
-	var toNumber = function (argument) {
-	  var it = _toPrimitive(argument, false);
-	  if (typeof it == 'string' && it.length > 2) {
-	    it = TRIM ? it.trim() : $trim(it, 3);
-	    var first = it.charCodeAt(0);
-	    var third, radix, maxCode;
-	    if (first === 43 || first === 45) {
-	      third = it.charCodeAt(2);
-	      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
-	    } else if (first === 48) {
-	      switch (it.charCodeAt(1)) {
-	        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
-	        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
-	        default: return +it;
-	      }
-	      for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
-	        code = digits.charCodeAt(i);
-	        // parseInt parses a string to a first unavailable symbol
-	        // but ToNumber should return NaN if a string contains unavailable symbols
-	        if (code < 48 || code > maxCode) return NaN;
-	      } return parseInt(digits, radix);
-	    }
-	  } return +it;
-	};
-
-	if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
-	  $Number = function Number(value) {
-	    var it = arguments.length < 1 ? 0 : value;
-	    var that = this;
-	    return that instanceof $Number
-	      // check on 1..constructor(foo) case
-	      && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
-	        ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
-	  };
-	  for (var keys = _descriptors ? gOPN(Base) : (
-	    // ES3:
-	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
-	    // ES6 (in case, if modules with ES6 Number statics required before):
-	    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
-	    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
-	  ).split(','), j = 0, key$1; keys.length > j; j++) {
-	    if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
-	      dP$2($Number, key$1, gOPD$1(Base, key$1));
-	    }
-	  }
-	  $Number.prototype = proto$1;
-	  proto$1.constructor = $Number;
-	  _redefine(_global, NUMBER, $Number);
-	}
-
 	function dropdownCheck (yearId, monthId, dateRange, selectedYear) {
 	  var yearDropdown = $(yearId); // date dropdown creation
 
@@ -2249,6 +2241,38 @@
 
 	var cButton = new CopyButton();
 	var dataTree = new NodesTree(); // -----------------------------------------------------------------------------
+	// Add number formatter to stackedArea settings file
+
+	var thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+	var settingsAux = {
+	  formatNum: function formatNum() {
+	    var formatNumber;
+
+	    if (thisLang === "fr") {
+	      var locale = d3.formatLocale({
+	        decimal: ",",
+	        thousands: " ",
+	        grouping: [3]
+	      });
+	      formatNumber = locale.format(",d");
+	    } else {
+	      formatNumber = d3.format(",d");
+	    }
+
+	    var format = function format(d) {
+	      if (Number(d)) {
+	        return formatNumber(d);
+	      } else {
+	        return d;
+	      }
+	    };
+
+	    return format;
+	  }
+	};
+
+	var tableSettings = _objectSpread({}, tableSettingsInit, settingsAux); // -----------------------------------------------------------------------------
+
 
 	var selectedRegion = "Canada";
 	var selectedMonth = "01";
@@ -2318,7 +2342,7 @@
 	    }), " ").concat(thisRegion, ",\n          ").concat(thisMonth, " ").concat(selectedYear));
 	  } else {
 	    d3.selectAll("svg > *").remove();
-	    makeSankey(sankeyChart, {}, {
+	    makeSankey(sankeyChart, settingsAux, {
 	      nodes: sankeyNodes,
 	      links: data[selectedYear + "-" + selectedMonth][selectedRegion]
 	    });
