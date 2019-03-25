@@ -1,4 +1,4 @@
-import settings from "./stackedAreaSettings.js";
+import settingsInit from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
@@ -11,8 +11,38 @@ let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
 let selectedYear = "2017";
-const formatComma = d3.format(",d");
 const scalef = 1e3;
+const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
+// Add number formatter to stackedArea settings file
+const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+const settingsAux = {
+  formatNum: function() {
+    let formatNumber;
+    if (thisLang === "fr") {
+      const locale = d3.formatLocale({
+        decimal: ",",
+        thousands: " ",
+        grouping: [3]
+      });
+      formatNumber = locale.format(",d");
+    } else {
+      formatNumber = d3.format(",d");
+    }
+
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  }
+};
+
+const settings = {...settingsInit, ...settingsAux};
+
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -78,7 +108,7 @@ map.on("mousemove", () => {
       selectedPath.moveToFront();
       // Tooltip
       const key = i18next.t(classes[0], {ns: "roadGeography"});
-      const value = formatComma(data[selectedYear][classes[0]] / scalef);
+      const value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
       div
           .style("opacity", .9);
       div.html(
@@ -165,7 +195,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settings);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "road"});
@@ -183,7 +213,7 @@ function showAreaData() {
   d3.select("#svgFuel").select(".x.axis")
       .select("text")
       .attr("display", "none");
-  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
   createOverlay(stackedArea, data[selectedRegion], (d) => {
     areaTooltip(stackedArea.settings, divArea, d);
@@ -253,6 +283,8 @@ function uiHandler(event) {
 
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
+    d3.select("#mapTitleRoad")
+        .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
     colorMap();
   }
 }
@@ -307,8 +339,9 @@ i18n.load(["src/i18n"], () => {
             .on("loaded", function() {
               colorMap();
             });
+
         d3.select("#mapTitleRoad")
-            .text(i18next.t("mapTitle", {ns: "road"}));
+            .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
 
         // copy button options
         const cButtonOptions = {

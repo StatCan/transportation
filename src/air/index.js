@@ -1,5 +1,5 @@
-import settings from "./stackedAreaSettings.js";
-import settingsMajorAirports from "./stackedAreaSettingsMajorAirports.js";
+import settingsInit from "./stackedAreaSettings.js";
+import settingsMajorAirportsInit from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaLegendFn from "../areaLegendFn.js";
@@ -13,8 +13,37 @@ import CopyButton from "../copyButton.js";
 const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 
-const formatComma = d3.format(",d");
-const scalef = 1e3;
+const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+
+// Add number formatter to stackedArea settings file
+const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+const settingsAux = {
+  formatNum: function() {
+    let formatNumber;
+    if (thisLang === "fr") {
+      const locale = d3.formatLocale({
+        decimal: ",",
+        thousands: " ",
+        grouping: [3]
+      });
+      formatNumber = locale.format(",d");
+    } else {
+      formatNumber = d3.format(",d");
+    }
+
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  }
+};
+
+const settings = {...settingsInit, ...settingsAux};
+const settingsMajorAirports = {...settingsMajorAirportsInit, ...settingsAux};
 
 const data = {
   "passengers": {},
@@ -297,18 +326,9 @@ let totals;
 let passengerTotals;
 let majorTotals;
 let canadaMap;
-let selectedDataset = "passengers";
-let selectedYear = "2017";
-let selectedMonth = "01";
-let selectedDate = selectedYear;
-let selectedRegion = "CANADA";
-let selectedSettings = settings;
-let divFactor = settings.scalef; // corresponds to passenger dataset; will change when toggled to major_airports
+
 const majorDateRange = {};
 const passengerDateRange = {};
-let selectedDateRange = {};
-
-let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 const lineDataPassenger = {};
 const lineDataMajor = {};
 let passengerMetaData;
@@ -320,6 +340,14 @@ let lineData = lineDataPassenger;
 const defaultYear = "2017";
 const defaultMonth = "01";
 const defaultRegion = "CANADA";
+let selectedDataset = "passengers";
+let selectedYear = "2017";
+let selectedMonth = "01";
+let selectedDate = selectedYear;
+let selectedRegion = "CANADA";
+let selectedSettings = settings;
+let selectedDateRange = {};
+let selectedAirpt; // NB: NEEDS TO BE DEFINED AFTER canadaMap; see colorMap()
 
 let stackedArea; // stores areaChart() call
 
@@ -393,7 +421,6 @@ $(".data_set_selector").on("click", function(event) {
   selectedRegion = defaultRegion;
   d3.select("#groups")._groups[0][0].value = selectedRegion;
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-  divFactor = (event.target.id === ("movements")) ? scalef : 1;
 
   if (event.target.id === ("major")) {
     selectedMonth = defaultMonth;
@@ -441,6 +468,7 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = passengerTotals;
+    resetZoom();
     showAreaData();
     colorMap();
     refreshMap();
@@ -498,7 +526,7 @@ map.on("mousemove", () => {
         let value;
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
-          value = formatComma(totals[selectedDate][classes[0]] / divFactor);
+          value = selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
           line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {
@@ -509,12 +537,12 @@ map.on("mousemove", () => {
         div
             .style("opacity", .9);
         div.html(
-            "<b>" + line1 + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                  "<td><b>" + line2 + "</td>" +
-                "</tr>" +
-              "</table>"
+            `<b> ${line1} </b> <br><br>
+              <table>
+                <tr>
+                  <td><b> ${line2} </td>
+                </tr>
+              </table>`
         )
             .style("pointer-events", "none");
         div
@@ -634,16 +662,14 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return "airport " + selectedDataset + " " + metaData[selectedDate][d.properties.id];
+          return `airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return "airport " + selectedDataset + " " + "dontShow";
+          return `airport ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
         selectedAirpt = d.properties.id;
-        if (metaData[selectedDate][d.properties.id] !== "noData" ) {
-          showAirport();
-        }
+        showAirport();
       });
 
   d3.selectAll(".noData").moveToBack();
@@ -655,7 +681,7 @@ function colorMap() {
   // last 2 colours for blank and NaN box
   const colourArray = [];
   if (selectedDataset === "passengers") {
-    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#fff", "#565656");
+    colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#F9F9F9", "#565656");
   } else {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
   }
@@ -668,8 +694,7 @@ function colorMap() {
   const dimExtent = fillMapFn(totArr, colourArray, numLevels);
 
   // colour bar scale and add label
-
-  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, divFactor);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, selectedSettings);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {ns: "airPassengers"}) : "";
@@ -695,7 +720,7 @@ function showAreaData() {
       divArea.style("opacity", 0);
     });
     d3.selectAll(".flag").style("opacity", 0);
-    d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "0.85em");
+    d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
     if (selectedDataset === "major_airports") {
       d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
@@ -707,6 +732,9 @@ function showAreaData() {
               d3.select(this).attr("class", "tick Jan");
             }
           });
+    } else {
+      d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
+          .attr("class", "tick");
     }
 
     // Highlight region selected from menu on map
@@ -807,15 +835,19 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    div.html( // **** CHANGE ns WITH DATASET ****
-        "<b>" + i18next.t(selectedAirpt, {ns: "airports"}) + ", " + divData.date + ":</b>" + "<br><br>" +
-          "<table>" +
-            "<tr>" +
-              "<td><b>" + i18next.t("enplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.enplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + " </td>" +
-            "</tr>" +
-              "<td><b>" + i18next.t("deplaned", {ns: "airPassengers"}) + ": </b>" + `${formatComma(divData.deplaned)} ${i18next.t("units", {ns: "airPassengers"})}` + "</td>" +
-            "</tr>" +
-          "</table>")
+    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
+    const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
+    div.html(
+        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divData.date}:</b> <br><br>
+          <table>
+            <tr>
+              <td><b> ${i18next.t("enplaned", {ns: "airPassengers"})}: </b> ${thisEnplaned} ${showUnits} </td>
+            </tr>
+              <td><b> ${i18next.t("deplaned", {ns: "airPassengers"})}: </b> ${thisDeplaned} ${showUnits} </td>
+            </tr>
+         </table>`
+    )
         .style("pointer-events", "none");
   } else {
     const thisDomestic = divData.domestic;
@@ -823,18 +855,19 @@ function airportHover() {
     const thisInter = divData.international;
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
-        "<b>" + "Passenger movements (" + i18next.t("units", {ns: "airPassengers"}) + ") in " + divDate + ":</b>" + "<br><br>" +
-        "<table>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("domestic", {ns: "airPassengers"}) + "</b>: " + thisDomestic + "</td>" +
-          "</tr>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("transborder", {ns: "airPassengers"}) + "</b>: " + thisTrans + "</td>" +
-          "</tr>" +
-          "<tr>" +
-            "<td><b>" + i18next.t("international", {ns: "airPassengers"}) + "</b>: " + thisInter + "</td>" +
-          "</tr>" +
-        "</table>")
+        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divDate}:</b> <br><br>
+          <table>
+            <tr>
+              <td><b> ${i18next.t("domestic", {ns: "airPassengers"})} </b>: ${thisDomestic} </td>
+            </tr>
+            <tr>
+              <td><b> ${i18next.t("transborder", {ns: "airPassengers"})} </b>: ${thisTrans} </td>
+            </tr>
+          <tr>
+            <td><b> ${i18next.t("international", {ns: "airPassengers"})} </b>: ${thisInter} </td>
+          </tr>
+        </table>`
+    )
         .style("pointer-events", "none");
   }
   // airport chart title

@@ -1,4 +1,3 @@
-// function makeSankey(svgID, graph) {
 const defaults = {
   aspectRatio: 16 / 10,
   width: 900,
@@ -59,12 +58,7 @@ export default function(svg, settings, data) {
 
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
-  // format variables
-  const formatNumber = d3.format(",.0f"); // zero decimal places
-  const format = function(d) {
-    return formatNumber(d);
-  };
-  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
+  const tooltipShiftX = 15; // amount to raise tooltip in y-dirn
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
@@ -110,13 +104,13 @@ export default function(svg, settings, data) {
               "<b>" + i18next.t(sourceName, {ns: "modes"}) + "</b>"+ "<br><br>" +
                 "<table>" +
                   "<tr>" +
-                    "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
+                    "<td><b>" + i18next.t(d.target.name, {ns: "modes"}) + ": </b></td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'>" + settings.formatNum()(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                   "</tr>" +
                 "</table>"
           )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+              .style("left", (d3.event.pageX + tooltipShiftX) + "px")
+              .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
           div.transition()
@@ -144,19 +138,22 @@ export default function(svg, settings, data) {
 
     node
         .on("mousemove", function(d) {
+          const modeName = (d.name .indexOf("other") !== -1) ? `${i18next.t(d.name, {ns: "modes"})}<sup>1</sup>` :
+                            i18next.t(d.name, {ns: "modes"});
+
           div.transition()
               .style("opacity", .9);
           div.html(
-              "<b>" + i18next.t(d.name, {ns: "modes"}) + "</b>"+ "<br><br>" +
-              "<table>" +
-                "<tr>" +
-                "<td>" + "Total:" + "</td>" +
-                "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
-                "</tr>" +
-              "</table>"
+              `<b>${modeName}</b><br><br>
+                <table>
+                  <tr>
+                    <td><b> Total: </b></td>
+                    <td style='padding: 5px 10px 5px 5px;'> ${settings.formatNum()(d.value)} ${i18next.t("units", {ns: "modes_sankey"})} </td>
+                    </tr>
+              </table>`
           )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+              .style("left", (d3.event.pageX + tooltipShiftX) + "px")
+              .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
           div.transition()
@@ -173,7 +170,7 @@ export default function(svg, settings, data) {
           return d3.rgb(d.color).darker(2);
         })
         .text(function(d) {
-          return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
+          return i18next.t(d.name, {ns: "modes"}) + "\n" + settings.formatNum()(d.value);
         });
 
     // add in the title for the nodes
@@ -209,23 +206,23 @@ export default function(svg, settings, data) {
         .attr("text-anchor", "start")
         .call(wrap, 200);
 
-    // footnote
-    addFootnote("USres_other");
-    addFootnote("cdnFromUS_other");
-
-    function addFootnote(name) {
-      if (d3.select(`.${name}`)) {
-        d3.select(`.${name}`)
-            .select("text")
-            .text(i18next.t("Other", {ns: "modes"}))
-            .append("tspan")
-            .text("1")
-            // .html('<a href= "http://google.com">' + 1 + "</a>")
-            .style("font-size", "9px")
-            .attr("dx", ".01em")
-            .attr("dy", "-.3em");
-      }
-    }
+    // // footnote
+    // addFootnote("USres_other");
+    // addFootnote("cdnFromUS_other");
+    //
+    // function addFootnote(name) {
+    //   if (d3.select(`.${name}`)) {
+    //     d3.select(`.${name}`)
+    //         .select("text")
+    //         .text(i18next.t("Other", {ns: "modes"}))
+    //         .append("tspan")
+    //         .text("1")
+    //         // .html('<a href= "http://google.com">' + 1 + "</a>")
+    //         .style("font-size", "9px")
+    //         .attr("dx", ".01em")
+    //         .attr("dy", "-.3em");
+    //   }
+    // }
 
     // the function for moving the nodes
     // function dragmove(d) {

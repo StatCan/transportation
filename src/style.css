@@ -146,15 +146,10 @@ table, th, td {
 .noData {
 	fill: #565656;
 	stroke: white;
-	stroke-width: 0.0px;
-	/* opacity: 0.5 */
+	stroke-width: 0.2px;
 }
 .dontShow {
 	opacity: 0;
-}
-.airport {
-	/* stroke: black;
-	stroke-width: 0.5px; */
 }
 
 /*-- area chart --*/
@@ -589,13 +584,13 @@ div.tooltip {
 }
 
 .node rect {
-  cursor: move;
   fill-opacity: .9;
-  shape-rendering: crispEdges;
+  stroke: #fff;
+  stroke-width: 0.5px;
+  /* shape-rendering: crispEdges; */
 }
 
 .node text {
-  pointer-events: none;
   text-shadow: 0 1px 0 #fff;
 	font-size: 12px;
 }

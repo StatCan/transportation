@@ -23,7 +23,8 @@ export default {
       return i18next.t(key, {ns: "modes_sankey"});
     },
     getText: function(d) {
-      return i18next.t(d.name, {ns: "modes"});
+      return (d.name.indexOf("other") !== -1) ? `${i18next.t(d.name, {ns: "modes"})}<sup>1</sup>` :
+            i18next.t(d.name, {ns: "modes"});
     }
   }
 };
