@@ -106,7 +106,7 @@ function showData() {
   } else {
     d3.selectAll("svg > *").remove();
 
-    makeSankey(sankeyChart, {}, {
+    makeSankey(sankeyChart, settingsAux, {
       nodes: sankeyNodes,
       links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });

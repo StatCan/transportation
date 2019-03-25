@@ -1,4 +1,3 @@
-// function makeSankey(svgID, graph) {
 const defaults = {
   aspectRatio: 16 / 10,
   width: 900,
@@ -59,11 +58,6 @@ export default function(svg, settings, data) {
 
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
-  // format variables
-  const formatNumber = d3.format(",.0f"); // zero decimal places
-  const format = function(d) {
-    return formatNumber(d);
-  };
   const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
 
   // Set the sankey diagram properties
@@ -111,7 +105,7 @@ export default function(svg, settings, data) {
                 "<table>" +
                   "<tr>" +
                     "<td>" + i18next.t(d.target.name, {ns: "modes"}) + ": </td>" +
-                    "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
+                    "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                   "</tr>" +
                 "</table>"
           )
@@ -151,7 +145,7 @@ export default function(svg, settings, data) {
               "<table>" +
                 "<tr>" +
                 "<td>" + "Total:" + "</td>" +
-                "<td style='padding: 5px 10px 5px 5px;'><b>" + format(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
+                "<td style='padding: 5px 10px 5px 5px;'><b>" + settings.formatNum()(d.value) + " " + i18next.t("units", {ns: "modes_sankey"}) + "</td>" +
                 "</tr>" +
               "</table>"
           )
@@ -173,7 +167,7 @@ export default function(svg, settings, data) {
           return d3.rgb(d.color).darker(2);
         })
         .text(function(d) {
-          return i18next.t(d.name, {ns: "modes"}) + "\n" + format(d.value);
+          return i18next.t(d.name, {ns: "modes"}) + "\n" + settings.formatNum()(d.value);
         });
 
     // add in the title for the nodes
