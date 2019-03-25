@@ -16,19 +16,17 @@ const cButton = new CopyButton();
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 // Add number formatter to stackedArea settings file
-const thisLang = document.getElementsByTagName('html')[0].getAttribute('lang'); // document.documentElement.lang
+const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
 const settingsAux = {
   formatNum: function() {
     let formatNumber;
     if (thisLang === "fr") {
-      var locale = d3.formatLocale({
+      const locale = d3.formatLocale({
         decimal: ",",
         thousands: " ",
         grouping: [3]
       });
-      
       formatNumber = locale.format(",d");
-
     } else {
       formatNumber = d3.format(",d");
     }
@@ -46,7 +44,6 @@ const settingsAux = {
 
 const settings = {...settingsInit, ...settingsAux};
 const settingsMajorAirports = {...settingsMajorAirportsInit, ...settingsAux};
-const scalef = settings.scalef ? settings.scalef : 1;
 
 const data = {
   "passengers": {},
@@ -529,7 +526,7 @@ map.on("mousemove", () => {
         let value;
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
-          value =  selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
+          value = selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
           line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {
@@ -838,8 +835,8 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    const thisEnplaned = Number(divData.enplaned) ?  selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
-    const thisDeplaned = Number(divData.deplaned) ?  selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
+    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divData.date}:</b> <br><br>

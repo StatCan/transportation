@@ -13,21 +13,19 @@ let selectedRegion = "CANADA";
 let selectedYear = "2017";
 const scalef = 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
-const thisLang = document.getElementsByTagName('html')[0].getAttribute('lang'); // document.documentElement.lang
 
 // Add number formatter to stackedArea settings file
+const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
 const settingsAux = {
   formatNum: function() {
     let formatNumber;
     if (thisLang === "fr") {
-      var locale = d3.formatLocale({
+      const locale = d3.formatLocale({
         decimal: ",",
         thousands: " ",
         grouping: [3]
       });
-      
       formatNumber = locale.format(",d");
-
     } else {
       formatNumber = d3.format(",d");
     }
