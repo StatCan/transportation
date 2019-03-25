@@ -1,5 +1,5 @@
 import makeSankey from "./makeSankey.js";
-import tableSettings from "./tableSettings.js";
+import tableSettingsInit from "./tableSettings.js";
 import CopyButton from "../copyButton.js";
 import NodesTree from "./nodesTree.js";
 import dropdownCheck from "../dropdownCheck.js";
@@ -8,11 +8,39 @@ import dropdownCheck from "../dropdownCheck.js";
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
 const dataTree = new NodesTree();
+
 // -----------------------------------------------------------------------------
+// Add number formatter to stackedArea settings file
+const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+const settingsAux = {
+  formatNum: function() {
+    let formatNumber;
+    if (thisLang === "fr") {
+      const locale = d3.formatLocale({
+        decimal: ",",
+        thousands: " ",
+        grouping: [3]
+      });
+      formatNumber = locale.format(",d");
+    } else {
+      formatNumber = d3.format(",d");
+    }
 
+    const format = function(d) {
+      if (Number(d)) {
+        return formatNumber(d);
+      } else {
+        return d;
+      }
+    };
+    return format;
+  }
+};
 
+const tableSettings = {...tableSettingsInit, ...settingsAux};
+
+// -----------------------------------------------------------------------------
 let selectedRegion = "Canada";
-
 let selectedMonth = "01";
 let selectedYear = "2018";
 let dateRange;
@@ -78,7 +106,7 @@ function showData() {
   } else {
     d3.selectAll("svg > *").remove();
 
-    makeSankey(sankeyChart, {}, {
+    makeSankey(sankeyChart, settingsAux, {
       nodes: sankeyNodes,
       links: data[selectedYear + "-" + selectedMonth][selectedRegion]
     });
