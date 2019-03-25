@@ -58,7 +58,7 @@ export default function(svg, settings, data) {
 
   mergedSettings.innerHeight = outerHeight - mergedSettings.margin.top - mergedSettings.margin.bottom;
 
-  const tooltipShiftY = 90; // amount to raise tooltip in y-dirn
+  const tooltipShiftX = 15; // amount to raise tooltip in y-dirn
 
   // Set the sankey diagram properties
   const sankey = d3.sankey()
@@ -109,8 +109,8 @@ export default function(svg, settings, data) {
                   "</tr>" +
                 "</table>"
           )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+              .style("left", (d3.event.pageX + tooltipShiftX) + "px")
+              .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
           div.transition()
@@ -149,8 +149,8 @@ export default function(svg, settings, data) {
                 "</tr>" +
               "</table>"
           )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - tooltipShiftY) + "px");
+              .style("left", (d3.event.pageX + tooltipShiftX) + "px")
+              .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
           div.transition()
