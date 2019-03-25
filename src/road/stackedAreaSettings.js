@@ -3,11 +3,11 @@ export default {
   ns: "roadArea",
   margin: {
     top: 50,
-    left: 90,
+    left: 130,
     right: 30,
     bottom: 50
   },
-  scalef: 1e3,
+  scalef: 1,
   aspectRatio: 16 / 11,
   // creates variable d
   filterData: function(data) {
@@ -51,7 +51,7 @@ export default {
     getValue: function(d, key) {
       if (typeof d[key] === "string" || d[key] instanceof String) {
         return 0;
-      } else return d[key] * 1.0/ 1e3;
+      } else return d[key] * 1.0/ 1;
     },
     getTotal: function(d, index, data) {
       let total;
@@ -61,15 +61,15 @@ export default {
         keys = sett.z.getKeys.call(sett, data);
         total = 0;
         for (let k = 0; k < keys.length; k++) {
-          total += sett.y.getValue.call(sett, d, keys[k], data) * 1e3; // keep in orig scale when summing
+          total += sett.y.getValue.call(sett, d, keys[k], data) * 1; // keep in orig scale when summing
         }
         d[sett.y.totalProperty] = total;
       }
-      return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0 / 1000);
+      return (isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) *1.0 / 1);
     },
     getText: function(d, key) {
       if (!d.isLast) {
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1;
       }
     },
     ticks: 5,
