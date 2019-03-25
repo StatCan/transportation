@@ -23,7 +23,8 @@ export default {
       return i18next.t(key, {ns: "modes_sankey"});
     },
     getText: function(d) {
-      return (d.name.indexOf("other") !== -1) ? `${i18next.t(d.name, {ns: "modes"})}<sup>1</sup>` :
+      const footnote = "<sup id='fn1-rf'><a class='fn-lnk' href='#fn1'><span class='wb-inv'>Footnote </span>1</a></sup>";
+      return (d.name.indexOf("other") !== -1) ? `${i18next.t(d.name, {ns: "modes"})}${footnote}` :
             i18next.t(d.name, {ns: "modes"});
     }
   }
