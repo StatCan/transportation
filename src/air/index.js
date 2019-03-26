@@ -511,7 +511,7 @@ map.on("mousemove", () => {
 
     // if (classes[0] !== "svg-shimmed" && classes.indexOf("classNaN") === -1) {
     if (classes[0] !== "svg-shimmed") {
-      const key = i18next.t(classes[0], {ns: "airGeography"});
+      const key = i18next.t(classes[0], {ns: "geography"});
 
       if (key !== "airport") {
         // Highlight map region
@@ -811,10 +811,10 @@ function createDropdown() {
     }
     if (geo.data && geo.data === "no") {
       geoDropdown.append($("<option disabled></option>")
-          .attr("value", geo.code).html(prefix + i18next.t(geo.code, {ns: "airGeography"})));
+          .attr("value", geo.code).html(prefix + i18next.t(geo.code, {ns: "geography"})));
     } else {
       geoDropdown.append($("<option></option>")
-          .attr("value", geo.code).html(prefix +i18next.t(geo.code, {ns: "airGeography"})));
+          .attr("value", geo.code).html(prefix +i18next.t(geo.code, {ns: "geography"})));
     }
   }
 }
@@ -839,7 +839,7 @@ function airportHover() {
     const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
     div.html(
-        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divData.date}:</b> <br><br>
+        `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divData.date}:</b> <br><br>
           <table>
             <tr>
               <td><b> ${i18next.t("enplaned", {ns: "airPassengers"})}: </b> ${thisEnplaned} ${showUnits} </td>
@@ -855,7 +855,7 @@ function airportHover() {
     const thisInter = divData.international;
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
-        `<b> ${i18next.t(selectedAirpt, {ns: "airports"})}, ${divDate}:</b> <br><br>
+        `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divDate}:</b> <br><br>
           <table>
             <tr>
               <td><b> ${i18next.t("domestic", {ns: "airPassengers"})} </b>: ${thisDomestic} </td>
@@ -873,11 +873,11 @@ function airportHover() {
   // airport chart title
   d3.select("#svg_aptChart")
       .select(".areaChartTitle")
-      .text(i18next.t(selectedAirpt, {ns: "airports"}));
+      .text(i18next.t(selectedAirpt, {ns: "geography"}));
 }
 /* -- update map and areaChart titles -- */
 function updateTitles() {
-  const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "geography"});
   const mapTitle = (selectedDataset === "passengers") ?
     `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
     `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "months"})} ${selectedYear}`;
@@ -929,7 +929,7 @@ function getDateMinMax() {
 /* Copy Button*/
 function dataCopyButton(cButtondata) {
   const lines = [];
-  const geography = i18next.t(selectedRegion, {ns: "airGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "geography"});
   const title = [i18next.t("tableTitle", {ns: "airMajorAirports", geo: geography})];
   const columns = [""];
 
