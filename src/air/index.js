@@ -850,9 +850,9 @@ function airportHover() {
     )
         .style("pointer-events", "none");
   } else {
-    const thisDomestic = divData.domestic;
-    const thisTrans = divData.transborder;
-    const thisInter = divData.international;
+    const thisDomestic = selectedSettings.formatNum()(divData.domestic);
+    const thisTrans = selectedSettings.formatNum()(divData.transborder);
+    const thisInter = selectedSettings.formatNum()(divData.international);
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divDate}:</b> <br><br>

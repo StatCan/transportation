@@ -300,7 +300,6 @@ function dataCopyButton(cButtondataFull) {
   let cButtondata = JSON.parse(JSON.stringify(cButtondataFull));
   cButtondata = cButtondataFull.filter((item) => {
     if (item.isLast === undefined) {
-      console.log(item)
       return item;
     }
   });
