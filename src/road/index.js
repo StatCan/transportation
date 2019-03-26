@@ -107,7 +107,7 @@ map.on("mousemove", () => {
       selectedPath.classed("roadMapHighlight", true);
       selectedPath.moveToFront();
       // Tooltip
-      const key = i18next.t(classes[0], {ns: "roadGeography"});
+      const key = i18next.t(classes[0], {ns: "geography"});
       const value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
       div
           .style("opacity", .9);
@@ -235,7 +235,7 @@ function showAreaData() {
 
 /* -- update map and areaChart titles -- */
 function updateTitles() {
-  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "geography"});
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: geography});
@@ -293,7 +293,7 @@ function uiHandler(event) {
 /* Copy Button*/
 function dataCopyButton(cButtondata) {
   const lines = [];
-  const geography = i18next.t(selectedRegion, {ns: "roadGeography"});
+  const geography = i18next.t(selectedRegion, {ns: "geography"});
   const title = [i18next.t("tableTitle", {ns: "roadArea", geo: geography})];
   const columns = [""];
 
@@ -327,7 +327,7 @@ function dataCopyButton(cButtondata) {
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "roadGeography"})}),
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "geography"})}),
   d3.queue()
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
