@@ -7,7 +7,6 @@ export default {
     right: 30,
     bottom: 50
   },
-  scalef: 1,
   aspectRatio: 16 / 11,
   // creates variable d
   filterData: function(data) {

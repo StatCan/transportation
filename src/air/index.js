@@ -521,12 +521,10 @@ map.on("mousemove", () => {
             .moveToFront();
 
         // Tooltip
-        const line1 = (selectedDataset === "passengers") ? `${key} (${i18next.t("scalef", {ns: "airPassengers"})})` :
-          `${key}`;
         let value;
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
-          value = selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
+          value = selectedSettings.formatNum()(totals[selectedDate][classes[0]]);
           line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {
@@ -537,7 +535,7 @@ map.on("mousemove", () => {
         div
             .style("opacity", .9);
         div.html(
-            `<b> ${line1} </b> <br><br>
+            `<b> ${key} </b> <br><br>
               <table>
                 <tr>
                   <td><b> ${line2} </td>
@@ -695,10 +693,6 @@ function colorMap() {
 
   // colour bar scale and add label
   mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, selectedSettings);
-
-  // Colourbar label (need be plotted only once)
-  const mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {ns: "airPassengers"}) : "";
-  d3.select("#cbTitle").select("text").text(mapScaleLabel);
 
   // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
   // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
@@ -945,7 +939,7 @@ function dataCopyButton(cButtondata) {
         if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
           let value = cButtondata[row][column];
 
-          if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
+          if (column != "date" && column != "total" && !isNaN(value)) value;
           auxRow.push(value);
         }
       }

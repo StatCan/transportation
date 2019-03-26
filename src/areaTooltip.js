@@ -1,5 +1,4 @@
 export default function(settings, div, d) {
-  const divFactor = settings.scalef ? settings.scalef : 1;
   const thisMonth = (d.date).substring(5, 7) ? i18next.t((d.date).substring(5, 7), {ns: "months"}) : null;
   const thisYear = d.date.substring(0, 4);
 
@@ -19,7 +18,7 @@ export default function(settings, div, d) {
   const makeTable = function(line1) {
     const keyValues = [];
     for (let idx = 0; idx < keys.length; idx++) {
-      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]] / divFactor) : d[keys[idx]]);
+      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]]) : d[keys[idx]]);
     }
 
     let rtnTable = `<b>${line1}</b><br><br><table>`;

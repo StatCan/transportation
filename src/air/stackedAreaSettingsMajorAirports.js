@@ -7,7 +7,6 @@ export default {
     bottom: 50
   },
   aspectRatio: 16 / 11,
-  scalef: 1,
   filterData: function(data) {
     let count = 0;
     data.filter(function(item) {

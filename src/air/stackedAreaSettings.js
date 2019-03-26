@@ -3,11 +3,10 @@ export default {
   ns: "airPassengers",
   margin: {
     top: 50,
-    left: 90,
+    left: 130,
     right: 30,
     bottom: 50
   },
-  scalef: 1e3,
   aspectRatio: 16 / 11,
   filterData: function(data) {
     // clone data object
@@ -135,7 +134,7 @@ export default {
     getValue: function(d, key) {
       if (d[key]=== "x" || d[key]=== "..") {
         return undefined;
-      } else return Number(d[key]) * 1.0/ 1000;
+      } else return Number(d[key]) * 1.0/ 1;
     },
     getTotal: function(d, index, data) {
       let total;
@@ -150,10 +149,10 @@ export default {
         }
         d[sett.y.totalProperty] = total;
       }
-      return (isNaN(Number(d[sett.y.totalProperty]))? 0:Number(d[sett.y.totalProperty]) *1.0/1000);
+      return (isNaN(Number(d[sett.y.totalProperty]))? 0:Number(d[sett.y.totalProperty]) *1.0/1);
     },
     getText: function(d, key) {
-      return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1000;
+      return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1;
     },
     ticks: 5,
     tickSizeOuter: 0

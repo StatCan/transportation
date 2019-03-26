@@ -5,7 +5,6 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   const yRect = 20;
   const yText = 65;
   const yNaNText = yText + 7;
-  const scalef = settings.scalef ? settings.scalef : 1;
 
   // text labels (calculate cbValues)
   const delta =(dimExtent[1] - dimExtent[0] ) / numLevels;
@@ -23,7 +22,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   // text fn
   const getText = function(i, j) {
     if (i < numLevels) {
-      const s0 = settings.formatNum()(cbValues[j] / scalef);
+      const s0 = settings.formatNum()(cbValues[j]);
       return s0 + "+";
     } else if (i === numLevels + 1) {
       return "x";
@@ -71,7 +70,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
       .attr("height", rectDim)
       .attr("y", yRect)
       .attr("x", function(d, i) {
-        return 160 + i * rectDim;
+        return 135 + i * rectDim;
       })
       .attr("fill", getFill)
       .attr("class", function(d, i) {
@@ -110,10 +109,9 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
       .attr("text-anchor", "end")
       .attr("transform", function(d, i) {
         if (i < numLevels) {
-          // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
-          return `translate(${165 + (i * (rectDim + 0))}, ${yText}) rotate(-45)`;
+          return `translate(${140 + (i * (rectDim + 0))}, ${yText}) rotate(-45)`;
         } else if (i === numLevels + 1) { // NaN box in legend
-          return `translate(${181 + (i * (rectDim + 0))}, ${yNaNText}) `;
+          return `translate(${156 + (i * (rectDim + 0))}, ${yNaNText}) `;
         }
       })
       .style("display", function() {

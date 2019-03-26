@@ -9,7 +9,6 @@ let selectedOrig = "AT";
 let selectedDest = "QC";
 let selectedComm = "chems";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
-const scalef = 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 const data = {}; // stores data for barChart
@@ -106,7 +105,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "rail"});
@@ -127,7 +126,7 @@ function filterDataBar() {
     values: Object.keys(d).map((p) => {
       return {
         year: p,
-        value: d[p][this.selectedDest] / scalef
+        value: d[p][this.selectedDest]
       };
     })
   }];

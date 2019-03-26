@@ -11,7 +11,6 @@ let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
 let selectedYear = "2017";
-const scalef = 1; // 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 // Add number formatter to stackedArea settings file
@@ -108,7 +107,7 @@ map.on("mousemove", () => {
       selectedPath.moveToFront();
       // Tooltip
       const key = i18next.t(classes[0], {ns: "geography"});
-      const value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
+      const value = settings.formatNum()(mapData[selectedYear][classes[0]]);
       div
           .style("opacity", .9);
       div.html(
@@ -309,7 +308,7 @@ function dataCopyButton(cButtondata) {
         if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
           let value = cButtondata[row][column];
 
-          if (column != "date" && column!= "total" && !isNaN(value)) value /= scalef;
+          if (column != "date" && column!= "total" && !isNaN(value)) value;
 
           auxRow.push(value);
         }
