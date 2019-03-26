@@ -1318,7 +1318,6 @@
 	    right: 30,
 	    bottom: 50
 	  },
-	  scalef: 1,
 	  aspectRatio: 16 / 11,
 	  // creates variable d
 	  filterData: function filterData(data) {
@@ -1552,8 +1551,7 @@
 	  var rectDim = 35;
 	  var yRect = 20;
 	  var yText = 65;
-	  var yNaNText = yText + 7;
-	  var scalef = settings.scalef ? settings.scalef : 1; // text labels (calculate cbValues)
+	  var yNaNText = yText + 7; // text labels (calculate cbValues)
 
 	  var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
 	  var cbValues = [];
@@ -1571,7 +1569,7 @@
 
 	  var getText = function getText(i, j) {
 	    if (i < numLevels) {
-	      var s0 = settings.formatNum()(cbValues[j] / scalef);
+	      var s0 = settings.formatNum()(cbValues[j]);
 	      return s0 + "+";
 	    } else if (i === numLevels + 1) {
 	      return "x";
@@ -1596,7 +1594,7 @@
 	  }); // add rects
 
 	  newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", yRect).attr("x", function (d, i) {
-	    return 160 + i * rectDim;
+	    return 135 + i * rectDim;
 	  }).attr("fill", getFill).attr("class", function (d, i) {
 	    if (i === numLevels + 1) {
 	      return "classNaN";
@@ -1609,7 +1607,8 @@
 	        ns: "airUI"
 	      });
 	      var line2 = i18next.t("NaNhover2", {
-	        ns: "airUI"
+	        ns: "airUI",
+	        escapeInterpolation: false
 	      });
 	      divNaN.style("opacity", 0.9).html("<br>" + line1 + "<br>" + line2 + "<br><br>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	    }
@@ -1619,11 +1618,10 @@
 
 	  newGroup.append("text").text(getText).attr("text-anchor", "end").attr("transform", function (d, i) {
 	    if (i < numLevels) {
-	      // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
-	      return "translate(".concat(165 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
+	      return "translate(".concat(140 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
 	    } else if (i === numLevels + 1) {
 	      // NaN box in legend
-	      return "translate(".concat(181 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
+	      return "translate(".concat(156 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
 	    }
 	  }).style("display", function () {
 	    return "inline";
@@ -1780,7 +1778,6 @@
 	_export(_export.P, 'Function', { bind: _bind });
 
 	function areaTooltip (settings, div, d) {
-	  var divFactor = settings.scalef ? settings.scalef : 1;
 	  var thisMonth = d.date.substring(5, 7) ? i18next.t(d.date.substring(5, 7), {
 	    ns: "months"
 	  }) : null;
@@ -1806,7 +1803,7 @@
 	    var keyValues = [];
 
 	    for (var idx = 0; idx < keys.length; idx++) {
-	      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]] / divFactor) : d[keys[idx]]);
+	      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]]) : d[keys[idx]]);
 	    }
 
 	    var rtnTable = "<b>".concat(line1, "</b><br><br><table>");
@@ -2026,8 +2023,6 @@
 	var mapData = {};
 	var selectedRegion = "CANADA";
 	var selectedYear = "2017";
-	var scalef = 1; // 1e3;
-
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 	// Add number formatter to stackedArea settings file
 
@@ -2109,9 +2104,9 @@
 	      selectedPath.moveToFront(); // Tooltip
 
 	      var key = i18next.t(classes[0], {
-	        ns: "roadGeography"
+	        ns: "geography"
 	      });
-	      var value = settings.formatNum()(mapData[selectedYear][classes[0]] / scalef);
+	      var value = settings.formatNum()(mapData[selectedYear][classes[0]]);
 	      div.style("opacity", .9);
 	      div.html("<b>" + key + " (" + i18next.t("units", {
 	        ns: "road"
@@ -2202,7 +2197,7 @@
 
 	function updateTitles() {
 	  var geography = i18next.t(selectedRegion, {
-	    ns: "roadGeography"
+	    ns: "geography"
 	  });
 	  d3.select("#areaTitleRoad").text(i18next.t("chartTitle", {
 	    ns: "road"
@@ -2267,7 +2262,7 @@
 	function dataCopyButton(cButtondata) {
 	  var lines = [];
 	  var geography = i18next.t(selectedRegion, {
-	    ns: "roadGeography"
+	    ns: "geography"
 	  });
 	  var title = [i18next.t("tableTitle", {
 	    ns: "roadArea",
@@ -2290,7 +2285,6 @@
 	      for (var column in cButtondata[row]) {
 	        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
 	          var value = cButtondata[row][column];
-	          if (column != "date" && column != "total" && !isNaN(value)) value /= scalef;
 	          auxRow.push(value);
 	        }
 	      }
@@ -2313,7 +2307,7 @@
 	  }), settings.tableTitle = i18next.t("tableTitle", {
 	    ns: "roadArea",
 	    geo: i18next.t(selectedRegion, {
-	      ns: "roadGeography"
+	      ns: "geography"
 	    })
 	  }), d3.queue().defer(d3.json, "data/road/Annual_Totals.json").defer(d3.json, "data/road/CANADA.json").await(function (error, mapfile, areafile) {
 	    mapData = mapfile;

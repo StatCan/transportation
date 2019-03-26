@@ -1984,11 +1984,10 @@
     ns: "airPassengers",
     margin: {
       top: 50,
-      left: 90,
+      left: 130,
       right: 30,
       bottom: 50
     },
-    scalef: 1e3,
     aspectRatio: 16 / 11,
     filterData: function filterData(data) {
       // clone data object
@@ -2123,7 +2122,7 @@
       getValue: function getValue(d, key) {
         if (d[key] === "x" || d[key] === "..") {
           return undefined;
-        } else return Number(d[key]) * 1.0 / 1000;
+        } else return Number(d[key]) * 1.0 / 1;
       },
       getTotal: function getTotal(d, index, data) {
         var total;
@@ -2141,10 +2140,10 @@
           d[sett.y.totalProperty] = total;
         }
 
-        return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1000;
+        return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1;
       },
       getText: function getText(d, key) {
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1000;
+        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1;
       },
       ticks: 5,
       tickSizeOuter: 0
@@ -2230,7 +2229,6 @@
       bottom: 50
     },
     aspectRatio: 16 / 11,
-    scalef: 1,
     filterData: function filterData(data) {
       var count = 0;
       data.filter(function (item) {
@@ -2429,8 +2427,7 @@
     var rectDim = 35;
     var yRect = 20;
     var yText = 65;
-    var yNaNText = yText + 7;
-    var scalef = settings.scalef ? settings.scalef : 1; // text labels (calculate cbValues)
+    var yNaNText = yText + 7; // text labels (calculate cbValues)
 
     var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
     var cbValues = [];
@@ -2448,7 +2445,7 @@
 
     var getText = function getText(i, j) {
       if (i < numLevels) {
-        var s0 = settings.formatNum()(cbValues[j] / scalef);
+        var s0 = settings.formatNum()(cbValues[j]);
         return s0 + "+";
       } else if (i === numLevels + 1) {
         return "x";
@@ -2473,7 +2470,7 @@
     }); // add rects
 
     newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", yRect).attr("x", function (d, i) {
-      return 160 + i * rectDim;
+      return 135 + i * rectDim;
     }).attr("fill", getFill).attr("class", function (d, i) {
       if (i === numLevels + 1) {
         return "classNaN";
@@ -2486,7 +2483,8 @@
           ns: "airUI"
         });
         var line2 = i18next.t("NaNhover2", {
-          ns: "airUI"
+          ns: "airUI",
+          escapeInterpolation: false
         });
         divNaN.style("opacity", 0.9).html("<br>" + line1 + "<br>" + line2 + "<br><br>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
       }
@@ -2496,11 +2494,10 @@
 
     newGroup.append("text").text(getText).attr("text-anchor", "end").attr("transform", function (d, i) {
       if (i < numLevels) {
-        // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
-        return "translate(".concat(165 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
+        return "translate(".concat(140 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
       } else if (i === numLevels + 1) {
         // NaN box in legend
-        return "translate(".concat(181 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
+        return "translate(".concat(156 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
       }
     }).style("display", function () {
       return "inline";
@@ -2606,7 +2603,6 @@
   _export(_export.P, 'Function', { bind: _bind });
 
   function areaTooltip (settings, div, d) {
-    var divFactor = settings.scalef ? settings.scalef : 1;
     var thisMonth = d.date.substring(5, 7) ? i18next.t(d.date.substring(5, 7), {
       ns: "months"
     }) : null;
@@ -2632,7 +2628,7 @@
       var keyValues = [];
 
       for (var idx = 0; idx < keys.length; idx++) {
-        keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]] / divFactor) : d[keys[idx]]);
+        keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]]) : d[keys[idx]]);
       }
 
       var rtnTable = "<b>".concat(line1, "</b><br><br><table>");
@@ -3141,7 +3137,6 @@
   var lineData = lineDataPassenger; // -- store default values for selections -- //
 
   var defaultYear = "2017";
-  var defaultMonth = "01";
   var defaultRegion = "CANADA";
   var selectedDataset = "passengers";
   var selectedYear = "2017";
@@ -3210,20 +3205,23 @@
     d3.select("#yearSelector")._groups[0][0].value = selectedYear;
 
     if (event.target.id === "major") {
-      selectedMonth = defaultMonth;
-      d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
       movementsButton.attr("class", "btn btn-primary major data_set_selector").attr("aria-pressed", true);
       passengerButton.attr("class", "btn btn-default movements data_set_selector").attr("aria-pressed", false);
       monthDropdown.style("visibility", "visible");
-      selectedDate = selectedYear + "-" + selectedMonth;
       selectedDataset = "major_airports";
       selectedDropdown = majorDropdownData;
       selectedSettings = settingsMajorAirports;
       selectedDateRange = majorDateRange;
+      selectedDate = selectedDateRange.max;
+      selectedMonth = selectedDate.substring(5, 7);
+      selectedYear = selectedDate.substring(0, 4);
+      d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+      d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
       metaData = majorMetaData;
       lineData = lineDataMajor;
       createDropdown();
       totals = majorTotals;
+      updateTitles();
       resetZoom();
       showAreaData();
       colorMap();
@@ -3234,15 +3232,17 @@
       movementsButton.attr("class", "btn btn-default major data_set_selector").attr("aria-pressed", false);
       passengerButton.attr("class", "btn btn-primary movements data_set_selector").attr("aria-pressed", true);
       monthDropdown.style("visibility", "hidden");
-      selectedDate = selectedYear;
       selectedDataset = "passengers";
       selectedDropdown = passengerDropdownData;
       selectedSettings = settings;
       selectedDateRange = passengerDateRange;
+      selectedDate = selectedDateRange.max;
+      d3.select("#yearSelector")._groups[0][0].value = selectedYear;
       metaData = passengerMetaData;
       lineData = lineDataPassenger;
       createDropdown();
       totals = passengerTotals;
+      updateTitles();
       resetZoom();
       showAreaData();
       colorMap();
@@ -3294,21 +3294,18 @@
 
       if (classes[0] !== "svg-shimmed") {
         var key = i18next.t(classes[0], {
-          ns: "airGeography"
+          ns: "geography"
         });
 
         if (key !== "airport") {
           // Highlight map region
           d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true).moveToFront(); // Tooltip
 
-          var line1 = selectedDataset === "passengers" ? "".concat(key, " (").concat(i18next.t("scalef", {
-            ns: "airPassengers"
-          }), ")") : "".concat(key);
           var value;
           var line2;
 
           if (Number(totals[selectedDate][classes[0]])) {
-            value = selectedSettings.formatNum()(totals[selectedDate][classes[0]] / (selectedSettings.scalef ? selectedSettings.scalef : 1));
+            value = selectedSettings.formatNum()(totals[selectedDate][classes[0]]);
             line2 = selectedDataset === "passengers" ? "".concat(value, " ").concat(i18next.t("units", {
               ns: "airPassengers"
             })) : "".concat(value, " ").concat(i18next.t("units", {
@@ -3321,7 +3318,7 @@
           }
 
           div.style("opacity", .9);
-          div.html("<b> ".concat(line1, " </b> <br><br>\n              <table>\n                <tr>\n                  <td><b> ").concat(line2, " </td>\n                </tr>\n              </table>")).style("pointer-events", "none");
+          div.html("<b> ".concat(key, " </b> <br><br>\n              <table>\n                <tr>\n                  <td><b> ").concat(line2, " </td>\n                </tr>\n              </table>")).style("pointer-events", "none");
           div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
         }
       }
@@ -3444,12 +3441,7 @@
 
     var dimExtent = fillMapFn(totArr, colourArray, numLevels); // colour bar scale and add label
 
-    mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, selectedSettings); // Colourbar label (need be plotted only once)
-
-    var mapScaleLabel = selectedDataset === "passengers" ? i18next.t("mapScaleLabel", {
-      ns: "airPassengers"
-    }) : "";
-    d3.select("#cbTitle").select("text").text(mapScaleLabel); // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
+    mapColourScaleFn(svgCB, colourArray, dimExtent, numLevels, selectedSettings); // DEFINE AIRPORTGROUP HERE, AFTER CANADA MAP IS FINISHED, OTHERWISE
     // CIRCLES WILL BE PLOTTED UNDERNEATH THE MAP PATHS!
 
     airportGroup = map.append("g");
@@ -3558,11 +3550,11 @@
 
       if (geo.data && geo.data === "no") {
         geoDropdown.append($("<option disabled></option>").attr("value", geo.code).html(prefix + i18next.t(geo.code, {
-          ns: "airGeography"
+          ns: "geography"
         })));
       } else {
         geoDropdown.append($("<option></option>").attr("value", geo.code).html(prefix + i18next.t(geo.code, {
-          ns: "airGeography"
+          ns: "geography"
         })));
       }
     }
@@ -3592,7 +3584,7 @@
         ns: "airPassengers"
       }) : "";
       div.html("<b> ".concat(i18next.t(selectedAirpt, {
-        ns: "airports"
+        ns: "geography"
       }), ", ").concat(divData.date, ":</b> <br><br>\n          <table>\n            <tr>\n              <td><b> ").concat(i18next.t("enplaned", {
         ns: "airPassengers"
       }), ": </b> ").concat(thisEnplaned, " ").concat(showUnits, " </td>\n            </tr>\n              <td><b> ").concat(i18next.t("deplaned", {
@@ -3606,7 +3598,7 @@
         ns: "months"
       }), " ").concat(divData.date.substring(0, 4));
       div.html("<b> ".concat(i18next.t(selectedAirpt, {
-        ns: "airports"
+        ns: "geography"
       }), ", ").concat(divDate, ":</b> <br><br>\n          <table>\n            <tr>\n              <td><b> ").concat(i18next.t("domestic", {
         ns: "airPassengers"
       }), " </b>: ").concat(thisDomestic, " </td>\n            </tr>\n            <tr>\n              <td><b> ").concat(i18next.t("transborder", {
@@ -3618,7 +3610,7 @@
 
 
     d3.select("#svg_aptChart").select(".areaChartTitle").text(i18next.t(selectedAirpt, {
-      ns: "airports"
+      ns: "geography"
     }));
   }
   /* -- update map and areaChart titles -- */
@@ -3626,7 +3618,7 @@
 
   function updateTitles() {
     var geography = i18next.t(selectedRegion, {
-      ns: "airGeography"
+      ns: "geography"
     });
     var mapTitle = selectedDataset === "passengers" ? "".concat(i18next.t("mapTitle", {
       ns: "airPassengers"
@@ -3698,7 +3690,7 @@
   function dataCopyButton(cButtondata) {
     var lines = [];
     var geography = i18next.t(selectedRegion, {
-      ns: "airGeography"
+      ns: "geography"
     });
     var title = [i18next.t("tableTitle", {
       ns: "airMajorAirports",
@@ -3707,9 +3699,11 @@
     var columns = [""];
 
     for (var concept in cButtondata[0]) {
-      if (concept != "date") columns.push(i18next.t(concept, {
-        ns: "airPassengers"
-      }));
+      if (concept != "date") {
+        if (concept !== "isLast") columns.push(i18next.t(concept, {
+          ns: "airPassengers"
+        }));
+      }
     }
 
     lines.push(title, [], columns);
@@ -3720,9 +3714,10 @@
 
         for (var column in cButtondata[row]) {
           if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-            var value = cButtondata[row][column];
-            if (column != "date" && column != "total" && !isNaN(value)) value /= 1000;
-            auxRow.push(value);
+            if (cButtondata[row][column] !== true && cButtondata[row][column] !== false) {
+              var value = cButtondata[row][column];
+              auxRow.push(value);
+            }
           }
         }
 

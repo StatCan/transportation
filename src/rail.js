@@ -750,7 +750,7 @@
 	});
 
 	var settingsBar = {
-	  aspectRatio: 1 / 1,
+	  aspectRatio: 16 / 13,
 	  margin: {
 	    top: 50,
 	    left: 50,
@@ -1142,8 +1142,7 @@
 	  var rectDim = 35;
 	  var yRect = 20;
 	  var yText = 65;
-	  var yNaNText = yText + 7;
-	  var scalef = settings.scalef ? settings.scalef : 1; // text labels (calculate cbValues)
+	  var yNaNText = yText + 7; // text labels (calculate cbValues)
 
 	  var delta = (dimExtent[1] - dimExtent[0]) / numLevels;
 	  var cbValues = [];
@@ -1161,7 +1160,7 @@
 
 	  var getText = function getText(i, j) {
 	    if (i < numLevels) {
-	      var s0 = settings.formatNum()(cbValues[j] / scalef);
+	      var s0 = settings.formatNum()(cbValues[j]);
 	      return s0 + "+";
 	    } else if (i === numLevels + 1) {
 	      return "x";
@@ -1186,7 +1185,7 @@
 	  }); // add rects
 
 	  newGroup.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", yRect).attr("x", function (d, i) {
-	    return 160 + i * rectDim;
+	    return 135 + i * rectDim;
 	  }).attr("fill", getFill).attr("class", function (d, i) {
 	    if (i === numLevels + 1) {
 	      return "classNaN";
@@ -1199,7 +1198,8 @@
 	        ns: "airUI"
 	      });
 	      var line2 = i18next.t("NaNhover2", {
-	        ns: "airUI"
+	        ns: "airUI",
+	        escapeInterpolation: false
 	      });
 	      divNaN.style("opacity", 0.9).html("<br>" + line1 + "<br>" + line2 + "<br><br>").style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
 	    }
@@ -1209,11 +1209,10 @@
 
 	  newGroup.append("text").text(getText).attr("text-anchor", "end").attr("transform", function (d, i) {
 	    if (i < numLevels) {
-	      // return "translate(" + (165 + (i * (rectDim + 0))) + ", 50) " + "rotate(-45)";
-	      return "translate(".concat(165 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
+	      return "translate(".concat(140 + i * (rectDim + 0), ", ").concat(yText, ") rotate(-45)");
 	    } else if (i === numLevels + 1) {
 	      // NaN box in legend
-	      return "translate(".concat(181 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
+	      return "translate(".concat(156 + i * (rectDim + 0), ", ").concat(yNaNText, ") ");
 	    }
 	  }).style("display", function () {
 	    return "inline";
@@ -1421,7 +1420,6 @@
 	var selectedComm = "chems";
 	var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
-	var scalef = 1e3;
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 	var data = {}; // stores data for barChart
@@ -1497,92 +1495,6 @@
 	} // -----------------------------------------------------------------------------
 
 	/* -- Map interactions -- */
-	// map.on("mousemove", () => {
-	//   if (d3.select(d3.event.target).attr("class")) {
-	//     // const classes = d3.event.target.classList;
-	//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
-	//
-	//     if (classes[0] !== "svg-shimmed") {
-	//       // Highlight map region
-	//       const selectedPath = d3.select(".dashboard .map")
-	//           .select("." + classes[0]);
-	//
-	//       selectedPath.classed("roadMapHighlight", true);
-	//       selectedPath.moveToFront();
-	//       // Tooltip
-	//       const key = i18next.t(classes[0], {ns: "roadGeography"});
-	//       const value = formatComma(mapData[selectedYear][classes[0]] / scalef);
-	//       div
-	//           .style("opacity", .9);
-	//       div.html(
-	//           "<b>" + key + " (" + i18next.t("units", {ns: "road"}) + ")</b>"+ "<br><br>" +
-	//             "<table>" +
-	//               "<tr>" +
-	//                 "<td><b>" + value + "</td>" +
-	//               "</tr>" +
-	//             "</table>"
-	//       );
-	//
-	//       div
-	//           .style("left", ((d3.event.pageX +10) + "px"))
-	//           .style("top", ((d3.event.pageY +10) + "px"));
-	//     } else {
-	//       // clear tooltip for IE
-	//       div
-	//           .style("opacity", 0);
-	//     }
-	//   }
-	// });
-	//
-	// map.on("mouseout", () => {
-	//   div.transition()
-	//       .style("opacity", 0);
-	//
-	//   if (selectedRegion) {
-	//     d3.select(".map")
-	//         .selectAll("path:not(." + selectedRegion + ")")
-	//         .classed("roadMapHighlight", false);
-	//   } else {
-	//     d3.select(".map")
-	//         .selectAll("path")
-	//         .classed("roadMapHighlight", false);
-	//   }
-	// });
-	//
-	// map.on("click", () => {
-	//   // clear any previous clicks
-	//   d3.select(".map")
-	//       .selectAll("path")
-	//       .classed("roadMapHighlight", false);
-	//
-	//   if (d3.select(d3.event.target).attr("class") &&
-	//         d3.select(d3.event.target).attr("class").indexOf("svg-shimmed") === -1) {
-	//     const classes = (d3.select(d3.event.target).attr("class") || "").split(" "); // IE-compatible
-	//
-	//     selectedRegion = classes[0];
-	//     d3.select(".dashboard .map")
-	//         .select("." + classes[0])
-	//         .classed("roadMapHighlight", true)
-	//         .moveToFront();
-	//     updateTitles();
-	//
-	//     // Display selected region in stacked area chart
-	//     loadData(selectedRegion, () => {
-	//       showAreaData();
-	//     });
-	//
-	//     // update region displayed in dropdown menu
-	//     d3.select("#groups")._groups[0][0].value = selectedRegion;
-	//   } else {
-	//     // reset area chart to Canada
-	//     selectedRegion = "CANADA";
-	//     updateTitles();
-	//     showAreaData();
-	//
-	//     // update region displayed in dropdown menu
-	//     d3.select("#groups")._groups[0][0].value = selectedRegion;
-	//   }
-	// });
 	// -----------------------------------------------------------------------------
 
 	/* FNS */
@@ -1591,13 +1503,13 @@
 	function colorMap() {
 	  // store map data in array and plot colour
 	  var thisTotalArray = [];
-	  thisTotalArray.push(data[selectedOrig][selectedYear]);
+	  thisTotalArray.push(data["".concat(selectedOrig, "_").concat(selectedComm)][selectedYear]);
 	  var colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
 	  var numLevels = colourArray.length; // colour map with fillMapFn and output dimExtent for colour bar scale
 
 	  var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
 
-	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, scalef); // Colourbar label (need be plotted only once)
+	  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length); // Colourbar label (need be plotted only once)
 
 	  var mapScaleLabel = i18next.t("units", {
 	    ns: "rail"
@@ -1619,7 +1531,7 @@
 	    values: Object.keys(d).map(function (p) {
 	      return {
 	        year: p,
-	        value: d[p][_this.selectedDest] / scalef
+	        value: d[p][_this.selectedDest]
 	      };
 	    })
 	  }];
@@ -1664,10 +1576,10 @@
 	    ns: "commodities"
 	  });
 	  var thisOrig = i18next.t(selectedOrig, {
-	    ns: "railGeography"
+	    ns: "geography"
 	  });
 	  var thisDest = i18next.t(selectedDest, {
-	    ns: "railGeography"
+	    ns: "geography"
 	  });
 	  d3.select("#railTitleBarChart").text("".concat(thisComm, " from ").concat(thisOrig, " to ").concat(thisDest));
 	  settingsBar.tableTitle = i18next.t("tableTitle", {

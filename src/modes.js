@@ -1709,7 +1709,8 @@
 	      });
 	    },
 	    getText: function getText(d) {
-	      var footnote = "<sup id='fn1-rf'><a class='fn-lnk' href='#fn1'><span class='wb-inv'>Footnote </span>1</a></sup>";
+	      var fnum = d.name === "USres_other" ? 1 : 2;
+	      var footnote = "<sup id='fn".concat(fnum, "-rf'><a class='fn-lnk' href='#fn1'><span class='wb-inv'>Footnote </span>1</a></sup>");
 	      return d.name.indexOf("other") !== -1 ? "".concat(i18next.t(d.name, {
 	        ns: "modes"
 	      })).concat(footnote) : i18next.t(d.name, {
@@ -2285,8 +2286,8 @@
 
 
 	var selectedRegion = "Canada";
-	var selectedMonth = "01";
-	var selectedYear = "2018";
+	var selectedMonth;
+	var selectedYear;
 	var dateRange;
 	var data = {}; // global used on sankey
 
@@ -2363,6 +2364,7 @@
 	  var auxArray = dataTree.toArray();
 	  auxArray.forEach(function (item) {});
 	  drawTable(table, tableSettings, auxArray);
+	  $(".wb-fnote").trigger("wb-init.wb-fnote");
 	  updateTitles(); // ------------------copy button---------------------------------
 
 	  cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2423,24 +2425,28 @@
 	i18n.load(["src/i18n"], function () {
 	  d3.queue().defer(d3.json, "data/modes/dateRange.json").await(function (error, dataDateRange) {
 	    dateRange = dataDateRange;
+	    selectedMonth = dateRange.max.substring(5, 7);
+	    selectedYear = dateRange.max.substring(0, 4);
 	    createDropdown();
-	  }); // copy button options
+	    d3.select("#year")._groups[0][0].value = selectedYear;
+	    d3.select("#month")._groups[0][0].value = selectedMonth; // copy button options
 
-	  var cButtonOptions = {
-	    pNode: document.getElementById("copy-button-container"),
-	    title: i18next.t("CopyButton_Title", {
-	      ns: "CopyButton"
-	    }),
-	    msgCopyConfirm: i18next.t("CopyButton_Confirm", {
-	      ns: "CopyButton"
-	    }),
-	    accessibility: i18next.t("CopyButton_Title", {
-	      ns: "CopyButton"
-	    })
-	  }; // build nodes on copy button
+	    var cButtonOptions = {
+	      pNode: document.getElementById("copy-button-container"),
+	      title: i18next.t("CopyButton_Title", {
+	        ns: "CopyButton"
+	      }),
+	      msgCopyConfirm: i18next.t("CopyButton_Confirm", {
+	        ns: "CopyButton"
+	      }),
+	      accessibility: i18next.t("CopyButton_Title", {
+	        ns: "CopyButton"
+	      })
+	    }; // build nodes on copy button
 
-	  cButton.build(cButtonOptions);
-	  loadData(selectedYear, selectedMonth, showData);
+	    cButton.build(cButtonOptions);
+	    loadData(selectedYear, selectedMonth, showData);
+	  });
 	});
 	$(document).on("change", uiHandler);
 
