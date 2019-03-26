@@ -927,7 +927,9 @@ function dataCopyButton(cButtondata) {
   const title = [i18next.t("tableTitle", {ns: "airMajorAirports", geo: geography})];
   const columns = [""];
 
-  for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "airPassengers"}));
+  for (const concept in cButtondata[0]) if (concept != "date") {
+    if (concept !== "isLast") columns.push(i18next.t(concept, {ns: "airPassengers"}));
+  }
 
   lines.push(title, [], columns);
 
@@ -937,10 +939,12 @@ function dataCopyButton(cButtondata) {
 
       for (const column in cButtondata[row]) {
         if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-          let value = cButtondata[row][column];
+          if (cButtondata[row][column] !== true && cButtondata[row][column] !== false) {
+            const value = cButtondata[row][column];
 
-          if (column != "date" && column != "total" && !isNaN(value)) value;
-          auxRow.push(value);
+            if (column != "date" && column != "total" && !isNaN(value)) value;
+            auxRow.push(value);
+          }
         }
       }
       lines.push(auxRow);
