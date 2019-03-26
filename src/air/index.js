@@ -936,7 +936,6 @@ function dataCopyButton(cButtondata) {
   for (const concept in cButtondata[0]) if (concept != "date") {
     if (concept !== "isLast") columns.push(i18next.t(concept, {ns: "airPassengers"}));
   }
-
   lines.push(title, [], columns);
 
   for (const row in cButtondata) {
@@ -944,8 +943,8 @@ function dataCopyButton(cButtondata) {
       const auxRow = [];
 
       for (const column in cButtondata[row]) {
-        if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-          if (cButtondata[row][column] !== true && cButtondata[row][column] !== false) {
+        if (column !== "isLast") {
+          if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
             const value = cButtondata[row][column];
 
             if (column != "date" && column != "total" && !isNaN(value)) value;
