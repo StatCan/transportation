@@ -338,7 +338,6 @@ let lineData = lineDataPassenger;
 
 // -- store default values for selections -- //
 const defaultYear = "2017";
-const defaultMonth = "01";
 const defaultRegion = "CANADA";
 let selectedDataset = "passengers";
 let selectedYear = "2017";
@@ -423,7 +422,6 @@ $(".data_set_selector").on("click", function(event) {
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
 
   if (event.target.id === ("major")) {
-
     movementsButton
         .attr("class", "btn btn-primary major data_set_selector")
         .attr("aria-pressed", true);
@@ -438,8 +436,8 @@ $(".data_set_selector").on("click", function(event) {
 
     selectedDateRange = majorDateRange;
     selectedDate = selectedDateRange.max;
-    selectedMonth = selectedDate.substring(5,7)
-    selectedYear = selectedDate.substring(0,4)
+    selectedMonth = selectedDate.substring(5, 7);
+    selectedYear = selectedDate.substring(0, 4);
     d3.select("#yearSelector")._groups[0][0].value = selectedYear;
     d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
 
@@ -475,7 +473,7 @@ $(".data_set_selector").on("click", function(event) {
     createDropdown();
 
     totals = passengerTotals;
-    updateTitles()
+    updateTitles();
     resetZoom();
     showAreaData();
     colorMap();

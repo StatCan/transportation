@@ -146,7 +146,6 @@ function createDropdown() {
   const monthId = `#${"month"}`;
 
   dropdownCheck(yearId, monthId, dateRange, selectedYear);
-
 }
 
 // -----------------------------------------------------------------------------
@@ -168,8 +167,8 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/modes/dateRange.json")
       .await(function(error, dataDateRange) {
         dateRange = dataDateRange;
-        selectedMonth = dateRange.max.substring(5,7);
-        selectedYear = dateRange.max.substring(0,4);
+        selectedMonth = dateRange.max.substring(5, 7);
+        selectedYear = dateRange.max.substring(0, 4);
 
         createDropdown();
         d3.select("#year")._groups[0][0].value = selectedYear;
