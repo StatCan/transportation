@@ -13,13 +13,11 @@ const scalef = 1e3;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 const data = {}; // stores data for barChart
-let selectedYear = "2016"
-let domain; // Stores domain of flattened origJSON
-let bar; // stores barChart() call
-let mapData = {};
-let canadaMap;
-
-
+const selectedYear = "2016";
+// let domain; // Stores domain of flattened origJSON
+// let bar; // stores barChart() call
+// let mapData = {};
+// let canadaMap;
 
 // ---------------------------------------------------------------------
 /* SVGs */
@@ -40,7 +38,7 @@ const svgCB = d3.select("#mapColourScale")
 
 /* -- shim all the SVGs (chart is already shimmed in component) -- */
 d3.stcExt.addIEShim(map, 387.1, 457.5);
-const div = d3.select("body").append("div")
+d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -299,7 +297,7 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"pulp": allpulp});
         // allCommArr.push({"other": allother});
 
-        canadaMap = getCanadaMap(map)
+        getCanadaMap(map)
             .on("loaded", function() {
               colorMap();
             });
