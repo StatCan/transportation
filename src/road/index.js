@@ -290,11 +290,20 @@ function uiHandler(event) {
 
 // -----------------------------------------------------------------------------
 /* Copy Button*/
-function dataCopyButton(cButtondata) {
+function dataCopyButton(cButtondataFull) {
   const lines = [];
   const geography = i18next.t(selectedRegion, {ns: "geography"});
   const title = [i18next.t("tableTitle", {ns: "roadArea", geo: geography})];
   const columns = [""];
+
+  // filter out extra row added for data padding to areaChart
+  let cButtondata = JSON.parse(JSON.stringify(cButtondataFull));
+  cButtondata = cButtondataFull.filter((item) => {
+    if (item.isLast === undefined) {
+      console.log(item)
+      return item;
+    }
+  });
 
   for (const concept in cButtondata[0]) if (concept != "date") columns.push(i18next.t(concept, {ns: "roadArea"}));
 
