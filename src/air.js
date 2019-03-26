@@ -3591,9 +3591,9 @@
         ns: "airPassengers"
       }), ": </b> ").concat(thisDeplaned, " ").concat(showUnits, " </td>\n            </tr>\n         </table>")).style("pointer-events", "none");
     } else {
-      var thisDomestic = divData.domestic;
-      var thisTrans = divData.transborder;
-      var thisInter = divData.international;
+      var thisDomestic = selectedSettings.formatNum()(divData.domestic);
+      var thisTrans = selectedSettings.formatNum()(divData.transborder);
+      var thisInter = selectedSettings.formatNum()(divData.international);
       var divDate = "".concat(i18next.t(divData.date.substring(5, 7), {
         ns: "months"
       }), " ").concat(divData.date.substring(0, 4));
@@ -3713,8 +3713,8 @@
         var auxRow = [];
 
         for (var column in cButtondata[row]) {
-          if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-            if (cButtondata[row][column] !== true && cButtondata[row][column] !== false) {
+          if (column !== "isLast") {
+            if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
               var value = cButtondata[row][column];
               auxRow.push(value);
             }

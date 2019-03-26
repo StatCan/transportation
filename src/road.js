@@ -226,11 +226,10 @@
 	  return it;
 	};
 
-	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	// 7.1.13 ToObject(argument)
 
-
-	var _toIobject = function (it) {
-	  return _iobject(_defined(it));
+	var _toObject = function (it) {
+	  return Object(_defined(it));
 	};
 
 	// 7.1.4 ToInteger
@@ -245,6 +244,131 @@
 	var min = Math.min;
 	var _toLength = function (it) {
 	  return it > 0 ? min(_toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+	};
+
+	// 7.2.2 IsArray(argument)
+
+	var _isArray = Array.isArray || function isArray(arg) {
+	  return _cof(arg) == 'Array';
+	};
+
+	var _library = false;
+
+	var _shared = createCommonjsModule(function (module) {
+	var SHARED = '__core-js_shared__';
+	var store = _global[SHARED] || (_global[SHARED] = {});
+
+	(module.exports = function (key, value) {
+	  return store[key] || (store[key] = value !== undefined ? value : {});
+	})('versions', []).push({
+	  version: _core.version,
+	  mode: _library ? 'pure' : 'global',
+	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+	});
+	});
+
+	var _wks = createCommonjsModule(function (module) {
+	var store = _shared('wks');
+
+	var Symbol = _global.Symbol;
+	var USE_SYMBOL = typeof Symbol == 'function';
+
+	var $exports = module.exports = function (name) {
+	  return store[name] || (store[name] =
+	    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
+	};
+
+	$exports.store = store;
+	});
+
+	var SPECIES = _wks('species');
+
+	var _arraySpeciesConstructor = function (original) {
+	  var C;
+	  if (_isArray(original)) {
+	    C = original.constructor;
+	    // cross-realm fallback
+	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
+	    if (_isObject(C)) {
+	      C = C[SPECIES];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array : C;
+	};
+
+	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+
+
+	var _arraySpeciesCreate = function (original, length) {
+	  return new (_arraySpeciesConstructor(original))(length);
+	};
+
+	// 0 -> Array#forEach
+	// 1 -> Array#map
+	// 2 -> Array#filter
+	// 3 -> Array#some
+	// 4 -> Array#every
+	// 5 -> Array#find
+	// 6 -> Array#findIndex
+
+
+
+
+
+	var _arrayMethods = function (TYPE, $create) {
+	  var IS_MAP = TYPE == 1;
+	  var IS_FILTER = TYPE == 2;
+	  var IS_SOME = TYPE == 3;
+	  var IS_EVERY = TYPE == 4;
+	  var IS_FIND_INDEX = TYPE == 6;
+	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+	  var create = $create || _arraySpeciesCreate;
+	  return function ($this, callbackfn, that) {
+	    var O = _toObject($this);
+	    var self = _iobject(O);
+	    var f = _ctx(callbackfn, that, 3);
+	    var length = _toLength(self.length);
+	    var index = 0;
+	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+	    var val, res;
+	    for (;length > index; index++) if (NO_HOLES || index in self) {
+	      val = self[index];
+	      res = f(val, index, O);
+	      if (TYPE) {
+	        if (IS_MAP) result[index] = res;   // map
+	        else if (res) switch (TYPE) {
+	          case 3: return true;             // some
+	          case 5: return val;              // find
+	          case 6: return index;            // findIndex
+	          case 2: result.push(val);        // filter
+	        } else if (IS_EVERY) return false; // every
+	      }
+	    }
+	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+	  };
+	};
+
+	var _strictMethod = function (method, arg) {
+	  return !!method && _fails(function () {
+	    // eslint-disable-next-line no-useless-call
+	    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
+	  });
+	};
+
+	var $filter = _arrayMethods(2);
+
+	_export(_export.P + _export.F * !_strictMethod([].filter, true), 'Array', {
+	  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+	  filter: function filter(callbackfn /* , thisArg */) {
+	    return $filter(this, callbackfn, arguments[1]);
+	  }
+	});
+
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+
+
+	var _toIobject = function (it) {
+	  return _iobject(_defined(it));
 	};
 
 	var max = Math.max;
@@ -278,13 +402,6 @@
 	  };
 	};
 
-	var _strictMethod = function (method, arg) {
-	  return !!method && _fails(function () {
-	    // eslint-disable-next-line no-useless-call
-	    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
-	  });
-	};
-
 	var $indexOf = _arrayIncludes(false);
 	var $native = [].indexOf;
 	var NEGATIVE_ZERO = !!$native && 1 / [1].indexOf(1, -0) < 0;
@@ -299,35 +416,6 @@
 	  }
 	});
 
-	var _library = false;
-
-	var _shared = createCommonjsModule(function (module) {
-	var SHARED = '__core-js_shared__';
-	var store = _global[SHARED] || (_global[SHARED] = {});
-
-	(module.exports = function (key, value) {
-	  return store[key] || (store[key] = value !== undefined ? value : {});
-	})('versions', []).push({
-	  version: _core.version,
-	  mode: _library ? 'pure' : 'global',
-	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
-	});
-	});
-
-	var _wks = createCommonjsModule(function (module) {
-	var store = _shared('wks');
-
-	var Symbol = _global.Symbol;
-	var USE_SYMBOL = typeof Symbol == 'function';
-
-	var $exports = module.exports = function (name) {
-	  return store[name] || (store[name] =
-	    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
-	};
-
-	$exports.store = store;
-	});
-
 	// 7.2.8 IsRegExp(argument)
 
 
@@ -340,11 +428,11 @@
 	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
 
 
-	var SPECIES = _wks('species');
+	var SPECIES$1 = _wks('species');
 	var _speciesConstructor = function (O, D) {
 	  var C = _anObject(O).constructor;
 	  var S;
-	  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
+	  return C === undefined || (S = _anObject(C)[SPECIES$1]) == undefined ? D : _aFunction(S);
 	};
 
 	// true  -> String#at
@@ -490,7 +578,7 @@
 	  exec: _regexpExec
 	});
 
-	var SPECIES$1 = _wks('species');
+	var SPECIES$2 = _wks('species');
 
 	var REPLACE_SUPPORTS_NAMED_GROUPS = !_fails(function () {
 	  // #replace needs built-in support for named groups.
@@ -533,7 +621,7 @@
 	      // RegExp[@@split] doesn't call the regex's exec method, but first creates
 	      // a new one. We need to return the patched regex when creating the new one.
 	      re.constructor = {};
-	      re.constructor[SPECIES$1] = function () { return re; };
+	      re.constructor[SPECIES$2] = function () { return re; };
 	    }
 	    re[SYMBOL]('');
 	    return !execCalled;
@@ -1042,12 +1130,6 @@
 	  _setToStringTag(Constructor, NAME + ' Iterator');
 	};
 
-	// 7.1.13 ToObject(argument)
-
-	var _toObject = function (it) {
-	  return Object(_defined(it));
-	};
-
 	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 
 
@@ -1224,79 +1306,6 @@
 	    return _objectKeys(_toObject(it));
 	  };
 	});
-
-	// 7.2.2 IsArray(argument)
-
-	var _isArray = Array.isArray || function isArray(arg) {
-	  return _cof(arg) == 'Array';
-	};
-
-	var SPECIES$2 = _wks('species');
-
-	var _arraySpeciesConstructor = function (original) {
-	  var C;
-	  if (_isArray(original)) {
-	    C = original.constructor;
-	    // cross-realm fallback
-	    if (typeof C == 'function' && (C === Array || _isArray(C.prototype))) C = undefined;
-	    if (_isObject(C)) {
-	      C = C[SPECIES$2];
-	      if (C === null) C = undefined;
-	    }
-	  } return C === undefined ? Array : C;
-	};
-
-	// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-
-
-	var _arraySpeciesCreate = function (original, length) {
-	  return new (_arraySpeciesConstructor(original))(length);
-	};
-
-	// 0 -> Array#forEach
-	// 1 -> Array#map
-	// 2 -> Array#filter
-	// 3 -> Array#some
-	// 4 -> Array#every
-	// 5 -> Array#find
-	// 6 -> Array#findIndex
-
-
-
-
-
-	var _arrayMethods = function (TYPE, $create) {
-	  var IS_MAP = TYPE == 1;
-	  var IS_FILTER = TYPE == 2;
-	  var IS_SOME = TYPE == 3;
-	  var IS_EVERY = TYPE == 4;
-	  var IS_FIND_INDEX = TYPE == 6;
-	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-	  var create = $create || _arraySpeciesCreate;
-	  return function ($this, callbackfn, that) {
-	    var O = _toObject($this);
-	    var self = _iobject(O);
-	    var f = _ctx(callbackfn, that, 3);
-	    var length = _toLength(self.length);
-	    var index = 0;
-	    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-	    var val, res;
-	    for (;length > index; index++) if (NO_HOLES || index in self) {
-	      val = self[index];
-	      res = f(val, index, O);
-	      if (TYPE) {
-	        if (IS_MAP) result[index] = res;   // map
-	        else if (res) switch (TYPE) {
-	          case 3: return true;             // some
-	          case 5: return val;              // find
-	          case 6: return index;            // findIndex
-	          case 2: result.push(val);        // filter
-	        } else if (IS_EVERY) return false; // every
-	      }
-	    }
-	    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-	  };
-	};
 
 	var $map = _arrayMethods(1);
 
@@ -2259,7 +2268,7 @@
 	/* Copy Button*/
 
 
-	function dataCopyButton(cButtondata) {
+	function dataCopyButton(cButtondataFull) {
 	  var lines = [];
 	  var geography = i18next.t(selectedRegion, {
 	    ns: "geography"
@@ -2268,7 +2277,14 @@
 	    ns: "roadArea",
 	    geo: geography
 	  })];
-	  var columns = [""];
+	  var columns = [""]; // filter out extra row added for data padding to areaChart
+
+	  var cButtondata = JSON.parse(JSON.stringify(cButtondataFull));
+	  cButtondata = cButtondataFull.filter(function (item) {
+	    if (item.isLast === undefined) {
+	      return item;
+	    }
+	  });
 
 	  for (var concept in cButtondata[0]) {
 	    if (concept != "date") columns.push(i18next.t(concept, {
