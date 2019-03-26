@@ -183,7 +183,7 @@ function uiHandler(event) {
 function colorMap() {
   // store map data in array and plot colour
   const thisTotalArray = [];
-  thisTotalArray.push(data[selectedOrig][selectedYear]);
+  thisTotalArray.push(data[`${selectedOrig}_${selectedComm}`][selectedYear]);
 
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
   const numLevels = colourArray.length;

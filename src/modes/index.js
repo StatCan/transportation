@@ -41,8 +41,8 @@ const tableSettings = {...tableSettingsInit, ...settingsAux};
 
 // -----------------------------------------------------------------------------
 let selectedRegion = "Canada";
-let selectedMonth = "01";
-let selectedYear = "2018";
+let selectedMonth;
+let selectedYear;
 let dateRange;
 const data = {};
 
@@ -146,6 +146,7 @@ function createDropdown() {
   const monthId = `#${"month"}`;
 
   dropdownCheck(yearId, monthId, dateRange, selectedYear);
+
 }
 
 // -----------------------------------------------------------------------------
@@ -167,18 +168,23 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/modes/dateRange.json")
       .await(function(error, dataDateRange) {
         dateRange = dataDateRange;
+        selectedMonth = dateRange.max.substring(5,7);
+        selectedYear = dateRange.max.substring(0,4);
+
         createDropdown();
+        d3.select("#year")._groups[0][0].value = selectedYear;
+        d3.select("#month")._groups[0][0].value = selectedMonth;
+        // copy button options
+        const cButtonOptions = {
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+        };
+        // build nodes on copy button
+        cButton.build(cButtonOptions);
+        loadData(selectedYear, selectedMonth, showData);
       });
-  // copy button options
-  const cButtonOptions = {
-    pNode: document.getElementById("copy-button-container"),
-    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-  };
-  // build nodes on copy button
-  cButton.build(cButtonOptions);
-  loadData(selectedYear, selectedMonth, showData);
 });
 
 $(document).on("change", uiHandler);
