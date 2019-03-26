@@ -29,6 +29,8 @@
       "YT": "Yukon",
       "NT": "Territoires du Nord-Ouest",
       "NU": "Nunavut",
+      "AT": "Atlantic Region",
+      "USA-MX": "US and Mexico",
       "YXX":"Abbotsford, Colombie-Britannique",
       "YDT":"Boundary Bay, Colombie-Britannique",
       "YYC":"Calgary International, Alberta",
@@ -488,16 +490,6 @@
       "YZU":"Whitecourt, Alberta",
       "YWL":"Williams Lake, Colombie-Britannique",
       "QYI":"Yarmouth, Nouvelle-Écosse"
-     },
-     "railGeography": {
-        "AT": "Région de l'Atlantique",
-        "QC": "Québec",
-        "ON": "Ontario",
-        "MB": "Manitoba",
-        "SK": "Saskatchewan",
-        "AB": "Alberta",
-        "BC": "Colombie-Britannique",
-        "USMEX": "États-Unis et le Mexique"
      },
      "railBar": {
        "x_label": "",

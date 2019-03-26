@@ -170,8 +170,8 @@ function showBubbleTable() {
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const thisComm = i18next.t(selectedComm, {ns: "commodities"});
-  const thisOrig = i18next.t(selectedOrig, {ns: "railGeography"});
-  const thisDest = i18next.t(selectedDest, {ns: "railGeography"});
+  const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
+  const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
       .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
 

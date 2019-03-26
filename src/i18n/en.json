@@ -29,6 +29,8 @@
       "YT": "Yukon",
       "NT": "Northwest Territories",
       "NU": "Nunavut",
+      "AT": "Atlantic Region",
+      "USA-MX": "US and Mexico",
       "YXX":"Abbotsford, British Columbia",
       "YDT":"Boundary Bay, British Columbia",
       "YYC":"Calgary International, Alberta",
@@ -708,16 +710,6 @@
     },
     "railBubbleTable": {
       "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 10 commodities, sorted by most recent year"
-    },
-    "railGeography": {
-       "AT": "Atlantic Region",
-       "QC": "Quebec",
-       "ON": "Ontario",
-       "MB": "Manitoba",
-       "SK": "Saskatchewan",
-       "AB": "Alberta",
-       "BC": "British Columbia",
-       "USMEX": "US and Mexico"
     },
     "rail": {
       "units": "millions of tonnnes",
