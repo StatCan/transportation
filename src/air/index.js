@@ -423,8 +423,6 @@ $(".data_set_selector").on("click", function(event) {
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
 
   if (event.target.id === ("major")) {
-    selectedMonth = defaultMonth;
-    d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
 
     movementsButton
         .attr("class", "btn btn-primary major data_set_selector")
@@ -434,16 +432,22 @@ $(".data_set_selector").on("click", function(event) {
         .attr("aria-pressed", false);
 
     monthDropdown.style("visibility", "visible");
-    selectedDate = selectedYear + "-" + selectedMonth;
     selectedDataset = "major_airports";
     selectedDropdown = majorDropdownData;
     selectedSettings = settingsMajorAirports;
+
     selectedDateRange = majorDateRange;
+    selectedDate = selectedDateRange.max;
+    selectedMonth = selectedDate.substring(5,7)
+    selectedYear = selectedDate.substring(0,4)
+    d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+    d3.select("#monthSelector")._groups[0][0].value = selectedMonth;
+
     metaData = majorMetaData;
     lineData = lineDataMajor;
     createDropdown();
-
     totals = majorTotals;
+    updateTitles();
     resetZoom();
     showAreaData();
     colorMap();
@@ -458,16 +462,20 @@ $(".data_set_selector").on("click", function(event) {
         .attr("aria-pressed", true);
 
     monthDropdown.style("visibility", "hidden");
-    selectedDate = selectedYear;
     selectedDataset = "passengers";
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
     selectedDateRange = passengerDateRange;
+
+    selectedDate = selectedDateRange.max;
+    d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+
     metaData = passengerMetaData;
     lineData = lineDataPassenger;
     createDropdown();
 
     totals = passengerTotals;
+    updateTitles()
     resetZoom();
     showAreaData();
     colorMap();

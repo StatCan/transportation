@@ -140,12 +140,12 @@
     "airUI": {
       "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
       "NaNhover1": "suppressed to meet the confidentiality",
-      "NaNhover2": "requirements of the Statistics Act",
+      "NaNhover2": "requirements of the <i>Statistics Act<i>",
       "NaNbox": "no data"
     },
     "airMajorAirports": {
-      "chartTitle": "Number of flights, by type",
-      "mapTitle": "Total flights",
+      "chartTitle": "Total aircraft movements by sector",
+      "mapTitle": "Total aircraft movements",
       "tableTitle": "Number of flights, by type",
       "hoverTitle": "Number of flights",
       "units": "flights",
@@ -283,12 +283,12 @@
     "airUI": {
       "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
       "NaNhover1": "suppressed to meet the confidentiality",
-      "NaNhover2": "requirements of the Statistics Act",
+      "NaNhover2": "requirements of the <i>Statistics Act</i>",
       "NaNbox": "no data"
     },
     "airMajorAirports": {
-      "chartTitle": "Number of flights, by type",
-      "mapTitle": "Total flights",
+      "chartTitle": "Total aircraft movements by sector",
+      "mapTitle": "Total aircraft movements",
       "tableTitle": "Number of flights, by type",
       "hoverTitle": "Number of flights",
       "units": "flights",
@@ -300,9 +300,9 @@
       "total": "Total"
     },
     "airPassengers": {
-      "chartTitle": "Air passenger traffic",
+      "chartTitle": "Air passenger traffic by sector",
       "mapTitle": "Total air passenger traffic",
-      "tableTitle": "Air passenger traffic",
+      "tableTitle": "Air passenger traffic by sector",
       "hoverTitle": "Number of passengers",
       "units": "people",
       "x_label": "Year",
@@ -316,21 +316,10 @@
       "mapScaleLabel": ""
     },
     "railBar": {
-      "x_label": "",
-      "y_label": "Tonnage (in thousands)"
-    },
-    "railTable": {
-      "tableTitle": "Tonnage of {{comm}} from {{orig}} to {{dest}} (in thousands)",
-      "z_label": "",
-      "values": "Tonnage (in thousands)"
-    },
-    "railBubbleTable": {
-      "tableTitle": "Total tonnage from all origins to all destinations (x 1M) for 10 commodities, sorted by most recent year"
-    },
-    "rail": {
-      "units": "millions of tonnnes",
-      "mapTitle": "Map Title",
-      "barChartTitle" : "Bar Chart Title"
+      "alt": "Rail industry origin and destination of transported commodities, annual",
+      "x_label": "Year",
+      "y_label": "Tonnage",
+      "ONtoAT": "Ontario to Atlantic Region"
     },
     "commodities": {
       "coal": "Coal",

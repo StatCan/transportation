@@ -161,12 +161,12 @@
     "airUI": {
       "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
       "NaNhover1": "confidentiel en vertu des dispositions",
-      "NaNhover2": " de la Loi sur la statistique"
+      "NaNhover2": " de la <i>Loi sur la statistique</i>"
     },
     "airPassengers": {
-      "chartTitle": "Trafic aérien de passagers",
+      "chartTitle": "Volume de passagers aérien selon le secteur",
       "mapTitle": "Total trafic aérien de passagers",
-      "tableTitle": "Trafic aérien de passagers",
+      "tableTitle": "Volume de passagers aérien selon le secteur",
       "hoverTitle": "Nombre de passagers",
       "units": "personnes",
       "x_label": "",
@@ -179,9 +179,9 @@
       "deplaned": "Débarqués"
     },
     "airMajorAirports": {
-      "chartTitle": "Nombre de vols, par type",
-      "mapTitle": "Total nombre de vols",
-      "tableTitle": "Nombre de vols, par type",
+      "chartTitle": "Total des mouvements d’aéronefs selon le secteur",
+      "mapTitle": "Total des mouvements d’aéronefs",
+      "tableTitle": "Total des mouvements d’aéronefs selon le secteur ",
       "hoverTitle": "Nombre de vols",
       "units": "vols",
       "x_label": "Year",
