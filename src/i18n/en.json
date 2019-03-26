@@ -138,9 +138,8 @@
       "QYI":"Yarmouth, Nova Scotia"
     },
     "airUI": {
-      "NaNhover": "confidentiel en vertu des dispositions de la Loi sur la statistique",
       "NaNhover1": "suppressed to meet the confidentiality",
-      "NaNhover2": "requirements of the <i>Statistics Act<i>",
+      "NaNhover2": "requirements of the <i>Statistics Act</i>",
       "NaNbox": "no data"
     },
     "airMajorAirports": {
