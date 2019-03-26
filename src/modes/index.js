@@ -120,6 +120,7 @@ function showData() {
   });
 
   drawTable(table, tableSettings, auxArray);
+  $( ".wb-fnote" ).trigger( "wb-init.wb-fnote" );
 
   updateTitles();
   // ------------------copy button---------------------------------
