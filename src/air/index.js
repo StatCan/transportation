@@ -723,6 +723,7 @@ function showAreaData() {
     d3.selectAll(".flag").style("opacity", 0);
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
+    // Add css class for month tick lines
     if (selectedDataset === "major_airports") {
       d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
           .each(function(d, i) {
