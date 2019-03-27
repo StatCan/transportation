@@ -24,7 +24,7 @@ export default {
       // for last year, pad with some extra days so that vertical line can reach it
       if (d.isLast) {
         const lastDate = new Date(d.date);
-        const addDays = 10;
+        const addDays = 31;
         return lastDate.setDate(lastDate.getDate() + addDays);
       } else {
         return new Date(d.date + "-01");
