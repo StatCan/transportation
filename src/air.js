@@ -1432,6 +1432,161 @@
     }
   });
 
+  var gOPD = Object.getOwnPropertyDescriptor;
+
+  var f$3 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+    O = _toIobject(O);
+    P = _toPrimitive$1(P, true);
+    if (_ie8DomDefine) try {
+      return gOPD(O, P);
+    } catch (e) { /* empty */ }
+    if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+  };
+
+  var _objectGopd = {
+  	f: f$3
+  };
+
+  // Works with __proto__ only. Old v8 can't work with null proto objects.
+  /* eslint-disable no-proto */
+
+
+  var check = function (O, proto) {
+    _anObject(O);
+    if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+  };
+  var _setProto = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+      function (test, buggy, set) {
+        try {
+          set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+          set(test, []);
+          buggy = !(test instanceof Array);
+        } catch (e) { buggy = true; }
+        return function setPrototypeOf(O, proto) {
+          check(O, proto);
+          if (buggy) O.__proto__ = proto;
+          else set(O, proto);
+          return O;
+        };
+      }({}, false) : undefined),
+    check: check
+  };
+
+  var setPrototypeOf = _setProto.set;
+  var _inheritIfRequired = function (that, target, C) {
+    var S = target.constructor;
+    var P;
+    if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+      setPrototypeOf(that, P);
+    } return that;
+  };
+
+  // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+  var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+  var f$4 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+    return _objectKeysInternal(O, hiddenKeys);
+  };
+
+  var _objectGopn = {
+  	f: f$4
+  };
+
+  var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+  var space = '[' + _stringWs + ']';
+  var non = '\u200b\u0085';
+  var ltrim = RegExp('^' + space + space + '*');
+  var rtrim = RegExp(space + space + '*$');
+
+  var exporter = function (KEY, exec, ALIAS) {
+    var exp = {};
+    var FORCE = _fails(function () {
+      return !!_stringWs[KEY]() || non[KEY]() != non;
+    });
+    var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+    if (ALIAS) exp[ALIAS] = fn;
+    _export(_export.P + _export.F * FORCE, 'String', exp);
+  };
+
+  // 1 -> String#trimLeft
+  // 2 -> String#trimRight
+  // 3 -> String#trim
+  var trim = exporter.trim = function (string, TYPE) {
+    string = String(_defined(string));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+
+  var _stringTrim = exporter;
+
+  var gOPN = _objectGopn.f;
+  var gOPD$1 = _objectGopd.f;
+  var dP$1 = _objectDp.f;
+  var $trim = _stringTrim.trim;
+  var NUMBER = 'Number';
+  var $Number = _global[NUMBER];
+  var Base = $Number;
+  var proto$1 = $Number.prototype;
+  // Opera ~12 has broken Object#toString
+  var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
+  var TRIM = 'trim' in String.prototype;
+
+  // 7.1.3 ToNumber(argument)
+  var toNumber = function (argument) {
+    var it = _toPrimitive$1(argument, false);
+    if (typeof it == 'string' && it.length > 2) {
+      it = TRIM ? it.trim() : $trim(it, 3);
+      var first = it.charCodeAt(0);
+      var third, radix, maxCode;
+      if (first === 43 || first === 45) {
+        third = it.charCodeAt(2);
+        if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+      } else if (first === 48) {
+        switch (it.charCodeAt(1)) {
+          case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+          case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+          default: return +it;
+        }
+        for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+          code = digits.charCodeAt(i);
+          // parseInt parses a string to a first unavailable symbol
+          // but ToNumber should return NaN if a string contains unavailable symbols
+          if (code < 48 || code > maxCode) return NaN;
+        } return parseInt(digits, radix);
+      }
+    } return +it;
+  };
+
+  if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+    $Number = function Number(value) {
+      var it = arguments.length < 1 ? 0 : value;
+      var that = this;
+      return that instanceof $Number
+        // check on 1..constructor(foo) case
+        && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
+          ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+    };
+    for (var keys = _descriptors ? gOPN(Base) : (
+      // ES3:
+      'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+      // ES6 (in case, if modules with ES6 Number statics required before):
+      'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+      'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+    ).split(','), j = 0, key$1; keys.length > j; j++) {
+      if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
+        dP$1($Number, key$1, gOPD$1(Base, key$1));
+      }
+    }
+    $Number.prototype = proto$1;
+    proto$1.constructor = $Number;
+    _redefine(_global, NUMBER, $Number);
+  }
+
   // 7.2.8 IsRegExp(argument)
 
 
@@ -1773,161 +1928,6 @@
     ];
   });
 
-  var gOPD = Object.getOwnPropertyDescriptor;
-
-  var f$3 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
-    O = _toIobject(O);
-    P = _toPrimitive$1(P, true);
-    if (_ie8DomDefine) try {
-      return gOPD(O, P);
-    } catch (e) { /* empty */ }
-    if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
-  };
-
-  var _objectGopd = {
-  	f: f$3
-  };
-
-  // Works with __proto__ only. Old v8 can't work with null proto objects.
-  /* eslint-disable no-proto */
-
-
-  var check = function (O, proto) {
-    _anObject(O);
-    if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
-  };
-  var _setProto = {
-    set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-      function (test, buggy, set) {
-        try {
-          set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
-          set(test, []);
-          buggy = !(test instanceof Array);
-        } catch (e) { buggy = true; }
-        return function setPrototypeOf(O, proto) {
-          check(O, proto);
-          if (buggy) O.__proto__ = proto;
-          else set(O, proto);
-          return O;
-        };
-      }({}, false) : undefined),
-    check: check
-  };
-
-  var setPrototypeOf = _setProto.set;
-  var _inheritIfRequired = function (that, target, C) {
-    var S = target.constructor;
-    var P;
-    if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
-      setPrototypeOf(that, P);
-    } return that;
-  };
-
-  // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-
-  var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
-
-  var f$4 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-    return _objectKeysInternal(O, hiddenKeys);
-  };
-
-  var _objectGopn = {
-  	f: f$4
-  };
-
-  var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-  var space = '[' + _stringWs + ']';
-  var non = '\u200b\u0085';
-  var ltrim = RegExp('^' + space + space + '*');
-  var rtrim = RegExp(space + space + '*$');
-
-  var exporter = function (KEY, exec, ALIAS) {
-    var exp = {};
-    var FORCE = _fails(function () {
-      return !!_stringWs[KEY]() || non[KEY]() != non;
-    });
-    var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
-    if (ALIAS) exp[ALIAS] = fn;
-    _export(_export.P + _export.F * FORCE, 'String', exp);
-  };
-
-  // 1 -> String#trimLeft
-  // 2 -> String#trimRight
-  // 3 -> String#trim
-  var trim = exporter.trim = function (string, TYPE) {
-    string = String(_defined(string));
-    if (TYPE & 1) string = string.replace(ltrim, '');
-    if (TYPE & 2) string = string.replace(rtrim, '');
-    return string;
-  };
-
-  var _stringTrim = exporter;
-
-  var gOPN = _objectGopn.f;
-  var gOPD$1 = _objectGopd.f;
-  var dP$1 = _objectDp.f;
-  var $trim = _stringTrim.trim;
-  var NUMBER = 'Number';
-  var $Number = _global[NUMBER];
-  var Base = $Number;
-  var proto$1 = $Number.prototype;
-  // Opera ~12 has broken Object#toString
-  var BROKEN_COF = _cof(_objectCreate(proto$1)) == NUMBER;
-  var TRIM = 'trim' in String.prototype;
-
-  // 7.1.3 ToNumber(argument)
-  var toNumber = function (argument) {
-    var it = _toPrimitive$1(argument, false);
-    if (typeof it == 'string' && it.length > 2) {
-      it = TRIM ? it.trim() : $trim(it, 3);
-      var first = it.charCodeAt(0);
-      var third, radix, maxCode;
-      if (first === 43 || first === 45) {
-        third = it.charCodeAt(2);
-        if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
-      } else if (first === 48) {
-        switch (it.charCodeAt(1)) {
-          case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
-          case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
-          default: return +it;
-        }
-        for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
-          code = digits.charCodeAt(i);
-          // parseInt parses a string to a first unavailable symbol
-          // but ToNumber should return NaN if a string contains unavailable symbols
-          if (code < 48 || code > maxCode) return NaN;
-        } return parseInt(digits, radix);
-      }
-    } return +it;
-  };
-
-  if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
-    $Number = function Number(value) {
-      var it = arguments.length < 1 ? 0 : value;
-      var that = this;
-      return that instanceof $Number
-        // check on 1..constructor(foo) case
-        && (BROKEN_COF ? _fails(function () { proto$1.valueOf.call(that); }) : _cof(that) != NUMBER)
-          ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
-    };
-    for (var keys = _descriptors ? gOPN(Base) : (
-      // ES3:
-      'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
-      // ES6 (in case, if modules with ES6 Number statics required before):
-      'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
-      'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
-    ).split(','), j = 0, key$1; keys.length > j; j++) {
-      if (_has(Base, key$1 = keys[j]) && !_has($Number, key$1)) {
-        dP$1($Number, key$1, gOPD$1(Base, key$1));
-      }
-    }
-    $Number.prototype = proto$1;
-    proto$1.constructor = $Number;
-    _redefine(_global, NUMBER, $Number);
-  }
-
   // most Object methods by ES6 should accept primitives
 
 
@@ -2143,7 +2143,10 @@
         return isNaN(Number(d[sett.y.totalProperty])) ? 0 : Number(d[sett.y.totalProperty]) * 1.0 / 1;
       },
       getText: function getText(d, key) {
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1;
+        return isNaN(Number(d[key])) ? d[key] : this.formatNum(Number(d[key]));
+      },
+      getTickText: function getTickText(d) {
+        return this.formatNum(d);
       },
       ticks: 5,
       tickSizeOuter: 0
@@ -2248,7 +2251,7 @@
         // for last year, pad with some extra days so that vertical line can reach it
         if (d.isLast) {
           var lastDate = new Date(d.date);
-          var addDays = 10;
+          var addDays = 31;
           return lastDate.setDate(lastDate.getDate() + addDays);
         } else {
           return new Date(d.date + "-01");
@@ -2445,7 +2448,7 @@
 
     var getText = function getText(i, j) {
       if (i < numLevels) {
-        var s0 = settings.formatNum()(cbValues[j]);
+        var s0 = settings.formatNum(cbValues[j]);
         return s0 + "+";
       } else if (i === numLevels + 1) {
         return "x";
@@ -2575,33 +2578,6 @@
     });
   }
 
-  var arraySlice = [].slice;
-  var factories = {};
-
-  var construct = function (F, len, args) {
-    if (!(len in factories)) {
-      for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
-      // eslint-disable-next-line no-new-func
-      factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
-    } return factories[len](F, args);
-  };
-
-  var _bind = Function.bind || function bind(that /* , ...args */) {
-    var fn = _aFunction(this);
-    var partArgs = arraySlice.call(arguments, 1);
-    var bound = function (/* args... */) {
-      var args = partArgs.concat(arraySlice.call(arguments));
-      return this instanceof bound ? construct(fn, args.length, args) : _invoke(fn, args, that);
-    };
-    if (_isObject(fn.prototype)) bound.prototype = fn.prototype;
-    return bound;
-  };
-
-  // 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
-
-
-  _export(_export.P, 'Function', { bind: _bind });
-
   function areaTooltip (settings, div, d) {
     var thisMonth = d.date.substring(5, 7) ? i18next.t(d.date.substring(5, 7), {
       ns: "months"
@@ -2628,7 +2604,8 @@
       var keyValues = [];
 
       for (var idx = 0; idx < keys.length; idx++) {
-        keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]]) : d[keys[idx]]);
+        var key = keys[idx];
+        keyValues.push(settings.y.getText.call(settings, d, key));
       }
 
       var rtnTable = "<b>".concat(line1, "</b><br><br><table>");
@@ -2683,6 +2660,9 @@
         d = d1;
       }
 
+      chartObj.data.filter(function (item) {
+        if (item.isLast) d = d1;
+      });
       line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
       line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
       line.style("visibility", "visible");
@@ -2734,6 +2714,33 @@
       }
     }
   }
+
+  var arraySlice = [].slice;
+  var factories = {};
+
+  var construct = function (F, len, args) {
+    if (!(len in factories)) {
+      for (var n = [], i = 0; i < len; i++) n[i] = 'a[' + i + ']';
+      // eslint-disable-next-line no-new-func
+      factories[len] = Function('F,a', 'return new F(' + n.join(',') + ')');
+    } return factories[len](F, args);
+  };
+
+  var _bind = Function.bind || function bind(that /* , ...args */) {
+    var fn = _aFunction(this);
+    var partArgs = arraySlice.call(arguments, 1);
+    var bound = function (/* args... */) {
+      var args = partArgs.concat(arraySlice.call(arguments));
+      return this instanceof bound ? construct(fn, args.length, args) : _invoke(fn, args, that);
+    };
+    if (_isObject(fn.prototype)) bound.prototype = fn.prototype;
+    return bound;
+  };
+
+  // 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
+
+
+  _export(_export.P, 'Function', { bind: _bind });
 
   var CopyButton =
   /*#__PURE__*/
@@ -2885,31 +2892,14 @@
   var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
   // Add number formatter to stackedArea settings file
 
-  var thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
   var settingsAux = {
+    _selfFormatter: i18n.getNumberFormatter(0),
     formatNum: function formatNum() {
-      var formatNumber;
-
-      if (thisLang === "fr") {
-        var locale = d3.formatLocale({
-          decimal: ",",
-          thousands: " ",
-          grouping: [3]
-        });
-        formatNumber = locale.format(",d");
-      } else {
-        formatNumber = d3.format(",d");
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
 
-      var format = function format(d) {
-        if (Number(d)) {
-          return formatNumber(d);
-        } else {
-          return d;
-        }
-      };
-
-      return format;
+      return this._selfFormatter.format(args);
     }
   };
 
@@ -3308,7 +3298,7 @@
           var line2;
 
           if (Number(totals[selectedDate][classes[0]])) {
-            value = selectedSettings.formatNum()(totals[selectedDate][classes[0]]);
+            value = selectedSettings.formatNum(totals[selectedDate][classes[0]]);
             line2 = selectedDataset === "passengers" ? "".concat(value, " ").concat(i18next.t("units", {
               ns: "airPassengers"
             })) : "".concat(value, " ").concat(i18next.t("units", {
@@ -3464,7 +3454,7 @@
         divArea.style("opacity", 0);
       });
       d3.selectAll(".flag").style("opacity", 0);
-      d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
+      d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em")); // Add css class for month tick lines
 
       if (selectedDataset === "major_airports") {
         d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick").each(function (d, i) {

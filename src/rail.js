@@ -1160,7 +1160,7 @@
 
 	  var getText = function getText(i, j) {
 	    if (i < numLevels) {
-	      var s0 = settings.formatNum()(cbValues[j]);
+	      var s0 = settings.formatNum(cbValues[j]);
 	      return s0 + "+";
 	    } else if (i === numLevels + 1) {
 	      return "x";
