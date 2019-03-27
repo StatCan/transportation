@@ -198,11 +198,12 @@ function colorMap() {
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "road"});
+  const xTitle = thisLang === "en" ? 168 : 177;
   d3.select("#cbTitle")
       .select("text")
       .text(mapScaleLabel)
       .attr("transform", function(d, i) {
-        return "translate(203, 15)";
+        return `translate(${xTitle}, 15)`;
       });
 }
 
