@@ -22,7 +22,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   // text fn
   const getText = function(i, j) {
     if (i < numLevels) {
-      const s0 = settings.formatNum()(cbValues[j]);
+      const s0 = settings.formatNum(cbValues[j]);
       return s0 + "+";
     } else if (i === numLevels + 1) {
       return "x";
