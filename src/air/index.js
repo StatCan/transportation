@@ -464,6 +464,7 @@ function uiHandler(event) {
     // clear any map region that is highlighted
     d3.select(".map").selectAll("path").classed("airMapHighlight", false);
     selectedRegion = document.getElementById("groups").value;
+    canadaMap.zoom(selectedRegion);
     showAreaData();
   }
   if (event.target.id === "yearSelector") {
