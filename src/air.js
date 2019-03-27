@@ -3263,6 +3263,9 @@
 
       if (selectedDataset === "major_airports") {
         selectedDate = selectedYear + "-" + selectedMonth;
+        var yearId = "#".concat("yearSelector");
+        var monthId = "#".concat("monthSelector");
+        dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
       } else {
         selectedDate = selectedYear;
       }
@@ -3534,7 +3537,11 @@
 
     var yearId = "#".concat("yearSelector");
     var monthId = "#".concat("monthSelector");
-    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear); // indent airports under each geographic region
+
+    if (selectedDataset === "major_airports") {
+      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+    } // indent airports under each geographic region
+
 
     var indent = "&numsp;&numsp;&numsp;";
     var prefix;
