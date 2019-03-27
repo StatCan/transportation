@@ -410,7 +410,6 @@ const divArea = d3.select("body")
     .style("pointer-events", "none")
     .style("opacity", 0);
 
-
 // -----------------------------------------------------------------------------
 /* UI Handler */
 $(".data_set_selector").on("click", function(event) {
@@ -464,7 +463,6 @@ $(".data_set_selector").on("click", function(event) {
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
     selectedDateRange = passengerDateRange;
-
     selectedDate = selectedDateRange.max;
     d3.select("#yearSelector")._groups[0][0].value = selectedYear;
 
@@ -491,6 +489,9 @@ function uiHandler(event) {
     selectedYear = document.getElementById("yearSelector").value;
     if (selectedDataset ==="major_airports") {
       selectedDate = selectedYear + "-" + selectedMonth;
+      const yearId = `#${"yearSelector"}`;
+      const monthId = `#${"monthSelector"}`;
+      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
     } else {
       selectedDate = selectedYear;
     }
@@ -798,7 +799,9 @@ function createDropdown() {
   // check available month/year combinations
   const yearId = `#${"yearSelector"}`;
   const monthId = `#${"monthSelector"}`;
-  dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+  if (selectedDataset === "major_airports") {
+    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+  }
 
   // indent airports under each geographic region
   const indent = "&numsp;&numsp;&numsp;";
