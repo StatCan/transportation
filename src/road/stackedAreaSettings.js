@@ -68,8 +68,11 @@ export default {
     },
     getText: function(d, key) {
       if (!d.isLast) {
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]) * 1.0 / 1;
+        return isNaN(Number(d[key])) ? d[key] : this.formatNum(Number(d[key]));
       }
+    },
+    getTickText: function(d) {
+      return this.formatNum(d);
     },
     ticks: 5,
     tickSizeOuter: 0

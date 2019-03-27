@@ -2,7 +2,6 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
   // TEMP
   chartObj.svg.datum(chartObj);
   chartObj.data = data;
-  console.log("overlay data: ", data)
 
   const bisect = d3.bisector((d) => {
     return chartObj.settings.x.getValue(d);
@@ -42,10 +41,8 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
         const i = bisect(chartObj.data, xD);
         const d0 = chartObj.data[i - 1];
         const d1 = chartObj.data[i];
-        console.log(data)
 
         let d;
-            //
         if (d0 && d1) {
           d = xD - chartObj.settings.x.getValue(d0) > chartObj.settings.x.getValue(d1) - xD ? d1 : d0;
         } else if (d0) {
@@ -53,14 +50,9 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
         } else {
           d = d1;
         }
-        console.log("d0: ", d0)
-        console.log("d1: ", d1)
-        console.log("d: ", d)
         chartObj.data.filter((item) => {
-          console.log(item)
           if (item.isLast) d = d1;
-        })
-// debugger
+        });
 
         line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
         line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));

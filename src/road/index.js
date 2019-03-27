@@ -14,29 +14,11 @@ let selectedYear = "2017";
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 // Add number formatter to stackedArea settings file
-const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
+// Add number formatter to stackedArea settings file
 const settingsAux = {
-  formatNum: function() {
-    let formatNumber;
-    if (thisLang === "fr") {
-      const locale = d3.formatLocale({
-        decimal: ",",
-        thousands: " ",
-        grouping: [3]
-      });
-      formatNumber = locale.format(",d");
-    } else {
-      formatNumber = d3.format(",d");
-    }
-
-    const format = function(d) {
-      if (Number(d)) {
-        return formatNumber(d);
-      } else {
-        return d;
-      }
-    };
-    return format;
+  _selfFormatter: i18n.getNumberFormatter(0),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
   }
 };
 
@@ -107,7 +89,7 @@ map.on("mousemove", () => {
       selectedPath.moveToFront();
       // Tooltip
       const key = i18next.t(classes[0], {ns: "geography"});
-      const value = settings.formatNum()(mapData[selectedYear][classes[0]]);
+      const value = settings.formatNum(mapData[selectedYear][classes[0]]);
       div
           .style("opacity", .9);
       div.html(
@@ -198,7 +180,7 @@ function colorMap() {
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "road"});
-  const xTitle = thisLang === "en" ? 168 : 177;
+  const xTitle = document.getElementsByTagName("html")[0].getAttribute("lang") === "en" ? 168 : 177;
   d3.select("#cbTitle")
       .select("text")
       .text(mapScaleLabel)
