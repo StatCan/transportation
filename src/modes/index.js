@@ -122,6 +122,9 @@ function showData() {
   drawTable(table, tableSettings, auxArray);
   $( ".wb-fnote" ).trigger( "wb-init.wb-fnote" );
 
+  d3.select("#symbolLink")
+      .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
+
   updateTitles();
   // ------------------copy button---------------------------------
   cButton.appendTo(document.getElementById("copy-button-container"));
