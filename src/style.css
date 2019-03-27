@@ -5,6 +5,9 @@
 .table {
 	margin-bottom: 0px;
 }
+.symbolLink {
+  font-size: 14px;
+}
 
 .area svg text {
 	fill: currentColor;

@@ -1,5 +1,9 @@
 {
   "fr": {
+    "symbolLink": {
+      "linkText": "Signes conventionnels dans les tableaux",
+      "linkURL": "https://www.statcan.gc.ca/fra/concepts/definitions/guide-signes"
+    },
     "months": {
       "01": "janvier",
       "02": "février",

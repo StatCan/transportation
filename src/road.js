@@ -2342,6 +2342,11 @@
 	    }; // build nodes on copy button
 
 	    cButton.build(cButtonOptions);
+	    d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
+	      ns: "symbolLink"
+	    }), " target='_blank'>").concat(i18next.t("linkText", {
+	      ns: "symbolLink"
+	    }), "</a>"));
 	    showAreaData();
 	    plotLegend();
 	    updateTitles();
