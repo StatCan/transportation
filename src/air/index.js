@@ -16,29 +16,10 @@ const cButton = new CopyButton();
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 // Add number formatter to stackedArea settings file
-const thisLang = document.getElementsByTagName("html")[0].getAttribute("lang");
 const settingsAux = {
-  formatNum: function() {
-    let formatNumber;
-    if (thisLang === "fr") {
-      const locale = d3.formatLocale({
-        decimal: ",",
-        thousands: " ",
-        grouping: [3]
-      });
-      formatNumber = locale.format(",d");
-    } else {
-      formatNumber = d3.format(",d");
-    }
-
-    const format = function(d) {
-      if (Number(d)) {
-        return formatNumber(d);
-      } else {
-        return d;
-      }
-    };
-    return format;
+  _selfFormatter: i18n.getNumberFormatter(0),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
   }
 };
 
@@ -531,7 +512,7 @@ map.on("mousemove", () => {
         let value;
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
-          value = selectedSettings.formatNum()(totals[selectedDate][classes[0]]);
+          value = selectedSettings.formatNum(totals[selectedDate][classes[0]]);
           line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {

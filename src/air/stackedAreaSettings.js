@@ -152,7 +152,10 @@ export default {
       return (isNaN(Number(d[sett.y.totalProperty]))? 0:Number(d[sett.y.totalProperty]) *1.0/1);
     },
     getText: function(d, key) {
-      return isNaN(Number(d[key]))? d[key]: Number(d[key]) * 1.0/ 1;
+      return isNaN(Number(d[key])) ? d[key]: this.formatNum(Number(d[key]));
+    },
+    getTickText: function(d) {
+      return this.formatNum(d);
     },
     ticks: 5,
     tickSizeOuter: 0

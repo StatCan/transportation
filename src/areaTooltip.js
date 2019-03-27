@@ -18,7 +18,8 @@ export default function(settings, div, d) {
   const makeTable = function(line1) {
     const keyValues = [];
     for (let idx = 0; idx < keys.length; idx++) {
-      keyValues.push(Number(d[keys[idx]]) ? settings.formatNum.bind(settings)()(d[keys[idx]]) : d[keys[idx]]);
+      const key = keys[idx];
+      keyValues.push(settings.y.getText.call(settings, d, key));
     }
 
     let rtnTable = `<b>${line1}</b><br><br><table>`;
