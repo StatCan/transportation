@@ -2178,8 +2178,9 @@
 	  var mapScaleLabel = i18next.t("units", {
 	    ns: "road"
 	  });
+	  var xTitle = thisLang === "en" ? 168 : 177;
 	  d3.select("#cbTitle").select("text").text(mapScaleLabel).attr("transform", function (d, i) {
-	    return "translate(203, 15)";
+	    return "translate(".concat(xTitle, ", 15)");
 	  });
 	}
 	/* -- display areaChart -- */
