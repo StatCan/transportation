@@ -1,5 +1,9 @@
 {
   "en": {
+    "symbolLink": {
+      "linkText": "Standard table symbols",
+      "linkURL": "https://www.statcan.gc.ca/eng/concepts/definitions/guide-symbol"
+    },
     "months": {
       "01": "January",
       "02": "February",
