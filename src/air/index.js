@@ -821,8 +821,8 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
-    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
+    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divData.date}:</b> <br><br>
@@ -836,9 +836,9 @@ function airportHover() {
     )
         .style("pointer-events", "none");
   } else {
-    const thisDomestic = selectedSettings.formatNum()(divData.domestic);
-    const thisTrans = selectedSettings.formatNum()(divData.transborder);
-    const thisInter = selectedSettings.formatNum()(divData.international);
+    const thisDomestic = selectedSettings.formatNum(divData.domestic);
+    const thisTrans = selectedSettings.formatNum(divData.transborder);
+    const thisInter = selectedSettings.formatNum(divData.international);
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divDate}:</b> <br><br>
