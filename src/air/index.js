@@ -472,7 +472,7 @@ function uiHandler(event) {
       selectedDate = selectedYear + "-" + selectedMonth;
       const yearId = `#${"yearSelector"}`;
       const monthId = `#${"monthSelector"}`;
-      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
     } else {
       selectedDate = selectedYear;
     }
@@ -782,7 +782,9 @@ function createDropdown() {
   const yearId = `#${"yearSelector"}`;
   const monthId = `#${"monthSelector"}`;
   if (selectedDataset === "major_airports") {
-    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+  } else {
+    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, false);
   }
 
   // indent airports under each geographic region
@@ -965,10 +967,10 @@ i18n.load(["src/i18n"], () => {
         majorMetaData = majorMeta;
         metaData = passengerMetaData;
         data[selectedDataset][selectedRegion] = areaData;
-        selectedYear, selectedDate = document.getElementById("yearSelector").value;
-        selectedMonth = document.getElementById("monthSelector").value;
         getDateMinMax();
         selectedDateRange = passengerDateRange;
+        selectedYear, selectedDate = selectedDateRange.max.substring(0, 4);
+        selectedMonth = selectedDateRange.max.substring(5, 7);
         createDropdown();
         canadaMap = getCanadaMap(map)
             .on("loaded", function() {
