@@ -2299,7 +2299,10 @@
         // if (d[key]=== "x" || d[key]=== "..") {
         //   return d[key];
         // } else return Number(d[key]);
-        return isNaN(Number(d[key])) ? d[key] : Number(d[key]);
+        return isNaN(Number(d[key])) ? d[key] : this.formatNum(Number(d[key]));
+      },
+      getTickText: function getTickText(d) {
+        return this.formatNum(d);
       },
       ticks: 5,
       tickSizeOuter: 0
@@ -3576,8 +3579,8 @@
     div.style("opacity", .9);
 
     if (selectedDataset === "passengers") {
-      var thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
-      var thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
+      var thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum(divData.enplaned) : divData.enplaned;
+      var thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum(divData.deplaned) : divData.deplaned;
       var showUnits = Number(divData.enplaned) ? i18next.t("units", {
         ns: "airPassengers"
       }) : "";
@@ -3589,9 +3592,9 @@
         ns: "airPassengers"
       }), ": </b> ").concat(thisDeplaned, " ").concat(showUnits, " </td>\n            </tr>\n         </table>")).style("pointer-events", "none");
     } else {
-      var thisDomestic = selectedSettings.formatNum()(divData.domestic);
-      var thisTrans = selectedSettings.formatNum()(divData.transborder);
-      var thisInter = selectedSettings.formatNum()(divData.international);
+      var thisDomestic = selectedSettings.formatNum(divData.domestic);
+      var thisTrans = selectedSettings.formatNum(divData.transborder);
+      var thisInter = selectedSettings.formatNum(divData.international);
       var divDate = "".concat(i18next.t(divData.date.substring(5, 7), {
         ns: "months"
       }), " ").concat(divData.date.substring(0, 4));
@@ -3679,6 +3682,53 @@
       if (!passengerDateRange.max || new Date(date) > new Date(passengerDateRange.max)) {
         passengerDateRange.max = date;
       }
+    }
+  } // ------------------------------------------------------------------------------
+
+
+  function isIE() {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0) {
+      // IE 10 or older => return version number
+      return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+    }
+
+    var trident = ua.indexOf("Trident/");
+
+    if (trident > 0) {
+      // IE 11 => return version number
+      var rv = ua.indexOf("rv:");
+      return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+    }
+
+    var edge = ua.indexOf("Edge/");
+
+    if (edge > 0) {
+      // Edge (IE 12+) => return version number
+      return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+    } // other browser
+
+
+    return false;
+  }
+
+  function ieWorkAround() {
+    var summaryNode = document.getElementById("chrt-dt-tbl");
+    summaryNode.addEventListener("keydown", function (ev) {
+      if (ev.which == 13 || ev.which == 32) toggle(ev);
+    });
+    summaryNode.addEventListener("click", function (ev) {
+      toggle(ev);
+    });
+
+    function toggle(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      var nodedetails = document.getElementsByClassName("chart-data-table")[0];
+      var isOpen = nodedetails.hasAttribute("open");
+      if (isOpen) nodedetails.removeAttribute("open");else nodedetails.setAttribute("open", "open");
     }
   } // -----------------------------------------------------------------------------
 
@@ -3788,6 +3838,7 @@
       plotLegend(); // Show chart titles based on default menu options
 
       updateTitles();
+      if (isIE) ieWorkAround();
     });
   });
   $(document).on("change", uiHandler);
