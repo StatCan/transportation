@@ -7,6 +7,7 @@ import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
 
 const data = {};
+let dateRange = {};
 let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
@@ -164,6 +165,31 @@ map.on("click", () => {
 
 // -----------------------------------------------------------------------------
 /* FNS */
+function getDateMinMax() {
+  for (const [date] of Object.entries(mapData)) {
+    if (!dateRange.min || new Date(date)< new Date(dateRange.min)) {
+      dateRange.min = date;
+    }
+    if (!dateRange.max || new Date(date)> new Date(dateRange.max)) {
+      dateRange.max = date;
+    }
+  }
+}
+function createDropdown() {
+  // check available month/year combinations
+  const yearId = `#${"year"}`;
+  const yearDropdown = $(yearId);
+
+  // date dropdown creation
+  yearDropdown.empty();
+
+  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  d3.select(yearId)._groups[0][0].value = selectedYear;
+}
+
 function colorMap() {
   // store map data in array and plot colour
   const thisTotalArray = [];
@@ -345,7 +371,8 @@ i18n.load(["src/i18n"], () => {
 
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
-
+        getDateMinMax();
+        createDropdown();
         showAreaData();
         plotLegend();
         updateTitles();
