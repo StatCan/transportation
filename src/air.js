@@ -3687,6 +3687,7 @@
 
 
   function isIE() {
+    console.log("isIE");
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
 
@@ -3838,7 +3839,7 @@
       plotLegend(); // Show chart titles based on default menu options
 
       updateTitles();
-      if (isIE) ieWorkAround();
+      if (isIE()) ieWorkAround();else console.log("NOT");
     });
   });
   $(document).on("change", uiHandler);
