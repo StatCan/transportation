@@ -461,14 +461,27 @@ $(".data_set_selector").on("click", function(event) {
 });
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    // clear any map region that is highlighted
-    d3.select(".map").selectAll("path").classed("airMapHighlight", false);
+    // // clear any map region that is highlighted
+    // d3.select(".map").selectAll("path").classed("airMapHighlight", false);
     selectedRegion = document.getElementById("groups").value;
-    canadaMap.zoom(selectedRegion);
+    console.log("selectedRegion: ", selectedRegion)
+    console.log(d3.select(`#airport${selectedRegion}`)._groups[0][0])
+    if (!d3.select(`#airport${selectedRegion}`)._groups[0][0]) {
+      // clear any map region that is highlighted
+      d3.select(".map").selectAll("path").classed("airMapHighlight", false);
+      if (selectedRegion === "CANADA") resetZoom();
+      else canadaMap.zoom(selectedRegion);
+    } else {
+      const thisZoom = d3.select(".airMapHighlight").attr("class").split("airMapHighlight zoomed")[0].split(" ")[0];
+      // selectedRegion = thisZoom;
+      resetZoom();
+    }
+
     showAreaData();
   }
   if (event.target.id === "yearSelector") {
     selectedYear = document.getElementById("yearSelector").value;
+    // d3.select("#airportYQB")
     if (selectedDataset ==="major_airports") {
       selectedDate = selectedYear + "-" + selectedMonth;
       const yearId = `#${"yearSelector"}`;
@@ -557,7 +570,7 @@ map.on("mouseout", () => {
 
 map.on("click", () => {
   if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
-    resetZoom();
+    toCanada();
   } else if (d3.select(d3.event.target).attr("class") &&
       d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
     // clear any previous clicks
@@ -608,6 +621,17 @@ map.on("click", () => {
 });
 
 // -----------------------------------------------------------------------------
+const toCanada = function() {
+  // reset area chart to Canada
+  selectedRegion = "CANADA";
+  showAreaData();
+
+  // update region displayed in dropdown menu
+  d3.select("#groups")._groups[0][0].value = selectedRegion;
+  // Chart titles
+  updateTitles();
+  resetZoom();
+};
 /* -- map-related -- */
 const resetZoom = function() {
   // clear any previous clicks
@@ -619,15 +643,6 @@ const resetZoom = function() {
   path.pointRadius(function(d, i) {
     return defaultPointRadius;
   });
-
-  // reset area chart to Canada
-  selectedRegion = "CANADA";
-  showAreaData();
-
-  // update region displayed in dropdown menu
-  d3.select("#groups")._groups[0][0].value = selectedRegion;
-  // Chart titles
-  updateTitles();
 
   if (d3.select("." + selectedRegion + ".zoomed")) {
     // clear zoom
