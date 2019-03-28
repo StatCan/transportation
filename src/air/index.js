@@ -464,15 +464,12 @@ function uiHandler(event) {
     // // clear any map region that is highlighted
     // d3.select(".map").selectAll("path").classed("airMapHighlight", false);
     selectedRegion = document.getElementById("groups").value;
-    console.log("selectedRegion: ", selectedRegion)
-    console.log(d3.select(`#airport${selectedRegion}`)._groups[0][0])
     if (!d3.select(`#airport${selectedRegion}`)._groups[0][0]) {
       // clear any map region that is highlighted
       d3.select(".map").selectAll("path").classed("airMapHighlight", false);
       if (selectedRegion === "CANADA") resetZoom();
       else canadaMap.zoom(selectedRegion);
     } else {
-      const thisZoom = d3.select(".airMapHighlight").attr("class").split("airMapHighlight zoomed")[0].split(" ")[0];
       // selectedRegion = thisZoom;
       resetZoom();
     }
