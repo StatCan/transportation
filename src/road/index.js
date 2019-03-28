@@ -7,7 +7,7 @@ import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
 
 const data = {};
-let dateRange = {};
+const dateRange = {};
 let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
