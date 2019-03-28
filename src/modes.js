@@ -2212,7 +2212,7 @@
 	  return NodesTree;
 	}();
 
-	function dropdownCheck (yearId, monthId, dateRange, selectedYear) {
+	function dropdownCheck (yearId, monthId, dateRange, selectedYear, months) {
 	  var yearDropdown = $(yearId); // date dropdown creation
 
 	  yearDropdown.empty();
@@ -2222,27 +2222,30 @@
 	  }
 
 	  d3.select(yearId)._groups[0][0].value = selectedYear;
-	  var maxMonth = Number(dateRange.max.substring(5, 7));
-	  var maxYear = Number(dateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
 
-	  if (Number(selectedYear) === maxYear) {
-	    $("".concat(monthId, " > option")).each(function () {
-	      if (Number(this.value) > maxMonth) {
-	        this.disabled = true;
-	      }
-	    });
-	  } else {
-	    // Enable all months
-	    d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+	  if (months) {
+	    var maxMonth = Number(dateRange.max.substring(5, 7));
+	    var maxYear = Number(dateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
 
-	    var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
-
-	    if (currentMonth > maxMonth) {
-	      $("".concat(yearId, " > option")).each(function () {
-	        if (Number(this.value) === maxYear) {
+	    if (Number(selectedYear) === maxYear) {
+	      $("".concat(monthId, " > option")).each(function () {
+	        if (Number(this.value) > maxMonth) {
 	          this.disabled = true;
 	        }
 	      });
+	    } else {
+	      // Enable all months
+	      d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+
+	      var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+
+	      if (currentMonth > maxMonth) {
+	        $("".concat(yearId, " > option")).each(function () {
+	          if (Number(this.value) === maxYear) {
+	            this.disabled = true;
+	          }
+	        });
+	      }
 	    }
 	  }
 	}

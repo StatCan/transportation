@@ -2683,7 +2683,7 @@
     line.attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", chartObj.settings.innerHeight);
   }
 
-  function dropdownCheck (yearId, monthId, dateRange, selectedYear) {
+  function dropdownCheck (yearId, monthId, dateRange, selectedYear, months) {
     var yearDropdown = $(yearId); // date dropdown creation
 
     yearDropdown.empty();
@@ -2693,27 +2693,30 @@
     }
 
     d3.select(yearId)._groups[0][0].value = selectedYear;
-    var maxMonth = Number(dateRange.max.substring(5, 7));
-    var maxYear = Number(dateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
 
-    if (Number(selectedYear) === maxYear) {
-      $("".concat(monthId, " > option")).each(function () {
-        if (Number(this.value) > maxMonth) {
-          this.disabled = true;
-        }
-      });
-    } else {
-      // Enable all months
-      d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+    if (months) {
+      var maxMonth = Number(dateRange.max.substring(5, 7));
+      var maxYear = Number(dateRange.max.substring(0, 4)); // Disable months in dropdown menu that do not exist for selectedYear
 
-      var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
-
-      if (currentMonth > maxMonth) {
-        $("".concat(yearId, " > option")).each(function () {
-          if (Number(this.value) === maxYear) {
+      if (Number(selectedYear) === maxYear) {
+        $("".concat(monthId, " > option")).each(function () {
+          if (Number(this.value) > maxMonth) {
             this.disabled = true;
           }
         });
+      } else {
+        // Enable all months
+        d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
+
+        var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+
+        if (currentMonth > maxMonth) {
+          $("".concat(yearId, " > option")).each(function () {
+            if (Number(this.value) === maxYear) {
+              this.disabled = true;
+            }
+          });
+        }
       }
     }
   }
@@ -3259,7 +3262,7 @@
         selectedDate = selectedYear + "-" + selectedMonth;
         var yearId = "#".concat("yearSelector");
         var monthId = "#".concat("monthSelector");
-        dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+        dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
       } else {
         selectedDate = selectedYear;
       }
@@ -3533,7 +3536,9 @@
     var monthId = "#".concat("monthSelector");
 
     if (selectedDataset === "major_airports") {
-      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear);
+      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+    } else {
+      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, false);
     } // indent airports under each geographic region
 
 
@@ -3687,7 +3692,6 @@
 
 
   function isIE() {
-    console.log("isIE");
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
 
@@ -3796,10 +3800,10 @@
       majorMetaData = majorMeta;
       metaData = passengerMetaData;
       data[selectedDataset][selectedRegion] = areaData;
-      selectedDate = document.getElementById("yearSelector").value;
-      selectedMonth = document.getElementById("monthSelector").value;
       getDateMinMax();
       selectedDateRange = passengerDateRange;
+      selectedDate = selectedDateRange.max.substring(0, 4);
+      selectedMonth = selectedDateRange.max.substring(5, 7);
       createDropdown();
       canadaMap = getCanadaMap(map).on("loaded", function () {
         allAirports = airports;
@@ -3839,7 +3843,7 @@
       plotLegend(); // Show chart titles based on default menu options
 
       updateTitles();
-      if (isIE()) ieWorkAround();else console.log("NOT");
+      if (isIE()) ieWorkAround();
     });
   });
   $(document).on("change", uiHandler);
