@@ -65,7 +65,10 @@ export default {
       // if (d[key]=== "x" || d[key]=== "..") {
       //   return d[key];
       // } else return Number(d[key]);
-      return isNaN(Number(d[key]))? d[key]: Number(d[key]);
+      return isNaN(Number(d[key])) ? d[key]: this.formatNum(Number(d[key]));
+    },
+    getTickText: function(d) {
+      return this.formatNum(d);
     },
     ticks: 5,
     tickSizeOuter: 0

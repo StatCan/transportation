@@ -823,8 +823,8 @@ function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
   if (selectedDataset === "passengers") {
-    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum()(divData.enplaned) : divData.enplaned;
-    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum()(divData.deplaned) : divData.deplaned;
+    const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum(divData.enplaned) : divData.enplaned;
+    const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divData.date}:</b> <br><br>
@@ -838,9 +838,9 @@ function airportHover() {
     )
         .style("pointer-events", "none");
   } else {
-    const thisDomestic = selectedSettings.formatNum()(divData.domestic);
-    const thisTrans = selectedSettings.formatNum()(divData.transborder);
-    const thisInter = selectedSettings.formatNum()(divData.international);
+    const thisDomestic = selectedSettings.formatNum(divData.domestic);
+    const thisTrans = selectedSettings.formatNum(divData.transborder);
+    const thisInter = selectedSettings.formatNum(divData.international);
     const divDate = `${i18next.t((divData.date).substring(5, 7), {ns: "months"})} ${divData.date.substring(0, 4)}`;
     div.html(
         `<b> ${i18next.t(selectedAirpt, {ns: "geography"})}, ${divDate}:</b> <br><br>
@@ -911,6 +911,48 @@ function getDateMinMax() {
     if (!passengerDateRange.max || new Date(date)> new Date(passengerDateRange.max)) {
       passengerDateRange.max = date;
     }
+  }
+}
+// ------------------------------------------------------------------------------
+function isIE() {
+  const ua = window.navigator.userAgent;
+  const msie = ua.indexOf("MSIE ");
+  if (msie > 0) {
+    // IE 10 or older => return version number
+    return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+  }
+  const trident = ua.indexOf("Trident/");
+  if (trident > 0) {
+    // IE 11 => return version number
+    const rv = ua.indexOf("rv:");
+    return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+  }
+  const edge = ua.indexOf("Edge/");
+  if (edge > 0) {
+    // Edge (IE 12+) => return version number
+    return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+  }
+  // other browser
+  return false;
+}
+
+function ieWorkAround() {
+  const summaryNode = document.getElementById("chrt-dt-tbl");
+  summaryNode.addEventListener("keydown", function(ev) {
+    if (ev.which == 13 || ev.which == 32) toggle(ev);
+  });
+
+  summaryNode.addEventListener( "click", function(ev) {
+    toggle(ev);
+  });
+
+  function toggle(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const nodedetails = document.getElementsByClassName("chart-data-table")[0];
+    const isOpen = nodedetails.hasAttribute("open");
+    if (isOpen) nodedetails.removeAttribute("open");
+    else nodedetails.setAttribute("open", "open");
   }
 }
 // -----------------------------------------------------------------------------
@@ -1009,6 +1051,9 @@ i18n.load(["src/i18n"], () => {
 
         // Show chart titles based on default menu options
         updateTitles();
+
+
+        if (isIE()) ieWorkAround();
       });
 });
 
