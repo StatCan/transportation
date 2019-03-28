@@ -461,17 +461,21 @@ $(".data_set_selector").on("click", function(event) {
 });
 function uiHandler(event) {
   if (event.target.id === "groups") {
-    // // clear any map region that is highlighted
-    // d3.select(".map").selectAll("path").classed("airMapHighlight", false);
+    // clear any map region that is highlighted
+    d3.select(".map").selectAll("path").classed("airMapHighlight", false);
     selectedRegion = document.getElementById("groups").value;
-    if (!d3.select(`#airport${selectedRegion}`)._groups[0][0]) {
-      // clear any map region that is highlighted
-      d3.select(".map").selectAll("path").classed("airMapHighlight", false);
-      if (selectedRegion === "CANADA") resetZoom();
-      else canadaMap.zoom(selectedRegion);
-    } else {
-      // selectedRegion = thisZoom;
+
+    if (d3.select(`#airport${selectedRegion}`)._groups[0][0]) { // menu selection is an airport
+      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[0];
+      d3.select(".dashboard .map")
+          .select(`.${zoomTo}`)
+          .classed("airMapHighlight", true)
+          .moveToFront();
+      canadaMap.zoom(zoomTo);
+    } else if (selectedRegion === "CANADA") {
       resetZoom();
+    } else { // zoom to selectedRegion
+      canadaMap.zoom(selectedRegion);
     }
 
     showAreaData();
@@ -661,9 +665,9 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return `airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
+          return `${d.properties.province} airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return `airport ${selectedDataset} dontShow`;
+          return `${d.properties.province} airport ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
