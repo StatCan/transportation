@@ -405,37 +405,36 @@ Show only for top 2 charts
 #commTableTitle {
 	font-size: 20px;
 	color: #333;
-  font-weight: bold;
+  	font-weight: bold;
 }
-.ATR {
+.rail .ATR {
 	fill: #e5c494;
 }
-.QC {
-	fill: #ffd92f;;
+.rail .QC {
+	fill: #ffd92f;
 }
-.ON {
+.rail .ON {
 	fill: #137991
-;
 }
-.MB {
+.rail .MB {
 	fill: #e78ac3;
 }
-.SK {
+.rail .SK {
 	fill: #8da0cb;
 }
-.AB {
+.rail .AB {
 	fill: #fc8d62;
 }
-.BC {
+.rail .BC {
 	fill: #66c2a5;
 }
-.US {
+.rail .US {
 	fill: #7fbc41;
 }
-.USMX {
+.rail .USMX {
 	fill: #4d9221;
 }
-.USMX {
+.rail .USMX {
 	fill: #737373;
 }
 .inactive-region {

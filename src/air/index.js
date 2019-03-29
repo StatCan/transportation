@@ -466,7 +466,7 @@ function uiHandler(event) {
     selectedRegion = document.getElementById("groups").value;
 
     if (d3.select(`#airport${selectedRegion}`)._groups[0][0]) { // menu selection is an airport
-      const zoomTo = i18next.t(selectedRegion, {ns: "airport_codes"});
+      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[0];
       d3.select(".dashboard .map")
           .select(`.${zoomTo}`)
           .classed("airMapHighlight", true)
@@ -665,9 +665,9 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return `airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
+          return `${d.properties.province} airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return `airport ${selectedDataset} dontShow`;
+          return `${d.properties.province} airport ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
