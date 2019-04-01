@@ -114,7 +114,7 @@ map.on("mousemove", () => {
 });
 
 map.on("mouseout", () => {
-  div.transition()
+  div
       .style("opacity", 0);
 
   if (selectedRegion) {
