@@ -466,7 +466,7 @@ function uiHandler(event) {
     selectedRegion = document.getElementById("groups").value;
 
     if (d3.select(`#airport${selectedRegion}`)._groups[0][0]) { // menu selection is an airport
-      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[0];
+      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[1];
       d3.select(".dashboard .map")
           .select(`.${zoomTo}`)
           .classed("airMapHighlight", true)
@@ -665,9 +665,9 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return `${d.properties.province} airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
+          return `airport ${d.properties.province} ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return `${d.properties.province} airport ${selectedDataset} dontShow`;
+          return `airport ${d.properties.province} ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
@@ -675,9 +675,7 @@ const refreshMap = function() {
         showAirport();
       });
 
-  d3.selectAll(".noData").moveToBack();
-
-  d3.selectAll(".noData").moveToBack();
+  // d3.selectAll(".noData").moveToBack();
 };
 
 function colorMap() {
@@ -1037,13 +1035,13 @@ i18n.load(["src/i18n"], () => {
 
               colorMap();
 
-              airportGroup.selectAll("path")
-                  .on("mouseover", (d) => {
-                    selectedAirpt = d.properties.id;
-                    if (d.properties.hasPlanedData !== "noYears") {
-                      showAirport();
-                    }
-                  });
+              // airportGroup.selectAll("path")
+              //     .on("mouseover", (d) => {
+              //       selectedAirpt = d.properties.id;
+              //       if (d.properties.hasPlanedData !== "noYears") {
+              //         showAirport();
+              //       }
+              //     });
 
               map.style("visibility", "visible");
               d3.select(".canada-map");
