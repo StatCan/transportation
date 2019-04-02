@@ -334,6 +334,7 @@ let stackedArea; // stores areaChart() call
 // -----------------------------------------------------------------------------
 /* SVGs */
 const map = d3.select(".dashboard .map")
+    .attr("id", "map")
     .append("svg");
 const movementsButton = d3.select("#major");
 const passengerButton = d3.select("#movements");
@@ -467,10 +468,7 @@ function uiHandler(event) {
 
     if (d3.select(`#airport${selectedRegion}`)._groups[0][0]) { // menu selection is an airport
       const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[1];
-      d3.select(".dashboard .map")
-          .select(`.${zoomTo}`)
-          .classed("airMapHighlight", true)
-          .moveToFront();
+
       canadaMap.zoom(zoomTo);
     } else if (selectedRegion === "CANADA") {
       resetZoom();
@@ -569,7 +567,7 @@ map.on("mouseout", () => {
   }
 });
 
-map.on("click", () => {
+map.on("mousedown", () => {
   if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
     toCanada();
   }
@@ -588,10 +586,6 @@ map.on("click", () => {
         // ---------------------------------------------------------------------
         // Region highlight
         selectedRegion = classes[0];
-        d3.select(".dashboard .map")
-            .select("." + classes[0])
-            .classed("airMapHighlight", true)
-            .moveToFront();
         // Display selected region in stacked area chart
         showAreaData();
 
@@ -1057,7 +1051,8 @@ i18n.load(["src/i18n"], () => {
               //       }
               //     });
 
-              map.style("visibility", "visible");
+              map.style("visibility", "visible")
+                  .style("pointer-events", "visible");
               d3.select(".canada-map");
               refreshMap();
             });
