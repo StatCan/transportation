@@ -1,4 +1,4 @@
-export default function(yearId, monthId, dateRange, selectedYear, months) {
+export default function(yearId, monthId, dateRange, selectedYear, selectedMonth, months) {
   const yearDropdown = $(yearId);
 
   // date dropdown creation
@@ -21,6 +21,12 @@ export default function(yearId, monthId, dateRange, selectedYear, months) {
           this.disabled = true;
         }
       });
+      const currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+
+      if (currentMonth > maxMonth ) {
+        selectedMonth = dateRange.max.substring(5, 7)
+        d3.select(monthId)._groups[0][0].value = selectedMonth;
+      }
     } else {
       // Enable all months
       d3.selectAll(`${monthId} > option`).property("disabled", false);
@@ -36,4 +42,5 @@ export default function(yearId, monthId, dateRange, selectedYear, months) {
       }
     }
   }
+  return selectedMonth;
 }

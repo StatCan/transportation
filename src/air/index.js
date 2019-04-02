@@ -484,10 +484,10 @@ function uiHandler(event) {
     selectedYear = document.getElementById("yearSelector").value;
     // d3.select("#airportYQB")
     if (selectedDataset ==="major_airports") {
-      selectedDate = selectedYear + "-" + selectedMonth;
       const yearId = `#${"yearSelector"}`;
       const monthId = `#${"monthSelector"}`;
-      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+      selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
+      selectedDate = selectedYear + "-" + selectedMonth;
     } else {
       selectedDate = selectedYear;
     }
@@ -711,16 +711,16 @@ function showAreaData() {
 	  // Bruno : My new stuff on 2019-04-02
 	  var d = data[selectedDataset][selectedRegion];
 	  var allX = true;
-	  
-	  for (var i = 0; i < d.length; i++) {		  
+
+	  for (var i = 0; i < d.length; i++) {
 		  allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
 	  }
-	  
-	  chart.style('display', allX ? 'none' : '');
+
+	  d3.select('#annualTimeseries').style('display', allX ? 'none' : '');
 	  d3.select('#areaLegend').style('display', allX ? 'none' : '');
 	  d3.select('#warning').style('display', allX ? '' : 'none');
 	  // Bruno : End of my new stuff on 2019-04-02
-	  
+
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
 
     // areaChart hoverLine and tooltip
@@ -811,9 +811,9 @@ function createDropdown() {
   const yearId = `#${"yearSelector"}`;
   const monthId = `#${"monthSelector"}`;
   if (selectedDataset === "major_airports") {
-    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+    selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
   } else {
-    dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, false);
+    selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, false);
   }
 
   // indent airports under each geographic region
