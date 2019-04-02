@@ -572,8 +572,9 @@ map.on("mouseout", () => {
 map.on("click", () => {
   if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
     toCanada();
-  } else if (d3.select(d3.event.target).attr("class") &&
-      d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
+  }
+  // Bruno : Minor modification here 2019-04-02
+ else if (d3.select(d3.event.target).attr("class")) { // Do not allow NaN region to be clicked
     // clear any previous clicks
     d3.select(".map")
         .selectAll("path")
@@ -707,6 +708,19 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
+	  // Bruno : My new stuff on 2019-04-02
+	  var d = data[selectedDataset][selectedRegion];
+	  var allX = true;
+	  
+	  for (var i = 0; i < d.length; i++) {		  
+		  allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
+	  }
+	  
+	  chart.style('display', allX ? 'none' : '');
+	  d3.select('#areaLegend').style('display', allX ? 'none' : '');
+	  d3.select('#warning').style('display', allX ? '' : 'none');
+	  // Bruno : End of my new stuff on 2019-04-02
+	  
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
 
     // areaChart hoverLine and tooltip
