@@ -26,11 +26,7 @@ export default function(data, colourArray, numLevels) {
           .style("fill", function() {
             return Number(thisData[key]) ? colourMap(thisData[key]) : nullColour;
           })
-          .classed("classNaN", function() {
-            if (!Number(thisData[key])) {
-              return true;
-            }
-          });
+		  // Bruno : Unused code removed following no data message modification
     }
   }
 
