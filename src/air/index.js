@@ -466,7 +466,7 @@ function uiHandler(event) {
     selectedRegion = document.getElementById("groups").value;
 
     if (d3.select(`#airport${selectedRegion}`)._groups[0][0]) { // menu selection is an airport
-      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[0];
+      const zoomTo = d3.select(`#airport${selectedRegion}`).attr("class").split(" ")[1];
       d3.select(".dashboard .map")
           .select(`.${zoomTo}`)
           .classed("airMapHighlight", true)
@@ -572,8 +572,9 @@ map.on("mouseout", () => {
 map.on("click", () => {
   if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
     toCanada();
-  } else if (d3.select(d3.event.target).attr("class") &&
-      d3.select(d3.event.target).attr("class").indexOf("classNaN") === -1) { // Do not allow NaN region to be clicked
+  }
+  // Bruno : Minor modification here 2019-04-02
+ else if (d3.select(d3.event.target).attr("class")) { // Do not allow NaN region to be clicked
     // clear any previous clicks
     d3.select(".map")
         .selectAll("path")
@@ -665,9 +666,9 @@ const refreshMap = function() {
       })
       .attr("class", (d, i) => {
         if (metaData[selectedDate][d.properties.id]) {
-          return `${d.properties.province} airport ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
+          return `airport ${d.properties.province} ${selectedDataset} ${metaData[selectedDate][d.properties.id]}`;
         } else {
-          return `${d.properties.province} airport ${selectedDataset} dontShow`;
+          return `airport ${d.properties.province} ${selectedDataset} dontShow`;
         }
       })
       .on("mouseover", (d) => {
@@ -675,9 +676,7 @@ const refreshMap = function() {
         showAirport();
       });
 
-  d3.selectAll(".noData").moveToBack();
-
-  d3.selectAll(".noData").moveToBack();
+  // d3.selectAll(".noData").moveToBack();
 };
 
 function colorMap() {
@@ -709,6 +708,19 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
+	  // Bruno : My new stuff on 2019-04-02
+	  var d = data[selectedDataset][selectedRegion];
+	  var allX = true;
+	  
+	  for (var i = 0; i < d.length; i++) {		  
+		  allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
+	  }
+	  
+	  chart.style('display', allX ? 'none' : '');
+	  d3.select('#areaLegend').style('display', allX ? 'none' : '');
+	  d3.select('#warning').style('display', allX ? '' : 'none');
+	  // Bruno : End of my new stuff on 2019-04-02
+	  
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
 
     // areaChart hoverLine and tooltip
@@ -1037,13 +1049,13 @@ i18n.load(["src/i18n"], () => {
 
               colorMap();
 
-              airportGroup.selectAll("path")
-                  .on("mouseover", (d) => {
-                    selectedAirpt = d.properties.id;
-                    if (d.properties.hasPlanedData !== "noYears") {
-                      showAirport();
-                    }
-                  });
+              // airportGroup.selectAll("path")
+              //     .on("mouseover", (d) => {
+              //       selectedAirpt = d.properties.id;
+              //       if (d.properties.hasPlanedData !== "noYears") {
+              //         showAirport();
+              //       }
+              //     });
 
               map.style("visibility", "visible");
               d3.select(".canada-map");

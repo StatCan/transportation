@@ -220,6 +220,8 @@
                         <div id="annualTimeseries">
                            <div class="data airdata"></div>
                         </div>
+						<!-- Bruno : Modification 2014-04-02 -->
+						<div id="warning" style='display:none;'>All the data have been suppressed to meet the confidentiality requirements of the <i>Statistics Act</i></div>
                         <div>
                            <div id="areaLegend">
                               <svg></svg>
@@ -310,8 +312,7 @@
          <!--<script type="text/javascript">_satellite.pageBottom();</script>-->
          <!-- CustomScriptsJSStart -->
          <script src="lib/stc_visualization_components/utils.min.js"></script>
-         <script src="lib/details-element-polyfill.js"></script>
-         <script src="lib/stc_visualization_components/area.js"></script>
+         <script src="lib/stc_visualization_components/area.min.js"></script>
          <script src="lib/d3-canada-map.js"></script>
          <script src="lib/statcan_sgc/sgc.min.js"></script>
          <script type="module" src="src/air/index.js"></script>
