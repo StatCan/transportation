@@ -2212,7 +2212,7 @@
 	  return NodesTree;
 	}();
 
-	function dropdownCheck (yearId, monthId, dateRange, selectedYear, months) {
+	function dropdownCheck (yearId, monthId, dateRange, selectedYear, selectedMonth, months) {
 	  var yearDropdown = $(yearId); // date dropdown creation
 
 	  yearDropdown.empty();
@@ -2233,13 +2233,19 @@
 	          this.disabled = true;
 	        }
 	      });
+	      var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+
+	      if (currentMonth > maxMonth) {
+	        selectedMonth = dateRange.max.substring(5, 7);
+	        d3.select(monthId)._groups[0][0].value = selectedMonth;
+	      }
 	    } else {
 	      // Enable all months
 	      d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
 
-	      var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+	      var _currentMonth = Number(d3.select(monthId)._groups[0][0].value);
 
-	      if (currentMonth > maxMonth) {
+	      if (_currentMonth > maxMonth) {
 	        $("".concat(yearId, " > option")).each(function () {
 	          if (Number(this.value) === maxYear) {
 	            this.disabled = true;
@@ -2248,6 +2254,8 @@
 	      }
 	    }
 	  }
+
+	  return selectedMonth;
 	}
 
 	/* Copy Button and DataTree*/

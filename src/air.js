@@ -2679,7 +2679,7 @@
     line.attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", chartObj.settings.innerHeight);
   }
 
-  function dropdownCheck (yearId, monthId, dateRange, selectedYear, months) {
+  function dropdownCheck (yearId, monthId, dateRange, selectedYear, selectedMonth, months) {
     var yearDropdown = $(yearId); // date dropdown creation
 
     yearDropdown.empty();
@@ -2700,13 +2700,19 @@
             this.disabled = true;
           }
         });
+        var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+
+        if (currentMonth > maxMonth) {
+          selectedMonth = dateRange.max.substring(5, 7);
+          d3.select(monthId)._groups[0][0].value = selectedMonth;
+        }
       } else {
         // Enable all months
         d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
 
-        var currentMonth = Number(d3.select(monthId)._groups[0][0].value);
+        var _currentMonth = Number(d3.select(monthId)._groups[0][0].value);
 
-        if (currentMonth > maxMonth) {
+        if (_currentMonth > maxMonth) {
           $("".concat(yearId, " > option")).each(function () {
             if (Number(this.value) === maxYear) {
               this.disabled = true;
@@ -2715,6 +2721,8 @@
         }
       }
     }
+
+    return selectedMonth;
   }
 
   var arraySlice = [].slice;
@@ -3144,7 +3152,7 @@
 
   /* SVGs */
 
-  var map = d3.select(".dashboard .map").append("svg");
+  var map = d3.select(".dashboard .map").attr("id", "map").append("svg");
   var movementsButton = d3.select("#major");
   var passengerButton = d3.select("#movements");
   var monthDropdown = d3.select("#months"); // map colour bar
@@ -3251,7 +3259,6 @@
       if (d3.select("#airport".concat(selectedRegion))._groups[0][0]) {
         // menu selection is an airport
         var zoomTo = d3.select("#airport".concat(selectedRegion)).attr("class").split(" ")[1];
-        d3.select(".dashboard .map").select(".".concat(zoomTo)).classed("airMapHighlight", true).moveToFront();
         canadaMap.zoom(zoomTo);
       } else if (selectedRegion === "CANADA") {
         resetZoom();
@@ -3267,10 +3274,10 @@
       selectedYear = document.getElementById("yearSelector").value; // d3.select("#airportYQB")
 
       if (selectedDataset === "major_airports") {
-        selectedDate = selectedYear + "-" + selectedMonth;
         var yearId = "#".concat("yearSelector");
         var monthId = "#".concat("monthSelector");
-        dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+        selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
+        selectedDate = selectedYear + "-" + selectedMonth;
       } else {
         selectedDate = selectedYear;
       }
@@ -3341,7 +3348,7 @@
       d3.select(".map").selectAll("path").classed("airMapHighlight", false);
     }
   });
-  map.on("click", function () {
+  map.on("mousedown", function () {
     if (!d3.select(d3.event.target).attr("class") || d3.select(d3.event.target).attr("class") === "svg-shimmed") {
       toCanada();
     } // Bruno : Minor modification here 2019-04-02
@@ -3357,8 +3364,7 @@
             // to avoid zooming airport cirlces
             // ---------------------------------------------------------------------
             // Region highlight
-            selectedRegion = classes[0];
-            d3.select(".dashboard .map").select("." + classes[0]).classed("airMapHighlight", true).moveToFront(); // Display selected region in stacked area chart
+            selectedRegion = classes[0]; // Display selected region in stacked area chart
 
             showAreaData(); // upsdate region displayed in dropdown menu
 
@@ -3472,7 +3478,7 @@
         allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
       }
 
-      chart.style('display', allX ? 'none' : '');
+      d3.select('#annualTimeseries').style('display', allX ? 'none' : '');
       d3.select('#areaLegend').style('display', allX ? 'none' : '');
       d3.select('#warning').style('display', allX ? '' : 'none'); // Bruno : End of my new stuff on 2019-04-02
 
@@ -3559,9 +3565,9 @@
     var monthId = "#".concat("monthSelector");
 
     if (selectedDataset === "major_airports") {
-      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, true);
+      selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
     } else {
-      dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, false);
+      selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, false);
     } // indent airports under each geographic region
 
 
@@ -3838,7 +3844,7 @@
         //       }
         //     });
 
-        map.style("visibility", "visible");
+        map.style("visibility", "visible").style("pointer-events", "visible");
         d3.select(".canada-map");
         refreshMap();
       }); // copy button options
