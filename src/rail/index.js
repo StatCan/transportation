@@ -1,7 +1,7 @@
 import settingsBar from "./settings_barChart.js";
 import settBubble from "./settings_bubbleTable.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
-import fillMapFn from "../fillMapFn.js";
+import fillMapFn from "../fillMapFnRail.js";
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
@@ -94,7 +94,8 @@ function uiHandler(event) {
 // -----------------------------------------------------------------------------
 /* FNS */
 function colorMap() {
-  // store map data in array and plot colour
+  // store map data in array and plot
+
   const thisTotalArray = [];
   thisTotalArray.push(data[`${selectedOrig}_${selectedComm}`][selectedYear]);
 
@@ -106,6 +107,7 @@ function colorMap() {
 
   // colour bar scale and add label
   mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
+
 
   // Colourbar label (need be plotted only once)
   const mapScaleLabel = i18next.t("units", {ns: "rail"});
@@ -212,6 +214,28 @@ i18n.load(["src/i18n"], function() {
 
         getCanadaMap(map)
             .on("loaded", function() {
+
+              let usaMexOffset = document.getElementById("AB_map").getBBox();
+              const usMex = map
+                  .append("g")
+                  .attr("id", "usa-mex-group")
+              usMex
+                  .append("rect")
+                  .attr("width", 10)
+                  .attr("height", 10)
+                  .attr("x", usaMexOffset.x)
+                  .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
+                  .attr("class", "USA-MX")
+              // usMex
+              //     .append("text")
+              //     .attr("x", usaMexOffset.x)
+              //     .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
+              //     // .attr("dy","1.25em")
+              //     .attr("dx","0.25em")
+              //     .style("font-size", "5px")
+              //     .style("fill", "black")
+              //     .text(i18next.t("usa-mex", {ns: "rail"}))
+
               colorMap();
             });
         d3.select("#mapTitleRail")

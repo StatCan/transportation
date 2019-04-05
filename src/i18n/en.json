@@ -305,6 +305,9 @@
       "y_label": "Tonnage",
       "ONtoAT": "Ontario to Atlantic Region"
     },
+    "rail": {
+      "usa-mex": "USA and Mexico"
+    },
     "commodities": {
       "coal": "Coal",
       "mixed": "Mixed loads",
