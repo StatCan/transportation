@@ -51,51 +51,67 @@ const commTable = d3.select("#commgrid")
 
 // ---------------------------------------------------------------------
 /* load data fn */
-const loadBarData = function(selectedOrig, selectedComm, cb) {
-  if (!data[dataTag]) {
+const loadData = function(){
+  return new Promise(function(resolve, reject) {
     d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
-      data[dataTag] = filedata;
-      const s = {
-        ...settingsBar,
-        filterData: filterDataBar
-      };
-      cb(s);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(filedata);
+      }
     });
-  } else {
-    const s = {
-      ...settingsBar,
-      filterData: filterDataBar
-    };
-    cb(s);
-  }
-};
+  });
+}
 // ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
-    selectedComm = document.getElementById("commodity").value;
+    setCommodity(document.getElementById("commodity").value);
   }
   if (event.target.id === "originGeo") {
-    selectedOrig = document.getElementById("originGeo").value;
+    setOrigin(document.getElementById("originGeo").value);
   }
   if (event.target.id === "destGeo") {
-    selectedDest = document.getElementById("destGeo").value;
+    setDest(document.getElementById("destGeo").value);
   }
+  updatePage();
 
-  dataTag = `${selectedOrig}_${selectedComm}`;
-  updateTitles();
-
-  loadBarData( selectedOrig, selectedComm, (s) => {
-    showBarChartData(s);
-  });
 }
 // -----------------------------------------------------------------------------
 /* -- Map interactions -- */
 
 // -----------------------------------------------------------------------------
 /* FNS */
+function updatePage(){
+  if(!data[dataTag]){
+    loadData().then(function(newData){
+      data[dataTag] = newData;
+      showBarChartData();
+      colorMap();
+    })
+  }
+  else{
+    showBarChartData();
+    colorMap();
+  }
+}
+
+function setYear(newYear){
+  selectedYear =  newYear;
+}
+function setCommodity(newComm){
+  selectedComm =  newComm;
+  dataTag = `${selectedOrig}_${selectedComm}`;
+}
+function setOrigin(newOrig){
+  selectedOrig =  newOrig;
+  dataTag = `${selectedOrig}_${selectedComm}`;
+}
+function setDest(newDest){
+  selectedDest =  newDest;
+}
+
 function colorMap() {
   // store map data in array and plot
-
   const thisTotalArray = [];
   thisTotalArray.push(data[`${selectedOrig}_${selectedComm}`][selectedYear]);
 
@@ -106,6 +122,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
+  //ADD LOGIC FOR 0 VALUE
   mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
 
 
@@ -134,8 +151,8 @@ function filterDataBar() {
   }];
 }
 
-function showBarChartData(s) {
-  barChart(chart, {...s, selectedOrig, selectedDest});
+function showBarChartData() {
+  barChart(chart, {...aditionalBarSettings, selectedOrig, selectedDest});
   d3.select("#svgBar").select(".x.axis")
       .select("text")
       .attr("display", "none");
@@ -179,7 +196,10 @@ function updateTitles() {
   settingsBar.tableTitle = i18next.t("tableTitle", {ns: "railTable",
     comm: thisComm, orig: thisOrig, dest: thisDest});
 }
-
+const aditionalBarSettings = {
+  ...settingsBar,
+  filterData: filterDataBar
+};
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
@@ -248,12 +268,8 @@ i18n.load(["src/i18n"], function() {
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           dataTag = `${selectedOrig}_${selectedComm}`;
           data[dataTag] = origJSON;
-
-          const s = {
-            ...settingsBar,
-            filterData: filterDataBar
-          };
-          showBarChartData(s, data);
+          loadData();
+          showBarChartData();
         }); // outer d3.json
 
 
