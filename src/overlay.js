@@ -50,9 +50,7 @@ export default function(chartObj, data, onMouseOverCb, onMouseOutCb) {
         } else {
           d = d1;
         }
-        chartObj.data.filter((item) => {
-          if (item.isLast) d = d1;
-        });
+
 
         line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
         line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
