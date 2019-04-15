@@ -57,6 +57,14 @@
 	stroke: #9e9d9d !important;
 	stroke-width: 0.5 !important;
 }
+.railOriginMapHighlight {
+	stroke: #9e9d9d !important;
+	stroke-width: 0.5 !important;
+}
+.railDestMapHighlight {
+	stroke: #ffe953 !important;
+	stroke-width: 0.5 !important;
+}
 #svgFuel .area-label {
 	font-size: 20px;
 	fill: #555;

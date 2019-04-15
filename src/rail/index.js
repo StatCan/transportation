@@ -11,6 +11,9 @@ let selectedComm = "chems";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
+const origin = "Origin";
+const destination = "Dest"
+
 const data = {}; // stores data for barChart
 const selectedYear = "2016";
 // let domain; // Stores domain of flattened origJSON
@@ -105,9 +108,23 @@ function setCommodity(newComm){
 function setOrigin(newOrig){
   selectedOrig =  newOrig;
   dataTag = `${selectedOrig}_${selectedComm}`;
+  // Highlight region selected from menu on map
+  highlightMap(newOrig, origin)
 }
 function setDest(newDest){
   selectedDest =  newDest;
+  // Highlight region selected from menu on map
+  highlightMap(newDest, destination)
+}
+function highlightMap(selection, mode){
+  d3.select(".dashboard .map")
+      .select(`.rail${mode}MapHighlight`)
+      .classed(`rail${mode}MapHighlight`, false)
+
+  d3.select(".dashboard .map")
+      .select(`#${selection}_map`)
+      .classed(`rail${mode}MapHighlight`, true)
+      .moveToFront();
 }
 
 function colorMap() {
