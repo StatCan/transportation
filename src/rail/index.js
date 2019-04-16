@@ -10,6 +10,7 @@ let selectedDest = "QC";
 let selectedComm = "chems";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+const usaMexicoImageLocation = "lib/usamexico.png"
 
 const origin = "Origin";
 const destination = "Dest"
@@ -54,7 +55,7 @@ const commTable = d3.select("#commgrid")
 
 // ---------------------------------------------------------------------
 /* load data fn */
-const loadData = function(){
+const loadData = function() {
   return new Promise(function(resolve, reject) {
     d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
       if (err) {
@@ -64,7 +65,7 @@ const loadData = function(){
       }
     });
   });
-}
+};
 // ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
@@ -77,49 +78,47 @@ function uiHandler(event) {
     setDest(document.getElementById("destGeo").value);
   }
   updatePage();
-
 }
 // -----------------------------------------------------------------------------
 /* -- Map interactions -- */
 
 // -----------------------------------------------------------------------------
 /* FNS */
-function updatePage(){
-  if(!data[dataTag]){
-    loadData().then(function(newData){
+function updatePage() {
+  if (!data[dataTag]) {
+    loadData().then(function(newData) {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-    })
-  }
-  else{
+    });
+  } else {
     showBarChartData();
     colorMap();
   }
 }
 
-function setYear(newYear){
+function setYear(newYear) {
   selectedYear =  newYear;
 }
-function setCommodity(newComm){
-  selectedComm =  newComm;
+function setCommodity(newComm) {
+  selectedComm = newComm;
   dataTag = `${selectedOrig}_${selectedComm}`;
 }
-function setOrigin(newOrig){
-  selectedOrig =  newOrig;
+function setOrigin(newOrig) {
+  selectedOrig = newOrig;
   dataTag = `${selectedOrig}_${selectedComm}`;
   // Highlight region selected from menu on map
-  highlightMap(newOrig, origin)
+  highlightMap(newOrig, origin);
 }
-function setDest(newDest){
-  selectedDest =  newDest;
+function setDest(newDest) {
+  selectedDest = newDest;
   // Highlight region selected from menu on map
-  highlightMap(newDest, destination)
+  highlightMap(newDest, destination);
 }
-function highlightMap(selection, mode){
+function highlightMap(selection, mode) {
   d3.select(".dashboard .map")
       .select(`.rail${mode}MapHighlight`)
-      .classed(`rail${mode}MapHighlight`, false)
+      .classed(`rail${mode}MapHighlight`, false);
 
   d3.select(".dashboard .map")
       .select(`#${selection}_map`)
@@ -259,19 +258,19 @@ i18n.load(["src/i18n"], function() {
               usMex
                   .append("rect")
                   .attr("width", 10)
-                  .attr("height", 10)
-                  .attr("x", usaMexOffset.x)
+                  .attr("height", 20)
+                  .attr("x", usaMexOffset.x +10)
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
                   .attr("class", "USA-MX")
-              // usMex
-              //     .append("text")
-              //     .attr("x", usaMexOffset.x)
-              //     .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
-              //     // .attr("dy","1.25em")
-              //     .attr("dx","0.25em")
-              //     .style("font-size", "5px")
-              //     .style("fill", "black")
-              //     .text(i18next.t("usa-mex", {ns: "rail"}))
+                  .attr("id", "USA-MX_map");
+
+              usMex
+                  .append("image")
+                  .attr("width", 20)
+                  .attr("height", 20)
+                  .attr("x", usaMexOffset.x -10)
+                  .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
+                  .attr("xlink:href", usaMexicoImageLocation)
 
               colorMap();
             });
