@@ -1,13 +1,23 @@
 import settingsBar from "./settings_barChart.js";
+import drawTable from "./railTable.js";
 import settBubble from "./settings_bubbleTable.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFnRail.js";
+import CopyButton from "../copyButton.js";
+
+/* Copy Button */
+// -----------------------------------------------------------------------------
+const cButton = new CopyButton();
+// -----------------------------------------------------------------------------
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
-let selectedOrig = "AT";
-let selectedDest = "QC";
-let selectedComm = "chems";
+const defaultOrig = "AT";
+const defaultDest = "QC";
+const defaultComm = "chems";
+let selectedOrig;
+let selectedDest;
+let selectedComm;
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 const usaMexicoImageLocation = "lib/usamexico.png"
@@ -17,10 +27,6 @@ const destination = "Dest"
 
 const data = {}; // stores data for barChart
 const selectedYear = "2016";
-// let domain; // Stores domain of flattened origJSON
-// let bar; // stores barChart() call
-// let mapData = {};
-// let canadaMap;
 
 // ---------------------------------------------------------------------
 /* SVGs */
@@ -90,10 +96,12 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
+      drawTable(data[dataTag]);
     });
   } else {
     showBarChartData();
     colorMap();
+    drawTable(data[dataTag],settingsBar);
   }
 }
 
@@ -139,7 +147,7 @@ function colorMap() {
 
   // colour bar scale and add label
   //ADD LOGIC FOR 0 VALUE
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length);
+  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar);
 
 
   // Colourbar label (need be plotted only once)
@@ -180,12 +188,6 @@ function showBarChartData() {
   //   divArea.style("opacity", 0);
   // });
 
-  // // Highlight region selected from menu on map
-  // d3.select(".dashboard .map")
-  //     .select("." + selectedRegion)
-  //     .classed("roadMapHighlight", true)
-  //     .moveToFront();
-
   updateTitles();
   // plotLegend();
   // cButton.appendTo(document.getElementById("copy-button-container"));
@@ -216,6 +218,36 @@ const aditionalBarSettings = {
   ...settingsBar,
   filterData: filterDataBar
 };
+function dataCopyButton(cButtondata) {
+  const lines = [];
+  const geography = i18next.t(selectedRegion, {ns: "geography"});
+  const title = [i18next.t("tableTitle", {ns: "rail", geo: geography})];
+  const columns = [""];
+
+  for (const concept in cButtondata[0]) if (concept != "date") {
+    if (concept !== "isLast") columns.push(i18next.t(concept, {ns: "rail"}));
+  }
+  lines.push(title, [], columns);
+
+  for (const row in cButtondata) {
+    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+      const auxRow = [];
+
+      for (const column in cButtondata[row]) {
+        if (column !== "isLast") {
+          if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
+            const value = cButtondata[row][column];
+
+            if (column != "date" && column != "total" && !isNaN(value)) value;
+            auxRow.push(value);
+          }
+        }
+      }
+      lines.push(auxRow);
+    }
+  }
+  cButton.data = lines;
+}
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
@@ -247,11 +279,19 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"chems": allchems});
         allCommArr.push({"pulp": allpulp});
         // allCommArr.push({"other": allother});
+        setOrigin(defaultOrig);
+        setDest(defaultDest);
+        setCommodity(defaultComm);
 
         getCanadaMap(map)
             .on("loaded", function() {
 
+              //USA-MEXICO SVG
+
+              //Place under alberta
               let usaMexOffset = document.getElementById("AB_map").getBBox();
+
+              //create rectangle
               const usMex = map
                   .append("g")
                   .attr("id", "usa-mex-group")
@@ -264,6 +304,7 @@ i18n.load(["src/i18n"], function() {
                   .attr("class", "USA-MX")
                   .attr("id", "USA-MX_map");
 
+              //create image
               usMex
                   .append("image")
                   .attr("width", 20)
@@ -272,7 +313,9 @@ i18n.load(["src/i18n"], function() {
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
                   .attr("xlink:href", usaMexicoImageLocation)
 
+
               colorMap();
+              highlightMap(defaultOrig, origin)
             });
         d3.select("#mapTitleRail")
             .text(i18next.t("mapTitle", {ns: "rail"}));
@@ -284,8 +327,8 @@ i18n.load(["src/i18n"], function() {
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           dataTag = `${selectedOrig}_${selectedComm}`;
           data[dataTag] = origJSON;
-          loadData();
           showBarChartData();
+          drawTable(data[dataTag],settingsBar);
         }); // outer d3.json
 
 

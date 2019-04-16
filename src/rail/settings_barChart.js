@@ -56,7 +56,11 @@ export default {
       return i18next.t(d.key, {ns: "railTable"});
     }
   },
+  _selfFormatter: i18n.getNumberFormatter(0),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
+  },
   width: 800,
-  datatable: true,
+  datatable: false,
   tableTitle: ""
 };
