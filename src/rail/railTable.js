@@ -7,9 +7,9 @@ export default function(data, settings) {
   //     sett.filterData(data, "table") : data;
   // use original data, not array returned by filteredData which may contain inserted year-end datapts
 
-  var filteredData = sett.filterData && typeof sett.filterData === "function" ? sett.filterData(data, "table") : data;
+  var filteredData = filterData(data)
   var details = thisSVG.select(".chart-data-table");
-  var keys = ["All", "AB", "AT", "BC", "MB", "ON", "QC", "SK", "USA-MX"]
+  let keys = ["All", "AB", "AT", "BC", "MB", "ON", "QC", "SK", "USA-MX"]
   var table;
   var header;
   var body;
@@ -46,7 +46,7 @@ export default function(data, settings) {
   .attr("class", "wb-inv").text(sett.tableTitle);
   header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
   body = table.append("tbody").attr("id", "tblBody");
-  header.append("td").attr("id", "thead_h0").text(sett.x.label);
+  header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label));
 
   for (k = 0; k < keys.length; k++) {
     header.append("th").attr("id", "thead_h" + (k + 1)) // k = 0 already used above
@@ -73,12 +73,8 @@ export default function(data, settings) {
   for (k = 0; k < keys.length; k++) {
     dataRow.append("td").attr("headers", function (d, i) {
       return "row" + i + "_h0" + " thead_h" + (k + 1);
-    }).text(function (d) {
-      if (sett.y.getText) {
-        return sett.y.getText.call(sett, d, keys[k]);
-      }
-
-      return sett.y.getValue.call(sett, d, keys[k]);
+    }).text(function(d) {
+      return sett.formatNum(d[keys[k]]);
     }).style("text-align", "right");
   }
 
@@ -88,5 +84,26 @@ export default function(data, settings) {
   // if(wb.ie11){
   //   details.attr("open", true)
   // }
-
 };
+
+function filterYear(key) {
+  if (key !== "Year") {
+    return key;
+  } else {
+    return "";
+  }
+}
+
+
+function filterData(originalData) {
+  let returnArray = [];
+  for (let year in originalData) {
+    let entry = {};
+    entry.year = year;
+    for (let geo in originalData[year]){
+      entry[geo] = originalData[year][geo];
+    }
+    returnArray.push(entry);
+  }
+  return returnArray;
+}

@@ -96,7 +96,7 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag]);
+      drawTable(data[dataTag],settingsBar);
     });
   } else {
     showBarChartData();
@@ -315,7 +315,8 @@ i18n.load(["src/i18n"], function() {
 
 
               colorMap();
-              highlightMap(defaultOrig, origin)
+              highlightMap(defaultOrig, origin);
+              highlightMap(defaultDest, destination);
             });
         d3.select("#mapTitleRail")
             .text(i18next.t("mapTitle", {ns: "rail"}));
@@ -328,7 +329,7 @@ i18n.load(["src/i18n"], function() {
           dataTag = `${selectedOrig}_${selectedComm}`;
           data[dataTag] = origJSON;
           showBarChartData();
-          drawTable(data[dataTag],settingsBar);
+          drawTable(data[dataTag], settingsBar);
         }); // outer d3.json
 
 
