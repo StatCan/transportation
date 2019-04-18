@@ -1,5 +1,5 @@
 export default function(data, colourArray, numLevels) {
-  //const nullColour = colourArray.slice(-1)[0];
+  const nullColour = colourArray.slice(-1)[0];
 
   // data is an Array
   const thisData = data[0]; // Object
@@ -22,9 +22,9 @@ export default function(data, colourArray, numLevels) {
   for (const key in thisData) {
     if (thisData.hasOwnProperty(key)) {
       d3.select(".dashboard .map")
-          .selectAll("." + key)
+          .select("." + key)
           .style("fill", function() {
-            return colourMap(thisData[key]);
+            return Number(thisData[key]) ? colourMap(thisData[key]) : nullColour;
           })
 		  // Bruno : Unused code removed following no data message modification
     }

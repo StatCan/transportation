@@ -53,7 +53,7 @@ export default {
       return d.values;
     },
     getText: function(d) {
-      return i18next.t(d.key, {ns: "railTable"});
+      return i18next.t(d.key, {ns: "rail"});
     }
   },
   _selfFormatter: i18n.getNumberFormatter(0),

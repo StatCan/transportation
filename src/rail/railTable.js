@@ -47,28 +47,24 @@ export default function(data, settings) {
   header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
   body = table.append("tbody").attr("id", "tblBody");
   header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label));
+//  debugger
 
   for (k = 0; k < keys.length; k++) {
-    header.append("th").attr("id", "thead_h" + (k + 1)) // k = 0 already used above
-    .style("text-align", "right").text(sett.z.getText.bind(sett)({
+    header.append("th").attr("id", "thead_h" + (k + 1))
+    .style("text-align", "right")
+    .text(sett.z.getText.bind(sett)({
       key: keys[k]
     }));
   }
 
-  dataRows = body.selectAll("tr").data(filteredData); // NOT WORKING
-  // dataRows
-  //   .exit()
-  //   .remove();
+  dataRows = body.selectAll("tr").data(filteredData);
 
   dataRow = dataRows.enter().append("tr").attr("id", function (d, i) {
     return "row" + i;
   });
   dataRow.append("th").attr("id", function (d, i) {
     return "row" + i + "_h0";
-  }).text((sett.x.getText || sett.x.getValue).bind(sett)); // NOT WORKING
-  // dataRow
-  //   .exit()
-  //   .remove();
+  }).text((sett.x.getText || sett.x.getValue).bind(sett));
 
   for (k = 0; k < keys.length; k++) {
     dataRow.append("td").attr("headers", function (d, i) {
@@ -81,9 +77,7 @@ export default function(data, settings) {
   if ($ || wb) {
     $(".chart-data-table summary").trigger("wb-init.wb-details");
   }
-  // if(wb.ie11){
-  //   details.attr("open", true)
-  // }
+
 };
 
 function filterYear(key) {

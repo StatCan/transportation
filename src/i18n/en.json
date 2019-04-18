@@ -305,6 +305,17 @@
       "y_label": "Tonnage",
       "ONtoAT": "Ontario to Atlantic Region"
     },
+    "rail":{
+      "AT": "Atlantic Region",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "USA-MX": "United States and Mexico",
+      "MB": "Manitoba",
+      "BC": "British Columbia",
+      "units": "Tonnes"
+    },
     "commodities": {
       "coal": "Coal",
       "mixed": "Mixed loads",

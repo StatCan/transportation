@@ -1,5 +1,5 @@
 export default function(data, colourArray, numLevels) {
-  const nullColour = colourArray.slice(-1)[0];
+  const nullColour = "#94a6b2";
 
   // data is an Array
   const thisData = data[0]; // Object

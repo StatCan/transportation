@@ -26,13 +26,16 @@ const origin = "Origin";
 const destination = "Dest"
 
 const data = {}; // stores data for barChart
-const selectedYear = "2016";
+let selectedYear = "2016";
 
 // ---------------------------------------------------------------------
 /* SVGs */
 // Canada map
 const map = d3.select(".dashboard .map")
     .append("svg");
+const div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 // Map colour bar
 const margin = {top: 20, right: 0, bottom: 10, left: 20};
@@ -83,11 +86,47 @@ function uiHandler(event) {
   if (event.target.id === "destGeo") {
     setDest(document.getElementById("destGeo").value);
   }
+  if (event.target.id === "yearSelector") {
+    setYear(document.getElementById("yearSelector").value);
+  }
   updatePage();
 }
 // -----------------------------------------------------------------------------
 /* -- Map interactions -- */
 
+map.on("mousemove", () => {
+  if (d3.select(d3.event.target).attr("id")) {
+    // Tooltip
+    const key = d3.event.target.id;
+    let value;
+
+    if (!isNaN(data[dataTag][selectedYear][key.substring(0, key.length - 4)])) {
+      value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]);
+    }
+    else {
+      value = "not available"//make this i18n later
+    }
+    div
+        .style("opacity", .9);
+    div.html(
+        "<b>" + i18next.t(key.substring(0, key.length - 4), {ns: "rail"}) + " (" + i18next.t("units", {ns: "rail"}) + ")</b>"+ "<br><br>" +
+          "<table>" +
+            "<tr>" +
+              "<td><b>" + value + "</td>" +
+            "</tr>" +
+          "</table>"
+    );
+
+    div
+        .style("left", ((d3.event.pageX +10) + "px"))
+        .style("top", ((d3.event.pageY +10) + "px"));
+  }
+});
+
+map.on("mouseout", () => {
+  div
+      .style("opacity", 0);
+});
 // -----------------------------------------------------------------------------
 /* FNS */
 function updatePage() {
@@ -96,12 +135,12 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag],settingsBar);
+      drawTable(data[dataTag], settingsBar);
     });
   } else {
     showBarChartData();
     colorMap();
-    drawTable(data[dataTag],settingsBar);
+    drawTable(data[dataTag], settingsBar);
   }
 }
 
@@ -125,19 +164,26 @@ function setDest(newDest) {
 }
 function highlightMap(selection, mode) {
   d3.select(".dashboard .map")
-      .select(`.rail${mode}MapHighlight`)
+      .selectAll(`.rail${mode}MapHighlight`)
       .classed(`rail${mode}MapHighlight`, false);
 
   d3.select(".dashboard .map")
-      .select(`#${selection}_map`)
+      .selectAll(`#${selection}_map`)
       .classed(`rail${mode}MapHighlight`, true)
       .moveToFront();
 }
 
 function colorMap() {
   // store map data in array and plot
-  const thisTotalArray = [];
-  thisTotalArray.push(data[`${selectedOrig}_${selectedComm}`][selectedYear]);
+  const thisTotalObject ={};
+  let thisTotalArray = [];
+
+  for (const key in data[dataTag][selectedYear]) {
+    if (key !== "All") {
+      thisTotalObject[key] = (data[dataTag][selectedYear][key]);
+    }
+  }
+  thisTotalArray.push(thisTotalObject);
 
   const colourArray = ["#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC"];
   const numLevels = colourArray.length;
@@ -312,6 +358,8 @@ i18n.load(["src/i18n"], function() {
                   .attr("x", usaMexOffset.x -10)
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
                   .attr("xlink:href", usaMexicoImageLocation)
+                  .attr("id", "USA-MX_map");
+
 
 
               colorMap();
