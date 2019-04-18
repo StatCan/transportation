@@ -167,9 +167,9 @@
       "NaNhover2": " de la <i>Loi sur la statistique</i>"
     },
     "airPassengers": {
-      "chartTitle": "Volume de passagers aérien selon le secteur",
-      "mapTitle": "Total trafic aérien de passagers",
-      "tableTitle": "Volume de passagers aérien selon le secteur",
+      "chartTitle": "Volume de passagers aériens selon le secteur",
+      "mapTitle": "Trafic aérien de passagers",
+      "tableTitle": "Volume de passagers aériens selon le secteur",
       "hoverTitle": "Nombre de passagers",
       "units": "passagers",
       "x_label": "",
@@ -182,12 +182,12 @@
       "deplaned": "Débarqués"
     },
     "airMajorAirports": {
-      "chartTitle": "Total des mouvements d’aéronefs selon le secteur",
-      "mapTitle": "Total des mouvements d’aéronefs",
+      "chartTitle": "Total des mouvements itinérants d’aéronefs selon le secteur",
+      "mapTitle": "Mouvements itinérants d’aéronefs",
       "tableTitle": "Total des mouvements d’aéronefs selon le secteur ",
       "hoverTitle": "Nombre de vols",
-      "units": "mouvements d’aéronefs",
-      "x_label": "Year",
+      "units": "mouvements itinérants d’aéronefs",
+      "x_label": "",
       "y_label": "",
       "domestic": "Intérieur",
       "international": "Autres internationaux",
@@ -330,9 +330,9 @@
     "modes": {
       "intl": "Voyageurs internationaux",
       "USres": "Résidents des États-Unis entrant au Canada",
-      "nonUSres": "Résidents de pays autres que les États-Unis",
+      "nonUSres": "Résidents de pays autres que les États-Unis entrant au Canada",
       "cdnFromUS": "Résidents du Canada revenant des États-Unis",
-      "cdnFromOther": "Résidents de pays autres que les États-Unis entrant au Canada",
+      "cdnFromOther": "Résidents du Canada revenant de pays autres que les États-Unis",
       "USres_air": "Par air",
       "USres_marine": "Par mer",
       "USres_land": "Par terre",
@@ -360,7 +360,7 @@
     "tableTitle": "Voyageurs internationaux entrant ou revenant au / à",
     "units": "personnes",
     "name": "Caractéristiques des voyageurs",
-    "value": "Nombre des voyageurs",
+    "value": "Nombre de voyageurs",
     "noData": "Pas de voyageurs internationaux "
     },
     "modesTable": {
