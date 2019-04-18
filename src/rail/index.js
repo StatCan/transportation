@@ -35,6 +35,7 @@ const map = d3.select(".dashboard .map")
     .append("svg");
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
+    .attr("id", "railTooltip")
     .style("opacity", 0);
 
 // Map colour bar
@@ -227,17 +228,6 @@ function showBarChartData() {
       .select("text")
       .attr("display", "none");
   d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
-
-  // createOverlay(stackedArea, data[selectedRegion], (d) => {
-  //   areaTooltip(stackedArea.settings, divArea, d);
-  // }, () => {
-  //   divArea.style("opacity", 0);
-  // });
-
-  updateTitles();
-  // plotLegend();
-  // cButton.appendTo(document.getElementById("copy-button-container"));
-  // dataCopyButton(data[selectedRegion]);
 }
 
 /* -- display areaChart -- */
@@ -331,7 +321,6 @@ i18n.load(["src/i18n"], function() {
 
         getCanadaMap(map)
             .on("loaded", function() {
-
               //USA-MEXICO SVG
 
               //Place under alberta
