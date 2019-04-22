@@ -2122,7 +2122,7 @@
   // Canada map
 
   var map = d3.select(".dashboard .map").append("svg");
-  var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0); // Map colour bar
+  var div = d3.select("body").append("div").attr("class", "tooltip").attr("id", "railTooltip").style("opacity", 0); // Map colour bar
 
   var margin = {
     top: 20,
@@ -2299,15 +2299,7 @@
       selectedDest: selectedDest
     }));
     d3.select("#svgBar").select(".x.axis").select("text").attr("display", "none");
-    d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em")); // createOverlay(stackedArea, data[selectedRegion], (d) => {
-    //   areaTooltip(stackedArea.settings, divArea, d);
-    // }, () => {
-    //   divArea.style("opacity", 0);
-    // });
-
-    updateTitles(); // plotLegend();
-    // cButton.appendTo(document.getElementById("copy-button-container"));
-    // dataCopyButton(data[selectedRegion]);
+    d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
   }
   /* -- display areaChart -- */
 
