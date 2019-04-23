@@ -153,8 +153,8 @@
       "hoverTitle": "Fuel sales",
       "x_label": "Year",
       "y_label": "thousands of litres",
-      "gas": "Gas",
-      "diesel": "Diesel",
+      "gas": "Gasoline",
+      "diesel": "Diesel oil",
       "lpg": "Liquid Petroleum Gas",
       "total": "Net sales"
     },
@@ -163,12 +163,12 @@
       "NaNhover2": "requirements of the <i>Statistics Act</i>"
     },
     "airMajorAirports": {
-      "chartTitle": "Total aircraft movements by sector",
-      "mapTitle": "Total aircraft movements",
+      "chartTitle": "Total aircraft itinerant movements by sector",
+      "mapTitle": "Aircraft itinerant movements",
       "tableTitle": "Number of flights, by type",
       "hoverTitle": "Number of flights",
-      "units": "aircraft movements",
-      "x_label": "Year",
+      "units": "aircraft itinerant movements",
+      "x_label": "",
       "y_label": "",
       "domestic": "Domestic",
       "international": "Other International",
@@ -177,11 +177,11 @@
     },
     "airPassengers": {
       "chartTitle": "Air passenger traffic by sector",
-      "mapTitle": "Total air passenger traffic",
+      "mapTitle": "Air passenger traffic",
       "tableTitle": "Air passenger traffic by sector",
       "hoverTitle": "Number of passengers",
       "units": "passengers",
-      "x_label": "Year",
+      "x_label": "",
       "y_label": "",
       "total": "Total",
       "domestic": "Domestic",
@@ -304,6 +304,21 @@
       "x_label": "Year",
       "y_label": "Tonnage",
       "ONtoAT": "Ontario to Atlantic Region"
+    },
+    "rail":{
+      "YT": "Yukon",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut",
+      "AT": "Atlantic Region",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "USA-MX": "United States and Mexico",
+      "MB": "Manitoba",
+      "BC": "British Columbia",
+      "All": "Total",
+      "units": "Tonnes"
     },
     "commodities": {
       "coal": "Coal",

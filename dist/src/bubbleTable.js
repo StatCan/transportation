@@ -262,7 +262,7 @@ var bubbleTable = (function () {
 	  return store[key] || (store[key] = value !== undefined ? value : {});
 	})('versions', []).push({
 	  version: _core.version,
-	  mode: 'global',
+	  mode: _library ? 'pure' : 'global',
 	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
@@ -941,7 +941,7 @@ var bubbleTable = (function () {
 	    }); // Add col labels
 
 	    if (xAxisObj.empty()) {
-	      xAxisObj = chartInner.append("g").attr("transform", "translate(" + (shiftColTextX + deltaX / 2) + ", 0)").attr("class", "bubble-col");
+	      xAxisObj = chartInner.append("g").attr("transform", "translate(" + (shiftColTextX + deltaX / 2) + ", -5)").attr("class", "bubble-col");
 	      xAxisObj // .append("text")
 	      .attr("x", innerWidth).attr("dy", "-0.5em").attr("text-anchor", "end").text(sett.x.label);
 	    } else {

@@ -1738,7 +1738,7 @@
 	});
 
 	function fillMapFn (data, colourArray, numLevels) {
-	  var nullColour = colourArray.slice(-1)[0]; // data is an Array
+	  var nullColour = "#94a6b2"; // data is an Array
 
 	  var thisData = data[0]; // Object
 
@@ -1871,9 +1871,6 @@
 	      d = d1;
 	    }
 
-	    chartObj.data.filter(function (item) {
-	      if (item.isLast) d = d1;
-	    });
 	    line.attr("x1", chartObj.x(chartObj.settings.x.getValue(d)));
 	    line.attr("x2", chartObj.x(chartObj.settings.x.getValue(d)));
 	    line.style("visibility", "visible");

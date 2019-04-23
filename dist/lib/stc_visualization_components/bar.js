@@ -153,6 +153,28 @@ this.barChart = function(svg, settings, data) {
               .attr("y", y(0))
               .attr("height", 0)
               .attr("class", barClassFn.bind(sett))
+              .on("mousemove", function(d){
+                var div = d3.select("#railTooltip")
+                  var datum = getDatum.call(sett, d);
+                div
+                    .style("opacity", .9);
+                div.html(
+                    "<b>" + i18next.t(this.id.substring(this.id.length -4 ,this.id.length), {ns: "rail"}) + " (" + i18next.t("units", {ns: "rail"}) + ")</b>"+ "<br><br>" +
+                      "<table>" +
+                        "<tr>" +
+                          "<td><b>" + sett.formatNum(datum.value) + "</td>" +
+                        "</tr>" +
+                      "</table>"
+                );
+
+                div
+                    .style("left", ((d3.event.pageX +10) + "px"))
+                    .style("top", ((d3.event.pageY +10) + "px"));
+              })
+              .on("mouseout", function(){
+                var div = d3.select("#railTooltip")
+                div.style("opacity", 0);
+              })
               .each(function(d) {
                 var datum = getDatum.call(sett, d),
                   id = zIdFn(d) + "_" + xIdFn(datum),
@@ -299,8 +321,8 @@ this.barChart = function(svg, settings, data) {
           .append("text")
             .attr("class", "chart-label")
             .attr("fill", "#000")
-            .attr("x", innerWidth)
-            .attr("dy", "-0.5em")
+            .attr("x", "20px")
+            .attr("dy", "1.25em")
             .attr("text-anchor", "end")
             .text(sett.x.label);
       } else {
@@ -336,93 +358,103 @@ this.barChart = function(svg, settings, data) {
           .tickFormat(sett.y.getTickText ? sett.y.getTickText.bind(sett) : null)
       );
     },
-    drawTable = function() {
-      var sett = this.settings,
-        summaryId = sett.summaryId ? sett.summaryId : "chrt-dt-tbl",
-        tableDiv = d3.select("#" + sett.barTableID),
-        filteredData = (sett.filterData && typeof sett.filterData === "function") ?
-          sett.filterData(data, "table") : data,
-        // filteredData = (sett.z.formatData && typeof sett.z.formatData === "function") ?
-        // sett.z.formatData.call(sett, data) : data,
-        parent = tableDiv.select(function() {
-          return this.parentNode;
-        }),
-        details = parent.select("details"),
-        keys = sett.z.getKeys.call(sett, filteredData),
-        table, header, body, dataRows, dataRow, k;
+    drawTable = function drawTable() {
+      var sett = this.settings;
+      var thisSVG = d3.select("#" + sett.barTableID); // .select("svg");
 
-      var formatData = sett.z.formatData.call(sett, filteredData);
+      var summaryId = sett.summaryId; // "chrt-dt-tbl";
+      // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
+      //     sett.filterData(data, "table") : data;
+      // use original data, not array returned by filteredData which may contain inserted year-end datapts
 
+      var filteredData = sett.filterData && typeof sett.filterData === "function" ? sett.filterData(data, "table") : data;
+      var parent = thisSVG.select( // svg.select(
+      svg.classed("svg-shimmed") ? function () {
+        return this.parentNode.parentNode;
+      } : function () {
+        return this.parentNode;
+      });
+      var details = parent.select(".chart-data-table");
+      var keys = sett.z.getKeys.call(sett, filteredData);
+      var table;
+      var header;
+      var body;
+      var dataRows;
+      var dataRow;
+      var k;
 
-      if (details.empty()) {
-        details = parent
-          .append("details")
-            .attr("class", "chart-data-table");
-
-        details.append("summary")
-          .attr("id", summaryId)
-          .text(sett.tableTitle);
-
-        table = details
-          .append("table")
-            .attr("class", "table")
-            .attr("aria-labelledby", summaryId);
-
-        header = table.append("thead")
-                      .attr("id", "tblHeader")
-                      .append("tr")
-                      .attr("id", "tblHeaderTR");
-        body = table.append("tbody")
-                    .attr("id", "tblBody");
-
-        header.append("th")
-          .attr("id", "thead_h0")
-          .text(sett.z.label);
-
-        for(k = 0; k < keys.length; k++) {
-          header.append("th")
-            .attr("id", "thead_h" + (k + 1)) // k = 0 already used above
-            .attr("class", "tblHeader")
-            .text(sett.z.getText.bind(sett)({
-              key: keys[k]
-            }));
-        }
-        dataRows = body.selectAll("tr")
-          .data(formatData);
-
-        dataRow = dataRows
-        .enter()
-          .append("tr")
-          .attr("id", function(d, i) {
-            return "row" + i;
-          });
-
-        dataRow
-          .append("th")
-          .attr("id", function(d, i) {
-            return "row" + i + "_h0";
-          })
-          .text((sett.x.getText || sett.x.getValue).bind(sett));
-
-        for(k = 0; k < keys.length; k++) {
-          dataRow
-            .append("td")
-            .attr("headers", function(d, i) {
-              return "row" + i + "_h0" + " thead_h" + (k + 1);
-            })
-            .text(function(d) {
-              if (sett.y.getText) {
-                return sett.y.getText.call(sett, d, keys[k]);
-              }
-              return sett.y.getValue.call(sett, d, keys[k]);
-            });
-        }
-
-        if ($ || wb) {
-          $(".chart-data-table summary").trigger("wb-init.wb-details");
-        }
-
+      if (mergedSettings.dataTableTotal) {
+        keys.push("total");
       }
+
+      if (!details.empty()) {
+        // details.remove();
+        details.remove();
+      } // if (details.empty()) {
+
+
+      details = parent.append("div").attr("class", "chart-data-table"); // ----Copy Button Container ---------------------------------------------
+
+      var copyButtonId = "copy-button-container"; // let copyButton = document.createElement("div");
+      // copyButton.setAttribute("id", copyButtonId);
+      // details.append(copyButton);
+
+      details.append("div") // .attr("id", summaryId)
+      .attr("id", function () {
+        if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
+        // return summaryId;
+      }) // .text(sett.datatable.title);
+      .text(sett.tableTitle); // ------------------------------------------------------------------------
+
+      details.append("div").attr("id", copyButtonId);
+      table = details.append("table").attr("class", "table");
+      table.append("caption") // .text(sett.datatable.title);
+      .attr("class", "wb-inv").text(sett.tableTitle);
+      header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
+      body = table.append("tbody").attr("id", "tblBody");
+      header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label));
+
+      for (k = 0; k < keys.length; k++) {
+        header.append("th").attr("id", "thead_h" + (k + 1)) // k = 0 already used above
+        .style("text-align", "right").text(sett.z.getText.bind(sett)({
+          key: keys[k]
+        }));
+      }
+
+      dataRows = body.selectAll("tr").data(filteredData); // NOT WORKING
+      // dataRows
+      //   .exit()
+      //   .remove();
+
+      dataRow = dataRows.enter().append("tr").attr("id", function (d, i) {
+        return "row" + i;
+      });
+      dataRow.append("th").attr("id", function (d, i) {
+        return "row" + i + "_h0";
+      }).text((sett.x.getText || sett.x.getValue).bind(sett)); // NOT WORKING
+      // dataRow
+      //   .exit()
+      //   .remove();
+
+      for (k = 0; k < keys.length; k++) {
+        dataRow.append("td").attr("headers", function (d, i) {
+          return "row" + i + "_h0" + " thead_h" + (k + 1);
+        }).text(function (d) {
+          if (sett.y.getText) {
+            return sett.y.getText.call(sett, d, keys[k]);
+          }
+
+          return sett.y.getValue.call(sett, d, keys[k]);
+        }).style("text-align", "right");
+      }
+
+      if ($ || wb) {
+        $(".chart-data-table summary").trigger("wb-init.wb-details");
+      }
+      if(wb.ie11){
+        details.attr("open", true)
+      }
+
     },
     clear = function() {
       dataLayer.remove();
@@ -436,7 +468,7 @@ this.barChart = function(svg, settings, data) {
   };
 
   svg
-    .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
+    .attr("viewBox", "0 0 " + (outerWidth+10) + " " + (outerHeight+10))
     .attr("preserveAspectRatio", "xMidYMid meet")
     .attr("role", "img")
     .attr("aria-label", mergedSettings.altText);
@@ -465,6 +497,13 @@ this.barChart = function(svg, settings, data) {
   return rtnObj;
 };
 
+function filterYear(key) {
+  if (key !== "Year") {
+    return key;
+  } else {
+    return "";
+  }
+};
 // TODO: Remove when switched to ES6
 if (!Math.sign) {
   Math.sign = function(x) {

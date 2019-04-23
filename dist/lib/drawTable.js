@@ -19,7 +19,7 @@ this.drawTable = function(tableDiv, settings, data) {
       var summaryId = "only-dt-tbl";
       var filteredData = sett.filterData && typeof sett.filterData === "function" ? sett.filterData(data, "table") : data;
 
-      var details = tableDiv.select("details");
+      var details = tableDiv.select(".chart-data-table");
       var body = tableDiv.select(".table").select("tbody");
       var keys = sett.z.getKeys.call(sett, filteredData);
       var dataRows;
@@ -57,12 +57,12 @@ this.drawTable = function(tableDiv, settings, data) {
         }
         return settings.formatNum()(sett.y.getValue.call(sett, d, keys[k])); // return sett.y.getValue.call(sett, d, keys[k]);
       }.bind(sett);
-
+	  
       if (details.empty()) {
         var table;
         var header;
         details = tableDiv // parent
-            .append("details")
+            .append("div")
             .attr("class", "chart-data-table");
 
          // copy button div//
@@ -72,7 +72,7 @@ this.drawTable = function(tableDiv, settings, data) {
        // copyButton.setAttribute("id", copyButtonId);
        // details.append(copyButton); ?
 
-        details.append("summary")
+        details.append("div")
             .attr("id", summaryId)
             // .text(sett.datatable.title);
         // ------------------------------------------------------------------------
@@ -154,10 +154,10 @@ this.drawTable = function(tableDiv, settings, data) {
         if ($ || wb) {
           $(".map-data-table summary").trigger("wb-init.wb-details");
         }
-        // if(wb.ie11){
-        //   details.attr("open", true)
-        //
-        // }
+        if(wb.ie11){
+          details.attr("open", true)
+
+        }
 
     };
 

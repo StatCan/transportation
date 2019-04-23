@@ -162,9 +162,8 @@
 			<form onSubmit="return false;">
 				<div class="row">
 					<div class="col-md-3">
-						<label for="year">Year</label>
-						<select id="year" class="form-control">
-							<option value="2017">2017</option>
+						<label for="yearSelector">Year</label>
+						<select id="yearSelector" class="form-control">
 							<option value="2016">2016</option>
 							<option value="2015">2015</option>
 							<option value="2014">2014</option>
@@ -193,7 +192,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="groups_orig">Select an origin by geography</label>
+							<label for="groups_orig">Select an origin</label>
 							<select id="originGeo" class="form-control">
                 <option value="AT">Atlantic region</option>
                 <option value="QC">Quebec</option>
@@ -208,7 +207,7 @@
 					</div>
           <div class="col-md-3">
             <div class="form-group">
-              <label for="groups_dest">Select a destination by geography</label>
+              <label for="groups_dest">Select a destination</label>
               <select id="destGeo" class="form-control">
                 <option value="QC">Quebec</option>
                 <option value="ON">Ontario</option>
@@ -231,7 +230,8 @@
 						<div> <!-- first row in col 1 -->
 							<h3 id="mapTitleRail">
 							</h3>
-							<div class="map"></div>
+							<div class="map">
+							</div>
 						</div> <!-- /row -->
 
 						<div> <!-- second row in col 1 -->
@@ -258,9 +258,10 @@
 			</div>
 
       <div class="row"> <!-- main row 2 -->
-          <div class="raildata">
-              <div id="barTable">
+          <div class="raildata col-md-12">
+              <div id="railTable">
           </div>
+					<div class="row"><div id="symbolLink" class="symbolLink"></div></div>
         </div> <!-- main row 2 -->
       </div>
 
@@ -359,9 +360,9 @@
 
 <!-- CustomScriptsJSStart -->
 <script src="lib/stc_visualization_components/utils.min.js"></script>
-<script src="lib/stc_visualization_components/bar.min.js"></script>
+<script src="lib/stc_visualization_components/bar.js"></script>
 <script src="lib/statcan_sgc/sgc.min.js"></script>
-<script src="lib/d3-canada-map.js"></script>
+<script src="lib/d3-canada-map-rail.js"></script>
 <script src="src/bubbleTable.js"></script>
 <script src="src/rail.js"></script>
 
