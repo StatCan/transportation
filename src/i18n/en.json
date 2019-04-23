@@ -306,6 +306,9 @@
       "ONtoAT": "Ontario to Atlantic Region"
     },
     "rail":{
+      "YT": "Yukon",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut",
       "AT": "Atlantic Region",
       "QC": "Quebec",
       "ON": "Ontario",
@@ -314,6 +317,7 @@
       "USA-MX": "United States and Mexico",
       "MB": "Manitoba",
       "BC": "British Columbia",
+      "All": "Total",
       "units": "Tonnes"
     },
     "commodities": {

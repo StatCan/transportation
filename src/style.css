@@ -531,7 +531,7 @@ Show only for top 2 charts
 #svgBar .tick text {
 	fill: #000;
 	stroke: none;
-	font-size: 14px;
+	font-size: 15px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svgBar .axis .tick line {

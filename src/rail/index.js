@@ -137,16 +137,28 @@ function updatePage() {
       showBarChartData();
       colorMap();
       drawTable(data[dataTag], settingsBar);
+
+      // ------------------copy button---------------------------------
+      // need to re-apend the button since table is being re-build
+      if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+      dataCopyButton(data[dataTag]);
+      // ---------------------------------------------------------------
     });
   } else {
     showBarChartData();
     colorMap();
     drawTable(data[dataTag], settingsBar);
+
+    // ------------------copy button---------------------------------
+    // need to re-apend the button since table is being re-build
+    if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
+    dataCopyButton(data[dataTag]);
+    // ---------------------------------------------------------------
   }
 }
 
 function setYear(newYear) {
-  selectedYear =  newYear;
+  selectedYear = newYear;
 }
 function setCommodity(newComm) {
   selectedComm = newComm;
@@ -228,6 +240,7 @@ function showBarChartData() {
       .select("text")
       .attr("display", "none");
   d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
+  updateTitles();
 }
 
 /* -- display areaChart -- */
@@ -256,8 +269,9 @@ const aditionalBarSettings = {
 };
 function dataCopyButton(cButtondata) {
   const lines = [];
-  const geography = i18next.t(selectedRegion, {ns: "geography"});
-  const title = [i18next.t("tableTitle", {ns: "rail", geo: geography})];
+  const thisComm = i18next.t(selectedComm, {ns: "commodities"});
+  const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
+  const title = [`${thisComm} from ${thisOrig}`];
   const columns = [""];
 
   for (const concept in cButtondata[0]) if (concept != "date") {
@@ -355,8 +369,20 @@ i18n.load(["src/i18n"], function() {
               highlightMap(defaultOrig, origin);
               highlightMap(defaultDest, destination);
             });
+        // copy button options
+        const cButtonOptions = {
+          pNode: document.getElementById("copy-button-container"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+        };
+        // build nodes on copy button
+        cButton.build(cButtonOptions);
+
         d3.select("#mapTitleRail")
             .text(i18next.t("mapTitle", {ns: "rail"}));
+        d3.select("#symbolLink")
+            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 
 
         showBubbleTable();
@@ -365,8 +391,7 @@ i18n.load(["src/i18n"], function() {
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           dataTag = `${selectedOrig}_${selectedComm}`;
           data[dataTag] = origJSON;
-          showBarChartData();
-          drawTable(data[dataTag], settingsBar);
+          updatePage();
         }); // outer d3.json
 
 

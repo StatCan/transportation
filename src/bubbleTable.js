@@ -196,7 +196,7 @@ const bubbleTable = window.bubbleTable = function(svg, settings, data) {
     // Add col labels
     if (xAxisObj.empty()) {
       xAxisObj = chartInner.append("g")
-          .attr("transform", "translate(" + (shiftColTextX + deltaX / 2) + ", 0)")
+          .attr("transform", "translate(" + (shiftColTextX + deltaX / 2) + ", -5)" )
           .attr("class", "bubble-col");
 
       xAxisObj
