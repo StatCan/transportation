@@ -19,7 +19,7 @@ let selectedOrig;
 let selectedDest;
 let selectedComm;
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
-const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+const xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 const usaMexicoImageLocation = "lib/usamexico.png"
 
 const origin = "Origin";
@@ -240,9 +240,6 @@ function filterDataBar() {
 
 function showBarChartData() {
   barChart(chart, {...aditionalBarSettings, selectedOrig, selectedDest});
-  d3.select("#svgBar").select(".x.axis")
-      .select("text")
-      .attr("display", "none");
   d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
   updateTitles();
 }
