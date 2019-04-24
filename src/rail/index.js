@@ -206,7 +206,11 @@ function colorMap() {
 
   // colour bar scale and add label
   //ADD LOGIC FOR 0 VALUE
-  mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar);
+  if (dimExtent[1] === 0) {
+    mapColourScaleFn(svgCB, [colourArray[0]], dimExtent, 1, settingsBar);
+  } else {
+    mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar);
+  }
 
 
   // Colourbar label (need be plotted only once)

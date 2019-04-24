@@ -23,7 +23,11 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   const getText = function(i, j) {
     if (i < numLevels) {
       const s0 = settings.formatNum(cbValues[j]);
-      return s0 + "+";
+      if (numLevels === 1) {
+        return s0;
+      } else {
+        return s0 + "+";
+      }
     } else if (i === numLevels + 1) {
       return "x";
     }
@@ -54,6 +58,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
       .selectAll(".legend")
       .data(Array.from(Array(colourArray.length).keys()));
 
+
   // Append g nodes (to be filled with a rect and a text) to umbrella group
   const newGroup = rectGroups
       .enter()
@@ -76,6 +81,9 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
       .attr("class", function(d, i) {
         if (i === numLevels + 1) {
           return "classNaN";
+        }
+        if (numLevels === 1) {
+          return "zeroValue";
         }
       });
 
@@ -110,7 +118,8 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
       .attr("transform", function(d, i) {
         if (i < numLevels) {
           return `translate(${140 + (i * (rectDim + 0))}, ${yText}) rotate(-45)`;
-        } else if (i === numLevels + 1) { // NaN box in legend
+        }
+        else if (i === numLevels + 1) { // NaN box in legend
           return `translate(${156 + (i * (rectDim + 0))}, ${yNaNText}) `;
         }
       })
@@ -125,6 +134,15 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   // Update rect text for different year selections
   rectGroups.select("text")
       .text(getText);
+
+  //hack to get color bar cetered when value is 0
+  if (numLevels === 1) {
+    d3.select("#cb0").attr("transform", "translate(73,0)")
+  }
+  else{
+    d3.select("#cb0").attr("transform", "translate(0,0)")
+
+  }
 
   rectGroups.exit().remove();
 }
