@@ -2452,7 +2452,12 @@
     var getText = function getText(i, j) {
       if (i < numLevels) {
         var s0 = settings.formatNum(cbValues[j]);
-        return s0 + "+";
+
+        if (numLevels === 1) {
+          return s0;
+        } else {
+          return s0 + "+";
+        }
       } else if (i === numLevels + 1) {
         return "x";
       }
@@ -2480,6 +2485,10 @@
     }).attr("fill", getFill).attr("class", function (d, i) {
       if (i === numLevels + 1) {
         return "classNaN";
+      }
+
+      if (numLevels === 1) {
+        return "zeroValue";
       }
     }); // hover over NaN rect only
 
@@ -2511,7 +2520,14 @@
 
     rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
 
-    rectGroups.select("text").text(getText);
+    rectGroups.select("text").text(getText); // hack to get color bar cetered when value is 0
+
+    if (numLevels === 1) {
+      d3.select("#cb0").attr("transform", "translate(73,0)");
+    } else {
+      d3.select("#cb0").attr("transform", "translate(0,0)");
+    }
+
     rectGroups.exit().remove();
   }
 

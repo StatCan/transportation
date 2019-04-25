@@ -1858,7 +1858,12 @@
     var getText = function getText(i, j) {
       if (i < numLevels) {
         var s0 = settings.formatNum(cbValues[j]);
-        return s0 + "+";
+
+        if (numLevels === 1) {
+          return s0;
+        } else {
+          return s0 + "+";
+        }
       } else if (i === numLevels + 1) {
         return "x";
       }
@@ -1886,6 +1891,10 @@
     }).attr("fill", getFill).attr("class", function (d, i) {
       if (i === numLevels + 1) {
         return "classNaN";
+      }
+
+      if (numLevels === 1) {
+        return "zeroValue";
       }
     }); // hover over NaN rect only
 
@@ -1917,7 +1926,14 @@
 
     rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
 
-    rectGroups.select("text").text(getText);
+    rectGroups.select("text").text(getText); // hack to get color bar cetered when value is 0
+
+    if (numLevels === 1) {
+      d3.select("#cb0").attr("transform", "translate(73,0)");
+    } else {
+      d3.select("#cb0").attr("transform", "translate(0,0)");
+    }
+
     rectGroups.exit().remove();
   }
 
@@ -1928,13 +1944,19 @@
 
     var dimExtent = [];
     var totArray = [];
+    var levels = numLevels;
     totArray = Object.values(thisData);
     totArray.sort(function (a, b) {
       return a - b;
     });
-    dimExtent = d3.extent(totArray); // colour map to take data value and map it to the colour of the level bin it belongs to
+    dimExtent = d3.extent(totArray);
 
-    var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, numLevels));
+    if (dimExtent[1] === 0) {
+      levels = 1;
+    } // colour map to take data value and map it to the colour of the level bin it belongs to
+
+
+    var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, levels));
 
     var _loop = function _loop(key) {
       if (thisData.hasOwnProperty(key)) {
@@ -2109,7 +2131,7 @@
   var selectedComm;
   var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
-  var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+  var xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 
   var usaMexicoImageLocation = "lib/usamexico.png";
   var origin = "Origin";
@@ -2273,7 +2295,12 @@
     var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
     //ADD LOGIC FOR 0 VALUE
 
-    mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar); // Colourbar label (need be plotted only once)
+    if (dimExtent[1] === 0) {
+      mapColourScaleFn(svgCB, [colourArray[0]], dimExtent, 1, settingsBar);
+    } else {
+      mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar);
+    } // Colourbar label (need be plotted only once)
+
 
     var mapScaleLabel = i18next.t("units", {
       ns: "rail"
@@ -2306,7 +2333,6 @@
       selectedOrig: selectedOrig,
       selectedDest: selectedDest
     }));
-    d3.select("#svgBar").select(".x.axis").select("text").attr("display", "none");
     d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
     updateTitles();
   }
