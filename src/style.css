@@ -169,6 +169,11 @@ table, th, td {
 	fill: #000;
 }
 
+.airAreaCB text {
+	font-size: 14px;
+	fill: #000;
+}
+
 #svg_areaChartAir .area-label {
 	font-size: 20px;
 	fill: #3D3D3D;

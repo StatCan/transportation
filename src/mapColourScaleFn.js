@@ -135,7 +135,7 @@ export default function(svgCB, colourArray, dimExtent, numLevels, settings) {
   rectGroups.select("text")
       .text(getText);
 
-  //hack to get color bar cetered when value is 0
+  // hack to get color bar cetered when value is 0
   if (numLevels === 1) {
     d3.select("#cb0").attr("transform", "translate(73,0)")
   }
