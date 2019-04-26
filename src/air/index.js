@@ -2,7 +2,6 @@ import settingsInit from "./stackedAreaSettings.js";
 import settingsMajorAirportsInit from "./stackedAreaSettingsMajorAirports.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
-import areaLegendFn from "../areaLegendFn.js";
 import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import dropdownCheck from "../dropdownCheck.js";
@@ -354,18 +353,9 @@ const chart = d3.select(".data")
     .append("svg")
     .attr("id", "svg_areaChartAir");
 
-// area chart legend
-const svgLegend = d3.select("#areaLegend")
-    .select("svg")
-    .attr("class", "airAreaCB")
-    .attr("width", 650)
-    .attr("height", height)
-    .style("vertical-align", "middle");
-
 /* -- shim all the SVGs -- */
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
-d3.stcExt.addIEShim(svgLegend, height, 650);
 
 // -----------------------------------------------------------------------------
 /* letiables */
@@ -702,18 +692,18 @@ function showAreaData() {
   updateTitles();
 
   const showChart = () => {
-	  // Bruno : My new stuff on 2019-04-02
-	  var d = data[selectedDataset][selectedRegion];
-	  var allX = true;
+    // Bruno : My new stuff on 2019-04-02
+    let d = data[selectedDataset][selectedRegion];
+    let allX = true;
 
-	  for (var i = 0; i < d.length; i++) {
-		  allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
-	  }
+    for (let i = 0; i < d.length; i++) {
+      allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
+    }
 
-	  d3.select('#annualTimeseries').style('display', allX ? 'none' : '');
-	  d3.select('#areaLegend').style('display', allX ? 'none' : '');
-	  d3.select('#warning').style('display', allX ? '' : 'none');
-	  // Bruno : End of my new stuff on 2019-04-02
+    d3.select("#annualTimeseries").style("display", allX ? "none" : "");
+    d3.select("#areaLegend").style("display", allX ? "none" : "");
+    d3.select("#warning").style("display", allX ? "" : "none");
+    // Bruno : End of my new stuff on 2019-04-02
 
     stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]);
 
@@ -755,7 +745,6 @@ function showAreaData() {
     dataCopyButton(data[selectedDataset][selectedRegion]);
     // ---------------------------------------------------------------
 
-    plotLegend();
   };
 
   if (!data[selectedDataset][selectedRegion]) {
@@ -907,16 +896,6 @@ function updateTitles() {
   selectedSettings.tableTitle = tableTitle;
 }
 
-function plotLegend() {
-  const classArray = ["domestic", "transborder", "international"];
-  areaLegendFn(svgLegend, classArray);
-
-  d3.select("#areaLegend")
-      .selectAll("text")
-      .text(function(d, i) {
-        return i18next.t(classArray[i], {ns: "airPassengers"});
-      });
-}
 function getDateMinMax() {
   for (const [date] of Object.entries(majorTotals)) {
     if (!majorDateRange.min || new Date(date)< new Date(majorDateRange.min)) {
@@ -1070,8 +1049,6 @@ i18n.load(["src/i18n"], () => {
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 
         showAreaData();
-        plotLegend();
-
         // Show chart titles based on default menu options
         updateTitles();
 

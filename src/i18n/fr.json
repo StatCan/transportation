@@ -320,6 +320,7 @@
        "BC": "British Columbia",
        "All": "Total",
        "units": "Tonnes",
+       "hoverText": "{{origin}} à {{dest}}",
        "mapTitle": "{{commodity}} de {{geo}} vers le reste du Canada, {{year}}",
        "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (Tonnes)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations (X 1M) pour les dix principaux produits selon le poids"

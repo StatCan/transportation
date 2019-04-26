@@ -110,17 +110,16 @@ map.on("mousemove", () => {
 
     if (!isNaN(data[dataTag][selectedYear][key.substring(0, key.length - 4)])) {
       value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]);
-    }
-    else {
+    } else {
       value = "not available"//make this i18n later
     }
     div
         .style("opacity", .9);
     div.html(
-        "<b>" + i18next.t(key.substring(0, key.length - 4), {ns: "rail"}) + " (" + i18next.t("units", {ns: "rail"}) + ")</b>"+ "<br><br>" +
+        "<b>" + i18next.t("hoverText", {ns: "rail", origin: i18next.t(selectedOrig, {ns: "rail"}), dest: i18next.t(key.substring(0, key.length-4), {ns: "rail"})}) + "</b>"+ "<br><br>" +
           "<table>" +
             "<tr>" +
-              "<td><b>" + value + "</td>" +
+              "<td><b>" + value +" " + i18next.t("units", {ns: "rail"}) + "</td>" +
             "</tr>" +
           "</table>"
     );
@@ -356,7 +355,7 @@ i18n.load(["src/i18n"], function() {
 
         getCanadaMap(map)
             .on("loaded", function() {
-              //USA-MEXICO SVG
+              // USA-MEXICO SVG
 
               //Place under alberta
               let usaMexOffset = document.getElementById("AB_map").getBBox();
@@ -367,19 +366,19 @@ i18n.load(["src/i18n"], function() {
                   .attr("id", "usa-mex-group")
               usMex
                   .append("rect")
-                  .attr("width", 10)
-                  .attr("height", 20)
-                  .attr("x", usaMexOffset.x +10)
-                  .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
+                  .attr("width", 35)
+                  .attr("height", 15)
+                  .attr("x", usaMexOffset.x)
+                  .attr("y", (usaMexOffset.height + usaMexOffset.y +21 ))
                   .attr("class", "USA-MX")
                   .attr("id", "USA-MX_map");
 
               //create image
               usMex
                   .append("image")
-                  .attr("width", 20)
-                  .attr("height", 20)
-                  .attr("x", usaMexOffset.x -10)
+                  .attr("width", 35)
+                  .attr("height", 15)
+                  .attr("x", usaMexOffset.x)
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
                   .attr("xlink:href", usaMexicoImageLocation)
                   .attr("id", "USA-MX_map");

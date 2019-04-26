@@ -1,7 +1,6 @@
 import settingsInit from "./stackedAreaSettings.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
-import areaLegendFn from "../areaLegendFn.js";
 import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
@@ -51,19 +50,9 @@ const svgCB = d3.select("#mapColourScale")
     .attr("height", height)
     .style("vertical-align", "middle");
 
-// Area chart legend
-const svgLegend = d3.select("#areaLegend")
-    .select("svg")
-    .attr("class", "roadAreaCB")
-    .attr("width", 650)
-    .attr("height", height)
-    .style("vertical-align", "middle");
-
 /* -- shim all the SVGs (chart is already shimmed in component) -- */
 d3.stcExt.addIEShim(map, 387.1, 457.5);
 d3.stcExt.addIEShim(svgCB, height, width);
-d3.stcExt.addIEShim(svgLegend, height, 650);
-
 // -----------------------------------------------------------------------------
 /* tooltip */
 const div = d3.select("body").append("div")
@@ -236,7 +225,6 @@ function showAreaData() {
       .moveToFront();
 
   updateTitles();
-  plotLegend();
   cButton.appendTo(document.getElementById("copy-button-container"));
   dataCopyButton(data[selectedRegion]);
 }
@@ -247,17 +235,6 @@ function updateTitles() {
   d3.select("#areaTitleRoad")
       .text(i18next.t("chartTitle", {ns: "road"}) + ", " + geography);
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: geography});
-}
-
-function plotLegend() {
-  const classArray = ["gas", "diesel", "lpg"];
-  areaLegendFn(svgLegend, classArray);
-
-  d3.select("#areaLegend")
-      .selectAll("text")
-      .text(function(d, i) {
-        return i18next.t(classArray[i], {ns: "roadArea"});
-      });
 }
 
 // -----------------------------------------------------------------------------
@@ -374,7 +351,6 @@ i18n.load(["src/i18n"], () => {
         getDateMinMax();
         createDropdown();
         showAreaData();
-        plotLegend();
         updateTitles();
       });
 });
