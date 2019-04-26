@@ -2571,28 +2571,6 @@
     return dimExtent;
   }
 
-  function areaLegendFn (svgLegend, classArray) {
-    var rectDim = 15;
-    var x0 = 50;
-    var scaling = 9.5; // Create the g nodes
-
-    var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
-
-    rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
-      return x0 + i * rectDim * scaling;
-    }).attr("class", function (d, i) {
-      return classArray[i];
-    }); // add text node to rect g
-
-    rects.append("text"); // Display text in text node
-
-    d3.select("#areaLegend").selectAll("text").attr("y", 38).attr("x", function (d, i) {
-      return x0 + i * rectDim * scaling + 20;
-    }).style("display", function () {
-      return "inline";
-    });
-  }
-
   function areaTooltip (settings, div, d) {
     var thisMonth = d.date.substring(5, 7) ? i18next.t(d.date.substring(5, 7), {
       ns: "months"
@@ -3179,14 +3157,11 @@
   var width = 570 - margin.left - margin.right;
   var height = 150 - margin.top - margin.bottom;
   var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "airCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
-  var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir"); // area chart legend
-
-  var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "airAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
+  var chart = d3.select(".data").append("svg").attr("id", "svg_areaChartAir");
   /* -- shim all the SVGs -- */
 
   d3.stcExt.addIEShim(map, 387.1, 457.5);
-  d3.stcExt.addIEShim(svgCB, height, width);
-  d3.stcExt.addIEShim(svgLegend, height, 650); // -----------------------------------------------------------------------------
+  d3.stcExt.addIEShim(svgCB, height, width); // -----------------------------------------------------------------------------
 
   /* letiables */
   // For map circles
@@ -3491,9 +3466,9 @@
         allX = allX && isNaN(d[i].domestic) && isNaN(d[i].transborder) && isNaN(d[i].international);
       }
 
-      d3.select('#annualTimeseries').style('display', allX ? 'none' : '');
-      d3.select('#areaLegend').style('display', allX ? 'none' : '');
-      d3.select('#warning').style('display', allX ? '' : 'none'); // Bruno : End of my new stuff on 2019-04-02
+      d3.select("#annualTimeseries").style("display", allX ? "none" : "");
+      d3.select("#areaLegend").style("display", allX ? "none" : "");
+      d3.select("#warning").style("display", allX ? "" : "none"); // Bruno : End of my new stuff on 2019-04-02
 
       stackedArea = areaChart(chart, selectedSettings, data[selectedDataset][selectedRegion]); // areaChart hoverLine and tooltip
 
@@ -3525,8 +3500,6 @@
 
       if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
       dataCopyButton(data[selectedDataset][selectedRegion]); // ---------------------------------------------------------------
-
-      plotLegend();
     };
 
     if (!data[selectedDataset][selectedRegion]) {
@@ -3688,16 +3661,6 @@
     d3.select("#mapTitleAir").text(mapTitle);
     d3.select("#areaTitleAir").text(areaTitle);
     selectedSettings.tableTitle = tableTitle;
-  }
-
-  function plotLegend() {
-    var classArray = ["domestic", "transborder", "international"];
-    areaLegendFn(svgLegend, classArray);
-    d3.select("#areaLegend").selectAll("text").text(function (d, i) {
-      return i18next.t(classArray[i], {
-        ns: "airPassengers"
-      });
-    });
   }
 
   function getDateMinMax() {
@@ -3881,8 +3844,7 @@
       }), " target='_blank'>").concat(i18next.t("linkText", {
         ns: "symbolLink"
       }), "</a>"));
-      showAreaData();
-      plotLegend(); // Show chart titles based on default menu options
+      showAreaData(); // Show chart titles based on default menu options
 
       updateTitles();
       if (isIE()) ieWorkAround();

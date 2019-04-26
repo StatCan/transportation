@@ -2129,6 +2129,7 @@
   var selectedOrig;
   var selectedDest;
   var selectedComm;
+  var selectedMode = "origin";
   var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
   var xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
@@ -2178,6 +2179,14 @@
 
 
   function uiHandler(event) {
+    if (event.target.id === "originSelection") {
+      selectedMode = "origin";
+    }
+
+    if (event.target.id === "destinationSelection") {
+      selectedMode = "destination";
+    }
+
     if (event.target.id === "commodity") {
       setCommodity(document.getElementById("commodity").value);
     }
@@ -2213,16 +2222,35 @@
       }
 
       div.style("opacity", .9);
-      div.html("<b>" + i18next.t(key.substring(0, key.length - 4), {
+      div.html("<b>" + i18next.t("hoverText", {
+        ns: "rail",
+        origin: i18next.t(selectedOrig, {
+          ns: "rail"
+        }),
+        dest: i18next.t(key.substring(0, key.length - 4), {
+          ns: "rail"
+        })
+      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + " " + i18next.t("units", {
         ns: "rail"
-      }) + " (" + i18next.t("units", {
-        ns: "rail"
-      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + "</tr>" + "</table>");
+      }) + "</td>" + "</tr>" + "</table>");
       div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
     }
   });
   map.on("mouseout", function () {
     div.style("opacity", 0);
+  });
+  map.on("mousedown", function () {
+    if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map") {
+      if (selectedMode === "origin") {
+        setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
+        updatePage();
+      }
+
+      if (selectedMode === "destination") {
+        setDest(d3.event.target.id.substring(0, event.target.id.length - 4));
+        updatePage();
+      }
+    }
   }); // -----------------------------------------------------------------------------
 
   /* FNS */
@@ -2340,8 +2368,8 @@
 
 
   function showBubbleTable() {
-    var thisText = i18next.t("tableTitle", {
-      ns: "railBubbleTable"
+    var thisText = i18next.t("bubbleTitle", {
+      ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
     bubbleTable(commTable, settBubble, allCommArr);
@@ -2360,11 +2388,18 @@
       ns: "geography"
     });
     d3.select("#railTitleBarChart").text("".concat(thisComm, " from ").concat(thisOrig, " to ").concat(thisDest));
+    d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
+      ns: "rail",
+      commodity: i18next.t(selectedComm, {
+        ns: "commodities"
+      }),
+      geo: i18next.t(selectedOrig, {
+        ns: "rail"
+      }),
+      year: selectedYear
+    }));
     settingsBar.tableTitle = i18next.t("tableTitle", {
-      ns: "railTable",
-      comm: thisComm,
-      orig: thisOrig,
-      dest: thisDest
+      ns: "rail"
     });
   }
 
@@ -2459,14 +2494,14 @@
       setDest(defaultDest);
       setCommodity(defaultComm);
       getCanadaMap(map).on("loaded", function () {
-        //USA-MEXICO SVG
+        // USA-MEXICO SVG
         //Place under alberta
         var usaMexOffset = document.getElementById("AB_map").getBBox(); //create rectangle
 
         var usMex = map.append("g").attr("id", "usa-mex-group");
-        usMex.append("rect").attr("width", 10).attr("height", 20).attr("x", usaMexOffset.x + 10).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
+        usMex.append("rect").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 21).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
 
-        usMex.append("image").attr("width", 20).attr("height", 20).attr("x", usaMexOffset.x - 10).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
+        usMex.append("image").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
         colorMap();
         highlightMap(defaultOrig, origin);
         highlightMap(defaultDest, destination);
@@ -2487,7 +2522,14 @@
 
       cButton.build(cButtonOptions);
       d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
-        ns: "rail"
+        ns: "rail",
+        commodity: i18next.t(selectedComm, {
+          ns: "commodities"
+        }),
+        geo: i18next.t(selectedOrig, {
+          ns: "rail"
+        }),
+        year: selectedYear
       }));
       d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
         ns: "symbolLink"

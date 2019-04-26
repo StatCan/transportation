@@ -58,12 +58,30 @@
 	stroke-width: 0.5 !important;
 }
 .railOriginMapHighlight {
-	stroke: #9e9d9d !important;
+	stroke: #009E2B !important;
 	stroke-width: 0.5 !important;
 }
+#originGeo {
+  box-shadow: 0px 0px 10px 3px #009E2B;
+}
 .railDestMapHighlight {
-	stroke: #ffe953 !important;
+	stroke: #E6233A !important;
 	stroke-width: 0.5 !important;
+}
+#destGeo {
+  box-shadow: 0px 0px 10px 3px #E6233A;
+}
+.selectRadio{
+  overflow: visible;
+  font-size: 10px;
+  padding-left: .5em;
+  transform: translate(0px,-0.3em);
+}
+#originSelection {
+  box-shadow: 0px 0px 10px 3px #009E2B;
+}
+#destinationSelection {
+  box-shadow: 0px 0px 10px 3px #E6233A;
 }
 #svgFuel .area-label {
 	font-size: 20px;
@@ -210,6 +228,46 @@ table, th, td {
 	font-size: 22px;
 	fill: #555;
 }
+
+#areaLegend {
+  transform: translate(10px);
+}
+.areaLegendLabel {
+  font-size: 15px;
+  display: inline-block;
+  margin-right: 5px;
+}
+.areaLegendLabel::before{
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+  transform: translate(0,3px);
+}
+
+#domesticLabel::before{
+  background: #F6CF22;
+}
+
+#transborderLabel::before {
+  background: #a6611a;
+}
+
+#intlLabel::before {
+  background: #83C3F2;
+}
+
+#gasLabel::before {
+	background: #EDDB7C;
+}
+#dieselLabel::before {
+	background: #F99691;
+}
+#lpgLabel::before {
+	background: #5DC1BE;
+}
+
 .domestic {
 	fill: #F6CF22;
 	opacity: 0.6;
@@ -491,34 +549,34 @@ Show only for top 2 charts
 
 /* rail commodities */
 .wheat circle {
-	fill: #024571;
+	fill: #1f77b4;
 }
 .ores circle {
-	fill: #5DC1BE;
+	fill: #ff7f0e;
 }
 .coal circle {
-	fill: #F6CF22;
+	fill: #2ca02c;
 }
 .potash circle {
 	fill: #2A2C31;
 }
 .mixed circle {
-	fill: #BF4D28;
+	fill: #9467bd;
 }
 .lumber circle {
-	fill: #96A8B2;
+	fill: #8c564b;
 }
 .canola circle {
-	fill: #F1A930;
+	fill: #e377c2;
 }
 .oils circle {
-	fill: #FC557D;
+	fill: #7f7f7f;
 }
 .chems circle {
-	fill: #A2BF76;
+	fill: #bcbd22;
 }
 .pulp circle {
-	fill: #DFBA69;
+	fill: #17becf;
 }
 .other circle {
 	fill: #64997D;

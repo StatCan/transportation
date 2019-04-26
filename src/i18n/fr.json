@@ -306,13 +306,29 @@
        "x_label": "",
        "y_label": "Tonnage (en milliers)"
      },
+     "rail": {
+       "YT": "Yukon",
+       "NT": "Northwest Territories",
+       "NU": "Nunavut",
+       "AT": "Atlantic Region",
+       "QC": "Quebec",
+       "ON": "Ontario",
+       "SK": "Saskatchewan",
+       "AB": "Alberta",
+       "USA-MX": "United States and Mexico",
+       "MB": "Manitoba",
+       "BC": "British Columbia",
+       "All": "Total",
+       "units": "Tonnes",
+       "hoverText": "{{origin}} à {{dest}}",
+       "mapTitle": "{{commodity}} de {{geo}} vers le reste du Canada, {{year}}",
+       "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (Tonnes)",
+       "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations (X 1M) pour les dix principaux produits selon le poids"
+     },
      "railTable": {
        "tableTitle": "Tonnage de {{comm}} de {{orig}} à {{dest}} (en milliers)",
        "z_label": "",
        "values": "Tonnage (en milliers)"
-     },
-     "railBubbleTable": {
-       "tableTitle": "Tonnage total pour toutes les origines et pour toutes les destinations (x 1M) pour 10 produits, trié par l'année la plus récente"
      },
       "commodities": {
         "coal": "Charbon",
