@@ -18,6 +18,7 @@ const defaultComm = "chems";
 let selectedOrig;
 let selectedDest;
 let selectedComm;
+let selectedMode = "origin";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 const usaMexicoImageLocation = "lib/usamexico.png"
@@ -78,6 +79,12 @@ const loadData = function() {
 };
 // ---------------------------------------------------------------------
 function uiHandler(event) {
+  if (event.target.id === "originSelection") {
+    selectedMode = "origin";
+  }
+  if (event.target.id === "destinationSelection") {
+    selectedMode = "destination"
+  }
   if (event.target.id === "commodity") {
     setCommodity(document.getElementById("commodity").value);
   }
@@ -127,6 +134,18 @@ map.on("mousemove", () => {
 map.on("mouseout", () => {
   div
       .style("opacity", 0);
+});
+map.on("mousedown", () => {
+  if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map") {
+    if (selectedMode === "origin") {
+      setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
+      updatePage();
+    }
+    if (selectedMode === "destination") {
+      setDest(d3.event.target.id.substring(0, event.target.id.length -4));
+      updatePage();
+    }
+  }
 });
 // -----------------------------------------------------------------------------
 /* FNS */
@@ -246,7 +265,7 @@ function showBarChartData() {
 
 /* -- display areaChart -- */
 function showBubbleTable() {
-  const thisText = i18next.t("tableTitle", {ns: "railBubbleTable"});
+  const thisText = i18next.t("bubbleTitle", {ns: "rail"});
   d3.select("#commTableTitle")
       .text(thisText);
 
@@ -260,9 +279,10 @@ function updateTitles() {
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
       .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
+  d3.select("#mapTitleRail")
+      .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "commodities"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
 
-  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "railTable",
-    comm: thisComm, orig: thisOrig, dest: thisDest});
+  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail"});
 }
 const aditionalBarSettings = {
   ...settingsBar,
@@ -381,7 +401,7 @@ i18n.load(["src/i18n"], function() {
         cButton.build(cButtonOptions);
 
         d3.select("#mapTitleRail")
-            .text(i18next.t("mapTitle", {ns: "rail"}));
+            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "commodities"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 

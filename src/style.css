@@ -58,12 +58,30 @@
 	stroke-width: 0.5 !important;
 }
 .railOriginMapHighlight {
-	stroke: #9e9d9d !important;
+	stroke: #009E2B !important;
 	stroke-width: 0.5 !important;
 }
+#originGeo {
+  box-shadow: 0px 0px 10px 3px #009E2B;
+}
 .railDestMapHighlight {
-	stroke: #ffe953 !important;
+	stroke: #E6233A !important;
 	stroke-width: 0.5 !important;
+}
+#destGeo {
+  box-shadow: 0px 0px 10px 3px #E6233A;
+}
+.selectRadio{
+  overflow: visible;
+  font-size: 10px;
+  padding-left: .5em;
+  transform: translate(0px,-0.3em);
+}
+#originSelection {
+  box-shadow: 0px 0px 10px 3px #009E2B;
+}
+#destinationSelection {
+  box-shadow: 0px 0px 10px 3px #E6233A;
 }
 #svgFuel .area-label {
 	font-size: 20px;

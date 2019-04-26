@@ -318,7 +318,10 @@
       "MB": "Manitoba",
       "BC": "British Columbia",
       "All": "Total",
-      "units": "Tonnes"
+      "units": "Tonnes",
+      "mapTitle": "{{commodity}} from {{geo}} to the rest of Canada, {{year}}",
+      "tableTitle": "Rail industry origin and destination of transported commodities (Tonnes)",
+      "bubbleTitle": "Total tonnage from all origins to all destinations (x 1M) for the top ten commodities by weight"
     },
     "commodities": {
       "coal": "Coal",
