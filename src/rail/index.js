@@ -79,25 +79,26 @@ const loadData = function() {
 };
 // ---------------------------------------------------------------------
 function uiHandler(event) {
-  if (event.target.id === "originSelection") {
-    selectedMode = "origin";
-  }
-  if (event.target.id === "destinationSelection") {
-    selectedMode = "destination"
+  if (event.target.name === "radio") {
+    selectedMode = event.target.value;
+    updatePage();
   }
   if (event.target.id === "commodity") {
     setCommodity(document.getElementById("commodity").value);
+    updatePage();
   }
   if (event.target.id === "originGeo") {
     setOrigin(document.getElementById("originGeo").value);
+    updatePage();
   }
   if (event.target.id === "destGeo") {
     setDest(document.getElementById("destGeo").value);
+    updatePage();
   }
   if (event.target.id === "yearSelector") {
     setYear(document.getElementById("yearSelector").value);
+    updatePage();
   }
-  updatePage();
 }
 // -----------------------------------------------------------------------------
 /* -- Map interactions -- */
@@ -135,7 +136,7 @@ map.on("mouseout", () => {
       .style("opacity", 0);
 });
 map.on("mousedown", () => {
-  if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map") {
+  if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
     if (selectedMode === "origin") {
       setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
       updatePage();
@@ -196,11 +197,15 @@ function setDest(newDest) {
 function highlightMap(selection, mode) {
   d3.select(".dashboard .map")
       .selectAll(`.rail${mode}MapHighlight`)
-      .classed(`rail${mode}MapHighlight`, false);
+      .classed(`rail${mode}MapHighlight`, false)
+      .classed("railMapHighlight", false);
 
   d3.select(".dashboard .map")
       .selectAll(`#${selection}_map`)
       .classed(`rail${mode}MapHighlight`, true)
+      .classed("railMapHighlight", true)
+
+  d3.selectAll(".dashboard .map .railMapHighlight")
       .moveToFront();
 }
 
@@ -266,7 +271,12 @@ function showBarChartData() {
 function showBubbleTable() {
   const thisText = i18next.t("bubbleTitle", {ns: "rail"});
   d3.select("#commTableTitle")
-      .text(thisText);
+      .text(thisText)
+  d3.select("#commTableTitle")
+      .append("a")
+      .attr("href", "#fn1")
+      .style("font-size", "14px")
+      .text("[1]");
 
   bubbleTable(commTable, settBubble, allCommArr);
 }
@@ -367,9 +377,9 @@ i18n.load(["src/i18n"], function() {
               usMex
                   .append("rect")
                   .attr("width", 35)
-                  .attr("height", 15)
+                  .attr("height", 11)
                   .attr("x", usaMexOffset.x)
-                  .attr("y", (usaMexOffset.height + usaMexOffset.y +21 ))
+                  .attr("y", (usaMexOffset.height + usaMexOffset.y +18 ))
                   .attr("class", "USA-MX")
                   .attr("id", "USA-MX_map");
 
@@ -379,13 +389,15 @@ i18n.load(["src/i18n"], function() {
                   .attr("width", 35)
                   .attr("height", 15)
                   .attr("x", usaMexOffset.x)
-                  .attr("y", (usaMexOffset.height + usaMexOffset.y +10 ))
+                  .attr("y", (usaMexOffset.height + usaMexOffset.y +5 ))
                   .attr("xlink:href", usaMexicoImageLocation)
                   .attr("id", "USA-MX_map");
 
 
 
               colorMap();
+              d3.select("#mapColourScale").classed("moveMap", true)
+              d3.select(".map").classed("moveMap", true)
               highlightMap(defaultOrig, origin);
               highlightMap(defaultDest, destination);
             });
