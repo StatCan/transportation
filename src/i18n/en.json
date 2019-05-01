@@ -326,7 +326,7 @@
     },
     "commodities": {
       "coal": "Coal",
-      "mixed": "Mixed loads",
+      "mixed": "Mixed loads or unidentified freight",
       "wheat": "Wheat",
       "ores": "Iron ores and concentrates",
       "potash": "Potash",

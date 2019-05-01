@@ -157,9 +157,12 @@
     <div class="col-md-6 txt-right"><p class="pull-right"><a href="http://www.statcan.gc.ca/bsolc/olc-cel/olc-cel?catno=98-505-X2016001&amp;lang=eng" class="btn btn-xs btn-default">Catalogue <abbr title="number">no.</abbr> 98-505-X2016001</a></p></div>
 </div>
 
-			<p>Rail industry origin and destination of transported commodities</p>
-			<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus">Skip the visual scatter plot chart and move directly to the data table displaying all available geographies</a>
-			<form onSubmit="return false;">
+<!-- pasted from Rob-->
+<p>Trip origin and destination pairs for a selected region and selected commodity.</p>
+
+<div class="wb-inv">Start of visual interactive dashboard. Changing any selection will automatically update page content.</div>
+
+				<form onSubmit="return false;">
 				<div class="row">
 					<div class="col-md-3">
 						<label for="yearSelector">Year</label>
@@ -175,7 +178,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="groups_comm">Select a commodity</label>
+							<label for="commodity">Select a commodity</label>
 							<select id="commodity" class="form-control">
                 <option value="chems">Other basic chemicals</option>
 								<option value="coal">Coal</option>
@@ -192,7 +195,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label for="groups_orig">Select an origin</label>
+							<label for="originGeo">Select an origin</label>
 							<select id="originGeo" class="form-control">
                 <option value="AT">Atlantic region</option>
                 <option value="QC">Quebec</option>
@@ -207,7 +210,7 @@
 					</div>
           <div class="col-md-3">
             <div class="form-group">
-              <label for="groups_dest">Select a destination</label>
+              <label for="destGeo">Select a destination</label>
               <select id="destGeo" class="form-control">
                 <option value="QC">Quebec</option>
                 <option value="ON">Ontario</option>
@@ -222,17 +225,24 @@
           </div>
 				</div>
 			</form>
-      <div class="wb-inv wb-show-onfocus wb-sl">Changing any selection will automatically update the page content. These changes are reflected in the <a href="#chrt-dt-tbl">data table</a> as well.</div>
-
-      <div class="row">
+<div class="text-center">
+	<a href="#chrt-dt-tbl" class="wb-inv wb-show-onfocus wb-sl">Skip the interactive features and go directly to the data table.</a>
+</div>
+       <div class="row">
         <div class="dashboard">
 					<div class="col-md-6"> <!-- first col in main row 1 -->
 						<div> <!-- first row in col 1 -->
 							<h3 id="mapTitleRail">
 							</h3>
-							<div class="">
-								<input class="selectRadio" id="originSelection" type="radio" name="selectionType" value="origin" checked><label class="selectRadio" > Origin</label>
-								<input class="selectRadio" id="destinationSelection" type="radio" name="selectionType" value="destination"><label class="selectRadio"> Destination</label><br>
+							<div class="radioDiv">
+								<label class="radioContainer" style="padding-right:10px"> Origin
+								  <input type="radio" name="radio" value="origin" checked>
+								  <span class="radioButton" id="originSelection"></span>
+								</label>
+								<label class="radioContainer"> Destination
+									<input type="radio" name="radio" value="destination">
+									<span class="radioButton" id="destinationSelection"></span>
+								</label>
 							</div>
 							<div class=" map">
 							</div>
@@ -252,29 +262,29 @@
           </div>
 				</div>
 			</div>
-
-
 			<div class="row">
 				<div class="commTable data col-md-12">
-					<div id="commTableTitle"></div>
+					<div id="commTableTitle"><a href="#fn1"></a></div>
           <div id="commgrid"></div>
 				</div>
 			</div>
 
-      <div class="row"> <!-- main row 2 -->
-          <div class="raildata col-md-12">
+      <details id="chrt-dt-tbl" class="desc mrgn-tp-md">
+        <summary class="desc"><span class="fa fa-table text-primary mrgn-rght-sm"></span>Data table</summary>
+		<div class="raildata">
               <div id="railTable">
           </div>
-					<div class="row"><div id="symbolLink" class="symbolLink"></div></div>
+					<div id="symbolLink" class="symbolLink pull-right"></div>
         </div> <!-- main row 2 -->
-      </div>
-
+      </details>
 
 
 
 
 <!-- End chart -->
 </div>
+
+<!-- End pasted from Rob-->
 
 <!--stopindex-->
 

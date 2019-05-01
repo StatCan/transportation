@@ -757,6 +757,23 @@
     }
   });
 
+  var dP$1 = _objectDp.f;
+  var FProto = Function.prototype;
+  var nameRE = /^\s*function ([^ (]*)/;
+  var NAME$1 = 'name';
+
+  // 19.2.4.2 name
+  NAME$1 in FProto || _descriptors && dP$1(FProto, NAME$1, {
+    configurable: true,
+    get: function () {
+      try {
+        return ('' + this).match(nameRE)[1];
+      } catch (e) {
+        return '';
+      }
+    }
+  });
+
   // getting tag from 19.1.3.6 Object.prototype.toString()
 
   var TAG$1 = _wks('toStringTag');
@@ -2179,31 +2196,30 @@
 
 
   function uiHandler(event) {
-    if (event.target.id === "originSelection") {
-      selectedMode = "origin";
-    }
-
-    if (event.target.id === "destinationSelection") {
-      selectedMode = "destination";
+    if (event.target.name === "radio") {
+      selectedMode = event.target.value;
+      updatePage();
     }
 
     if (event.target.id === "commodity") {
       setCommodity(document.getElementById("commodity").value);
+      updatePage();
     }
 
     if (event.target.id === "originGeo") {
       setOrigin(document.getElementById("originGeo").value);
+      updatePage();
     }
 
     if (event.target.id === "destGeo") {
       setDest(document.getElementById("destGeo").value);
+      updatePage();
     }
 
     if (event.target.id === "yearSelector") {
       setYear(document.getElementById("yearSelector").value);
+      updatePage();
     }
-
-    updatePage();
   } // -----------------------------------------------------------------------------
 
   /* -- Map interactions -- */
@@ -2240,7 +2256,7 @@
     div.style("opacity", 0);
   });
   map.on("mousedown", function () {
-    if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map") {
+    if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
       if (selectedMode === "origin") {
         setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
         updatePage();
@@ -2301,8 +2317,9 @@
   }
 
   function highlightMap(selection, mode) {
-    d3.select(".dashboard .map").selectAll(".rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false);
-    d3.select(".dashboard .map").selectAll("#".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).moveToFront();
+    d3.select(".dashboard .map").selectAll(".rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
+    d3.select(".dashboard .map").selectAll("#".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
+    d3.selectAll(".dashboard .map .railMapHighlight").moveToFront();
   }
 
   function colorMap() {
@@ -2372,6 +2389,7 @@
       ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
+    d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").text("[1]");
     bubbleTable(commTable, settBubble, allCommArr);
   }
   /* -- update map and areaChart titles -- */
@@ -2499,10 +2517,12 @@
         var usaMexOffset = document.getElementById("AB_map").getBBox(); //create rectangle
 
         var usMex = map.append("g").attr("id", "usa-mex-group");
-        usMex.append("rect").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 21).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
+        usMex.append("rect").attr("width", 35).attr("height", 11).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 18).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
 
-        usMex.append("image").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
+        usMex.append("image").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 5).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
         colorMap();
+        d3.select("#mapColourScale").classed("moveMap", true);
+        d3.select(".map").classed("moveMap", true);
         highlightMap(defaultOrig, origin);
         highlightMap(defaultDest, destination);
       }); // copy button options
