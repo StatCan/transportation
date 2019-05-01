@@ -126,9 +126,9 @@
 }
 
 /* When the radio button is checked, add a blue background */
-.radioContainer input:checked ~ .radioButton {
+/* .radioContainer input:checked ~ .radioButton {
   background-color: #2196F3;
-}
+} */
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .radioButton:after {
@@ -149,7 +149,12 @@
 	width: 6px;
 	height: 6px;
 	border-radius: 50%;
-	background: white;
+}
+#originSelection:after {
+	background: #009E2B;
+}
+#destinationSelection:after {
+	background: #E6233A;
 }
 /****************************************************************************/
 #svgFuel .area-label {
