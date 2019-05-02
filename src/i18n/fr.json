@@ -304,7 +304,7 @@
     },
      "railBar": {
        "x_label": "",
-       "y_label": "Tonnage (en milliers)"
+       "y_label": "tonnage (en milliers)"
      },
      "rail": {
        "YT": "Yukon",
@@ -319,7 +319,7 @@
        "MB": "Manitoba",
        "BC": "British Columbia",
        "All": "Total",
-       "units": "Tonnes",
+       "units": "tonnes",
        "hoverText": "{{origin}} à {{dest}}",
        "mapTitle": "{{commodity}} de {{geo}} vers le reste du Canada, {{year}}",
        "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (Tonnes)",

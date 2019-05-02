@@ -138,10 +138,12 @@ map.on("mouseout", () => {
 map.on("mousedown", () => {
   if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
     if (selectedMode === "origin") {
+      document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
       setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
       updatePage();
     }
     if (selectedMode === "destination") {
+      document.getElementById("destGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
       setDest(d3.event.target.id.substring(0, event.target.id.length -4));
       updatePage();
     }
@@ -195,13 +197,11 @@ function setDest(newDest) {
   highlightMap(newDest, destination);
 }
 function highlightMap(selection, mode) {
-  d3.select(".dashboard .map")
-      .selectAll(`.rail${mode}MapHighlight`)
+  d3.select(`.dashboard .map .rail${mode}MapHighlight`)
       .classed(`rail${mode}MapHighlight`, false)
       .classed("railMapHighlight", false);
 
-  d3.select(".dashboard .map")
-      .selectAll(`#${selection}_map`)
+  d3.select(`.dashboard .map #${selection}_map`)
       .classed(`rail${mode}MapHighlight`, true)
       .classed("railMapHighlight", true)
 
@@ -392,14 +392,11 @@ i18n.load(["src/i18n"], function() {
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +5 ))
                   .attr("xlink:href", usaMexicoImageLocation)
                   .attr("id", "USA-MX_map");
-
-
-
-              colorMap();
               d3.select("#mapColourScale").classed("moveMap", true)
-              d3.select(".map").classed("moveMap", true)
+              d3.select(".map").classed("moveMap", true);
               highlightMap(defaultOrig, origin);
               highlightMap(defaultDest, destination);
+              colorMap();
             });
         // copy button options
         const cButtonOptions = {
@@ -430,7 +427,6 @@ i18n.load(["src/i18n"], function() {
         updateTitles();
       });
 });
-
 $(document).on("change", uiHandler);
 $(document).on("change", uiHandler);
 d3.selection.prototype.moveToFront = function() {
