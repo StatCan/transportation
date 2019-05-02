@@ -2258,11 +2258,13 @@
   map.on("mousedown", function () {
     if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
       if (selectedMode === "origin") {
+        document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
         setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
         updatePage();
       }
 
       if (selectedMode === "destination") {
+        document.getElementById("destGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
         setDest(d3.event.target.id.substring(0, event.target.id.length - 4));
         updatePage();
       }
@@ -2317,8 +2319,8 @@
   }
 
   function highlightMap(selection, mode) {
-    d3.select(".dashboard .map").selectAll(".rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
-    d3.select(".dashboard .map").selectAll("#".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
+    d3.select(".dashboard .map .rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
+    d3.select(".dashboard .map #".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
     d3.selectAll(".dashboard .map .railMapHighlight").moveToFront();
   }
 
@@ -2520,11 +2522,11 @@
         usMex.append("rect").attr("width", 35).attr("height", 11).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 18).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
 
         usMex.append("image").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 5).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
-        colorMap();
         d3.select("#mapColourScale").classed("moveMap", true);
         d3.select(".map").classed("moveMap", true);
         highlightMap(defaultOrig, origin);
         highlightMap(defaultDest, destination);
+        colorMap();
       }); // copy button options
 
       var cButtonOptions = {

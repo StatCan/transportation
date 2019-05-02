@@ -302,7 +302,7 @@
     "railBar": {
       "alt": "Rail industry origin and destination of transported commodities, annual",
       "x_label": "Year",
-      "y_label": "Tonnage",
+      "y_label": "tonnage",
       "ONtoAT": "Ontario to Atlantic Region"
     },
     "rail":{
@@ -318,7 +318,7 @@
       "MB": "Manitoba",
       "BC": "British Columbia",
       "All": "Total",
-      "units": "Tonnes",
+      "units": "tonnes",
       "hoverText": "{{origin}} to {{dest}}",
       "mapTitle": "{{commodity}} from {{geo}} to the rest of Canada, {{year}}",
       "tableTitle": "Rail industry origin and destination of transported commodities (Tonnes)",
