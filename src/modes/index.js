@@ -148,7 +148,7 @@ function createDropdown() {
   const yearId = `#${"year"}`;
   const monthId = `#${"month"}`;
 
-  dropdownCheck(yearId, monthId, dateRange, selectedYear);
+  selectedMonth = dropdownCheck(yearId, monthId, dateRange, selectedYear, selectedMonth, true);
 }
 
 // -----------------------------------------------------------------------------

@@ -30,16 +30,6 @@ export default function(yearId, monthId, dateRange, selectedYear, selectedMonth,
     } else {
       // Enable all months
       d3.selectAll(`${monthId} > option`).property("disabled", false);
-
-      // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
-      const currentMonth = Number(d3.select(monthId)._groups[0][0].value);
-      if (currentMonth > maxMonth) {
-        $(`${yearId} > option`).each(function() {
-          if (Number(this.value) === maxYear) {
-            this.disabled = true;
-          }
-        });
-      }
     }
   }
   return selectedMonth;
