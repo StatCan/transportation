@@ -2523,8 +2523,8 @@
   }
 
   function highlightMap(selection, mode) {
-    d3.select(".dashboard .map .rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
-    d3.select(".dashboard .map #".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
+    d3.selectAll(".dashboard .map .rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
+    d3.selectAll(".dashboard .map #".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
     d3.selectAll(".dashboard .map .railMapHighlight").moveToFront();
   }
 
