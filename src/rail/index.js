@@ -198,11 +198,11 @@ function setDest(newDest) {
   highlightMap(newDest, destination);
 }
 function highlightMap(selection, mode) {
-  d3.select(`.dashboard .map .rail${mode}MapHighlight`)
+  d3.selectAll(`.dashboard .map .rail${mode}MapHighlight`)
       .classed(`rail${mode}MapHighlight`, false)
       .classed("railMapHighlight", false);
 
-  d3.select(`.dashboard .map #${selection}_map`)
+  d3.selectAll(`.dashboard .map #${selection}_map`)
       .classed(`rail${mode}MapHighlight`, true)
       .classed("railMapHighlight", true)
 
