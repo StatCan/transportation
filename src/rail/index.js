@@ -12,6 +12,7 @@ const cButton = new CopyButton();
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed into bubbleTable()
+let dateRange = {};
 const defaultOrig = "AT";
 const defaultDest = "QC";
 const defaultComm = "chems";
@@ -281,6 +282,23 @@ function showBubbleTable() {
   bubbleTable(commTable, settBubble, allCommArr);
 }
 
+// takes any of the data objects as input to get the date range
+const setDateRange = function(dataObject) {
+  for (const [date] of Object.entries(dataObject)) {
+    if (!dateRange.min || new Date(date)< new Date(dateRange.min)) {
+      dateRange.min = date;
+    }
+    if (!dateRange.max || new Date(date)> new Date(dateRange.max)) {
+      dateRange.max = date;
+    }
+  }
+  const yearDropdown = $("#yearSelector");
+  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+}
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const thisComm = i18next.t(selectedComm, {ns: "commodities"});
@@ -362,6 +380,7 @@ i18n.load(["src/i18n"], function() {
         setOrigin(defaultOrig);
         setDest(defaultDest);
         setCommodity(defaultComm);
+        setDateRange(allcoal);
 
         getCanadaMap(map)
             .on("loaded", function() {
