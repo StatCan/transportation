@@ -2699,17 +2699,7 @@
         }
       } else {
         // Enable all months
-        d3.selectAll("".concat(monthId, " > option")).property("disabled", false); // Disable year in dropdown menu if current month in dropdown menu does not exist for that year
-
-        var _currentMonth = Number(d3.select(monthId)._groups[0][0].value);
-
-        if (_currentMonth > maxMonth) {
-          $("".concat(yearId, " > option")).each(function () {
-            if (Number(this.value) === maxYear) {
-              this.disabled = true;
-            }
-          });
-        }
+        d3.selectAll("".concat(monthId, " > option")).property("disabled", false);
       }
     }
 
