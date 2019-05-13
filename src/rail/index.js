@@ -305,9 +305,9 @@ function updateTitles() {
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
-      .text(`${thisComm} from ${thisOrig} to ${thisDest}`);
+      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm, origin: thisOrig, dest: thisDest}));
   d3.select("#mapTitleRail")
-      .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "commodities"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
+      .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
 
   settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail"});
 }

@@ -310,7 +310,7 @@ table, th, td {
   transform: translate(10px);
 }
 .areaLegendLabel {
-  font-size: 15px;
+  font-size: 13px;
   display: inline-block;
   margin-right: 5px;
 }
