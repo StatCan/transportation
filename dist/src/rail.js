@@ -57,15 +57,47 @@
     return target;
   }
 
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   function createCommonjsModule(fn, module) {
   	return module = { exports: {} }, fn(module, module.exports), module.exports;
   }
-
-  var _core = createCommonjsModule(function (module) {
-  var core = module.exports = { version: '2.6.3' };
-  if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
-  });
-  var _core_1 = _core.version;
 
   var _global = createCommonjsModule(function (module) {
   // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -76,40 +108,11 @@
   if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
   });
 
-  var _library = false;
-
-  var _shared = createCommonjsModule(function (module) {
-  var SHARED = '__core-js_shared__';
-  var store = _global[SHARED] || (_global[SHARED] = {});
-
-  (module.exports = function (key, value) {
-    return store[key] || (store[key] = value !== undefined ? value : {});
-  })('versions', []).push({
-    version: _core.version,
-    mode: 'global',
-    copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+  var _core = createCommonjsModule(function (module) {
+  var core = module.exports = { version: '2.6.3' };
+  if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
   });
-  });
-
-  var id$1 = 0;
-  var px = Math.random();
-  var _uid = function (key) {
-    return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id$1 + px).toString(36));
-  };
-
-  var _wks = createCommonjsModule(function (module) {
-  var store = _shared('wks');
-
-  var Symbol = _global.Symbol;
-  var USE_SYMBOL = typeof Symbol == 'function';
-
-  var $exports = module.exports = function (name) {
-    return store[name] || (store[name] =
-      USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
-  };
-
-  $exports.store = store;
-  });
+  var _core_1 = _core.version;
 
   var _isObject = function (it) {
     return typeof it === 'object' ? it !== null : typeof it === 'function';
@@ -191,49 +194,15 @@
     return object;
   };
 
-  // 22.1.3.31 Array.prototype[@@unscopables]
-  var UNSCOPABLES = _wks('unscopables');
-  var ArrayProto = Array.prototype;
-  if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
-  var _addToUnscopables = function (key) {
-    ArrayProto[UNSCOPABLES][key] = true;
-  };
-
-  var _iterStep = function (done, value) {
-    return { value: value, done: !!done };
-  };
-
-  var _iterators = {};
-
-  var toString = {}.toString;
-
-  var _cof = function (it) {
-    return toString.call(it).slice(8, -1);
-  };
-
-  // fallback for non-array-like ES3 and non-enumerable old V8 strings
-
-  // eslint-disable-next-line no-prototype-builtins
-  var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-    return _cof(it) == 'String' ? it.split('') : Object(it);
-  };
-
-  // 7.2.1 RequireObjectCoercible(argument)
-  var _defined = function (it) {
-    if (it == undefined) throw TypeError("Can't call method on  " + it);
-    return it;
-  };
-
-  // to indexed object, toObject with fallback for non-array-like ES3 strings
-
-
-  var _toIobject = function (it) {
-    return _iobject(_defined(it));
-  };
-
   var hasOwnProperty = {}.hasOwnProperty;
   var _has = function (it, key) {
     return hasOwnProperty.call(it, key);
+  };
+
+  var id$1 = 0;
+  var px = Math.random();
+  var _uid = function (key) {
+    return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id$1 + px).toString(36));
   };
 
   var _redefine = createCommonjsModule(function (module) {
@@ -332,6 +301,32 @@
   $export.R = 128; // real proto method for `library`
   var _export = $export;
 
+  var toString = {}.toString;
+
+  var _cof = function (it) {
+    return toString.call(it).slice(8, -1);
+  };
+
+  // fallback for non-array-like ES3 and non-enumerable old V8 strings
+
+  // eslint-disable-next-line no-prototype-builtins
+  var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+    return _cof(it) == 'String' ? it.split('') : Object(it);
+  };
+
+  // 7.2.1 RequireObjectCoercible(argument)
+  var _defined = function (it) {
+    if (it == undefined) throw TypeError("Can't call method on  " + it);
+    return it;
+  };
+
+  // to indexed object, toObject with fallback for non-array-like ES3 strings
+
+
+  var _toIobject = function (it) {
+    return _iobject(_defined(it));
+  };
+
   // 7.1.4 ToInteger
   var ceil = Math.ceil;
   var floor = Math.floor;
@@ -377,6 +372,21 @@
     };
   };
 
+  var _library = false;
+
+  var _shared = createCommonjsModule(function (module) {
+  var SHARED = '__core-js_shared__';
+  var store = _global[SHARED] || (_global[SHARED] = {});
+
+  (module.exports = function (key, value) {
+    return store[key] || (store[key] = value !== undefined ? value : {});
+  })('versions', []).push({
+    version: _core.version,
+    mode: 'global',
+    copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+  });
+  });
+
   var shared = _shared('keys');
 
   var _sharedKey = function (key) {
@@ -411,6 +421,129 @@
   var _objectKeys = Object.keys || function keys(O) {
     return _objectKeysInternal(O, _enumBugKeys);
   };
+
+  var f$1 = {}.propertyIsEnumerable;
+
+  var _objectPie = {
+  	f: f$1
+  };
+
+  var isEnum = _objectPie.f;
+  var _objectToArray = function (isEntries) {
+    return function (it) {
+      var O = _toIobject(it);
+      var keys = _objectKeys(O);
+      var length = keys.length;
+      var i = 0;
+      var result = [];
+      var key;
+      while (length > i) if (isEnum.call(O, key = keys[i++])) {
+        result.push(isEntries ? [key, O[key]] : O[key]);
+      } return result;
+    };
+  };
+
+  // https://github.com/tc39/proposal-object-values-entries
+
+  var $entries = _objectToArray(true);
+
+  _export(_export.S, 'Object', {
+    entries: function entries(it) {
+      return $entries(it);
+    }
+  });
+
+  var gOPD = Object.getOwnPropertyDescriptor;
+
+  var f$2 = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P) {
+    O = _toIobject(O);
+    P = _toPrimitive$1(P, true);
+    if (_ie8DomDefine) try {
+      return gOPD(O, P);
+    } catch (e) { /* empty */ }
+    if (_has(O, P)) return _propertyDesc(!_objectPie.f.call(O, P), O[P]);
+  };
+
+  var _objectGopd = {
+  	f: f$2
+  };
+
+  // Works with __proto__ only. Old v8 can't work with null proto objects.
+  /* eslint-disable no-proto */
+
+
+  var check = function (O, proto) {
+    _anObject(O);
+    if (!_isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
+  };
+  var _setProto = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+      function (test, buggy, set) {
+        try {
+          set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+          set(test, []);
+          buggy = !(test instanceof Array);
+        } catch (e) { buggy = true; }
+        return function setPrototypeOf(O, proto) {
+          check(O, proto);
+          if (buggy) O.__proto__ = proto;
+          else set(O, proto);
+          return O;
+        };
+      }({}, false) : undefined),
+    check: check
+  };
+
+  var setPrototypeOf = _setProto.set;
+  var _inheritIfRequired = function (that, target, C) {
+    var S = target.constructor;
+    var P;
+    if (S !== C && typeof S == 'function' && (P = S.prototype) !== C.prototype && _isObject(P) && setPrototypeOf) {
+      setPrototypeOf(that, P);
+    } return that;
+  };
+
+  // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+
+  var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+  var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+    return _objectKeysInternal(O, hiddenKeys);
+  };
+
+  var _objectGopn = {
+  	f: f$3
+  };
+
+  var _stringWs = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+  var space = '[' + _stringWs + ']';
+  var non = '\u200b\u0085';
+  var ltrim = RegExp('^' + space + space + '*');
+  var rtrim = RegExp(space + space + '*$');
+
+  var exporter = function (KEY, exec, ALIAS) {
+    var exp = {};
+    var FORCE = _fails(function () {
+      return !!_stringWs[KEY]() || non[KEY]() != non;
+    });
+    var fn = exp[KEY] = FORCE ? exec(trim) : _stringWs[KEY];
+    if (ALIAS) exp[ALIAS] = fn;
+    _export(_export.P + _export.F * FORCE, 'String', exp);
+  };
+
+  // 1 -> String#trimLeft
+  // 2 -> String#trimRight
+  // 3 -> String#trim
+  var trim = exporter.trim = function (string, TYPE) {
+    string = String(_defined(string));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+
+  var _stringTrim = exporter;
 
   var _objectDps = _descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
     _anObject(O);
@@ -466,6 +599,97 @@
     } else result = createDict();
     return Properties === undefined ? result : _objectDps(result, Properties);
   };
+
+  var gOPN = _objectGopn.f;
+  var gOPD$1 = _objectGopd.f;
+  var dP$1 = _objectDp.f;
+  var $trim = _stringTrim.trim;
+  var NUMBER = 'Number';
+  var $Number = _global[NUMBER];
+  var Base = $Number;
+  var proto = $Number.prototype;
+  // Opera ~12 has broken Object#toString
+  var BROKEN_COF = _cof(_objectCreate(proto)) == NUMBER;
+  var TRIM = 'trim' in String.prototype;
+
+  // 7.1.3 ToNumber(argument)
+  var toNumber = function (argument) {
+    var it = _toPrimitive$1(argument, false);
+    if (typeof it == 'string' && it.length > 2) {
+      it = TRIM ? it.trim() : $trim(it, 3);
+      var first = it.charCodeAt(0);
+      var third, radix, maxCode;
+      if (first === 43 || first === 45) {
+        third = it.charCodeAt(2);
+        if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+      } else if (first === 48) {
+        switch (it.charCodeAt(1)) {
+          case 66: case 98: radix = 2; maxCode = 49; break; // fast equal /^0b[01]+$/i
+          case 79: case 111: radix = 8; maxCode = 55; break; // fast equal /^0o[0-7]+$/i
+          default: return +it;
+        }
+        for (var digits = it.slice(2), i = 0, l = digits.length, code; i < l; i++) {
+          code = digits.charCodeAt(i);
+          // parseInt parses a string to a first unavailable symbol
+          // but ToNumber should return NaN if a string contains unavailable symbols
+          if (code < 48 || code > maxCode) return NaN;
+        } return parseInt(digits, radix);
+      }
+    } return +it;
+  };
+
+  if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
+    $Number = function Number(value) {
+      var it = arguments.length < 1 ? 0 : value;
+      var that = this;
+      return that instanceof $Number
+        // check on 1..constructor(foo) case
+        && (BROKEN_COF ? _fails(function () { proto.valueOf.call(that); }) : _cof(that) != NUMBER)
+          ? _inheritIfRequired(new Base(toNumber(it)), that, $Number) : toNumber(it);
+    };
+    for (var keys = _descriptors ? gOPN(Base) : (
+      // ES3:
+      'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+      // ES6 (in case, if modules with ES6 Number statics required before):
+      'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+      'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+    ).split(','), j = 0, key; keys.length > j; j++) {
+      if (_has(Base, key = keys[j]) && !_has($Number, key)) {
+        dP$1($Number, key, gOPD$1(Base, key));
+      }
+    }
+    $Number.prototype = proto;
+    proto.constructor = $Number;
+    _redefine(_global, NUMBER, $Number);
+  }
+
+  var _wks = createCommonjsModule(function (module) {
+  var store = _shared('wks');
+
+  var Symbol = _global.Symbol;
+  var USE_SYMBOL = typeof Symbol == 'function';
+
+  var $exports = module.exports = function (name) {
+    return store[name] || (store[name] =
+      USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
+  };
+
+  $exports.store = store;
+  });
+
+  // 22.1.3.31 Array.prototype[@@unscopables]
+  var UNSCOPABLES = _wks('unscopables');
+  var ArrayProto = Array.prototype;
+  if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
+  var _addToUnscopables = function (key) {
+    ArrayProto[UNSCOPABLES][key] = true;
+  };
+
+  var _iterStep = function (done, value) {
+    return { value: value, done: !!done };
+  };
+
+  var _iterators = {};
 
   var def = _objectDp.f;
 
@@ -637,13 +861,13 @@
     var NAME = collections[i];
     var explicit = DOMIterables[NAME];
     var Collection = _global[NAME];
-    var proto = Collection && Collection.prototype;
-    var key;
-    if (proto) {
-      if (!proto[ITERATOR$1]) _hide(proto, ITERATOR$1, ArrayValues);
-      if (!proto[TO_STRING_TAG]) _hide(proto, TO_STRING_TAG, NAME);
+    var proto$1 = Collection && Collection.prototype;
+    var key$1;
+    if (proto$1) {
+      if (!proto$1[ITERATOR$1]) _hide(proto$1, ITERATOR$1, ArrayValues);
+      if (!proto$1[TO_STRING_TAG]) _hide(proto$1, TO_STRING_TAG, NAME);
       _iterators[NAME] = ArrayValues;
-      if (explicit) for (key in es6_array_iterator) if (!proto[key]) _redefine(proto, key, es6_array_iterator[key], true);
+      if (explicit) for (key$1 in es6_array_iterator) if (!proto$1[key$1]) _redefine(proto$1, key$1, es6_array_iterator[key$1], true);
     }
   }
 
@@ -754,6 +978,23 @@
     // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
     map: function map(callbackfn /* , thisArg */) {
       return $map(this, callbackfn, arguments[1]);
+    }
+  });
+
+  var dP$2 = _objectDp.f;
+  var FProto = Function.prototype;
+  var nameRE = /^\s*function ([^ (]*)/;
+  var NAME$1 = 'name';
+
+  // 19.2.4.2 name
+  NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
+    configurable: true,
+    get: function () {
+      try {
+        return ('' + this).match(nameRE)[1];
+      } catch (e) {
+        return '';
+      }
     }
   });
 
@@ -1029,12 +1270,12 @@
     this.reject = _aFunction(reject);
   }
 
-  var f$1 = function (C) {
+  var f$4 = function (C) {
     return new PromiseCapability(C);
   };
 
   var _newPromiseCapability = {
-  	f: f$1
+  	f: f$4
   };
 
   var _perform = function (exec) {
@@ -1623,27 +1864,6 @@
     }
   });
 
-  var f$2 = {}.propertyIsEnumerable;
-
-  var _objectPie = {
-  	f: f$2
-  };
-
-  var isEnum = _objectPie.f;
-  var _objectToArray = function (isEntries) {
-    return function (it) {
-      var O = _toIobject(it);
-      var keys = _objectKeys(O);
-      var length = keys.length;
-      var i = 0;
-      var result = [];
-      var key;
-      while (length > i) if (isEnum.call(O, key = keys[i++])) {
-        result.push(isEntries ? [key, O[key]] : O[key]);
-      } return result;
-    };
-  };
-
   // https://github.com/tc39/proposal-object-values-entries
 
   var $values = _objectToArray(false);
@@ -1858,7 +2078,12 @@
     var getText = function getText(i, j) {
       if (i < numLevels) {
         var s0 = settings.formatNum(cbValues[j]);
-        return s0 + "+";
+
+        if (numLevels === 1) {
+          return s0;
+        } else {
+          return s0 + "+";
+        }
       } else if (i === numLevels + 1) {
         return "x";
       }
@@ -1886,6 +2111,10 @@
     }).attr("fill", getFill).attr("class", function (d, i) {
       if (i === numLevels + 1) {
         return "classNaN";
+      }
+
+      if (numLevels === 1) {
+        return "zeroValue";
       }
     }); // hover over NaN rect only
 
@@ -1917,7 +2146,14 @@
 
     rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
 
-    rectGroups.select("text").text(getText);
+    rectGroups.select("text").text(getText); // hack to get color bar cetered when value is 0
+
+    if (numLevels === 1) {
+      d3.select("#cb0").attr("transform", "translate(73,0)");
+    } else {
+      d3.select("#cb0").attr("transform", "translate(0,0)");
+    }
+
     rectGroups.exit().remove();
   }
 
@@ -1928,13 +2164,19 @@
 
     var dimExtent = [];
     var totArray = [];
+    var levels = numLevels;
     totArray = Object.values(thisData);
     totArray.sort(function (a, b) {
       return a - b;
     });
-    dimExtent = d3.extent(totArray); // colour map to take data value and map it to the colour of the level bin it belongs to
+    dimExtent = d3.extent(totArray);
 
-    var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, numLevels));
+    if (dimExtent[1] === 0) {
+      levels = 1;
+    } // colour map to take data value and map it to the colour of the level bin it belongs to
+
+
+    var colourMap = d3.scaleQuantize().domain([dimExtent[0], dimExtent[1]]).range(colourArray.slice(0, levels));
 
     var _loop = function _loop(key) {
       if (thisData.hasOwnProperty(key)) {
@@ -2101,15 +2343,17 @@
 
   var allCommArr = []; // passed into bubbleTable()
 
+  var dateRange = {};
   var defaultOrig = "AT";
   var defaultDest = "QC";
   var defaultComm = "chems";
   var selectedOrig;
   var selectedDest;
   var selectedComm;
+  var selectedMode = "origin";
   var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
-  var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
+  var xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 
   var usaMexicoImageLocation = "lib/usamexico.png";
   var origin = "Origin";
@@ -2156,23 +2400,30 @@
 
 
   function uiHandler(event) {
+    if (event.target.name === "radio") {
+      selectedMode = event.target.value;
+      updatePage();
+    }
+
     if (event.target.id === "commodity") {
       setCommodity(document.getElementById("commodity").value);
+      updatePage();
     }
 
     if (event.target.id === "originGeo") {
       setOrigin(document.getElementById("originGeo").value);
+      updatePage();
     }
 
     if (event.target.id === "destGeo") {
       setDest(document.getElementById("destGeo").value);
+      updatePage();
     }
 
     if (event.target.id === "yearSelector") {
       setYear(document.getElementById("yearSelector").value);
+      updatePage();
     }
-
-    updatePage();
   } // -----------------------------------------------------------------------------
 
   /* -- Map interactions -- */
@@ -2191,16 +2442,37 @@
       }
 
       div.style("opacity", .9);
-      div.html("<b>" + i18next.t(key.substring(0, key.length - 4), {
+      div.html("<b>" + i18next.t("hoverText", {
+        ns: "rail",
+        origin: i18next.t(selectedOrig, {
+          ns: "rail"
+        }),
+        dest: i18next.t(key.substring(0, key.length - 4), {
+          ns: "rail"
+        })
+      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + " " + i18next.t("units", {
         ns: "rail"
-      }) + " (" + i18next.t("units", {
-        ns: "rail"
-      }) + ")</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + "</tr>" + "</table>");
+      }) + "</td>" + "</tr>" + "</table>");
       div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
     }
   });
   map.on("mouseout", function () {
     div.style("opacity", 0);
+  });
+  map.on("mousedown", function () {
+    if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
+      if (selectedMode === "origin") {
+        document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
+        setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
+        updatePage();
+      }
+
+      if (selectedMode === "destination") {
+        document.getElementById("destGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
+        setDest(d3.event.target.id.substring(0, event.target.id.length - 4));
+        updatePage();
+      }
+    }
   }); // -----------------------------------------------------------------------------
 
   /* FNS */
@@ -2251,8 +2523,9 @@
   }
 
   function highlightMap(selection, mode) {
-    d3.select(".dashboard .map").selectAll(".rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false);
-    d3.select(".dashboard .map").selectAll("#".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).moveToFront();
+    d3.selectAll(".dashboard .map .rail".concat(mode, "MapHighlight")).classed("rail".concat(mode, "MapHighlight"), false).classed("railMapHighlight", false);
+    d3.selectAll(".dashboard .map #".concat(selection, "_map")).classed("rail".concat(mode, "MapHighlight"), true).classed("railMapHighlight", true);
+    d3.selectAll(".dashboard .map .railMapHighlight").moveToFront();
   }
 
   function colorMap() {
@@ -2273,7 +2546,12 @@
     var dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels); // colour bar scale and add label
     //ADD LOGIC FOR 0 VALUE
 
-    mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar); // Colourbar label (need be plotted only once)
+    if (dimExtent[1] === 0) {
+      mapColourScaleFn(svgCB, [colourArray[0]], dimExtent, 1, settingsBar);
+    } else {
+      mapColourScaleFn(svgCB, colourArray, dimExtent, colourArray.length, settingsBar);
+    } // Colourbar label (need be plotted only once)
+
 
     var mapScaleLabel = i18next.t("units", {
       ns: "rail"
@@ -2306,7 +2584,6 @@
       selectedOrig: selectedOrig,
       selectedDest: selectedDest
     }));
-    d3.select("#svgBar").select(".x.axis").select("text").attr("display", "none");
     d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
     updateTitles();
   }
@@ -2314,12 +2591,39 @@
 
 
   function showBubbleTable() {
-    var thisText = i18next.t("tableTitle", {
-      ns: "railBubbleTable"
+    var thisText = i18next.t("bubbleTitle", {
+      ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
+    d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").text("[1]");
     bubbleTable(commTable, settBubble, allCommArr);
-  }
+  } // takes any of the data objects as input to get the date range
+
+
+  var setDateRange = function setDateRange(dataObject) {
+    var _arr = Object.entries(dataObject);
+
+    for (var _i = 0; _i < _arr.length; _i++) {
+      var _arr$_i = _slicedToArray(_arr[_i], 1),
+          date = _arr$_i[0];
+
+      if (!dateRange.min || new Date(date) < new Date(dateRange.min)) {
+        dateRange.min = date;
+      }
+
+      if (!dateRange.max || new Date(date) > new Date(dateRange.max)) {
+        dateRange.max = date;
+      }
+    }
+
+    var yearDropdown = $("#yearSelector");
+
+    for (var i = Number(dateRange.min.substring(0, 4)); i <= Number(dateRange.max.substring(0, 4)); i++) {
+      yearDropdown.append($("<option></option>").attr("value", i).html(i));
+    }
+
+    d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+  };
   /* -- update map and areaChart titles -- */
 
 
@@ -2333,12 +2637,22 @@
     var thisDest = i18next.t(selectedDest, {
       ns: "geography"
     });
-    d3.select("#railTitleBarChart").text("".concat(thisComm, " from ").concat(thisOrig, " to ").concat(thisDest));
-    settingsBar.tableTitle = i18next.t("tableTitle", {
-      ns: "railTable",
-      comm: thisComm,
-      orig: thisOrig,
+    d3.select("#railTitleBarChart").text(i18next.t("barChartTitle", {
+      ns: "rail",
+      commodity: thisComm,
+      origin: thisOrig,
       dest: thisDest
+    }));
+    d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
+      ns: "rail",
+      commodity: thisComm,
+      geo: i18next.t(selectedOrig, {
+        ns: "rail"
+      }),
+      year: selectedYear
+    }));
+    settingsBar.tableTitle = i18next.t("tableTitle", {
+      ns: "rail"
     });
   }
 
@@ -2432,18 +2746,21 @@
       setOrigin(defaultOrig);
       setDest(defaultDest);
       setCommodity(defaultComm);
+      setDateRange(allcoal);
       getCanadaMap(map).on("loaded", function () {
-        //USA-MEXICO SVG
+        // USA-MEXICO SVG
         //Place under alberta
         var usaMexOffset = document.getElementById("AB_map").getBBox(); //create rectangle
 
         var usMex = map.append("g").attr("id", "usa-mex-group");
-        usMex.append("rect").attr("width", 10).attr("height", 20).attr("x", usaMexOffset.x + 10).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
+        usMex.append("rect").attr("width", 35).attr("height", 11).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 18).attr("class", "USA-MX").attr("id", "USA-MX_map"); //create image
 
-        usMex.append("image").attr("width", 20).attr("height", 20).attr("x", usaMexOffset.x - 10).attr("y", usaMexOffset.height + usaMexOffset.y + 10).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
-        colorMap();
+        usMex.append("image").attr("width", 35).attr("height", 15).attr("x", usaMexOffset.x).attr("y", usaMexOffset.height + usaMexOffset.y + 5).attr("xlink:href", usaMexicoImageLocation).attr("id", "USA-MX_map");
+        d3.select("#mapColourScale").classed("moveMap", true);
+        d3.select(".map").classed("moveMap", true);
         highlightMap(defaultOrig, origin);
         highlightMap(defaultDest, destination);
+        colorMap();
       }); // copy button options
 
       var cButtonOptions = {
@@ -2461,7 +2778,14 @@
 
       cButton.build(cButtonOptions);
       d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
-        ns: "rail"
+        ns: "rail",
+        commodity: i18next.t(selectedComm, {
+          ns: "commodities"
+        }),
+        geo: i18next.t(selectedOrig, {
+          ns: "rail"
+        }),
+        year: selectedYear
       }));
       d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
         ns: "symbolLink"

@@ -125,6 +125,9 @@
   background-color: #ccc;
 }
 
+.radioButton{
+  transform: translate(0px,-7px);
+}
 /* When the radio button is checked, add a blue background */
 /* .radioContainer input:checked ~ .radioButton {
   background-color: #2196F3;
@@ -307,7 +310,7 @@ table, th, td {
   transform: translate(10px);
 }
 .areaLegendLabel {
-  font-size: 15px;
+  font-size: 13px;
   display: inline-block;
   margin-right: 5px;
 }

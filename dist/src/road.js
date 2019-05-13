@@ -1645,7 +1645,12 @@
 	  var getText = function getText(i, j) {
 	    if (i < numLevels) {
 	      var s0 = settings.formatNum(cbValues[j]);
-	      return s0 + "+";
+
+	      if (numLevels === 1) {
+	        return s0;
+	      } else {
+	        return s0 + "+";
+	      }
 	    } else if (i === numLevels + 1) {
 	      return "x";
 	    }
@@ -1673,6 +1678,10 @@
 	  }).attr("fill", getFill).attr("class", function (d, i) {
 	    if (i === numLevels + 1) {
 	      return "classNaN";
+	    }
+
+	    if (numLevels === 1) {
+	      return "zeroValue";
 	    }
 	  }); // hover over NaN rect only
 
@@ -1704,7 +1713,14 @@
 
 	  rectGroups.select("rect").attr("fill", getFill); // Update rect text for different year selections
 
-	  rectGroups.select("text").text(getText);
+	  rectGroups.select("text").text(getText); // hack to get color bar cetered when value is 0
+
+	  if (numLevels === 1) {
+	    d3.select("#cb0").attr("transform", "translate(73,0)");
+	  } else {
+	    d3.select("#cb0").attr("transform", "translate(0,0)");
+	  }
+
 	  rectGroups.exit().remove();
 	}
 
@@ -1738,7 +1754,7 @@
 	});
 
 	function fillMapFn (data, colourArray, numLevels) {
-	  var nullColour = "#94a6b2"; // data is an Array
+	  var nullColour = "#565656"; // data is an Array
 
 	  var thisData = data[0]; // Object
 
@@ -1765,28 +1781,6 @@
 	  }
 
 	  return dimExtent;
-	}
-
-	function areaLegendFn (svgLegend, classArray) {
-	  var rectDim = 15;
-	  var x0 = 50;
-	  var scaling = 9.5; // Create the g nodes
-
-	  var rects = svgLegend.selectAll("rect").data(classArray).enter().append("g"); // Append rects onto the g nodes and fill
-
-	  rects.append("rect").attr("width", rectDim).attr("height", rectDim).attr("y", 25).attr("x", function (d, i) {
-	    return x0 + i * rectDim * scaling;
-	  }).attr("class", function (d, i) {
-	    return classArray[i];
-	  }); // add text node to rect g
-
-	  rects.append("text"); // Display text in text node
-
-	  d3.select("#areaLegend").selectAll("text").attr("y", 38).attr("x", function (d, i) {
-	    return x0 + i * rectDim * scaling + 20;
-	  }).style("display", function () {
-	    return "inline";
-	  });
 	}
 
 	function areaTooltip (settings, div, d) {
@@ -2118,14 +2112,11 @@
 	};
 	var width = 570 - margin.left - margin.right;
 	var height = 150 - margin.top - margin.bottom;
-	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle"); // Area chart legend
-
-	var svgLegend = d3.select("#areaLegend").select("svg").attr("class", "roadAreaCB").attr("width", 650).attr("height", height).style("vertical-align", "middle");
+	var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
 	/* -- shim all the SVGs (chart is already shimmed in component) -- */
 
 	d3.stcExt.addIEShim(map, 387.1, 457.5);
-	d3.stcExt.addIEShim(svgCB, height, width);
-	d3.stcExt.addIEShim(svgLegend, height, 650); // -----------------------------------------------------------------------------
+	d3.stcExt.addIEShim(svgCB, height, width); // -----------------------------------------------------------------------------
 
 	/* tooltip */
 
@@ -2262,7 +2253,6 @@
 
 	  d3.select(".dashboard .map").select("." + selectedRegion).classed("roadMapHighlight", true).moveToFront();
 	  updateTitles();
-	  plotLegend();
 	  cButton.appendTo(document.getElementById("copy-button-container"));
 	  dataCopyButton(data[selectedRegion]);
 	}
@@ -2279,16 +2269,6 @@
 	  settings.tableTitle = i18next.t("tableTitle", {
 	    ns: "roadArea",
 	    geo: geography
-	  });
-	}
-
-	function plotLegend() {
-	  var classArray = ["gas", "diesel", "lpg"];
-	  areaLegendFn(svgLegend, classArray);
-	  d3.select("#areaLegend").selectAll("text").text(function (d, i) {
-	    return i18next.t(classArray[i], {
-	      ns: "roadArea"
-	    });
 	  });
 	} // -----------------------------------------------------------------------------
 
@@ -2423,7 +2403,6 @@
 	    getDateMinMax();
 	    createDropdown();
 	    showAreaData();
-	    plotLegend();
 	    updateTitles();
 	  });
 	});

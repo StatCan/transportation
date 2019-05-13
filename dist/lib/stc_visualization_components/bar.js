@@ -128,7 +128,7 @@ this.barChart = function(svg, settings, data) {
               case 1:
                 return "-0.5em";
               case -1:
-                return "1.5em";
+                return "-1.5em";
               }
             },
             bars = group.selectAll(".bar")
@@ -316,15 +316,15 @@ this.barChart = function(svg, settings, data) {
         .attr("class", "x axis")
         .attr("aria-hidden", "true")
         .attr("transform", "translate(0," + innerHeight + ")");
-
-        xAxisObj
-          .append("text")
-            .attr("class", "chart-label")
-            .attr("fill", "#000")
-            .attr("x", "20px")
-            .attr("dy", "1.25em")
-            .attr("text-anchor", "end")
-            .text(sett.x.label);
+        //
+        // xAxisObj
+        //   .append("text")
+        //     .attr("class", "chart-label")
+        //     .attr("fill", "#000")
+        //     .attr("x", "23px")
+        //     .attr("dy", "1.26em")
+        //     .attr("text-anchor", "end")
+        //     .text(sett.x.label);
       } else {
         xAxisObj.select("text").text(settings.x.label);
       }
@@ -468,7 +468,7 @@ this.barChart = function(svg, settings, data) {
   };
 
   svg
-    .attr("viewBox", "0 0 " + (outerWidth+10) + " " + (outerHeight+10))
+    .attr("viewBox", "-50 0 " + (outerWidth+50) + " " + (outerHeight+10))
     .attr("preserveAspectRatio", "xMidYMid meet")
     .attr("role", "img")
     .attr("aria-label", mergedSettings.altText);

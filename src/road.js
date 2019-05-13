@@ -1754,7 +1754,7 @@
 	});
 
 	function fillMapFn (data, colourArray, numLevels) {
-	  var nullColour = "#94a6b2"; // data is an Array
+	  var nullColour = "#565656"; // data is an Array
 
 	  var thisData = data[0]; // Object
 

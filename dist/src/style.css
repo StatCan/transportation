@@ -58,13 +58,108 @@
 	stroke-width: 0.5 !important;
 }
 .railOriginMapHighlight {
-	stroke: #9e9d9d !important;
+	stroke: #009E2B !important;
 	stroke-width: 0.5 !important;
+}
+#originGeo {
+  box-shadow: 0px 0px 10px 3px #009E2B;
 }
 .railDestMapHighlight {
-	stroke: #ffe953 !important;
+	stroke: #E6233A !important;
 	stroke-width: 0.5 !important;
 }
+#destGeo {
+  box-shadow: 0px 0px 10px 3px #E6233A;
+}
+
+#originSelection {
+  box-shadow: 0px 0px 5px 3px #009E2B;
+}
+#destinationSelection {
+  box-shadow: 0px 0px 5px 3px #E6233A;
+}
+
+.moveMap{
+  transform: translate(0,-25px);
+  position:relative;
+  z-index: 0;
+}
+.radioDiv{
+  position:absolute;
+  z-index:1;
+}
+/****************************************************************************/
+/* The container */
+.radioContainer {
+  display: inline-block;
+  position: relative;
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radioContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radioButton {
+  position: absolute;
+  top: 9px;
+  left: -5px;
+  height: 14px;
+  width: 14px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioContainer:hover input ~ .radioButton {
+  background-color: #ccc;
+}
+
+.radioButton{
+  transform: translate(0px,-7px);
+}
+/* When the radio button is checked, add a blue background */
+/* .radioContainer input:checked ~ .radioButton {
+  background-color: #2196F3;
+} */
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioButton:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioContainer input:checked ~ .radioButton:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioContainer .radioButton:after {
+ 	top: 4px;
+	left: 4px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+}
+#originSelection:after {
+	background: #009E2B;
+}
+#destinationSelection:after {
+	background: #E6233A;
+}
+/****************************************************************************/
 #svgFuel .area-label {
 	font-size: 20px;
 	fill: #555;
@@ -169,6 +264,11 @@ table, th, td {
 	fill: #000;
 }
 
+.airAreaCB text {
+	font-size: 14px;
+	fill: #000;
+}
+
 #svg_areaChartAir .area-label {
 	font-size: 20px;
 	fill: #3D3D3D;
@@ -205,6 +305,46 @@ table, th, td {
 	font-size: 22px;
 	fill: #555;
 }
+
+#areaLegend {
+  transform: translate(10px);
+}
+.areaLegendLabel {
+  font-size: 13px;
+  display: inline-block;
+  margin-right: 5px;
+}
+.areaLegendLabel::before{
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+  transform: translate(0,3px);
+}
+
+#domesticLabel::before{
+  background: #F6CF22;
+}
+
+#transborderLabel::before {
+  background: #a6611a;
+}
+
+#intlLabel::before {
+  background: #83C3F2;
+}
+
+#gasLabel::before {
+	background: #EDDB7C;
+}
+#dieselLabel::before {
+	background: #F99691;
+}
+#lpgLabel::before {
+	background: #5DC1BE;
+}
+
 .domestic {
 	fill: #F6CF22;
 	opacity: 0.6;
@@ -486,52 +626,49 @@ Show only for top 2 charts
 
 /* rail commodities */
 .wheat circle {
-	fill: #024571;
+	fill: #1f77b4;
 }
 .ores circle {
-	fill: #5DC1BE;
+	fill: #ff7f0e;
 }
 .coal circle {
-	fill: #F6CF22;
+	fill: #2ca02c;
 }
 .potash circle {
 	fill: #2A2C31;
 }
 .mixed circle {
-	fill: #BF4D28;
+	fill: #9467bd;
 }
 .lumber circle {
-	fill: #96A8B2;
+	fill: #8c564b;
 }
 .canola circle {
-	fill: #F1A930;
+	fill: #e377c2;
 }
 .oils circle {
-	fill: #FC557D;
+	fill: #7f7f7f;
 }
 .chems circle {
-	fill: #A2BF76;
+	fill: #bcbd22;
 }
 .pulp circle {
-	fill: #DFBA69;
+	fill: #17becf;
 }
 .other circle {
 	fill: #64997D;
 }
 
 #svgBar .bar-label {
-	font-size: 14px;
 	fill: #555;
 	opacity: 0;
 }
 #svgBar .chart-label {
-	font-size: 14px;
 	fill: #000;
 }
 #svgBar .tick text {
 	fill: #000;
 	stroke: none;
-	font-size: 15px;
 	font-family: "Noto Sans", sans-serif;
 }
 #svgBar .axis .tick line {
