@@ -1754,7 +1754,7 @@
 
     var filteredData = filterData(data);
     var details = thisSVG.select(".chart-data-table");
-    var keys = ["All", "AB", "AT", "BC", "MB", "ON", "QC", "SK", "USA-MX"];
+    var keys = ["All", "BC", "AB", "SK", "MB", "ON", "QC", "AT", "USA-MX"];
     var table;
     var header;
     var body;
@@ -2595,7 +2595,7 @@
       ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
-    d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").text("[1]");
+    d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").classed("fn-lnk", true).text("1");
     bubbleTable(commTable, settBubble, allCommArr);
   } // takes any of the data objects as input to get the date range
 
