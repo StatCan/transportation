@@ -130,7 +130,6 @@ const bubbleTable = window.bubbleTable = function(svg, settings, data) {
 
     const bubbleGroups = dataLayer.selectAll(".bubble-group")
         .data(filteredData, sett.z.getId.bind(sett));
-
     bubbleGroups
         .enter()
         .append("g")

@@ -605,7 +605,11 @@ Show only for top 2 charts
 	font-size: 14px;
 
 }
-.bubble-row-text {
+.bubble-row-text:lang(fr) {
+  font-size: 8.5px;
+  text-anchor: start;
+}
+.bubble-row-text:lang(en) {
   font-size: 10px;
   text-anchor: start;
 }

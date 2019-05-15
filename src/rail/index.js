@@ -277,7 +277,8 @@ function showBubbleTable() {
       .append("a")
       .attr("href", "#fn1")
       .style("font-size", "14px")
-      .text("[1]");
+      .classed("fn-lnk", true)
+      .text("1");
 
   bubbleTable(commTable, settBubble, allCommArr);
 }

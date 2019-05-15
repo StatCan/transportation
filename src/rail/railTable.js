@@ -9,7 +9,7 @@ export default function(data, settings) {
 
   var filteredData = filterData(data)
   var details = thisSVG.select(".chart-data-table");
-  let keys = ["All", "AB", "AT", "BC", "MB", "ON", "QC", "SK", "USA-MX"]
+  let keys = ["All", "BC", "AB", "SK", "MB", "ON", "QC", "AT", "USA-MX"]
   var table;
   var header;
   var body;

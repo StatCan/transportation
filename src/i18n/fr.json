@@ -304,7 +304,7 @@
     },
      "railBar": {
        "x_label": "",
-       "y_label": "tonnage (en milliers)"
+       "y_label": "tonnage"
      },
      "rail": {
        "YT": "Yukon",
@@ -333,7 +333,7 @@
      },
       "commodities": {
         "coal": "Charbon",
-        "mixed": "Chargements mixtes",
+        "mixed": "Chargements mixtes ou fret non indentifé",
         "wheat": "Blé",
         "ores": "Minerais de fer et leurs concentrés",
         "potash": "Potasse",
