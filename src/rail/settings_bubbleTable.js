@@ -97,9 +97,16 @@ export default {
     getText: function(d) {
       return i18next.t(d.id, {ns: "commodities"});
     },
+    getTableText: function(d) {
+      return i18next.t(d.key, {ns: "commodities"});
+    },
     getDataPoints: function(d) {
       return d.dataPoints;
     },
+  },
+  _selfFormatter: i18n.getNumberFormatter(0),
+  formatNum: function(...args) {
+    return this._selfFormatter.format(args);
   },
   width: 800
 };

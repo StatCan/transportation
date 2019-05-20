@@ -179,8 +179,8 @@
                 <option value="lumber">Bois d'oeuvre</option>
                 <option value="canola">Grains de colza (canola)</option>
                 <option value="oils">Mazout et pétrole brut</option>
-								<option value="pulp">Pâte de boi</option>
-								<option value="other">Autres moyens</option>
+								<option value="pulp">Pâte de bois</option>
+								<option value="other">Toutes les autres marchandises</option>
 							</select>
 						</div>
 					</div>
@@ -261,13 +261,21 @@
 				</div>
 			</div>
 
-      <div class="row"> <!-- main row 2 -->
-          <div class="raildata col-md-12">
-              <div id="railTable">
-          </div>
-					<div class="row"><div id="symbolLink" class="symbolLink"></div></div>
-        </div> <!-- main row 2 -->
-      </div>
+			<details id="chrt-dt-tbl" class="desc mrgn-tp-md">
+				<summary class="desc"><span class="fa fa-table text-primary mrgn-rght-sm"></span>Tableau de données</summary>
+				<div class="raildata">
+				<!-- MAIN TABLE -->
+					<div>
+						<div id="railTable">
+						</div>
+						<div id="symbolLink" class="symbolLink pull-right"></div>
+					</div><br><br>
+					<!-- BUBBLE TABLE HTML TABLE-->
+					<div>
+						<div id="bubbleTableHtml"></div>
+					</div>
+				</div> <!-- main row 2 -->
+			</details>
 
 
 

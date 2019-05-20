@@ -1,5 +1,6 @@
 import settingsBar from "./settings_barChart.js";
 import drawTable from "./railTable.js";
+import drawBubbleHtml from "./railBubbleHtmlTable.js";
 import settBubble from "./settings_bubbleTable.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFnRail.js";
@@ -8,6 +9,7 @@ import CopyButton from "../copyButton.js";
 /* Copy Button */
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
+const cButtonBubble = new CopyButton();
 // -----------------------------------------------------------------------------
 // import createLegend from "./createLegend.js";
 
@@ -280,6 +282,7 @@ function showBubbleTable() {
       .classed("fn-lnk", true)
       .text("1");
 
+  drawBubbleHtml(allCommArr, thisText, settBubble)
   bubbleTable(commTable, settBubble, allCommArr);
 }
 
@@ -347,6 +350,9 @@ function dataCopyButton(cButtondata) {
   }
   cButton.data = lines;
 }
+// function dataCopyButtonBubble(cButtondata) {
+//   add later if needed
+// };
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
@@ -425,8 +431,18 @@ i18n.load(["src/i18n"], function() {
           msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
           accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
         };
+        //bubble copy button options
+        const cButtonBubbleOptions = {
+          pNode: document.getElementById("copy-button-container-bubbble"),
+          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+        };
         // build nodes on copy button
         cButton.build(cButtonOptions);
+        cButtonBubble.build(cButtonBubbleOptions);
+
+        //dataCopyButtonBubble(allCommArr);
 
         d3.select("#mapTitleRail")
             .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "commodities"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));

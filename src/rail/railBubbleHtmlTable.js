@@ -1,6 +1,6 @@
-export default function(data, settings) {
+export default function(data, tableTitle, settings) {
   var sett = settings;
-  var thisSVG = d3.select("#railTable"); // .select("svg");
+  var thisSVG = d3.select("#bubbleTableHtml"); // .select("svg");
 
   var summaryId = "table"; // "chrt-dt-tbl";
   // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
@@ -9,7 +9,7 @@ export default function(data, settings) {
 
   var filteredData = filterData(data)
   var details = thisSVG.select(".chart-data-table");
-  let keys = ["All", "BC", "AB", "SK", "MB", "ON", "QC", "AT", "USA-MX"]
+  let keys = ["coal", "mixed", "wheat", "ores", "potash", "lumber", "canola", "oils", "chems", "pulp"]
   var table;
   var header;
   var body;
@@ -17,33 +17,22 @@ export default function(data, settings) {
   var dataRow;
   var k;
 
-  if (sett.dataTableTotal) {
-    keys.push("total");
-  }
-
   if (!details.empty()) {
-    // details.remove();
     details.remove();
-  } // if (details.empty()) {
-
-
+  }
   details = thisSVG.append("div").attr("class", "chart-data-table"); // ----Copy Button Container ---------------------------------------------
 
-  var copyButtonId = "copy-button-container"; // let copyButton = document.createElement("div");
-  // copyButton.setAttribute("id", copyButtonId);
-  // details.append(copyButton);
+  var copyButtonId = "copy-button-container-bubble";
 
-  details.append("div") // .attr("id", summaryId)
-  .attr("id", function () {
-    if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
+  details.append("div").attr("id", function() {
+    if (d3.select("#chrt-dt-tbl").empty()) return summaryId; else return summaryId + "2"; // allow for a second table
     // return summaryId;
-  }) // .text(sett.datatable.title);
-  .text(sett.tableTitle); // ------------------------------------------------------------------------
+  }).text(tableTitle); // ------------------------------------------------------------------------
 
   details.append("div").attr("id", copyButtonId);
   table = details.append("table").attr("class", "table");
-  table.append("caption") // .text(sett.datatable.title);
-  .attr("class", "wb-inv").text(sett.tableTitle);
+  table.append("caption")
+  .attr("class", "wb-inv").text(tableTitle);
   header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
   body = table.append("tbody").attr("id", "tblBody");
   header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label));
@@ -52,7 +41,7 @@ export default function(data, settings) {
   for (k = 0; k < keys.length; k++) {
     header.append("th").attr("id", "thead_h" + (k + 1))
     .style("text-align", "right")
-    .text(sett.z.getText.bind(sett)({
+    .text(sett.z.getTableText.bind(sett)({
       key: keys[k]
     }));
   }
@@ -67,7 +56,7 @@ export default function(data, settings) {
   }).text((sett.x.getText || sett.x.getValue).bind(sett));
 
   for (k = 0; k < keys.length; k++) {
-    dataRow.append("td").attr("headers", function (d, i) {
+    dataRow.append("td").attr("headers", function(d, i) {
       return "row" + i + "_h0" + " thead_h" + (k + 1);
     }).text(function(d) {
       return sett.formatNum(d[keys[k]]);
@@ -91,12 +80,20 @@ function filterYear(key) {
 
 function filterData(originalData) {
   let returnArray = [];
-  for (let year in originalData) {
-    let entry = {};
-    entry.year = year;
-    for (let geo in originalData[year]){
-      entry[geo] = originalData[year][geo];
+  let commObjects = {};
+  for(let index in originalData) {
+    for(let comm in originalData[index]){
+      for(let year in originalData[index][comm]){
+        if(!commObjects.hasOwnProperty(year)){
+          commObjects[year]= {}
+        }
+        commObjects[year][comm] = originalData[index][comm][year].All
+      }
     }
+  }
+  for(let year in commObjects){
+    let entry = commObjects[year];
+    entry.year = year;
     returnArray.push(entry);
   }
   return returnArray;

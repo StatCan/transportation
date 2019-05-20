@@ -29,6 +29,9 @@ export default {
     getText: function(d) {
       return d.value;
     },
+    getTickText: function(d) {
+      return this.formatNum(d);
+    },
     ticks: 10,
     tickSizeOuter: 0
   },

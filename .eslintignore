@@ -2,3 +2,4 @@ node_modules/*
 dist/*
 lib/*
 src/rail/railTable.js
+src/rail/railBubbleHtmlTable.js

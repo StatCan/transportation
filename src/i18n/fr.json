@@ -322,7 +322,7 @@
        "units": "tonnes",
        "hoverText": "{{origin}} à {{dest}}",
        "mapTitle": "{{commodity}} de {{geo}} vers le reste du Canada, {{year}}",
-       "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (Tonnes)",
+       "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (tonnes)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations (X 1M) pour les dix principaux produits selon le poids",
        "barChartTitle": "{{commodity}} de {{origin}} à {{dest}}"
      },
