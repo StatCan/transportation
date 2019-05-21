@@ -30,7 +30,7 @@ const origin = "Origin";
 const destination = "Dest"
 
 const data = {}; // stores data for barChart
-let selectedYear = "2016";
+let selectedYear = "2017";
 
 // ---------------------------------------------------------------------
 /* SVGs */

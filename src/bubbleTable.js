@@ -79,9 +79,9 @@ const bubbleTable = window.bubbleTable = function(svg, settings, data) {
 
   const formatNumber = d3.format(".2s"); // d3.format(".2f");
   const format = function(d) {
-    return formatNumber(d);
+    return settings.formatNum(d);
   };
-  const shiftColTextX = 30;
+  const shiftColTextX = 40;
 
   const draw = function() {
     const sett = this.settings;
@@ -234,7 +234,7 @@ const bubbleTable = window.bubbleTable = function(svg, settings, data) {
   };
 
   svg
-      .attr("viewBox", "0 0 " + outerWidth + " " + outerHeight)
+      .attr("viewBox", "0 0 " + (outerWidth+50) + " " + outerHeight)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("role", "img")
       .attr("rank-label", mergedSettings.altText);
