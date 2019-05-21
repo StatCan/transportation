@@ -839,10 +839,10 @@ var bubbleTable = (function () {
 	  var formatNumber = d3.format(".2s"); // d3.format(".2f");
 
 	  var format = function format(d) {
-	    return formatNumber(d);
+	    return settings.formatNum(d);
 	  };
 
-	  var shiftColTextX = 30;
+	  var shiftColTextX = 40;
 
 	  var draw = function draw() {
 	    var _ref;
@@ -966,7 +966,7 @@ var bubbleTable = (function () {
 	    clear: clear,
 	    svg: svg
 	  };
-	  svg.attr("viewBox", "0 0 " + outerWidth + " " + outerHeight).attr("preserveAspectRatio", "xMidYMid meet").attr("role", "img").attr("rank-label", mergedSettings.altText);
+	  svg.attr("viewBox", "0 0 " + (outerWidth + 50) + " " + outerHeight).attr("preserveAspectRatio", "xMidYMid meet").attr("role", "img").attr("rank-label", mergedSettings.altText);
 
 	  if (chartInner.empty()) {
 	    chartInner = svg.append("g").attr("class", "margin-offset").attr("transform", "translate(" + mergedSettings.margin.left + "," + mergedSettings.margin.top + ")");
