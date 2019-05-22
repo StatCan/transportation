@@ -61,8 +61,24 @@
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
   }
 
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
   function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
@@ -89,6 +105,10 @@
     }
 
     return _arr;
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
@@ -1857,7 +1877,7 @@
     //     sett.filterData(data, "table") : data;
     // use original data, not array returned by filteredData which may contain inserted year-end datapts
 
-    var filteredData = filterData$1(data);
+    var filteredData = data;
     var details = thisSVG.select(".chart-data-table");
     var keys = ["coal", "mixed", "wheat", "ores", "potash", "lumber", "canola", "oils", "chems", "pulp"];
     var table;
@@ -1919,31 +1939,6 @@
     } else {
       return "";
     }
-  }
-
-  function filterData$1(originalData) {
-    var returnArray = [];
-    var commObjects = {};
-
-    for (var index in originalData) {
-      for (var comm in originalData[index]) {
-        for (var year in originalData[index][comm]) {
-          if (!commObjects.hasOwnProperty(year)) {
-            commObjects[year] = {};
-          }
-
-          commObjects[year][comm] = originalData[index][comm][year].All;
-        }
-      }
-    }
-
-    for (var _year in commObjects) {
-      var entry = commObjects[_year];
-      entry.year = _year;
-      returnArray.push(entry);
-    }
-
-    return returnArray;
   }
 
   var $sort = [].sort;
@@ -2452,8 +2447,7 @@
   /* Copy Button */
   // -----------------------------------------------------------------------------
 
-  var cButton = new CopyButton();
-  var cButtonBubble = new CopyButton(); // -----------------------------------------------------------------------------
+  var cButton = new CopyButton(); // -----------------------------------------------------------------------------
   // import createLegend from "./createLegend.js";
 
   var allCommArr = []; // passed into bubbleTable()
@@ -2711,7 +2705,7 @@
     });
     d3.select("#commTableTitle").text(thisText);
     d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").classed("fn-lnk", true).text("1");
-    drawBubbleHtml(allCommArr, thisText, settBubble);
+    drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble);
     bubbleTable(commTable, settBubble, allCommArr);
   } // takes any of the data objects as input to get the date range
 
@@ -2777,18 +2771,50 @@
   });
 
   function dataCopyButton(cButtondata) {
-    var lines = [];
+    var finalArray = []; // for first data table
+
+    var dataArray = [];
     var thisComm = i18next.t(selectedComm, {
       ns: "commodities"
     });
     var thisOrig = i18next.t(selectedOrig, {
       ns: "geography"
     });
-    var title = ["".concat(thisComm, " from ").concat(thisOrig)];
+    var firstTitle = ["".concat(thisComm, " from ").concat(thisOrig)];
+
+    for (var year in cButtondata) {
+      var entry = {};
+      entry.year = year;
+
+      for (var geo in cButtondata[year]) {
+        entry[geo] = cButtondata[year][geo];
+      }
+
+      dataArray.push(entry);
+    }
+
+    var mainData = formatForSpreadsheet(dataArray, firstTitle); // for bubble table data
+
+    var bubbleTitle = [i18next.t("bubbleTitle", {
+      ns: "rail"
+    })];
+    var bubbleData;
+
+    if (!bubbleData) {
+      bubbleData = formatForSpreadsheet(bubbleDataFilter(allCommArr), bubbleTitle);
+    }
+
+    finalArray.push.apply(finalArray, _toConsumableArray(mainData));
+    finalArray.push.apply(finalArray, _toConsumableArray(bubbleData));
+    cButton.data = finalArray;
+  }
+
+  function formatForSpreadsheet(dataArray, title) {
+    var lines = [];
     var columns = [""];
 
-    for (var concept in cButtondata[0]) {
-      if (concept != "date") {
+    for (var concept in dataArray[0]) {
+      if (concept != "year") {
         if (concept !== "isLast") columns.push(i18next.t(concept, {
           ns: "rail"
         }));
@@ -2797,15 +2823,20 @@
 
     lines.push(title, [], columns);
 
-    for (var row in cButtondata) {
-      if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+    for (var row in dataArray) {
+      if (Object.prototype.hasOwnProperty.call(dataArray, row)) {
         var auxRow = [];
 
-        for (var column in cButtondata[row]) {
+        for (var column in dataArray[row]) {
           if (column !== "isLast") {
-            if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-              var value = cButtondata[row][column];
-              auxRow.push(value);
+            if (Object.prototype.hasOwnProperty.call(dataArray[row], column)) {
+              var value = dataArray[row][column];
+
+              if (column === "year") {
+                auxRow.unshift(value);
+              } else {
+                auxRow.push(value);
+              }
             }
           }
         }
@@ -2814,7 +2845,32 @@
       }
     }
 
-    cButton.data = lines;
+    return lines;
+  }
+
+  function bubbleDataFilter(originalData) {
+    var returnArray = [];
+    var commObjects = {};
+
+    for (var index in originalData) {
+      for (var comm in originalData[index]) {
+        for (var year in originalData[index][comm]) {
+          if (!commObjects.hasOwnProperty(year)) {
+            commObjects[year] = {};
+          }
+
+          commObjects[year][comm] = originalData[index][comm][year].All;
+        }
+      }
+    }
+
+    for (var _year in commObjects) {
+      var entry = commObjects[_year];
+      entry.year = _year;
+      returnArray.push(entry);
+    }
+
+    return returnArray;
   } // function dataCopyButtonBubble(cButtondata) {
   //   add later if needed
   // };
@@ -2893,23 +2949,9 @@
         accessibility: i18next.t("CopyButton_Title", {
           ns: "CopyButton"
         })
-      }; //bubble copy button options
-
-      var cButtonBubbleOptions = {
-        pNode: document.getElementById("copy-button-container-bubbble"),
-        title: i18next.t("CopyButton_Title", {
-          ns: "CopyButton"
-        }),
-        msgCopyConfirm: i18next.t("CopyButton_Confirm", {
-          ns: "CopyButton"
-        }),
-        accessibility: i18next.t("CopyButton_Title", {
-          ns: "CopyButton"
-        })
       }; // build nodes on copy button
 
-      cButton.build(cButtonOptions);
-      cButtonBubble.build(cButtonBubbleOptions); //dataCopyButtonBubble(allCommArr);
+      cButton.build(cButtonOptions); //dataCopyButtonBubble(allCommArr);
 
       d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
         ns: "rail",
