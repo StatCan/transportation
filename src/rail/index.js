@@ -9,7 +9,6 @@ import CopyButton from "../copyButton.js";
 /* Copy Button */
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
-const cButtonBubble = new CopyButton();
 // -----------------------------------------------------------------------------
 // import createLegend from "./createLegend.js";
 
@@ -282,7 +281,7 @@ function showBubbleTable() {
       .classed("fn-lnk", true)
       .text("1");
 
-  drawBubbleHtml(allCommArr, thisText, settBubble)
+  drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble)
   bubbleTable(commTable, settBubble, allCommArr);
 }
 
@@ -320,35 +319,83 @@ const aditionalBarSettings = {
   filterData: filterDataBar
 };
 function dataCopyButton(cButtondata) {
-  const lines = [];
+  const finalArray = [];
+
+  // for first data table
+  const dataArray = [];
   const thisComm = i18next.t(selectedComm, {ns: "commodities"});
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
-  const title = [`${thisComm} from ${thisOrig}`];
-  const columns = [""];
+  const firstTitle = [`${thisComm} from ${thisOrig}`];
+  for (let year in cButtondata) {
+    let entry = {};
+    entry.year = year;
+    for (let geo in cButtondata[year]){
+      entry[geo] = cButtondata[year][geo];
+    }
+    dataArray.push(entry);
+  }
+  const mainData = formatForSpreadsheet(dataArray, firstTitle);
+  // for bubble table data
+  const bubbleTitle = [i18next.t("bubbleTitle", {ns: "rail"})];
+  let bubbleData;
+  if (!bubbleData) {
+    bubbleData = formatForSpreadsheet(bubbleDataFilter(allCommArr), bubbleTitle);
+  }
 
-  for (const concept in cButtondata[0]) if (concept != "date") {
+  finalArray.push(...mainData);
+  finalArray.push(...bubbleData);
+  cButton.data = finalArray;
+}
+function formatForSpreadsheet(dataArray, title) {
+  const lines = [];
+  const columns = [""];
+  for (const concept in dataArray[0]) if (concept != "year") {
     if (concept !== "isLast") columns.push(i18next.t(concept, {ns: "rail"}));
   }
   lines.push(title, [], columns);
 
-  for (const row in cButtondata) {
-    if (Object.prototype.hasOwnProperty.call(cButtondata, row)) {
+  for (const row in dataArray) {
+    if (Object.prototype.hasOwnProperty.call(dataArray, row)) {
       const auxRow = [];
 
-      for (const column in cButtondata[row]) {
+      for (const column in dataArray[row]) {
         if (column !== "isLast") {
-          if (Object.prototype.hasOwnProperty.call(cButtondata[row], column)) {
-            const value = cButtondata[row][column];
+          if (Object.prototype.hasOwnProperty.call(dataArray[row], column)) {
+            const value = dataArray[row][column];
 
-            if (column != "date" && column != "total" && !isNaN(value)) value;
-            auxRow.push(value);
+            if (column != "year" && column != "total" && !isNaN(value)) value;
+            if (column === "year") {
+              auxRow.unshift(value);
+            } else {
+              auxRow.push(value);
+            }
           }
         }
       }
       lines.push(auxRow);
     }
   }
-  cButton.data = lines;
+  return lines;
+}
+function bubbleDataFilter(originalData) {
+  const returnArray = [];
+  const commObjects = {};
+  for(let index in originalData) {
+    for(let comm in originalData[index]) {
+      for(let year in originalData[index][comm]){
+        if(!commObjects.hasOwnProperty(year)){
+          commObjects[year]= {}
+        }
+        commObjects[year][comm] = originalData[index][comm][year].All
+      }
+    }
+  }
+  for(let year in commObjects){
+    let entry = commObjects[year];
+    entry.year = year;
+    returnArray.push(entry);
+  }
+  return returnArray;
 }
 // function dataCopyButtonBubble(cButtondata) {
 //   add later if needed
@@ -431,16 +478,8 @@ i18n.load(["src/i18n"], function() {
           msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
           accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
         };
-        //bubble copy button options
-        const cButtonBubbleOptions = {
-          pNode: document.getElementById("copy-button-container-bubbble"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-        };
         // build nodes on copy button
         cButton.build(cButtonOptions);
-        cButtonBubble.build(cButtonBubbleOptions);
 
         //dataCopyButtonBubble(allCommArr);
 

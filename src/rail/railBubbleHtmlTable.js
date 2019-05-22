@@ -7,7 +7,7 @@ export default function(data, tableTitle, settings) {
   //     sett.filterData(data, "table") : data;
   // use original data, not array returned by filteredData which may contain inserted year-end datapts
 
-  var filteredData = filterData(data)
+  var filteredData = data
   var details = thisSVG.select(".chart-data-table");
   let keys = ["coal", "mixed", "wheat", "ores", "potash", "lumber", "canola", "oils", "chems", "pulp"]
   var table;
@@ -75,26 +75,4 @@ function filterYear(key) {
   } else {
     return "";
   }
-}
-
-
-function filterData(originalData) {
-  let returnArray = [];
-  let commObjects = {};
-  for(let index in originalData) {
-    for(let comm in originalData[index]){
-      for(let year in originalData[index][comm]){
-        if(!commObjects.hasOwnProperty(year)){
-          commObjects[year]= {}
-        }
-        commObjects[year][comm] = originalData[index][comm][year].All
-      }
-    }
-  }
-  for(let year in commObjects){
-    let entry = commObjects[year];
-    entry.year = year;
-    returnArray.push(entry);
-  }
-  return returnArray;
 }
