@@ -2704,7 +2704,7 @@
       ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
-    d3.select("#commTableTitle").append("a").attr("href", "#fn1").style("font-size", "14px").classed("fn-lnk", true).text("1");
+    d3.select("#commTableTitle").append("a").attr("id", "fn1-rf").classed("fn-lnk", true).attr("href", "#fn1").text("1").style("font-size", "14px").append("span").classed("wb-inv", true).text("Footnote");
     drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble);
     bubbleTable(commTable, settBubble, allCommArr);
   } // takes any of the data objects as input to get the date range
