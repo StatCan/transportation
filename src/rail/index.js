@@ -276,10 +276,14 @@ function showBubbleTable() {
       .text(thisText)
   d3.select("#commTableTitle")
       .append("a")
-      .attr("href", "#fn1")
-      .style("font-size", "14px")
+      .attr("id", "fn1-rf")
       .classed("fn-lnk", true)
-      .text("1");
+      .attr("href", "#fn1")
+      .text("1")
+      .style("font-size", "14px")
+      .append("span")
+      .classed("wb-inv", true)
+      .text("Footnote");
 
   drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble)
   bubbleTable(commTable, settBubble, allCommArr);
