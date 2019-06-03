@@ -2545,9 +2545,13 @@
       var value;
 
       if (!isNaN(data[dataTag][selectedYear][key.substring(0, key.length - 4)])) {
-        value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]);
+        value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]) + " " + i18next.t("units", {
+          ns: "rail"
+        });
       } else {
-        value = "not available"; //make this i18n later
+        value = i18next.t("hoverNA", {
+          ns: "rail"
+        });
       }
 
       div.style("opacity", .9);
@@ -2559,9 +2563,7 @@
         dest: i18next.t(key.substring(0, key.length - 4), {
           ns: "rail"
         })
-      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + " " + i18next.t("units", {
-        ns: "rail"
-      }) + "</td>" + "</tr>" + "</table>");
+      }) + "</b>" + "<br><br>" + "<table>" + "<tr>" + "<td><b>" + value + "</td>" + "</tr>" + "</table>");
       div.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY + 10 + "px");
     }
   });
@@ -2750,13 +2752,17 @@
     d3.select("#railTitleBarChart").text(i18next.t("barChartTitle", {
       ns: "rail",
       commodity: thisComm,
-      origin: thisOrig,
-      dest: thisDest
+      geo: i18next.t("map" + selectedOrig, {
+        ns: "rail"
+      }),
+      dest: i18next.t("map" + selectedDest, {
+        ns: "rail"
+      })
     }));
     d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
       ns: "rail",
       commodity: thisComm,
-      geo: i18next.t(selectedOrig, {
+      geo: i18next.t("map" + selectedOrig, {
         ns: "rail"
       }),
       year: selectedYear
