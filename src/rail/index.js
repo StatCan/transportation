@@ -112,9 +112,9 @@ map.on("mousemove", () => {
     let value;
 
     if (!isNaN(data[dataTag][selectedYear][key.substring(0, key.length - 4)])) {
-      value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]);
+      value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]) + " " + i18next.t("units", {ns: "rail"});
     } else {
-      value = "not available"//make this i18n later
+      value = i18next.t("hoverNA", {ns:"rail"})
     }
     div
         .style("opacity", .9);
@@ -122,7 +122,7 @@ map.on("mousemove", () => {
         "<b>" + i18next.t("hoverText", {ns: "rail", origin: i18next.t(selectedOrig, {ns: "rail"}), dest: i18next.t(key.substring(0, key.length-4), {ns: "rail"})}) + "</b>"+ "<br><br>" +
           "<table>" +
             "<tr>" +
-              "<td><b>" + value +" " + i18next.t("units", {ns: "rail"}) + "</td>" +
+              "<td><b>" + value + "</td>" +
             "</tr>" +
           "</table>"
     );
@@ -312,9 +312,9 @@ function updateTitles() {
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
-      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm, origin: thisOrig, dest: thisDest}));
+      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm,  geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), dest:i18next.t(("map" + selectedDest), {ns: "rail"})}));
   d3.select("#mapTitleRail")
-      .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
+      .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), year: selectedYear}));
 
   settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail"});
 }
