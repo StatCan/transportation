@@ -349,7 +349,18 @@
        "mapTitle": "{{commodity}} {{geo}} vers le reste du Canada, {{year}}",
        "tableTitle": "Origine et destination des marchandises transportées par l'industrie ferroviaire (tonnes)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations pour les dix principaux produits selon le poids",
-       "barChartTitle": "{{commodity}} de base de {{geo}} vers {{dest}}"
+       "barChartTitle": "{{commodity}} de base de {{geo}} vers {{dest}}",
+       "coal": "Charbon",
+       "mixed": "Chargements mixtes ou fret non indentifé",
+       "wheat": "Blé",
+       "ores": "Minerais de fer et leurs concentrés",
+       "potash": "Potasse",
+       "lumber": "Bois d'oeuvre",
+       "canola": "Grains de colza (canola)",
+       "oils": "Mazout et pétrole brut",
+       "chems": "Autres produits chimiques de base",
+       "pulp": "Pâte de bois",
+       "other": "Toutes les aures marchandises"
      },
      "railTable": {
        "tableTitle": "Tonnage de {{comm}} de {{orig}} à {{dest}} (en milliers)",

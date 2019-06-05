@@ -308,7 +308,7 @@ const setDateRange = function(dataObject) {
 }
 /* -- update map and areaChart titles -- */
 function updateTitles() {
-  const thisComm = i18next.t(selectedComm, {ns: "commodities"});
+  const thisComm = i18next.t(selectedComm, {ns: "rail"});
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
@@ -327,7 +327,7 @@ function dataCopyButton(cButtondata) {
 
   // for first data table
   const dataArray = [];
-  const thisComm = i18next.t(selectedComm, {ns: "commodities"});
+  const thisComm = i18next.t(selectedComm, {ns: "rail"});
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const firstTitle = [`${thisComm} from ${thisOrig}`];
   for (let year in cButtondata) {
@@ -347,6 +347,7 @@ function dataCopyButton(cButtondata) {
   }
 
   finalArray.push(...mainData);
+  finalArray.push([]);
   finalArray.push(...bubbleData);
   cButton.data = finalArray;
 }
@@ -354,7 +355,9 @@ function formatForSpreadsheet(dataArray, title) {
   const lines = [];
   const columns = [""];
   for (const concept in dataArray[0]) if (concept != "year") {
-    if (concept !== "isLast") columns.push(i18next.t(concept, {ns: "rail"}));
+    if (concept !== "isLast"){
+      columns.push(i18next.t(concept, {ns: "rail"}));
+    }
   }
   lines.push(title, [], columns);
 
@@ -488,7 +491,7 @@ i18n.load(["src/i18n"], function() {
         //dataCopyButtonBubble(allCommArr);
 
         d3.select("#mapTitleRail")
-            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "commodities"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
+            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 
