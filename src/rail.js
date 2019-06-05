@@ -2706,7 +2706,7 @@
       ns: "rail"
     });
     d3.select("#commTableTitle").text(thisText);
-    d3.select("#commTableTitle").append("a").attr("id", "fn1-rf").classed("fn-lnk", true).attr("href", "#fn1").text("1").style("font-size", "14px").append("span").classed("wb-inv", true).text("Footnote");
+    d3.select("#commTableTitle").append("sup").attr("id", "fn1-rf").append("a").classed("fn-lnk", true).attr("href", "#fn1").text("1").style("font-size", "14px").append("span").classed("wb-inv", true).text("Footnote");
     drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble);
     bubbleTable(commTable, settBubble, allCommArr);
   } // takes any of the data objects as input to get the date range
@@ -2741,7 +2741,7 @@
 
   function updateTitles() {
     var thisComm = i18next.t(selectedComm, {
-      ns: "commodities"
+      ns: "rail"
     });
     var thisOrig = i18next.t(selectedOrig, {
       ns: "geography"
@@ -2781,7 +2781,7 @@
 
     var dataArray = [];
     var thisComm = i18next.t(selectedComm, {
-      ns: "commodities"
+      ns: "rail"
     });
     var thisOrig = i18next.t(selectedOrig, {
       ns: "geography"
@@ -2811,6 +2811,7 @@
     }
 
     finalArray.push.apply(finalArray, _toConsumableArray(mainData));
+    finalArray.push([]);
     finalArray.push.apply(finalArray, _toConsumableArray(bubbleData));
     cButton.data = finalArray;
   }
@@ -2821,9 +2822,11 @@
 
     for (var concept in dataArray[0]) {
       if (concept != "year") {
-        if (concept !== "isLast") columns.push(i18next.t(concept, {
-          ns: "rail"
-        }));
+        if (concept !== "isLast") {
+          columns.push(i18next.t(concept, {
+            ns: "rail"
+          }));
+        }
       }
     }
 
@@ -2962,7 +2965,7 @@
       d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
         ns: "rail",
         commodity: i18next.t(selectedComm, {
-          ns: "commodities"
+          ns: "rail"
         }),
         geo: i18next.t(selectedOrig, {
           ns: "rail"
