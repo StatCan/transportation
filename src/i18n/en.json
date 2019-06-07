@@ -348,6 +348,7 @@
       "mapTitle": "{{commodity}} from {{geo}} to the rest of Canada, {{year}}",
       "tableTitle": "Rail industry origin and destination of transported commodities (tonnes)",
       "bubbleTitle": "Total tonnage from all origins to all destinations for the top ten commodities by weight",
+      "dataTableTitle": "{{comm}} from {{geo}}",
       "barChartTitle": "{{commodity}} from {{geo}} to {{dest}}",
       "coal": "Coal",
       "mixed": "Mixed loads or unidentified freight",

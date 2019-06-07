@@ -313,7 +313,7 @@ function updateTitles() {
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
-      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm,  geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), dest:i18next.t(("map" + selectedDest), {ns: "rail"})}));
+      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm,  geo: i18next.t(("bar" + selectedOrig), {ns: "rail"}), dest:i18next.t(("bar" + selectedDest), {ns: "rail"})}));
   d3.select("#mapTitleRail")
       .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), year: selectedYear}));
 
@@ -329,8 +329,9 @@ function dataCopyButton(cButtondata) {
   // for first data table
   const dataArray = [];
   const thisComm = i18next.t(selectedComm, {ns: "rail"});
-  const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
-  const firstTitle = [`${thisComm} from ${thisOrig}`];
+  const thisOrig = i18next.t("bar" + selectedOrig, {ns: "rail"});
+  const title = i18next.t("dataTableTitle", {ns: "rail", comm: thisComm, geo: thisOrig})
+  const firstTitle = [title];
   for (let year in cButtondata) {
     let entry = {};
     entry.year = year;
