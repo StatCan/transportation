@@ -2752,10 +2752,10 @@
     d3.select("#railTitleBarChart").text(i18next.t("barChartTitle", {
       ns: "rail",
       commodity: thisComm,
-      geo: i18next.t("map" + selectedOrig, {
+      geo: i18next.t("bar" + selectedOrig, {
         ns: "rail"
       }),
-      dest: i18next.t("map" + selectedDest, {
+      dest: i18next.t("bar" + selectedDest, {
         ns: "rail"
       })
     }));
@@ -2783,10 +2783,15 @@
     var thisComm = i18next.t(selectedComm, {
       ns: "rail"
     });
-    var thisOrig = i18next.t(selectedOrig, {
-      ns: "geography"
+    var thisOrig = i18next.t("bar" + selectedOrig, {
+      ns: "rail"
     });
-    var firstTitle = ["".concat(thisComm, " from ").concat(thisOrig)];
+    var title = i18next.t("dataTableTitle", {
+      ns: "rail",
+      comm: thisComm,
+      geo: thisOrig
+    });
+    var firstTitle = [title];
 
     for (var year in cButtondata) {
       var entry = {};
