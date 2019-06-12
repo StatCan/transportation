@@ -1879,7 +1879,7 @@
 
     var filteredData = data;
     var details = thisSVG.select(".chart-data-table");
-    var keys = ["coal", "mixed", "wheat", "ores", "potash", "lumber", "canola", "oils", "chems", "pulp"];
+    var keys = ["coal", "mixed", "wheat", "potash", "ores", "oils", "canola", "lumber", "chems", "pulp"];
     var table;
     var header;
     var body;
@@ -1904,7 +1904,7 @@
     table.append("caption").attr("class", "wb-inv").text(tableTitle);
     header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
     body = table.append("tbody").attr("id", "tblBody");
-    header.append("td").attr("id", "thead_h0").text(filterYear$1(sett.x.label)); //  debugger
+    header.append("td").attr("id", "thead_h0").text(filterYear$1(sett.x.label));
 
     for (k = 0; k < keys.length; k++) {
       header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getTableText.bind(sett)({
@@ -2013,7 +2013,7 @@
       }); // Sort by value in last year (descending order)
 
       lastYearArray.sort(function (a, b) {
-        return a.lastYearValue < b.lastYearValue;
+        return b.lastYearValue - a.lastYearValue;
       }); // Define array of ordered commodities
 
       var orderedComm = lastYearArray.map(function (item) {
