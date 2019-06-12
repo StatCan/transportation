@@ -9,7 +9,7 @@ export default function(data, tableTitle, settings) {
 
   var filteredData = data
   var details = thisSVG.select(".chart-data-table");
-  let keys = ["coal", "mixed", "wheat", "ores", "potash", "lumber", "canola", "oils", "chems", "pulp"]
+  let keys = ["coal", "mixed", "wheat", "potash", "ores", "oils", "canola", "lumber", "chems", "pulp"]
   var table;
   var header;
   var body;
@@ -36,7 +36,7 @@ export default function(data, tableTitle, settings) {
   header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
   body = table.append("tbody").attr("id", "tblBody");
   header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label));
-//  debugger
+
 
   for (k = 0; k < keys.length; k++) {
     header.append("th").attr("id", "thead_h" + (k + 1))

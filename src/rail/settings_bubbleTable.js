@@ -41,7 +41,7 @@ export default {
 
     // Sort by value in last year (descending order)
     lastYearArray.sort(function(a, b) {
-      return a.lastYearValue < b.lastYearValue;
+      return b.lastYearValue - a.lastYearValue;
     });
 
     // Define array of ordered commodities
