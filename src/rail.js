@@ -1777,7 +1777,7 @@
 
     var filteredData = filterData(data);
     var details = thisSVG.select(".chart-data-table");
-    var keys = ["All", "BC", "AB", "SK", "MB", "ON", "QC", "AT", "USA-MX"];
+    var keys = ["All", "AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX"];
     var table;
     var header;
     var body;
@@ -1867,234 +1867,6 @@
 
     return returnArray;
   }
-
-  function drawBubbleHtml (data, tableTitle, settings) {
-    var sett = settings;
-    var thisSVG = d3.select("#bubbleTableHtml"); // .select("svg");
-
-    var summaryId = "table"; // "chrt-dt-tbl";
-    // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
-    //     sett.filterData(data, "table") : data;
-    // use original data, not array returned by filteredData which may contain inserted year-end datapts
-
-    var filteredData = data;
-    var details = thisSVG.select(".chart-data-table");
-    var keys = ["coal", "mixed", "wheat", "potash", "ores", "oils", "canola", "lumber", "chems", "pulp"];
-    var table;
-    var header;
-    var body;
-    var dataRows;
-    var dataRow;
-    var k;
-
-    if (!details.empty()) {
-      details.remove();
-    }
-
-    details = thisSVG.append("div").attr("class", "chart-data-table"); // ----Copy Button Container ---------------------------------------------
-
-    var copyButtonId = "copy-button-container-bubble";
-    details.append("div").attr("id", function () {
-      if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "2"; // allow for a second table
-      // return summaryId;
-    }).text(tableTitle); // ------------------------------------------------------------------------
-
-    details.append("div").attr("id", copyButtonId);
-    table = details.append("table").attr("class", "table");
-    table.append("caption").attr("class", "wb-inv").text(tableTitle);
-    header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
-    body = table.append("tbody").attr("id", "tblBody");
-    header.append("td").attr("id", "thead_h0").text(filterYear$1(sett.x.label));
-
-    for (k = 0; k < keys.length; k++) {
-      header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getTableText.bind(sett)({
-        key: keys[k]
-      }));
-    }
-
-    dataRows = body.selectAll("tr").data(filteredData);
-    dataRow = dataRows.enter().append("tr").attr("id", function (d, i) {
-      return "row" + i;
-    });
-    dataRow.append("th").attr("id", function (d, i) {
-      return "row" + i + "_h0";
-    }).text((sett.x.getText || sett.x.getValue).bind(sett));
-
-    for (k = 0; k < keys.length; k++) {
-      dataRow.append("td").attr("headers", function (d, i) {
-        return "row" + i + "_h0" + " thead_h" + (k + 1);
-      }).text(function (d) {
-        return sett.formatNum(d[keys[k]]);
-      }).style("text-align", "right");
-    }
-
-    if ($ || wb) {
-      $(".chart-data-table summary").trigger("wb-init.wb-details");
-    }
-  }
-
-  function filterYear$1(key) {
-    if (key !== "Year") {
-      return key;
-    } else {
-      return "";
-    }
-  }
-
-  var $sort = [].sort;
-  var test = [1, 2, 3];
-
-  _export(_export.P + _export.F * (_fails(function () {
-    // IE8-
-    test.sort(undefined);
-  }) || !_fails(function () {
-    // V8 bug
-    test.sort(null);
-    // Old WebKit
-  }) || !_strictMethod($sort)), 'Array', {
-    // 22.1.3.25 Array.prototype.sort(comparefn)
-    sort: function sort(comparefn) {
-      return comparefn === undefined
-        ? $sort.call(_toObject(this))
-        : $sort.call(_toObject(this), _aFunction(comparefn));
-    }
-  });
-
-  // https://github.com/tc39/proposal-object-values-entries
-
-  var $values = _objectToArray(false);
-
-  _export(_export.S, 'Object', {
-    values: function values(it) {
-      return $values(it);
-    }
-  });
-
-  var settBubble = {
-    aspectRatio: 19 / 6,
-    margin: {
-      top: 30,
-      right: 0,
-      bottom: 20,
-      left: 120
-    },
-    alt: i18next.t("alt", {
-      ns: "commodities"
-    }),
-    filterData: function filterData(data) {
-      var obj = {};
-      var yearList;
-      var lastYearArray = [];
-      data.map(function (d) {
-        var key = Object.keys(d)[0];
-
-        if (!yearList) {
-          yearList = Object.keys(d[key]);
-        }
-
-        var lastYear = yearList[yearList.length - 1]; // set key once
-
-        if (!obj[key]) {
-          obj[key] = [];
-        } // Store lastYear value for each commodity for sorting later
-
-
-        lastYearArray.push({
-          key: key,
-          lastYearValue: d[key][lastYear].All
-        }); // push year-value pairs for each year into obj
-
-        for (var idx = 0; idx < yearList.length; idx++) {
-          obj[key].push({
-            year: Object.keys(d[key])[idx],
-            value: Object.values(d[key])[idx].All
-          });
-        }
-      }); // Sort by value in last year (descending order)
-
-      lastYearArray.sort(function (a, b) {
-        return b.lastYearValue - a.lastYearValue;
-      }); // Define array of ordered commodities
-
-      var orderedComm = lastYearArray.map(function (item) {
-        return item.key;
-      }); // Define mapping between old order and new order (to be used in final obj return)
-
-      var count = 0;
-      var mapping = [];
-      Object.keys(obj).map(function (k) {
-        var thisComm = orderedComm[count];
-        mapping.push(_defineProperty({}, k, thisComm));
-        count++;
-      }); // Re-arrange obj so that each element object has an id and
-      // a dataPoints array containing the year-value pairs created above.
-      // Note that object is ordered according to sorted commodity list.
-
-      var match;
-      return Object.keys(obj).map(function (k) {
-        mapping.map(function (d) {
-          if (Object.keys(d)[0] === k) {
-            match = Object.values(d)[0];
-            return match;
-          }
-        });
-        return {
-          id: match,
-          dataPoints: obj[match]
-        };
-      });
-    },
-    x: {
-      getValue: function getValue(d) {
-        return d.year;
-      },
-      getText: function getText(d) {
-        return d.year;
-      }
-    },
-    r: {
-      inverselyProportional: false,
-      // if true, bubble size decreases with value
-      getValue: function getValue(d) {
-        return d.value;
-      }
-    },
-    z: {
-      // Object { id: "total", dataPoints: (21) […] }, and similarly for id: local, id: itin
-      getId: function getId(d) {
-        return d.id;
-      },
-      getClass: function getClass() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return this.z.getId.apply(this, args);
-      },
-      getText: function getText(d) {
-        return i18next.t(d.id, {
-          ns: "commodities"
-        });
-      },
-      getTableText: function getTableText(d) {
-        return i18next.t(d.key, {
-          ns: "commodities"
-        });
-      },
-      getDataPoints: function getDataPoints(d) {
-        return d.dataPoints;
-      }
-    },
-    _selfFormatter: i18n.getNumberFormatter(0),
-    formatNum: function formatNum() {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return this._selfFormatter.format(args);
-    },
-    width: 800
-  };
 
   // true  -> String#at
   // false -> String#codePointAt
@@ -2265,6 +2037,35 @@
 
     rectGroups.exit().remove();
   }
+
+  var $sort = [].sort;
+  var test = [1, 2, 3];
+
+  _export(_export.P + _export.F * (_fails(function () {
+    // IE8-
+    test.sort(undefined);
+  }) || !_fails(function () {
+    // V8 bug
+    test.sort(null);
+    // Old WebKit
+  }) || !_strictMethod($sort)), 'Array', {
+    // 22.1.3.25 Array.prototype.sort(comparefn)
+    sort: function sort(comparefn) {
+      return comparefn === undefined
+        ? $sort.call(_toObject(this))
+        : $sort.call(_toObject(this), _aFunction(comparefn));
+    }
+  });
+
+  // https://github.com/tc39/proposal-object-values-entries
+
+  var $values = _objectToArray(false);
+
+  _export(_export.S, 'Object', {
+    values: function values(it) {
+      return $values(it);
+    }
+  });
 
   function fillMapFn (data, colourArray, numLevels) {
     //const nullColour = colourArray.slice(-1)[0];
@@ -2448,13 +2249,10 @@
   // -----------------------------------------------------------------------------
 
   var cButton = new CopyButton(); // -----------------------------------------------------------------------------
-  // import createLegend from "./createLegend.js";
-
-  var allCommArr = []; // passed into bubbleTable()
 
   var dateRange = {};
   var defaultOrig = "AT";
-  var defaultDest = "QC";
+  var defaultDest = "AT";
   var defaultComm = "chems";
   var selectedOrig;
   var selectedDest;
@@ -2697,18 +2495,6 @@
     }));
     d3.select("#svgBar").select(".x.axis").selectAll(".tick text").attr("dy", "".concat(xlabelDY, "em"));
     updateTitles();
-  }
-  /* -- display areaChart -- */
-
-
-  function showBubbleTable() {
-    var thisText = i18next.t("bubbleTitle", {
-      ns: "rail"
-    });
-    d3.select("#commTableTitle").text(thisText);
-    d3.select("#commTableTitle").append("sup").attr("id", "fn1-rf").append("a").classed("fn-lnk", true).attr("href", "#fn1").text("1").style("font-size", "14px").append("span").classed("wb-inv", true).text("Footnote");
-    drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble);
-    bubbleTable(commTable, settBubble, allCommArr);
   } // takes any of the data objects as input to get the date range
 
 
@@ -2752,10 +2538,10 @@
     d3.select("#railTitleBarChart").text(i18next.t("barChartTitle", {
       ns: "rail",
       commodity: thisComm,
-      geo: i18next.t("bar" + selectedOrig, {
+      geo: i18next.t("map" + selectedOrig, {
         ns: "rail"
       }),
-      dest: i18next.t("bar" + selectedDest, {
+      dest: i18next.t("map" + selectedDest, {
         ns: "rail"
       })
     }));
@@ -2804,20 +2590,9 @@
       dataArray.push(entry);
     }
 
-    var mainData = formatForSpreadsheet(dataArray, firstTitle); // for bubble table data
-
-    var bubbleTitle = [i18next.t("bubbleTitle", {
-      ns: "rail"
-    })];
-    var bubbleData;
-
-    if (!bubbleData) {
-      bubbleData = formatForSpreadsheet(bubbleDataFilter(allCommArr), bubbleTitle);
-    }
-
+    var mainData = formatForSpreadsheet(dataArray, firstTitle);
     finalArray.push.apply(finalArray, _toConsumableArray(mainData));
     finalArray.push([]);
-    finalArray.push.apply(finalArray, _toConsumableArray(bubbleData));
     cButton.data = finalArray;
   }
 
@@ -2860,35 +2635,7 @@
     }
 
     return lines;
-  }
-
-  function bubbleDataFilter(originalData) {
-    var returnArray = [];
-    var commObjects = {};
-
-    for (var index in originalData) {
-      for (var comm in originalData[index]) {
-        for (var year in originalData[index][comm]) {
-          if (!commObjects.hasOwnProperty(year)) {
-            commObjects[year] = {};
-          }
-
-          commObjects[year][comm] = originalData[index][comm][year].All;
-        }
-      }
-    }
-
-    for (var _year in commObjects) {
-      var entry = commObjects[_year];
-      entry.year = _year;
-      returnArray.push(entry);
-    }
-
-    return returnArray;
-  } // function dataCopyButtonBubble(cButtondata) {
-  //   add later if needed
-  // };
-  // ---------------------------------------------------------------------
+  } // ---------------------------------------------------------------------
   // Landing page displays
 
 
@@ -2901,36 +2648,6 @@
       ns: "railTable"
     }), d3.queue().defer(d3.json, "data/rail/All_coal.json").defer(d3.json, "data/rail/All_mixed.json").defer(d3.json, "data/rail/All_wheat.json").defer(d3.json, "data/rail/All_ores.json").defer(d3.json, "data/rail/All_potash.json").defer(d3.json, "data/rail/All_lumber.json").defer(d3.json, "data/rail/All_canola.json").defer(d3.json, "data/rail/All_oils.json").defer(d3.json, "data/rail/All_chems.json").defer(d3.json, "data/rail/All_pulp.json").defer(d3.json, "data/road/CANADA.json") // .defer(d3.json, "data/rail/All_other.json")
     .await(function (error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
-      allCommArr.push({
-        "coal": allcoal
-      });
-      allCommArr.push({
-        "mixed": allmixed
-      });
-      allCommArr.push({
-        "wheat": allwheat
-      });
-      allCommArr.push({
-        "ores": allores
-      });
-      allCommArr.push({
-        "potash": allpotash
-      });
-      allCommArr.push({
-        "lumber": alllumber
-      });
-      allCommArr.push({
-        "canola": allcanola
-      });
-      allCommArr.push({
-        "oils": alloils
-      });
-      allCommArr.push({
-        "chems": allchems
-      });
-      allCommArr.push({
-        "pulp": allpulp
-      }); // allCommArr.push({"other": allother});
 
       setOrigin(defaultOrig);
       setDest(defaultDest);
@@ -2965,14 +2682,13 @@
         })
       }; // build nodes on copy button
 
-      cButton.build(cButtonOptions); //dataCopyButtonBubble(allCommArr);
-
+      cButton.build(cButtonOptions);
       d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
         ns: "rail",
         commodity: i18next.t(selectedComm, {
           ns: "rail"
         }),
-        geo: i18next.t(selectedOrig, {
+        geo: i18next.t("map" + selectedOrig, {
           ns: "rail"
         }),
         year: selectedYear
@@ -2982,7 +2698,6 @@
       }), " target='_blank'>").concat(i18next.t("linkText", {
         ns: "symbolLink"
       }), "</a>"));
-      showBubbleTable();
       d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function (err, origJSON) {
         dataTag = "".concat(selectedOrig, "_").concat(selectedComm);
         data[dataTag] = origJSON;
