@@ -1,7 +1,5 @@
 import settingsBar from "./settings_barChart.js";
 import drawTable from "./railTable.js";
-import drawBubbleHtml from "./railBubbleHtmlTable.js";
-import settBubble from "./settings_bubbleTable.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFnRail.js";
 import CopyButton from "../copyButton.js";
@@ -12,10 +10,10 @@ const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 // import createLegend from "./createLegend.js";
 
-const allCommArr = []; // passed into bubbleTable()
+const allCommArr = []; // passed
 let dateRange = {};
 const defaultOrig = "AT";
-const defaultDest = "QC";
+const defaultDest = "AT";
 const defaultComm = "chems";
 let selectedOrig;
 let selectedDest;
@@ -269,27 +267,6 @@ function showBarChartData() {
   updateTitles();
 }
 
-/* -- display areaChart -- */
-function showBubbleTable() {
-  const thisText = i18next.t("bubbleTitle", {ns: "rail"});
-  d3.select("#commTableTitle")
-      .text(thisText)
-  d3.select("#commTableTitle")
-      .append("sup")
-      .attr("id", "fn1-rf")
-      .append("a")
-      .classed("fn-lnk", true)
-      .attr("href", "#fn1")
-      .text("1")
-      .style("font-size", "14px")
-      .append("span")
-      .classed("wb-inv", true)
-      .text("Footnote");
-
-  drawBubbleHtml(bubbleDataFilter(allCommArr), thisText, settBubble)
-  bubbleTable(commTable, settBubble, allCommArr);
-}
-
 // takes any of the data objects as input to get the date range
 const setDateRange = function(dataObject) {
   for (const [date] of Object.entries(dataObject)) {
@@ -313,7 +290,7 @@ function updateTitles() {
   const thisOrig = i18next.t(selectedOrig, {ns: "geography"});
   const thisDest = i18next.t(selectedDest, {ns: "geography"});
   d3.select("#railTitleBarChart")
-      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm,  geo: i18next.t(("bar" + selectedOrig), {ns: "rail"}), dest:i18next.t(("bar" + selectedDest), {ns: "rail"})}));
+      .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm,  geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), dest:i18next.t(("map" + selectedDest), {ns: "rail"})}));
   d3.select("#mapTitleRail")
       .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), year: selectedYear}));
 
@@ -341,16 +318,8 @@ function dataCopyButton(cButtondata) {
     dataArray.push(entry);
   }
   const mainData = formatForSpreadsheet(dataArray, firstTitle);
-  // for bubble table data
-  const bubbleTitle = [i18next.t("bubbleTitle", {ns: "rail"})];
-  let bubbleData;
-  if (!bubbleData) {
-    bubbleData = formatForSpreadsheet(bubbleDataFilter(allCommArr), bubbleTitle);
-  }
-
   finalArray.push(...mainData);
   finalArray.push([]);
-  finalArray.push(...bubbleData);
   cButton.data = finalArray;
 }
 function formatForSpreadsheet(dataArray, title) {
@@ -386,29 +355,6 @@ function formatForSpreadsheet(dataArray, title) {
   }
   return lines;
 }
-function bubbleDataFilter(originalData) {
-  const returnArray = [];
-  const commObjects = {};
-  for(let index in originalData) {
-    for(let comm in originalData[index]) {
-      for(let year in originalData[index][comm]){
-        if(!commObjects.hasOwnProperty(year)){
-          commObjects[year]= {}
-        }
-        commObjects[year][comm] = originalData[index][comm][year].All
-      }
-    }
-  }
-  for(let year in commObjects){
-    let entry = commObjects[year];
-    entry.year = year;
-    returnArray.push(entry);
-  }
-  return returnArray;
-}
-// function dataCopyButtonBubble(cButtondata) {
-//   add later if needed
-// };
 // ---------------------------------------------------------------------
 // Landing page displays
 i18n.load(["src/i18n"], function() {
@@ -490,16 +436,11 @@ i18n.load(["src/i18n"], function() {
         // build nodes on copy button
         cButton.build(cButtonOptions);
 
-        //dataCopyButtonBubble(allCommArr);
 
         d3.select("#mapTitleRail")
-            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t(selectedOrig, {ns: "rail"}), year: selectedYear}));
+            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t("map" + selectedOrig, {ns: "rail"}), year: selectedYear}));
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
-
-
-        showBubbleTable();
-
 
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           dataTag = `${selectedOrig}_${selectedComm}`;
