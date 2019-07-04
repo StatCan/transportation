@@ -262,7 +262,7 @@
 	  return store[key] || (store[key] = value !== undefined ? value : {});
 	})('versions', []).push({
 	  version: _core.version,
-	  mode: 'global',
+	  mode: _library ? 'pure' : 'global',
 	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
@@ -2397,7 +2397,7 @@
 	    cButton.build(cButtonOptions);
 	    d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
 	      ns: "symbolLink"
-	    }), " target='_blank'>").concat(i18next.t("linkText", {
+	    }), ">").concat(i18next.t("linkText", {
 	      ns: "symbolLink"
 	    }), "</a>"));
 	    getDateMinMax();

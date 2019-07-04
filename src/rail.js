@@ -1724,6 +1724,15 @@
         return i18next.t(d.key, {
           ns: "rail"
         });
+      },
+      getHeaderText: function getHeaderText(d) {
+        return i18next.t(d.key[0], {
+          ns: "rail"
+        }) + " " + i18next.t("to", {
+          ns: "rail"
+        }) + " " + i18next.t(d.key[1], {
+          ns: "rail"
+        });
       }
     },
     _selfFormatter: i18n.getNumberFormatter(0),
@@ -1766,7 +1775,7 @@
 
   _export(_export.P, 'Function', { bind: _bind });
 
-  function drawTable (data, settings) {
+  function drawTable (data, settings, origin) {
     var sett = settings;
     var thisSVG = d3.select("#railTable"); // .select("svg");
 
@@ -1777,7 +1786,7 @@
 
     var filteredData = filterData(data);
     var details = thisSVG.select(".chart-data-table");
-    var keys = ["All", "AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX"];
+    var keys = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX", "All"];
     var table;
     var header;
     var body;
@@ -1817,8 +1826,8 @@
     header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label)); //  debugger
 
     for (k = 0; k < keys.length; k++) {
-      header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getText.bind(sett)({
-        key: keys[k]
+      header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getHeaderText.bind(sett)({
+        key: [origin, keys[k]]
       }));
     }
 
@@ -2252,8 +2261,8 @@
 
   var dateRange = {};
   var defaultOrig = "AT";
-  var defaultDest = "AT";
-  var defaultComm = "chems";
+  var defaultDest = "QC";
+  var defaultComm = "mixed";
   var selectedOrig;
   var selectedDest;
   var selectedComm;
@@ -2392,7 +2401,7 @@
         data[dataTag] = newData;
         showBarChartData();
         colorMap();
-        drawTable(data[dataTag], settingsBar); // ------------------copy button---------------------------------
+        drawTable(data[dataTag], settingsBar, selected); // ------------------copy button---------------------------------
         // need to re-apend the button since table is being re-build
 
         if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2401,7 +2410,7 @@
     } else {
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag], settingsBar); // ------------------copy button---------------------------------
+      drawTable(data[dataTag], settingsBar, selectedOrig); // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
 
       if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2554,7 +2563,8 @@
       year: selectedYear
     }));
     settingsBar.tableTitle = i18next.t("tableTitle", {
-      ns: "rail"
+      ns: "rail",
+      comm: thisComm
     });
   }
 
@@ -2695,7 +2705,7 @@
       }));
       d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
         ns: "symbolLink"
-      }), " target='_blank'>").concat(i18next.t("linkText", {
+      }), ">").concat(i18next.t("linkText", {
         ns: "symbolLink"
       }), "</a>"));
       d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function (err, origJSON) {
