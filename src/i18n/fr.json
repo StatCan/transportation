@@ -307,6 +307,7 @@
        "y_label": "tonnes métriques"
      },
      "rail": {
+       "to": "vers",
        "YT": "Yukon",
        "NT": "Territoires du Nord-Ouest",
        "NU": "Nunavut",
@@ -335,7 +336,7 @@
        "hoverText": "{{origin}} vers {{dest}}",
        "hoverNA": "Tonnes non disponibles",
        "mapTitle": "{{commodity}} {{geo}} vers le reste du Canada, {{year}}",
-       "tableTitle": "Origine et destination des marchandises transportées par l′industrie ferroviaire (tonnes)",
+       "tableTitle": "Origine et Destination des {{comm}} par l′industrie ferroviaire (tonnes métriques)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations pour les dix principaux produits selon le poids",
        "dataTableTitle": "{{comm}} de {{geo}}",
        "barChartTitle": "{{commodity}} {{geo}} vers {{dest}}",

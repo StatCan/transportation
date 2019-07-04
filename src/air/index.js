@@ -1046,7 +1046,7 @@ i18n.load(["src/i18n"], () => {
         cButton.build(cButtonOptions);
 
         d3.select("#symbolLink")
-            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
+            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 
         showAreaData();
         // Show chart titles based on default menu options

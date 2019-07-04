@@ -13,8 +13,8 @@ const cButton = new CopyButton();
 const allCommArr = []; // passed
 let dateRange = {};
 const defaultOrig = "AT";
-const defaultDest = "AT";
-const defaultComm = "chems";
+const defaultDest = "QC";
+const defaultComm = "mixed";
 let selectedOrig;
 let selectedDest;
 let selectedComm;
@@ -157,7 +157,7 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag], settingsBar);
+      drawTable(data[dataTag], settingsBar, selected);
 
       // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
@@ -168,7 +168,7 @@ function updatePage() {
   } else {
     showBarChartData();
     colorMap();
-    drawTable(data[dataTag], settingsBar);
+    drawTable(data[dataTag], settingsBar, selectedOrig);
 
     // ------------------copy button---------------------------------
     // need to re-apend the button since table is being re-build
@@ -294,7 +294,7 @@ function updateTitles() {
   d3.select("#mapTitleRail")
       .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("map" + selectedOrig), {ns: "rail"}), year: selectedYear}));
 
-  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail"});
+  settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail", comm: thisComm});
 }
 const aditionalBarSettings = {
   ...settingsBar,
@@ -440,7 +440,7 @@ i18n.load(["src/i18n"], function() {
         d3.select("#mapTitleRail")
             .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t("map" + selectedOrig, {ns: "rail"}), year: selectedYear}));
         d3.select("#symbolLink")
-            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})} target='_blank'>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
+            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
 
         d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
           dataTag = `${selectedOrig}_${selectedComm}`;

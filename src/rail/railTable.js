@@ -1,4 +1,4 @@
-export default function(data, settings) {
+export default function(data, settings, origin) {
   var sett = settings;
   var thisSVG = d3.select("#railTable"); // .select("svg");
 
@@ -9,7 +9,7 @@ export default function(data, settings) {
 
   var filteredData = filterData(data)
   var details = thisSVG.select(".chart-data-table");
-  let keys = ["All", "AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX"]
+  let keys = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX", "All"]
   var table;
   var header;
   var body;
@@ -52,9 +52,7 @@ export default function(data, settings) {
   for (k = 0; k < keys.length; k++) {
     header.append("th").attr("id", "thead_h" + (k + 1))
     .style("text-align", "right")
-    .text(sett.z.getText.bind(sett)({
-      key: keys[k]
-    }));
+    .text(sett.z.getHeaderText.bind(sett)({key: [origin, keys[k]] }));
   }
 
   dataRows = body.selectAll("tr").data(filteredData);

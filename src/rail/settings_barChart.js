@@ -57,6 +57,9 @@ export default {
     },
     getText: function(d) {
       return i18next.t(d.key, {ns: "rail"});
+    },
+    getHeaderText: function(d) {
+      return i18next.t(d.key[0], {ns: "rail"}) + " " + i18next.t("to", {ns: "rail"}) + " " + i18next.t(d.key[1], {ns: "rail"});
     }
   },
   _selfFormatter: i18n.getNumberFormatter(0),
