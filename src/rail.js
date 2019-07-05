@@ -1724,6 +1724,15 @@
         return i18next.t(d.key, {
           ns: "rail"
         });
+      },
+      getHeaderText: function getHeaderText(d) {
+        return i18next.t(d.key[0], {
+          ns: "rail"
+        }) + " " + i18next.t("to", {
+          ns: "rail"
+        }) + " " + i18next.t("to" + d.key[1], {
+          ns: "rail"
+        });
       }
     },
     _selfFormatter: i18n.getNumberFormatter(0),
@@ -1766,7 +1775,7 @@
 
   _export(_export.P, 'Function', { bind: _bind });
 
-  function drawTable (data, settings) {
+  function drawTable (data, settings, origin) {
     var sett = settings;
     var thisSVG = d3.select("#railTable"); // .select("svg");
 
@@ -1777,8 +1786,9 @@
 
     var filteredData = filterData(data);
     var details = thisSVG.select(".chart-data-table");
-    var keys = ["All", "AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX"];
+    var keys = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX", "All"];
     var table;
+    var tableDiv;
     var header;
     var body;
     var dataRows;
@@ -1801,15 +1811,16 @@
     // copyButton.setAttribute("id", copyButtonId);
     // details.append(copyButton);
 
-    details.append("div") // .attr("id", summaryId)
-    .attr("id", function () {
+    details.append("div").attr("id", function () {
       if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
       // return summaryId;
     }) // .text(sett.datatable.title);
     .text(sett.tableTitle); // ------------------------------------------------------------------------
 
     details.append("div").attr("id", copyButtonId);
-    table = details.append("table").attr("class", "table");
+    tableDiv = details.append("div").classed("table-responsive", true); // .attr("id", summaryId)
+
+    table = tableDiv.append("table").attr("class", "table");
     table.append("caption") // .text(sett.datatable.title);
     .attr("class", "wb-inv").text(sett.tableTitle);
     header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
@@ -1817,8 +1828,8 @@
     header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label)); //  debugger
 
     for (k = 0; k < keys.length; k++) {
-      header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getText.bind(sett)({
-        key: keys[k]
+      header.append("th").attr("id", "thead_h" + (k + 1)).style("text-align", "right").text(sett.z.getHeaderText.bind(sett)({
+        key: [origin, keys[k]]
       }));
     }
 
@@ -2252,8 +2263,8 @@
 
   var dateRange = {};
   var defaultOrig = "AT";
-  var defaultDest = "AT";
-  var defaultComm = "chems";
+  var defaultDest = "QC";
+  var defaultComm = "mixed";
   var selectedOrig;
   var selectedDest;
   var selectedComm;
@@ -2392,7 +2403,7 @@
         data[dataTag] = newData;
         showBarChartData();
         colorMap();
-        drawTable(data[dataTag], settingsBar); // ------------------copy button---------------------------------
+        drawTable(data[dataTag], settingsBar, selected); // ------------------copy button---------------------------------
         // need to re-apend the button since table is being re-build
 
         if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2401,7 +2412,7 @@
     } else {
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag], settingsBar); // ------------------copy button---------------------------------
+      drawTable(data[dataTag], settingsBar, selectedOrig); // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
 
       if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2538,24 +2549,26 @@
     d3.select("#railTitleBarChart").text(i18next.t("barChartTitle", {
       ns: "rail",
       commodity: thisComm,
-      geo: i18next.t("map" + selectedOrig, {
+      geo: i18next.t("from" + selectedOrig, {
         ns: "rail"
       }),
-      dest: i18next.t("map" + selectedDest, {
+      dest: i18next.t("to" + selectedDest, {
         ns: "rail"
       })
     }));
     d3.select("#mapTitleRail").text(i18next.t("mapTitle", {
       ns: "rail",
       commodity: thisComm,
-      geo: i18next.t("map" + selectedOrig, {
+      geo: i18next.t("from" + selectedOrig, {
         ns: "rail"
       }),
       year: selectedYear
     }));
     settingsBar.tableTitle = i18next.t("tableTitle", {
-      ns: "rail"
+      ns: "rail",
+      comm: thisComm
     });
+    drawTable(data[dataTag], settingsBar, selectedOrig);
   }
 
   var aditionalBarSettings = _objectSpread({}, settingsBar, {
@@ -2563,6 +2576,9 @@
   });
 
   function dataCopyButton(cButtondata) {
+    var thisTilteOrigin = i18next.t("from" + selectedOrig, {
+      ns: "rail"
+    });
     var finalArray = []; // for first data table
 
     var dataArray = [];
@@ -2575,7 +2591,7 @@
     var title = i18next.t("dataTableTitle", {
       ns: "rail",
       comm: thisComm,
-      geo: thisOrig
+      geo: thisTilteOrigin
     });
     var firstTitle = [title];
 
@@ -2695,7 +2711,7 @@
       }));
       d3.select("#symbolLink").html("<a href=".concat(i18next.t("linkURL", {
         ns: "symbolLink"
-      }), " target='_blank'>").concat(i18next.t("linkText", {
+      }), ">").concat(i18next.t("linkText", {
         ns: "symbolLink"
       }), "</a>"));
       d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function (err, origJSON) {
