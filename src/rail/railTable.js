@@ -11,6 +11,7 @@ export default function(data, settings, origin) {
   var details = thisSVG.select(".chart-data-table");
   let keys = ["AT", "QC", "ON", "MB", "SK", "AB", "BC", "USA-MX", "All"]
   var table;
+  var tableDiv;
   var header;
   var body;
   var dataRows;
@@ -33,7 +34,7 @@ export default function(data, settings, origin) {
   // copyButton.setAttribute("id", copyButtonId);
   // details.append(copyButton);
 
-  details.append("div") // .attr("id", summaryId)
+  details.append("div")
   .attr("id", function () {
     if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
     // return summaryId;
@@ -41,7 +42,9 @@ export default function(data, settings, origin) {
   .text(sett.tableTitle); // ------------------------------------------------------------------------
 
   details.append("div").attr("id", copyButtonId);
-  table = details.append("table").attr("class", "table");
+  tableDiv = details.append("div").classed("table-responsive", true)// .attr("id", summaryId)
+
+  table = tableDiv.append("table").attr("class", "table");
   table.append("caption") // .text(sett.datatable.title);
   .attr("class", "wb-inv").text(sett.tableTitle);
   header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
