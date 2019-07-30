@@ -228,46 +228,34 @@
 						<div> <!-- first row in col 1 -->
 							<h3 id="mapTitleRail">
 							</h3>
-							<div class="radioDiv">
-								<label class="radioContainer" style="padding-right:10px"> Origin
-								  <input type="radio" name="radio" value="origin" checked>
-								  <span class="radioButton" id="originSelection"></span>
-								</label>
-								<label class="radioContainer"> Destination
-									<input type="radio" name="radio" value="destination">
-									<span class="radioButton" id="destinationSelection"></span>
-								</label>
-							</div>
 							<div class=" map">
 							</div>
 						</div> <!-- /row -->
 
 						<div> <!-- second row in col 1 -->
 
-							<div id="mapColourScale">
+							<div tabindex="-1" id="mapColourScale">
 								<svg></svg>
 							</div>
 
 						</div> <!-- /row -->
 				</div> <!-- /first col -->
           <div class="col-md-6">
-            <h3 id="railTitleBarChart"></h3>
+            <h3 tabindex="-1" id="railTitleBarChart"></h3>
             <div class="data raildata"></div>
           </div>
 				</div>
 			</div>
 
-      <details id="chrt-dt-tbl" class="desc mrgn-tp-md">
-        <summary class="desc"><span class="fa fa-table text-primary mrgn-rght-sm"></span>Data table</summary>
 		<div class="raildata">
-				<!-- MAIN TABLE -->
-					<div>
-	          <div id="railTable">
-	          </div>
-					</div>
-					<div id="symbolLink" class="symbolLink pull-right"></div><br>
-        </div> <!-- main row 2 -->
-      </details>
+		<!-- MAIN TABLE -->
+		<div>
+      <div id="railTable">
+      </div>
+		</div>
+		<div id="symbolLink" class="symbolLink pull-right"></div><br>
+    </div> <!-- main row 2 -->
+
 
 
 

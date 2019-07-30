@@ -2,7 +2,7 @@ export default function(data, settings, origin) {
   var sett = settings;
   var thisSVG = d3.select("#railTable"); // .select("svg");
 
-  var summaryId = "table"; // "chrt-dt-tbl";
+  var summaryId = "chrt-dt-tbl"; // "chrt-dt-tbl";
   // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
   //     sett.filterData(data, "table") : data;
   // use original data, not array returned by filteredData which may contain inserted year-end datapts

@@ -18,7 +18,6 @@ const defaultComm = "mixed";
 let selectedOrig;
 let selectedDest;
 let selectedComm;
-let selectedMode = "origin";
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 const usaMexicoImageLocation = "lib/usamexico.png"
@@ -33,7 +32,8 @@ let selectedYear = "2017";
 /* SVGs */
 // Canada map
 const map = d3.select(".dashboard .map")
-    .append("svg");
+    .append("svg")
+    .attr("focusable", "false");
 const div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .attr("id", "railTooltip")
@@ -45,6 +45,7 @@ const width = 570 - margin.left - margin.right;
 const height = 150 - margin.top - margin.bottom;
 const svgCB = d3.select("#mapColourScale")
     .select("svg")
+    .attr("focusable", "false")
     .attr("class", "mapCB")
     .attr("width", width)
     .attr("height", height)
@@ -58,6 +59,7 @@ d3.select("body").append("div")
 
 const chart = d3.select(".data.raildata")
     .append("svg")
+    .attr("focusable", "false")
     .attr("id", "svgBar");
 
 const commTable = d3.select("#commgrid")
@@ -79,10 +81,6 @@ const loadData = function() {
 };
 // ---------------------------------------------------------------------
 function uiHandler(event) {
-  if (event.target.name === "radio") {
-    selectedMode = event.target.value;
-    updatePage();
-  }
   if (event.target.id === "commodity") {
     setCommodity(document.getElementById("commodity").value);
     updatePage();
@@ -137,17 +135,10 @@ map.on("mouseout", () => {
 });
 map.on("mousedown", () => {
   if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
-    if (selectedMode === "origin") {
-      document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
-      setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
-      updatePage();
-    }
-    if (selectedMode === "destination") {
-      document.getElementById("destGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
-      setDest(d3.event.target.id.substring(0, event.target.id.length -4));
-      updatePage();
-    }
-  }
+    document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
+    setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
+    updatePage();
+}
 });
 // -----------------------------------------------------------------------------
 /* FNS */
@@ -157,7 +148,7 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag], settingsBar, selected);
+      drawTable(data[dataTag], settingsBar, selectedComm);
 
       // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
@@ -193,8 +184,6 @@ function setOrigin(newOrig) {
 }
 function setDest(newDest) {
   selectedDest = newDest;
-  // Highlight region selected from menu on map
-  highlightMap(newDest, destination);
 }
 function highlightMap(selection, mode) {
   d3.selectAll(`.dashboard .map .rail${mode}MapHighlight`)
@@ -292,7 +281,7 @@ function updateTitles() {
   d3.select("#railTitleBarChart")
       .text(i18next.t("barChartTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("from" + selectedOrig), {ns: "rail"}), dest: i18next.t(("to" + selectedDest), {ns: "rail"})}));
   d3.select("#mapTitleRail")
-      .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("from" + selectedOrig), {ns: "rail"}), year: selectedYear}));  
+      .text(i18next.t("mapTitle", {ns: "rail", commodity: thisComm, geo: i18next.t(("from" + selectedOrig), {ns: "rail"}), year: selectedYear}));
   settingsBar.tableTitle = i18next.t("tableTitle", {ns: "rail", comm: thisComm});
 
   drawTable(data[dataTag], settingsBar, selectedOrig);
@@ -425,7 +414,6 @@ i18n.load(["src/i18n"], function() {
               d3.select("#mapColourScale").classed("moveMap", true)
               d3.select(".map").classed("moveMap", true);
               highlightMap(defaultOrig, origin);
-              highlightMap(defaultDest, destination);
               colorMap();
             });
         // copy button options
