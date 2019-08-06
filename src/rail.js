@@ -1001,23 +1001,6 @@
     }
   });
 
-  var dP$2 = _objectDp.f;
-  var FProto = Function.prototype;
-  var nameRE = /^\s*function ([^ (]*)/;
-  var NAME$1 = 'name';
-
-  // 19.2.4.2 name
-  NAME$1 in FProto || _descriptors && dP$2(FProto, NAME$1, {
-    configurable: true,
-    get: function () {
-      try {
-        return ('' + this).match(nameRE)[1];
-      } catch (e) {
-        return '';
-      }
-    }
-  });
-
   // getting tag from 19.1.3.6 Object.prototype.toString()
 
   var TAG$1 = _wks('toStringTag');
@@ -1779,7 +1762,7 @@
     var sett = settings;
     var thisSVG = d3.select("#railTable"); // .select("svg");
 
-    var summaryId = "table"; // "chrt-dt-tbl";
+    var summaryId = "chrt-dt-tbl"; // "chrt-dt-tbl";
     // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
     //     sett.filterData(data, "table") : data;
     // use original data, not array returned by filteredData which may contain inserted year-end datapts
@@ -2268,14 +2251,12 @@
   var selectedOrig;
   var selectedDest;
   var selectedComm;
-  var selectedMode = "origin";
   var dataTag; // stores `${selectedOrig}_${selectedComm}`;
 
   var xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 
   var usaMexicoImageLocation = "lib/usamexico.png";
   var origin = "Origin";
-  var destination = "Dest";
   var data = {}; // stores data for barChart
 
   var selectedYear = "2017"; // ---------------------------------------------------------------------
@@ -2283,7 +2264,7 @@
   /* SVGs */
   // Canada map
 
-  var map = d3.select(".dashboard .map").append("svg");
+  var map = d3.select(".dashboard .map").append("svg").attr("focusable", "false");
   var div = d3.select("body").append("div").attr("class", "tooltip").attr("id", "railTooltip").style("opacity", 0); // Map colour bar
 
   var margin = {
@@ -2294,12 +2275,12 @@
   };
   var width = 570 - margin.left - margin.right;
   var height = 150 - margin.top - margin.bottom;
-  var svgCB = d3.select("#mapColourScale").select("svg").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
+  var svgCB = d3.select("#mapColourScale").select("svg").attr("focusable", "false").attr("class", "mapCB").attr("width", width).attr("height", height).style("vertical-align", "middle");
   /* -- shim all the SVGs (chart is already shimmed in component) -- */
 
   d3.stcExt.addIEShim(map, 387.1, 457.5);
   d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
-  var chart = d3.select(".data.raildata").append("svg").attr("id", "svgBar");
+  var chart = d3.select(".data.raildata").append("svg").attr("focusable", "false").attr("id", "svgBar");
   var commTable = d3.select("#commgrid").append("svg").attr("id", "svg_commgrid"); // ---------------------------------------------------------------------
 
   /* load data fn */
@@ -2318,11 +2299,6 @@
 
 
   function uiHandler(event) {
-    if (event.target.name === "radio") {
-      selectedMode = event.target.value;
-      updatePage();
-    }
-
     if (event.target.id === "commodity") {
       setCommodity(document.getElementById("commodity").value);
       updatePage();
@@ -2381,17 +2357,9 @@
   });
   map.on("mousedown", function () {
     if (event.target.id !== "YT_map" && event.target.id !== "NU_map" && event.target.id !== "NT_map" && event.target.id !== "") {
-      if (selectedMode === "origin") {
-        document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
-        setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
-        updatePage();
-      }
-
-      if (selectedMode === "destination") {
-        document.getElementById("destGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
-        setDest(d3.event.target.id.substring(0, event.target.id.length - 4));
-        updatePage();
-      }
+      document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length - 4);
+      setOrigin(d3.event.target.id.substring(0, event.target.id.length - 4));
+      updatePage();
     }
   }); // -----------------------------------------------------------------------------
 
@@ -2403,7 +2371,7 @@
         data[dataTag] = newData;
         showBarChartData();
         colorMap();
-        drawTable(data[dataTag], settingsBar, selected); // ------------------copy button---------------------------------
+        drawTable(data[dataTag], settingsBar, selectedComm); // ------------------copy button---------------------------------
         // need to re-apend the button since table is being re-build
 
         if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
@@ -2437,9 +2405,7 @@
   }
 
   function setDest(newDest) {
-    selectedDest = newDest; // Highlight region selected from menu on map
-
-    highlightMap(newDest, destination);
+    selectedDest = newDest;
   }
 
   function highlightMap(selection, mode) {
@@ -2681,7 +2647,6 @@
         d3.select("#mapColourScale").classed("moveMap", true);
         d3.select(".map").classed("moveMap", true);
         highlightMap(defaultOrig, origin);
-        highlightMap(defaultDest, destination);
         colorMap();
       }); // copy button options
 
