@@ -320,7 +320,7 @@ let lineData = lineDataPassenger;
 const defaultYear = "2017";
 const defaultRegion = "CANADA";
 let selectedDataset = "passengers";
-let selectedYear = "2017";
+let selectedYear = "2018";
 let selectedMonth = "01";
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
@@ -1010,7 +1010,15 @@ i18n.load(["src/i18n"], () => {
         majorTotals = majorTotal;
         majorMetaData = majorMeta;
         metaData = passengerMetaData;
-        data[selectedDataset][selectedRegion] = areaData;
+        data[selectedDataset][selectedRegion] = areaData.map((obj) => {
+          const rObj = {};
+          rObj.date = obj.date;
+          rObj.domestic = obj.domestic;
+          rObj.transborder = obj.transborder;
+          rObj.international = obj.international;
+          rObj.total = obj.total;
+          return rObj;
+        });
         getDateMinMax();
         selectedDateRange = passengerDateRange;
         selectedYear, selectedDate = selectedDateRange.max.substring(0, 4);

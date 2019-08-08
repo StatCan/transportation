@@ -1,1 +1,83 @@
-[{"date":"2010","total":"1195685","enplaned":"598898","deplaned":"596787","domestic":"982539","transborder":"146492","international":"66654"},{"date":"2011","total":"1218383","enplaned":"604426","deplaned":"613957","domestic":"999231","transborder":"159324","international":"59828"},{"date":"2012","total":"1303593","enplaned":"646792","deplaned":"656801","domestic":"1067001","transborder":"170305","international":"66287"},{"date":"2013","total":"1406576","enplaned":"703170","deplaned":"703406","domestic":"1148424","transborder":"187294","international":"70858"},{"date":"2014","total":"1460613","enplaned":"729078","deplaned":"731535","domestic":"1183704","transborder":"x","international":"x"},{"date":"2015","total":"1422488","enplaned":"708737","deplaned":"713751","domestic":"1201963","transborder":"x","international":"x"},{"date":"2016","total":"1441578","enplaned":"718072","deplaned":"723506","domestic":"1251217","transborder":"x","international":"x"},{"date":"2017","total":"1442978","enplaned":"719210","deplaned":"723768","domestic":"1249404","transborder":"124704","international":"68870"}]
+[
+  {
+    "date": "2010-01",
+    "total": 1195685,
+    "enplaned": 598898,
+    "deplaned": 596787,
+    "domestic": 982539,
+    "transborder": 146492,
+    "international": 66654
+  },
+  {
+    "date": "2011-01",
+    "total": 1218383,
+    "enplaned": 604426,
+    "deplaned": 613957,
+    "domestic": 999231,
+    "transborder": 159324,
+    "international": 59828
+  },
+  {
+    "date": "2012-01",
+    "total": 1303593,
+    "enplaned": 646792,
+    "deplaned": 656801,
+    "domestic": 1067001,
+    "transborder": 170305,
+    "international": 66287
+  },
+  {
+    "date": "2013-01",
+    "total": 1406576,
+    "enplaned": 703170,
+    "deplaned": 703406,
+    "domestic": 1148424,
+    "transborder": 187294,
+    "international": 70858
+  },
+  {
+    "date": "2014-01",
+    "total": 1460613,
+    "enplaned": 729078,
+    "deplaned": 731535,
+    "domestic": 1183704,
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2015-01",
+    "total": 1422488,
+    "enplaned": 708737,
+    "deplaned": 713751,
+    "domestic": 1201963,
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2016-01",
+    "total": 1441578,
+    "enplaned": 718072,
+    "deplaned": 723506,
+    "domestic": 1251217,
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2017-01",
+    "total": 1442986,
+    "enplaned": 719214,
+    "deplaned": 723772,
+    "domestic": 1249408,
+    "transborder": 124708,
+    "international": 68870
+  },
+  {
+    "date": "2018-01",
+    "total": 1497167,
+    "enplaned": 746401,
+    "deplaned": 750766,
+    "domestic": 1314401,
+    "transborder": 125744,
+    "international": 57022
+  }
+]
