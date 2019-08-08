@@ -1,1 +1,83 @@
-[{"date":"2010","total":"189941","enplaned":"94952","deplaned":"94989","domestic":"187286","transborder":"8","international":"2647"},{"date":"2011","total":"221561","enplaned":"110955","deplaned":"110606","domestic":"x","transborder":"x","international":"x"},{"date":"2012","total":"255665","enplaned":"128160","deplaned":"127505","domestic":"x","transborder":"x","international":"x"},{"date":"2013","total":"249256","enplaned":"124730","deplaned":"124526","domestic":"x","transborder":"x","international":"0"},{"date":"2014","total":"232880","enplaned":"116781","deplaned":"116099","domestic":"x","transborder":"x","international":"0"},{"date":"2015","total":"228870","enplaned":"115041","deplaned":"113829","domestic":"x","transborder":"x","international":"0"},{"date":"2016","total":"227379","enplaned":"113957","deplaned":"113422","domestic":"x","transborder":"x","international":"x"},{"date":"2017","total":"266523","enplaned":"133565","deplaned":"132958","domestic":"x","transborder":"x","international":"x"}]
+[
+  {
+    "date": "2010-01",
+    "total": 189941,
+    "enplaned": 94952,
+    "deplaned": 94989,
+    "domestic": 187286,
+    "transborder": 8,
+    "international": 2647
+  },
+  {
+    "date": "2011-01",
+    "total": 221561,
+    "enplaned": 110955,
+    "deplaned": 110606,
+    "domestic": "x",
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2012-01",
+    "total": 255665,
+    "enplaned": 128160,
+    "deplaned": 127505,
+    "domestic": "x",
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2013-01",
+    "total": 249256,
+    "enplaned": 124730,
+    "deplaned": 124526,
+    "domestic": "x",
+    "transborder": "x",
+    "international": 0
+  },
+  {
+    "date": "2014-01",
+    "total": 232880,
+    "enplaned": 116781,
+    "deplaned": 116099,
+    "domestic": "x",
+    "transborder": "x",
+    "international": 0
+  },
+  {
+    "date": "2015-01",
+    "total": 228870,
+    "enplaned": 115041,
+    "deplaned": 113829,
+    "domestic": "x",
+    "transborder": "x",
+    "international": 0
+  },
+  {
+    "date": "2016-01",
+    "total": 227379,
+    "enplaned": 113957,
+    "deplaned": 113422,
+    "domestic": "x",
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2017-01",
+    "total": 266523,
+    "enplaned": 133565,
+    "deplaned": 132958,
+    "domestic": "x",
+    "transborder": "x",
+    "international": "x"
+  },
+  {
+    "date": "2018-01",
+    "total": 284520,
+    "enplaned": 142846,
+    "deplaned": 141674,
+    "domestic": "x",
+    "transborder": "x",
+    "international": "x"
+  }
+]

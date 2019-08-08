@@ -1,1 +1,47 @@
-[{"date":"2014","total":"0","enplaned":"0","deplaned":"0","domestic":"0","transborder":"0","international":"0"},{"date":"2015","total":"x","enplaned":"x","deplaned":"x","domestic":"x","transborder":"0","international":"0"},{"date":"2016","total":"x","enplaned":"x","deplaned":"x","domestic":"x","transborder":"0","international":"0"},{"date":"2017","total":"x","enplaned":"x","deplaned":"x","domestic":"x","transborder":"0","international":"0"}]
+[
+  {
+    "date": "2014-01",
+    "total": 0,
+    "enplaned": 0,
+    "deplaned": 0,
+    "domestic": 0,
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2015-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2016-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2017-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2018-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  }
+]

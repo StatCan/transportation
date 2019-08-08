@@ -3120,7 +3120,7 @@
   var defaultYear = "2017";
   var defaultRegion = "CANADA";
   var selectedDataset = "passengers";
-  var selectedYear = "2017";
+  var selectedYear = "2018";
   var selectedMonth = "01";
   var selectedDate = selectedYear;
   var selectedRegion = "CANADA";
@@ -3794,7 +3794,15 @@
       majorTotals = majorTotal;
       majorMetaData = majorMeta;
       metaData = passengerMetaData;
-      data[selectedDataset][selectedRegion] = areaData;
+      data[selectedDataset][selectedRegion] = areaData.map(function (obj) {
+        var rObj = {};
+        rObj.date = obj.date;
+        rObj.domestic = obj.domestic;
+        rObj.transborder = obj.transborder;
+        rObj.international = obj.international;
+        rObj.total = obj.total;
+        return rObj;
+      });
       getDateMinMax();
       selectedDateRange = passengerDateRange;
       selectedDate = selectedDateRange.max.substring(0, 4);

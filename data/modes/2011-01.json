@@ -1,1 +1,1690 @@
-{"Canada":[{"target":1,"source":0,"value":997427},{"target":2,"source":0,"value":208365},{"target":3,"source":0,"value":3503674},{"target":4,"source":0,"value":1067264},{"target":5,"source":1,"value":193304},{"target":6,"source":1,"value":136},{"target":7,"source":1,"value":803987},{"target":8,"source":2,"value":185091},{"target":9,"source":2,"value":125},{"target":10,"source":2,"value":23149},{"target":11,"source":3,"value":682657},{"target":12,"source":3,"value":300},{"target":13,"source":3,"value":2820717},{"target":14,"source":4,"value":1066520},{"target":15,"source":4,"value":6},{"target":16,"source":4,"value":738},{"target":17,"source":7,"value":744934},{"target":18,"source":7,"value":47173},{"target":19,"source":7,"value":3279},{"target":20,"source":7,"value":8601},{"target":21,"source":13,"value":2733574},{"target":22,"source":13,"value":74092},{"target":23,"source":13,"value":2720},{"target":24,"source":13,"value":10331}],"Newfoundland and Labrador":[{"target":1,"source":0,"value":1098},{"target":2,"source":0,"value":941},{"target":3,"source":0,"value":701},{"target":4,"source":0,"value":188},{"target":5,"source":1,"value":1098},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":0},{"target":8,"source":2,"value":854},{"target":9,"source":2,"value":87},{"target":10,"source":2,"value":0},{"target":11,"source":3,"value":701},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":0},{"target":14,"source":4,"value":182},{"target":15,"source":4,"value":6},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":0},{"target":18,"source":7,"value":0},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":0},{"target":21,"source":13,"value":0},{"target":22,"source":13,"value":0},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":0}],"Prince Edward Island":[{"target":1,"source":0,"value":9},{"target":2,"source":0,"value":0},{"target":3,"source":0,"value":17},{"target":4,"source":0,"value":0},{"target":5,"source":1,"value":9},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":0},{"target":8,"source":2,"value":0},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":0},{"target":11,"source":3,"value":17},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":0},{"target":14,"source":4,"value":0},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":0},{"target":18,"source":7,"value":0},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":0},{"target":21,"source":13,"value":0},{"target":22,"source":13,"value":0},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":0}],"Nova Scotia":[{"target":1,"source":0,"value":2105},{"target":2,"source":0,"value":1314},{"target":3,"source":0,"value":7113},{"target":4,"source":0,"value":7544},{"target":5,"source":1,"value":2105},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":0},{"target":8,"source":2,"value":1298},{"target":9,"source":2,"value":16},{"target":10,"source":2,"value":0},{"target":11,"source":3,"value":7111},{"target":12,"source":3,"value":2},{"target":13,"source":3,"value":0},{"target":14,"source":4,"value":7544},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":0},{"target":18,"source":7,"value":0},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":0},{"target":21,"source":13,"value":0},{"target":22,"source":13,"value":0},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":0}],"New Brunswick":[{"target":1,"source":0,"value":50610},{"target":2,"source":0,"value":118},{"target":3,"source":0,"value":245153},{"target":4,"source":0,"value":772},{"target":5,"source":1,"value":209},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":50401},{"target":8,"source":2,"value":50},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":68},{"target":11,"source":3,"value":1081},{"target":12,"source":3,"value":2},{"target":13,"source":3,"value":244070},{"target":14,"source":4,"value":772},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":49926},{"target":18,"source":7,"value":220},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":255},{"target":21,"source":13,"value":242071},{"target":22,"source":13,"value":1264},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":735}],"Quebec":[{"target":1,"source":0,"value":103861},{"target":2,"source":0,"value":37891},{"target":3,"source":0,"value":355476},{"target":4,"source":0,"value":281111},{"target":5,"source":1,"value":26624},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":77237},{"target":8,"source":2,"value":34293},{"target":9,"source":2,"value":18},{"target":10,"source":2,"value":3580},{"target":11,"source":3,"value":108543},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":246933},{"target":14,"source":4,"value":281111},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":65460},{"target":18,"source":7,"value":9494},{"target":19,"source":7,"value":1689},{"target":20,"source":7,"value":594},{"target":21,"source":13,"value":229104},{"target":22,"source":13,"value":16307},{"target":23,"source":13,"value":1093},{"target":24,"source":13,"value":429}],"Ontario":[{"target":1,"source":0,"value":565402},{"target":2,"source":0,"value":83402},{"target":3,"source":0,"value":1735292},{"target":4,"source":0,"value":493315},{"target":5,"source":1,"value":96245},{"target":6,"source":1,"value":7},{"target":7,"source":1,"value":469150},{"target":8,"source":2,"value":79245},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":4157},{"target":11,"source":3,"value":301089},{"target":12,"source":3,"value":136},{"target":13,"source":3,"value":1434067},{"target":14,"source":4,"value":493315},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":432682},{"target":18,"source":7,"value":32436},{"target":19,"source":7,"value":367},{"target":20,"source":7,"value":3665},{"target":21,"source":13,"value":1387240},{"target":22,"source":13,"value":42090},{"target":23,"source":13,"value":645},{"target":24,"source":13,"value":4092}],"Manitoba":[{"target":1,"source":0,"value":14647},{"target":2,"source":0,"value":480},{"target":3,"source":0,"value":94342},{"target":4,"source":0,"value":23291},{"target":5,"source":1,"value":2961},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":11686},{"target":8,"source":2,"value":437},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":43},{"target":11,"source":3,"value":15593},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":78749},{"target":14,"source":4,"value":23291},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":11365},{"target":18,"source":7,"value":308},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":13},{"target":21,"source":13,"value":76012},{"target":22,"source":13,"value":2650},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":87}],"Saskatchewan":[{"target":1,"source":0,"value":5386},{"target":2,"source":0,"value":131},{"target":3,"source":0,"value":34101},{"target":4,"source":0,"value":20754},{"target":5,"source":1,"value":1882},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":3504},{"target":8,"source":2,"value":126},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":5},{"target":11,"source":3,"value":12432},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":21669},{"target":14,"source":4,"value":20754},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":3414},{"target":18,"source":7,"value":14},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":76},{"target":21,"source":13,"value":21024},{"target":22,"source":13,"value":529},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":116}],"Alberta":[{"target":1,"source":0,"value":27545},{"target":2,"source":0,"value":13202},{"target":3,"source":0,"value":141108},{"target":4,"source":0,"value":95493},{"target":5,"source":1,"value":22725},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":4820},{"target":8,"source":2,"value":13187},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":15},{"target":11,"source":3,"value":111040},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":30068},{"target":14,"source":4,"value":95493},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":4738},{"target":18,"source":7,"value":57},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":25},{"target":21,"source":13,"value":29597},{"target":22,"source":13,"value":458},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":13}],"British Columbia":[{"target":1,"source":0,"value":224633},{"target":2,"source":0,"value":70809},{"target":3,"source":0,"value":889358},{"target":4,"source":0,"value":144796},{"target":5,"source":1,"value":39381},{"target":6,"source":1,"value":129},{"target":7,"source":1,"value":185123},{"target":8,"source":2,"value":55581},{"target":9,"source":2,"value":4},{"target":10,"source":2,"value":15224},{"target":11,"source":3,"value":124915},{"target":12,"source":3,"value":160},{"target":13,"source":3,"value":764283},{"target":14,"source":4,"value":144058},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":738},{"target":17,"source":7,"value":175304},{"target":18,"source":7,"value":4623},{"target":19,"source":7,"value":1223},{"target":20,"source":7,"value":3973},{"target":21,"source":13,"value":747672},{"target":22,"source":13,"value":10770},{"target":23,"source":13,"value":982},{"target":24,"source":13,"value":4859}],"Yukon":[{"target":1,"source":0,"value":2072},{"target":2,"source":0,"value":59},{"target":3,"source":0,"value":1001},{"target":4,"source":0,"value":0},{"target":5,"source":1,"value":6},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":2066},{"target":8,"source":2,"value":2},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":57},{"target":11,"source":3,"value":123},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":878},{"target":14,"source":4,"value":0},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":0},{"target":17,"source":7,"value":2045},{"target":18,"source":7,"value":21},{"target":19,"source":7,"value":0},{"target":20,"source":7,"value":0},{"target":21,"source":13,"value":854},{"target":22,"source":13,"value":24},{"target":23,"source":13,"value":0},{"target":24,"source":13,"value":0}],"Nunavut":[{"target":1,"source":0,"value":59},{"target":2,"source":0,"value":18},{"target":3,"source":0,"value":12},{"target":4,"source":0,"value":0},{"target":5,"source":1,"value":59},{"target":6,"source":1,"value":0},{"target":7,"source":1,"value":0},{"target":8,"source":2,"value":18},{"target":9,"source":2,"value":0},{"target":10,"source":2,"value":".."},{"target":11,"source":3,"value":12},{"target":12,"source":3,"value":0},{"target":13,"source":3,"value":0},{"target":14,"source":4,"value":0},{"target":15,"source":4,"value":0},{"target":16,"source":4,"value":".."},{"target":17,"source":7,"value":".."},{"target":18,"source":7,"value":".."},{"target":19,"source":7,"value":".."},{"target":20,"source":7,"value":0},{"target":21,"source":13,"value":".."},{"target":22,"source":13,"value":".."},{"target":23,"source":13,"value":".."},{"target":24,"source":13,"value":0}],"nodes":[{"node":0,"name":"intl"},{"node":1,"name":"USres"},{"node":2,"name":"nonUSres"},{"node":3,"name":"cdnFromUS"},{"node":4,"name":"cdnFromOther"},{"node":5,"name":"USres_air"},{"node":6,"name":"USres_marine"},{"node":7,"name":"USres_land"},{"node":8,"name":"nonUSres_air"},{"node":9,"name":"nonUSres_marine"},{"node":10,"name":"nonUSres_land"},{"node":11,"name":"cdnFromUS_air"},{"node":12,"name":"cdnFromUS_marine"},{"node":13,"name":"cdnFromUS_land"},{"node":14,"name":"cdnFromOther_air"},{"node":15,"name":"cdnFromOther_marine"},{"node":16,"name":"cdnFromOther_land"},{"node":17,"name":"USres_car"},{"node":18,"name":"USres_bus"},{"node":19,"name":"USres_train"},{"node":20,"name":"USres_other"},{"node":21,"name":"cdnFromUS_car"},{"node":22,"name":"cdnFromUS_bus"},{"node":23,"name":"cdnFromUS_train"},{"node":24,"name":"cdnFromUS_other"}]}
+{
+  "Canada": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 997427
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 208365
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 3503674
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 1067264
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 193304
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 136
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 803987
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 185091
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 125
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 23149
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 682657
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 300
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 2820717
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 1066520
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 6
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 738
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 744934
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 47173
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 3279
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 8601
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 2733574
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 74092
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 2720
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 10331
+    }
+  ],
+  "Newfoundland and Labrador": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 1098
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 941
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 701
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 188
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 1098
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 854
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 87
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 701
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 182
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 6
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 0
+    }
+  ],
+  "Prince Edward Island": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 9
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 0
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 17
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 0
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 9
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 17
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 0
+    }
+  ],
+  "Nova Scotia": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 2105
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 1314
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 7113
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 7544
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 2105
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 1298
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 16
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 7111
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 2
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 7544
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 0
+    }
+  ],
+  "New Brunswick": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 50610
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 118
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 245153
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 772
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 209
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 50401
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 50
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 68
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 1081
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 2
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 244070
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 772
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 49926
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 220
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 255
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 242071
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 1264
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 735
+    }
+  ],
+  "Quebec": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 103861
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 37891
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 355476
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 281111
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 26624
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 77237
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 34293
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 18
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 3580
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 108543
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 246933
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 281111
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 65460
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 9494
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 1689
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 594
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 229104
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 16307
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 1093
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 429
+    }
+  ],
+  "Ontario": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 565402
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 83402
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 1735292
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 493315
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 96245
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 7
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 469150
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 79245
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 4157
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 301089
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 136
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 1434067
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 493315
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 432682
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 32436
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 367
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 3665
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 1387240
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 42090
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 645
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 4092
+    }
+  ],
+  "Manitoba": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 14647
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 480
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 94342
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 23291
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 2961
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 11686
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 437
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 43
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 15593
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 78749
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 23291
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 11365
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 308
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 13
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 76012
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 2650
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 87
+    }
+  ],
+  "Saskatchewan": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 5386
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 131
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 34101
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 20754
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 1882
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 3504
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 126
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 5
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 12432
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 21669
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 20754
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 3414
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 14
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 76
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 21024
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 529
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 116
+    }
+  ],
+  "Alberta": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 27545
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 13202
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 141108
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 95493
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 22725
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 4820
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 13187
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 15
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 111040
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 30068
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 95493
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 4738
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 57
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 25
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 29597
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 458
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 13
+    }
+  ],
+  "British Columbia": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 224633
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 70809
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 889358
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 144796
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 39381
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 129
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 185123
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 55581
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 4
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 15224
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 124915
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 160
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 764283
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 144058
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 738
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 175304
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 4623
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 1223
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 3973
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 747672
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 10770
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 982
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 4859
+    }
+  ],
+  "Yukon": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 2072
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 59
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 1001
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 0
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 6
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": 2066
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 2
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": 57
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 123
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": 878
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": 2045
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": 21
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": 854
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": 24
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": 0
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 0
+    }
+  ],
+  "Nunavut": [
+    {
+      "target": 1,
+      "source": 0,
+      "value": 59
+    },
+    {
+      "target": 2,
+      "source": 0,
+      "value": 18
+    },
+    {
+      "target": 3,
+      "source": 0,
+      "value": 12
+    },
+    {
+      "target": 4,
+      "source": 0,
+      "value": 0
+    },
+    {
+      "target": 5,
+      "source": 1,
+      "value": 59
+    },
+    {
+      "target": 6,
+      "source": 1,
+      "value": 0
+    },
+    {
+      "target": 7,
+      "source": 1,
+      "value": ".."
+    },
+    {
+      "target": 8,
+      "source": 2,
+      "value": 18
+    },
+    {
+      "target": 9,
+      "source": 2,
+      "value": 0
+    },
+    {
+      "target": 10,
+      "source": 2,
+      "value": ".."
+    },
+    {
+      "target": 11,
+      "source": 3,
+      "value": 12
+    },
+    {
+      "target": 12,
+      "source": 3,
+      "value": 0
+    },
+    {
+      "target": 13,
+      "source": 3,
+      "value": ".."
+    },
+    {
+      "target": 14,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 15,
+      "source": 4,
+      "value": 0
+    },
+    {
+      "target": 16,
+      "source": 4,
+      "value": ".."
+    },
+    {
+      "target": 17,
+      "source": 7,
+      "value": ".."
+    },
+    {
+      "target": 18,
+      "source": 7,
+      "value": ".."
+    },
+    {
+      "target": 19,
+      "source": 7,
+      "value": ".."
+    },
+    {
+      "target": 20,
+      "source": 7,
+      "value": 0
+    },
+    {
+      "target": 21,
+      "source": 13,
+      "value": ".."
+    },
+    {
+      "target": 22,
+      "source": 13,
+      "value": ".."
+    },
+    {
+      "target": 23,
+      "source": 13,
+      "value": ".."
+    },
+    {
+      "target": 24,
+      "source": 13,
+      "value": 0
+    }
+  ],
+  "nodes": [
+    {
+      "node": 0,
+      "name": "intl"
+    },
+    {
+      "node": 1,
+      "name": "USres"
+    },
+    {
+      "node": 2,
+      "name": "nonUSres"
+    },
+    {
+      "node": 3,
+      "name": "cdnFromUS"
+    },
+    {
+      "node": 4,
+      "name": "cdnFromOther"
+    },
+    {
+      "node": 5,
+      "name": "USres_air"
+    },
+    {
+      "node": 6,
+      "name": "USres_marine"
+    },
+    {
+      "node": 7,
+      "name": "USres_land"
+    },
+    {
+      "node": 8,
+      "name": "nonUSres_air"
+    },
+    {
+      "node": 9,
+      "name": "nonUSres_marine"
+    },
+    {
+      "node": 10,
+      "name": "nonUSres_land"
+    },
+    {
+      "node": 11,
+      "name": "cdnFromUS_air"
+    },
+    {
+      "node": 12,
+      "name": "cdnFromUS_marine"
+    },
+    {
+      "node": 13,
+      "name": "cdnFromUS_land"
+    },
+    {
+      "node": 14,
+      "name": "cdnFromOther_air"
+    },
+    {
+      "node": 15,
+      "name": "cdnFromOther_marine"
+    },
+    {
+      "node": 16,
+      "name": "cdnFromOther_land"
+    },
+    {
+      "node": 17,
+      "name": "USres_car"
+    },
+    {
+      "node": 18,
+      "name": "USres_bus"
+    },
+    {
+      "node": 19,
+      "name": "USres_train"
+    },
+    {
+      "node": 20,
+      "name": "USres_other"
+    },
+    {
+      "node": 21,
+      "name": "cdnFromUS_car"
+    },
+    {
+      "node": 22,
+      "name": "cdnFromUS_bus"
+    },
+    {
+      "node": 23,
+      "name": "cdnFromUS_train"
+    },
+    {
+      "node": 24,
+      "name": "cdnFromUS_other"
+    }
+  ]
+}

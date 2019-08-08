@@ -1,1 +1,680 @@
-[{"date":"2010-01","domestic":"1531","transborder":"14","international":"6"},{"date":"2010-02","domestic":"1881","transborder":"13","international":"9"},{"date":"2010-03","domestic":"2640","transborder":"17","international":"6"},{"date":"2010-04","domestic":"2330","transborder":"19","international":"2"},{"date":"2010-05","domestic":"2611","transborder":"25","international":"10"},{"date":"2010-06","domestic":"2225","transborder":"51","international":"5"},{"date":"2010-07","domestic":"2152","transborder":"68","international":"2"},{"date":"2010-08","domestic":"1381","transborder":"30","international":"5"},{"date":"2010-09","domestic":"1976","transborder":"31","international":"6"},{"date":"2010-10","domestic":"2120","transborder":"29","international":"0"},{"date":"2010-11","domestic":"1776","transborder":"12","international":"1"},{"date":"2010-12","domestic":"1259","transborder":"11","international":"4"},{"date":"2011-01","domestic":"1585","transborder":"9","international":"8"},{"date":"2011-02","domestic":"1568","transborder":"5","international":"10"},{"date":"2011-03","domestic":"2048","transborder":"13","international":"16"},{"date":"2011-04","domestic":"2077","transborder":"10","international":"2"},{"date":"2011-05","domestic":"2559","transborder":"34","international":"2"},{"date":"2011-06","domestic":"2658","transborder":"38","international":"6"},{"date":"2011-07","domestic":"2488","transborder":"70","international":"5"},{"date":"2011-08","domestic":"2158","transborder":"39","international":"3"},{"date":"2011-09","domestic":"1701","transborder":"24","international":"6"},{"date":"2011-10","domestic":"2286","transborder":"11","international":"4"},{"date":"2011-11","domestic":"1989","transborder":"9","international":"0"},{"date":"2011-12","domestic":"1415","transborder":"10","international":"3"},{"date":"2012-01","domestic":"1550","transborder":"8","international":"6"},{"date":"2012-02","domestic":"1884","transborder":"15","international":"4"},{"date":"2012-03","domestic":"2598","transborder":"13","international":"9"},{"date":"2012-04","domestic":"2754","transborder":"13","international":"4"},{"date":"2012-05","domestic":"3035","transborder":"25","international":"1"},{"date":"2012-06","domestic":"3160","transborder":"34","international":"1"},{"date":"2012-07","domestic":"3074","transborder":"84","international":"0"},{"date":"2012-08","domestic":"2681","transborder":"57","international":"0"},{"date":"2012-09","domestic":"2438","transborder":"28","international":"0"},{"date":"2012-10","domestic":"2277","transborder":"16","international":"0"},{"date":"2012-11","domestic":"2099","transborder":"9","international":"0"},{"date":"2012-12","domestic":"1467","transborder":"7","international":"8"},{"date":"2013-01","domestic":"1464","transborder":"9","international":"7"},{"date":"2013-02","domestic":"1858","transborder":"24","international":"4"},{"date":"2013-03","domestic":"2292","transborder":"16","international":"6"},{"date":"2013-04","domestic":"2096","transborder":"10","international":"3"},{"date":"2013-05","domestic":"2770","transborder":"31","international":"3"},{"date":"2013-06","domestic":"2820","transborder":"47","international":"6"},{"date":"2013-07","domestic":"2713","transborder":"51","international":"5"},{"date":"2013-08","domestic":"2656","transborder":"58","international":"5"},{"date":"2013-09","domestic":"2553","transborder":"23","international":"6"},{"date":"2013-10","domestic":"2280","transborder":"6","international":"2"},{"date":"2013-11","domestic":"1736","transborder":"7","international":"1"},{"date":"2013-12","domestic":"1448","transborder":"8","international":"1"},{"date":"2014-01","domestic":"1544","transborder":"12","international":"1"},{"date":"2014-02","domestic":"2204","transborder":"15","international":"0"},{"date":"2014-03","domestic":"2722","transborder":"9","international":"1"},{"date":"2014-04","domestic":"2654","transborder":"12","international":"1"},{"date":"2014-05","domestic":"2828","transborder":"25","international":"2"},{"date":"2014-06","domestic":"2887","transborder":"34","international":"3"},{"date":"2014-07","domestic":"2423","transborder":"29","international":"2"},{"date":"2014-08","domestic":"2232","transborder":"59","international":"2"},{"date":"2014-09","domestic":"2213","transborder":"22","international":"4"},{"date":"2014-10","domestic":"1802","transborder":"14","international":"0"},{"date":"2014-11","domestic":"1196","transborder":"7","international":"0"},{"date":"2014-12","domestic":"1275","transborder":"8","international":"0"},{"date":"2015-01","domestic":"1702","transborder":"11","international":"0"},{"date":"2015-02","domestic":"1787","transborder":"12","international":"0"},{"date":"2015-03","domestic":"2555","transborder":"13","international":"0"},{"date":"2015-04","domestic":"2475","transborder":"9","international":"0"},{"date":"2015-05","domestic":"2520","transborder":"17","international":"3"},{"date":"2015-06","domestic":"2843","transborder":"47","international":"3"},{"date":"2015-07","domestic":"3065","transborder":"74","international":"9"},{"date":"2015-08","domestic":"1991","transborder":"39","international":"3"},{"date":"2015-09","domestic":"2289","transborder":"20","international":"4"},{"date":"2015-10","domestic":"2333","transborder":"14","international":"0"},{"date":"2015-11","domestic":"2020","transborder":"10","international":"1"},{"date":"2015-12","domestic":"1407","transborder":"8","international":"1"},{"date":"2016-01","domestic":"1543","transborder":"9","international":"0"},{"date":"2016-02","domestic":"1895","transborder":"13","international":"1"},{"date":"2016-03","domestic":"2146","transborder":"12","international":"0"},{"date":"2016-04","domestic":"2728","transborder":"11","international":"0"},{"date":"2016-05","domestic":"3137","transborder":"16","international":"0"},{"date":"2016-06","domestic":"2987","transborder":"35","international":"3"},{"date":"2016-07","domestic":"2601","transborder":"56","international":"2"},{"date":"2016-08","domestic":"2362","transborder":"48","international":"3"},{"date":"2016-09","domestic":"1894","transborder":"21","international":"3"},{"date":"2016-10","domestic":"2137","transborder":"18","international":"0"},{"date":"2016-11","domestic":"1768","transborder":"10","international":"1"},{"date":"2016-12","domestic":"1046","transborder":"7","international":"2"},{"date":"2017-01","domestic":"1169","transborder":"9","international":"0"},{"date":"2017-02","domestic":"1536","transborder":"11","international":"0"},{"date":"2017-03","domestic":"2205","transborder":"11","international":"0"},{"date":"2017-04","domestic":"2070","transborder":"13","international":"2"},{"date":"2017-05","domestic":"2463","transborder":"13","international":"1"},{"date":"2017-06","domestic":"2530","transborder":"28","international":"0"},{"date":"2017-07","domestic":"2973","transborder":"69","international":"0"},{"date":"2017-08","domestic":"2589","transborder":"43","international":"0"},{"date":"2017-09","domestic":"1930","transborder":"29","international":"0"},{"date":"2017-10","domestic":"1513","transborder":"11","international":"0"},{"date":"2017-11","domestic":"1151","transborder":"4","international":"0"},{"date":"2017-12","domestic":"1119","transborder":"10","international":"1"},{"date":"2018-01","domestic":"1213","transborder":"9","international":"0"},{"date":"2018-02","domestic":"1384","transborder":"11","international":"0"},{"date":"2018-03","domestic":"1985","transborder":"11","international":"1"},{"date":"2018-04","domestic":"1733","transborder":"11","international":"2"},{"date":"2018-05","domestic":"2301","transborder":"26","international":"2"},{"date":"2018-06","domestic":"2389","transborder":"27","international":"2"},{"date":"2018-07","domestic":"2586","transborder":"66","international":"0"},{"date":"2018-08","domestic":"2645","transborder":"51","international":"0"},{"date":"2018-09","domestic":"2212","transborder":"33","international":"0"},{"date":"2018-10","domestic":"1862","transborder":"13","international":"2"},{"date":"2018-11","domestic":"1485","transborder":"8","international":"0"},{"date":"2018-12","domestic":"1233","transborder":"8","international":"1"},{"date":"2019-01","domestic":"1327","transborder":"12","international":"0"},{"date":"2019-02","domestic":"1397","transborder":"10","international":"0"}]
+[
+  {
+    "date": "2010-01",
+    "domestic": 1531,
+    "transborder": 14,
+    "international": 6
+  },
+  {
+    "date": "2010-02",
+    "domestic": 1881,
+    "transborder": 13,
+    "international": 9
+  },
+  {
+    "date": "2010-03",
+    "domestic": 2640,
+    "transborder": 17,
+    "international": 6
+  },
+  {
+    "date": "2010-04",
+    "domestic": 2330,
+    "transborder": 19,
+    "international": 2
+  },
+  {
+    "date": "2010-05",
+    "domestic": 2611,
+    "transborder": 25,
+    "international": 10
+  },
+  {
+    "date": "2010-06",
+    "domestic": 2225,
+    "transborder": 51,
+    "international": 5
+  },
+  {
+    "date": "2010-07",
+    "domestic": 2152,
+    "transborder": 68,
+    "international": 2
+  },
+  {
+    "date": "2010-08",
+    "domestic": 1381,
+    "transborder": 30,
+    "international": 5
+  },
+  {
+    "date": "2010-09",
+    "domestic": 1976,
+    "transborder": 31,
+    "international": 6
+  },
+  {
+    "date": "2010-10",
+    "domestic": 2120,
+    "transborder": 29,
+    "international": 0
+  },
+  {
+    "date": "2010-11",
+    "domestic": 1776,
+    "transborder": 12,
+    "international": 1
+  },
+  {
+    "date": "2010-12",
+    "domestic": 1259,
+    "transborder": 11,
+    "international": 4
+  },
+  {
+    "date": "2011-01",
+    "domestic": 1585,
+    "transborder": 9,
+    "international": 8
+  },
+  {
+    "date": "2011-02",
+    "domestic": 1568,
+    "transborder": 5,
+    "international": 10
+  },
+  {
+    "date": "2011-03",
+    "domestic": 2048,
+    "transborder": 13,
+    "international": 16
+  },
+  {
+    "date": "2011-04",
+    "domestic": 2077,
+    "transborder": 10,
+    "international": 2
+  },
+  {
+    "date": "2011-05",
+    "domestic": 2559,
+    "transborder": 34,
+    "international": 2
+  },
+  {
+    "date": "2011-06",
+    "domestic": 2658,
+    "transborder": 38,
+    "international": 6
+  },
+  {
+    "date": "2011-07",
+    "domestic": 2488,
+    "transborder": 70,
+    "international": 5
+  },
+  {
+    "date": "2011-08",
+    "domestic": 2158,
+    "transborder": 39,
+    "international": 3
+  },
+  {
+    "date": "2011-09",
+    "domestic": 1701,
+    "transborder": 24,
+    "international": 6
+  },
+  {
+    "date": "2011-10",
+    "domestic": 2286,
+    "transborder": 11,
+    "international": 4
+  },
+  {
+    "date": "2011-11",
+    "domestic": 1989,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2011-12",
+    "domestic": 1415,
+    "transborder": 10,
+    "international": 3
+  },
+  {
+    "date": "2012-01",
+    "domestic": 1550,
+    "transborder": 8,
+    "international": 6
+  },
+  {
+    "date": "2012-02",
+    "domestic": 1884,
+    "transborder": 15,
+    "international": 4
+  },
+  {
+    "date": "2012-03",
+    "domestic": 2598,
+    "transborder": 13,
+    "international": 9
+  },
+  {
+    "date": "2012-04",
+    "domestic": 2754,
+    "transborder": 13,
+    "international": 4
+  },
+  {
+    "date": "2012-05",
+    "domestic": 3035,
+    "transborder": 25,
+    "international": 1
+  },
+  {
+    "date": "2012-06",
+    "domestic": 3160,
+    "transborder": 34,
+    "international": 1
+  },
+  {
+    "date": "2012-07",
+    "domestic": 3074,
+    "transborder": 84,
+    "international": 0
+  },
+  {
+    "date": "2012-08",
+    "domestic": 2681,
+    "transborder": 57,
+    "international": 0
+  },
+  {
+    "date": "2012-09",
+    "domestic": 2438,
+    "transborder": 28,
+    "international": 0
+  },
+  {
+    "date": "2012-10",
+    "domestic": 2277,
+    "transborder": 16,
+    "international": 0
+  },
+  {
+    "date": "2012-11",
+    "domestic": 2099,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2012-12",
+    "domestic": 1467,
+    "transborder": 7,
+    "international": 8
+  },
+  {
+    "date": "2013-01",
+    "domestic": 1464,
+    "transborder": 9,
+    "international": 7
+  },
+  {
+    "date": "2013-02",
+    "domestic": 1858,
+    "transborder": 24,
+    "international": 4
+  },
+  {
+    "date": "2013-03",
+    "domestic": 2292,
+    "transborder": 16,
+    "international": 6
+  },
+  {
+    "date": "2013-04",
+    "domestic": 2096,
+    "transborder": 10,
+    "international": 3
+  },
+  {
+    "date": "2013-05",
+    "domestic": 2770,
+    "transborder": 31,
+    "international": 3
+  },
+  {
+    "date": "2013-06",
+    "domestic": 2820,
+    "transborder": 47,
+    "international": 6
+  },
+  {
+    "date": "2013-07",
+    "domestic": 2713,
+    "transborder": 51,
+    "international": 5
+  },
+  {
+    "date": "2013-08",
+    "domestic": 2656,
+    "transborder": 58,
+    "international": 5
+  },
+  {
+    "date": "2013-09",
+    "domestic": 2553,
+    "transborder": 23,
+    "international": 6
+  },
+  {
+    "date": "2013-10",
+    "domestic": 2280,
+    "transborder": 6,
+    "international": 2
+  },
+  {
+    "date": "2013-11",
+    "domestic": 1736,
+    "transborder": 7,
+    "international": 1
+  },
+  {
+    "date": "2013-12",
+    "domestic": 1448,
+    "transborder": 8,
+    "international": 1
+  },
+  {
+    "date": "2014-01",
+    "domestic": 1544,
+    "transborder": 12,
+    "international": 1
+  },
+  {
+    "date": "2014-02",
+    "domestic": 2204,
+    "transborder": 15,
+    "international": 0
+  },
+  {
+    "date": "2014-03",
+    "domestic": 2722,
+    "transborder": 9,
+    "international": 1
+  },
+  {
+    "date": "2014-04",
+    "domestic": 2654,
+    "transborder": 12,
+    "international": 1
+  },
+  {
+    "date": "2014-05",
+    "domestic": 2828,
+    "transborder": 25,
+    "international": 2
+  },
+  {
+    "date": "2014-06",
+    "domestic": 2887,
+    "transborder": 34,
+    "international": 3
+  },
+  {
+    "date": "2014-07",
+    "domestic": 2423,
+    "transborder": 29,
+    "international": 2
+  },
+  {
+    "date": "2014-08",
+    "domestic": 2232,
+    "transborder": 59,
+    "international": 2
+  },
+  {
+    "date": "2014-09",
+    "domestic": 2213,
+    "transborder": 22,
+    "international": 4
+  },
+  {
+    "date": "2014-10",
+    "domestic": 1802,
+    "transborder": 14,
+    "international": 0
+  },
+  {
+    "date": "2014-11",
+    "domestic": 1196,
+    "transborder": 7,
+    "international": 0
+  },
+  {
+    "date": "2014-12",
+    "domestic": 1275,
+    "transborder": 8,
+    "international": 0
+  },
+  {
+    "date": "2015-01",
+    "domestic": 1702,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2015-02",
+    "domestic": 1787,
+    "transborder": 12,
+    "international": 0
+  },
+  {
+    "date": "2015-03",
+    "domestic": 2555,
+    "transborder": 13,
+    "international": 0
+  },
+  {
+    "date": "2015-04",
+    "domestic": 2475,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2015-05",
+    "domestic": 2520,
+    "transborder": 17,
+    "international": 3
+  },
+  {
+    "date": "2015-06",
+    "domestic": 2843,
+    "transborder": 47,
+    "international": 3
+  },
+  {
+    "date": "2015-07",
+    "domestic": 3065,
+    "transborder": 74,
+    "international": 9
+  },
+  {
+    "date": "2015-08",
+    "domestic": 1991,
+    "transborder": 39,
+    "international": 3
+  },
+  {
+    "date": "2015-09",
+    "domestic": 2289,
+    "transborder": 20,
+    "international": 4
+  },
+  {
+    "date": "2015-10",
+    "domestic": 2333,
+    "transborder": 14,
+    "international": 0
+  },
+  {
+    "date": "2015-11",
+    "domestic": 2020,
+    "transborder": 10,
+    "international": 1
+  },
+  {
+    "date": "2015-12",
+    "domestic": 1407,
+    "transborder": 8,
+    "international": 1
+  },
+  {
+    "date": "2016-01",
+    "domestic": 1543,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2016-02",
+    "domestic": 1895,
+    "transborder": 13,
+    "international": 1
+  },
+  {
+    "date": "2016-03",
+    "domestic": 2146,
+    "transborder": 12,
+    "international": 0
+  },
+  {
+    "date": "2016-04",
+    "domestic": 2728,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2016-05",
+    "domestic": 3137,
+    "transborder": 16,
+    "international": 0
+  },
+  {
+    "date": "2016-06",
+    "domestic": 2987,
+    "transborder": 35,
+    "international": 3
+  },
+  {
+    "date": "2016-07",
+    "domestic": 2601,
+    "transborder": 56,
+    "international": 2
+  },
+  {
+    "date": "2016-08",
+    "domestic": 2362,
+    "transborder": 48,
+    "international": 3
+  },
+  {
+    "date": "2016-09",
+    "domestic": 1894,
+    "transborder": 21,
+    "international": 3
+  },
+  {
+    "date": "2016-10",
+    "domestic": 2137,
+    "transborder": 18,
+    "international": 0
+  },
+  {
+    "date": "2016-11",
+    "domestic": 1768,
+    "transborder": 10,
+    "international": 1
+  },
+  {
+    "date": "2016-12",
+    "domestic": 1046,
+    "transborder": 7,
+    "international": 2
+  },
+  {
+    "date": "2017-01",
+    "domestic": 1169,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2017-02",
+    "domestic": 1536,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2017-03",
+    "domestic": 2205,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2017-04",
+    "domestic": 2070,
+    "transborder": 13,
+    "international": 2
+  },
+  {
+    "date": "2017-05",
+    "domestic": 2463,
+    "transborder": 13,
+    "international": 1
+  },
+  {
+    "date": "2017-06",
+    "domestic": 2530,
+    "transborder": 28,
+    "international": 0
+  },
+  {
+    "date": "2017-07",
+    "domestic": 2973,
+    "transborder": 69,
+    "international": 0
+  },
+  {
+    "date": "2017-08",
+    "domestic": 2589,
+    "transborder": 43,
+    "international": 0
+  },
+  {
+    "date": "2017-09",
+    "domestic": 1930,
+    "transborder": 29,
+    "international": 0
+  },
+  {
+    "date": "2017-10",
+    "domestic": 1513,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2017-11",
+    "domestic": 1151,
+    "transborder": 4,
+    "international": 0
+  },
+  {
+    "date": "2017-12",
+    "domestic": 1119,
+    "transborder": 10,
+    "international": 1
+  },
+  {
+    "date": "2018-01",
+    "domestic": 1213,
+    "transborder": 9,
+    "international": 0
+  },
+  {
+    "date": "2018-02",
+    "domestic": 1384,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2018-03",
+    "domestic": 1986,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2018-04",
+    "domestic": 1735,
+    "transborder": 11,
+    "international": 0
+  },
+  {
+    "date": "2018-05",
+    "domestic": 2303,
+    "transborder": 26,
+    "international": 0
+  },
+  {
+    "date": "2018-06",
+    "domestic": 2389,
+    "transborder": 27,
+    "international": 2
+  },
+  {
+    "date": "2018-07",
+    "domestic": 2586,
+    "transborder": 66,
+    "international": 0
+  },
+  {
+    "date": "2018-08",
+    "domestic": 2645,
+    "transborder": 51,
+    "international": 0
+  },
+  {
+    "date": "2018-09",
+    "domestic": 2212,
+    "transborder": 33,
+    "international": 0
+  },
+  {
+    "date": "2018-10",
+    "domestic": 1862,
+    "transborder": 13,
+    "international": 2
+  },
+  {
+    "date": "2018-11",
+    "domestic": 1485,
+    "transborder": 8,
+    "international": 0
+  },
+  {
+    "date": "2018-12",
+    "domestic": 1233,
+    "transborder": 8,
+    "international": 1
+  },
+  {
+    "date": "2019-01",
+    "domestic": 1327,
+    "transborder": 12,
+    "international": 0
+  },
+  {
+    "date": "2019-02",
+    "domestic": 1397,
+    "transborder": 10,
+    "international": 0
+  },
+  {
+    "date": "2019-03",
+    "domestic": 2185,
+    "transborder": 8,
+    "international": 0
+  },
+  {
+    "date": "2019-04",
+    "domestic": 2445,
+    "transborder": 13,
+    "international": 0
+  },
+  {
+    "date": "2019-05",
+    "domestic": 2882,
+    "transborder": 10,
+    "international": 0
+  }
+]

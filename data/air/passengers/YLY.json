@@ -1,1 +1,65 @@
-[{"date":"2010","total":"x","enplaned":"x","deplaned":"x","domestic":"x","transborder":"0","international":"0"},{"date":"2011","total":"x","enplaned":"x","deplaned":"x","domestic":"x","transborder":"0","international":"0"},{"date":"2012","total":"..","enplaned":"..","deplaned":"..","domestic":"..","transborder":"..","international":".."},{"date":"2013","total":"..","enplaned":"..","deplaned":"..","domestic":"..","transborder":"..","international":".."},{"date":"2014","total":"..","enplaned":"..","deplaned":"..","domestic":"..","transborder":"..","international":".."},{"date":"2015","total":"..","enplaned":"..","deplaned":"..","domestic":"..","transborder":"..","international":".."},{"date":"2016","total":"..","enplaned":"..","deplaned":"..","domestic":"..","transborder":"..","international":".."}]
+[
+  {
+    "date": "2010-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2011-01",
+    "total": "x",
+    "enplaned": "x",
+    "deplaned": "x",
+    "domestic": "x",
+    "transborder": 0,
+    "international": 0
+  },
+  {
+    "date": "2012-01",
+    "total": "..",
+    "enplaned": "..",
+    "deplaned": "..",
+    "domestic": "..",
+    "transborder": "..",
+    "international": ".."
+  },
+  {
+    "date": "2013-01",
+    "total": "..",
+    "enplaned": "..",
+    "deplaned": "..",
+    "domestic": "..",
+    "transborder": "..",
+    "international": ".."
+  },
+  {
+    "date": "2014-01",
+    "total": "..",
+    "enplaned": "..",
+    "deplaned": "..",
+    "domestic": "..",
+    "transborder": "..",
+    "international": ".."
+  },
+  {
+    "date": "2015-01",
+    "total": "..",
+    "enplaned": "..",
+    "deplaned": "..",
+    "domestic": "..",
+    "transborder": "..",
+    "international": ".."
+  },
+  {
+    "date": "2016-01",
+    "total": "..",
+    "enplaned": "..",
+    "deplaned": "..",
+    "domestic": "..",
+    "transborder": "..",
+    "international": ".."
+  }
+]

@@ -1,1 +1,83 @@
-[{"date":"2010","total":"22308734","domestic":"14159153","transborder":"4381687","international":"3767894"},{"date":"2011","total":"22650257","domestic":"14257257","transborder":"4469281","international":"3923719"},{"date":"2012","total":"23488322","domestic":"14822126","transborder":"4631186","international":"4035010"},{"date":"2013","total":"24249269","domestic":"15449709","transborder":"4669698","international":"4129862"},{"date":"2014","total":"25751997","domestic":"16218383","transborder":"5100835","international":"4432779"},{"date":"2015","total":"26759452","domestic":"16737337","transborder":"5290293","international":"4731822"},{"date":"2016","total":"28932158","domestic":"17772387","transborder":"5581600","international":"5578171"},{"date":"2017","total":"31355709","domestic":"18925701","transborder":"6112540","international":"6317468"}]
+[
+  {
+    "date": "2010-01",
+    "total": 22308734,
+    "enplaned": 11159162,
+    "deplaned": 11149572,
+    "domestic": 14159153,
+    "transborder": 4381687,
+    "international": 3767894
+  },
+  {
+    "date": "2011-01",
+    "total": 22650257,
+    "enplaned": 11283775,
+    "deplaned": 11366482,
+    "domestic": 14257257,
+    "transborder": 4469281,
+    "international": 3923719
+  },
+  {
+    "date": "2012-01",
+    "total": 23488322,
+    "enplaned": 11709795,
+    "deplaned": 11778527,
+    "domestic": 14822126,
+    "transborder": 4631186,
+    "international": 4035010
+  },
+  {
+    "date": "2013-01",
+    "total": 24249269,
+    "enplaned": 12044383,
+    "deplaned": 12204886,
+    "domestic": 15449709,
+    "transborder": 4669698,
+    "international": 4129862
+  },
+  {
+    "date": "2014-01",
+    "total": 25751997,
+    "enplaned": 12867546,
+    "deplaned": 12884451,
+    "domestic": 16218383,
+    "transborder": 5100835,
+    "international": 4432779
+  },
+  {
+    "date": "2015-01",
+    "total": 26759452,
+    "enplaned": 13417653,
+    "deplaned": 13341799,
+    "domestic": 16737337,
+    "transborder": 5290293,
+    "international": 4731822
+  },
+  {
+    "date": "2016-01",
+    "total": 28932158,
+    "enplaned": 14526606,
+    "deplaned": 14405552,
+    "domestic": 17772387,
+    "transborder": 5581600,
+    "international": 5578171
+  },
+  {
+    "date": "2017-01",
+    "total": 31671748,
+    "enplaned": 15839783,
+    "deplaned": 15831965,
+    "domestic": 19015078,
+    "transborder": 6318134,
+    "international": 6338536
+  },
+  {
+    "date": "2018-01",
+    "total": 33929946,
+    "enplaned": 16948827,
+    "deplaned": 16981119,
+    "domestic": 20275980,
+    "transborder": 6662471,
+    "international": 6991495
+  }
+]
