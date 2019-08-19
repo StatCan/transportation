@@ -53,17 +53,25 @@
 	font-size: 13px;
 	fill: #000;
 }
+.tableCaption {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  text-align: left;
+  font-weight: normal;
+  display: inline-block;
+
+  }
 .roadMapHighlight {
 	stroke: #9e9d9d !important;
-	stroke-width: 0.5 !important;
+	stroke-width: 0.75 !important;
 }
 .railOriginMapHighlight {
 	stroke: #525252 !important;
-	stroke-width: 0.5 !important;
+	stroke-width: 0.75 !important;
 }
 .railDestMapHighlight {
 	stroke: #E6233A !important;
-	stroke-width: 0.5 !important;
+	stroke-width: 0.75 !important;
 }
 .moveMap{
   transform: translate(0,-25px);

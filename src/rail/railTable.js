@@ -34,7 +34,9 @@ export default function(data, settings, origin) {
   // copyButton.setAttribute("id", copyButtonId);
   // details.append(copyButton);
 
-  details.append("div")
+  details.append("caption")
+  .classed("tableCaption", true)
+  .classed("col-md-12", true)
   .attr("id", function () {
     if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
     // return summaryId;

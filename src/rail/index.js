@@ -148,7 +148,7 @@ function updatePage() {
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
-      drawTable(data[dataTag], settingsBar, selectedComm);
+      drawTable(data[dataTag], settingsBar, selectedOrig);
 
       // ------------------copy button---------------------------------
       // need to re-apend the button since table is being re-build
@@ -316,8 +316,9 @@ function dataCopyButton(cButtondata) {
 function formatForSpreadsheet(dataArray, title) {
   const lines = [];
   const columns = [""];
+
   for (const concept in dataArray[0]) if (concept != "year") {
-    if (concept !== "isLast"){
+    if (concept !== "isLast") {
       columns.push(i18next.t(concept, {ns: "rail"}));
     }
   }
