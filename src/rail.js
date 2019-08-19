@@ -1794,7 +1794,7 @@
     // copyButton.setAttribute("id", copyButtonId);
     // details.append(copyButton);
 
-    details.append("div").attr("id", function () {
+    details.append("caption").classed("tableCaption", true).classed("col-md-12", true).attr("id", function () {
       if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
       // return summaryId;
     }) // .text(sett.datatable.title);
@@ -2371,7 +2371,7 @@
         data[dataTag] = newData;
         showBarChartData();
         colorMap();
-        drawTable(data[dataTag], settingsBar, selectedComm); // ------------------copy button---------------------------------
+        drawTable(data[dataTag], settingsBar, selectedOrig); // ------------------copy button---------------------------------
         // need to re-apend the button since table is being re-build
 
         if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
