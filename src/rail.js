@@ -1761,8 +1761,6 @@
   function drawTable (data, settings, origin) {
     var sett = settings;
     var thisSVG = d3.select("#railTable"); // .select("svg");
-
-    var summaryId = "chrt-dt-tbl"; // "chrt-dt-tbl";
     // const filteredData = (sett.filterData && typeof sett.filterData === "function") ?
     //     sett.filterData(data, "table") : data;
     // use original data, not array returned by filteredData which may contain inserted year-end datapts
@@ -1794,18 +1792,12 @@
     // copyButton.setAttribute("id", copyButtonId);
     // details.append(copyButton);
 
-    details.append("caption").classed("tableCaption", true).classed("col-md-12", true).attr("id", function () {
-      if (d3.select("#chrt-dt-tbl").empty()) return summaryId;else return summaryId + "1"; // allow for a second table
-      // return summaryId;
-    }) // .text(sett.datatable.title);
-    .text(sett.tableTitle); // ------------------------------------------------------------------------
-
     details.append("div").attr("id", copyButtonId);
     tableDiv = details.append("div").classed("table-responsive", true); // .attr("id", summaryId)
 
     table = tableDiv.append("table").attr("class", "table");
     table.append("caption") // .text(sett.datatable.title);
-    .attr("class", "wb-inv").text(sett.tableTitle);
+    .attr("class", "tableCaption").text(sett.tableTitle);
     header = table.append("thead").attr("id", "tblHeader").append("tr").attr("id", "tblHeaderTR");
     body = table.append("tbody").attr("id", "tblBody");
     header.append("td").attr("id", "thead_h0").text(filterYear(sett.x.label)); //  debugger

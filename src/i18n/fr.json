@@ -347,7 +347,7 @@
        "units": "tonnes métriques",
        "hoverText": "{{origin}} vers {{dest}}",
        "hoverNA": "tonnes métriques non disponibles",
-       "mapTitle": "{{commodity}} {{geo}} vers le reste du Canada, {{year}}",
+       "mapTitle": "{{commodity}} {{geo}}, {{year}}",
        "tableTitle": "Origine et Destination des {{comm}} par l′industrie ferroviaire (tonnes métriques)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations pour les dix principaux produits selon le poids",
        "dataTableTitle": "{{comm}} de {{geo}}",
