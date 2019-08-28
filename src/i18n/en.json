@@ -345,7 +345,7 @@
       "units": "metric tonnes",
       "hoverText": "{{origin}} to {{dest}}",
       "hoverNA": "Tonnage not available",
-      "mapTitle": "{{commodity}} from {{geo}} to the rest of Canada, {{year}}",
+      "mapTitle": "{{commodity}} from {{geo}}, {{year}}",
       "tableTitle": "Rail industry Origin and Destination of {{comm}} (metric tonnes)",
       "bubbleTitle": "Total tonnage from all origins to all destinations for the top ten commodities by weight",
       "dataTableTitle": "{{comm}} from {{geo}}",
