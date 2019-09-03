@@ -2498,6 +2498,9 @@
     var thisComm = i18next.t(selectedComm, {
       ns: "rail"
     });
+    var tableComm = i18next.t(selectedComm, {
+      ns: "railTable"
+    });
     var thisOrig = i18next.t(selectedOrig, {
       ns: "geography"
     });
@@ -2524,7 +2527,7 @@
     }));
     settingsBar.tableTitle = i18next.t("tableTitle", {
       ns: "rail",
-      comm: thisComm
+      comm: tableComm
     });
     drawTable(data[dataTag], settingsBar, selectedOrig);
   }
@@ -2540,15 +2543,12 @@
     var finalArray = []; // for first data table
 
     var dataArray = [];
-    var thisComm = i18next.t(selectedComm, {
-      ns: "rail"
-    });
-    var thisOrig = i18next.t("bar" + selectedOrig, {
-      ns: "rail"
+    var tableComm = i18next.t(selectedComm, {
+      ns: "railTable"
     });
     var title = i18next.t("dataTableTitle", {
       ns: "rail",
-      comm: thisComm,
+      comm: tableComm,
       geo: thisTilteOrigin
     });
     var firstTitle = [title];
