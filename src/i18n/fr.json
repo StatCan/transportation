@@ -327,7 +327,7 @@
        "toQC": "le Québec",
        "toON": "l′Ontario",
        "toSK": "la Saskatchewan",
-       "toUSA-MX": "les États-Unis et du Mexique",
+       "toUSA-MX": "les États-Unis et le Mexique",
        "toMB": "le Manitoba",
        "toBC": "la Colombie-Britannique",
        "toAB": "l′Alberta",
@@ -348,12 +348,12 @@
        "hoverText": "{{origin}} vers {{dest}}",
        "hoverNA": "tonnes métriques non disponibles",
        "mapTitle": "{{commodity}} {{geo}}, {{year}}",
-       "tableTitle": "Origine et Destination des {{comm}} par l′industrie ferroviaire (tonnes métriques)",
+       "tableTitle": "Origine et Destination {{comm}} par l′industrie ferroviaire (tonnes métriques)",
        "bubbleTitle": "Tonnage total de toutes les origines vers toutes les destinations pour les dix principaux produits selon le poids",
        "dataTableTitle": "{{comm}} de {{geo}}",
        "barChartTitle": "{{commodity}} {{geo}} vers {{dest}}",
        "coal": "Charbon",
-       "mixed": "Chargements mixtes ou fret non indentifé",
+       "mixed": "Chargements mixtes ou fret non identifié",
        "wheat": "Blé",
        "ores": "Minerais de fer et leurs concentrés",
        "potash": "Potasse",
@@ -362,12 +362,23 @@
        "oils": "Mazout et pétrole brut",
        "chems": "Autres produits chimiques de base",
        "pulp": "Pâte de bois",
-       "other": "Toutes les aures marchandises"
+       "other": "Toutes les autres marchandises"
      },
      "railTable": {
        "tableTitle": "Tonnage de {{comm}} de {{orig}} à {{dest}} (en milliers)",
        "z_label": "",
-       "values": "Tonnage (en milliers)"
+       "values": "Tonnage (en milliers)",
+       "coal": "du Charbon",
+       "mixed": "des Chargements mixtes ou fret non identifié",
+       "wheat": "du Blé",
+       "ores": "des Minerais de fer et leurs concentrés",
+       "potash": "de la Potasse",
+       "lumber": "du Bois d′oeuvre",
+       "canola": "des Grains de colza (canola)",
+       "oils": "du Mazout et pétrole brut",
+       "chems": "des Autres produits chimiques de base",
+       "pulp": "de la Pâte de bois",
+       "other": "de Toutes les autres marchandises"
      },
       "commodities": {
         "coal": "Charbon",
@@ -380,7 +391,7 @@
         "oils": "Mazout et pétrole brut",
         "chems": "Autres produits chimiques de base",
         "pulp": "Pâte de bois",
-        "other": "Toutes les aures marchandises"
+        "other": "Toutes les autres marchandises"
     },
     "modes": {
       "intl": "Voyageurs internationaux",

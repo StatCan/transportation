@@ -362,6 +362,19 @@
       "pulp": "Wood pulp",
       "other": "All other commodities"
     },
+    "railTable": {
+      "coal": "Coal",
+      "mixed": "Mixed loads or unidentified freight",
+      "wheat": "Wheat",
+      "ores": "Iron ores and concentrates",
+      "potash": "Potash",
+      "lumber": "Lumber",
+      "canola": "Colza seeds (canola)",
+      "oils": "Fuel oils and crude petroleum",
+      "chems": "Other basic chemicals",
+      "pulp": "Wood pulp",
+      "other": "All other commodities"
+    },
     "commodities": {
       "coal": "Coal",
       "mixed": "Mixed loads or unidentified freight",
