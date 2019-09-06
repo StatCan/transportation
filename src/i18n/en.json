@@ -346,7 +346,7 @@
       "hoverText": "{{origin}} to {{dest}}",
       "hoverNA": "Tonnage not available",
       "mapTitle": "{{commodity}} from {{geo}}, {{year}}",
-      "tableTitle": "Rail industry Origin and Destination of {{comm}} (metric tonnes)",
+      "tableTitle": "Rail industry origin and destination of {{comm}} (metric tonnes)",
       "bubbleTitle": "Total tonnage from all origins to all destinations for the top ten commodities by weight",
       "dataTableTitle": "{{comm}} from {{geo}}",
       "barChartTitle": "{{commodity}} from {{geo}} to {{dest}}",
@@ -363,17 +363,17 @@
       "other": "All other commodities"
     },
     "railTable": {
-      "coal": "Coal",
-      "mixed": "Mixed loads or unidentified freight",
-      "wheat": "Wheat",
-      "ores": "Iron ores and concentrates",
-      "potash": "Potash",
-      "lumber": "Lumber",
-      "canola": "Colza seeds (canola)",
-      "oils": "Fuel oils and crude petroleum",
-      "chems": "Other basic chemicals",
-      "pulp": "Wood pulp",
-      "other": "All other commodities"
+      "coal": "coal",
+      "mixed": "mixed loads or unidentified freight",
+      "wheat": "wheat",
+      "ores": "iron ores and concentrates",
+      "potash": "potash",
+      "lumber": "lumber",
+      "canola": "colza seeds (canola)",
+      "oils": "fuel oils and crude petroleum",
+      "chems": "other basic chemicals",
+      "pulp": "wood pulp",
+      "other": "all other commodities"
     },
     "commodities": {
       "coal": "Coal",

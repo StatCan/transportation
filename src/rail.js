@@ -2251,7 +2251,7 @@
   var origin = "Origin";
   var data = {}; // stores data for barChart
 
-  var selectedYear = "2017"; // ---------------------------------------------------------------------
+  var selectedYear; // ---------------------------------------------------------------------
 
   /* SVGs */
   // Canada map
@@ -2489,6 +2489,7 @@
       yearDropdown.append($("<option></option>").attr("value", i).html(i));
     }
 
+    selectedYear = dateRange.max;
     d3.select("#yearSelector")._groups[0][0].value = selectedYear;
   };
   /* -- update map and areaChart titles -- */

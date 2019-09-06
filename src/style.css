@@ -316,14 +316,17 @@ table, th, td {
 
 #domesticLabel::before{
   background: #F6CF22;
+  opacity: 0.6;
 }
 
 #transborderLabel::before {
   background: #a6611a;
+  opacity: 0.6;
 }
 
 #intlLabel::before {
   background: #83C3F2;
+  opacity: 0.6;
 }
 
 #gasLabel::before {

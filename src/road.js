@@ -2074,7 +2074,7 @@
 
 	var mapData = {};
 	var selectedRegion = "CANADA";
-	var selectedYear = "2017";
+	var selectedYear;
 	var xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 	// Add number formatter to stackedArea settings file
 	// Add number formatter to stackedArea settings file
@@ -2401,6 +2401,7 @@
 	      ns: "symbolLink"
 	    }), "</a>"));
 	    getDateMinMax();
+	    selectedYear = dateRange.max.substring(0, 4);
 	    createDropdown();
 	    showAreaData();
 	    updateTitles();
