@@ -26,7 +26,7 @@ const origin = "Origin";
 const destination = "Dest"
 
 const data = {}; // stores data for barChart
-let selectedYear = "2017";
+let selectedYear;
 
 // ---------------------------------------------------------------------
 /* SVGs */
@@ -271,6 +271,7 @@ const setDateRange = function(dataObject) {
     yearDropdown.append($("<option></option>")
         .attr("value", i).html(i));
   }
+  selectedYear = dateRange.max;
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
 }
 /* -- update map and areaChart titles -- */

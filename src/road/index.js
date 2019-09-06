@@ -10,7 +10,7 @@ const dateRange = {};
 let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
-let selectedYear = "2017";
+let selectedYear;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
 // Add number formatter to stackedArea settings file
@@ -349,6 +349,7 @@ i18n.load(["src/i18n"], () => {
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
         getDateMinMax();
+        selectedYear = dateRange.max.substring(0, 4);
         createDropdown();
         showAreaData();
         updateTitles();
