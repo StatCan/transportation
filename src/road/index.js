@@ -1,4 +1,5 @@
 import settingsInit from "./stackedAreaSettings.js";
+import apiCall from "../api_request/road_api.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaTooltip from "../areaTooltip.js";
@@ -325,6 +326,8 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, mapfile, areafile) {
+        debugger;
+        apiCall();
         mapData = mapfile;
         data[selectedRegion] = areafile;
 

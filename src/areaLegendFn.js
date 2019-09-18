@@ -1,5 +1,4 @@
 export default function(svgLegend, classArray) {
-  debugger
   const rectDim = 15;
   const x0 = 50;
   const scaling = 9.5;
