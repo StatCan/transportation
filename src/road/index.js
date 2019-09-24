@@ -1,16 +1,20 @@
 import settingsInit from "./stackedAreaSettings.js";
 import apiCall from "../api_request/road_api.js";
+import dateRangeFn from "../api_request/get_date_range.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFn.js";
 import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import CopyButton from "../copyButton.js";
 
+const RoadProductId = 23100066;
 const data = {};
 const dateRange = {};
 let stackedArea; // stores areaChart() call
 let mapData = {};
 let selectedRegion = "CANADA";
+let maxYear;
+let minYear = 2010
 let selectedYear;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
@@ -156,14 +160,10 @@ map.on("click", () => {
 // -----------------------------------------------------------------------------
 /* FNS */
 function getDateMinMax() {
-  for (const [date] of Object.entries(mapData)) {
-    if (!dateRange.min || new Date(date)< new Date(dateRange.min)) {
-      dateRange.min = date;
-    }
-    if (!dateRange.max || new Date(date)> new Date(dateRange.max)) {
-      dateRange.max = date;
-    }
-  }
+  let dateInfo = dateRangeFn(minYear, 1, RoadProductId);
+  dateRange.min = minYear;
+  dateRange.max = dateInfo.max;
+  dateRange.numPeriods = dateInfo.numPeriods;
 }
 function createDropdown() {
   // check available month/year combinations
@@ -326,10 +326,15 @@ i18n.load(["src/i18n"], () => {
       .defer(d3.json, "data/road/Annual_Totals.json")
       .defer(d3.json, "data/road/CANADA.json")
       .await(function(error, mapfile, areafile) {
-        debugger;
-        apiCall();
         mapData = mapfile;
         data[selectedRegion] = areafile;
+
+        debugger;
+        getDateMinMax();
+        selectedYear = dateRange.max.substring(0, 4);
+        maxYear = selectedYear;
+
+        apiCall(maxYear, selectedYear, "CANADA");
 
         getCanadaMap(map)
             .on("loaded", function() {
@@ -351,8 +356,6 @@ i18n.load(["src/i18n"], () => {
 
         d3.select("#symbolLink")
             .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
-        getDateMinMax();
-        selectedYear = dateRange.max.substring(0, 4);
         createDropdown();
         showAreaData();
         updateTitles();
