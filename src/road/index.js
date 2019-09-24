@@ -11,10 +11,10 @@ const RoadProductId = 23100066;
 const data = {};
 const dateRange = {};
 let stackedArea; // stores areaChart() call
-let mapData = {};
+const mapData = {};
 let selectedRegion = "CANADA";
 let maxYear;
-let minYear = 2010
+const minYear = 2010;
 let selectedYear;
 const xlabelDY = 1.5; // spacing between areaChart xlabels and ticks
 
@@ -159,12 +159,6 @@ map.on("click", () => {
 
 // -----------------------------------------------------------------------------
 /* FNS */
-function getDateMinMax() {
-  let dateInfo = dateRangeFn(minYear, 1, RoadProductId);
-  dateRange.min = minYear;
-  dateRange.max = dateInfo.max;
-  dateRange.numPeriods = dateInfo.numPeriods;
-}
 function createDropdown() {
   // check available month/year combinations
   const yearId = `#${"year"}`;
@@ -318,49 +312,48 @@ function dataCopyButton(cButtondataFull) {
 
 // -----------------------------------------------------------------------------
 /* Initial page load */
+function pageInitWithData() {
+  getCanadaMap(map)
+      .on("loaded", function() {
+        colorMap();
+      });
+
+  d3.select("#mapTitleRoad")
+      .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
+
+  // copy button options
+  const cButtonOptions = {
+    pNode: document.getElementById("copy-button-container"),
+    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+  };
+  // build nodes on copy button
+  cButton.build(cButtonOptions);
+
+  d3.select("#symbolLink")
+      .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
+  createDropdown();
+  showAreaData();
+  updateTitles();
+}
+
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "roadArea"}),
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
-  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "geography"})}),
-  d3.queue()
-      .defer(d3.json, "data/road/Annual_Totals.json")
-      .defer(d3.json, "data/road/CANADA.json")
-      .await(function(error, mapfile, areafile) {
-        mapData = mapfile;
-        data[selectedRegion] = areafile;
+  settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "geography"})});
 
-        debugger;
-        getDateMinMax();
-        selectedYear = dateRange.max.substring(0, 4);
-        maxYear = selectedYear;
-
-        apiCall(maxYear, selectedYear, "CANADA");
-
-        getCanadaMap(map)
-            .on("loaded", function() {
-              colorMap();
-            });
-
-        d3.select("#mapTitleRoad")
-            .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
-
-        // copy button options
-        const cButtonOptions = {
-          pNode: document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-        };
-        // build nodes on copy button
-        cButton.build(cButtonOptions);
-
-        d3.select("#symbolLink")
-            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
-        createDropdown();
-        showAreaData();
-        updateTitles();
-      });
+  dateRangeFn(minYear, 1, RoadProductId).then((result) => {
+    dateRange.min = minYear;
+    dateRange.max = result.max;
+    dateRange.numPeriods = result.numPeriods;
+    maxYear = selectedYear;
+    apiCall(maxYear, selectedYear, "ALL").then((dataArray) => {
+      data[selectedRegion] = areafile;
+    });
+  });
 });
+
 
 $(document).on("change", uiHandler);
 d3.selection.prototype.moveToFront = function() {

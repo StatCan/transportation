@@ -4,64 +4,99 @@ const NetLPG = 4;
 const RoadProductId = 23100066;
 
 export default function(maxYear, selectedYear, geography) {
-  $.support.cors = true;
-  //get coordinates for data
-  let coordinateArray = coordinateTranslate(geography)
-  let yearRange = maxYear - selectedYear + 1;
+  return new Promise((resolve, reject) => {
+    // get coordinates for data
+
+    if (geography === "ALL") {
+      const coordinateArray = coordinateTranslate(geography);
+      const yearRange = maxYear - selectedYear + 1;
+      const returnArray = [];
+      for (let i =0; i< coordinateArray.length; i +=3 ) {
+        const myData = [
+          {"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange},
+          {"productId": RoadProductId, "coordinate": coordinateArray[i+1], "latestN": yearRange},
+          {"productId": RoadProductId, "coordinate": coordinateArray[i+2], "latestN": yearRange},
+        ];
+
+        $.support.cors = true;
+
+        $.ajax({
+          type: "post",
+          url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+          data: JSON.stringify(myData),
+          dataType: "json",
+          contentType: "application/json",
+          success: function(data, textStatus, jQxhr) {
+            returnArray.push(rebuildData(data, geography));
+            if (i = coordinateArray.length -1) {
+              resolve(returnArray);
+            }
+          },
+          error: function(jqXhr, textStatus, errorThrown) {
+            reject(errorThrown);
+          }
+        });
+      }
+    } else {
+      const coordinateArray = coordinateTranslate(geography);
+      const yearRange = maxYear - selectedYear + 1;
 
 
-  const myData = [
-    {"productId": RoadProductId, "coordinate": coordinateArray[0], "latestN":yearRange},
-    {"productId": RoadProductId, "coordinate": coordinateArray[1], "latestN":yearRange},
-    {"productId": RoadProductId, "coordinate": coordinateArray[2], "latestN":yearRange}
-  ];
+      const myData = [
+        {"productId": RoadProductId, "coordinate": coordinateArray[0], "latestN": yearRange},
+        {"productId": RoadProductId, "coordinate": coordinateArray[1], "latestN": yearRange},
+        {"productId": RoadProductId, "coordinate": coordinateArray[2], "latestN": yearRange}
+      ];
 
 
-
-  $.ajax({
-    type: "post",
-    url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
-    data: JSON.stringify(myData),
-    dataType: "json",
-    contentType: "application/json",
-    success: function(data, textStatus, jQxhr) {
-      debugger
-      return rebuildData(data, geography);
-    },
-    error: function(jqXhr, textStatus, errorThrown) {
-      console.log(errorThrown);
-      alert("An error occured");
+      $.ajax({
+        type: "post",
+        url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+        data: JSON.stringify(myData),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data, textStatus, jQxhr) {
+          resolve(rebuildData(data, geography));
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+          reject(errorThrown);
+          alert("An error occured");
+        }
+      });
     }
   });
 }
 
-function rebuildData(data, geography){
-  let returnObject = {};
-  for (let i = 0; i < data.length; i++){
-    let returnType = Number(data[i].object.coordinate.substring(2,3));
-    let returnValue = data[i].object.vectorDataPoint[0].value;
-    if(returnType === NetGas){
-        returnObject.gas = returnValue;
+function rebuildData(data, geography) {
+  const returnObject = {};
+  for (let i = 0; i < data.length; i++) {
+    const returnType = Number(data[i].object.coordinate.substring(2, 3));
+    let returnValue;
+    if (data[i].object.vectorDataPoint[0].value) {
+      returnValue = data[i].object.vectorDataPoint[0].value;
+    } else {
+      returnValue = data[i].object.vectorDataPoint[0].status;
     }
-    else if (returnType === NetDiesel){
-        returnObject.diesel = returnValue;
+
+    if (returnType === NetGas) {
+      returnObject.gas = returnValue;
+    } else if (returnType === NetDiesel) {
+      returnObject.diesel = returnValue;
+    } else if (returnType === NetLPG) {
+      returnObject.lpg = returnValue;
     }
-    else{
-        returnObject.lpg = returnValue;
-      }
-    }
-  returnObject.date = data[0].object.vectorDataPoint[0].refPer.substring(0,4)
-  if(geography != "CANADA"){
+  }
+  returnObject.date = data[0].object.vectorDataPoint[0].refPer.substring(0, 4);
+  if (geography != "CANADA") {
     returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
   }
 
-  return returnObject
-
+  return returnObject;
 }
 
-function coordinateTranslate(geography){
+function coordinateTranslate(geography) {
   let numGeo;
-  switch(geography){
+  switch (geography) {
     case "CANADA":
       numGeo = 1;
       break;
@@ -104,8 +139,21 @@ function coordinateTranslate(geography){
     case "NU":
       numGeo = 15;
       break;
+    case "ALL":
+      return [`${2}.${NetGas}.0.0.0.0.0.0.0.0`, `${2}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${2}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${3}.${NetGas}.0.0.0.0.0.0.0.0`, `${3}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${3}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${4}.${NetGas}.0.0.0.0.0.0.0.0`, `${4}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${4}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${5}.${NetGas}.0.0.0.0.0.0.0.0`, `${5}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${5}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${6}.${NetGas}.0.0.0.0.0.0.0.0`, `${6}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${6}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${7}.${NetGas}.0.0.0.0.0.0.0.0`, `${7}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${7}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${8}.${NetGas}.0.0.0.0.0.0.0.0`, `${8}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${8}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${9}.${NetGas}.0.0.0.0.0.0.0.0`, `${9}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${9}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${10}.${NetGas}.0.0.0.0.0.0.0.0`, `${10}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${10}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${11}.${NetGas}.0.0.0.0.0.0.0.0`, `${11}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${11}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${12}.${NetGas}.0.0.0.0.0.0.0.0`, `${12}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${12}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${14}.${NetGas}.0.0.0.0.0.0.0.0`, `${14}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${14}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${15}.${NetGas}.0.0.0.0.0.0.0.0`, `${15}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${15}.${NetLPG}.0.0.0.0.0.0.0.0`];
   }
 
-  return [`${numGeo}.${NetGas}.0.0.0.0.0.0.0.0`,`${numGeo}.${NetDiesel}.0.0.0.0.0.0.0.0`,`${numGeo}.${NetLPG}.0.0.0.0.0.0.0.0`];
-
+  return [`${numGeo}.${NetGas}.0.0.0.0.0.0.0.0`, `${numGeo}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${numGeo}.${NetLPG}.0.0.0.0.0.0.0.0`];
 }
