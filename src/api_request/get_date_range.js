@@ -11,7 +11,7 @@ export default function(minYear, frequency, productID) {
     $.support.cors = true;
     $.ajax({
       type: "post",
-      url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+      url: "https://cors-anywhere.herokuapp.com/https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
       data: JSON.stringify(myData),
       dataType: "json",
       contentType: "application/json",
