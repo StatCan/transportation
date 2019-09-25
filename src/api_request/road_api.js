@@ -2,6 +2,8 @@ const NetGas = 1;
 const NetDiesel = 3;
 const NetLPG = 4;
 const RoadProductId = 23100066;
+var proxy = "https://cors-anywhere.herokuapp.com/"
+var webAPI =  "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
 
 var qi_F = 8;
 
@@ -11,7 +13,7 @@ export default function(maxYear, selectedYear, geography) {
 
     if (geography === "ALL") {
       const coordinateArray = coordinateTranslate(geography);
-      const yearRange = maxYear - selectedYear + 1;
+      const yearRange = Number(maxYear) - Number(selectedYear) + 1;
       const returnArray = [];
       for (let i =0; i< coordinateArray.length; i +=3 ) {
         const myData = [
@@ -22,9 +24,11 @@ export default function(maxYear, selectedYear, geography) {
 
         $.support.cors = true;
 
+      console.log(myData)
+
         $.ajax({
           type: "post",
-          url: "http://localhost/post.php",
+          url: proxy + webAPI,
           data: JSON.stringify(myData),
           dataType: "json",
           contentType: "application/json",
@@ -53,7 +57,7 @@ export default function(maxYear, selectedYear, geography) {
 
       $.ajax({
         type: "post",
-        url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+        url: proxy + webAPI,
         data: JSON.stringify(myData),
         dataType: "json",
         contentType: "application/json",

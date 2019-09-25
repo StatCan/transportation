@@ -347,7 +347,8 @@ i18n.load(["src/i18n"], () => {
     dateRange.min = minYear;
     dateRange.max = result.max;
     dateRange.numPeriods = result.numPeriods;
-    maxYear = selectedYear;
+    maxYear = dateRange.max
+    selectedYear = maxYear;
     apiCall(maxYear, selectedYear, "ALL").then((dataArray) => {
       data[selectedRegion] = areafile;
     });
