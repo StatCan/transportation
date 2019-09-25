@@ -3,6 +3,8 @@ const NetDiesel = 3;
 const NetLPG = 4;
 const RoadProductId = 23100066;
 
+var qi_F = 8;
+
 export default function(maxYear, selectedYear, geography) {
   return new Promise((resolve, reject) => {
     // get coordinates for data
@@ -22,7 +24,7 @@ export default function(maxYear, selectedYear, geography) {
 
         $.ajax({
           type: "post",
-          url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+          url: "http://localhost/post.php",
           data: JSON.stringify(myData),
           dataType: "json",
           contentType: "application/json",
@@ -72,10 +74,11 @@ function rebuildData(data, geography) {
   for (let i = 0; i < data.length; i++) {
     const returnType = Number(data[i].object.coordinate.substring(2, 3));
     let returnValue;
-    if (data[i].object.vectorDataPoint[0].value) {
-      returnValue = data[i].object.vectorDataPoint[0].value;
+    let datapoint = data[i].object.vectorDataPoint[0];
+    if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
+      returnValue = datapoint.value;
     } else {
-      returnValue = data[i].object.vectorDataPoint[0].status;
+      returnValue = datapoint.status;
     }
 
     if (returnType === NetGas) {

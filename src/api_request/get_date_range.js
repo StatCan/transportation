@@ -1,5 +1,7 @@
 // this is needed until we get a proper api call for range
 export default function(minYear, frequency, productID) {
+  $.support.cors = true;
+
   return new Promise((resolve, reject) => {
     let mostRecentDate;
     let numberOfPeriods;
@@ -8,10 +10,9 @@ export default function(minYear, frequency, productID) {
     const myData = [
       {"productId": productID, "coordinate": "1.1.0.0.0.0.0.0.0.0", "latestN": 1}];
 
-    $.support.cors = true;
     $.ajax({
       type: "post",
-      url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+      url: "http://localhost/post.php",
       data: JSON.stringify(myData),
       dataType: "json",
       contentType: "application/json",
