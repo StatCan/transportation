@@ -4,6 +4,21 @@ const NetLPG = 4;
 const RoadProductId = 23100066;
 var proxy = "https://cors-anywhere.herokuapp.com/"
 var webAPI =  "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
+let numToProvince = {
+  1: "CANADA",
+  2: "NL",
+  3: "PE",
+  4: "NS",
+  5: "NB",
+  6: "QC",
+  7: "ON",
+  8: "MB",
+  9: "SK",
+  10: "AB",
+  11: "BC",
+  12: "YT",
+  14: "NT",
+  15: "NU"};
 
 var qi_F = 8;
 
@@ -14,35 +29,30 @@ export default function(maxYear, selectedYear, geography) {
     if (geography === "ALL") {
       const coordinateArray = coordinateTranslate(geography);
       const yearRange = Number(maxYear) - Number(selectedYear) + 1;
-      const returnArray = [];
-      for (let i =0; i< coordinateArray.length; i +=3 ) {
-        const myData = [
-          {"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange},
-          {"productId": RoadProductId, "coordinate": coordinateArray[i+1], "latestN": yearRange},
-          {"productId": RoadProductId, "coordinate": coordinateArray[i+2], "latestN": yearRange},
-        ];
-
-        $.support.cors = true;
-
-      console.log(myData)
-
-        $.ajax({
-          type: "post",
-          url: proxy + webAPI,
-          data: JSON.stringify(myData),
-          dataType: "json",
-          contentType: "application/json",
-          success: function(data, textStatus, jQxhr) {
-            returnArray.push(rebuildData(data, geography));
-            if (i = coordinateArray.length -1) {
-              resolve(returnArray);
-            }
-          },
-          error: function(jqXhr, textStatus, errorThrown) {
-            reject(errorThrown);
-          }
-        });
+      let returnArray = [];
+      let returnedCounter = 0;
+      let myData = [];
+      for (let i =0; i< coordinateArray.length; i++ ) {
+          myData.push({"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
       }
+
+      $.support.cors = true;
+
+      $.ajax({
+        type: "post",
+        url: proxy + webAPI,
+        data: JSON.stringify(myData),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data, textStatus, jQxhr) {
+          returnArray = rebuildAll(data);
+          resolve(returnArray);
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+          reject(errorThrown);
+        }
+      });
+
     } else {
       const coordinateArray = coordinateTranslate(geography);
       const yearRange = maxYear - selectedYear + 1;
@@ -62,7 +72,7 @@ export default function(maxYear, selectedYear, geography) {
         dataType: "json",
         contentType: "application/json",
         success: function(data, textStatus, jQxhr) {
-          resolve(rebuildData(data, geography));
+          resolve(rebuildProvinceData(data, geography,yearRange));
         },
         error: function(jqXhr, textStatus, errorThrown) {
           reject(errorThrown);
@@ -73,12 +83,38 @@ export default function(maxYear, selectedYear, geography) {
   });
 }
 
-function rebuildData(data, geography) {
-  const returnObject = {};
+function rebuildAll(data) {
+  let dataByProvince = {};
+  let returnArray = [];
+  let provinceCode;
   for (let i = 0; i < data.length; i++) {
-    const returnType = Number(data[i].object.coordinate.substring(2, 3));
+    provinceCode = data[i].object.coordinate.split(".",1)[0];
+    if (!dataByProvince.hasOwnProperty(provinceCode)){
+      dataByProvince[provinceCode] = [];
+    }
+    dataByProvince[provinceCode].push(data[i])
+  }
+  for (let province in dataByProvince) {
+    returnArray.push(rebuildData(dataByProvince[province],numToProvince[province],0))
+  }
+  return returnArray;
+}
+
+function rebuildProvinceData(data, geography,yearRange){
+  let returnArray = []
+  for (let i = 0; i < yearRange; i++) {
+      returnArray.push(rebuildData(data,geography,i));
+    }
+  return returnArray;
+}
+
+function rebuildData(data, geography, year) {
+  const returnObject = {};
+  let datapoint;
+  for (let i = 0; i < data.length; i++) {
+    const returnType = Number(data[i].object.coordinate.split(".",2)[1]);
     let returnValue;
-    let datapoint = data[i].object.vectorDataPoint[0];
+    datapoint = data[i].object.vectorDataPoint[year];
     if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
       returnValue = datapoint.value;
     } else {
@@ -93,10 +129,9 @@ function rebuildData(data, geography) {
       returnObject.lpg = returnValue;
     }
   }
-  returnObject.date = data[0].object.vectorDataPoint[0].refPer.substring(0, 4);
-  if (geography != "CANADA") {
-    returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
-  }
+  returnObject.date = datapoint.refPer.substring(0, 4);
+  returnObject.province = geography;
+  returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
 
   return returnObject;
 }
