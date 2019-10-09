@@ -9,9 +9,10 @@ import CopyButton from "../copyButton.js";
 
 const RoadProductId = 23100066;
 const data = {};
+const mapData = {};
+const areaData = {};
 const dateRange = {};
 let stackedArea; // stores areaChart() call
-const mapData = {};
 let selectedRegion = "CANADA";
 let maxYear;
 const minYear = 2010;
@@ -167,7 +168,7 @@ function createDropdown() {
   // date dropdown creation
   yearDropdown.empty();
 
-  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
+  for (let i = dateRange.min; i<=dateRange.max; i++) {
     yearDropdown.append($("<option></option>")
         .attr("value", i).html(i));
   }
@@ -201,27 +202,60 @@ function colorMap() {
 
 /* -- display areaChart -- */
 function showAreaData() {
-  stackedArea = areaChart(chart, settings, data[selectedRegion]);
-  d3.select("#svgFuel").select(".x.axis")
-      .select("text")
-      .attr("display", "none");
-  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
+  checkForAreaData().then(() => {
+    if (!areaData.hasOwnProperty(selectedRegion)) {
+      areaData[selectedRegion] = [];
+      for (const year in data[selectedRegion]) {
+        // convert to expected area chart format
+        const areaObj = {};
+        areaObj.gas = data[selectedRegion][year].gas;
+        areaObj.diesel = data[selectedRegion][year].diesel;
+        areaObj.lpg = data[selectedRegion][year].lpg;
+        areaObj.date = data[selectedRegion][year].date;
+        areaData[selectedRegion].push(areaObj);
+      }
+    }
 
-  createOverlay(stackedArea, data[selectedRegion], (d) => {
-    areaTooltip(stackedArea.settings, divArea, d);
-  }, () => {
-    divArea.style("opacity", 0);
+    stackedArea = areaChart(chart, settings, areaData[selectedRegion]);
+    d3.select("#svgFuel").select(".x.axis")
+        .select("text")
+        .attr("display", "none");
+    d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
+
+    createOverlay(stackedArea, areaData[selectedRegion], (d) => {
+      areaTooltip(stackedArea.settings, divArea, d);
+    }, () => {
+      divArea.style("opacity", 0);
+    });
+
+    // Highlight region selected from menu on map
+    d3.select(".dashboard .map")
+        .select("." + selectedRegion)
+        .classed("roadMapHighlight", true)
+        .moveToFront();
+
+    updateTitles();
+    cButton.appendTo(document.getElementById("copy-button-container"));
+    dataCopyButton(areaData[selectedRegion]);
   });
+}
 
-  // Highlight region selected from menu on map
-  d3.select(".dashboard .map")
-      .select("." + selectedRegion)
-      .classed("roadMapHighlight", true)
-      .moveToFront();
-
-  updateTitles();
-  cButton.appendTo(document.getElementById("copy-button-container"));
-  dataCopyButton(data[selectedRegion]);
+function checkForAreaData() {
+  return new Promise((resolve, reject) => {
+    if (!data[selectedRegion]) {
+      data[selectedRegion] = {};
+    }
+    if (Object.keys(data[selectedRegion]).length < (dateRange.max - dateRange.min)) {
+      apiCall(maxYear, minYear, selectedRegion).then((returnData) => {
+        for (const year of returnData) {
+          data[year.province][year.date] = year;
+        }
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
 }
 
 /* -- update map and areaChart titles -- */
@@ -256,16 +290,28 @@ function uiHandler(event) {
     // Chart titles
     updateTitles();
 
-    loadData(selectedRegion, () => {
-      showAreaData();
-    });
+    showAreaData();
   }
 
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    d3.select("#mapTitleRoad")
-        .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
-    colorMap();
+    if (!mapData[selectedYear]) {
+      apiCall(maxYear, selectedYear, "ALL").then((mapData) => {
+        for (const geo of mapData) {
+          const yearObj = {};
+          yearObj[selectedYear] = geo;
+          data[geo.province] = yearObj;
+        }
+        createMapData();
+        d3.select("#mapTitleRoad")
+            .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
+        colorMap();
+      });
+    } else {
+      d3.select("#mapTitleRoad")
+          .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
+      colorMap();
+    }
   }
 }
 
@@ -309,10 +355,22 @@ function dataCopyButton(cButtondataFull) {
 
   cButton.data = lines;
 }
+function createMapData() {
+  if (!mapData[selectedYear]) {
+    mapData[selectedYear] = {};
+    for (const province in data) {
+      if (province!= "CANADA") {
+        mapData[selectedYear][province] = data[province][selectedYear].annualTotal;
+      }
+    }
+  }
+  return;
+}
 
 // -----------------------------------------------------------------------------
 /* Initial page load */
 function pageInitWithData() {
+  createMapData();
   getCanadaMap(map)
       .on("loaded", function() {
         colorMap();
@@ -345,12 +403,19 @@ i18n.load(["src/i18n"], () => {
 
   dateRangeFn(minYear, 1, RoadProductId).then((result) => {
     dateRange.min = minYear;
-    dateRange.max = result.max;
+    dateRange.max = Number(result.max);
     dateRange.numPeriods = result.numPeriods;
-    selectedYear = dateRange.max.substring(0, 4);
-    maxYear = selectedYear;
-    apiCall(maxYear, selectedYear, "ALL").then((dataArray) => {
-      data[selectedRegion] = areafile;
+    maxYear = result.max;
+    selectedYear = maxYear;
+    apiCall(maxYear, selectedYear, "ALL").then((mapData) => {
+      for (const geo of mapData) {
+        const yearObj = {};
+        yearObj[selectedYear] = geo;
+        data[geo.province] = yearObj;
+      }
+      checkForAreaData().then(() => {
+        pageInitWithData();
+      });
     });
   });
 });

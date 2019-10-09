@@ -1,4 +1,7 @@
 // this is needed until we get a proper api call for range
+const proxy = "https://cors-anywhere.herokuapp.com/";
+const webAPI = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
+
 export default function(minYear, frequency, productID) {
   return new Promise((resolve, reject) => {
     let mostRecentDate;
@@ -7,11 +10,9 @@ export default function(minYear, frequency, productID) {
 
     const myData = [
       {"productId": productID, "coordinate": "1.1.0.0.0.0.0.0.0.0", "latestN": 1}];
-
-    $.support.cors = true;
     $.ajax({
       type: "post",
-      url: "https://cors-anywhere.herokuapp.com/https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+      url: proxy + webAPI,
       data: JSON.stringify(myData),
       dataType: "json",
       contentType: "application/json",

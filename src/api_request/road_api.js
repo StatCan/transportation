@@ -2,6 +2,25 @@ const NetGas = 1;
 const NetDiesel = 3;
 const NetLPG = 4;
 const RoadProductId = 23100066;
+const proxy = "https://cors-anywhere.herokuapp.com/";
+const webAPI = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
+const numToProvince = {
+  1: "CANADA",
+  2: "NL",
+  3: "PE",
+  4: "NS",
+  5: "NB",
+  6: "QC",
+  7: "ON",
+  8: "MB",
+  9: "SK",
+  10: "AB",
+  11: "BC",
+  12: "YT",
+  14: "NT",
+  15: "NU"};
+
+const qi_F = 8;
 
 export default function(maxYear, selectedYear, geography) {
   return new Promise((resolve, reject) => {
@@ -9,34 +28,30 @@ export default function(maxYear, selectedYear, geography) {
 
     if (geography === "ALL") {
       const coordinateArray = coordinateTranslate(geography);
-      const yearRange = maxYear - selectedYear + 1;
-      const returnArray = [];
-      for (let i =0; i< coordinateArray.length; i +=3 ) {
-        const myData = [
-          {"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange},
-          {"productId": RoadProductId, "coordinate": coordinateArray[i+1], "latestN": yearRange},
-          {"productId": RoadProductId, "coordinate": coordinateArray[i+2], "latestN": yearRange},
-        ];
-
-        $.support.cors = true;
-
-        $.ajax({
-          type: "post",
-          url: "https://cors-anywhere.herokuapp.com/https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
-          data: JSON.stringify(myData),
-          dataType: "json",
-          contentType: "application/json",
-          success: function(data, textStatus, jQxhr) {
-            returnArray.push(rebuildData(data, geography));
-            if (i = coordinateArray.length -1) {
-              resolve(returnArray);
-            }
-          },
-          error: function(jqXhr, textStatus, errorThrown) {
-            reject(errorThrown);
-          }
-        });
+      const yearRange = Number(maxYear) - Number(selectedYear) + 1;
+      let returnArray = [];
+      const returnedCounter = 0;
+      const myData = [];
+      for (let i =0; i< coordinateArray.length; i++ ) {
+        myData.push({"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
       }
+
+      $.support.cors = true;
+
+      $.ajax({
+        type: "post",
+        url: proxy + webAPI,
+        data: JSON.stringify(myData),
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data, textStatus, jQxhr) {
+          returnArray = rebuildAll(data);
+          resolve(returnArray);
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+          reject(errorThrown);
+        }
+      });
     } else {
       const coordinateArray = coordinateTranslate(geography);
       const yearRange = maxYear - selectedYear + 1;
@@ -51,12 +66,12 @@ export default function(maxYear, selectedYear, geography) {
 
       $.ajax({
         type: "post",
-        url: "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods",
+        url: proxy + webAPI,
         data: JSON.stringify(myData),
         dataType: "json",
         contentType: "application/json",
         success: function(data, textStatus, jQxhr) {
-          resolve(rebuildData(data, geography));
+          resolve(rebuildProvinceData(data, geography, yearRange));
         },
         error: function(jqXhr, textStatus, errorThrown) {
           reject(errorThrown);
@@ -67,15 +82,42 @@ export default function(maxYear, selectedYear, geography) {
   });
 }
 
-function rebuildData(data, geography) {
-  const returnObject = {};
+function rebuildAll(data) {
+  const dataByProvince = {};
+  const returnArray = [];
+  let provinceCode;
   for (let i = 0; i < data.length; i++) {
-    const returnType = Number(data[i].object.coordinate.substring(2, 3));
+    provinceCode = data[i].object.coordinate.split(".", 1)[0];
+    if (!dataByProvince.hasOwnProperty(provinceCode)) {
+      dataByProvince[provinceCode] = [];
+    }
+    dataByProvince[provinceCode].push(data[i]);
+  }
+  for (const province in dataByProvince) {
+    returnArray.push(rebuildData(dataByProvince[province], numToProvince[province], 0));
+  }
+  return returnArray;
+}
+
+function rebuildProvinceData(data, geography, yearRange) {
+  const returnArray = [];
+  for (let i = 0; i < yearRange; i++) {
+    returnArray.push(rebuildData(data, geography, i));
+  }
+  return returnArray;
+}
+
+function rebuildData(data, geography, year) {
+  const returnObject = {};
+  let datapoint;
+  for (let i = 0; i < data.length; i++) {
+    const returnType = Number(data[i].object.coordinate.split(".", 2)[1]);
     let returnValue;
-    if (data[i].object.vectorDataPoint[0].value) {
-      returnValue = data[i].object.vectorDataPoint[0].value;
+    datapoint = data[i].object.vectorDataPoint[year];
+    if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
+      returnValue = datapoint.value;
     } else {
-      returnValue = data[i].object.vectorDataPoint[0].status;
+      returnValue = datapoint.status;
     }
 
     if (returnType === NetGas) {
@@ -86,10 +128,9 @@ function rebuildData(data, geography) {
       returnObject.lpg = returnValue;
     }
   }
-  returnObject.date = data[0].object.vectorDataPoint[0].refPer.substring(0, 4);
-  if (geography != "CANADA") {
-    returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
-  }
+  returnObject.date = datapoint.refPer.substring(0, 4);
+  returnObject.province = geography;
+  returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
 
   return returnObject;
 }
