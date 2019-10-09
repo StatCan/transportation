@@ -356,11 +356,13 @@ function dataCopyButton(cButtondataFull) {
   cButton.data = lines;
 }
 function createMapData() {
-  if (!mapData[selectedYear]) {
-    mapData[selectedYear] = {};
-    for (const province in data) {
-      if (province!= "CANADA") {
-        mapData[selectedYear][province] = data[province][selectedYear].annualTotal;
+  for (let i = dateRange.min; i <= dateRange.max; i++) {
+    if (!mapData[i]) {
+      mapData[i] = {};
+      for (const province in data) {
+        if (province!= "CANADA") {
+          mapData[i][province] = data[province][i].annualTotal;
+        }
       }
     }
   }
@@ -407,11 +409,13 @@ i18n.load(["src/i18n"], () => {
     dateRange.numPeriods = result.numPeriods;
     maxYear = result.max;
     selectedYear = maxYear;
-    apiCall(maxYear, selectedYear, "ALL").then((mapData) => {
+    apiCall(maxYear, minYear, "ALL").then((mapData) => {
       for (const geo of mapData) {
-        const yearObj = {};
-        yearObj[selectedYear] = geo;
-        data[geo.province] = yearObj;
+        if (!data[geo.province]) {
+          const yearObj = {};
+          data[geo.province] = yearObj;
+        }
+        data[geo.province][geo.date] = geo;
       }
       checkForAreaData().then(() => {
         pageInitWithData();

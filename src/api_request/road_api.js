@@ -20,6 +20,17 @@ const numToProvince = {
   14: "NT",
   15: "NU"};
 
+const statusCodes = {
+  1: "..",
+  2: "0s",
+  3: "A",
+  4: "B",
+  5: "C",
+  6: "D",
+  7: "E",
+  8: "F"
+};
+
 const qi_F = 8;
 
 export default function(maxYear, selectedYear, geography) {
@@ -45,7 +56,7 @@ export default function(maxYear, selectedYear, geography) {
         dataType: "json",
         contentType: "application/json",
         success: function(data, textStatus, jQxhr) {
-          returnArray = rebuildAll(data);
+          returnArray = rebuildAll(data, yearRange);
           resolve(returnArray);
         },
         error: function(jqXhr, textStatus, errorThrown) {
@@ -82,7 +93,7 @@ export default function(maxYear, selectedYear, geography) {
   });
 }
 
-function rebuildAll(data) {
+function rebuildAll(data, yearRange) {
   const dataByProvince = {};
   const returnArray = [];
   let provinceCode;
@@ -94,7 +105,9 @@ function rebuildAll(data) {
     dataByProvince[provinceCode].push(data[i]);
   }
   for (const province in dataByProvince) {
-    returnArray.push(rebuildData(dataByProvince[province], numToProvince[province], 0));
+    for (let i = 0; i < yearRange; i++) {
+      returnArray.push(rebuildData(dataByProvince[province], numToProvince[province], i));
+    }
   }
   return returnArray;
 }
@@ -117,7 +130,7 @@ function rebuildData(data, geography, year) {
     if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
       returnValue = datapoint.value;
     } else {
-      returnValue = datapoint.status;
+      returnValue = statusCodes[datapoint.statusCode];
     }
 
     if (returnType === NetGas) {
@@ -130,7 +143,8 @@ function rebuildData(data, geography, year) {
   }
   returnObject.date = datapoint.refPer.substring(0, 4);
   returnObject.province = geography;
-  returnObject.annualTotal = returnObject.lpg + returnObject.diesel + returnObject.gas;
+  returnObject.annualTotal = (Number(returnObject.lpg) ? returnObject.lpg : 0) + (Number(returnObject.diesel) ? returnObject.diesel : 0)+
+                             (Number(returnObject.gas) ? returnObject.gas : 0);
 
   return returnObject;
 }
@@ -181,7 +195,9 @@ function coordinateTranslate(geography) {
       numGeo = 15;
       break;
     case "ALL":
-      return [`${2}.${NetGas}.0.0.0.0.0.0.0.0`, `${2}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${2}.${NetLPG}.0.0.0.0.0.0.0.0`,
+      return [
+        `${1}.${NetGas}.0.0.0.0.0.0.0.0`, `${1}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${1}.${NetLPG}.0.0.0.0.0.0.0.0`,
+        `${2}.${NetGas}.0.0.0.0.0.0.0.0`, `${2}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${2}.${NetLPG}.0.0.0.0.0.0.0.0`,
         `${3}.${NetGas}.0.0.0.0.0.0.0.0`, `${3}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${3}.${NetLPG}.0.0.0.0.0.0.0.0`,
         `${4}.${NetGas}.0.0.0.0.0.0.0.0`, `${4}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${4}.${NetLPG}.0.0.0.0.0.0.0.0`,
         `${5}.${NetGas}.0.0.0.0.0.0.0.0`, `${5}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${5}.${NetLPG}.0.0.0.0.0.0.0.0`,
