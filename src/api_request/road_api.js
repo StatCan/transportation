@@ -37,59 +37,32 @@ export default function(maxYear, selectedYear, geography) {
   return new Promise((resolve, reject) => {
     // get coordinates for data
 
-    if (geography === "ALL") {
-      const coordinateArray = coordinateTranslate(geography);
-      const yearRange = Number(maxYear) - Number(selectedYear) + 1;
-      let returnArray = [];
-      const returnedCounter = 0;
-      const myData = [];
-      for (let i =0; i< coordinateArray.length; i++ ) {
-        myData.push({"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
-      }
 
-      $.support.cors = true;
-
-      $.ajax({
-        type: "post",
-        url: proxy + webAPI,
-        data: JSON.stringify(myData),
-        dataType: "json",
-        contentType: "application/json",
-        success: function(data, textStatus, jQxhr) {
-          returnArray = rebuildAll(data, yearRange);
-          resolve(returnArray);
-        },
-        error: function(jqXhr, textStatus, errorThrown) {
-          reject(errorThrown);
-        }
-      });
-    } else {
-      const coordinateArray = coordinateTranslate(geography);
-      const yearRange = maxYear - selectedYear + 1;
-
-
-      const myData = [
-        {"productId": RoadProductId, "coordinate": coordinateArray[0], "latestN": yearRange},
-        {"productId": RoadProductId, "coordinate": coordinateArray[1], "latestN": yearRange},
-        {"productId": RoadProductId, "coordinate": coordinateArray[2], "latestN": yearRange}
-      ];
-
-
-      $.ajax({
-        type: "post",
-        url: proxy + webAPI,
-        data: JSON.stringify(myData),
-        dataType: "json",
-        contentType: "application/json",
-        success: function(data, textStatus, jQxhr) {
-          resolve(rebuildProvinceData(data, geography, yearRange));
-        },
-        error: function(jqXhr, textStatus, errorThrown) {
-          reject(errorThrown);
-          alert("An error occured");
-        }
-      });
+    const coordinateArray = coordinateTranslate(geography);
+    const yearRange = Number(maxYear) - Number(selectedYear) + 1;
+    let returnArray = [];
+    const returnedCounter = 0;
+    const myData = [];
+    for (let i =0; i< coordinateArray.length; i++ ) {
+      myData.push({"productId": RoadProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
     }
+
+    $.support.cors = true;
+
+    $.ajax({
+      type: "post",
+      url: proxy + webAPI,
+      data: JSON.stringify(myData),
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data, textStatus, jQxhr) {
+        returnArray = rebuildAll(data, yearRange);
+        resolve(returnArray);
+      },
+      error: function(jqXhr, textStatus, errorThrown) {
+        reject(errorThrown);
+      }
+    });
   });
 }
 
@@ -108,14 +81,6 @@ function rebuildAll(data, yearRange) {
     for (let i = 0; i < yearRange; i++) {
       returnArray.push(rebuildData(dataByProvince[province], numToProvince[province], i));
     }
-  }
-  return returnArray;
-}
-
-function rebuildProvinceData(data, geography, yearRange) {
-  const returnArray = [];
-  for (let i = 0; i < yearRange; i++) {
-    returnArray.push(rebuildData(data, geography, i));
   }
   return returnArray;
 }

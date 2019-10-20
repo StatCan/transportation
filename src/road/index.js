@@ -202,61 +202,42 @@ function colorMap() {
 
 /* -- display areaChart -- */
 function showAreaData() {
-  checkForAreaData().then(() => {
-    if (!areaData.hasOwnProperty(selectedRegion)) {
-      areaData[selectedRegion] = [];
-      for (const year in data[selectedRegion]) {
-        // convert to expected area chart format
-        const areaObj = {};
-        areaObj.gas = data[selectedRegion][year].gas;
-        areaObj.diesel = data[selectedRegion][year].diesel;
-        areaObj.lpg = data[selectedRegion][year].lpg;
-        areaObj.date = data[selectedRegion][year].date;
-        areaData[selectedRegion].push(areaObj);
-      }
+  if (!areaData.hasOwnProperty(selectedRegion)) {
+    areaData[selectedRegion] = [];
+    for (const year in data[selectedRegion]) {
+      // convert to expected area chart format
+      const areaObj = {};
+      areaObj.gas = data[selectedRegion][year].gas;
+      areaObj.diesel = data[selectedRegion][year].diesel;
+      areaObj.lpg = data[selectedRegion][year].lpg;
+      areaObj.date = data[selectedRegion][year].date;
+      areaData[selectedRegion].push(areaObj);
     }
+  }
 
-    stackedArea = areaChart(chart, settings, areaData[selectedRegion]);
-    d3.select("#svgFuel").select(".x.axis")
-        .select("text")
-        .attr("display", "none");
-    d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
+  stackedArea = areaChart(chart, settings, areaData[selectedRegion]);
+  d3.select("#svgFuel").select(".x.axis")
+      .select("text")
+      .attr("display", "none");
+  d3.select("#svgFuel").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
-    createOverlay(stackedArea, areaData[selectedRegion], (d) => {
-      areaTooltip(stackedArea.settings, divArea, d);
-    }, () => {
-      divArea.style("opacity", 0);
-    });
-
-    // Highlight region selected from menu on map
-    d3.select(".dashboard .map")
-        .select("." + selectedRegion)
-        .classed("roadMapHighlight", true)
-        .moveToFront();
-
-    updateTitles();
-    cButton.appendTo(document.getElementById("copy-button-container"));
-    dataCopyButton(areaData[selectedRegion]);
+  createOverlay(stackedArea, areaData[selectedRegion], (d) => {
+    areaTooltip(stackedArea.settings, divArea, d);
+  }, () => {
+    divArea.style("opacity", 0);
   });
+
+  // Highlight region selected from menu on map
+  d3.select(".dashboard .map")
+      .select("." + selectedRegion)
+      .classed("roadMapHighlight", true)
+      .moveToFront();
+
+  updateTitles();
+  cButton.appendTo(document.getElementById("copy-button-container"));
+  dataCopyButton(areaData[selectedRegion]);
 }
 
-function checkForAreaData() {
-  return new Promise((resolve, reject) => {
-    if (!data[selectedRegion]) {
-      data[selectedRegion] = {};
-    }
-    if (Object.keys(data[selectedRegion]).length < (dateRange.max - dateRange.min)) {
-      apiCall(maxYear, minYear, selectedRegion).then((returnData) => {
-        for (const year of returnData) {
-          data[year.province][year.date] = year;
-        }
-        resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
-}
 
 /* -- update map and areaChart titles -- */
 function updateTitles() {
@@ -295,23 +276,9 @@ function uiHandler(event) {
 
   if (event.target.id === "year") {
     selectedYear = document.getElementById("year").value;
-    if (!mapData[selectedYear]) {
-      apiCall(maxYear, selectedYear, "ALL").then((mapData) => {
-        for (const geo of mapData) {
-          const yearObj = {};
-          yearObj[selectedYear] = geo;
-          data[geo.province] = yearObj;
-        }
-        createMapData();
-        d3.select("#mapTitleRoad")
-            .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
-        colorMap();
-      });
-    } else {
-      d3.select("#mapTitleRoad")
-          .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
-      colorMap();
-    }
+    d3.select("#mapTitleRoad")
+        .text(i18next.t("mapTitle", {ns: "road", year: selectedYear}));
+    colorMap();
   }
 }
 
@@ -417,9 +384,7 @@ i18n.load(["src/i18n"], () => {
         }
         data[geo.province][geo.date] = geo;
       }
-      checkForAreaData().then(() => {
-        pageInitWithData();
-      });
+      pageInitWithData();
     });
   });
 });
