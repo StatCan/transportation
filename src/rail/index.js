@@ -2,7 +2,11 @@ import settingsBar from "./settings_barChart.js";
 import drawTable from "./railTable.js";
 import mapColourScaleFn from "../mapColourScaleFn.js";
 import fillMapFn from "../fillMapFnRail.js";
+import dateRangeFn from "../api_request/get_date_range.js";
+import apiCall from "../api_request/rail_api.js";
 import CopyButton from "../copyButton.js";
+
+const RailProductId = 23100066;
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -18,6 +22,8 @@ const defaultComm = "mixed";
 let selectedOrig;
 let selectedDest;
 let selectedComm;
+let maxYear;
+const minYear = 2010;
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
 const usaMexicoImageLocation = "lib/usamexico.png"
@@ -368,6 +374,27 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/road/CANADA.json")
       // .defer(d3.json, "data/rail/All_other.json")
       .await(function(error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
+
+        dateRangeFn(minYear, 1, RailProductId).then((result) => {
+          debugger;
+          dateRange.min = minYear;
+          dateRange.max = Number(result.max);
+          dateRange.numPeriods = result.numPeriods;
+          maxYear = result.max;
+          selectedYear = maxYear;
+          apiCall(maxYear, minYear, "ALL").then((mapData) => {
+            for (const geo of mapData) {
+              if (!data[geo.province]) {
+                const yearObj = {};
+                data[geo.province] = yearObj;
+              }
+              data[geo.province][geo.date] = geo;
+            }
+            pageInitWithData();
+          });
+        });
+
+
         allCommArr.push({"coal": allcoal});
         allCommArr.push({"mixed": allmixed});
         allCommArr.push({"wheat": allwheat});
@@ -378,6 +405,7 @@ i18n.load(["src/i18n"], function() {
         allCommArr.push({"oils": alloils});
         allCommArr.push({"chems": allchems});
         allCommArr.push({"pulp": allpulp});
+
         // allCommArr.push({"other": allother});
         setOrigin(defaultOrig);
         setDest(defaultDest);
