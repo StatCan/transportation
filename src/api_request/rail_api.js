@@ -1,6 +1,3 @@
-const NetGas = 1;
-const NetDiesel = 3;
-const NetLPG = 4;
 const ProductId = 23100062;
 const proxy = "https://cors-anywhere.herokuapp.com/";
 const webAPI = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
@@ -12,7 +9,20 @@ const numToProvince = {
   5: "SK",
   6: "AB",
   7: "BC",
-  8: "USA-MX",};
+  8: "USA-MX"};
+
+const numToComm = {
+  1: "wheat",
+  5: "canola",
+  20: "ores",
+  26: "coal",
+  28: "oils",
+  34: "chems",
+  35: "potash",
+  41: "lumber",
+  43: "pulp"
+  3: "mixed",
+};
 
 const statusCodes = {
   1: "..",
