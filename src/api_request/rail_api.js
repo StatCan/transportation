@@ -2,26 +2,38 @@ const ProductId = 23100062;
 const proxy = "https://cors-anywhere.herokuapp.com/";
 const webAPI = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
 const numToProvince = {
-  1: "AT",
-  2: "QC",
-  3: "ON",
-  4: "MB",
-  5: "SK",
-  6: "AB",
-  7: "BC",
-  8: "USA-MX"};
+  1: "All",
+  2: "AT",
+  3: "QC",
+  4: "ON",
+  5: "MB",
+  6: "SK",
+  7: "AB",
+  8: "BC",
+  11: "USA-MX"};
+const provinceToNum = {
+  "All": 1,
+  "AT": 2,
+  "QC": 3,
+  "ON": 4,
+  "MB": 5,
+  "SK": 6,
+  "AB": 7,
+  "BC": 8,
+  "USA-MX": 11};
 
 const numToComm = {
-  1: "wheat",
-  5: "canola",
-  20: "ores",
-  26: "coal",
-  28: "oils",
-  34: "chems",
-  35: "potash",
-  41: "lumber",
-  43: "pulp"
-  3: "mixed",
+  1: "total",
+  2: "wheat",
+  6: "canola",
+  21: "ores",
+  27: "coal",
+  29: "oils",
+  35: "chems",
+  36: "potash",
+  42: "lumber",
+  44: "pulp",
+  64: "mixed",
 };
 
 const statusCodes = {
@@ -37,20 +49,17 @@ const statusCodes = {
 
 const qi_F = 8;
 
-export default function(maxYear, selectedYear, geography) {
+export default function(maxYear, minYear, origin) {
   return new Promise((resolve, reject) => {
     // get coordinates for data
 
 
-    const coordinateArray = coordinateTranslate(geography);
-    const yearRange = Number(maxYear) - Number(selectedYear) + 1;
+    const coordinateArray = coordinateTranslate(origin);
+    const yearRange = Number(maxYear) - Number(minYear) +1;
     let returnArray = [];
     const returnedCounter = 0;
     const myData = [];
     for (let i =0; i< coordinateArray.length; i++ ) {
-      for (let j =0; j< coordinateArray.length; j++ ) {
-        for (let k =0; k< coordinateArray.length; k++ ) {
-
       myData.push({"productId": ProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
     }
 
@@ -63,7 +72,7 @@ export default function(maxYear, selectedYear, geography) {
       dataType: "json",
       contentType: "application/json",
       success: function(data, textStatus, jQxhr) {
-        returnArray = rebuildAll(data, yearRange);
+        returnArray = rebuild(data, yearRange, origin);
         resolve(returnArray);
       },
       error: function(jqXhr, textStatus, errorThrown) {
@@ -73,12 +82,12 @@ export default function(maxYear, selectedYear, geography) {
   });
 }
 
-function rebuildAll(data, yearRange) {
+function rebuild(data, yearRange, origin) {
   const dataByProvince = {};
   const returnArray = [];
   let provinceCode;
   for (let i = 0; i < data.length; i++) {
-    provinceCode = data[i].object.coordinate.split(".", 1)[0];
+    provinceCode = data[i].object.coordinate.split(".", 2)[1];
     if (!dataByProvince.hasOwnProperty(provinceCode)) {
       dataByProvince[provinceCode] = [];
     }
@@ -86,17 +95,17 @@ function rebuildAll(data, yearRange) {
   }
   for (const province in dataByProvince) {
     for (let i = 0; i < yearRange; i++) {
-      returnArray.push(rebuildData(dataByProvince[province], numToProvince[province], i));
+      returnArray.push(rebuildData(dataByProvince[province], origin, numToProvince[province], i));
     }
   }
   return returnArray;
 }
 
-function rebuildData(data, geography, year) {
+function rebuildData(data, origin, desitination, year) {
   const returnObject = {};
   let datapoint;
   for (let i = 0; i < data.length; i++) {
-    const returnType = Number(data[i].object.coordinate.split(".", 2)[1]);
+    const returnType = Number(data[i].object.coordinate.split(".", 3)[2]);
     let returnValue;
     datapoint = data[i].object.vectorDataPoint[year];
     if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
@@ -105,27 +114,22 @@ function rebuildData(data, geography, year) {
       returnValue = statusCodes[datapoint.statusCode];
     }
 
-    if (returnType === NetGas) {
-      returnObject.gas = returnValue;
-    } else if (returnType === NetDiesel) {
-      returnObject.diesel = returnValue;
-    } else if (returnType === NetLPG) {
-      returnObject.lpg = returnValue;
-    }
+    returnObject[numToComm[returnType]] = returnValue;
   }
   returnObject.date = datapoint.refPer.substring(0, 4);
-  returnObject.province = geography;
-  returnObject.annualTotal = (Number(returnObject.lpg) ? returnObject.lpg : 0) + (Number(returnObject.diesel) ? returnObject.diesel : 0)+
-                             (Number(returnObject.gas) ? returnObject.gas : 0);
+  returnObject.origin = origin;
+  returnObject.desitination = desitination;
 
   return returnObject;
 }
 
 function coordinateTranslate(geography) {
-  let numGeo;
-  let returnArray;
-       [
-        `${1}.${NetGas}.0.0.0.0.0.0.0.0`, `${1}.${NetDiesel}.0.0.0.0.0.0.0.0`, `${1}.${NetLPG}.0.0.0.0.0.0.0.0`,
-      ];
+  const numGeo = provinceToNum[geography];
+  const returnArray = [];
+  for (const i in numToProvince) {
+    for (const j in numToComm) {
+      returnArray.push(`${numGeo}.${i}.${j}.0.0.0.0.0.0.0`);
+    }
+  }
   return returnArray;
 }

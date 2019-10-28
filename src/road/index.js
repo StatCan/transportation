@@ -370,7 +370,7 @@ i18n.load(["src/i18n"], () => {
   settings.y.label = i18next.t("y_label", {ns: "roadArea"}),
   settings.tableTitle = i18next.t("tableTitle", {ns: "roadArea", geo: i18next.t(selectedRegion, {ns: "geography"})});
 
-  dateRangeFn(minYear, 1, RoadProductId).then((result) => {
+  dateRangeFn(minYear, 1, RoadProductId, "1.1.0.0.0.0.0.0.0.0").then((result) => {
     dateRange.min = minYear;
     dateRange.max = Number(result.max);
     dateRange.numPeriods = result.numPeriods;

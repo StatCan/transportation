@@ -6,7 +6,7 @@ import dateRangeFn from "../api_request/get_date_range.js";
 import apiCall from "../api_request/rail_api.js";
 import CopyButton from "../copyButton.js";
 
-const RailProductId = 23100066;
+const RailProductId = 23100062;
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ const cButton = new CopyButton();
 // import createLegend from "./createLegend.js";
 
 const allCommArr = []; // passed
-let dateRange = {};
+const dateRange = {};
 const defaultOrig = "AT";
 const defaultDest = "QC";
 const defaultComm = "mixed";
@@ -26,10 +26,10 @@ let maxYear;
 const minYear = 2010;
 let dataTag; // stores `${selectedOrig}_${selectedComm}`;
 const xlabelDY = 0.71; // spacing between areaChart xlabels and ticks
-const usaMexicoImageLocation = "lib/usamexico.png"
+const usaMexicoImageLocation = "lib/usamexico.png";
 
 const origin = "Origin";
-const destination = "Dest"
+const destination = "Dest";
 
 const data = {}; // stores data for barChart
 let selectedYear;
@@ -116,7 +116,7 @@ map.on("mousemove", () => {
     if (!isNaN(data[dataTag][selectedYear][key.substring(0, key.length - 4)])) {
       value = settingsBar.formatNum(data[dataTag][selectedYear][key.substring(0, key.length - 4)]) + " " + i18next.t("units", {ns: "rail"});
     } else {
-      value = i18next.t("hoverNA", {ns:"rail"})
+      value = i18next.t("hoverNA", {ns: "rail"});
     }
     div
         .style("opacity", .9);
@@ -144,13 +144,14 @@ map.on("mousedown", () => {
     document.getElementById("originGeo").value = d3.event.target.id.substring(0, event.target.id.length -4);
     setOrigin(d3.event.target.id.substring(0, event.target.id.length -4));
     updatePage();
-}
+  }
 });
 // -----------------------------------------------------------------------------
 /* FNS */
 function updatePage() {
   if (!data[dataTag]) {
     loadData().then(function(newData) {
+      debugger;
       data[dataTag] = newData;
       showBarChartData();
       colorMap();
@@ -198,7 +199,7 @@ function highlightMap(selection, mode) {
 
   d3.selectAll(`.dashboard .map #${selection}_map`)
       .classed(`rail${mode}MapHighlight`, true)
-      .classed("railMapHighlight", true)
+      .classed("railMapHighlight", true);
 
   d3.selectAll(".dashboard .map .railMapHighlight")
       .moveToFront();
@@ -207,7 +208,7 @@ function highlightMap(selection, mode) {
 function colorMap() {
   // store map data in array and plot
   const thisTotalObject ={};
-  let thisTotalArray = [];
+  const thisTotalArray = [];
 
   for (const key in data[dataTag][selectedYear]) {
     if (key !== "All") {
@@ -223,7 +224,7 @@ function colorMap() {
   const dimExtent = fillMapFn(thisTotalArray, colourArray, numLevels);
 
   // colour bar scale and add label
-  //ADD LOGIC FOR 0 VALUE
+  // ADD LOGIC FOR 0 VALUE
   if (dimExtent[1] === 0) {
     mapColourScaleFn(svgCB, [colourArray[0]], dimExtent, 1, settingsBar);
   } else {
@@ -279,7 +280,7 @@ const setDateRange = function(dataObject) {
   }
   selectedYear = dateRange.max;
   d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-}
+};
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const thisComm = i18next.t(selectedComm, {ns: "rail"});
@@ -305,12 +306,12 @@ function dataCopyButton(cButtondata) {
   // for first data table
   const dataArray = [];
   const tableComm = i18next.t(selectedComm, {ns: "railTable"});
-  const title = i18next.t("dataTableTitle", {ns: "rail", comm: tableComm, geo: thisTilteOrigin})
+  const title = i18next.t("dataTableTitle", {ns: "rail", comm: tableComm, geo: thisTilteOrigin});
   const firstTitle = [title];
-  for (let year in cButtondata) {
-    let entry = {};
+  for (const year in cButtondata) {
+    const entry = {};
     entry.year = year;
-    for (let geo in cButtondata[year]){
+    for (const geo in cButtondata[year]) {
       entry[geo] = cButtondata[year][geo];
     }
     dataArray.push(entry);
@@ -374,15 +375,13 @@ i18n.load(["src/i18n"], function() {
       .defer(d3.json, "data/road/CANADA.json")
       // .defer(d3.json, "data/rail/All_other.json")
       .await(function(error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
-
-        dateRangeFn(minYear, 1, RailProductId).then((result) => {
-          debugger;
+        dateRangeFn(minYear, 1, RailProductId, "1.1.1.0.0.0.0.0.0.0").then((result) => {
           dateRange.min = minYear;
           dateRange.max = Number(result.max);
           dateRange.numPeriods = result.numPeriods;
           maxYear = result.max;
           selectedYear = maxYear;
-          apiCall(maxYear, minYear, "ALL").then((mapData) => {
+          apiCall(maxYear, minYear, defaultOrig).then((mapData) => {
             for (const geo of mapData) {
               if (!data[geo.province]) {
                 const yearObj = {};
@@ -416,13 +415,13 @@ i18n.load(["src/i18n"], function() {
             .on("loaded", function() {
               // USA-MEXICO SVG
 
-              //Place under alberta
-              let usaMexOffset = document.getElementById("AB_map").getBBox();
+              // Place under alberta
+              const usaMexOffset = document.getElementById("AB_map").getBBox();
 
-              //create rectangle
+              // create rectangle
               const usMex = map
                   .append("g")
-                  .attr("id", "usa-mex-group")
+                  .attr("id", "usa-mex-group");
               usMex
                   .append("rect")
                   .attr("width", 35)
@@ -432,7 +431,7 @@ i18n.load(["src/i18n"], function() {
                   .attr("class", "USA-MX")
                   .attr("id", "USA-MX_map");
 
-              //create image
+              // create image
               usMex
                   .append("image")
                   .attr("width", 35)
@@ -441,7 +440,7 @@ i18n.load(["src/i18n"], function() {
                   .attr("y", (usaMexOffset.height + usaMexOffset.y +5 ))
                   .attr("xlink:href", usaMexicoImageLocation)
                   .attr("id", "USA-MX_map");
-              d3.select("#mapColourScale").classed("moveMap", true)
+              d3.select("#mapColourScale").classed("moveMap", true);
               d3.select(".map").classed("moveMap", true);
               highlightMap(defaultOrig, origin);
               colorMap();

@@ -2,14 +2,14 @@
 const proxy = "https://cors-anywhere.herokuapp.com/";
 const webAPI = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods";
 
-export default function(minYear, frequency, productID) {
+export default function(minYear, frequency, productID, defaultCoord) {
   return new Promise((resolve, reject) => {
     let mostRecentDate;
     let numberOfPeriods;
     const returnObject = {};
 
     const myData = [
-      {"productId": productID, "coordinate": "1.1.0.0.0.0.0.0.0.0", "latestN": 1}];
+      {"productId": productID, "coordinate": defaultCoord, "latestN": 1}];
     $.ajax({
       type: "post",
       url: proxy + webAPI,
