@@ -14,7 +14,6 @@ const cButton = new CopyButton();
 // -----------------------------------------------------------------------------
 // import createLegend from "./createLegend.js";
 
-const allCommArr = []; // passed
 const dateRange = {};
 const defaultOrig = "AT";
 const defaultDest = "QC";
@@ -74,17 +73,6 @@ const commTable = d3.select("#commgrid")
 
 // ---------------------------------------------------------------------
 /* load data fn */
-const loadData = function() {
-  return new Promise(function(resolve, reject) {
-    d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, filedata) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(filedata);
-      }
-    });
-  });
-};
 // ---------------------------------------------------------------------
 function uiHandler(event) {
   if (event.target.id === "commodity") {
@@ -146,13 +134,13 @@ map.on("mousedown", () => {
     updatePage();
   }
 });
+
 // -----------------------------------------------------------------------------
 /* FNS */
 function updatePage() {
   if (!data[dataTag]) {
-    loadData().then(function(newData) {
-      debugger;
-      data[dataTag] = newData;
+    apiCall(maxYear, minYear, selectedOrig).then(function(newData) {
+      buildData(newData);
       showBarChartData();
       colorMap();
       drawTable(data[dataTag], settingsBar, selectedOrig);
@@ -263,24 +251,6 @@ function showBarChartData() {
   updateTitles();
 }
 
-// takes any of the data objects as input to get the date range
-const setDateRange = function(dataObject) {
-  for (const [date] of Object.entries(dataObject)) {
-    if (!dateRange.min || new Date(date)< new Date(dateRange.min)) {
-      dateRange.min = date;
-    }
-    if (!dateRange.max || new Date(date)> new Date(dateRange.max)) {
-      dateRange.max = date;
-    }
-  }
-  const yearDropdown = $("#yearSelector");
-  for (let i = Number(dateRange.min.substring(0, 4)); i<=(Number(dateRange.max.substring(0, 4))); i++) {
-    yearDropdown.append($("<option></option>")
-        .attr("value", i).html(i));
-  }
-  selectedYear = dateRange.max;
-  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
-};
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const thisComm = i18next.t(selectedComm, {ns: "rail"});
@@ -356,120 +326,101 @@ function formatForSpreadsheet(dataArray, title) {
   return lines;
 }
 // ---------------------------------------------------------------------
+function pageInitWithData() {
+  setOrigin(defaultOrig);
+  setDest(defaultDest);
+  setCommodity(defaultComm);
+  getCanadaMap(map)
+      .on("loaded", function() {
+        // USA-MEXICO SVG
+
+        // Place under alberta
+        const usaMexOffset = document.getElementById("AB_map").getBBox();
+
+        // create rectangle
+        const usMex = map
+            .append("g")
+            .attr("id", "usa-mex-group");
+        usMex
+            .append("rect")
+            .attr("width", 35)
+            .attr("height", 11)
+            .attr("x", usaMexOffset.x)
+            .attr("y", (usaMexOffset.height + usaMexOffset.y +18 ))
+            .attr("class", "USA-MX")
+            .attr("id", "USA-MX_map");
+
+        // create image
+        usMex
+            .append("image")
+            .attr("width", 35)
+            .attr("height", 15)
+            .attr("x", usaMexOffset.x)
+            .attr("y", (usaMexOffset.height + usaMexOffset.y +5 ))
+            .attr("xlink:href", usaMexicoImageLocation)
+            .attr("id", "USA-MX_map");
+        d3.select("#mapColourScale").classed("moveMap", true);
+        d3.select(".map").classed("moveMap", true);
+        highlightMap(defaultOrig, origin);
+        colorMap();
+      });
+  // copy button options
+  const cButtonOptions = {
+    pNode: document.getElementById("copy-button-container"),
+    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+  };
+  // build nodes on copy button
+  cButton.build(cButtonOptions);
+
+
+  d3.select("#mapTitleRail")
+      .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t("map" + selectedOrig, {ns: "rail"}), year: selectedYear}));
+  d3.select("#symbolLink")
+      .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
+  updatePage();
+  updateTitles();
+}
+function buildData(returnData) {
+  for (const item of returnData) {
+    if (!data[`${item.origin}_${item.comm}`]) {
+      const origCommPair = {};
+      data[`${item.origin}_${item.comm}`] = origCommPair;
+    }
+    if (!data[`${item.origin}_${item.comm}`][item.date]) {
+      const date = {};
+      data[`${item.origin}_${item.comm}`][item.date]= date;
+    }
+    data[`${item.origin}_${item.comm}`][item.date][item.dest] = item.value;
+  }
+}
+function dateInit(dateFnResult) {
+  dateRange.min = minYear;
+  dateRange.max = Number(dateFnResult.max);
+  dateRange.numPeriods = dateFnResult.numPeriods;
+  maxYear = dateFnResult.max;
+  selectedYear = maxYear;
+  const yearDropdown = $("#yearSelector");
+  for (let i = dateRange.min; i<=dateRange.max; i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  selectedYear = dateRange.max;
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+}
 // Landing page displays
 i18n.load(["src/i18n"], function() {
   settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
   settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
   settingsBar.z.label = i18next.t("z_label", {ns: "railTable"}),
-  d3.queue()
-      .defer(d3.json, "data/rail/All_coal.json")
-      .defer(d3.json, "data/rail/All_mixed.json")
-      .defer(d3.json, "data/rail/All_wheat.json")
-      .defer(d3.json, "data/rail/All_ores.json")
-      .defer(d3.json, "data/rail/All_potash.json")
-      .defer(d3.json, "data/rail/All_lumber.json")
-      .defer(d3.json, "data/rail/All_canola.json")
-      .defer(d3.json, "data/rail/All_oils.json")
-      .defer(d3.json, "data/rail/All_chems.json")
-      .defer(d3.json, "data/rail/All_pulp.json")
-      .defer(d3.json, "data/road/CANADA.json")
-      // .defer(d3.json, "data/rail/All_other.json")
-      .await(function(error, allcoal, allmixed, allwheat, allores, allpotash, alllumber, allcanola, alloils, allchems, allpulp) {
-        dateRangeFn(minYear, 1, RailProductId, "1.1.1.0.0.0.0.0.0.0").then((result) => {
-          dateRange.min = minYear;
-          dateRange.max = Number(result.max);
-          dateRange.numPeriods = result.numPeriods;
-          maxYear = result.max;
-          selectedYear = maxYear;
-          apiCall(maxYear, minYear, defaultOrig).then((mapData) => {
-            for (const geo of mapData) {
-              if (!data[geo.province]) {
-                const yearObj = {};
-                data[geo.province] = yearObj;
-              }
-              data[geo.province][geo.date] = geo;
-            }
-            pageInitWithData();
-          });
-        });
-
-
-        allCommArr.push({"coal": allcoal});
-        allCommArr.push({"mixed": allmixed});
-        allCommArr.push({"wheat": allwheat});
-        allCommArr.push({"ores": allores});
-        allCommArr.push({"potash": allpotash});
-        allCommArr.push({"lumber": alllumber});
-        allCommArr.push({"canola": allcanola});
-        allCommArr.push({"oils": alloils});
-        allCommArr.push({"chems": allchems});
-        allCommArr.push({"pulp": allpulp});
-
-        // allCommArr.push({"other": allother});
-        setOrigin(defaultOrig);
-        setDest(defaultDest);
-        setCommodity(defaultComm);
-        setDateRange(allcoal);
-
-        getCanadaMap(map)
-            .on("loaded", function() {
-              // USA-MEXICO SVG
-
-              // Place under alberta
-              const usaMexOffset = document.getElementById("AB_map").getBBox();
-
-              // create rectangle
-              const usMex = map
-                  .append("g")
-                  .attr("id", "usa-mex-group");
-              usMex
-                  .append("rect")
-                  .attr("width", 35)
-                  .attr("height", 11)
-                  .attr("x", usaMexOffset.x)
-                  .attr("y", (usaMexOffset.height + usaMexOffset.y +18 ))
-                  .attr("class", "USA-MX")
-                  .attr("id", "USA-MX_map");
-
-              // create image
-              usMex
-                  .append("image")
-                  .attr("width", 35)
-                  .attr("height", 15)
-                  .attr("x", usaMexOffset.x)
-                  .attr("y", (usaMexOffset.height + usaMexOffset.y +5 ))
-                  .attr("xlink:href", usaMexicoImageLocation)
-                  .attr("id", "USA-MX_map");
-              d3.select("#mapColourScale").classed("moveMap", true);
-              d3.select(".map").classed("moveMap", true);
-              highlightMap(defaultOrig, origin);
-              colorMap();
-            });
-        // copy button options
-        const cButtonOptions = {
-          pNode: document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-        };
-        // build nodes on copy button
-        cButton.build(cButtonOptions);
-
-
-        d3.select("#mapTitleRail")
-            .text(i18next.t("mapTitle", {ns: "rail", commodity: i18next.t(selectedComm, {ns: "rail"}), geo: i18next.t("map" + selectedOrig, {ns: "rail"}), year: selectedYear}));
-        d3.select("#symbolLink")
-            .html(`<a href=${i18next.t("linkURL", {ns: "symbolLink"})}>${i18next.t("linkText", {ns: "symbolLink"})}</a>`);
-
-        d3.json("data/rail/" + selectedOrig + "_" + selectedComm + ".json", function(err, origJSON) {
-          dataTag = `${selectedOrig}_${selectedComm}`;
-          data[dataTag] = origJSON;
-          updatePage();
-        }); // outer d3.json
-
-
-        updateTitles();
-      });
+  dateRangeFn(minYear, 1, RailProductId, "1.1.1.0.0.0.0.0.0.0").then((result) => {
+    dateInit(result);
+    apiCall(maxYear, minYear, defaultOrig).then((returnedData) => {
+      buildData(returnedData);
+      pageInitWithData();
+    });
+  });
 });
 $(document).on("change", uiHandler);
 $(document).on("change", uiHandler);

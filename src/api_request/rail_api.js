@@ -84,7 +84,7 @@ export default function(maxYear, minYear, origin) {
 
 function rebuild(data, yearRange, origin) {
   const dataByProvince = {};
-  const returnArray = [];
+  let returnArray = [];
   let provinceCode;
   for (let i = 0; i < data.length; i++) {
     provinceCode = data[i].object.coordinate.split(".", 2)[1];
@@ -94,31 +94,65 @@ function rebuild(data, yearRange, origin) {
     dataByProvince[provinceCode].push(data[i]);
   }
   for (const province in dataByProvince) {
-    for (let i = 0; i < yearRange; i++) {
-      returnArray.push(rebuildData(dataByProvince[province], origin, numToProvince[province], i));
+    if (Object.prototype.hasOwnProperty.call(dataByProvince, province)) {
+      for (let i = 0; i < yearRange; i++) {
+        const allOtherCalculationArray = [];
+        for (let j = 0; j < Object.keys(numToComm).length; j++) {
+          allOtherCalculationArray.push(rebuildData(dataByProvince[province][j], origin, numToProvince[province], i));
+        }
+        const itemArray = calculateAllOther(allOtherCalculationArray);
+        returnArray = returnArray.concat(itemArray);
+      }
     }
   }
+  return returnArray;
+}
+
+// because we need to show all other commodities, we must subtract
+// the top 10 comodities from the total
+function calculateAllOther(data) {
+  let totalVal;
+  let allOtherval;
+  const returnArray = [];
+  const allOtherObject = {};
+  for (const item of data) {
+    if (item.comm === "total") {
+      totalVal = item.value;
+      allOtherObject.comm = "other";
+      allOtherObject.date = item.date;
+      allOtherObject.origin = item.origin;
+      allOtherObject.dest = item.dest;
+    }
+  }
+  allOtherval = totalVal;
+  for (const item of data) {
+    if (item.comm !== "total") {
+      allOtherval -= item.value;
+      returnArray.push(item);
+    }
+  }
+  allOtherObject.value = allOtherval;
+  returnArray.push(allOtherObject);
   return returnArray;
 }
 
 function rebuildData(data, origin, desitination, year) {
   const returnObject = {};
   let datapoint;
-  for (let i = 0; i < data.length; i++) {
-    const returnType = Number(data[i].object.coordinate.split(".", 3)[2]);
-    let returnValue;
-    datapoint = data[i].object.vectorDataPoint[year];
-    if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
-      returnValue = datapoint.value;
-    } else {
-      returnValue = statusCodes[datapoint.statusCode];
-    }
-
-    returnObject[numToComm[returnType]] = returnValue;
+  const returnType = Number(data.object.coordinate.split(".", 3)[2]);
+  let returnValue;
+  datapoint = data.object.vectorDataPoint[year];
+  if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
+    returnValue = datapoint.value;
+  } else {
+    returnValue = statusCodes[datapoint.statusCode];
   }
+
+  returnObject.value = returnValue;
+  returnObject.comm = numToComm[returnType];
   returnObject.date = datapoint.refPer.substring(0, 4);
   returnObject.origin = origin;
-  returnObject.desitination = desitination;
+  returnObject.dest = desitination;
 
   return returnObject;
 }
