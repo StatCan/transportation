@@ -414,7 +414,7 @@ i18n.load(["src/i18n"], function() {
   settingsBar.x.label = i18next.t("x_label", {ns: "railBar"}),
   settingsBar.y.label = i18next.t("y_label", {ns: "railBar"}),
   settingsBar.z.label = i18next.t("z_label", {ns: "railTable"}),
-  dateRangeFn(minYear, 1, RailProductId, "1.1.1.0.0.0.0.0.0.0").then((result) => {
+  dateRangeFn(minYear, 1, RailProductId, "1.1.1.0.0.0.0.0.0.0","year").then((result) => {
     dateInit(result);
     apiCall(maxYear, minYear, defaultOrig).then((returnedData) => {
       buildData(returnedData);
@@ -422,6 +422,9 @@ i18n.load(["src/i18n"], function() {
     });
   });
 });
+
+
+
 $(document).on("change", uiHandler);
 $(document).on("change", uiHandler);
 d3.selection.prototype.moveToFront = function() {

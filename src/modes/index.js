@@ -3,6 +3,10 @@ import tableSettingsInit from "./tableSettings.js";
 import CopyButton from "../copyButton.js";
 import NodesTree from "./nodesTree.js";
 import dropdownCheck from "../dropdownCheck.js";
+import dateRangeFn from "../api_request/get_date_range.js";
+const TravellersProductId = 24100041;
+const minYear = 2010;
+
 
 /* Copy Button and DataTree*/
 // -----------------------------------------------------------------------------
@@ -50,21 +54,6 @@ const data = {};
 const sankeyNodes = dataTree.toArray();
 // ------------
 
-
-const loadData = function(selectedYear, selectedMonth, cb) {
-  if (!data[selectedYear + "-" + selectedMonth]) {
-    d3.json("data/modes/" + selectedYear + "-" + selectedMonth + ".json", function(err, json) {
-      if (err) {
-        console.log("file does not exist");
-      }
-      data[selectedYear + "-" + selectedMonth] = json;
-      cb();
-    });
-  } else {
-    cb();
-  }
-};
-
 // SVGs
 const sankeyChart = d3.select("#sankeyGraph")
     .append("svg")
@@ -84,10 +73,8 @@ function uiHandler(event) {
     // clear any zeroFlag message
     if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 
-    loadData(selectedYear, selectedMonth, () => {
-      createDropdown();
-      showData();
-    });
+    createDropdown();
+    showData();
   }
 }
 
@@ -165,28 +152,42 @@ function dataCopyButton() {
 
 // -----------------------------------------------------------------------------
 /* Initial page load */
+function pageInitWithData() {
+  createDropdown();
+  d3.select("#year")._groups[0][0].value = selectedYear;
+  d3.select("#month")._groups[0][0].value = selectedMonth;
+  // copy button options
+  const cButtonOptions = {
+    pNode: document.getElementById("copy-button-container"),
+    title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
+    msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
+    accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
+  };
+  // build nodes on copy button
+  cButton.build(cButtonOptions);
+}
+function dateInit(dateFnResult) {
+  dateRange.min = minYear;
+  dateRange.max = Number(dateFnResult.max);
+  dateRange.numPeriods = dateFnResult.numPeriods;
+  maxYear = dateFnResult.max;
+  selectedYear = maxYear;
+  const yearDropdown = $("#yearSelector");
+  for (let i = dateRange.min; i<=dateRange.max; i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  selectedYear = dateRange.max;
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+}
 i18n.load(["src/i18n"], function() {
-  d3.queue()
-      .defer(d3.json, "data/modes/dateRange.json")
-      .await(function(error, dataDateRange) {
-        dateRange = dataDateRange;
-        selectedMonth = dateRange.max.substring(5, 7);
-        selectedYear = dateRange.max.substring(0, 4);
-
-        createDropdown();
-        d3.select("#year")._groups[0][0].value = selectedYear;
-        d3.select("#month")._groups[0][0].value = selectedMonth;
-        // copy button options
-        const cButtonOptions = {
-          pNode: document.getElementById("copy-button-container"),
-          title: i18next.t("CopyButton_Title", {ns: "CopyButton"}),
-          msgCopyConfirm: i18next.t("CopyButton_Confirm", {ns: "CopyButton"}),
-          accessibility: i18next.t("CopyButton_Title", {ns: "CopyButton"})
-        };
-        // build nodes on copy button
-        cButton.build(cButtonOptions);
-        loadData(selectedYear, selectedMonth, showData);
-      });
+  dateRangeFn(minYear, 12, TravellersProductId, "1.1.0.0.0.0.0.0.0.0","month").then((result) => {
+    debugger
+    dateInit(result);
+    dateRange = dataDateRange;
+    selectedMonth = dateRange.max.substring(5, 7);
+    selectedYear = dateRange.max.substring(0, 4);
+  });
 });
 
 $(document).on("change", uiHandler);
