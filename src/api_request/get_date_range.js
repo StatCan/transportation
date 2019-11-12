@@ -25,7 +25,7 @@ export default function(minYear, frequency, productID, defaultCoord, granularity
         }
         else if(granularity === "month"){
           mostRecentDate = data[0].object.vectorDataPoint[0].refPer.substring(0, 7);
-          numberOfPeriods = ((Number(mostRecentDate.substring(0, 4)))  - minYear +1) * frequency + Number(mostRecentDate.substring(5, 7));
+          numberOfPeriods = ((Number(mostRecentDate.substring(0, 4)))  - minYear) * frequency + Number(mostRecentDate.substring(5, 7));
           returnObject.max = mostRecentDate;
           returnObject.numPeriods = numberOfPeriods;
         }

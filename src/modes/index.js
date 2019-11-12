@@ -4,8 +4,8 @@ import CopyButton from "../copyButton.js";
 import NodesTree from "./nodesTree.js";
 import dropdownCheck from "../dropdownCheck.js";
 import dateRangeFn from "../api_request/get_date_range.js";
+import apiCall from "../api_request/travellers_api.js";
 const TravellersProductId = 24100041;
-const minYear = 2010;
 
 
 /* Copy Button and DataTree*/
@@ -44,11 +44,12 @@ const settingsAux = {
 const tableSettings = {...tableSettingsInit, ...settingsAux};
 
 // -----------------------------------------------------------------------------
-let selectedRegion = "Canada";
+let selectedRegion = "CANADA";
 let selectedMonth;
 let selectedYear;
-let dateRange;
-const data = {};
+let data = {};
+const minYear = 2010;
+let dateRange = {};
 
 // global used on sankey
 const sankeyNodes = dataTree.toArray();
@@ -165,28 +166,28 @@ function pageInitWithData() {
   };
   // build nodes on copy button
   cButton.build(cButtonOptions);
+  showData();
 }
 function dateInit(dateFnResult) {
-  dateRange.min = minYear;
-  dateRange.max = Number(dateFnResult.max);
+  dateRange.min = "2010-01";
+  dateRange.max = dateFnResult.max;
   dateRange.numPeriods = dateFnResult.numPeriods;
-  maxYear = dateFnResult.max;
-  selectedYear = maxYear;
-  const yearDropdown = $("#yearSelector");
-  for (let i = dateRange.min; i<=dateRange.max; i++) {
+  selectedYear = dateRange.max.substring(0, 4);
+  selectedMonth = dateRange.max.substring(5, 7);
+  const yearDropdown = $("#year");
+  for (let i = minYear; i<=Number(dateRange.max.substring(0, 4)); i++) {
     yearDropdown.append($("<option></option>")
         .attr("value", i).html(i));
   }
-  selectedYear = dateRange.max;
-  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+  d3.select("#year")._groups[0][0].value = Number(selectedYear);
 }
 i18n.load(["src/i18n"], function() {
   dateRangeFn(minYear, 12, TravellersProductId, "1.1.0.0.0.0.0.0.0.0","month").then((result) => {
-    debugger
     dateInit(result);
-    dateRange = dataDateRange;
-    selectedMonth = dateRange.max.substring(5, 7);
-    selectedYear = dateRange.max.substring(0, 4);
+    apiCall(dateRange.numPeriods).then((apiData) => {
+      data = apiData;
+      pageInitWithData();
+    });
   });
 });
 
