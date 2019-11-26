@@ -176,19 +176,18 @@ const statusCodes = {
   8: "F"
 };
 
-let output = {};
 const qi_F = 8;
 
-export default function(numPeriods) {
+export default function(numPeriods, region) {
   return new Promise((resolve, reject) => {
     // get coordinates for data
 
 
-    const coordinateArray = coordinateTranslate();
+    let coordinateArray = coordinateTranslate(provinceToNum[region]);
     const yearRange = numPeriods;
     let returnObject;
     const returnedCounter = 0;
-    const myData = [];
+    let myData = [];
     for (let i =0; i< coordinateArray.length; i++ ) {
       myData.push({"productId": ProductId, "coordinate": coordinateArray[i], "latestN": yearRange});
     }
@@ -211,17 +210,16 @@ export default function(numPeriods) {
   });
 }
 
-function coordinateTranslate() {
+function coordinateTranslate(province) {
   const returnArray = [];
-  for (const i in numToProvince) {
     for (const j in numToChar) {
-      returnArray.push(`${i}.${j}.0.0.0.0.0.0.0.0`);
+      returnArray.push(`${province}.${j}.0.0.0.0.0.0.0.0`);
     }
-  }
   return returnArray;
 }
 
 function buildSankeyNodes(data, yearRange){
+  let output = {};
   for (let entry of data){
     for (let year = 0; year < yearRange; year++){
       var item ={};

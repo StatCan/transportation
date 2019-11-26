@@ -62,6 +62,19 @@ const sankeyChart = d3.select("#sankeyGraph")
 
 const table = d3.select(".tabledata");
 
+const loadData = function(selectedYear, selectedMonth, cb) {
+  if (!data[selectedYear + "-" + selectedMonth][selectedRegion]) {
+    apiCall(dateRange.numPeriods, selectedRegion).then((apiData) => {
+      for(let date in data){
+        data[date][selectedRegion] = apiData[date][selectedRegion];
+      }
+      cb();
+    })}
+   else {
+    cb();
+  }
+};
+
 function uiHandler(event) {
   // clear any tooltips
   d3.selectAll(".tooltip").style("opacity", 0);
@@ -74,15 +87,17 @@ function uiHandler(event) {
     // clear any zeroFlag message
     if (d3.select("#zeroFlag").text() !== "") d3.select("#zeroFlag").text("");
 
-    createDropdown();
-    showData();
+    loadData(selectedYear, selectedMonth, () => {
+      createDropdown();
+      showData();
+    });
   }
 }
 
 function showData() {
-  const thisMonth = i18next.t(selectedMonth, {ns: "months"});
-  const thisRegion = i18next.t(selectedRegion, {ns: "modesTable"});
-  const thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
+  let thisMonth = i18next.t(selectedMonth, {ns: "months"});
+  let thisRegion = i18next.t(selectedRegion, {ns: "modesTable"});
+  let thisData = data[selectedYear + "-" + selectedMonth][selectedRegion];
 
   // Check that the sum of all nodes is not zero
   const travellerTotal = () => thisData.map((item) => item.value).reduce((prev, next) => prev + next);
@@ -184,7 +199,7 @@ function dateInit(dateFnResult) {
 i18n.load(["src/i18n"], function() {
   dateRangeFn(minYear, 12, TravellersProductId, "1.1.0.0.0.0.0.0.0.0","month").then((result) => {
     dateInit(result);
-    apiCall(dateRange.numPeriods).then((apiData) => {
+    apiCall(dateRange.numPeriods, selectedRegion).then((apiData) => {
       data = apiData;
       pageInitWithData();
     });
