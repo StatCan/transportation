@@ -1,0 +1,130 @@
+{
+  "Abbotsford, British Columbia": [
+    "YXX",
+    "BC"
+  ],
+  "Calgary International, Alberta": [
+    "YYC",
+    "AB"
+  ],
+  "Edmonton International, Alberta": [
+    "YEG",
+    "AB"
+  ],
+  "Fort McMurray, Alberta": [
+    "YMM",
+    "AB"
+  ],
+  "Fredericton International, New Brunswick": [
+    "YFC",
+    "NB"
+  ],
+  "Gander International, Newfoundland and Labrador": [
+    "YQX",
+    "NL"
+  ],
+  "Halifax/Robert L Stanfield International, Nova Scotia": [
+    "YHZ",
+    "NS"
+  ],
+  "Hamilton, Ontario": [
+    "YHM",
+    "ON"
+  ],
+  "Kelowna, British Columbia": [
+    "YLW",
+    "BC"
+  ],
+  "London, Ontario": [
+    "YXU",
+    "ON"
+  ],
+  "Moncton/Greater Moncton International, New Brunswick": [
+    "YQM",
+    "NB"
+  ],
+  "Montréal/Pierre Elliott Trudeau International, Quebec": [
+    "YUL",
+    "QC"
+  ],
+  "Ottawa/Macdonald-Cartier International, Ontario": [
+    "YOW",
+    "ON"
+  ],
+  "Prince George, British Columbia": [
+    "YXS",
+    "BC"
+  ],
+  "Québec/Jean Lesage International, Quebec": [
+    "YQB",
+    "QC"
+  ],
+  "Regina International, Saskatchewan": [
+    "YQR",
+    "SK"
+  ],
+  "Saskatoon/John G Diefenbaker International, Saskatchewan": [
+    "YXE",
+    "SK"
+  ],
+  "Sept-Îles, Quebec": [
+    "YZV",
+    "QC"
+  ],
+  "St John's International, Newfoundland and Labrador": [
+    "YYT",
+    "NL"
+  ],
+  "Sudbury, Ontario": [
+    "YSB",
+    "ON"
+  ],
+  "Thunder Bay, Ontario": [
+    "YQT",
+    "ON"
+  ],
+  "Toronto/Lester B Pearson International, Ontario": [
+    "YYZ",
+    "ON"
+  ],
+  "Vancouver International, British Columbia": [
+    "YVR",
+    "BC"
+  ],
+  "Victoria International, British Columbia": [
+    "YYJ",
+    "BC"
+  ],
+  "Windsor, Ontario": [
+    "YQG",
+    "ON"
+  ],
+  "Winnipeg/James Armstrong Richardson International, Manitoba": [
+    "YWG",
+    "MB"
+  ],
+  "Yellowknife, Northwest Territories": [
+    "YZF",
+    "NT"
+  ],
+  "Charlottetown, Prince Edward Island": [
+    "YYG",
+    "PE"
+  ],
+  "Deer Lake, Newfoundland and Labrador": [
+    "YDF",
+    "NL"
+  ],
+  "Cranbrook, British Columbia": [
+    "YXC",
+    "BC"
+  ],
+  "Fort St John, British Columbia": [
+    "YXJ",
+    "BC"
+  ],
+  "Timmins, Ontario": [
+    "YTS",
+    "ON"
+  ]
+}

@@ -241,9 +241,7 @@ table, th, td {
 	cursor: pointer;
 }
 .noData {
-	fill: #565656;
-	stroke: white;
-	stroke-width: 0.2px;
+visibility: hidden;
 }
 .dontShow {
 	opacity: 0;

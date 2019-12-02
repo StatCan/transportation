@@ -562,7 +562,7 @@ map.on("mousedown", () => {
     toCanada();
   }
   // Bruno : Minor modification here 2019-04-02
- else if (d3.select(d3.event.target).attr("class")) { // Do not allow NaN region to be clicked
+  else if (d3.select(d3.event.target).attr("class")) { // Do not allow NaN region to be clicked
     // clear any previous clicks
     d3.select(".map")
         .selectAll("path")
@@ -693,7 +693,7 @@ function showAreaData() {
 
   const showChart = () => {
     // Bruno : My new stuff on 2019-04-02
-    let d = data[selectedDataset][selectedRegion];
+    const d = data[selectedDataset][selectedRegion];
     let allX = true;
 
     for (let i = 0; i < d.length; i++) {
@@ -744,7 +744,6 @@ function showAreaData() {
     if (cButton.pNode) cButton.appendTo(document.getElementById("copy-button-container"));
     dataCopyButton(data[selectedDataset][selectedRegion]);
     // ---------------------------------------------------------------
-
   };
 
   if (!data[selectedDataset][selectedRegion]) {

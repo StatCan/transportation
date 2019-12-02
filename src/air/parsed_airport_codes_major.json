@@ -1,0 +1,430 @@
+{
+  "Abbotsford, British Columbia": [
+    "YXX",
+    "BC"
+  ],
+  "Boundary Bay, British Columbia": [
+    "YDT",
+    "BC"
+  ],
+  "Calgary International, Alberta": [
+    "YYC",
+    "AB"
+  ],
+  "Calgary/Springbank, Alberta": [
+    "1YSB",
+    "AB"
+  ],
+  "Chicoutimi/St-Honoré, Quebec":[
+    "YRC",
+    "QC"
+  ],
+  "Edmonton City Centre, Alberta": [
+    "YXD",
+    "AB"
+  ],
+  "Edmonton International, Alberta": [
+    "YEG",
+    "AB"
+  ],
+  "Edmonton/Villeneuve, Alberta": [
+    "CZVL",
+    "AB"
+  ],
+  "Fort McMurray, Alberta": [
+    "YMM",
+    "AB"
+  ],
+  "Fredericton International, New Brunswick": [
+    "YFC",
+    "NB"
+  ],
+  "Gander International, Newfoundland and Labrador": [
+    "YQX",
+    "NL"
+  ],
+  "Halifax/Robert L. Stanfield International, Nova Scotia": [
+    "YHZ",
+    "NS"
+  ],
+  "Hamilton, Ontario": [
+    "YHM",
+    "ON"
+  ],
+  "Kelowna, British Columbia": [
+    "YLW",
+    "BC"
+  ],
+  "Kitchener/Waterloo, Ontario": [
+    "YKF",
+    "ON"
+  ],
+  "Langley, British Columbia": [
+    "YLY",
+    "BC"
+  ],
+  "London, Ontario": [
+    "YXU",
+    "ON"
+  ],
+  "Moncton/Greater Moncton International, New Brunswick": [
+    "YQM",
+    "NB"
+  ],
+  "Montréal/Mirabel International, Quebec": [
+    "YMX",
+    "QC"
+  ],
+  "Montréal/Pierre Elliott Trudeau International, Quebec": [
+    "YUL",
+    "QC"
+  ],
+  "Montréal/St-Hubert, Quebec": [
+    "YHU",
+    "QC"
+  ],
+  "North Bay, Ontario": [
+    "YYB",
+    "ON"
+  ],
+  "Oshawa, Ontario": [
+    "YOO",
+    "ON"
+  ],
+  "Ottawa/Macdonald-Cartier International, Ontario": [
+    "YOW",
+    "ON"
+  ],
+  "Pitt Meadows, British Columbia": [
+    "YPK",
+    "BC"
+  ],
+  "Prince George, British Columbia": [
+    "YXS",
+    "BC"
+  ],
+  "Québec/Jean Lesage International, Quebec": [
+    "YQB",
+    "QC"
+  ],
+  "Regina International, Saskatchewan": [
+    "YQR",
+    "SK"
+  ],
+  "Saskatoon/John G. Diefenbaker International, Saskatchewan": [
+    "YXE",
+    "SK"
+  ],
+  "Sault Ste. Marie, Ontario": [
+    "YAM",
+    "ON"
+  ],
+  "Sept-Îles, Quebec": [
+    "YZV",
+    "QC"
+  ],
+  "St. John's International, Newfoundland and Labrador": [
+    "YYT",
+    "NL"
+  ],
+  "St-Jean, Quebec":[
+    "YJN",
+    "QC"
+  ],
+  "Sudbury, Ontario": [
+    "YSB",
+    "ON"
+  ],
+  "Thunder Bay, Ontario": [
+    "YQT",
+    "ON"
+  ],
+  "Toronto/Billy Bishop Toronto City, Ontario": [
+    "YTZ",
+    "ON"
+  ],
+  "Toronto/Buttonville Municipal, Ontario": [
+    "YKZ",
+    "ON"
+  ],
+  "Toronto/Lester B. Pearson International, Ontario": [
+    "YYZ",
+    "ON"
+  ],
+  "Vancouver Harbour, British Columbia": [
+    "CXH",
+    "BC"
+  ],
+  "Vancouver International, British Columbia": [
+    "YVR",
+    "BC"
+  ],
+  "Victoria International, British Columbia": [
+    "YYJ",
+    "BC"
+  ],
+  "Whitehorse International, Yukon": [
+    "YXY",
+    "YT"
+  ],
+  "Windsor, Ontario": [
+    "YQG",
+    "ON"
+  ],
+  "Winnipeg/James Armstrong Richardson International, Manitoba": [
+    "YWG",
+    "MB"
+  ],
+  "Winnipeg/St. Andrews, Manitoba": [
+    "2DCI",
+    "MB"
+  ],
+  "Yellowknife, Northwest Territories": [
+    "YZF",
+    "NT"
+  ],
+  "Baker Lake, Nunavut": [
+    "YBK",
+    "NU"
+  ],
+  "Brandon Municipal, Manitoba": [
+    "YBR",
+    "MB"
+  ],
+  "Campbell River, British Columbia": [
+    "YBL",
+    "BC"
+  ],
+  "Castlegar, British Columbia": [
+    "YCG",
+    "BC"
+  ],
+  "Charlo, New Brunswick": [
+    "YCL",
+    "NB"
+  ],
+  "Charlottetown, Prince Edward Island": [
+    "YYG",
+    "PE"
+  ],
+  "Churchill, Manitoba": [
+    "YYQ",
+    "MB"
+  ],
+  "Cranbrook, British Columbia": [
+    "YXC",
+    "BC"
+  ],
+  "Dawson Creek, British Columbia": [
+    "YDQ",
+    "BC"
+  ],
+  "Deer Lake, Newfoundland and Labrador": [
+    "YDF",
+    "NL"
+  ],
+  "Fort Nelson, British Columbia": [
+    "YYE",
+    "BC"
+  ],
+  "Fort St. John, British Columbia": [
+    "YXJ",
+    "BC"
+  ],
+  "Fort Simpson, Northwest Territories": [
+    "YFS",
+    "NT"
+  ],
+  "Fort Smith, Northwest Territories": [
+    "YSM",
+    "NT"
+  ],
+  "Gaspé, Quebec": [
+    "YGP",
+    "QC"
+  ],
+  "Grande Prairie, Alberta": [
+    "YQU",
+    "AB"
+  ],
+  "Hay River, Northwest Territories": [
+    "YHY",
+    "NT"
+  ],
+  "High Level, Alberta": [
+    "YOJ",
+    "AB"
+  ],
+  "Îles-de-la-Madeleine, Quebec": [
+    "YGR",
+    "QC"
+  ],
+  "Inuvik/Mike Zubko, Northwest Territories": [
+    "YEV",
+    "NT"
+  ],
+  "Iqaluit, Nunavut": [
+    "YFB",
+    "NU"
+  ],
+  "Kamloops, British Columbia": [
+    "YKA",
+    "BC"
+  ],
+  "Kenora, Ontario": [
+    "YQK",
+    "ON"
+  ],
+  "Kingston, Ontario": [
+    "YGK",
+    "ON"
+  ],
+  "Kuujjuaq, Quebec": [
+    "YVP",
+    "QC"
+  ],
+  "Kuujjuarapik, Quebec": [
+    "YGW",
+    "QC"
+  ],
+  "La Grande Rivière, Quebec": [
+    "YGL",
+    "QC"
+  ],
+  "La Ronge, Saskatchewan": [
+    "YVC",
+    "SK"
+  ],
+  "Lethbridge, Alberta": [
+    "YQL",
+    "AB"
+  ],
+  "Lloydminster, Alberta": [
+    "YLL",
+    "AB"
+  ],
+  "Medicine Hat, Alberta": [
+    "YXH",
+    "AB"
+  ],
+  "Mont-Joli, Quebec": [
+    "YYY",
+    "QC"
+  ],
+  "Nanaimo, British Columbia": [
+    "YCD",
+    "BC"
+  ],
+  "Norman Wells, Northwest Territories": [
+    "YVQ",
+    "NT"
+  ],
+  "Ottawa/Gatineau, Quebec": [
+    "YND",
+    "QC"
+  ],
+  "Peace River, Alberta": [
+    "YPE",
+    "AB"
+  ],
+  "Penticton, British Columbia": [
+    "YYF",
+    "BC"
+  ],
+  "Port Hardy, British Columbia": [
+    "YZT",
+    "BC"
+  ],
+  "Prince Albert, Saskatchewan": [
+    "YPA",
+    "SK"
+  ],
+  "Prince Rupert, British Columbia": [
+    "YPR",
+    "BC"
+  ],
+  "Rankin Inlet, Nunavut": [
+    "YRT",
+    "NU"
+  ],
+  "Red Deer Regional, Alberta": [
+    "YQF",
+    "AB"
+  ],
+  "Resolute Bay, Nunavut": [
+    "YRB",
+    "NU"
+  ],
+  "Roberval, Quebec": [
+    "YRJ",
+    "QC"
+  ],
+  "Rouyn-Noranda, Quebec": [
+    "YUY",
+    "QC"
+  ],
+  "Saint John, New Brunswick": [
+    "YSJ",
+    "NB"
+  ],
+  "Schefferville, Quebec": [
+    "YKL",
+    "QC"
+  ],
+  "Sioux Lookout, Ontario": [
+    "YXL",
+    "ON"
+  ],
+  "Smithers, British Columbia": [
+    "YYD",
+    "BC"
+  ],
+  "St. Anthony, Newfoundland and Labrador": [
+    "YAY",
+    "NL"
+  ],
+  "St. Catharines, Ontario": [
+    "YCM",
+    "ON"
+  ],
+  "Sydney, Nova Scotia": [
+    "YQY",
+    "NS"
+  ],
+  "Terrace, British Columbia": [
+    "YXT",
+    "BC"
+  ],
+  "Thompson, Manitoba": [
+    "YTH",
+    "MB"
+  ],
+  "Timmins, Ontario": [
+    "YTS",
+    "ON"
+  ],
+  "Val-d'Or, Quebec": [
+    "YVO",
+    "QC"
+  ],
+  "Victoria Harbour, British Columbia": [
+    "YWH",
+    "BC"
+  ],
+  "Wabush, Newfoundland and Labrador": [
+    "YWK",
+    "NL"
+  ],
+  "Whitecourt, Alberta": [
+    "YZU",
+    "AB"
+  ],
+  "Williams Lake, British Columbia": [
+    "YWL",
+    "BC"
+  ],
+  "Yarmouth, Nova Scotia": [
+    "QYI",
+    "NS"
+  ]
+}
