@@ -5,7 +5,11 @@ import fillMapFn from "../fillMapFn.js";
 import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import dropdownCheck from "../dropdownCheck.js";
+import dateRangeFn from "../api_request/get_date_range.js";
+import apiCall from "../api_request/air_api.js";
 import CopyButton from "../copyButton.js";
+
+const AirProductId = 23100253;
 
 /* Copy Button */
 // -----------------------------------------------------------------------------
@@ -320,8 +324,10 @@ let lineData = lineDataPassenger;
 const defaultYear = "2017";
 const defaultRegion = "CANADA";
 let selectedDataset = "passengers";
-let selectedYear = "2018";
-let selectedMonth = "01";
+let selectedYear;
+let selectedMonth;
+let minYear = 2010;
+let maxYear;
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
 let selectedSettings = settings;
@@ -913,6 +919,20 @@ function getDateMinMax() {
     }
   }
 }
+function dateInitPassenger(dateFnResult) {
+  passengerDateRange.min = minYear;
+  passengerDateRange.max = Number(dateFnResult.max);
+  passengerDateRange.numPeriods = dateFnResult.numPeriods;
+  maxYear = dateFnResult.max;
+  selectedYear = maxYear;
+  const yearDropdown = $("#yearSelector");
+  for (let i = passengerDateRange.min; i<=passengerDateRange.max; i++) {
+    yearDropdown.append($("<option></option>")
+        .attr("value", i).html(i));
+  }
+  selectedYear = passengerDateRange.max;
+  d3.select("#yearSelector")._groups[0][0].value = selectedYear;
+}
 // ------------------------------------------------------------------------------
 function isIE() {
   const ua = window.navigator.userAgent;
@@ -993,7 +1013,16 @@ i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airMajorAirports"}),
-  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airMajorAirports"}),
+  settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airMajorAirports"});
+
+  dateRangeFn(minYear, 1, AirProductId, "1.1.0.0.0.0.0.0.0.0","year").then((result) => {
+    dateInitPassenger(result);
+    debugger;
+    apiCall(dateRange.numPeriods, selectedRegion).then((apiData) => {
+      data = apiData;
+      pageInitWithData();
+    });
+  });
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/passengers/metaData.json")
