@@ -6,11 +6,14 @@ import areaTooltip from "../areaTooltip.js";
 import createOverlay from "../overlay.js";
 import dropdownCheck from "../dropdownCheck.js";
 import dateRangeFn from "../api_request/get_date_range.js";
-import apiCall from "../api_request/air_api.js";
+import apiCall from "../api_request/apiCall.js";
 import CopyButton from "../copyButton.js";
 
-const AirProductId = 23100253;
-
+const PassengerId = 23100253;
+const MajorStationsId = 23100015;
+const MajorTowersId = 23100008;
+const PassengerData = "passengers";
+const MajorAirData = "major_airports";
 /* Copy Button */
 // -----------------------------------------------------------------------------
 const cButton = new CopyButton();
@@ -323,10 +326,10 @@ let lineData = lineDataPassenger;
 // -- store default values for selections -- //
 const defaultYear = "2017";
 const defaultRegion = "CANADA";
-let selectedDataset = "passengers";
+let selectedDataset = PassengerData;
 let selectedYear;
 let selectedMonth;
-let minYear = 2010;
+const minYear = 2010;
 let maxYear;
 let selectedDate = selectedYear;
 let selectedRegion = "CANADA";
@@ -407,7 +410,7 @@ $(".data_set_selector").on("click", function(event) {
         .attr("aria-pressed", false);
 
     monthDropdown.style("visibility", "visible");
-    selectedDataset = "major_airports";
+    selectedDataset = MajorAirData;
     selectedDropdown = majorDropdownData;
     selectedSettings = settingsMajorAirports;
 
@@ -437,7 +440,7 @@ $(".data_set_selector").on("click", function(event) {
         .attr("aria-pressed", true);
 
     monthDropdown.style("visibility", "hidden");
-    selectedDataset = "passengers";
+    selectedDataset = PassengerData;
     selectedDropdown = passengerDropdownData;
     selectedSettings = settings;
     selectedDateRange = passengerDateRange;
@@ -477,7 +480,7 @@ function uiHandler(event) {
   if (event.target.id === "yearSelector") {
     selectedYear = document.getElementById("yearSelector").value;
     // d3.select("#airportYQB")
-    if (selectedDataset ==="major_airports") {
+    if (selectedDataset ===MajorAirData) {
       const yearId = `#${"yearSelector"}`;
       const monthId = `#${"monthSelector"}`;
       selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
@@ -522,7 +525,7 @@ map.on("mousemove", () => {
         let line2;
         if (Number(totals[selectedDate][classes[0]])) {
           value = selectedSettings.formatNum(totals[selectedDate][classes[0]]);
-          line2 = (selectedDataset === "passengers") ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
+          line2 = (selectedDataset === PassengerData) ? `${value} ${i18next.t("units", {ns: "airPassengers"})}` :
             `${value} ${i18next.t("units", {ns: "airMajorAirports"})}`;
         } else {
           value = totals[selectedDate][classes[0]]; // "x"
@@ -672,7 +675,7 @@ const refreshMap = function() {
 function colorMap() {
   // last 2 colours for blank and NaN box
   const colourArray = [];
-  if (selectedDataset === "passengers") {
+  if (selectedDataset === PassengerData) {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC", "#F9F9F9", "#565656");
   } else {
     colourArray.push("#AFE2FF", "#72C2FF", "#bc9dff", "#894FFF", "#5D0FBC");
@@ -724,7 +727,7 @@ function showAreaData() {
     d3.select("#svg_areaChartAir").select(".x.axis").selectAll(".tick text").attr("dy", `${xlabelDY}em`);
 
     // Add css class for month tick lines
-    if (selectedDataset === "major_airports") {
+    if (selectedDataset === MajorAirData) {
       d3.select("#svg_areaChartAir .x.axis").selectAll("g.tick")
           .each(function(d, i) {
             const thisMonth = d.getMonth();
@@ -798,7 +801,7 @@ function createDropdown() {
   // check available month/year combinations
   const yearId = `#${"yearSelector"}`;
   const monthId = `#${"monthSelector"}`;
-  if (selectedDataset === "major_airports") {
+  if (selectedDataset === MajorAirData) {
     selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, true);
   } else {
     selectedMonth = dropdownCheck(yearId, monthId, selectedDateRange, selectedYear, selectedMonth, false);
@@ -838,7 +841,7 @@ const showAirport = function() {
 function airportHover() {
   const divData = filterDates(lineData[selectedAirpt]);
   div.style("opacity", .9);
-  if (selectedDataset === "passengers") {
+  if (selectedDataset === PassengerData) {
     const thisEnplaned = Number(divData.enplaned) ? selectedSettings.formatNum(divData.enplaned) : divData.enplaned;
     const thisDeplaned = Number(divData.deplaned) ? selectedSettings.formatNum(divData.deplaned) : divData.deplaned;
     const showUnits = Number(divData.enplaned) ? i18next.t("units", {ns: "airPassengers"}) : "";
@@ -882,13 +885,13 @@ function airportHover() {
 /* -- update map and areaChart titles -- */
 function updateTitles() {
   const geography = i18next.t(selectedRegion, {ns: "geography"});
-  const mapTitle = (selectedDataset === "passengers") ?
+  const mapTitle = (selectedDataset === PassengerData) ?
     `${i18next.t("mapTitle", {ns: "airPassengers"})}, ${selectedDate}` :
     `${i18next.t("mapTitle", {ns: "airMajorAirports"})}, ${i18next.t(selectedMonth, {ns: "months"})} ${selectedYear}`;
-  const areaTitle = (selectedDataset === "passengers") ?
+  const areaTitle = (selectedDataset === PassengerData) ?
     `${i18next.t("chartTitle", {ns: "airPassengers"})}, ${geography}` :
     `${i18next.t("chartTitle", {ns: "airMajorAirports"})}, ${geography}`;
-  const tableTitle = (selectedDataset === "passengers") ?
+  const tableTitle = (selectedDataset === PassengerData) ?
     `${i18next.t("tableTitle", {ns: "airPassengers"})}, ${geography}` :
     `${i18next.t("tableTitle", {ns: "airMajorAirports"})}, ${geography}`;
 
@@ -1009,20 +1012,23 @@ function dataCopyButton(cButtondata) {
 }
 // -----------------------------------------------------------------------------
 
+function apiCallFn() {
+  apiCall(selectedDateRange, selectedRegion, selectedDataset).then((apiData) => {
+    data[PassengerData][selectedRegion] = apiData;
+  });
+}
 i18n.load(["src/i18n"], () => {
   settings.x.label = i18next.t("x_label", {ns: "airPassengers"}),
   settings.y.label = i18next.t("y_label", {ns: "airPassengers"}),
   settingsMajorAirports.x.label = i18next.t("x_label", {ns: "airMajorAirports"}),
   settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airMajorAirports"});
-
-  dateRangeFn(minYear, 1, AirProductId, "1.1.0.0.0.0.0.0.0.0","year").then((result) => {
+  dateRangeFn(minYear, 1, PassengerId, "1.1.0.0.0.0.0.0.0.0", "year").then((result) => {
     dateInitPassenger(result);
-    debugger;
-    apiCall(dateRange.numPeriods, selectedRegion).then((apiData) => {
-      data = apiData;
+    apiCall(selectedDateRange, "all", selectedDataset).then(() => {
       pageInitWithData();
     });
   });
+
   d3.queue()
       .defer(d3.json, "data/air/passengers/Annual_Totals.json")
       .defer(d3.json, "data/air/passengers/metaData.json")
