@@ -1010,6 +1010,11 @@ function dataCopyButton(cButtondata) {
   }
   cButton.data = lines;
 }
+
+function pageInitWithData() {
+
+}
+
 // -----------------------------------------------------------------------------
 
 function apiCallFn() {
@@ -1024,8 +1029,10 @@ i18n.load(["src/i18n"], () => {
   settingsMajorAirports.y.label = i18next.t("y_label", {ns: "airMajorAirports"});
   dateRangeFn(minYear, 1, PassengerId, "1.1.0.0.0.0.0.0.0.0", "year").then((result) => {
     dateInitPassenger(result);
-    apiCall(selectedDateRange, "all", selectedDataset).then(() => {
-      pageInitWithData();
+    debugger;
+    apiCall(selectedDateRange, "all", selectedDataset).then((initData) => {
+
+      pageInitWithData(initData);
     });
   });
 
