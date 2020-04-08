@@ -33,7 +33,7 @@ const numToComm = {
   36: "potash",
   42: "lumber",
   44: "pulp",
-  64: "mixed",
+  64: "mixed"
 };
 
 const statusCodes = {

@@ -1,5 +1,7 @@
 const PassengerId = 23100253;
 const TotalCoordinate = 1;
+const EnplanedCoordinate = 2;
+const DeplanedCoordinate = 3;
 const DomesticCoordinate = 5;
 const TransborderCoordinate = 6;
 const OtherIntCoordinate = 7;
@@ -107,6 +109,14 @@ const geoToAirportPassenger = {
   "YZF": "187",
   "YZV": "120"
 };
+const numToIndicator = {
+  1: "total",
+  2: "enplaned",
+  3: "deplaned",
+  5: "domestic",
+  6: "transborder",
+  7: "international"
+};
 const statusCodes = {
   1: "..",
   2: "0s",
@@ -117,30 +127,32 @@ const statusCodes = {
   7: "E",
   8: "F"
 };
+const qi_F = 8;
 
-export default function(selectedDateRange, selectedRegion, selectedDataset) {
+
+export default function(selectedDateRange, selectedRegion) {
   return new Promise((resolve, reject) => {
     // get coordinates for data
     let coordinateArray;
 
     if (selectedRegion === "all") {
-      coordinateArray == coordinateTranslate(selectedRegion);
+      coordinateArray = coordinateTranslate(selectedRegion);
     } else {
       coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${TotalCoordinate}.0.0.0.0.0.0.0.0`);
+      coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${EnplanedCoordinate}.0.0.0.0.0.0.0.0`);
+      coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${DeplanedCoordinate}.0.0.0.0.0.0.0.0`);
       coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${DomesticCoordinate}.0.0.0.0.0.0.0.0`);
       coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${TransborderCoordinate}.0.0.0.0.0.0.0.0`);
       coordinateArray.push(`${geoToNumPassenger[selectedRegion]}.${OtherIntCoordinate}.0.0.0.0.0.0.0.0`);
     }
     const yearRange = Number(selectedDateRange.max) - Number(selectedDateRange.min) +1;
-    let returnArray = [];
+    let returnObject = {};
     const myData = [];
     for (let i =0; i< coordinateArray.length; i++ ) {
       myData.push({"productId": PassengerId, "coordinate": coordinateArray[i], "latestN": yearRange});
     }
 
     $.support.cors = true;
-    debugger;
-
     $.ajax({
       type: "post",
       url: proxy + webAPI,
@@ -148,8 +160,8 @@ export default function(selectedDateRange, selectedRegion, selectedDataset) {
       dataType: "json",
       contentType: "application/json",
       success: function(data, textStatus, jQxhr) {
-        returnArray = rebuild(data, yearRange, origin);
-        resolve(returnArray);
+        returnObject = rebuild(data, selectedDateRange, selectedRegion);
+        resolve(returnObject);
       },
       error: function(jqXhr, textStatus, errorThrown) {
         reject(errorThrown);
@@ -158,11 +170,55 @@ export default function(selectedDateRange, selectedRegion, selectedDataset) {
   });
 }
 
+function rebuild(data, selectedDateRange, selectedRegion) {
+  const dataByProvince = {};
+  const returnObject = {};
+
+  for (let i = 0; i < data.length; i++) {
+    const provinceCode = data[i].object.coordinate.split(".", 1);
+    if (!dataByProvince.hasOwnProperty(provinceCode)) {
+      dataByProvince[provinceCode] = [];
+    }
+    dataByProvince[provinceCode].push(data[i]);
+  }
+  for (const province in dataByProvince) {
+    if (Object.prototype.hasOwnProperty.call(dataByProvince, province)) {
+      returnObject[province] = rebuildData(dataByProvince[province], selectedDateRange);
+    }
+  }
+  return returnObject;
+}
+
+function rebuildData(data, selectedDateRange) {
+  const returnObject = {};
+  for (let i = 0; i < selectedDateRange.numPeriods; i++) {
+    for (const j in data) {
+      const datapoint = data[j].object.vectorDataPoint[i];
+      const date = datapoint.refPer.substring(0, 7);
+      if (!returnObject.hasOwnProperty(date)) {
+        returnObject[date] = {};
+      }
+
+      const indicator = data[j].object.coordinate.split(".", 2)[1];
+      if (datapoint.value == null) {
+        returnObject[date][numToIndicator[indicator]] = "x";
+      } else if (datapoint.statusCode != 1 && datapoint.securityLevelCode == 0 && datapoint.statusCode != qi_F) {
+        returnObject[date][numToIndicator[indicator]] = datapoint.value;
+      } else {
+        returnObject[date][numToIndicator[indicator]] = statusCodes[datapoint.statusCode];
+      }
+    }
+  }
+  return returnObject;
+}
+
 function coordinateTranslate(geography) {
   const numGeo = geoToNumPassenger[geography];
   const returnArray = [];
   for (const i in numToGeographyPassenger) {
     returnArray.push(`${i}.${TotalCoordinate}.0.0.0.0.0.0.0.0`);
+    returnArray.push(`${i}.${EnplanedCoordinate}.0.0.0.0.0.0.0.0`);
+    returnArray.push(`${i}.${DeplanedCoordinate}.0.0.0.0.0.0.0.0`);
     returnArray.push(`${i}.${DomesticCoordinate}.0.0.0.0.0.0.0.0`);
     returnArray.push(`${i}.${TransborderCoordinate}.0.0.0.0.0.0.0.0`);
     returnArray.push(`${i}.${OtherIntCoordinate}.0.0.0.0.0.0.0.0`);

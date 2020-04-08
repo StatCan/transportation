@@ -24,6 +24,7 @@
    },
    "rules": {
        "linebreak-style": 0,
+       "guard-for-in": 0,
        "quotes": [
            "error",
            "double"

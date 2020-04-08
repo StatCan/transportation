@@ -6,11 +6,11 @@ const MajorAirData = "major_airports";
 export default function(selectedDateRange, selectedRegion, selectedDataset) {
   return new Promise((resolve, reject) => {
     if (selectedDataset === PassengerData) {
-      passengerApiCall(selectedDateRange, selectedRegion, selectedDataset).then(function(newData) {
+      passengerApiCall(selectedDateRange, selectedRegion).then(function(newData) {
         return newData;
       });
     } else {
-      majorApiCall(selectedDateRange, selectedRegion, selectedDataset).then(function(newData) {
+      majorApiCall(selectedDateRange, selectedRegion).then(function(newData) {
         return newData;
       });
     }
